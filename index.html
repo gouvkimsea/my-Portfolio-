@@ -45,7 +45,7 @@
             <p class="hero-text">I’m a university student exploring software development, business, and technology by building real projects and learning through experimentation.</p>
             <div class="hero-actions">
               <a class="button button-primary magnetic" href="#projects">View my work <span>↘</span></a>
-              <a class="text-link" href="#contact">Contact me <span>↗</span></a>
+              <a class="text-link magnetic" href="#contact">Contact me <span>↗</span></a>
             </div>
             <div class="scroll-cue"><span class="scroll-line"></span> Scroll to explore</div>
           </div>
@@ -130,20 +130,40 @@
 
       <section class="section terminal-section">
         <div class="container">
-          <div class="terminal-wrap reveal"><div class="terminal-heading"><span class="eyebrow">A little peek inside</span><span>interactive-terminal</span></div><div class="terminal" id="terminal"><div class="terminal-output" id="terminalOutput"><p>Welcome. Type <b>help</b> to see what I can do.</p></div><form class="terminal-form" id="terminalForm"><label for="terminalInput">$</label><input id="terminalInput" autocomplete="off" aria-label="Terminal command" placeholder="try 'about'" /></form></div></div>
+          <div class="terminal-wrap reveal">
+            <div class="terminal-heading"><span class="eyebrow">A little peek inside</span><span>interactive-terminal</span></div>
+            <div class="terminal" id="terminal">
+              <div class="terminal-output" id="terminalOutput">
+                <p>Welcome. Type <b>help</b> to see what I can do.</p>
+              </div>
+              <form class="terminal-form" id="terminalForm">
+                <label for="terminalInput">$</label>
+                <input id="terminalInput" autocomplete="off" spellcheck="false" aria-label="Terminal command" placeholder="try 'about'" />
+              </form>
+              <div class="terminal-hint-bar" aria-label="Quick terminal commands">
+                <span>Quick commands:</span>
+                <button type="button" class="terminal-chip" data-cmd="about">about</button>
+                <button type="button" class="terminal-chip" data-cmd="skills">skills</button>
+                <button type="button" class="terminal-chip" data-cmd="projects">projects</button>
+                <button type="button" class="terminal-chip" data-cmd="whoami">whoami</button>
+                <button type="button" class="terminal-chip" data-cmd="github">github</button>
+                <button type="button" class="terminal-chip" data-cmd="clear">clear</button>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       <section class="section contact-section" id="contact">
         <div class="container contact-grid">
           <div class="contact-copy reveal"><p class="eyebrow">05 / Say hello</p><h2>Let’s build<br /><em>something.</em></h2><p>Have a project idea, a question, or just want to compare notes? My inbox is open.</p><a class="email-link" href="mailto:gouvkimsea@gmail.com">gouvkimsea@gmail.com <span>↗</span></a><div class="social-links"><a href="https://github.com/gouvkimsea" target="_blank" rel="noreferrer">GitHub ↗</a><a href="https://linkedin.com/" target="_blank" rel="noreferrer">LinkedIn ↗</a></div></div>
-          <form class="contact-form reveal" id="contactForm" novalidate><div class="form-row"><label for="name">Your name</label><input id="name" name="name" required placeholder="Jane Doe" /><span class="error-message"></span></div><div class="form-row"><label for="email">Email address</label><input id="email" name="email" type="email" required placeholder="you@example.com" /><span class="error-message"></span></div><div class="form-row"><label for="message">What’s on your mind?</label><textarea id="message" name="message" rows="4" required minlength="20" placeholder="Tell me a little about it..."></textarea><span class="error-message"></span></div><button class="button button-primary" type="submit">Send a note <span>↗</span></button><p class="form-status" role="status"></p><small class="form-note">This form is ready to connect to your email service. For now, it validates locally and won’t pretend to send anything.</small></form>
+          <form class="contact-form reveal" id="contactForm" novalidate><div class="form-row"><label for="name">Your name</label><input id="name" name="name" required placeholder="Jane Doe" /><span class="error-message"></span></div><div class="form-row"><label for="email">Email address</label><input id="email" name="email" type="email" required placeholder="you@example.com" /><span class="error-message"></span></div><div class="form-row"><label for="message">What’s on your mind?</label><textarea id="message" name="message" rows="4" required minlength="20" placeholder="Tell me a little about it..."></textarea><span class="error-message"></span></div><button class="button button-primary magnetic" id="submitBtn" type="submit">Send a note <span>↗</span></button><p class="form-status" role="status"></p><small class="form-note">This form is ready to connect to your email service. For now, it validates locally and won’t pretend to send anything.</small></form>
         </div>
       </section>
     </main>
 
     <footer class="footer"><div class="container footer-inner"><a class="brand" href="#top"><span>[ ]</span> GK</a><p>© 2026 Gouv Kimsea. Built with curiosity and code.</p><div><a href="#home">Back to top ↑</a></div></div></footer>
 
-    <dialog class="project-modal" id="projectModal"><button class="modal-close" id="modalClose" aria-label="Close project details">×</button><div class="modal-content"><p class="eyebrow">Project detail</p><h2 id="modalTitle">Pinit</h2><p class="modal-lead" id="modalOverview"></p><div class="modal-columns"><div><h4>Problem</h4><p id="modalProblem"></p></div><div><h4>What I learned</h4><p id="modalLearned"></p></div></div><div class="modal-tech" id="modalTech"></div><p class="modal-note">Links will appear here when this project has a public demo or repository.</p></div></dialog>
+    <dialog class="project-modal" id="projectModal"><button class="modal-close" id="modalClose" aria-label="Close project details">×</button><div class="modal-content"><p class="eyebrow">Project detail</p><h2 id="modalTitle">Pinit</h2><p class="modal-lead" id="modalOverview"></p><div class="modal-columns"><div><h4>Problem</h4><p id="modalProblem"></p></div><div><h4>What I learned</h4><p id="modalLearned"></p></div></div><div class="modal-tech" id="modalTech"></div><div class="modal-actions" id="modalActions"></div></div></dialog>
   </body>
 </html>
