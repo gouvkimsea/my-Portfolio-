@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Gouv Kimsea's portfolio — a student developer learning by building useful, thoughtful digital products." />
+    <meta property="og:title" content="Gouv Kimsea — Student Developer" />
+    <meta property="og:description" content="A personal portfolio for a university student exploring software, business, and real-world projects." />
+    <meta property="og:type" content="website" />
+    <title>Gouv Kimsea — Student Developer</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23191a18'/%3E%3Ctext x='50' y='64' font-size='46' text-anchor='middle' fill='%23e7f26d' font-family='Arial'%3E%5B%5D%3C/text%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="script.js"></script>
+  </head>
+  <body>
+    <div class="loader" id="loader" aria-hidden="true"><span>[ ]</span><i></i></div>
+    <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+    <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+    <header class="site-header" id="top">
+      <nav class="nav container" aria-label="Main navigation">
+        <a class="brand" href="#home" aria-label="Go to homepage"><span>[ ]</span> GK</a>
+        <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mainMenu">
+          <span></span><span></span><span></span><b>Menu</b>
+        </button>
+        <div class="nav-links" id="mainMenu">
+          <a class="nav-link active" href="#home">Home</a>
+          <a class="nav-link" href="#about">About</a>
+          <a class="nav-link" href="#skills">Skills</a>
+          <a class="nav-link" href="#projects">Projects</a>
+          <a class="nav-link" href="#journey">Journey</a>
+          <a class="nav-link" href="#contact">Contact</a>
+        </div>
+        <a class="nav-availability" href="#contact"><span></span> Open to learning</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero section" id="home">
+        <div class="hero-grid"></div>
+        <div class="container hero-inner">
+          <div class="hero-copy reveal">
+            <p class="eyebrow"><span class="eyebrow-line"></span> Hello, I'm Gouv Kimsea</p>
+            <h1>Student developer<br /><em>&amp; builder.</em></h1>
+            <p class="hero-text">I’m a university student exploring software development, business, and technology by building real projects and learning through experimentation.</p>
+            <div class="hero-actions">
+              <a class="button button-primary magnetic" href="#projects">View my work <span>↘</span></a>
+              <a class="text-link" href="#contact">Contact me <span>↗</span></a>
+            </div>
+            <div class="scroll-cue"><span class="scroll-line"></span> Scroll to explore</div>
+          </div>
+          <div class="hero-visual reveal" id="heroVisual" aria-label="Interactive developer workspace illustration">
+            <div class="visual-orbit orbit-one"></div><div class="visual-orbit orbit-two"></div>
+            <div class="code-card">
+              <div class="window-bar"><span></span><span></span><span></span><small>about-me.js</small></div>
+              <div class="code-body">
+                <p><i>const</i> <b>developer</b> = {</p>
+                <p class="indent"><label>name:</label> <strong>'Gouv Kimsea'</strong>,</p>
+                <p class="indent"><label>focus:</label> <strong>'building &amp; learning'</strong>,</p>
+                <p class="indent"><label>status:</label> <strong class="lime">'curious'</strong>,</p>
+                <p class="indent"><label>coffee:</label> <strong class="orange">true</strong></p>
+                <p>};</p>
+                <p class="code-comment">// always shipping something new <span class="blink">_</span></p>
+              </div>
+            </div>
+            <div class="float-note note-top"><span>01</span><b>build</b><small>learn by doing</small></div>
+            <div class="float-note note-bottom"><span class="status-dot"></span><b>currently</b><small>exploring ideas</small></div>
+          </div>
+        </div>
+        <div class="hero-stamp">PORTFOLIO<br /><span>2026 / V.01</span></div>
+      </section>
+
+      <section class="section about-section" id="about">
+        <div class="container two-col">
+          <div class="section-heading reveal"><p class="eyebrow">01 / About me</p><h2>A work in<br /><em>progress.</em></h2></div>
+          <div class="about-copy reveal">
+            <p class="lead">I’m learning to turn questions into products — one small, practical project at a time.</p>
+            <p>I’m a university student interested in the space where technology, software, and management meet. I enjoy taking an idea from a rough sketch to something people can actually use, while staying honest about what I’m still learning.</p>
+            <p>For me, progress looks like curiosity, consistency, and shipping the next version.</p>
+            <div class="about-facts">
+              <div><span>01</span><b>Student</b><small>University life</small></div>
+              <div><span>02</span><b>Builder</b><small>Learning by making</small></div>
+              <div><span>03</span><b>Curious</b><small>Always exploring</small></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section skills-section" id="skills">
+        <div class="container">
+          <div class="section-heading split reveal"><div><p class="eyebrow">02 / Toolkit</p><h2>Learning the<br /><em>language of ideas.</em></h2></div><p class="heading-note">A growing toolkit, not a finished list.<br />The best skill is staying curious.</p></div>
+          <div class="skill-grid">
+            <article class="skill-card reveal"><span class="skill-number">01</span><div class="skill-icon">&lt;/&gt;</div><h3>Programming</h3><p>Learning to think clearly and solve problems with code.</p><div class="chips"><span>JavaScript</span><span>C++</span><span>Python</span></div><small class="learning-state"><i></i> Growing</small></article>
+            <article class="skill-card reveal"><span class="skill-number">02</span><div class="skill-icon">◈</div><h3>Web development</h3><p>Building responsive, accessible interfaces with intention.</p><div class="chips"><span>HTML / CSS</span><span>React</span><span>REST APIs</span></div><small class="learning-state"><i></i> Practicing</small></article>
+            <article class="skill-card reveal"><span class="skill-number">03</span><div class="skill-icon">⌁</div><h3>Backend &amp; data</h3><p>Exploring how products work behind the interface.</p><div class="chips"><span>Node.js</span><span>SQL</span><span>Databases</span></div><small class="learning-state"><i></i> Exploring</small></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section projects-section" id="projects">
+        <div class="container">
+          <div class="section-heading split reveal"><div><p class="eyebrow">03 / Selected work</p><h2>Things I’m<br /><em>figuring out.</em></h2></div><p class="heading-note">A few experiments, class projects,<br />and ideas made tangible.</p></div>
+          <div class="filter-bar" role="group" aria-label="Filter projects">
+            <button class="filter active" data-filter="all">All <sup>02</sup></button><button class="filter" data-filter="web">Web <sup>01</sup></button><button class="filter" data-filter="ai">AI <sup>01</sup></button><button class="filter" data-filter="security">Security <sup>01</sup></button>
+          </div>
+          <div class="project-grid">
+            <article class="project-card featured reveal" data-category="ai security web" data-project="pinit">
+              <div class="project-preview pinit-preview"><span class="preview-label">PIN<span>IT</span></span><div class="scan-line"></div><div class="preview-grid"></div><span class="preview-corner">01 / 02</span></div>
+              <div class="project-info"><div><small>01 — Product experiment</small><h3>Pinit</h3><p>An AI-powered concept for helping people identify potentially suspicious online content and scams.</p><div class="project-tags"><span>AI</span><span>Web</span><span>Security</span></div></div><button class="round-arrow project-open" aria-label="Open Pinit details">↗</button></div>
+            </article>
+            <article class="project-card reveal" data-category="web" data-project="portfolio">
+              <div class="project-preview portfolio-preview"><span class="preview-label">[ your<br /><em>space</em> ]</span><div class="mini-window"><i></i><i></i><i></i><hr /><b></b><b></b><b></b></div><span class="preview-corner">02 / 02</span></div>
+              <div class="project-info"><div><small>02 — Personal project</small><h3>This portfolio</h3><p>A personal corner of the internet for documenting the process, not just the outcome.</p><div class="project-tags"><span>Web</span><span>HTML</span><span>Design</span></div></div><button class="round-arrow project-open" aria-label="Open portfolio details">↗</button></div>
+            </article>
+          </div>
+          <p class="project-footnote"><span>*</span> More projects are in progress. I’d rather show you something real when it’s ready.</p>
+        </div>
+      </section>
+
+      <section class="section journey-section" id="journey">
+        <div class="container two-col">
+          <div class="section-heading reveal"><p class="eyebrow">04 / The journey</p><h2>Still becoming<br /><em>the developer I want to be.</em></h2></div>
+          <div class="timeline reveal">
+            <div class="timeline-item active"><span class="timeline-marker">01</span><div><small>Now</small><h3>Building in public</h3><p>Turning small ideas into useful experiments and learning from the parts that break.</p></div></div>
+            <div class="timeline-item"><span class="timeline-marker">02</span><div><small>University</small><h3>Learning the foundations</h3><p>Studying, asking better questions, and finding the subjects that keep me up late.</p></div></div>
+            <div class="timeline-item"><span class="timeline-marker">03</span><div><small>Next chapter</small><h3>More real-world projects</h3><p>Collaborating with thoughtful people and taking ideas closer to the people they serve.</p></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section terminal-section">
+        <div class="container">
+          <div class="terminal-wrap reveal"><div class="terminal-heading"><span class="eyebrow">A little peek inside</span><span>interactive-terminal</span></div><div class="terminal" id="terminal"><div class="terminal-output" id="terminalOutput"><p>Welcome. Type <b>help</b> to see what I can do.</p></div><form class="terminal-form" id="terminalForm"><label for="terminalInput">$</label><input id="terminalInput" autocomplete="off" aria-label="Terminal command" placeholder="try 'about'" /></form></div></div>
+        </div>
+      </section>
+
+      <section class="section contact-section" id="contact">
+        <div class="container contact-grid">
+          <div class="contact-copy reveal"><p class="eyebrow">05 / Say hello</p><h2>Let’s build<br /><em>something.</em></h2><p>Have a project idea, a question, or just want to compare notes? My inbox is open.</p><a class="email-link" href="mailto:gouvkimsea@gmail.com">gouvkimsea@gmail.com <span>↗</span></a><div class="social-links"><a href="https://github.com/gouvkimsea" target="_blank" rel="noreferrer">GitHub ↗</a><a href="https://linkedin.com/" target="_blank" rel="noreferrer">LinkedIn ↗</a></div></div>
+          <form class="contact-form reveal" id="contactForm" novalidate><div class="form-row"><label for="name">Your name</label><input id="name" name="name" required placeholder="Jane Doe" /><span class="error-message"></span></div><div class="form-row"><label for="email">Email address</label><input id="email" name="email" type="email" required placeholder="you@example.com" /><span class="error-message"></span></div><div class="form-row"><label for="message">What’s on your mind?</label><textarea id="message" name="message" rows="4" required minlength="20" placeholder="Tell me a little about it..."></textarea><span class="error-message"></span></div><button class="button button-primary" type="submit">Send a note <span>↗</span></button><p class="form-status" role="status"></p><small class="form-note">This form is ready to connect to your email service. For now, it validates locally and won’t pretend to send anything.</small></form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer"><div class="container footer-inner"><a class="brand" href="#top"><span>[ ]</span> GK</a><p>© 2026 Gouv Kimsea. Built with curiosity and code.</p><div><a href="#home">Back to top ↑</a></div></div></footer>
+
+    <dialog class="project-modal" id="projectModal"><button class="modal-close" id="modalClose" aria-label="Close project details">×</button><div class="modal-content"><p class="eyebrow">Project detail</p><h2 id="modalTitle">Pinit</h2><p class="modal-lead" id="modalOverview"></p><div class="modal-columns"><div><h4>Problem</h4><p id="modalProblem"></p></div><div><h4>What I learned</h4><p id="modalLearned"></p></div></div><div class="modal-tech" id="modalTech"></div><p class="modal-note">Links will appear here when this project has a public demo or repository.</p></div></dialog>
+  </body>
+</html>
