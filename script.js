@@ -30,6 +30,35 @@ document.addEventListener("keydown", event => {
   }
 });
 
+// Theme Controller (Light & Sleek Dark Mode with persistence)
+const savedTheme = localStorage.getItem("portfolio-theme");
+const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+const initialTheme = savedTheme || (systemPrefersDark ? "dark" : "light");
+
+const setTheme = (theme, persist = true) => {
+  document.documentElement.setAttribute("data-theme", theme);
+  if (persist) localStorage.setItem("portfolio-theme", theme);
+  const textEl = $("#themeToggle .theme-mode-text");
+  if (textEl) textEl.textContent = theme === "dark" ? "Light" : "Dark";
+};
+
+setTheme(initialTheme, false);
+
+const toggleTheme = () => {
+  const current = document.documentElement.getAttribute("data-theme") || "light";
+  const next = current === "dark" ? "light" : "dark";
+  setTheme(next, true);
+  return next;
+};
+
+$("#themeToggle")?.addEventListener("click", toggleTheme);
+
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", e => {
+  if (!localStorage.getItem("portfolio-theme")) {
+    setTheme(e.matches ? "dark" : "light", false);
+  }
+});
+
 // Scroll spy & reveal animations
 const sections = $$("main section[id]");
 const navLinks = $$(".nav-link");
@@ -219,10 +248,14 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>skills</b>, <b>projects</b>, <b>contact</b>, <b>whoami</b>, <b>github</b>, <b>date</b>, <b>cat about-me.js</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>skills</b>, <b>projects</b>, <b>theme</b>, <b>contact</b>, <b>whoami</b>, <b>github</b>, <b>date</b>, <b>cat about-me.js</b>, <b>clear</b>",
   about: "Gouv Kimsea — University student exploring software development, business, and technology by building real projects.",
   skills: "JavaScript · C++ · Python · HTML5 / CSS3 · React · REST APIs · Node.js · SQL · Databases",
   projects: "1. <b>Pinit</b> — AI scam and suspicious link detector concept\n2. <b>Portfolio</b> — Personal portfolio built with vanilla CSS & JS\nType 'projects' or click a project card to view details.",
+  theme: () => {
+    const next = toggleTheme();
+    return `Theme switched to <b>${next}</b> mode.`;
+  },
   contact: "Email: <a href='mailto:gouvkimsea@gmail.com' style='color:var(--lime)'>gouvkimsea@gmail.com</a> | GitHub: <a href='https://github.com/gouvkimsea' target='_blank' style='color:var(--lime)'>github.com/gouvkimsea</a>",
   whoami: "guest@gouvkimsea.dev — welcome, curious visitor!",
   github: "Opening GitHub profile in a new tab...",
