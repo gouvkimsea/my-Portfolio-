@@ -340,16 +340,49 @@ dialog.project-modal {
   color: var(--lime);
 }
 
+.sound-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font: 10px var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 6px 11px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.25s, border-color 0.25s, color 0.25s, transform 0.2s;
+  user-select: none;
+}
+.sound-toggle:hover {
+  background: var(--line);
+  border-color: var(--lime);
+  transform: translateY(-2px);
+}
+.sound-toggle.is-active {
+  border-color: var(--lime);
+  color: var(--lime);
+  box-shadow: 0 0 10px rgba(231, 242, 109, 0.2);
+}
+.sound-toggle.is-active .sound-icon {
+  filter: drop-shadow(0 0 4px var(--lime));
+}
+
 @media (max-width: 800px) {
   .nav-right {
-    gap: 10px;
+    gap: 8px;
   }
-  .theme-toggle .theme-mode-text {
+  .theme-toggle .theme-mode-text,
+  .sound-toggle .sound-label {
     display: none;
   }
-  .theme-toggle {
+  .theme-toggle,
+  .sound-toggle {
     padding: 6px 9px;
   }
 }
+
 
 

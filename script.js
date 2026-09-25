@@ -18,6 +18,7 @@ const closeMenu = () => {
 menuToggle.addEventListener("click", () => {
   const open = menu.classList.toggle("open");
   menuToggle.setAttribute("aria-expanded", String(open));
+  playSound("click");
 });
 $$(".nav-link").forEach(link => link.addEventListener("click", closeMenu));
 document.addEventListener("click", event => {
@@ -48,6 +49,7 @@ const toggleTheme = () => {
   const current = document.documentElement.getAttribute("data-theme") || "light";
   const next = current === "dark" ? "light" : "dark";
   setTheme(next, true);
+  playSound("click");
   return next;
 };
 
@@ -58,6 +60,96 @@ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", e =
     setTheme(e.matches ? "dark" : "light", false);
   }
 });
+
+// ==========================================================================
+// Sound FX Synthesizer (Zero-latency Web Audio API)
+// ==========================================================================
+let audioCtx = null;
+let soundEnabled = localStorage.getItem("portfolio-sound") === "true";
+
+const initAudio = () => {
+  if (!audioCtx) {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (AudioCtx) audioCtx = new AudioCtx();
+  }
+  if (audioCtx && audioCtx.state === "suspended") {
+    audioCtx.resume();
+  }
+};
+
+const playSound = type => {
+  if (!soundEnabled) return;
+  initAudio();
+  if (!audioCtx) return;
+
+  const now = audioCtx.currentTime;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+
+  if (type === "key") {
+    // Mechanical keyboard keypress thock
+    osc.type = "sine";
+    const freq = 170 + Math.random() * 60;
+    osc.frequency.setValueAtTime(freq, now);
+    osc.frequency.exponentialRampToValueAtTime(50, now + 0.04);
+    gain.gain.setValueAtTime(0.12, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+    osc.start(now);
+    osc.stop(now + 0.04);
+  } else if (type === "click") {
+    // Crisp tactile button click
+    osc.type = "triangle";
+    osc.frequency.setValueAtTime(520, now);
+    osc.frequency.exponentialRampToValueAtTime(140, now + 0.035);
+    gain.gain.setValueAtTime(0.12, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.035);
+    osc.start(now);
+    osc.stop(now + 0.035);
+  } else if (type === "modal") {
+    // Subtle acoustic swoosh
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(260, now);
+    osc.frequency.exponentialRampToValueAtTime(520, now + 0.09);
+    gain.gain.setValueAtTime(0.08, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
+    osc.start(now);
+    osc.stop(now + 0.09);
+  } else if (type === "success") {
+    // Melodic two-tone chime
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(523.25, now);
+    osc.frequency.setValueAtTime(659.25, now + 0.08);
+    gain.gain.setValueAtTime(0.14, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+    osc.start(now);
+    osc.stop(now + 0.28);
+  }
+};
+
+const updateSoundUI = () => {
+  const btn = $("#soundToggle");
+  const icon = $("#soundToggle .sound-icon");
+  if (btn && icon) {
+    btn.classList.toggle("is-active", soundEnabled);
+    icon.textContent = soundEnabled ? "🔊" : "🔇";
+  }
+};
+
+const toggleSound = () => {
+  soundEnabled = !soundEnabled;
+  localStorage.setItem("portfolio-sound", String(soundEnabled));
+  updateSoundUI();
+  if (soundEnabled) {
+    initAudio();
+    playSound("click");
+  }
+  return soundEnabled ? "enabled" : "muted";
+};
+
+$("#soundToggle")?.addEventListener("click", toggleSound);
+updateSoundUI();
 
 // Scroll spy & reveal animations
 const sections = $$("main section[id]");
@@ -160,6 +252,7 @@ if (heroVisual && codeCard) {
 
 // 4. Project Filters with Smooth Transition
 $$(".filter").forEach(filter => filter.addEventListener("click", () => {
+  playSound("click");
   $$(".filter").forEach(item => item.classList.remove("active"));
   filter.classList.add("active");
   const selected = filter.dataset.filter;
@@ -220,12 +313,14 @@ const openModal = projectKey => {
   $("#modalActions").innerHTML = data.actions.map(act =>
     `<a class="modal-btn ${act.primary ? '' : 'secondary'}" href="${act.url}" target="_blank" rel="noreferrer">${act.label}</a>`
   ).join("");
+  playSound("modal");
   modal.showModal();
   $("#modalClose")?.focus();
 };
 
 const closeModal = () => {
   if (modal?.open) {
+    playSound("modal");
     modal.close();
     if (previousActiveElement && typeof previousActiveElement.focus === "function") {
       previousActiveElement.focus();
@@ -248,13 +343,17 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>skills</b>, <b>projects</b>, <b>theme</b>, <b>contact</b>, <b>whoami</b>, <b>github</b>, <b>date</b>, <b>cat about-me.js</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>skills</b>, <b>projects</b>, <b>theme</b>, <b>sound</b>, <b>contact</b>, <b>whoami</b>, <b>github</b>, <b>date</b>, <b>cat about-me.js</b>, <b>clear</b>",
   about: "Gouv Kimsea — University student exploring software development, business, and technology by building real projects.",
   skills: "JavaScript · C++ · Python · HTML5 / CSS3 · React · REST APIs · Node.js · SQL · Databases",
   projects: "1. <b>Pinit</b> — AI scam and suspicious link detector concept\n2. <b>Portfolio</b> — Personal portfolio built with vanilla CSS & JS\nType 'projects' or click a project card to view details.",
   theme: () => {
     const next = toggleTheme();
     return `Theme switched to <b>${next}</b> mode.`;
+  },
+  sound: () => {
+    const status = toggleSound();
+    return `Sound FX ${status}.`;
   },
   contact: "Email: <a href='mailto:gouvkimsea@gmail.com' style='color:var(--lime)'>gouvkimsea@gmail.com</a> | GitHub: <a href='https://github.com/gouvkimsea' target='_blank' style='color:var(--lime)'>github.com/gouvkimsea</a>",
   whoami: "guest@gouvkimsea.dev — welcome, curious visitor!",
@@ -310,6 +409,7 @@ terminal?.addEventListener("click", event => {
 
 $$(".terminal-chip").forEach(chip => {
   chip.addEventListener("click", () => {
+    playSound("click");
     const cmd = chip.dataset.cmd;
     if (cmd) {
       terminalInput.value = cmd;
@@ -343,6 +443,8 @@ terminalInput?.addEventListener("keydown", event => {
       const match = Object.keys(terminalCommands).find(k => k.startsWith(current));
       if (match) terminalInput.value = match;
     }
+  } else if (event.key.length === 1 || event.key === "Backspace" || event.key === "Enter") {
+    playSound("key");
   }
 });
 
@@ -397,6 +499,7 @@ contactForm?.addEventListener("submit", event => {
     setTimeout(() => {
       submitBtn.classList.remove("is-sending");
       submitBtn.innerHTML = originalText;
+      playSound("success");
       formStatus.textContent = "✓ Thanks, Gouv received your note!";
       formStatus.style.color = "#648b4a";
       contactForm.reset();
