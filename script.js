@@ -4,6 +4,14 @@ const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 // Page loader
 window.addEventListener("load", () => setTimeout(() => $("#loader")?.classList.add("done"), 400));
 
+// Scroll progress bar
+const scrollProgress = $("#scrollProgress");
+window.addEventListener("scroll", () => {
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = total > 0 ? (window.scrollY / total) * 100 : 0;
+  if (scrollProgress) scrollProgress.style.width = `${progress}%`;
+}, { passive: true });
+
 // Header scroll state
 const header = $(".site-header");
 window.addEventListener("scroll", () => header.classList.toggle("scrolled", window.scrollY > 20), { passive: true });
@@ -125,6 +133,15 @@ const playSound = type => {
     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
     osc.start(now);
     osc.stop(now + 0.28);
+  } else if (type === "matrix") {
+    // Cyber cascade sweep
+    osc.type = "sawtooth";
+    osc.frequency.setValueAtTime(880, now);
+    osc.frequency.exponentialRampToValueAtTime(110, now + 0.35);
+    gain.gain.setValueAtTime(0.08, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+    osc.start(now);
+    osc.stop(now + 0.35);
   }
 };
 
@@ -150,6 +167,104 @@ const toggleSound = () => {
 
 $("#soundToggle")?.addEventListener("click", toggleSound);
 updateSoundUI();
+
+// ==========================================================================
+// Interactive Hero Canvas (Floating Cyber Constellation)
+// ==========================================================================
+const canvas = $("#heroCanvas");
+if (canvas) {
+  const ctx = canvas.getContext("2d");
+  let width, height, particles = [];
+
+  const resize = () => {
+    width = canvas.width = canvas.parentElement.offsetWidth;
+    height = canvas.height = canvas.parentElement.offsetHeight;
+  };
+  resize();
+  window.addEventListener("resize", resize);
+
+  const count = Math.min(Math.floor(width / 28), 45);
+  for (let i = 0; i < count; i++) {
+    particles.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4,
+      radius: Math.random() * 1.5 + 0.8,
+      color: Math.random() > 0.4 ? "rgba(231, 242, 109, " : "rgba(239, 131, 84, "
+    });
+  }
+
+  const renderParticles = () => {
+    ctx.clearRect(0, 0, width, height);
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0 || p.x > width) p.vx *= -1;
+      if (p.y < 0 || p.y > height) p.vy *= -1;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+      ctx.fillStyle = p.color + "0.65)";
+      ctx.fill();
+
+      for (let j = i + 1; j < particles.length; j++) {
+        const p2 = particles[j];
+        const dx = p.x - p2.x;
+        const dy = p.y - p2.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 110) {
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.strokeStyle = `rgba(210, 220, 190, ${(1 - dist / 110) * 0.15})`;
+          ctx.lineWidth = 0.75;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(renderParticles);
+  };
+  requestAnimationFrame(renderParticles);
+}
+
+// ==========================================================================
+// Dynamic Typewriter Effect in Hero Title
+// ==========================================================================
+const typewriterEl = $("#typewriter");
+if (typewriterEl) {
+  const words = ["builder.", "software explorer.", "creative engineer.", "problem solver."];
+  let wordIdx = 0;
+  let charIdx = words[0].length;
+  let isDeleting = true;
+  let typeSpeed = 2000;
+
+  const typeLoop = () => {
+    const currentWord = words[wordIdx];
+    if (isDeleting) {
+      charIdx--;
+      typeSpeed = 45;
+    } else {
+      charIdx++;
+      typeSpeed = 85;
+    }
+
+    typewriterEl.textContent = currentWord.substring(0, charIdx);
+
+    if (!isDeleting && charIdx === currentWord.length) {
+      typeSpeed = 2400; // Pause on complete word
+      isDeleting = true;
+    } else if (isDeleting && charIdx === 0) {
+      isDeleting = false;
+      wordIdx = (wordIdx + 1) % words.length;
+      typeSpeed = 400; // Pause before typing next word
+    }
+
+    setTimeout(typeLoop, typeSpeed);
+  };
+  setTimeout(typeLoop, 2200);
+}
 
 // Scroll spy & reveal animations
 const sections = $$("main section[id]");
@@ -250,7 +365,42 @@ if (heroVisual && codeCard) {
   });
 }
 
-// 4. Project Filters with Smooth Transition
+// 4. Code Card Live IDE Execution Simulation
+const runCodeBtn = $("#runCodeBtn");
+const codeConsole = $("#codeConsole");
+const consoleText = $("#consoleText");
+
+runCodeBtn?.addEventListener("click", () => {
+  playSound("click");
+  runCodeBtn.style.pointerEvents = "none";
+  runCodeBtn.innerHTML = "<span>↻</span> Compiling...";
+  codeConsole?.classList.add("active");
+  if (consoleText) consoleText.textContent = "compiling about-me.js [ES2026]...";
+
+  setTimeout(() => {
+    runCodeBtn.style.pointerEvents = "";
+    runCodeBtn.innerHTML = "<span>✓</span> Executed";
+    playSound("success");
+    if (consoleText) consoleText.innerHTML = "<b>Gouv Kimsea</b> &lt;status: 'curious'&gt; ⚡ Ready to ship!";
+    setTimeout(() => {
+      runCodeBtn.innerHTML = "<span>▶</span> Run";
+      codeConsole?.classList.remove("active");
+    }, 4500);
+  }, 650);
+});
+
+// 5. Spotlight Card Effect (Linear / Vercel cursor border glow)
+$$(".spotlight-card").forEach(card => {
+  card.addEventListener("pointermove", event => {
+    const rect = card.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    card.style.setProperty("--mouse-x", `${x}px`);
+    card.style.setProperty("--mouse-y", `${y}px`);
+  });
+});
+
+// 6. Project Filters with Smooth Transition
 $$(".filter").forEach(filter => filter.addEventListener("click", () => {
   playSound("click");
   $$(".filter").forEach(item => item.classList.remove("active"));
@@ -272,7 +422,7 @@ $$(".filter").forEach(filter => filter.addEventListener("click", () => {
   });
 }));
 
-// 5. Project Modal with Rich Actions & Accessible Focus Restoration
+// 7. Project Modal with Rich Actions & Accessible Focus Restoration
 const projectData = {
   pinit: {
     title: "Pinit",
@@ -294,6 +444,17 @@ const projectData = {
     actions: [
       { label: "GitHub Repository ↗", url: "https://github.com/gouvkimsea/my-Portfolio-", primary: true },
       { label: "Live Deployment ↗", url: "https://gouvkimsea.github.io/my-Portfolio-/", primary: false }
+    ]
+  },
+  devpulse: {
+    title: "DevPulse",
+    overview: "A developer telemetry and rhythm dashboard visualizing engineering velocity, focus cycles, and commit flow.",
+    problem: "Developers frequently lack visibility into their flow states and build fatigue across distributed projects.",
+    learned: "Real-time telemetry event streaming, intuitive metric visualization, and high-performance SVG animations.",
+    tech: ["WebSockets", "Data Visualization", "JavaScript", "UI Design"],
+    actions: [
+      { label: "GitHub Profile ↗", url: "https://github.com/gouvkimsea", primary: true },
+      { label: "Explore Code ↗", url: "https://github.com/gouvkimsea/my-Portfolio-", primary: false }
     ]
   }
 };
@@ -335,7 +496,7 @@ $$(".project-open").forEach(button => button.addEventListener("click", () => {
 $("#modalClose")?.addEventListener("click", closeModal);
 modal?.addEventListener("click", event => { if (event.target === modal) closeModal(); });
 
-// 6. Interactive Terminal with History, Tab Autocomplete & Quick Chips
+// 8. Interactive Terminal with History, Matrix & Neofetch
 const terminal = $("#terminal");
 const terminalOutput = $("#terminalOutput");
 const terminalInput = $("#terminalInput");
@@ -343,10 +504,10 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>skills</b>, <b>projects</b>, <b>theme</b>, <b>sound</b>, <b>contact</b>, <b>whoami</b>, <b>github</b>, <b>date</b>, <b>cat about-me.js</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>skills</b>, <b>projects</b>, <b>matrix</b>, <b>neofetch</b>, <b>theme</b>, <b>sound</b>, <b>contact</b>, <b>whoami</b>, <b>github</b>, <b>date</b>, <b>cat about-me.js</b>, <b>clear</b>",
   about: "Gouv Kimsea — University student exploring software development, business, and technology by building real projects.",
   skills: "JavaScript · C++ · Python · HTML5 / CSS3 · React · REST APIs · Node.js · SQL · Databases",
-  projects: "1. <b>Pinit</b> — AI scam and suspicious link detector concept\n2. <b>Portfolio</b> — Personal portfolio built with vanilla CSS & JS\nType 'projects' or click a project card to view details.",
+  projects: "1. <b>Pinit</b> — AI scam and suspicious link detector concept\n2. <b>Portfolio</b> — Personal portfolio built with vanilla CSS & JS\n3. <b>DevPulse</b> — Real-time engineering flow & telemetry dashboard\nType 'projects' or click a project card to view details.",
   theme: () => {
     const next = toggleTheme();
     return `Theme switched to <b>${next}</b> mode.`;
@@ -354,6 +515,31 @@ const terminalCommands = {
   sound: () => {
     const status = toggleSound();
     return `Sound FX ${status}.`;
+  },
+  neofetch: () => {
+    return `<pre style="color:var(--lime);font-size:10px;line-height:1.2;">
+   ______  __ __
+  / ____/ / //_/   gouv@portfolio
+ / / __  / ,<      --------------
+/ /_/ / / /| |     OS: Modern Web (HTML5/CSS3/ES2026)
+\____/ /_/ |_|     Host: Gouv Kimsea's Portfolio
+                   Shell: custom-zsh (interactive)
+                   Stack: JS, C++, Python, React, APIs
+                   Editor: Antigravity IDE
+                   Status: Open to learning & building 🚀</pre>`;
+  },
+  matrix: () => {
+    playSound("matrix");
+    const chars = "010101GKDEVPOWERCURIOSITYBUILDSHIPEVAL1001";
+    let output = "";
+    for (let i = 0; i < 6; i++) {
+      let line = "";
+      for (let j = 0; j < 40; j++) {
+        line += chars[Math.floor(Math.random() * chars.length)];
+      }
+      output += line + "\n";
+    }
+    return `<pre style="color:#00ff66;font-family:monospace;letter-spacing:2px;font-size:11px;">${output}\n// MATRIX FLOW INITIALIZED // Welcome to the grid, agent.</pre>`;
   },
   contact: "Email: <a href='mailto:gouvkimsea@gmail.com' style='color:var(--lime)'>gouvkimsea@gmail.com</a> | GitHub: <a href='https://github.com/gouvkimsea' target='_blank' style='color:var(--lime)'>github.com/gouvkimsea</a>",
   whoami: "guest@gouvkimsea.dev — welcome, curious visitor!",
@@ -448,7 +634,7 @@ terminalInput?.addEventListener("keydown", event => {
   }
 });
 
-// 7. Contact Form Real-time Validation & Interactive Feedback
+// 9. Contact Form Real-time Validation & Interactive Feedback
 const contactForm = $("#contactForm");
 const submitBtn = $("#submitBtn");
 const formStatus = $(".form-status");
