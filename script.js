@@ -700,3 +700,45 @@ contactForm?.addEventListener("submit", event => {
     formStatus.style.color = "#b34834";
   }
 });
+
+// 1-Click Email Copy Interaction
+const copyEmailBtn = $("#copyEmailBtn");
+copyEmailBtn?.addEventListener("click", () => {
+  const email = "gouvkimsea@gmail.com";
+  const performCopy = () => {
+    copyEmailBtn.textContent = "✓ Copied!";
+    copyEmailBtn.classList.add("copied");
+    playSound("click");
+    setTimeout(() => {
+      copyEmailBtn.textContent = "Copy";
+      copyEmailBtn.classList.remove("copied");
+    }, 2500);
+  };
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(email).then(performCopy).catch(() => {
+      // Fallback
+      fallbackCopy(email);
+      performCopy();
+    });
+  } else {
+    fallbackCopy(email);
+    performCopy();
+  }
+});
+
+const fallbackCopy = text => {
+  const ta = document.createElement("textarea");
+  ta.value = text;
+  ta.style.position = "fixed";
+  ta.style.opacity = "0";
+  document.body.appendChild(ta);
+  ta.select();
+  try {
+    document.execCommand("copy");
+  } catch (err) {
+    console.warn("Copy command failed", err);
+  }
+  document.body.removeChild(ta);
+};
+

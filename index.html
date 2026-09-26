@@ -93,17 +93,50 @@
       </section>
 
       <section class="section about-section" id="about">
-        <div class="container two-col">
-          <div class="section-heading reveal"><p class="eyebrow">01 / About me</p><h2>A work in<br /><em>progress.</em></h2></div>
-          <div class="about-copy reveal">
-            <p class="lead">I’m learning to turn questions into products — one small, practical project at a time.</p>
-            <p>I’m a university student interested in the space where technology, software, and management meet. I enjoy taking an idea from a rough sketch to something people can actually use, while staying honest about what I’m still learning.</p>
-            <p>For me, progress looks like curiosity, consistency, and shipping the next version.</p>
-            <div class="about-facts">
-              <div><span>01</span><b>Student</b><small>University life</small></div>
-              <div><span>02</span><b>Builder</b><small>Learning by making</small></div>
-              <div><span>03</span><b>Curious</b><small>Always exploring</small></div>
-            </div>
+        <div class="container">
+          <div class="section-heading split reveal">
+            <div><p class="eyebrow">01 / About me</p><h2>A work in<br /><em>progress.</em></h2></div>
+            <p class="heading-note">Turning questions into products —<br />one small, practical project at a time.</p>
+          </div>
+          <div class="about-bento-grid">
+            <article class="bento-card bento-hero reveal spotlight-card">
+              <div class="bento-header"><span class="bento-badge">Philosophy</span><span class="bento-icon">✦</span></div>
+              <h3>Turning questions into tangible software.</h3>
+              <p>I’m a university student interested in the space where technology, software development, and management meet. I enjoy taking an idea from a rough sketch to something people can actually use, while staying honest about what I’m still learning.</p>
+              <div class="bento-tags">
+                <span>Curiosity First</span>
+                <span>Clean Interfaces</span>
+                <span>Rapid Prototyping</span>
+              </div>
+            </article>
+
+            <article class="bento-card bento-status reveal spotlight-card">
+              <div class="bento-header">
+                <div class="live-status-pill"><span class="status-pulse"></span> Currently Exploring</div>
+                <span class="bento-year">2026</span>
+              </div>
+              <h4>Full-Stack &amp; AI Systems</h4>
+              <p>Focused on interactive web interfaces, Node.js backends, REST APIs, and exploring AI-assisted digital security.</p>
+              <div class="bento-metric-badge">
+                <strong>University Student</strong>
+                <small>Learning by building every day</small>
+              </div>
+            </article>
+
+            <article class="bento-card bento-stats reveal spotlight-card">
+              <div class="bento-header"><span class="bento-badge">By The Numbers</span></div>
+              <div class="stats-row">
+                <div class="stat-col"><span class="stat-num">03+</span><small>Live Projects</small></div>
+                <div class="stat-col"><span class="stat-num">100%</span><small>Dedication</small></div>
+              </div>
+              <p class="stat-footnote">Always shipping real experiments over passive tutorials.</p>
+            </article>
+
+            <article class="bento-card bento-quote reveal spotlight-card">
+              <div class="quote-symbol">“</div>
+              <p class="quote-body">Progress looks like curiosity, consistency, and shipping the next version.</p>
+              <div class="quote-author">— GK Personal Rulebook</div>
+            </article>
           </div>
         </div>
       </section>
@@ -127,15 +160,24 @@
           </div>
           <div class="project-grid">
             <article class="project-card featured reveal spotlight-card" data-category="ai security web" data-project="pinit">
-              <div class="project-preview pinit-preview"><span class="preview-label">PIN<span>IT</span></span><div class="scan-line"></div><div class="preview-grid"></div><span class="preview-corner">01 / 03</span></div>
+              <div class="project-preview pinit-preview">
+                <div class="preview-browser-bar"><span class="pdot"></span><span class="pdot"></span><span class="pdot"></span><div class="preview-url-bar"><span class="lock-icon">🔒</span> https://pinit.security/scan</div></div>
+                <div class="radar-scanner"><div class="radar-sweep"></div><div class="threat-badge"><span class="threat-dot"></span><span class="threat-score">98.4% SAFE</span></div></div>
+                <span class="preview-label">PIN<span>IT</span></span><div class="scan-line"></div><div class="preview-grid"></div><span class="preview-corner">01 / 03</span>
+              </div>
               <div class="project-info"><div><small>01 — Product experiment</small><h3>Pinit</h3><p>An AI-powered concept for helping people identify potentially suspicious online content and scams.</p><div class="project-tags"><span>AI</span><span>Web</span><span>Security</span></div></div><button class="round-arrow project-open" aria-label="Open Pinit details">↗</button></div>
             </article>
             <article class="project-card reveal spotlight-card" data-category="web" data-project="portfolio">
-              <div class="project-preview portfolio-preview"><span class="preview-label">[ your<br /><em>space</em> ]</span><div class="mini-window"><i></i><i></i><i></i><hr /><b></b><b></b><b></b></div><span class="preview-corner">02 / 03</span></div>
+              <div class="project-preview portfolio-preview">
+                <div class="preview-browser-bar"><span class="pdot"></span><span class="pdot"></span><span class="pdot"></span><div class="preview-url-bar"><span class="lock-icon">⚡</span> gouvkimsea.dev</div></div>
+                <span class="preview-label">[ your<br /><em>space</em> ]</span><div class="mini-window"><i></i><i></i><i></i><hr /><b></b><b></b><b></b></div><span class="preview-corner">02 / 03</span>
+              </div>
               <div class="project-info"><div><small>02 — Personal project</small><h3>This portfolio</h3><p>A personal corner of the internet for documenting the process, not just the outcome.</p><div class="project-tags"><span>Web</span><span>HTML</span><span>Design</span></div></div><button class="round-arrow project-open" aria-label="Open portfolio details">↗</button></div>
             </article>
             <article class="project-card reveal spotlight-card" data-category="web ai" data-project="devpulse">
               <div class="project-preview devpulse-preview">
+                <div class="preview-browser-bar"><span class="pdot"></span><span class="pdot"></span><span class="pdot"></span><div class="preview-url-bar"><span class="lock-icon">📊</span> devpulse.stream</div></div>
+                <div class="devpulse-stat-pill">⚡ 240 req/s · 18ms</div>
                 <span class="preview-label">DEV<span>PULSE</span></span>
                 <div class="telemetry-wave" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
                 <div class="pulse-beacon" aria-hidden="true"><span class="beacon-ring"></span><span class="beacon-dot"></span></div>
@@ -200,9 +242,59 @@
       </section>
 
       <section class="section contact-section" id="contact">
-        <div class="container contact-grid">
-          <div class="contact-copy reveal"><p class="eyebrow">05 / Say hello</p><h2>Let’s build<br /><em>something.</em></h2><p>Have a project idea, a question, or just want to compare notes? My inbox is open.</p><a class="email-link" href="mailto:gouvkimsea@gmail.com">gouvkimsea@gmail.com <span>↗</span></a><div class="social-links"><a href="https://github.com/gouvkimsea" target="_blank" rel="noreferrer">GitHub ↗</a><a href="https://linkedin.com/" target="_blank" rel="noreferrer">LinkedIn ↗</a></div></div>
-          <form class="contact-form reveal" id="contactForm" novalidate><div class="form-row"><label for="name">Your name</label><input id="name" name="name" required placeholder="Jane Doe" /><span class="error-message"></span></div><div class="form-row"><label for="email">Email address</label><input id="email" name="email" type="email" required placeholder="you@example.com" /><span class="error-message"></span></div><div class="form-row"><label for="message">What’s on your mind?</label><textarea id="message" name="message" rows="4" required minlength="20" placeholder="Tell me a little about it..."></textarea><span class="error-message"></span></div><button class="button button-primary magnetic" id="submitBtn" type="submit">Send a note <span>↗</span></button><p class="form-status" role="status"></p><small class="form-note">This form is ready to connect to your email service. For now, it validates locally and won’t pretend to send anything.</small></form>
+        <div class="container">
+          <div class="contact-shell reveal spotlight-card">
+            <div class="contact-glow-orb" aria-hidden="true"></div>
+            <div class="contact-grid">
+              <div class="contact-copy">
+                <p class="eyebrow">05 / Say hello</p>
+                <h2>Let’s build<br /><em>something.</em></h2>
+                <p class="contact-intro">Have a project idea, an internship opportunity, or just want to compare notes? My inbox is always open.</p>
+                
+                <div class="contact-channels">
+                  <div class="contact-channel-item">
+                    <div class="ch-icon">✉</div>
+                    <div class="ch-text">
+                      <small>Direct Email</small>
+                      <p>gouvkimsea@gmail.com</p>
+                    </div>
+                    <button class="copy-email-btn magnetic" id="copyEmailBtn" type="button" title="Copy email address">Copy</button>
+                  </div>
+
+                  <a class="contact-channel-item ch-link" href="https://github.com/gouvkimsea" target="_blank" rel="noreferrer">
+                    <div class="ch-icon">⌘</div>
+                    <div class="ch-text">
+                      <small>GitHub Profile</small>
+                      <p>github.com/gouvkimsea</p>
+                    </div>
+                    <span class="ch-arrow">↗</span>
+                  </a>
+
+                  <div class="contact-channel-item">
+                    <div class="ch-icon">📍</div>
+                    <div class="ch-text">
+                      <small>Location &amp; Status</small>
+                      <p>Phnom Penh · Open to opportunities</p>
+                    </div>
+                    <span class="avail-dot" title="Open to opportunities"></span>
+                  </div>
+                </div>
+              </div>
+
+              <form class="contact-form" id="contactForm" novalidate>
+                <div class="form-window-bar">
+                  <span class="wb-dot wb-red"></span><span class="wb-dot wb-yellow"></span><span class="wb-dot wb-green"></span>
+                  <small>new-message.eml</small>
+                </div>
+                <div class="form-row"><label for="name">Your name</label><input id="name" name="name" required placeholder="Jane Doe" /><span class="error-message"></span></div>
+                <div class="form-row"><label for="email">Email address</label><input id="email" name="email" type="email" required placeholder="you@example.com" /><span class="error-message"></span></div>
+                <div class="form-row"><label for="message">What’s on your mind?</label><textarea id="message" name="message" rows="4" required minlength="20" placeholder="Tell me a little about your project or note..."></textarea><span class="error-message"></span></div>
+                <button class="button button-primary magnetic" id="submitBtn" type="submit">Send note <span>↗</span></button>
+                <p class="form-status" role="status"></p>
+                <small class="form-note">Validated client-side. Ready to connect to any backend service.</small>
+              </form>
+            </div>
+          </div>
         </div>
       </section>
     </main>
