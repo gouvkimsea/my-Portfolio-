@@ -26,7 +26,7 @@
         </button>
         <div class="nav-links" id="mainMenu">
           <span class="nav-indicator" aria-hidden="true"></span>
-          <span class="nav-indicator-tick" aria-hidden="true"><i style="--h:0.4"></i><i style="--h:0.9"></i><i style="--h:0.6"></i><i style="--h:1"></i></span>
+          <span class="nav-indicator-dot" aria-hidden="true"></span>
           <a class="nav-link active" href="#home">Home</a>
           <a class="nav-link" href="#about">About</a>
           <a class="nav-link" href="#skills">Skills</a>
@@ -35,9 +35,9 @@
           <a class="nav-link" href="#contact">Contact</a>
         </div>
         <div class="nav-right">
-          <button class="sound-toggle magnetic" id="soundToggle" aria-label="Toggle mechanical sound effects" title="Toggle sound effects">
-            <span class="sound-icon" aria-hidden="true">🔇</span>
-            <span class="sound-label">FX</span>
+          <button class="cmdk-btn magnetic" id="cmdKBtn" aria-label="Open command palette" title="Quick Search (⌘K / Ctrl+K)">
+            <span class="cmdk-badge">⌘K</span>
+            <span class="cmdk-label">Search</span>
           </button>
           <button class="theme-toggle magnetic" id="themeToggle" aria-label="Toggle dark or light theme" title="Toggle theme">
             <span class="theme-icon sun" aria-hidden="true">☀</span>
@@ -235,7 +235,7 @@
                 <button type="button" class="terminal-chip" data-cmd="matrix">matrix</button>
                 <button type="button" class="terminal-chip" data-cmd="neofetch">neofetch</button>
                 <button type="button" class="terminal-chip" data-cmd="theme">theme</button>
-                <button type="button" class="terminal-chip" data-cmd="sound">sound</button>
+                <button type="button" class="terminal-chip" data-cmd="search">search</button>
                 <button type="button" class="terminal-chip" data-cmd="clear">clear</button>
               </div>
             </div>
@@ -304,5 +304,29 @@
     <footer class="footer"><div class="container footer-inner"><a class="brand" href="#top"><span>[ ]</span> GK</a><p>© 2026 Gouv Kimsea. Built with curiosity and code.</p><div><a href="#home">Back to top ↑</a></div></div></footer>
 
     <dialog class="project-modal" id="projectModal"><button class="modal-close" id="modalClose" aria-label="Close project details">×</button><div class="modal-content"><p class="eyebrow">Project detail</p><h2 id="modalTitle">Pinit</h2><p class="modal-lead" id="modalOverview"></p><div class="modal-columns"><div><h4>Problem</h4><p id="modalProblem"></p></div><div><h4>What I learned</h4><p id="modalLearned"></p></div></div><div class="modal-tech" id="modalTech"></div><div class="modal-actions" id="modalActions"></div></div></dialog>
+
+    <dialog class="cmdk-modal" id="cmdKModal">
+      <div class="cmdk-shell">
+        <div class="cmdk-header">
+          <span class="cmdk-search-icon">⌘</span>
+          <input type="text" class="cmdk-input" id="cmdKInput" placeholder="Type a command or jump to section..." autocomplete="off" spellcheck="false" />
+          <kbd class="cmdk-esc-hint">ESC</kbd>
+        </div>
+        <div class="cmdk-results" id="cmdKResults">
+          <div class="cmdk-group-title">Navigation</div>
+          <button type="button" class="cmdk-item" data-action="goto" data-target="#home"><span class="cmdk-icon">🏠</span> Home <small>Jump to top</small></button>
+          <button type="button" class="cmdk-item" data-action="goto" data-target="#about"><span class="cmdk-icon">✦</span> About Gouv <small>Bento &amp; Philosophy</small></button>
+          <button type="button" class="cmdk-item" data-action="goto" data-target="#skills"><span class="cmdk-icon">◈</span> Skills &amp; Toolkit <small>Tech stack</small></button>
+          <button type="button" class="cmdk-item" data-action="goto" data-target="#projects"><span class="cmdk-icon">⚡</span> Selected Work <small>Projects &amp; experiments</small></button>
+          <button type="button" class="cmdk-item" data-action="goto" data-target="#journey"><span class="cmdk-icon">🚀</span> The Journey <small>Timeline &amp; roadmap</small></button>
+          <button type="button" class="cmdk-item" data-action="goto" data-target="#contact"><span class="cmdk-icon">✉</span> Say Hello <small>Contact form &amp; links</small></button>
+          
+          <div class="cmdk-group-title">Quick Actions</div>
+          <button type="button" class="cmdk-item" data-action="copy-email"><span class="cmdk-icon">📋</span> Copy Email <small>gouvkimsea@gmail.com</small></button>
+          <button type="button" class="cmdk-item" data-action="toggle-theme"><span class="cmdk-icon">🌗</span> Switch Theme <small>Dark / Light mode</small></button>
+          <button type="button" class="cmdk-item" data-action="github"><span class="cmdk-icon">⌘</span> GitHub Profile <small>github.com/gouvkimsea</small></button>
+        </div>
+      </div>
+    </dialog>
   </body>
 </html>

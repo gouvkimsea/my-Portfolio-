@@ -130,103 +130,100 @@ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", e =
 });
 
 // ==========================================================================
-// Sound FX Synthesizer (Zero-latency Web Audio API)
+// ⌘K Command Palette Controller (Replaces sound track)
 // ==========================================================================
-let audioCtx = null;
-let soundEnabled = localStorage.getItem("portfolio-sound") === "true";
+const playSound = () => {}; // Sound effects removed
 
-const initAudio = () => {
-  if (!audioCtx) {
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    if (AudioCtx) audioCtx = new AudioCtx();
+const cmdKModal = $("#cmdKModal");
+const cmdKBtn = $("#cmdKBtn");
+const cmdKInput = $("#cmdKInput");
+const cmdKResults = $("#cmdKResults");
+
+const openCmdK = () => {
+  if (!cmdKModal) return;
+  cmdKModal.showModal();
+  if (cmdKInput) {
+    cmdKInput.value = "";
+    cmdKInput.focus();
   }
-  if (audioCtx && audioCtx.state === "suspended") {
-    audioCtx.resume();
+  filterCmdK("");
+};
+
+const closeCmdK = () => {
+  if (cmdKModal && cmdKModal.open) {
+    cmdKModal.close();
   }
 };
 
-const playSound = type => {
-  if (!soundEnabled) return;
-  initAudio();
-  if (!audioCtx) return;
+cmdKBtn?.addEventListener("click", openCmdK);
 
-  const now = audioCtx.currentTime;
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-  osc.connect(gain);
-  gain.connect(audioCtx.destination);
-
-  if (type === "key") {
-    // Mechanical keyboard keypress thock
-    osc.type = "sine";
-    const freq = 170 + Math.random() * 60;
-    osc.frequency.setValueAtTime(freq, now);
-    osc.frequency.exponentialRampToValueAtTime(50, now + 0.04);
-    gain.gain.setValueAtTime(0.12, now);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
-    osc.start(now);
-    osc.stop(now + 0.04);
-  } else if (type === "click") {
-    // Crisp tactile button click
-    osc.type = "triangle";
-    osc.frequency.setValueAtTime(520, now);
-    osc.frequency.exponentialRampToValueAtTime(140, now + 0.035);
-    gain.gain.setValueAtTime(0.12, now);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.035);
-    osc.start(now);
-    osc.stop(now + 0.035);
-  } else if (type === "modal") {
-    // Subtle acoustic swoosh
-    osc.type = "sine";
-    osc.frequency.setValueAtTime(260, now);
-    osc.frequency.exponentialRampToValueAtTime(520, now + 0.09);
-    gain.gain.setValueAtTime(0.08, now);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
-    osc.start(now);
-    osc.stop(now + 0.09);
-  } else if (type === "success") {
-    // Melodic two-tone chime
-    osc.type = "sine";
-    osc.frequency.setValueAtTime(523.25, now);
-    osc.frequency.setValueAtTime(659.25, now + 0.08);
-    gain.gain.setValueAtTime(0.14, now);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
-    osc.start(now);
-    osc.stop(now + 0.28);
-  } else if (type === "matrix") {
-    // Cyber cascade sweep
-    osc.type = "sawtooth";
-    osc.frequency.setValueAtTime(880, now);
-    osc.frequency.exponentialRampToValueAtTime(110, now + 0.35);
-    gain.gain.setValueAtTime(0.08, now);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
-    osc.start(now);
-    osc.stop(now + 0.35);
+// Global Keyboard Shortcut: ⌘K or Ctrl+K
+document.addEventListener("keydown", e => {
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+    e.preventDefault();
+    if (cmdKModal?.open) {
+      closeCmdK();
+    } else {
+      openCmdK();
+    }
   }
+});
+
+// Click backdrop to close
+cmdKModal?.addEventListener("click", e => {
+  if (e.target === cmdKModal) closeCmdK();
+});
+
+// Live Search Filter
+const filterCmdK = query => {
+  const q = query.toLowerCase().trim();
+  const items = $$(".cmdk-item", cmdKResults);
+  const groups = $$(".cmdk-group-title", cmdKResults);
+
+  items.forEach(item => {
+    const text = item.textContent.toLowerCase();
+    const match = !q || text.includes(q);
+    item.style.display = match ? "flex" : "none";
+  });
+
+  groups.forEach(group => {
+    let next = group.nextElementSibling;
+    let hasVisible = false;
+    while (next && !next.classList.contains("cmdk-group-title")) {
+      if (next.style.display !== "none") hasVisible = true;
+      next = next.nextElementSibling;
+    }
+    group.style.display = hasVisible ? "block" : "none";
+  });
 };
 
-const updateSoundUI = () => {
-  const btn = $("#soundToggle");
-  const icon = $("#soundToggle .sound-icon");
-  if (btn && icon) {
-    btn.classList.toggle("is-active", soundEnabled);
-    icon.textContent = soundEnabled ? "🔊" : "🔇";
-  }
-};
+cmdKInput?.addEventListener("input", e => {
+  filterCmdK(e.target.value);
+});
 
-const toggleSound = () => {
-  soundEnabled = !soundEnabled;
-  localStorage.setItem("portfolio-sound", String(soundEnabled));
-  updateSoundUI();
-  if (soundEnabled) {
-    initAudio();
-    playSound("click");
-  }
-  return soundEnabled ? "enabled" : "muted";
-};
+// Action Execution
+cmdKResults?.addEventListener("click", e => {
+  const item = e.target.closest(".cmdk-item");
+  if (!item) return;
 
-$("#soundToggle")?.addEventListener("click", toggleSound);
-updateSoundUI();
+  const action = item.getAttribute("data-action");
+  const target = item.getAttribute("data-target");
+
+  closeCmdK();
+
+  if (action === "goto" && target) {
+    const targetEl = $(target);
+    if (targetEl) {
+      targetEl.scrollIntoView({ behavior: "smooth" });
+    }
+  } else if (action === "copy-email") {
+    $("#copyEmailBtn")?.click();
+  } else if (action === "toggle-theme") {
+    toggleTheme();
+  } else if (action === "github") {
+    window.open("https://github.com/gouvkimsea", "_blank", "noopener,noreferrer");
+  }
+});
 
 // ==========================================================================
 // Interactive Hero Canvas (Floating Cyber Constellation)
@@ -570,7 +567,7 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>skills</b>, <b>projects</b>, <b>matrix</b>, <b>neofetch</b>, <b>theme</b>, <b>sound</b>, <b>contact</b>, <b>whoami</b>, <b>github</b>, <b>date</b>, <b>cat about-me.js</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>skills</b>, <b>projects</b>, <b>matrix</b>, <b>neofetch</b>, <b>theme</b>, <b>search</b>, <b>contact</b>, <b>whoami</b>, <b>github</b>, <b>date</b>, <b>clear</b>",
   about: "Gouv Kimsea — University student exploring software development, business, and technology by building real projects.",
   skills: "JavaScript · C++ · Python · HTML5 / CSS3 · React · REST APIs · Node.js · SQL · Databases",
   projects: "1. <b>Pinit</b> — AI scam and suspicious link detector concept\n2. <b>Portfolio</b> — Personal portfolio built with vanilla CSS & JS\n3. <b>DevPulse</b> — Real-time engineering flow & telemetry dashboard\nType 'projects' or click a project card to view details.",
@@ -578,9 +575,13 @@ const terminalCommands = {
     const next = toggleTheme();
     return `Theme switched to <b>${next}</b> mode.`;
   },
-  sound: () => {
-    const status = toggleSound();
-    return `Sound FX ${status}.`;
+  search: () => {
+    openCmdK();
+    return "Opening ⌘K Command Palette...";
+  },
+  cmdk: () => {
+    openCmdK();
+    return "Opening ⌘K Command Palette...";
   },
   neofetch: () => {
     return `<pre style="color:var(--lime);font-size:10px;line-height:1.2;">
