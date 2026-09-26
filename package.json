@@ -1,0 +1,12 @@
+{
+  "name": "my-portfolio",
+  "version": "1.0.0",
+  "description": "Gouv Kimsea - Developer Portfolio",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["portfolio", "developer", "web"],
+  "author": "Gouv Kimsea",
+  "license": "MIT"
+}
