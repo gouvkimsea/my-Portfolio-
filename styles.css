@@ -1233,3 +1233,252 @@ dialog.project-modal {
     gap: 40px;
   }
 }
+
+/* ==========================================================================
+   SMEAN.AI STYLE ANIMATED FLOATING NAVBAR
+   ========================================================================== */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1000;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-bottom: none !important;
+  padding: 16px 24px;
+  transition: padding 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.site-header.scrolled {
+  padding: 12px 16px;
+  border-bottom: none !important;
+}
+
+.nav {
+  pointer-events: auto;
+  margin: 0 auto;
+  height: 56px;
+  max-width: 1160px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background: rgba(24, 25, 22, 0.55);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  transition: max-width 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+              padding 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+              background 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="light"] .nav {
+  background: rgba(255, 255, 255, 0.72);
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+/* Scrolled: Morph into compact floating glass island capsule (smean.ai style) */
+.site-header.scrolled .nav {
+  max-width: 880px;
+  padding: 0 16px;
+  background: rgba(20, 21, 18, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-color: rgba(231, 242, 109, 0.24);
+  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="light"] .site-header.scrolled .nav {
+  background: rgba(255, 255, 255, 0.94);
+  border-color: rgba(239, 131, 84, 0.28);
+  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.1);
+}
+
+/* Nav brand */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.brand:hover {
+  transform: translateY(-1px);
+}
+.brand span {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.brand:hover span {
+  transform: rotate(-8deg) scale(1.08);
+}
+
+/* Nav Links Pill Container with Sliding Magnetic Indicator */
+.nav-links {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+  padding: 3px 4px;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+[data-theme="light"] .nav-links {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Remove old rigid line under nav */
+.nav-link:after {
+  display: none !important;
+}
+
+.nav-link {
+  position: relative;
+  z-index: 2;
+  font: 11px var(--mono);
+  color: var(--muted);
+  padding: 6px 14px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.2s ease;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--ink);
+}
+
+.nav-link.active {
+  font-weight: 500;
+}
+
+/* smean.ai Sliding Magnetic Pill Indicator */
+.nav-indicator {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: calc(100% - 6px);
+  width: var(--ind-w, 0px);
+  transform: translate(var(--ind-x, 0px), -50%);
+  background: rgba(231, 242, 109, 0.16);
+  border: 1px solid rgba(231, 242, 109, 0.38);
+  border-radius: 999px;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 1;
+  transition: opacity 0.25s ease-out,
+              transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+              width 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-theme="light"] .nav-indicator {
+  background: rgba(239, 131, 84, 0.13);
+  border-color: rgba(239, 131, 84, 0.38);
+}
+
+.nav-links[data-ind] .nav-indicator {
+  opacity: 1;
+}
+
+/* smean.ai animated audio equalizer ticks under active link */
+.nav-indicator-tick {
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  transform: translateX(calc(var(--ind-x, 0px) + var(--ind-w, 0px) / 2)) translateX(-50%);
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 5px;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 2;
+  transition: opacity 0.25s ease-out,
+              transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-links[data-ind] .nav-indicator-tick {
+  opacity: 1;
+}
+
+.nav-indicator-tick i {
+  width: 2px;
+  height: calc(var(--h, 0.5) * 100%);
+  background: var(--lime);
+  border-radius: 999px;
+  display: block;
+  transform-origin: bottom;
+  animation: smeanNavTick 0.7s ease-in-out infinite alternate;
+}
+
+[data-theme="light"] .nav-indicator-tick i {
+  background: var(--orange);
+}
+
+.nav-indicator-tick i:nth-child(1) { animation-delay: -0.15s; }
+.nav-indicator-tick i:nth-child(2) { animation-delay: -0.35s; }
+.nav-indicator-tick i:nth-child(3) { animation-delay: -0.2s; }
+.nav-indicator-tick i:nth-child(4) { animation-delay: -0.4s; }
+
+@keyframes smeanNavTick {
+  0% { transform: scaleY(0.4); }
+  100% { transform: scaleY(1); }
+}
+
+@media (max-width: 900px) {
+  .site-header {
+    padding: 10px 14px;
+  }
+  .site-header.scrolled {
+    padding: 8px 12px;
+  }
+  .nav {
+    height: 50px;
+    padding: 0 14px;
+  }
+  .nav-links {
+    position: absolute;
+    top: 60px;
+    left: 14px;
+    right: 14px;
+    background: var(--card-bg, #181916);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    flex-direction: column;
+    padding: 12px;
+    gap: 4px;
+    transform: translateY(-20px);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  }
+  .nav-links.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .nav-link {
+    width: 100%;
+    padding: 10px 14px;
+    text-align: left;
+  }
+  .nav-indicator,
+  .nav-indicator-tick {
+    display: none !important;
+  }
+}

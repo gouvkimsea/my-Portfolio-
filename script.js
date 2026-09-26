@@ -12,9 +12,69 @@ window.addEventListener("scroll", () => {
   if (scrollProgress) scrollProgress.style.width = `${progress}%`;
 }, { passive: true });
 
-// Header scroll state
+// ==========================================================================
+// Smean.ai Style Animated Navigation Controller
+// ==========================================================================
 const header = $(".site-header");
-window.addEventListener("scroll", () => header.classList.toggle("scrolled", window.scrollY > 20), { passive: true });
+const navLinksContainer = $("#mainMenu");
+const navLinks = $$(".nav-link", navLinksContainer);
+let activeLink = $(".nav-link.active", navLinksContainer) || navLinks[0];
+
+// Header Scroll Morphing (smean.ai floating glass capsule effect)
+window.addEventListener("scroll", () => {
+  const isScrolled = window.scrollY > 30;
+  header?.classList.toggle("scrolled", isScrolled);
+}, { passive: true });
+
+// Smean.ai Sliding Magnetic Pill Indicator
+const updateNavIndicator = (targetLink, animateSound = false) => {
+  if (!navLinksContainer || !targetLink) return;
+  if (window.innerWidth <= 900) {
+    navLinksContainer.removeAttribute("data-ind");
+    return;
+  }
+
+  const containerRect = navLinksContainer.getBoundingClientRect();
+  const linkRect = targetLink.getBoundingClientRect();
+
+  const x = linkRect.left - containerRect.left;
+  const w = linkRect.width;
+
+  navLinksContainer.style.setProperty("--ind-x", `${x}px`);
+  navLinksContainer.style.setProperty("--ind-w", `${w}px`);
+  navLinksContainer.setAttribute("data-ind", "");
+
+  if (animateSound && typeof playSound === "function") {
+    playSound("key");
+  }
+};
+
+// Hover and Click Handlers for Nav Links
+navLinks.forEach(link => {
+  link.addEventListener("mouseenter", () => {
+    updateNavIndicator(link, true);
+  });
+  link.addEventListener("focus", () => {
+    updateNavIndicator(link, false);
+  });
+  link.addEventListener("click", () => {
+    navLinks.forEach(l => l.classList.remove("active"));
+    link.classList.add("active");
+    activeLink = link;
+    updateNavIndicator(activeLink, false);
+  });
+});
+
+navLinksContainer?.addEventListener("mouseleave", () => {
+  if (activeLink) {
+    updateNavIndicator(activeLink, false);
+  } else {
+    navLinksContainer.removeAttribute("data-ind");
+  }
+});
+
+window.addEventListener("resize", () => updateNavIndicator(activeLink, false));
+window.addEventListener("load", () => setTimeout(() => updateNavIndicator(activeLink, false), 200));
 
 // Mobile navigation menu
 const menuToggle = $("#menuToggle");
@@ -23,10 +83,10 @@ const closeMenu = () => {
   menu.classList.remove("open");
   menuToggle.setAttribute("aria-expanded", "false");
 };
-menuToggle.addEventListener("click", () => {
+menuToggle?.addEventListener("click", () => {
   const open = menu.classList.toggle("open");
   menuToggle.setAttribute("aria-expanded", String(open));
-  playSound("click");
+  if (typeof playSound === "function") playSound("click");
 });
 $$(".nav-link").forEach(link => link.addEventListener("click", closeMenu));
 document.addEventListener("click", event => {
@@ -268,12 +328,18 @@ if (typewriterEl) {
 
 // Scroll spy & reveal animations
 const sections = $$("main section[id]");
-const navLinks = $$(".nav-link");
 const sectionObserver = new IntersectionObserver(entries => entries.forEach(entry => {
   if (entry.isIntersecting) {
-    navLinks.forEach(link => link.classList.toggle("active", link.getAttribute("href") === `#${entry.target.id}`));
+    navLinks.forEach(link => {
+      const isMatch = link.getAttribute("href") === `#${entry.target.id}`;
+      link.classList.toggle("active", isMatch);
+      if (isMatch) {
+        activeLink = link;
+        updateNavIndicator(activeLink, false);
+      }
+    });
   }
-}), { rootMargin: "-35% 0px -55% 0px" });
+}), { rootMargin: "-25% 0px -45% 0px" });
 sections.forEach(section => sectionObserver.observe(section));
 
 const revealObserver = new IntersectionObserver(entries => entries.forEach(entry => {
