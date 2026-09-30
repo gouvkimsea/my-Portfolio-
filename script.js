@@ -96,6 +96,7 @@ document.addEventListener("keydown", event => {
   if (event.key === "Escape") {
     closeMenu();
     closeModal();
+    closeResumeModal();
   }
 });
 
@@ -218,6 +219,8 @@ cmdKResults?.addEventListener("click", e => {
     }
   } else if (action === "copy-email") {
     $("#copyEmailBtn")?.click();
+  } else if (action === "view-resume") {
+    openResumeModal();
   } else if (action === "toggle-theme") {
     toggleTheme();
   } else if (action === "github") {
@@ -559,6 +562,35 @@ $$(".project-open").forEach(button => button.addEventListener("click", () => {
 $("#modalClose")?.addEventListener("click", closeModal);
 modal?.addEventListener("click", event => { if (event.target === modal) closeModal(); });
 
+// Resume / CV Modal Controller
+const resumeModal = $("#resumeModal");
+let previousResumeElement = null;
+
+const openResumeModal = () => {
+  if (!resumeModal) return;
+  previousResumeElement = document.activeElement;
+  resumeModal.showModal();
+  $("#resumeCloseBtn")?.focus();
+};
+
+const closeResumeModal = () => {
+  if (resumeModal?.open) {
+    resumeModal.close();
+    if (previousResumeElement && typeof previousResumeElement.focus === "function") {
+      previousResumeElement.focus();
+    }
+  }
+};
+
+$("#resumeHeroBtn")?.addEventListener("click", openResumeModal);
+$("#resumeContactBtn")?.addEventListener("click", openResumeModal);
+$("#resumeCloseBtn")?.addEventListener("click", closeResumeModal);
+$("#resumeFooterClose")?.addEventListener("click", closeResumeModal);
+$("#resumePrintBtn")?.addEventListener("click", () => window.print());
+resumeModal?.addEventListener("click", event => {
+  if (event.target === resumeModal) closeResumeModal();
+});
+
 // 8. Interactive Terminal with History, Matrix & Neofetch
 const terminal = $("#terminal");
 const terminalOutput = $("#terminalOutput");
@@ -567,10 +599,18 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>skills</b>, <b>projects</b>, <b>matrix</b>, <b>neofetch</b>, <b>theme</b>, <b>search</b>, <b>contact</b>, <b>whoami</b>, <b>github</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>skills</b>, <b>projects</b>, <b>resume</b>, <b>matrix</b>, <b>neofetch</b>, <b>theme</b>, <b>search</b>, <b>contact</b>, <b>whoami</b>, <b>github</b>, <b>date</b>, <b>clear</b>",
   about: "Gouv Kimsea — University student exploring software development, business, and technology by building real projects.",
   skills: "JavaScript · C++ · Python · HTML5 / CSS3 · React · REST APIs · Node.js · SQL · Databases",
   projects: "1. <b>Pinit</b> — AI scam and suspicious link detector concept\n2. <b>Portfolio</b> — Personal portfolio built with vanilla CSS & JS\n3. <b>DevPulse</b> — Real-time engineering flow & telemetry dashboard\nType 'projects' or click a project card to view details.",
+  resume: () => {
+    openResumeModal();
+    return "Opening Curriculum Vitae (CV) modal...";
+  },
+  cv: () => {
+    openResumeModal();
+    return "Opening Curriculum Vitae (CV) modal...";
+  },
   theme: () => {
     const next = toggleTheme();
     return `Theme switched to <b>${next}</b> mode.`;

@@ -57,6 +57,7 @@
             <p class="hero-text">I’m a university student exploring software development, business, and technology by building real projects and learning through experimentation.</p>
             <div class="hero-actions">
               <a class="button button-primary magnetic" href="#projects">View my work <span>↘</span></a>
+              <button class="button button-secondary magnetic" id="resumeHeroBtn" type="button" aria-haspopup="dialog">Resume / CV <span>📄</span></button>
               <a class="text-link magnetic" href="#contact">Contact me <span>↗</span></a>
             </div>
             <div class="scroll-cue"><span class="scroll-line"></span> Scroll to explore</div>
@@ -229,6 +230,7 @@
                 <button type="button" class="terminal-chip" data-cmd="projects">projects</button>
                 <button type="button" class="terminal-chip" data-cmd="matrix">matrix</button>
                 <button type="button" class="terminal-chip" data-cmd="neofetch">neofetch</button>
+                <button type="button" class="terminal-chip" data-cmd="resume">resume</button>
                 <button type="button" class="terminal-chip" data-cmd="theme">theme</button>
                 <button type="button" class="terminal-chip" data-cmd="search">search</button>
                 <button type="button" class="terminal-chip" data-cmd="clear">clear</button>
@@ -268,6 +270,15 @@
                   </a>
 
                   <div class="contact-channel-item">
+                    <div class="ch-icon">📄</div>
+                    <div class="ch-text">
+                      <small>Curriculum Vitae</small>
+                      <p>Resume · Gouv Kimsea</p>
+                    </div>
+                    <button class="copy-email-btn resume-view-btn magnetic" id="resumeContactBtn" type="button" title="View Curriculum Vitae">View CV</button>
+                  </div>
+
+                  <div class="contact-channel-item">
                     <div class="ch-icon">📍</div>
                     <div class="ch-text">
                       <small>Location &amp; Status</small>
@@ -300,6 +311,110 @@
 
     <dialog class="project-modal" id="projectModal"><button class="modal-close" id="modalClose" aria-label="Close project details">×</button><div class="modal-content"><p class="eyebrow">Project detail</p><h2 id="modalTitle">Pinit</h2><p class="modal-lead" id="modalOverview"></p><div class="modal-columns"><div><h4>Problem</h4><p id="modalProblem"></p></div><div><h4>What I learned</h4><p id="modalLearned"></p></div></div><div class="modal-tech" id="modalTech"></div><div class="modal-actions" id="modalActions"></div></div></dialog>
 
+    <dialog class="resume-modal" id="resumeModal" aria-labelledby="resumeModalTitle">
+      <div class="resume-shell">
+        <div class="resume-header">
+          <div class="resume-header-left">
+            <span class="resume-badge">Curriculum Vitae</span>
+            <h2 id="resumeModalTitle">Gouv Kimsea</h2>
+            <p class="resume-subtitle">Student Developer &amp; Product Builder · Phnom Penh, Cambodia</p>
+          </div>
+          <div class="resume-header-actions">
+            <button class="resume-action-btn" id="resumePrintBtn" type="button" title="Print or save as PDF">
+              <span>🖨</span> Print / PDF
+            </button>
+            <button class="modal-close resume-modal-close" id="resumeCloseBtn" aria-label="Close resume details">×</button>
+          </div>
+        </div>
+
+        <div class="resume-body">
+          <div class="resume-grid">
+            <div class="resume-main">
+              <section class="resume-block">
+                <h3 class="resume-block-title"><span>01</span> Profile &amp; Focus</h3>
+                <p>Passionate university student and developer focused on modern web applications, AI-assisted tools, and thoughtful digital interfaces. Dedicated to rapid prototyping, writing clean code, and shipping real products.</p>
+              </section>
+
+              <section class="resume-block">
+                <h3 class="resume-block-title"><span>02</span> Featured Projects</h3>
+                <div class="resume-item">
+                  <div class="resume-item-top">
+                    <h4>Pinit — AI Scam &amp; Suspicious Link Detector</h4>
+                    <span class="resume-tag">AI · Security · Web</span>
+                  </div>
+                  <p>Designed and built a digital guardrail interface helping users evaluate suspicious URLs, scam messages, and deceptive links with real-time heuristic scoring.</p>
+                </div>
+                <div class="resume-item">
+                  <div class="resume-item-top">
+                    <h4>DevPulse — Real-Time Developer Telemetry</h4>
+                    <span class="resume-tag">Telemetry · WebSockets · JS</span>
+                  </div>
+                  <p>Telemetry dashboard and flow-state analytics platform measuring commit rhythms, build velocity, and focus cycles.</p>
+                </div>
+                <div class="resume-item">
+                  <div class="resume-item-top">
+                    <h4>Interactive Developer Portfolio</h4>
+                    <span class="resume-tag">HTML5 · CSS3 · ES6+</span>
+                  </div>
+                  <p>High-performance personal web platform featuring custom canvas physics, accessible modals, and in-browser terminal CLI.</p>
+                </div>
+              </section>
+            </div>
+
+            <div class="resume-side">
+              <section class="resume-block">
+                <h3 class="resume-block-title"><span>03</span> Technical Toolkit</h3>
+                <div class="resume-skills-group">
+                  <small>Languages</small>
+                  <div class="resume-tags">
+                    <span>JavaScript (ES6+)</span>
+                    <span>C++</span>
+                    <span>Python</span>
+                  </div>
+                </div>
+                <div class="resume-skills-group">
+                  <small>Frontend &amp; UI</small>
+                  <div class="resume-tags">
+                    <span>HTML5 / CSS3</span>
+                    <span>React</span>
+                    <span>Responsive Design</span>
+                    <span>UI / UX Prototyping</span>
+                  </div>
+                </div>
+                <div class="resume-skills-group">
+                  <small>Backend &amp; Data</small>
+                  <div class="resume-tags">
+                    <span>Node.js</span>
+                    <span>REST APIs</span>
+                    <span>SQL / Relational DBs</span>
+                    <span>Git / GitHub</span>
+                  </div>
+                </div>
+              </section>
+
+              <section class="resume-block">
+                <h3 class="resume-block-title"><span>04</span> Status &amp; Contact</h3>
+                <ul class="resume-info-list">
+                  <li><strong>Status:</strong> Open to Internships &amp; Junior Roles</li>
+                  <li><strong>Location:</strong> Phnom Penh, Cambodia</li>
+                  <li><strong>Email:</strong> gouvkimsea@gmail.com</li>
+                  <li><strong>GitHub:</strong> github.com/gouvkimsea</li>
+                </ul>
+              </section>
+            </div>
+          </div>
+        </div>
+
+        <div class="resume-footer">
+          <span class="resume-footer-note">Updated for 2026 · Ready to build and learn</span>
+          <div class="resume-footer-actions">
+            <a class="modal-btn" href="mailto:gouvkimsea@gmail.com">Get in Touch ↗</a>
+            <button class="modal-btn secondary" id="resumeFooterClose" type="button">Close</button>
+          </div>
+        </div>
+      </div>
+    </dialog>
+
     <dialog class="cmdk-modal" id="cmdKModal">
       <div class="cmdk-shell">
         <div class="cmdk-header">
@@ -317,6 +432,7 @@
           <button type="button" class="cmdk-item" data-action="goto" data-target="#contact"><span class="cmdk-icon">✉</span> Say Hello <small>Contact form &amp; links</small></button>
           
           <div class="cmdk-group-title">Quick Actions</div>
+          <button type="button" class="cmdk-item" data-action="view-resume"><span class="cmdk-icon">📄</span> View Resume / CV <small>Experience, skills &amp; summary</small></button>
           <button type="button" class="cmdk-item" data-action="copy-email"><span class="cmdk-icon">📋</span> Copy Email <small>gouvkimsea@gmail.com</small></button>
           <button type="button" class="cmdk-item" data-action="toggle-theme"><span class="cmdk-icon">🌗</span> Switch Theme <small>Dark / Light mode</small></button>
           <button type="button" class="cmdk-item" data-action="github"><span class="cmdk-icon">⌘</span> GitHub Profile <small>github.com/gouvkimsea</small></button>

@@ -7,7 +7,8 @@ A modern, fast, and responsive personal portfolio for a student developer and bu
 - **Hero & Interactive 3D Card**: Editorial hero layout with mouse-tracking 3D tilt on the code card.
 - **Project Showcase & Modal**: Filterable project gallery with modal details breaking down problems, lessons learned, and technologies.
 - **Skills Matrix**: Organized toolkit overview across programming, web development, and backend/databases.
-- **Interactive Terminal**: Built-in CLI emulator (`help`, `about`, `skills`, `projects`, `contact`, `clear`).
+- **Interactive Resume / CV Modal**: Quick-access modal detailing background, toolkit, status, and print/PDF support.
+- **Interactive Terminal**: Built-in CLI emulator (`help`, `about`, `skills`, `projects`, `resume`, `contact`, `clear`).
 - **Interactive Micro-Animations**: Custom cursor follower, scroll-triggered reveals, and active section tracking.
 - **Accessible & Responsive**: Fully responsive across mobile, tablet, and desktop with support for `prefers-reduced-motion`.
 
@@ -25,10 +26,11 @@ No build step or dependencies required.
    ```bash
    git clone https://github.com/gouvkimsea/my-Portfolio-.git
    ```
-2. Open `index.html` directly in your browser, or run a local static server:
+2. Start the local server:
    ```bash
-   npx serve .
+   npm start
    ```
+   *(Or open `index.html` directly in your browser)*
 
 ## 🌐 Deploy to GitHub Pages
 
