@@ -156,27 +156,34 @@
                   style="align-items: center;">15+</span><small>Repositories</small></div>
               <div class="stat-col"><span class="stat-num">4+</span><small>Live projects</small></div>
             </div>
-            <a class="bento-github-activity" href="https://github.com/gouvkimsea" target="_blank" rel="noreferrer" title="View Gouv Kimsea's GitHub Activity">
-              <div class="gh-activity-header">
-                <span class="gh-status-beacon" aria-hidden="true"></span>
-                <span class="gh-handle">github.com/gouvkimsea</span>
-                <span class="gh-arrow">↗</span>
+            <div class="bento-star-game" id="starGameWidget" tabindex="0" role="region" aria-label="Star Runner mini game. Press Space or Click to Jump.">
+              <div class="game-hud">
+                <div class="game-hud-left">
+                  <span class="game-status-beacon" aria-hidden="true"></span>
+                  <span class="game-title">✦ STAR RUNNER</span>
+                </div>
+                <div class="game-hud-right">
+                  <span class="game-hi" id="starGameHi">HI 00000</span>
+                  <span class="game-score" id="starGameScore">00000</span>
+                  <button class="game-sound-btn" id="starGameSoundBtn" type="button" aria-label="Toggle Sound" title="Toggle Sound">🔊</button>
+                </div>
               </div>
-              <div class="gh-sparkline" aria-label="GitHub commit activity streak" title="Continuous building streak">
-                <span style="--h: 40%"></span>
-                <span style="--h: 65%"></span>
-                <span style="--h: 50%"></span>
-                <span style="--h: 85%"></span>
-                <span style="--h: 70%"></span>
-                <span style="--h: 90%"></span>
-                <span style="--h: 60%"></span>
-                <span style="--h: 100%"></span>
-                <span style="--h: 80%"></span>
-                <span style="--h: 95%"></span>
-                <span style="--h: 75%"></span>
-                <span style="--h: 100%"></span>
+              <div class="game-viewport">
+                <canvas id="starGameCanvas" width="340" height="120"></canvas>
+                <div class="game-overlay" id="starGameOverlay">
+                  <div class="game-overlay-content">
+                    <span class="overlay-star">✦</span>
+                    <span class="overlay-msg" id="starGameMsg">PRESS SPACE OR TAP TO PLAY</span>
+                  </div>
+                </div>
               </div>
-            </a>
+              <div class="game-footer">
+                <span class="game-hint"><kbd>SPACE</kbd> / <kbd>TAP</kbd> Jump &bull; <kbd>↓</kbd> Duck</span>
+                <a class="game-gh-pill" href="https://github.com/gouvkimsea" target="_blank" rel="noreferrer" title="View Gouv Kimsea's GitHub Activity">
+                  <span>github.com/gouvkimsea</span> ↗
+                </a>
+              </div>
+            </div>
             <p class="stat-footnote">Turning ideas into tangible products.</p>
           </article>
 
@@ -685,6 +692,8 @@
         <button type="button" class="cmdk-item" data-action="open-project" data-project="portfolio"><span class="cmdk-icon">⚡</span> Portfolio <small>Personal Web Platform</small></button>
 
         <div class="cmdk-group-title">Quick Actions</div>
+        <button type="button" class="cmdk-item" data-action="play-game"><span class="cmdk-icon">✦</span> Play Star Runner
+          <small>Interactive Dino mini-game in Bento Grid</small></button>
         <button type="button" class="cmdk-item" data-action="view-resume"><span class="cmdk-icon">📄</span> View Resume
           / CV <small>Experience, skills &amp; summary</small></button>
         <button type="button" class="cmdk-item" data-action="copy-email"><span class="cmdk-icon">📋</span> Copy Email
