@@ -2309,3 +2309,49 @@ dialog.resume-modal::backdrop {
 .skill-grid {
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
+
+/* Project Card Actions & Launch Buttons */
+.project-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.launch-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--ink);
+  color: var(--paper);
+  border: 1px solid var(--line);
+  padding: 8px 14px;
+  font: 11px var(--mono);
+  border-radius: 999px;
+  transition: all 0.25s ease;
+  text-decoration: none;
+  font-weight: 500;
+}
+.launch-btn span {
+  font-size: 11px;
+  transition: transform 0.2s ease;
+}
+.launch-btn:hover {
+  background: var(--orange);
+  color: var(--ink);
+  border-color: var(--orange);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 131, 84, 0.3);
+}
+.launch-btn:hover span {
+  transform: translate(2px, -2px);
+}
+[data-theme="dark"] .launch-btn {
+  background: #1f232b;
+  border-color: #3b4252;
+  color: #f1f0e9;
+}
+[data-theme="dark"] .launch-btn:hover {
+  background: var(--lime);
+  color: #111418;
+  border-color: var(--lime);
+  box-shadow: 0 4px 12px rgba(231, 242, 109, 0.25);
+}

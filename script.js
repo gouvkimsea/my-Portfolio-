@@ -500,7 +500,7 @@ const projectData = {
     learned: "Designing trustworthy digital guardrails, clear explainability, and making AI-assisted security feel approachable.",
     tech: ["AI concept", "Web Security", "Frontend"],
     actions: [
-      { label: "GitHub Profile ↗", url: "https://github.com/gouvkimsea", primary: true },
+      { label: "PinitAI Repository ↗", url: "https://github.com/gouvkimsea/PinitAI", primary: true },
       { label: "Portfolio Source ↗", url: "https://github.com/gouvkimsea/my-Portfolio-", primary: false }
     ]
   },
@@ -613,10 +613,31 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>skills</b>, <b>projects</b>, <b>resume</b>, <b>matrix</b>, <b>neofetch</b>, <b>theme</b>, <b>search</b>, <b>contact</b>, <b>whoami</b>, <b>github</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>skills</b>, <b>projects</b>, <b>play</b>, <b>stats</b>, <b>resume</b>, <b>matrix</b>, <b>neofetch</b>, <b>theme</b>, <b>search</b>, <b>contact</b>, <b>whoami</b>, <b>github</b>, <b>date</b>, <b>clear</b>",
   about: "Gouv Kimsea — University student exploring software development, business, and technology by building real projects.",
   skills: "JavaScript · C++ · Python · WebGL / Shaders · HTML5 / CSS3 · React · REST APIs · Node.js · SQL",
   projects: "1. <b>Pinit</b> — AI scam and suspicious link detector\n2. <b>Mini World</b> — 3D planet simulation & WebGL engine\n3. <b>DevPulse</b> — Real-time engineering flow & telemetry dashboard\n4. <b>This Portfolio</b> — Personal web platform & terminal CLI\nClick any project card to view interactive breakdown.",
+  play: () => {
+    window.open("miniworld.html", "_blank");
+    return "Launching Mini World 3D Planet Simulation in a new tab... 🪐";
+  },
+  "3d": () => {
+    window.open("miniworld.html", "_blank");
+    return "Launching Mini World 3D Planet Simulation in a new tab... 🪐";
+  },
+  miniworld: () => {
+    window.open("miniworld.html", "_blank");
+    return "Launching Mini World 3D Planet Simulation in a new tab... 🪐";
+  },
+  stats: () => {
+    return `<pre style="color:var(--lime);font-size:11px;line-height:1.4;">
+📊 Engineering Stats (2026):
+----------------------------------------
+• GitHub Repositories: 15+ Active
+• Featured Live Projects: 4 (Pinit, Mini World, DevPulse, Portfolio)
+• Primary Stack: JavaScript (ES2026), C++, Python, WebGL/GLSL
+• Status: Active Development & Open to Opportunities 🚀</pre>`;
+  },
   resume: () => {
     openResumeModal();
     return "Opening Curriculum Vitae (CV) modal...";
