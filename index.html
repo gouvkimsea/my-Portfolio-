@@ -213,9 +213,10 @@
           <p class="heading-note">A few experiments, class projects,<br />and ideas made tangible.</p>
         </div>
         <div class="filter-bar" role="group" aria-label="Filter projects">
-          <button class="filter active" data-filter="all">All <sup>03</sup></button><button class="filter"
-            data-filter="web">Web <sup>02</sup></button><button class="filter" data-filter="ai">AI
-            <sup>02</sup></button><button class="filter" data-filter="security">Security <sup>01</sup></button>
+          <button class="filter active" data-filter="all">All <sup>04</sup></button><button class="filter"
+            data-filter="web">Web <sup>03</sup></button><button class="filter" data-filter="ai">AI
+            <sup>02</sup></button><button class="filter" data-filter="3d">3D &amp; WebGL <sup>01</sup></button><button
+            class="filter" data-filter="security">Security <sup>01</sup></button>
         </div>
         <div class="project-grid">
           <article class="project-card featured reveal spotlight-card" data-category="ai security web"
@@ -232,7 +233,7 @@
               </div>
               <span class="preview-label">PIN<span>IT</span></span>
               <div class="scan-line"></div>
-              <div class="preview-grid"></div><span class="preview-corner">01 / 03</span>
+              <div class="preview-grid"></div><span class="preview-corner">01 / 04</span>
             </div>
             <div class="project-info">
               <div><small>01 — Product experiment</small>
@@ -241,6 +242,31 @@
                 </p>
                 <div class="project-tags"><span>AI</span><span>Web</span><span>Security</span></div>
               </div><button class="round-arrow project-open" aria-label="Open Pinit details">↗</button>
+            </div>
+          </article>
+          <article class="project-card reveal spotlight-card" data-category="web 3d" data-project="miniworld">
+            <div class="project-preview miniworld-preview">
+              <div class="preview-browser-bar"><span class="pdot"></span><span class="pdot"></span><span
+                  class="pdot"></span>
+                <div class="preview-url-bar"><span class="lock-icon">🪐</span> miniworld.simulation</div>
+              </div>
+              <div class="miniworld-stat-pill">⚡ WebGL · 60 FPS · 3D Physics</div>
+              <div class="celestial-orbit-system" aria-hidden="true">
+                <div class="planet-sphere"></div>
+                <div class="planet-orbit-ring"></div>
+                <div class="meteor-streak"></div>
+              </div>
+              <span class="preview-label">MINI<span>WORLD</span></span>
+              <span class="preview-corner">02 / 04</span>
+            </div>
+            <div class="project-info">
+              <div>
+                <small>02 — 3D Graphics &amp; Simulation</small>
+                <h3>Mini World</h3>
+                <p>Interactive 3D procedural cartoon planet sandbox with real-time terrain sculpting, day/night cycles, and meteor physics.</p>
+                <div class="project-tags"><span>WebGL</span><span>3D Graphics</span><span>Web Audio</span></div>
+              </div>
+              <button class="round-arrow project-open" aria-label="Open Mini World details">↗</button>
             </div>
           </article>
           <article class="project-card reveal spotlight-card" data-category="web" data-project="portfolio">
@@ -252,10 +278,10 @@
               <span class="preview-label">[ your<br /><em>space</em> ]</span>
               <div class="mini-window"><i></i><i></i><i></i>
                 <hr /><b></b><b></b><b></b>
-              </div><span class="preview-corner">02 / 03</span>
+              </div><span class="preview-corner">03 / 04</span>
             </div>
             <div class="project-info">
-              <div><small>02 — Personal project</small>
+              <div><small>03 — Personal project</small>
                 <h3>This portfolio</h3>
                 <p>A personal corner of the internet for documenting the process, not just the outcome.</p>
                 <div class="project-tags"><span>Web</span><span>HTML</span><span>Design</span></div>
@@ -275,11 +301,11 @@
               </div>
               <div class="pulse-beacon" aria-hidden="true"><span class="beacon-ring"></span><span
                   class="beacon-dot"></span></div>
-              <span class="preview-corner">03 / 03</span>
+              <span class="preview-corner">04 / 04</span>
             </div>
             <div class="project-info">
               <div>
-                <small>03 — Engineering metrics</small>
+                <small>04 — Engineering metrics</small>
                 <h3>DevPulse</h3>
                 <p>Real-time engineering telemetry and focus dashboard tracking build velocities and flow cycles.</p>
                 <div class="project-tags"><span>AI</span><span>Web</span><span>Telemetry</span></div>
@@ -493,6 +519,13 @@
               <h3 class="resume-block-title"><span>02</span> Featured Projects</h3>
               <div class="resume-item">
                 <div class="resume-item-top">
+                  <h4>Mini World — 3D Planet Simulation &amp; WebGL Engine</h4>
+                  <span class="resume-tag">WebGL · 3D Math · Web Audio</span>
+                </div>
+                <p>Interactive procedural 3D world with real-time terrain sculpting, vertex deformation, procedural audio synthesis, and celestial lighting.</p>
+              </div>
+              <div class="resume-item">
+                <div class="resume-item-top">
                   <h4>Pinit — AI Scam &amp; Suspicious Link Detector</h4>
                   <span class="resume-tag">AI · Security · Web</span>
                 </div>
@@ -534,6 +567,7 @@
                 <div class="resume-tags">
                   <span>HTML5 / CSS3</span>
                   <span>React</span>
+                  <span>WebGL / Shaders</span>
                   <span>Responsive Design</span>
                   <span>UI / UX Prototyping</span>
                 </div>
@@ -594,6 +628,12 @@
             class="cmdk-icon">🚀</span> The Journey <small>Timeline &amp; roadmap</small></button>
         <button type="button" class="cmdk-item" data-action="goto" data-target="#contact"><span
             class="cmdk-icon">✉</span> Say Hello <small>Contact form &amp; links</small></button>
+
+        <div class="cmdk-group-title">Featured Projects</div>
+        <button type="button" class="cmdk-item" data-action="open-project" data-project="miniworld"><span class="cmdk-icon">🪐</span> Mini World <small>3D Planet Simulation &amp; WebGL</small></button>
+        <button type="button" class="cmdk-item" data-action="open-project" data-project="pinit"><span class="cmdk-icon">🔒</span> Pinit <small>AI Scam &amp; Threat Detector</small></button>
+        <button type="button" class="cmdk-item" data-action="open-project" data-project="devpulse"><span class="cmdk-icon">📊</span> DevPulse <small>Real-time Developer Telemetry</small></button>
+        <button type="button" class="cmdk-item" data-action="open-project" data-project="portfolio"><span class="cmdk-icon">⚡</span> Portfolio <small>Personal Web Platform</small></button>
 
         <div class="cmdk-group-title">Quick Actions</div>
         <button type="button" class="cmdk-item" data-action="view-resume"><span class="cmdk-icon">📄</span> View Resume

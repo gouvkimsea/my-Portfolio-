@@ -217,6 +217,9 @@ cmdKResults?.addEventListener("click", e => {
     if (targetEl) {
       targetEl.scrollIntoView({ behavior: "smooth" });
     }
+  } else if (action === "open-project") {
+    const proj = item.getAttribute("data-project");
+    if (proj) openModal(proj);
   } else if (action === "copy-email") {
     $("#copyEmailBtn")?.click();
   } else if (action === "view-resume") {
@@ -501,6 +504,17 @@ const projectData = {
       { label: "Portfolio Source ↗", url: "https://github.com/gouvkimsea/my-Portfolio-", primary: false }
     ]
   },
+  miniworld: {
+    title: "Mini World — 3D Planet Simulation",
+    overview: "An interactive procedural 3D miniature cartoon planet sandbox built in pure WebGL. Features real-time mesh deformation, procedural terrain biomes, celestial lighting, and physical meteor impact dynamics.",
+    problem: "Real-time spherical 3D geometry manipulation and procedural shader lighting typically require heavy 3D game engines, creating massive bundle sizes.",
+    learned: "Engineered custom 3D vector/matrix math, subdivision cubesphere geometry, procedural noise biomes, Web Audio API sound synthesis, and real-time vertex displacement craters.",
+    tech: ["WebGL", "GLSL Shaders", "3D Math", "Web Audio API", "JavaScript"],
+    actions: [
+      { label: "GitHub Profile ↗", url: "https://github.com/gouvkimsea", primary: true },
+      { label: "Explore Code ↗", url: "https://github.com/gouvkimsea/my-Portfolio-", primary: false }
+    ]
+  },
   portfolio: {
     title: "This Portfolio",
     overview: "A personal corner of the internet built to document the journey, experiments, and technical evolution.",
@@ -601,8 +615,8 @@ let historyIndex = -1;
 const terminalCommands = {
   help: "Available commands: <b>about</b>, <b>skills</b>, <b>projects</b>, <b>resume</b>, <b>matrix</b>, <b>neofetch</b>, <b>theme</b>, <b>search</b>, <b>contact</b>, <b>whoami</b>, <b>github</b>, <b>date</b>, <b>clear</b>",
   about: "Gouv Kimsea — University student exploring software development, business, and technology by building real projects.",
-  skills: "JavaScript · C++ · Python · HTML5 / CSS3 · React · REST APIs · Node.js · SQL · Databases",
-  projects: "1. <b>Pinit</b> — AI scam and suspicious link detector concept\n2. <b>Portfolio</b> — Personal portfolio built with vanilla CSS & JS\n3. <b>DevPulse</b> — Real-time engineering flow & telemetry dashboard\nType 'projects' or click a project card to view details.",
+  skills: "JavaScript · C++ · Python · WebGL / Shaders · HTML5 / CSS3 · React · REST APIs · Node.js · SQL",
+  projects: "1. <b>Pinit</b> — AI scam and suspicious link detector\n2. <b>Mini World</b> — 3D planet simulation & WebGL engine\n3. <b>DevPulse</b> — Real-time engineering flow & telemetry dashboard\n4. <b>This Portfolio</b> — Personal web platform & terminal CLI\nClick any project card to view interactive breakdown.",
   resume: () => {
     openResumeModal();
     return "Opening Curriculum Vitae (CV) modal...";
@@ -631,7 +645,7 @@ const terminalCommands = {
 / /_/ / / /| |     OS: Modern Web (HTML5/CSS3/ES2026)
 \____/ /_/ |_|     Host: Gouv Kimsea's Portfolio
                    Shell: custom-zsh (interactive)
-                   Stack: JS, C++, Python, React, APIs
+                   Stack: JS, C++, Python, WebGL/GLSL, React, APIs
                    Editor: Antigravity IDE
                    Status: Open to learning & building 🚀</pre>`;
   },

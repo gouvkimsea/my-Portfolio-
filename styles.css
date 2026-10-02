@@ -2149,3 +2149,84 @@ dialog.resume-modal::backdrop {
   }
 }
 
+
+/* ==========================================================================
+   MINI WORLD (3D WEBGL PLANET SIMULATION) PREVIEW STYLES
+   ========================================================================== */
+.miniworld-preview {
+  background: radial-gradient(ellipse at 50% 40%, #151d3b 0%, #0a0e1f 100%);
+  position: relative;
+  overflow: hidden;
+}
+[data-theme="light"] .miniworld-preview {
+  background: radial-gradient(ellipse at 50% 40%, #dbe2fa 0%, #c8d3f0 100%);
+}
+.miniworld-stat-pill {
+  position: absolute;
+  top: 14px;
+  right: 54px;
+  font: 9px var(--mono);
+  background: rgba(21, 29, 59, 0.75);
+  border: 1px solid rgba(121, 192, 255, 0.35);
+  color: #79c0ff;
+  padding: 4px 10px;
+  border-radius: 12px;
+  backdrop-filter: blur(6px);
+  z-index: 2;
+  letter-spacing: 0.04em;
+}
+[data-theme="light"] .miniworld-stat-pill {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(56, 139, 253, 0.35);
+  color: #0969da;
+}
+.celestial-orbit-system {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+.planet-sphere {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #56c288 0%, #207a50 45%, #0d3824 85%, #051a10 100%);
+  box-shadow: 0 0 25px rgba(86, 194, 136, 0.35), inset -8px -8px 18px rgba(0, 0, 0, 0.6), inset 6px 6px 12px rgba(255, 255, 255, 0.3);
+  position: relative;
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.project-card:hover .planet-sphere {
+  transform: scale(1.08) rotate(12deg);
+}
+.planet-orbit-ring {
+  position: absolute;
+  width: 140px;
+  height: 48px;
+  border: 1.5px dashed rgba(121, 192, 255, 0.45);
+  border-radius: 50%;
+  transform: rotate(-25deg);
+  animation: orbitRingSpin 18s linear infinite;
+}
+@keyframes orbitRingSpin {
+  0% { transform: rotate(-25deg) rotate(0deg); }
+  100% { transform: rotate(-25deg) rotate(360deg); }
+}
+.meteor-streak {
+  position: absolute;
+  top: 25%;
+  right: 20%;
+  width: 50px;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(239, 131, 84, 0), var(--orange) 70%, #fff 100%);
+  transform: rotate(-35deg);
+  border-radius: 2px;
+  box-shadow: 0 0 8px var(--orange);
+  animation: meteorDash 3.5s infinite ease-in-out;
+}
+@keyframes meteorDash {
+  0%, 70% { opacity: 0; transform: translate(40px, -25px) rotate(-35deg) scaleX(0.2); }
+  75% { opacity: 1; }
+  85% { opacity: 1; transform: translate(-30px, 20px) rotate(-35deg) scaleX(1); }
+  90%, 100% { opacity: 0; transform: translate(-50px, 35px) rotate(-35deg) scaleX(0.1); }
+}
