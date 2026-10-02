@@ -14,7 +14,7 @@ A modern, fast, and highly responsive personal portfolio for a student developer
 | Project | Category | Tech Stack | Highlights |
 | :--- | :--- | :--- | :--- |
 | **[Pinit](https://github.com/gouvkimsea)** | AI & Security | AI concept, Web Security, UI | Real-time heuristic scoring, suspicious link scanner, and explainable safety telemetry. |
-| **[Mini World](https://github.com/gouvkimsea)** | 3D Graphics & WebGL | WebGL, GLSL Shaders, 3D Math, Web Audio | Procedural cartoon planet simulation, real-time vertex deformation, and meteor physics. |
+| **[Mini World](https://gouvkimsea.github.io/my-Portfolio-/miniworld.html)** | 3D Graphics & WebGL | WebGL, GLSL Shaders, 3D Math, Web Audio | Live procedural cartoon planet simulation, real-time vertex deformation, and meteor physics. |
 | **[DevPulse](https://github.com/gouvkimsea)** | Developer Telemetry | WebSockets, Metrics, JavaScript | Real-time engineering flow state, commit rhythm visualizations, and build telemetry. |
 | **[This Portfolio](https://gouvkimsea.github.io/my-Portfolio-/)** | Personal Platform | HTML5, Vanilla CSS3, ES6+ | Glassmorphism navigation, Bento Grid, ⌘K Command Palette, and interactive terminal CLI. |
 

@@ -511,8 +511,8 @@ const projectData = {
     learned: "Engineered custom 3D vector/matrix math, subdivision cubesphere geometry, procedural noise biomes, Web Audio API sound synthesis, and real-time vertex displacement craters.",
     tech: ["WebGL", "GLSL Shaders", "3D Math", "Web Audio API", "JavaScript"],
     actions: [
-      { label: "GitHub Profile ↗", url: "https://github.com/gouvkimsea", primary: true },
-      { label: "Explore Code ↗", url: "https://github.com/gouvkimsea/my-Portfolio-", primary: false }
+      { label: "Launch Live 3D Simulation ↗", url: "miniworld.html", primary: true },
+      { label: "GitHub Profile ↗", url: "https://github.com/gouvkimsea", primary: false }
     ]
   },
   portfolio: {

@@ -2304,3 +2304,8 @@ dialog.resume-modal::backdrop {
 .bento-github-activity:hover .gh-sparkline span {
   background: var(--orange);
 }
+
+/* Responsive 4-Card Skill Grid */
+.skill-grid {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
