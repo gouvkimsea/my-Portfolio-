@@ -1014,16 +1014,16 @@ const fallbackCopy = text => {
 // Authentic Google Chrome T-Rex runner with jump, duck, cacti & pterodactyls
 // ==========================================================================
 (function initChromeDinoGame() {
-  const widget = document.getElementById("starGameWidget");
-  const canvas = document.getElementById("starGameCanvas");
+  const widget = document.getElementById("starGameWidget") || document.getElementById("dinoGameWidget");
+  const canvas = document.getElementById("starGameCanvas") || document.getElementById("dinoGameCanvas");
   if (!widget || !canvas) return;
 
   const ctx = canvas.getContext("2d");
-  const overlay = document.getElementById("starGameOverlay");
-  const overlayMsg = document.getElementById("starGameMsg");
-  const scoreEl = document.getElementById("starGameScore");
-  const hiScoreEl = document.getElementById("starGameHi");
-  const soundBtn = document.getElementById("starGameSoundBtn");
+  const overlay = document.getElementById("starGameOverlay") || document.getElementById("dinoGameOverlay");
+  const overlayMsg = document.getElementById("starGameMsg") || document.getElementById("dinoGameMsg");
+  const scoreEl = document.getElementById("starGameScore") || document.getElementById("dinoGameScore");
+  const hiScoreEl = document.getElementById("starGameHi") || document.getElementById("dinoGameHi");
+  const soundBtn = document.getElementById("starGameSoundBtn") || document.getElementById("dinoGameSoundBtn");
 
   // Pixel Sprite Definitions (Authentic Google Chrome T-Rex sprites)
   const SPRITES = {
