@@ -2399,3 +2399,40 @@ dialog.resume-modal::backdrop {
     gap: 16px;
   }
 }
+
+/* ==========================================================================
+   STAR VISIBILITY & CELESTIAL CONTRAST ENHANCEMENTS (LIGHT MODE)
+   ========================================================================== */
+[data-theme="light"] .hero-canvas {
+  opacity: 0.95;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.06));
+}
+
+/* Bento Header Star Icon (✦) High Visibility in Light & Dark Mode */
+.bento-icon {
+  font-size: 16px;
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: var(--lime);
+  background: rgba(231, 242, 109, 0.12);
+  border: 1px solid rgba(231, 242, 109, 0.25);
+  box-shadow: 0 0 12px rgba(231, 242, 109, 0.2);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.bento-card:hover .bento-icon {
+  transform: rotate(45deg) scale(1.1);
+}
+[data-theme="light"] .bento-icon {
+  color: #ea580c;
+  background: rgba(234, 88, 12, 0.12);
+  border: 1px solid rgba(234, 88, 12, 0.32);
+  box-shadow: 0 0 14px rgba(234, 88, 12, 0.25);
+}
+
+/* Command Palette Star / Sparkle Icon in Light Mode */
+[data-theme="light"] .cmdk-icon {
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.15));
+}
