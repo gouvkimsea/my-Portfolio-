@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
   <meta charset="UTF-8" />
@@ -14,6 +14,17 @@
   <link rel="icon"
     href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23191a18'/%3E%3Ctext x='50' y='64' font-size='46' text-anchor='middle' fill='%23e7f26d' font-family='Arial'%3E%5B%5D%3C/text%3E%3C/svg%3E" />
   <link rel="stylesheet" href="styles.css" />
+  <script>
+    (function () {
+      try {
+        var savedTheme = localStorage.getItem("portfolio-theme");
+        var theme = savedTheme ? savedTheme : "dark";
+        document.documentElement.setAttribute("data-theme", theme);
+      } catch (e) {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
+    })();
+  </script>
   <script defer src="script.js"></script>
 </head>
 
@@ -43,7 +54,7 @@
           title="Toggle theme">
           <span class="theme-icon sun" aria-hidden="true">☀</span>
           <span class="theme-icon moon" aria-hidden="true">☾</span>
-          <span class="theme-mode-text">Dark</span>
+          <span class="theme-mode-text">Light</span>
         </button>
         <a class="nav-availability" href="#contact"><span></span> Open to learning</a>
       </div>

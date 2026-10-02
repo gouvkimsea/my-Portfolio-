@@ -100,10 +100,9 @@ document.addEventListener("keydown", event => {
   }
 });
 
-// Theme Controller (Light & Sleek Dark Mode with persistence)
+// Theme Controller (Dark Mode by default with user toggle and persistence)
 const savedTheme = localStorage.getItem("portfolio-theme");
-const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-const initialTheme = savedTheme || (systemPrefersDark ? "dark" : "light");
+const initialTheme = savedTheme || "dark";
 
 const setTheme = (theme, persist = true) => {
   document.documentElement.setAttribute("data-theme", theme);
@@ -115,7 +114,7 @@ const setTheme = (theme, persist = true) => {
 setTheme(initialTheme, false);
 
 const toggleTheme = () => {
-  const current = document.documentElement.getAttribute("data-theme") || "light";
+  const current = document.documentElement.getAttribute("data-theme") || "dark";
   const next = current === "dark" ? "light" : "dark";
   setTheme(next, true);
   playSound("click");
