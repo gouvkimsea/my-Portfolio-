@@ -1,5 +1,8 @@
 # Gouv Kimsea — Portfolio
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-GitHub_Pages-2ea44f?style=flat-square&logo=github)](https://gouvkimsea.github.io/my-Portfolio-/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
+
 A modern, fast, and responsive personal portfolio for a student developer and builder, showcasing projects, technical toolkit, and learning journey.
 
 ## ✨ Features
@@ -20,13 +23,17 @@ A modern, fast, and responsive personal portfolio for a student developer and bu
 
 ## 🚀 Running Locally
 
-No build step or dependencies required.
+No build step or external dependencies required.
 
 1. Clone the repository:
    ```bash
    git clone https://github.com/gouvkimsea/my-Portfolio-.git
    ```
-2. Start the local server:
+2. Run validation check:
+   ```bash
+   npm test
+   ```
+3. Start the local server:
    ```bash
    npm start
    ```
@@ -38,3 +45,8 @@ No build step or dependencies required.
 2. Under **Build and deployment** > **Source**, choose **Deploy from a branch**.
 3. Select `main` branch and `/ (root)` folder, then click **Save**.
 4. Your site will be published at `https://gouvkimsea.github.io/my-Portfolio-/`.
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
