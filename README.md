@@ -24,11 +24,11 @@ A modern, fast, and highly responsive personal portfolio for a student developer
 
 - **Hero & Interactive 3D Card**: Editorial hero layout with mouse-tracking 3D tilt on the code card and constellation background.
 - **Floating Island Navigation**: Magnetic sliding pill indicator with glassmorphism blur and automatic scroll morphing.
-- **About Bento Grid**: Multi-card layout featuring personal rules, 2026 focus, and the interactive **✦ Star Runner** mini-game (Google Dino-style space runner with jumps, ducks, starlight gems, Web Audio procedural synth, and local high score tracking).
+- **About Bento Grid**: Multi-card layout featuring personal rules, 2026 focus, and the classic **🦖 Chrome Dino T-Rex Runner** mini-game (authentic pixel art T-Rex with running legs, jumping, crouching/ducking, cacti, flying pterodactyls, procedural 8-bit sound beeps, and local high score tracking).
 - **Filterable Project Gallery**: Category filtering (All, Web, AI, 3D & WebGL, Security) with rich dialog modals.
 - **Interactive Resume / CV Modal**: Quick-access modal detailing background, toolkit, status, and direct print/PDF export support.
-- **⌘K Command Palette**: Fast keyboard navigation modal for jumping between sections and triggering quick actions (including ✦ Play Star Runner).
-- **In-Browser Terminal CLI**: Built-in emulator supporting `help`, `about`, `skills`, `projects`, `starrunner`, `play`, `stats`, `resume`, `matrix`, `neofetch`, `theme`, and `clear`.
+- **⌘K Command Palette**: Fast keyboard navigation modal for jumping between sections and triggering quick actions (including 🦖 Play Chrome Dino).
+- **In-Browser Terminal CLI**: Built-in emulator supporting `help`, `about`, `skills`, `projects`, `dino`, `play`, `stats`, `resume`, `matrix`, `neofetch`, `theme`, and `clear`.
 - **Accessible & Responsive**: Fully responsive across mobile, tablet, and desktop with support for `prefers-reduced-motion`.
 
 ---

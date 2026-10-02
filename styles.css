@@ -2667,6 +2667,18 @@ dialog.resume-modal::backdrop {
   color: #0f172a;
 }
 
+.overlay-dino {
+  font-size: 20px;
+  line-height: 1;
+  display: inline-block;
+  animation: dinoBob 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes dinoBob {
+  0% { transform: translateY(-2px); }
+  100% { transform: translateY(2px); }
+}
+
 .game-footer {
   display: flex;
   align-items: center;
@@ -2675,6 +2687,8 @@ dialog.resume-modal::backdrop {
   background: rgba(0, 0, 0, 0.03);
   border-top: 1px solid var(--line);
   font: 10px var(--mono);
+  white-space: nowrap;
+  gap: 8px;
 }
 
 [data-theme="light"] .game-footer {
@@ -2688,6 +2702,8 @@ dialog.resume-modal::backdrop {
   display: flex;
   align-items: center;
   gap: 3px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .game-hint kbd {
@@ -2707,6 +2723,8 @@ dialog.resume-modal::backdrop {
   display: inline-flex;
   align-items: center;
   gap: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
   transition: color 0.2s ease, transform 0.2s ease;
 }
 

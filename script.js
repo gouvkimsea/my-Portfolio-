@@ -723,19 +723,25 @@ const terminalCommands = {
     const el = document.getElementById("starGameWidget");
     el?.scrollIntoView({ behavior: "smooth", block: "center" });
     el?.focus();
-    return "Scrolled to ✦ Star Runner in Bento Grid! Press SPACE or Tap to Play! 🚀";
+    return "Scrolled to 🦖 Chrome Dino Runner in Bento Grid! Press SPACE or Tap to Play! 🎮";
   },
   game: () => {
     const el = document.getElementById("starGameWidget");
     el?.scrollIntoView({ behavior: "smooth", block: "center" });
     el?.focus();
-    return "Scrolled to ✦ Star Runner in Bento Grid! Press SPACE or Tap to Play! 🚀";
+    return "Scrolled to 🦖 Chrome Dino Runner in Bento Grid! Press SPACE or Tap to Play! 🎮";
   },
   dino: () => {
     const el = document.getElementById("starGameWidget");
     el?.scrollIntoView({ behavior: "smooth", block: "center" });
     el?.focus();
-    return "Scrolled to ✦ Star Runner (Google Dino style cosmic runner)! Press SPACE or Tap to Play! 🚀";
+    return "Scrolled to 🦖 Chrome Dino Runner in Bento Grid! Press SPACE or Tap to Play! 🎮";
+  },
+  trex: () => {
+    const el = document.getElementById("starGameWidget");
+    el?.scrollIntoView({ behavior: "smooth", block: "center" });
+    el?.focus();
+    return "Scrolled to 🦖 Chrome Dino Runner in Bento Grid! Press SPACE or Tap to Play! 🎮";
   },
   play: () => {
     window.open("miniworld.html", "_blank");
@@ -1004,10 +1010,10 @@ const fallbackCopy = text => {
   document.body.removeChild(ta);
 };
 // ==========================================================================
-// ✦ STAR RUNNER MINI-GAME ENGINE (Bento Grid Interactive Easter Egg)
-// Google Dino Runner inspired celestial runner with jump, duck & high scores
+// 🦖 CLASSIC CHROME DINO RUNNER GAME ENGINE (Bento Grid Interactive Game)
+// Authentic Google Chrome T-Rex runner with jump, duck, cacti & pterodactyls
 // ==========================================================================
-(function initStarRunner() {
+(function initChromeDinoGame() {
   const widget = document.getElementById("starGameWidget");
   const canvas = document.getElementById("starGameCanvas");
   if (!widget || !canvas) return;
@@ -1019,7 +1025,278 @@ const fallbackCopy = text => {
   const hiScoreEl = document.getElementById("starGameHi");
   const soundBtn = document.getElementById("starGameSoundBtn");
 
-  // Web Audio Synthesizer
+  // Pixel Sprite Definitions (Authentic Google Chrome T-Rex sprites)
+  const SPRITES = {
+    dinoStand: [
+      "              XXXXXX",
+      "             XXXXXXX",
+      "             XX XXXX",
+      "             XXXXXXX",
+      "             XXXXXXX",
+      "             XXXXX  ",
+      "             XXXXXXX",
+      "             XXXX   ",
+      "  XX        XXXXX   ",
+      "  XXX      XXXXXX   ",
+      "  XXXXXXXXXXXXXX    ",
+      "  XXXXXXXXXXXXX     ",
+      "   XXXXXXXXXXXX     ",
+      "    XXXXXXXXXXX  X  ",
+      "     XXXXXXXXXXXXX  ",
+      "      XXXXXXXXXX    ",
+      "       XXXXXXXX     ",
+      "        XXXXXX      ",
+      "         XXXX       ",
+      "         XX XX      ",
+      "         XX XX      ",
+      "         XX XX      ",
+      "         XX XX      ",
+      "        XXX XXX     "
+    ],
+    dinoRun1: [
+      "              XXXXXX",
+      "             XXXXXXX",
+      "             XX XXXX",
+      "             XXXXXXX",
+      "             XXXXXXX",
+      "             XXXXX  ",
+      "             XXXXXXX",
+      "             XXXX   ",
+      "  XX        XXXXX   ",
+      "  XXX      XXXXXX   ",
+      "  XXXXXXXXXXXXXX    ",
+      "  XXXXXXXXXXXXX     ",
+      "   XXXXXXXXXXXX     ",
+      "    XXXXXXXXXXX  X  ",
+      "     XXXXXXXXXXXXX  ",
+      "      XXXXXXXXXX    ",
+      "       XXXXXXXX     ",
+      "        XXXXXX      ",
+      "         XXXX       ",
+      "         XX XX      ",
+      "         XX  X      ",
+      "         XX         ",
+      "         XX         ",
+      "        XXX         "
+    ],
+    dinoRun2: [
+      "              XXXXXX",
+      "             XXXXXXX",
+      "             XX XXXX",
+      "             XXXXXXX",
+      "             XXXXXXX",
+      "             XXXXX  ",
+      "             XXXXXXX",
+      "             XXXX   ",
+      "  XX        XXXXX   ",
+      "  XXX      XXXXXX   ",
+      "  XXXXXXXXXXXXXX    ",
+      "  XXXXXXXXXXXXX     ",
+      "   XXXXXXXXXXXX     ",
+      "    XXXXXXXXXXX  X  ",
+      "     XXXXXXXXXXXXX  ",
+      "      XXXXXXXXXX    ",
+      "       XXXXXXXX     ",
+      "        XXXXXX      ",
+      "         XXXX       ",
+      "         XX XX      ",
+      "          X XX      ",
+      "            XX      ",
+      "            XX      ",
+      "           XXX      "
+    ],
+    dinoCrash: [
+      "              XXXXXX",
+      "             XXXXXXX",
+      "             X X XXX",
+      "             XXXXXXX",
+      "             XXXXXXX",
+      "             XXXXX  ",
+      "             XXXXXXX",
+      "             XXXX   ",
+      "  XX        XXXXX   ",
+      "  XXX      XXXXXX   ",
+      "  XXXXXXXXXXXXXX    ",
+      "  XXXXXXXXXXXXX     ",
+      "   XXXXXXXXXXXX     ",
+      "    XXXXXXXXXXX  X  ",
+      "     XXXXXXXXXXXXX  ",
+      "      XXXXXXXXXX    ",
+      "       XXXXXXXX     ",
+      "        XXXXXX      ",
+      "         XXXX       ",
+      "         XX XX      ",
+      "         XX XX      ",
+      "         XX XX      ",
+      "         XX XX      ",
+      "        XXX XXX     "
+    ],
+    dinoDuck1: [
+      "                 XXXXXX       ",
+      "                XXXXXXXX      ",
+      "                XX XXXX       ",
+      "                XXXXXXXX      ",
+      "                XXXXXXXX      ",
+      "  XX            XXXXX         ",
+      "  XXX          XXXXXXXX       ",
+      "  XXXXXXXXXXXXXXXXXXXXX       ",
+      "  XXXXXXXXXXXXXXXXXXXXX       ",
+      "   XXXXXXXXXXXXXXXXXXX        ",
+      "    XXXXXXXXXXXXXXXX          ",
+      "     XXXXXXXXXXXX             ",
+      "      XX   XX                 ",
+      "      XXX                     "
+    ],
+    dinoDuck2: [
+      "                 XXXXXX       ",
+      "                XXXXXXXX      ",
+      "                XX XXXX       ",
+      "                XXXXXXXX      ",
+      "                XXXXXXXX      ",
+      "  XX            XXXXX         ",
+      "  XXX          XXXXXXXX       ",
+      "  XXXXXXXXXXXXXXXXXXXXX       ",
+      "  XXXXXXXXXXXXXXXXXXXXX       ",
+      "   XXXXXXXXXXXXXXXXXXX        ",
+      "    XXXXXXXXXXXXXXXX          ",
+      "     XXXXXXXXXXXX             ",
+      "      XX   XX                 ",
+      "           XXX                "
+    ],
+    cactusSmall: [
+      "    XX    ",
+      "    XX    ",
+      "XX  XX    ",
+      "XX  XX  XX",
+      "XX  XX  XX",
+      "XX  XX  XX",
+      "XX  XX  XX",
+      "XXXXXX  XX",
+      "  XXXX  XX",
+      "    XXXXXX",
+      "    XXXX  ",
+      "    XX    ",
+      "    XX    ",
+      "    XX    ",
+      "    XX    ",
+      "    XX    ",
+      "    XX    ",
+      "    XX    ",
+      "    XX    ",
+      "    XX    "
+    ],
+    cactusDouble: [
+      "    XX        XX    ",
+      "    XX        XX    ",
+      "XX  XX    XX  XX    ",
+      "XX  XX  XXXX  XX  XX",
+      "XX  XX  XXXX  XX  XX",
+      "XX  XX  XXXX  XX  XX",
+      "XXXXXX  XXXX  XXXXXX",
+      "  XXXX    XXXXXX  XX",
+      "    XXXX    XXXXXX  ",
+      "    XX        XX    ",
+      "    XX        XX    ",
+      "    XX        XX    ",
+      "    XX        XX    ",
+      "    XX        XX    ",
+      "    XX        XX    ",
+      "    XX        XX    ",
+      "    XX        XX    ",
+      "    XX        XX    ",
+      "    XX        XX    ",
+      "    XX        XX    "
+    ],
+    cactusLarge: [
+      "     XXXX     ",
+      "     XXXX     ",
+      "     XXXX     ",
+      "XX   XXXX     ",
+      "XX   XXXX   XX",
+      "XX   XXXX   XX",
+      "XX   XXXX   XX",
+      "XX   XXXX   XX",
+      "XXXX XXXXXX XX",
+      " XXXXXXXX XXXX",
+      "   XXXXXX   XX",
+      "     XXXX     ",
+      "     XXXX     ",
+      "     XXXX     ",
+      "     XXXX     ",
+      "     XXXX     ",
+      "     XXXX     ",
+      "     XXXX     ",
+      "     XXXX     ",
+      "     XXXX     ",
+      "     XXXX     ",
+      "     XXXX     ",
+      "     XXXX     ",
+      "     XXXX     ",
+      "     XXXX     ",
+      "     XXXX     "
+    ],
+    bird1: [
+      "        XX              ",
+      "       XXXX             ",
+      "      XXXXXX            ",
+      "     XXXXXXXX           ",
+      "    XXXXXXXXXX          ",
+      "   XXXXXXXXXXXX   XXXX  ",
+      "  XXXXXXXXXXXXXX XXXXXX ",
+      " XXXXXXXXXXXXXXXXXXXXXX ",
+      "  XXXXXXXXXXXXXXXXXXXXX ",
+      "   XXXXXXXXXXXXXXXXXXXX ",
+      "    XXXX                ",
+      "     XX                 ",
+      "      X                 ",
+      "                        ",
+      "                        ",
+      "                        "
+    ],
+    bird2: [
+      "                        ",
+      "                        ",
+      "                        ",
+      "                  XXXX  ",
+      "                 XXXXXX ",
+      "   XXXXXXXXXXXXX XXXXXX ",
+      "  XXXXXXXXXXXXXXXXXXXXX ",
+      " XXXXXXXXXXXXXXXXXXXXXX ",
+      "  XXXXXXXXXXXXXXXXXXXXX ",
+      "   XXXXXXXXXXXXXXXXXXXX ",
+      "    XXXXXXXXXX          ",
+      "     XXXXXXXX           ",
+      "      XXXXXX            ",
+      "       XXXX             ",
+      "        XX              ",
+      "         X              "
+    ],
+    cloud: [
+      "         XXXXXX           ",
+      "       XXXXXXXXXX         ",
+      "      XXXXXXXXXXXX        ",
+      "    XXXXXXXXXXXXXXXX      ",
+      "  XXXXXXXXXXXXXXXXXXXX    ",
+      " XXXXXXXXXXXXXXXXXXXXXX   ",
+      "XXXXXXXXXXXXXXXXXXXXXXXX  ",
+      "XXXXXXXXXXXXXXXXXXXXXXXXXX"
+    ]
+  };
+
+  // Helper: Draw Pixel Grid
+  const drawSprite = (sprite, px, py, scale, color) => {
+    ctx.fillStyle = color;
+    for (let r = 0; r < sprite.length; r++) {
+      const row = sprite[r];
+      for (let c = 0; c < row.length; c++) {
+        if (row[c] === "X") {
+          ctx.fillRect(Math.floor(px + c * scale), Math.floor(py + r * scale), Math.ceil(scale), Math.ceil(scale));
+        }
+      }
+    }
+  };
+
+  // Web Audio Synthesizer (Classic 8-bit Google Chrome Dino sounds)
   let audioCtx = null;
   let isMuted = localStorage.getItem("star_game_muted") === "true";
   if (soundBtn) soundBtn.textContent = isMuted ? "🔇" : "🔊";
@@ -1044,87 +1321,60 @@ const fallbackCopy = text => {
   const playSoundFx = type => {
     if (isMuted) return;
     try {
-      const ctx = getAudioContext();
-      if (!ctx) return;
-      const now = ctx.currentTime;
+      const actx = getAudioContext();
+      if (!actx) return;
+      const now = actx.currentTime;
 
       if (type === "jump") {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = "sine";
-        osc.frequency.setValueAtTime(320, now);
-        osc.frequency.exponentialRampToValueAtTime(680, now + 0.12);
-        gain.gain.setValueAtTime(0.2, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start(now);
-        osc.stop(now + 0.12);
-      } else if (type === "duck") {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = "triangle";
-        osc.frequency.setValueAtTime(220, now);
-        osc.frequency.exponentialRampToValueAtTime(130, now + 0.08);
-        gain.gain.setValueAtTime(0.15, now);
+        const osc = actx.createOscillator();
+        const gain = actx.createGain();
+        osc.type = "square";
+        osc.frequency.setValueAtTime(440, now);
+        gain.gain.setValueAtTime(0.12, now);
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
         osc.connect(gain);
-        gain.connect(ctx.destination);
+        gain.connect(actx.destination);
         osc.start(now);
         osc.stop(now + 0.08);
-      } else if (type === "gem") {
-        [880, 1320].forEach((freq, idx) => {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = "sine";
-          osc.frequency.setValueAtTime(freq, now + idx * 0.08);
-          gain.gain.setValueAtTime(0.18, now + idx * 0.08);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.08 + 0.12);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start(now + idx * 0.08);
-          osc.stop(now + idx * 0.08 + 0.12);
-        });
       } else if (type === "milestone") {
-        [523.25, 659.25, 783.99, 1046.5].forEach((freq, idx) => {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = "triangle";
-          osc.frequency.setValueAtTime(freq, now + idx * 0.07);
-          gain.gain.setValueAtTime(0.22, now + idx * 0.07);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.07 + 0.14);
+        [587, 880].forEach((freq, idx) => {
+          const osc = actx.createOscillator();
+          const gain = actx.createGain();
+          osc.type = "square";
+          osc.frequency.setValueAtTime(freq, now + idx * 0.1);
+          gain.gain.setValueAtTime(0.14, now + idx * 0.1);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.1 + 0.09);
           osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start(now + idx * 0.07);
-          osc.stop(now + idx * 0.07 + 0.14);
+          gain.connect(actx.destination);
+          osc.start(now + idx * 0.1);
+          osc.stop(now + idx * 0.1 + 0.09);
         });
       } else if (type === "hit") {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
+        const osc = actx.createOscillator();
+        const gain = actx.createGain();
         osc.type = "sawtooth";
-        osc.frequency.setValueAtTime(260, now);
-        osc.frequency.exponentialRampToValueAtTime(50, now + 0.22);
-        gain.gain.setValueAtTime(0.3, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+        osc.frequency.setValueAtTime(180, now);
+        osc.frequency.linearRampToValueAtTime(60, now + 0.2);
+        gain.gain.setValueAtTime(0.25, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
         osc.connect(gain);
-        gain.connect(ctx.destination);
+        gain.connect(actx.destination);
         osc.start(now);
-        osc.stop(now + 0.22);
+        osc.stop(now + 0.2);
       }
-    } catch (err) {
-      // Audio autoplay policy
-    }
+    } catch (err) {}
   };
 
   // High Score Storage
-  let hiScore = parseInt(localStorage.getItem("star_runner_hi") || "0", 10);
+  let hiScore = parseInt(localStorage.getItem("chrome_dino_hi") || localStorage.getItem("star_runner_hi") || "0", 10);
   if (hiScoreEl) hiScoreEl.textContent = "HI " + String(hiScore).padStart(5, "0");
 
-  // Canvas Dimensions & HiDPI Scaling
+  // Dimensions & Canvas Setup
   let cssWidth = 340;
   let cssHeight = 120;
   let dpr = 1;
-  let groundY = 98;
+  let groundY = 100;
+  const pixelScale = 1.35; // Sharp pixel scaling
 
   const resize = () => {
     cssWidth = widget.clientWidth || 340;
@@ -1133,304 +1383,90 @@ const fallbackCopy = text => {
     canvas.width = Math.floor(cssWidth * dpr);
     canvas.height = Math.floor(cssHeight * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.imageSmoothingEnabled = false;
     groundY = cssHeight - 20;
   };
   resize();
   window.addEventListener("resize", resize);
 
-  // Parallax Starfield Background
-  const bgStarsFar = [];
-  const bgStarsNear = [];
-  for (let i = 0; i < 18; i++) {
-    bgStarsFar.push({
-      x: Math.random() * 400,
-      y: Math.random() * (groundY - 15),
-      r: Math.random() * 0.9 + 0.6,
-      twinkle: Math.random() * Math.PI * 2
-    });
-  }
-  for (let i = 0; i < 12; i++) {
-    bgStarsNear.push({
-      x: Math.random() * 400,
-      y: Math.random() * (groundY - 12),
-      r: Math.random() * 1.4 + 1.1,
-      twinkle: Math.random() * Math.PI * 2
+  // Clouds drifting in background
+  const clouds = [
+    { x: 50, y: 18, speed: 0.3 },
+    { x: 190, y: 28, speed: 0.25 },
+    { x: 310, y: 15, speed: 0.35 }
+  ];
+
+  // Ground bump textures
+  const groundBumps = [];
+  for (let i = 0; i < 40; i++) {
+    groundBumps.push({
+      x: i * 16 + (Math.random() * 6),
+      w: Math.random() > 0.5 ? 2 : 4,
+      h: Math.random() > 0.6 ? 2 : 1
     });
   }
 
-  // Game State Variables
+  // Game States
   const STATE_IDLE = "idle";
   const STATE_PLAYING = "playing";
   const STATE_GAMEOVER = "gameover";
   let state = STATE_IDLE;
 
-  let speed = 3.6;
+  let speed = 4.2;
   let distance = 0;
   let score = 0;
-  let bonusScore = 0;
-  let nextObstacleDistance = 160;
-  let nextGemDistance = 240;
+  let nextObstacleDistance = 180;
   let milestoneHit = {};
 
-  // Player Star
-  const star = {
-    x: 44,
-    y: groundY - 14,
-    radius: 12,
-    innerRadius: 5.5,
+  // Dino Character
+  const dino = {
+    x: 36,
+    y: groundY - 24 * pixelScale,
+    w: 20 * pixelScale,
+    h: 24 * pixelScale,
     vy: 0,
-    gravity: 0.44,
+    gravity: 0.46,
     jumpForce: -7.8,
     isGrounded: true,
     isDucking: false,
-    angle: 0,
-    squashX: 1,
-    squashY: 1,
-    trailTimer: 0,
-    blinkTimer: 0
+    runFrame: 0,
+    animTimer: 0
   };
 
-  // Obstacles, Gems, Particles
   let obstacles = [];
-  let gems = [];
-  let particles = [];
 
-  // Helper: Draw 5-Point Glowing Star
-  const drawGlowingStar = (cx, cy, spikes, outerRadius, innerRadius, angle, isLight, isDucking, isBlinking) => {
-    ctx.save();
-    ctx.translate(cx, cy);
-    ctx.rotate(angle);
-
-    // Outer Glow Halo
-    const haloR = outerRadius * (isLight ? 2.4 : 2.8);
-    const haloGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, haloR);
-    if (isLight) {
-      haloGrad.addColorStop(0, "rgba(234, 88, 12, 0.35)");
-      haloGrad.addColorStop(1, "rgba(234, 88, 12, 0)");
-    } else {
-      haloGrad.addColorStop(0, "rgba(231, 242, 109, 0.4)");
-      haloGrad.addColorStop(1, "rgba(231, 242, 109, 0)");
-    }
-    ctx.fillStyle = haloGrad;
-    ctx.beginPath();
-    ctx.arc(0, 0, haloR, 0, Math.PI * 2);
-    ctx.fill();
-
-    // 5-point Star Path
-    ctx.beginPath();
-    const step = Math.PI / spikes;
-    for (let i = 0; i < spikes * 2; i++) {
-      const r = (i % 2 === 0) ? outerRadius : innerRadius;
-      const a = i * step - Math.PI / 2;
-      const x = Math.cos(a) * r;
-      const y = Math.sin(a) * r;
-      if (i === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
-    }
-    ctx.closePath();
-
-    // Body Gradient
-    const grad = ctx.createLinearGradient(-outerRadius, -outerRadius, outerRadius, outerRadius);
-    if (isLight) {
-      grad.addColorStop(0, "#2563eb"); // Royal Sapphire
-      grad.addColorStop(0.5, "#d97706"); // Amber
-      grad.addColorStop(1, "#ea580c"); // Cosmic Orange
-    } else {
-      grad.addColorStop(0, "#e7f26d"); // Electric Lime
-      grad.addColorStop(0.5, "#f59e0b"); // Solar Gold
-      grad.addColorStop(1, "#ef4444"); // Warm Coral
-    }
-    ctx.fillStyle = grad;
-    ctx.fill();
-
-    // Outline
-    ctx.lineWidth = 1.4;
-    ctx.strokeStyle = isLight ? "rgba(15, 23, 42, 0.4)" : "rgba(255, 255, 255, 0.6)";
-    ctx.stroke();
-
-    // Starlight Core Sparkle
-    ctx.beginPath();
-    ctx.arc(0, 0, innerRadius * 0.45, 0, Math.PI * 2);
-    ctx.fillStyle = "#ffffff";
-    ctx.fill();
-
-    // Cute Expression / Eyes
-    if (!isDucking) {
-      ctx.fillStyle = isLight ? "#0f172a" : "#111827";
-      if (isBlinking) {
-        ctx.fillRect(-4, -1, 3, 1);
-        ctx.fillRect(1, -1, 3, 1);
-      } else {
-        ctx.beginPath();
-        ctx.arc(-2.5, -0.5, 1.2, 0, Math.PI * 2);
-        ctx.arc(2.5, -0.5, 1.2, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
-
-    ctx.restore();
-  };
-
-  // Helper: Draw Spire Crystal Obstacle
-  const drawSpireObstacle = (x, y, w, h, isLight) => {
-    ctx.save();
-    ctx.beginPath();
-    ctx.moveTo(x, y);
-    ctx.lineTo(x + w * 0.5, y - h);
-    ctx.lineTo(x + w, y);
-    ctx.closePath();
-    ctx.fillStyle = isLight ? "#1e293b" : "#ef8354";
-    ctx.fill();
-    ctx.strokeStyle = isLight ? "#0f172a" : "#ffd166";
-    ctx.lineWidth = 1.2;
-    ctx.stroke();
-
-    // Crystal facet reflection line
-    ctx.beginPath();
-    ctx.moveTo(x + w * 0.5, y - h);
-    ctx.lineTo(x + w * 0.35, y);
-    ctx.strokeStyle = isLight ? "rgba(255,255,255,0.4)" : "rgba(255,255,255,0.7)";
-    ctx.lineWidth = 1;
-    ctx.stroke();
-    ctx.restore();
-  };
-
-  // Helper: Draw Asteroid Obstacle
-  const drawAsteroidObstacle = (x, y, r, isLight) => {
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(x + r, y - r, r, 0, Math.PI * 2);
-    ctx.fillStyle = isLight ? "#334155" : "#ec4899";
-    ctx.fill();
-    ctx.strokeStyle = isLight ? "#0f172a" : "#f472b6";
-    ctx.lineWidth = 1.4;
-    ctx.stroke();
-
-    // Mini Crater
-    ctx.beginPath();
-    ctx.arc(x + r * 0.7, y - r * 1.2, r * 0.3, 0, Math.PI * 2);
-    ctx.fillStyle = isLight ? "rgba(0,0,0,0.25)" : "rgba(0,0,0,0.35)";
-    ctx.fill();
-    ctx.restore();
-  };
-
-  // Helper: Draw Flying Comet Drone Obstacle
-  const drawCometObstacle = (x, y, w, h, isLight, time) => {
-    ctx.save();
-    // Jet tail sparks
-    const tailLen = 14 + Math.sin(time * 0.2) * 4;
-    const tailGrad = ctx.createLinearGradient(x + w, y, x + w + tailLen, y);
-    tailGrad.addColorStop(0, isLight ? "rgba(220, 38, 38, 0.85)" : "rgba(56, 189, 248, 0.85)");
-    tailGrad.addColorStop(1, "rgba(255, 255, 255, 0)");
-    ctx.fillStyle = tailGrad;
-    ctx.beginPath();
-    ctx.moveTo(x + w, y - h * 0.3);
-    ctx.lineTo(x + w + tailLen, y);
-    ctx.lineTo(x + w, y + h * 0.3);
-    ctx.closePath();
-    ctx.fill();
-
-    // Drone / comet body
-    ctx.beginPath();
-    ctx.ellipse(x + w * 0.5, y, w * 0.5, h * 0.5, 0, 0, Math.PI * 2);
-    ctx.fillStyle = isLight ? "#dc2626" : "#38bdf8";
-    ctx.fill();
-    ctx.strokeStyle = isLight ? "#991b1b" : "#bae6fd";
-    ctx.lineWidth = 1.4;
-    ctx.stroke();
-
-    // Core pilot dot
-    ctx.beginPath();
-    ctx.arc(x + w * 0.3, y, 2.2, 0, Math.PI * 2);
-    ctx.fillStyle = "#ffffff";
-    ctx.fill();
-    ctx.restore();
-  };
-
-  // Helper: Draw Starlight Gem Pickup
-  const drawGemPickup = (x, y, size, isLight, time) => {
-    ctx.save();
-    ctx.translate(x, y);
-    ctx.rotate(time * 0.05);
-    ctx.beginPath();
-    ctx.moveTo(0, -size);
-    ctx.lineTo(size * 0.7, 0);
-    ctx.lineTo(0, size);
-    ctx.lineTo(-size * 0.7, 0);
-    ctx.closePath();
-    ctx.fillStyle = isLight ? "#ea580c" : "#fbbf24";
-    ctx.fill();
-    ctx.strokeStyle = "#ffffff";
-    ctx.lineWidth = 1.4;
-    ctx.stroke();
-
-    // Glow Halo
-    ctx.beginPath();
-    ctx.arc(0, 0, size * 1.5, 0, Math.PI * 2);
-    ctx.fillStyle = isLight ? "rgba(234, 88, 12, 0.2)" : "rgba(251, 191, 36, 0.25)";
-    ctx.fill();
-    ctx.restore();
-  };
-
-  // Sparkle Burst Generator
-  const spawnParticleBurst = (x, y, count, colors) => {
-    for (let i = 0; i < count; i++) {
-      const angle = Math.random() * Math.PI * 2;
-      const speed = Math.random() * 3.5 + 1;
-      particles.push({
-        x,
-        y,
-        vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed,
-        radius: Math.random() * 2 + 1,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        life: 1,
-        decay: Math.random() * 0.035 + 0.02
-      });
-    }
-  };
-
-  // Reset & Start Game
+  // Reset & Start
   const startGame = () => {
     getAudioContext();
     state = STATE_PLAYING;
-    speed = 3.6;
+    speed = 4.2;
     distance = 0;
-    bonusScore = 0;
     score = 0;
     milestoneHit = {};
     obstacles = [];
-    gems = [];
-    particles = [];
-    nextObstacleDistance = 160;
-    nextGemDistance = 220;
 
-    star.y = groundY - 14;
-    star.vy = 0;
-    star.isGrounded = true;
-    star.isDucking = false;
-    star.angle = 0;
+    dino.y = groundY - 24 * pixelScale;
+    dino.vy = 0;
+    dino.isGrounded = true;
+    dino.isDucking = false;
+    dino.runFrame = 0;
+    nextObstacleDistance = 180;
 
     overlay?.classList.add("hidden");
     scoreEl?.classList.remove("milestone-flash");
     if (scoreEl) scoreEl.textContent = "00000";
 
-    const isLight = document.documentElement.getAttribute("data-theme") === "light";
-    spawnParticleBurst(star.x, star.y, 14, isLight ? ["#2563eb", "#ea580c", "#d97706"] : ["#e7f26d", "#f59e0b", "#38bdf8"]);
     playSoundFx("jump");
   };
 
-  // Trigger Game Over
+  // Game Over
   const triggerGameOver = () => {
     state = STATE_GAMEOVER;
     playSoundFx("hit");
 
-    const isLight = document.documentElement.getAttribute("data-theme") === "light";
-    spawnParticleBurst(star.x, star.y, 25, isLight ? ["#ea580c", "#dc2626", "#0f172a"] : ["#e7f26d", "#ef4444", "#38bdf8"]);
-
     if (score > hiScore) {
       hiScore = score;
-      localStorage.setItem("star_runner_hi", String(hiScore));
+      localStorage.setItem("chrome_dino_hi", String(hiScore));
       if (hiScoreEl) hiScoreEl.textContent = "HI " + String(hiScore).padStart(5, "0");
     }
 
@@ -1440,44 +1476,34 @@ const fallbackCopy = text => {
     }
   };
 
-  // Player Actions: Jump & Duck
+  // Jump & Duck Controls
   const handleJump = () => {
     if (state === STATE_IDLE || state === STATE_GAMEOVER) {
       startGame();
       return;
     }
-    if (state === STATE_PLAYING && star.isGrounded) {
-      star.vy = star.jumpForce;
-      star.isGrounded = false;
-      star.squashX = 0.7;
-      star.squashY = 1.35;
+    if (state === STATE_PLAYING && dino.isGrounded) {
+      dino.vy = dino.jumpForce;
+      dino.isGrounded = false;
       playSoundFx("jump");
-
-      const isLight = document.documentElement.getAttribute("data-theme") === "light";
-      spawnParticleBurst(star.x, groundY - 5, 8, isLight ? ["#ea580c", "#2563eb"] : ["#e7f26d", "#f59e0b"]);
     }
   };
 
   const handleEndJump = () => {
-    if (state === STATE_PLAYING && star.vy < -3.2) {
-      star.vy = -3.2; // Variable jump height
+    if (state === STATE_PLAYING && dino.vy < -3.5) {
+      dino.vy = -3.5; // Short-hop release
     }
   };
 
   const handleDuck = ducking => {
     if (state !== STATE_PLAYING) return;
-    if (ducking && !star.isDucking) {
-      star.isDucking = true;
-      playSoundFx("duck");
-      if (!star.isGrounded) {
-        star.vy += star.gravity * 1.5; // Fast drop
-      }
-    } else if (!ducking && star.isDucking) {
-      star.isDucking = false;
+    dino.isDucking = ducking;
+    if (ducking && !dino.isGrounded) {
+      dino.vy += dino.gravity * 1.8; // Fast drop
     }
   };
 
-  // Keyboard Event Listeners
+  // Keyboard
   window.addEventListener("keydown", e => {
     const isWidgetTarget = widget.contains(document.activeElement) || widget.matches(":hover");
     if (["Space", "ArrowUp", "KeyW"].includes(e.code)) {
@@ -1501,7 +1527,7 @@ const fallbackCopy = text => {
     }
   });
 
-  // Pointer & Touch Events on Canvas Viewport
+  // Touch & Pointer
   const viewport = widget.querySelector(".game-viewport");
   viewport?.addEventListener("pointerdown", e => {
     widget.focus();
@@ -1511,310 +1537,206 @@ const fallbackCopy = text => {
     handleEndJump();
   });
 
-  // Main 60FPS Game Loop
+  // 60FPS Game Loop
   let lastTime = performance.now();
-  let time = 0;
 
   const gameLoop = now => {
     requestAnimationFrame(gameLoop);
     const dt = Math.min((now - lastTime) / 16.666, 2.5);
     lastTime = now;
-    time += 0.05 * dt;
 
     const isLight = document.documentElement.getAttribute("data-theme") === "light";
+    const dinoColor = isLight ? "#535353" : "#f0f0ea";
+    const groundColor = isLight ? "rgba(83, 83, 83, 0.45)" : "rgba(225, 230, 245, 0.35)";
+    const cloudColor = isLight ? "rgba(180, 185, 195, 0.5)" : "rgba(255, 255, 255, 0.25)";
 
     // Clear Canvas
     ctx.clearRect(0, 0, cssWidth, cssHeight);
 
-    // 1. Draw Parallax Background Starfield
-    const scrollSpeed = state === STATE_PLAYING ? speed * dt : 0.6 * dt;
-
-    ctx.fillStyle = isLight ? "rgba(100, 116, 139, 0.4)" : "rgba(225, 230, 245, 0.55)";
-    bgStarsFar.forEach(s => {
-      s.x -= scrollSpeed * 0.12;
-      if (s.x < -10) s.x = cssWidth + 10;
-      s.twinkle += 0.02 * dt;
-      const alpha = Math.sin(s.twinkle) * 0.3 + 0.7;
-      ctx.globalAlpha = alpha;
-      ctx.beginPath();
-      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-      ctx.fill();
+    // 1. Draw Clouds
+    clouds.forEach(c => {
+      if (state === STATE_PLAYING) {
+        c.x -= (c.speed + speed * 0.08) * dt;
+        if (c.x < -40) c.x = cssWidth + 20;
+      }
+      drawSprite(SPRITES.cloud, c.x, c.y, pixelScale * 0.9, cloudColor);
     });
 
-    ctx.fillStyle = isLight ? "rgba(234, 88, 12, 0.5)" : "rgba(231, 242, 109, 0.65)";
-    bgStarsNear.forEach(s => {
-      s.x -= scrollSpeed * 0.28;
-      if (s.x < -10) s.x = cssWidth + 10;
-      s.twinkle += 0.03 * dt;
-      const alpha = Math.sin(s.twinkle) * 0.35 + 0.65;
-      ctx.globalAlpha = alpha;
-      ctx.beginPath();
-      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-      ctx.fill();
-    });
-    ctx.globalAlpha = 1.0;
-
-    // 2. Draw Scrolling Cosmic Horizon Track
+    // 2. Draw Ground Track & Bumps
     ctx.beginPath();
     ctx.moveTo(0, groundY);
     ctx.lineTo(cssWidth, groundY);
-    ctx.strokeStyle = isLight ? "rgba(71, 85, 105, 0.4)" : "rgba(231, 242, 109, 0.35)";
-    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = groundColor;
+    ctx.lineWidth = 1.2;
     ctx.stroke();
 
-    // Track energy dashes
-    const dashOffset = (distance * 0.8) % 24;
-    ctx.beginPath();
-    ctx.setLineDash([8, 16]);
-    ctx.lineDashOffset = -dashOffset;
-    ctx.moveTo(0, groundY + 4);
-    ctx.lineTo(cssWidth, groundY + 4);
-    ctx.strokeStyle = isLight ? "rgba(234, 88, 12, 0.35)" : "rgba(231, 242, 109, 0.25)";
-    ctx.lineWidth = 1;
-    ctx.stroke();
-    ctx.setLineDash([]);
+    groundBumps.forEach(b => {
+      if (state === STATE_PLAYING) {
+        b.x -= speed * dt;
+        if (b.x < -10) b.x = cssWidth + Math.random() * 20;
+      }
+      ctx.fillStyle = groundColor;
+      ctx.fillRect(Math.floor(b.x), groundY + 2, b.w, b.h);
+    });
 
-    // 3. Update & Draw Obstacles
+    // 3. Update Obstacles & Spawning
     if (state === STATE_PLAYING) {
       distance += speed * dt;
-      speed = Math.min(8.2, 3.6 + (distance * 0.0012));
+      speed = Math.min(8.6, 4.2 + (distance * 0.0014));
 
-      // Calculate Current Score
-      score = Math.floor(distance * 0.16) + bonusScore;
+      score = Math.floor(distance * 0.16);
       if (scoreEl) scoreEl.textContent = String(score).padStart(5, "0");
 
-      // Check Milestones (every 100 points)
+      // Milestone Fanfare (every 100 points)
       const curHundred = Math.floor(score / 100);
       if (curHundred > 0 && !milestoneHit[curHundred]) {
         milestoneHit[curHundred] = true;
         playSoundFx("milestone");
         scoreEl?.classList.add("milestone-flash");
         setTimeout(() => scoreEl?.classList.remove("milestone-flash"), 1200);
-        spawnParticleBurst(cssWidth * 0.5, groundY - 40, 20, isLight ? ["#ea580c", "#2563eb", "#d97706"] : ["#e7f26d", "#f59e0b", "#38bdf8"]);
       }
 
-      // Spawn Obstacles
+      // Spawning Obstacles
       nextObstacleDistance -= speed * dt;
       if (nextObstacleDistance <= 0) {
-        // Roll obstacle type
         const roll = Math.random();
-        if (score > 130 && roll > 0.72) {
-          // Flying Comet Drone
+        if (score > 120 && roll > 0.65) {
+          // Flying Pterodactyl Bird
+          const birdY = roll > 0.88 ? groundY - 50 : (roll > 0.76 ? groundY - 36 : groundY - 24);
           obstacles.push({
-            type: "comet",
+            type: "bird",
             x: cssWidth + 20,
-            y: groundY - 26,
-            w: 22,
-            h: 12
+            y: birdY,
+            w: 24 * pixelScale,
+            h: 16 * pixelScale,
+            frame: 0,
+            animTimer: 0
           });
-        } else if (roll > 0.42) {
-          // Asteroid Rock
+        } else if (roll > 0.35) {
+          // Large Cactus
           obstacles.push({
-            type: "asteroid",
+            type: "cactusLarge",
             x: cssWidth + 20,
-            y: groundY,
-            r: 10
+            y: groundY - 26 * pixelScale,
+            w: 14 * pixelScale,
+            h: 26 * pixelScale
           });
-        } else if (roll > 0.2) {
-          // Double Spire
+        } else if (roll > 0.18) {
+          // Double Small Cactus
           obstacles.push({
-            type: "double_spire",
+            type: "cactusDouble",
             x: cssWidth + 20,
-            y: groundY,
-            w: 22,
-            h: 22
+            y: groundY - 20 * pixelScale,
+            w: 20 * pixelScale,
+            h: 20 * pixelScale
           });
         } else {
-          // Single Spire
+          // Single Small Cactus
           obstacles.push({
-            type: "spire",
+            type: "cactusSmall",
             x: cssWidth + 20,
-            y: groundY,
-            w: 12,
-            h: 20
+            y: groundY - 20 * pixelScale,
+            w: 10 * pixelScale,
+            h: 20 * pixelScale
           });
         }
-        nextObstacleDistance = Math.random() * 140 + (160 - Math.min(60, speed * 6));
-      }
-
-      // Spawn Starlight Gems
-      nextGemDistance -= speed * dt;
-      if (nextGemDistance <= 0) {
-        gems.push({
-          x: cssWidth + 30,
-          y: groundY - 34,
-          size: 7
-        });
-        nextGemDistance = Math.random() * 320 + 260;
+        nextObstacleDistance = Math.random() * 150 + (170 - Math.min(65, speed * 6));
       }
     }
 
-    // Render & Move Obstacles
+    // Render Obstacles & Collision Check
     for (let i = obstacles.length - 1; i >= 0; i--) {
       const obs = obstacles[i];
       if (state === STATE_PLAYING) obs.x -= speed * dt;
 
-      if (obs.type === "spire") {
-        drawSpireObstacle(obs.x, obs.y, obs.w, obs.h, isLight);
-      } else if (obs.type === "double_spire") {
-        drawSpireObstacle(obs.x, obs.y, obs.w * 0.55, obs.h * 0.85, isLight);
-        drawSpireObstacle(obs.x + obs.w * 0.45, obs.y, obs.w * 0.55, obs.h, isLight);
-      } else if (obs.type === "asteroid") {
-        drawAsteroidObstacle(obs.x, obs.y, obs.r, isLight);
-      } else if (obs.type === "comet") {
-        drawCometObstacle(obs.x, obs.y, obs.w, obs.h, isLight, time);
+      if (obs.type === "cactusSmall") {
+        drawSprite(SPRITES.cactusSmall, obs.x, obs.y, pixelScale, dinoColor);
+      } else if (obs.type === "cactusDouble") {
+        drawSprite(SPRITES.cactusDouble, obs.x, obs.y, pixelScale, dinoColor);
+      } else if (obs.type === "cactusLarge") {
+        drawSprite(SPRITES.cactusLarge, obs.x, obs.y, pixelScale, dinoColor);
+      } else if (obs.type === "bird") {
+        obs.animTimer += dt;
+        if (obs.animTimer > 8) {
+          obs.animTimer = 0;
+          obs.frame = 1 - obs.frame;
+        }
+        const birdSprite = obs.frame === 0 ? SPRITES.bird1 : SPRITES.bird2;
+        drawSprite(birdSprite, obs.x, obs.y, pixelScale, dinoColor);
       }
 
-      // Collision Detection with Player
+      // Hitbox Collision Check
       if (state === STATE_PLAYING) {
-        const starHitR = star.isDucking ? 6 : 9;
-        const starHitY = star.isDucking ? star.y + 4 : star.y;
-        let collided = false;
+        // Dino Box
+        const isDuck = dino.isDucking && dino.isGrounded;
+        const dinoBox = {
+          x: dino.x + 3,
+          y: isDuck ? groundY - 14 * pixelScale + 2 : dino.y + 2,
+          w: (isDuck ? 30 : 20) * pixelScale - 6,
+          h: (isDuck ? 14 : 24) * pixelScale - 4
+        };
 
-        if (obs.type === "spire" || obs.type === "double_spire") {
-          const obsLeft = obs.x + 2;
-          const obsRight = obs.x + obs.w - 2;
-          const obsTop = obs.y - obs.h + 2;
-          if (star.x + starHitR > obsLeft && star.x - starHitR < obsRight && starHitY + starHitR > obsTop) {
-            collided = true;
-          }
-        } else if (obs.type === "asteroid") {
-          const dx = star.x - (obs.x + obs.r);
-          const dy = starHitY - (obs.y - obs.r);
-          if (Math.sqrt(dx * dx + dy * dy) < starHitR + obs.r - 2) {
-            collided = true;
-          }
-        } else if (obs.type === "comet") {
-          const obsLeft = obs.x;
-          const obsRight = obs.x + obs.w;
-          const obsTop = obs.y - obs.h * 0.5;
-          const obsBottom = obs.y + obs.h * 0.5;
-          if (star.x + starHitR > obsLeft && star.x - starHitR < obsRight && starHitY + starHitR > obsTop && starHitY - starHitR < obsBottom) {
-            collided = true;
-          }
-        }
+        // Obstacle Box (grace inset of 2px)
+        const obsBox = {
+          x: obs.x + 2,
+          y: obs.y + 2,
+          w: obs.w - 4,
+          h: obs.h - 4
+        };
 
-        if (collided) {
+        if (
+          dinoBox.x < obsBox.x + obsBox.w &&
+          dinoBox.x + dinoBox.w > obsBox.x &&
+          dinoBox.y < obsBox.y + obsBox.h &&
+          dinoBox.y + dinoBox.h > obsBox.y
+        ) {
           triggerGameOver();
           break;
         }
       }
 
-      // Cleanup off-screen obstacles
       if (obs.x < -60) obstacles.splice(i, 1);
     }
 
-    // Render & Move Starlight Gems
-    for (let i = gems.length - 1; i >= 0; i--) {
-      const gem = gems[i];
-      if (state === STATE_PLAYING) gem.x -= speed * dt;
-
-      drawGemPickup(gem.x, gem.y, gem.size, isLight, time);
-
-      // Gem collection check
-      if (state === STATE_PLAYING) {
-        const dx = star.x - gem.x;
-        const dy = star.y - gem.y;
-        if (Math.sqrt(dx * dx + dy * dy) < star.radius + gem.size) {
-          bonusScore += 50;
-          playSoundFx("gem");
-          spawnParticleBurst(gem.x, gem.y, 12, isLight ? ["#ea580c", "#d97706", "#ffffff"] : ["#fbbf24", "#e7f26d", "#ffffff"]);
-          gems.splice(i, 1);
-          continue;
-        }
-      }
-
-      if (gem.x < -30) gems.splice(i, 1);
-    }
-
-    // 4. Update Player Physics & Particles
-    star.blinkTimer += dt;
-    const isBlinking = (star.blinkTimer % 180) < 6;
-
+    // 4. Update Dino Physics
     if (state === STATE_IDLE) {
-      star.y = (groundY - 14) + Math.sin(time * 2.5) * 3;
-      star.angle = Math.sin(time * 2) * 0.1;
-      star.squashX = 1;
-      star.squashY = 1;
+      dino.y = groundY - 24 * pixelScale;
+      dino.isGrounded = true;
     } else if (state === STATE_PLAYING) {
-      // Gravity
-      star.vy += (star.isDucking ? star.gravity * 1.5 : star.gravity) * dt;
-      star.y += star.vy * dt;
+      dino.vy += dino.gravity * dt;
+      dino.y += dino.vy * dt;
 
-      // Ground Collision
-      const targetGroundY = groundY - 14;
-      if (star.y >= targetGroundY) {
-        star.y = targetGroundY;
-        if (!star.isGrounded) {
-          // Just landed
-          star.isGrounded = true;
-          star.squashX = 1.35;
-          star.squashY = 0.7;
-          spawnParticleBurst(star.x, groundY, 4, isLight ? ["#64748b"] : ["#a3e635"]);
-        }
-        star.vy = 0;
+      const groundTarget = groundY - 24 * pixelScale;
+      if (dino.y >= groundTarget) {
+        dino.y = groundTarget;
+        dino.vy = 0;
+        dino.isGrounded = true;
       }
 
-      // Squash & Stretch Easing
-      const targetSquashX = star.isDucking ? 1.4 : 1.0;
-      const targetSquashY = star.isDucking ? 0.6 : 1.0;
-      star.squashX += (targetSquashX - star.squashX) * 0.25 * dt;
-      star.squashY += (targetSquashY - star.squashY) * 0.25 * dt;
-
-      // Rotation Animation
-      if (!star.isGrounded) {
-        star.angle += 0.14 * dt;
-      } else {
-        star.angle = Math.sin(distance * 0.12) * 0.12;
-      }
-
-      // Running Stardust Particle Trail
-      star.trailTimer += dt;
-      if (star.trailTimer >= 2.5) {
-        star.trailTimer = 0;
-        particles.push({
-          x: star.x - 8,
-          y: star.y + (Math.random() - 0.5) * 6,
-          vx: -(speed * 0.45 + Math.random() * 0.8),
-          vy: (Math.random() - 0.5) * 0.8,
-          radius: Math.random() * 1.6 + 0.8,
-          color: isLight
-            ? (Math.random() > 0.5 ? "rgba(234, 88, 12, " : "rgba(37, 99, 235, ")
-            : (Math.random() > 0.5 ? "rgba(231, 242, 109, " : "rgba(56, 189, 248, "),
-          life: 1,
-          decay: 0.05
-        });
+      // Run Animation
+      dino.animTimer += dt;
+      if (dino.animTimer > Math.max(3.5, 7 - speed * 0.4)) {
+        dino.animTimer = 0;
+        dino.runFrame = 1 - dino.runFrame;
       }
     }
 
-    // 5. Draw Player Star
-    if (state !== STATE_GAMEOVER || (Math.floor(time * 5) % 2 === 0)) {
-      ctx.save();
-      ctx.translate(star.x, star.y);
-      ctx.scale(star.squashX, star.squashY);
-      drawGlowingStar(0, 0, 5, star.radius, star.innerRadius, star.angle, isLight, star.isDucking, isBlinking);
-      ctx.restore();
+    // 5. Draw T-Rex
+    let currentDinoSprite = SPRITES.dinoStand;
+    let drawY = dino.y;
+
+    if (state === STATE_GAMEOVER) {
+      currentDinoSprite = SPRITES.dinoCrash;
+    } else if (!dino.isGrounded) {
+      currentDinoSprite = SPRITES.dinoStand;
+    } else if (dino.isDucking) {
+      currentDinoSprite = dino.runFrame === 0 ? SPRITES.dinoDuck1 : SPRITES.dinoDuck2;
+      drawY = groundY - 14 * pixelScale;
+    } else if (state === STATE_PLAYING) {
+      currentDinoSprite = dino.runFrame === 0 ? SPRITES.dinoRun1 : SPRITES.dinoRun2;
     }
 
-    // 6. Update & Render Particle Sparks
-    for (let i = particles.length - 1; i >= 0; i--) {
-      const p = particles[i];
-      p.x += p.vx * dt;
-      p.y += p.vy * dt;
-      p.life -= p.decay * dt;
-
-      if (p.life <= 0) {
-        particles.splice(i, 1);
-        continue;
-      }
-
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-      ctx.fillStyle = p.color.endsWith(", ") ? p.color + p.life + ")" : p.color;
-      ctx.globalAlpha = p.life;
-      ctx.fill();
-      ctx.globalAlpha = 1.0;
-    }
+    drawSprite(currentDinoSprite, dino.x, drawY, pixelScale, dinoColor);
   };
 
   requestAnimationFrame(gameLoop);
