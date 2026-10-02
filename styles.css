@@ -2355,3 +2355,47 @@ dialog.resume-modal::backdrop {
   border-color: var(--lime);
   box-shadow: 0 4px 12px rgba(231, 242, 109, 0.25);
 }
+
+/* Footer Center & Meta Styles */
+.footer-center {
+  text-align: center;
+}
+.footer-center p {
+  margin: 0;
+  font: 11px var(--mono);
+  color: #96998d;
+}
+.footer-meta {
+  font: 10px var(--mono);
+  color: #7b8071;
+  display: block;
+  margin-top: 4px;
+}
+.footer-meta a {
+  color: var(--lime);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.footer-meta a:hover {
+  color: var(--orange);
+}
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font: 11px var(--mono);
+}
+.footer-links a {
+  color: #96998d;
+  transition: color 0.2s ease;
+}
+.footer-links a:hover {
+  color: var(--lime);
+}
+@media (max-width: 800px) {
+  .footer-inner {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+}
