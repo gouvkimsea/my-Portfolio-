@@ -3296,4 +3296,169 @@ dialog.resume-modal::backdrop {
   }
 }
 
+/* ==========================================================================
+   DUAL DEGREE EDUCATION PROFILE STYLES
+   ========================================================================== */
+.bento-education-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.bento-badge-edu {
+  font: 10px var(--mono);
+  color: var(--orange);
+  background: rgba(239, 131, 84, 0.1);
+  border: 1px solid rgba(239, 131, 84, 0.3);
+  padding: 3px 8px;
+  border-radius: 12px;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+[data-theme="dark"] .bento-badge-edu {
+  color: var(--lime);
+  background: rgba(231, 242, 109, 0.1);
+  border-color: rgba(231, 242, 109, 0.3);
+}
+
+.edu-card-heading {
+  font-size: 19px;
+  letter-spacing: -0.03em;
+  margin: 12px 0 10px;
+  color: var(--ink);
+}
+
+[data-theme="dark"] .edu-card-heading {
+  color: #f1f0e9;
+}
+
+.edu-degree-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 8px 0 16px;
+}
+
+.edu-degree-item {
+  background: rgba(0, 0, 0, 0.025);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 14px;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+[data-theme="dark"] .edu-degree-item {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.edu-degree-item:hover {
+  transform: translateX(3px);
+  border-color: var(--orange);
+  background: rgba(239, 131, 84, 0.04);
+}
+
+[data-theme="dark"] .edu-degree-item:hover {
+  border-color: var(--lime);
+  background: rgba(231, 242, 109, 0.05);
+}
+
+.edu-institution-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--ink);
+  margin-bottom: 3px;
+}
+
+[data-theme="dark"] .edu-institution-line {
+  color: #f1f0e9;
+}
+
+.edu-degree-name {
+  font: 11.5px var(--mono);
+  color: var(--orange);
+  margin: 0 0 8px 0;
+  font-weight: 500;
+}
+
+[data-theme="dark"] .edu-degree-name {
+  color: var(--lime);
+}
+
+.edu-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.edu-tags span {
+  font: 9.5px var(--mono);
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--line);
+  color: var(--muted);
+}
+
+[data-theme="dark"] .edu-tags span {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #b5b7ab;
+}
+
+.edu-synthesis-badge {
+  margin-top: auto;
+  border-top: 1px dashed var(--line);
+  padding-top: 12px;
+}
+
+/* Resume Modal Education Styles */
+.resume-edu-item {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px dashed var(--line);
+}
+
+.resume-edu-item:last-child {
+  border-bottom: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.resume-edu-inst {
+  font: 11px var(--mono);
+  color: var(--orange);
+  margin: 3px 0 8px 0;
+  font-weight: 500;
+}
+
+[data-theme="dark"] .resume-edu-inst {
+  color: var(--lime);
+}
+
+.resume-edu-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.resume-edu-highlights span {
+  font: 10px var(--mono);
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.03);
+  color: var(--muted);
+}
+
+[data-theme="dark"] .resume-edu-highlights span {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #adb0a3;
+}
+
+
 

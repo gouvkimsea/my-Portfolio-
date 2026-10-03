@@ -741,8 +741,27 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>skills</b>, <b>projects</b>, <b>achievements</b>, <b>play</b>, <b>starrunner</b>, <b>dino</b>, <b>stats</b>, <b>resume</b>, <b>matrix</b>, <b>neofetch</b>, <b>theme</b>, <b>search</b>, <b>contact</b>, <b>whoami</b>, <b>github</b>, <b>date</b>, <b>clear</b>",
-  about: "Gouv Kimsea — University student exploring software development, business, and technology by building real projects.",
+  help: "Available commands: <b>about</b>, <b>education</b>, <b>skills</b>, <b>projects</b>, <b>achievements</b>, <b>play</b>, <b>starrunner</b>, <b>dino</b>, <b>stats</b>, <b>resume</b>, <b>matrix</b>, <b>neofetch</b>, <b>theme</b>, <b>search</b>, <b>contact</b>, <b>whoami</b>, <b>github</b>, <b>date</b>, <b>clear</b>",
+  about: "Gouv Kimsea — Dual degree undergraduate in Computer Science (Paragon.U) & Business Administration (Bonamary.U) building tangible products.",
+  education: () => {
+    return `<pre style="color:var(--lime);font-size:11px;line-height:1.5;">
+🎓 Academic Education Profile (Dual Degree):
+================================================================
+1. Bachelor of Computer Science (B.Sc.)
+   🏛️ Paragon International University · Phnom Penh, Cambodia
+   Focus: Algorithms, Software Architecture, C++, WebGL & Systems
+   Status: Undergraduate · Active (2026)
+
+2. Bachelor of Business Administration (B.B.A.)
+   🏛️ Bonamary University · Phnom Penh, Cambodia
+   Focus: Business Strategy, Operations & Product Economics
+   Status: Undergraduate · Active (2026)
+================================================================
+💡 The Intersection: Algorithmic rigor paired with market insight.</pre>`;
+  },
+  degree: () => terminalCommands.education(),
+  university: () => terminalCommands.education(),
+  school: () => terminalCommands.education(),
   skills: "JavaScript · C++ · Python · WebGL / Shaders · HTML5 / CSS3 · React · REST APIs · Node.js · SQL",
   projects: "1. <b>Pinit</b> — AI scam and suspicious link detector\n2. <b>Mini World</b> — 3D planet simulation & WebGL engine\n3. <b>DevPulse</b> — Real-time engineering flow & telemetry dashboard\n4. <b>This Portfolio</b> — Personal web platform & terminal CLI\nClick any project card to view interactive breakdown.",
   achievements: () => {
