@@ -859,63 +859,111 @@
       </div>
     </section>
 
-    <section class="section contact-section" id="contact">
-      <div class="container">
-        <div class="contact-shell reveal spotlight-card">
-          <div class="contact-glow-orb" aria-hidden="true"></div>
-          <div class="contact-grid">
-            <div class="contact-copy">
-              <p class="eyebrow">06 / Say hello</p>
-              <h2>Let’s build<br /><em>something.</em></h2>
-              <p class="contact-intro">Have a project idea, an internship opportunity, or just want to compare notes? My
-                inbox is always open.</p>
+    <section class="section contact-section work-section" id="contact">
+      <!-- Topographic Elevation Contour Map Background -->
+      <div class="topo-bg-layer" aria-hidden="true">
+        <svg class="topo-svg" viewBox="0 0 1440 850" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <!-- Concentric Crest Loops (Upper-Left Topographic Peak) -->
+          <path d="M 330,130 C 375,140 405,175 395,220 C 385,265 340,300 285,290 C 230,280 200,235 210,185 C 220,140 275,120 330,130 Z" stroke="currentColor" stroke-width="1.2" opacity="0.35" />
+          <path d="M 350,95 C 420,110 460,165 445,235 C 430,305 365,350 285,335 C 205,320 165,255 180,175 C 195,105 270,80 350,95 Z" stroke="currentColor" stroke-width="1.2" opacity="0.4" />
+          <path d="M 370,60 C 470,80 520,155 500,250 C 480,335 395,395 290,375 C 185,355 135,275 155,170 C 175,75 260,45 370,60 Z" stroke="currentColor" stroke-width="1.2" opacity="0.45" />
+          <path d="M 390,25 C 520,45 580,145 555,265 C 530,370 425,435 295,415 C 165,390 105,290 130,165 C 155,45 250,10 390,25 Z" stroke="currentColor" stroke-width="1.2" opacity="0.5" />
+          
+          <!-- Mid Elevation Loops -->
+          <path d="M 420,-10 C 580,15 650,135 620,280 C 590,405 460,480 305,455 C 145,430 75,305 105,160 C 135,15 250,-25 420,-10 Z" stroke="currentColor" stroke-width="1.2" opacity="0.55" />
+          <path d="M -30,180 C 90,40 280,-30 460,-5 C 640,20 730,150 690,320 C 650,460 510,540 330,510 C 160,480 70,370 10,260 Z" stroke="currentColor" stroke-width="1.2" opacity="0.6" />
+          
+          <!-- Sweeping Continental Elevation Ridges across to the Right Column -->
+          <path d="M -80,290 C 70,100 300,-20 520,10 C 740,40 850,190 800,390 C 750,560 570,650 350,610 C 150,575 40,430 -30,330" stroke="currentColor" stroke-width="1.2" opacity="0.65" />
+          <path d="M -90,420 C 100,180 350,-10 620,20 C 880,50 1010,230 940,470 C 870,670 640,780 380,730 C 140,685 -20,550 -80,440" stroke="currentColor" stroke-width="1.2" opacity="0.7" />
+          <path d="M -100,560 C 120,260 400,0 720,30 C 1020,60 1160,270 1080,550 C 1000,790 730,900 430,840 C 160,785 -40,650 -90,560" stroke="currentColor" stroke-width="1.2" opacity="0.75" />
+          <path d="M -100,700 C 150,380 460,10 820,40 C 1160,70 1310,310 1220,620 C 1130,890 820,1010 490,940 C 190,875 -50,750 -90,680" stroke="currentColor" stroke-width="1.2" opacity="0.8" />
+          <path d="M -100,840 C 180,500 520,20 920,50 C 1300,80 1460,350 1360,690 C 1260,990 910,1110 550,1040 C 220,965 -60,850 -90,810" stroke="currentColor" stroke-width="1.2" opacity="0.85" />
+          
+          <!-- Outer East Ridges -->
+          <path d="M 680,-40 C 1060,10 1390,200 1490,470 C 1590,740 1430,940 1110,1000" stroke="currentColor" stroke-width="1.2" opacity="0.75" />
+          <path d="M 880,-40 C 1210,30 1510,240 1590,520 C 1670,800 1500,1000 1210,1060" stroke="currentColor" stroke-width="1.2" opacity="0.65" />
+          <path d="M 1080,-40 C 1360,50 1620,280 1690,570 C 1760,860 1570,1060 1310,1120" stroke="currentColor" stroke-width="1.2" opacity="0.55" />
+        </svg>
+      </div>
 
-              <div class="contact-channels">
-                <div class="contact-channel-item">
-                  <div class="ch-icon">@</div>
-                  <div class="ch-text">
-                    <small>Direct Email</small>
-                    <p>gouvkimsea@gmail.com</p>
-                  </div>
-                  <button class="copy-email-btn magnetic" id="copyEmailBtn" type="button"
-                    title="Copy email address">Copy</button>
-                </div>
+      <div class="container work-container">
+        <div class="work-grid">
+          <!-- Left Column: Giant Hero Typography -->
+          <div class="work-left reveal">
+            <h2 class="work-title">LET’S<br />WORK.</h2>
+            <p class="work-subtitle">I’m open to projects, collaborations and internships.</p>
+          </div>
 
-                <a class="contact-channel-item ch-link" href="https://github.com/gouvkimsea" target="_blank"
-                  rel="noreferrer">
-                  <div class="ch-icon">⌘</div>
-                  <div class="ch-text">
-                    <small>GitHub Profile</small>
-                    <p>github.com/gouvkimsea</p>
-                  </div>
-                  <span class="ch-arrow">↗</span>
+          <!-- Right Column: HUD Bracketed Contact List -->
+          <div class="work-right reveal">
+            <div class="hud-contact-list" role="list">
+              <!-- EMAIL Item -->
+              <div class="hud-item-wrapper" role="listitem">
+                <a class="hud-contact-item" href="mailto:gouvkimsea@gmail.com" title="Direct Email: gouvkimsea@gmail.com">
+                  <span class="hud-corner hud-corner-tl" aria-hidden="true"></span>
+                  <span class="hud-corner hud-corner-tr" aria-hidden="true"></span>
+                  <span class="hud-corner hud-corner-bl" aria-hidden="true"></span>
+                  <span class="hud-corner hud-corner-br" aria-hidden="true"></span>
+                  <span class="hud-label">EMAIL</span>
+                  <span class="hud-val">gouvkimsea@gmail.com</span>
+                  <span class="hud-arrow" aria-hidden="true">↗</span>
                 </a>
+                <button class="hud-copy-btn magnetic" id="copyEmailBtn" type="button" title="Copy email address to clipboard">Copy</button>
+              </div>
 
-                <div class="contact-channel-item">
-                  <div class="ch-icon">CV</div>
-                  <div class="ch-text">
-                    <small>Curriculum Vitae</small>
-                    <p>Resume · Gouv Kimsea</p>
-                  </div>
-                  <button class="copy-email-btn resume-view-btn magnetic" id="resumeContactBtn" type="button"
-                    title="View Curriculum Vitae">View CV</button>
-                </div>
+              <!-- GITHUB Item -->
+              <div class="hud-item-wrapper" role="listitem">
+                <a class="hud-contact-item" href="https://github.com/gouvkimsea" target="_blank" rel="noreferrer" title="GitHub: github.com/gouvkimsea">
+                  <span class="hud-corner hud-corner-tl" aria-hidden="true"></span>
+                  <span class="hud-corner hud-corner-tr" aria-hidden="true"></span>
+                  <span class="hud-corner hud-corner-bl" aria-hidden="true"></span>
+                  <span class="hud-corner hud-corner-br" aria-hidden="true"></span>
+                  <span class="hud-label">GITHUB</span>
+                  <span class="hud-val">github.com/gouvkimsea</span>
+                  <span class="hud-arrow" aria-hidden="true">↗</span>
+                </a>
+              </div>
 
-                <div class="contact-channel-item">
-                  <div class="ch-icon">◎</div>
-                  <div class="ch-text">
-                    <small>Location &amp; Status</small>
-                    <p>Phnom Penh · Open to opportunities</p>
-                  </div>
-                  <span class="avail-dot" title="Open to opportunities"></span>
-                </div>
+              <!-- LINKEDIN Item -->
+              <div class="hud-item-wrapper" role="listitem">
+                <a class="hud-contact-item" href="https://linkedin.com/in/gouvkimsea" target="_blank" rel="noreferrer" title="LinkedIn: linkedin.com/in/gouvkimsea">
+                  <span class="hud-corner hud-corner-tl" aria-hidden="true"></span>
+                  <span class="hud-corner hud-corner-tr" aria-hidden="true"></span>
+                  <span class="hud-corner hud-corner-bl" aria-hidden="true"></span>
+                  <span class="hud-corner hud-corner-br" aria-hidden="true"></span>
+                  <span class="hud-label">LINKEDIN</span>
+                  <span class="hud-val">linkedin.com/in/gouvkimsea</span>
+                  <span class="hud-arrow" aria-hidden="true">↗</span>
+                </a>
+              </div>
+
+              <!-- RESUME Item (triggers curriculum vitae modal) -->
+              <div class="hud-item-wrapper" role="listitem">
+                <button class="hud-contact-item hud-btn-trigger" id="resumeContactBtn" type="button" aria-haspopup="dialog" title="View Curriculum Vitae">
+                  <span class="hud-corner hud-corner-tl" aria-hidden="true"></span>
+                  <span class="hud-corner hud-corner-tr" aria-hidden="true"></span>
+                  <span class="hud-corner hud-corner-bl" aria-hidden="true"></span>
+                  <span class="hud-corner hud-corner-br" aria-hidden="true"></span>
+                  <span class="hud-label">RESUME</span>
+                  <span class="hud-val">Resume &amp; Curriculum Vitae</span>
+                  <span class="hud-arrow" aria-hidden="true">↗</span>
+                </button>
               </div>
             </div>
+          </div>
+        </div>
 
+        <!-- Interactive Direct Message Drawer -->
+        <div class="work-drawer-wrap reveal">
+          <button type="button" class="work-drawer-toggle" id="toggleContactFormBtn" aria-expanded="false" aria-controls="contactFormDrawer">
+            <span>Prefer to send a message directly? Click to write a note</span>
+            <span class="drawer-chevron" aria-hidden="true">↓</span>
+          </button>
+          <div class="work-drawer-content" id="contactFormDrawer" hidden>
             <form class="contact-form" id="contactForm" novalidate>
               <div class="form-window-bar">
-                <span class="wb-dot wb-red"></span><span class="wb-dot wb-yellow"></span><span
-                  class="wb-dot wb-green"></span>
+                <span class="wb-dot wb-red"></span><span class="wb-dot wb-yellow"></span><span class="wb-dot wb-green"></span>
                 <small>new-message.eml</small>
               </div>
               <div class="contact-topic-group">
@@ -927,20 +975,15 @@
                   <button type="button" class="topic-chip" data-topic="Project">Project Idea</button>
                 </div>
               </div>
-              <div class="form-row"><label for="name">Your name</label><input id="name" name="name" required
-                  placeholder="Jane Doe" /><span class="error-message"></span></div>
-              <div class="form-row"><label for="email">Email address</label><input id="email" name="email" type="email"
-                  required placeholder="you@example.com" /><span class="error-message"></span></div>
-              <div class="form-row"><label for="message">What’s on your mind?</label><textarea id="message"
-                  name="message" rows="4" required minlength="20"
-                  placeholder="Tell me a little about your project or note..."></textarea>
+              <div class="form-row"><label for="name">Your name</label><input id="name" name="name" required placeholder="Jane Doe" /><span class="error-message"></span></div>
+              <div class="form-row"><label for="email">Email address</label><input id="email" name="email" type="email" required placeholder="you@example.com" /><span class="error-message"></span></div>
+              <div class="form-row"><label for="message">What’s on your mind?</label><textarea id="message" name="message" rows="4" required minlength="20" placeholder="Tell me a little about your project or note..."></textarea>
                 <div class="form-row-meta">
                   <span class="char-count" id="charCount">0 / 20 min</span>
                   <span class="error-message"></span>
                 </div>
               </div>
-              <button class="button button-primary magnetic" id="submitBtn" type="submit">Send note
-                <span>↗</span></button>
+              <button class="button button-primary magnetic" id="submitBtn" type="submit">Send note <span>↗</span></button>
               <p class="form-status" role="status"></p>
               <small class="form-note">Validated client-side. Ready to connect to any backend service.</small>
             </form>

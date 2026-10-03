@@ -1018,195 +1018,276 @@ dialog.project-modal {
 }
 
 /* ==========================================================================
-   LUXURY OBSIDIAN GLASS CONTACT SECTION
+   LET'S WORK. SECTION WITH TOPOGRAPHIC HUD INTERACTION
    ========================================================================== */
-.contact-section {
-  background: var(--paper) !important;
-  color: var(--ink);
-  padding-top: 60px;
-  padding-bottom: 120px;
+.work-section {
+  background: radial-gradient(circle at 35% 45%, #0e1526 0%, #060913 100%) !important;
+  color: #ffffff !important;
   position: relative;
   overflow: hidden;
+  padding: 130px 0 140px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.contact-shell {
-  background: var(--card-bg, #181916);
-  border: 1px solid var(--line);
-  border-radius: 24px;
-  padding: 60px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
-  transition: border-color 0.3s, box-shadow 0.3s;
+[data-theme="light"] .work-section {
+  background: radial-gradient(circle at 35% 45%, #0f172a 0%, #080d1a 100%) !important;
+  color: #ffffff !important;
 }
 
-[data-theme="light"] .contact-shell {
-  background: #ffffff;
-  border-color: #dcdcd2;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.06);
-}
-
-.contact-glow-orb {
+/* Topographic Map Background Layer */
+.topo-bg-layer {
   position: absolute;
-  top: -80px;
-  right: -80px;
-  width: 320px;
-  height: 320px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(239, 131, 84, 0.2), transparent 70%);
-  filter: blur(60px);
+  inset: 0;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
 }
 
-.contact-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 50px;
-  align-items: start;
+.topo-svg {
+  width: 100%;
+  height: 100%;
+  color: #94a3b8;
+  filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.08));
+}
+
+.work-container {
   position: relative;
   z-index: 2;
 }
 
-.contact-copy h2 {
-  font-size: clamp(45px, 5.5vw, 75px);
-  line-height: 0.95;
-  letter-spacing: -0.06em;
-  margin: 18px 0;
+/* Two-column layout */
+.work-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 70px;
+  align-items: center;
 }
 
-.contact-intro {
-  font-size: 15px;
-  line-height: 1.65;
-  color: var(--muted);
+/* Left Column */
+.work-left {
+  max-width: 520px;
+}
+
+.work-title {
+  font-family: var(--sans);
+  font-size: clamp(68px, 9vw, 122px);
+  font-weight: 800;
+  line-height: 0.86;
+  letter-spacing: -0.05em;
+  color: #ffffff !important;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.work-subtitle {
+  font-size: clamp(16px, 1.6vw, 19.5px);
+  color: #94a3b8 !important;
+  line-height: 1.55;
+  margin-top: 28px;
+  margin-bottom: 0;
   max-width: 440px;
-  margin-bottom: 35px;
+  font-weight: 400;
 }
 
-.contact-channels {
+/* Right Column (HUD Contact List) */
+.hud-contact-list {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  max-width: 440px;
+  gap: 18px;
+  width: 100%;
 }
 
-.contact-channel-item {
+.hud-item-wrapper {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 14px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 14px 18px;
-  transition: all 0.25s ease;
+  width: 100%;
 }
 
-[data-theme="light"] .contact-channel-item {
-  background: #fbfbfa;
-}
-
-.contact-channel-item:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: var(--orange);
-  transform: translateX(4px);
-}
-
-[data-theme="light"] .contact-channel-item:hover {
-  background: #f4f4f0;
-}
-
-.ch-icon {
-  font-size: 18px;
-  color: var(--orange);
-  flex-shrink: 0;
-  width: 28px;
-  height: 28px;
+.hud-contact-item {
+  position: relative;
   display: grid;
-  place-items: center;
-  background: rgba(239, 131, 84, 0.1);
-  border-radius: 8px;
+  grid-template-columns: 105px 1fr auto;
+  align-items: center;
+  width: 100%;
+  padding: 24px 30px;
+  background: rgba(255, 255, 255, 0.015);
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  color: inherit;
 }
 
-.ch-text {
-  flex: 1;
-  min-width: 0;
+.hud-btn-trigger {
+  font: inherit;
+  text-align: left;
+  appearance: none;
+  -webkit-appearance: none;
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid transparent;
 }
 
-.ch-text small {
-  display: block;
-  font: 10px var(--mono);
-  color: var(--muted);
+.hud-contact-item:hover {
+  background: rgba(255, 255, 255, 0.045);
+  transform: translateX(6px);
+}
+
+/* Corner Brackets: ┌ ┐ └ ┘ */
+.hud-corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+  transition: border-color 0.25s ease, transform 0.25s ease;
+}
+
+.hud-corner-tl {
+  top: 0;
+  left: 0;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.42);
+  border-left: 1.5px solid rgba(255, 255, 255, 0.42);
+}
+
+.hud-corner-tr {
+  top: 0;
+  right: 0;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.42);
+  border-right: 1.5px solid rgba(255, 255, 255, 0.42);
+}
+
+.hud-corner-bl {
+  bottom: 0;
+  left: 0;
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.42);
+  border-left: 1.5px solid rgba(255, 255, 255, 0.42);
+}
+
+.hud-corner-br {
+  bottom: 0;
+  right: 0;
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.42);
+  border-right: 1.5px solid rgba(255, 255, 255, 0.42);
+}
+
+.hud-contact-item:hover .hud-corner {
+  border-color: #facc15;
+}
+
+/* Labels: EMAIL, GITHUB, LINKEDIN, RESUME */
+.hud-label {
+  color: #facc15 !important;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 2px;
 }
 
-.ch-text p {
-  margin: 0;
-  font: 13px var(--mono);
-  color: var(--ink);
+.hud-val {
+  color: #ffffff !important;
+  font-family: var(--sans);
+  font-size: clamp(15px, 1.4vw, 17.5px);
+  font-weight: 500;
+  letter-spacing: -0.01em;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  padding-right: 12px;
 }
 
-.copy-email-btn {
-  background: rgba(239, 131, 84, 0.15);
-  border: 1px solid rgba(239, 131, 84, 0.4);
-  color: var(--orange);
-  font: 10px var(--mono);
-  padding: 5px 12px;
-  border-radius: 6px;
-  transition: all 0.2s;
+.hud-arrow {
+  color: #ffffff;
+  font-size: 20px;
+  transition: transform 0.25s ease, color 0.25s ease;
+  line-height: 1;
+}
+
+.hud-contact-item:hover .hud-arrow {
+  transform: translate(3px, -3px);
+  color: #facc15;
+}
+
+/* Inline quick copy button on email */
+.hud-copy-btn {
+  position: absolute;
+  right: 50px;
+  background: rgba(250, 204, 21, 0.12);
+  border: 1px solid rgba(250, 204, 21, 0.35);
+  color: #facc15;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 5px;
   cursor: pointer;
-  flex-shrink: 0;
+  transition: all 0.2s;
+  z-index: 3;
 }
 
-.copy-email-btn:hover {
-  background: var(--orange);
-  color: #fff;
-  transform: scale(1.05);
+.hud-copy-btn:hover {
+  background: #facc15;
+  color: #080c16;
 }
 
-.copy-email-btn.copied {
+.hud-copy-btn.copied {
   background: var(--lime);
-  color: #121310;
+  color: #080c16;
   border-color: var(--lime);
 }
 
-.ch-arrow {
-  font-size: 16px;
-  color: var(--muted);
-  transition: transform 0.2s, color 0.2s;
+/* Direct message drawer */
+.work-drawer-wrap {
+  margin-top: 60px;
+  padding-top: 36px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.ch-link:hover .ch-arrow {
-  color: var(--orange);
-  transform: translate(2px, -2px);
+.work-drawer-toggle {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #94a3b8;
+  padding: 12px 24px;
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.25s;
 }
 
-.avail-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--lime);
-  box-shadow: 0 0 8px var(--lime);
+.work-drawer-toggle:hover {
+  border-color: #facc15;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.04);
 }
 
-[data-theme="light"] .avail-dot {
-  background: #6ea432;
-  box-shadow: 0 0 6px #6ea432;
+.work-drawer-toggle .drawer-chevron {
+  transition: transform 0.25s;
+}
+
+.work-drawer-toggle[aria-expanded="true"] .drawer-chevron {
+  transform: rotate(180deg);
+}
+
+.work-drawer-content {
+  margin-top: 24px;
+  max-width: 680px;
 }
 
 .contact-form {
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid var(--line);
+  background: rgba(14, 21, 38, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 16px;
   padding: 34px;
-}
-
-[data-theme="light"] .contact-form {
-  background: #fbfbfa;
-  border-color: #dcdcd2;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .form-window-bar {
@@ -1215,7 +1296,7 @@ dialog.project-modal {
   gap: 6px;
   margin-bottom: 24px;
   padding-bottom: 12px;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .form-window-bar small {
@@ -1224,13 +1305,20 @@ dialog.project-modal {
   margin-left: 8px;
 }
 
-@media (max-width: 900px) {
-  .contact-shell {
-    padding: 32px 24px;
-  }
-  .contact-grid {
+@media (max-width: 960px) {
+  .work-grid {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 48px;
+  }
+  .work-title {
+    font-size: clamp(54px, 14vw, 84px);
+  }
+  .hud-contact-item {
+    grid-template-columns: 90px 1fr auto;
+    padding: 20px 20px;
+  }
+  .hud-copy-btn {
+    right: 44px;
   }
 }
 

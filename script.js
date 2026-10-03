@@ -1122,6 +1122,20 @@ contactForm?.addEventListener("submit", event => {
     formStatus.style.color = "#b34834";
   }
 });
+// Direct Message Drawer Toggle
+const toggleContactBtn = $("#toggleContactFormBtn");
+const contactDrawer = $("#contactFormDrawer");
+toggleContactBtn?.addEventListener("click", () => {
+  const isExpanded = toggleContactBtn.getAttribute("aria-expanded") === "true";
+  toggleContactBtn.setAttribute("aria-expanded", String(!isExpanded));
+  if (contactDrawer) {
+    contactDrawer.hidden = isExpanded;
+    if (!isExpanded) {
+      playSound("click");
+      contactDrawer.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  }
+});
 
 // 1-Click Email Copy Interaction
 const copyEmailBtn = $("#copyEmailBtn");
