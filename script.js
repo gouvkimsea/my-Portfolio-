@@ -227,6 +227,8 @@ cmdKResults?.addEventListener("click", e => {
     }
   } else if (action === "copy-email") {
     $("#copyEmailBtn")?.click();
+  } else if (action === "view-education") {
+    openResumeModal("#resumeEduSection");
   } else if (action === "view-resume") {
     openResumeModal();
   } else if (action === "toggle-theme") {
@@ -708,10 +710,21 @@ modal?.addEventListener("click", event => { if (event.target === modal) closeMod
 const resumeModal = $("#resumeModal");
 let previousResumeElement = null;
 
-const openResumeModal = () => {
+const openResumeModal = (targetSectionId = null) => {
   if (!resumeModal) return;
   previousResumeElement = document.activeElement;
   resumeModal.showModal();
+  if (targetSectionId) {
+    const target = $(targetSectionId);
+    if (target) {
+      setTimeout(() => {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+        target.classList.add("resume-section-highlight");
+        setTimeout(() => target.classList.remove("resume-section-highlight"), 1900);
+      }, 140);
+      return;
+    }
+  }
   $("#resumeCloseBtn")?.focus();
 };
 
@@ -724,11 +737,15 @@ const closeResumeModal = () => {
   }
 };
 
-$("#resumeHeroBtn")?.addEventListener("click", openResumeModal);
-$("#resumeContactBtn")?.addEventListener("click", openResumeModal);
+$("#resumeHeroBtn")?.addEventListener("click", () => openResumeModal());
+$("#resumeContactBtn")?.addEventListener("click", () => openResumeModal());
 $("#resumeCloseBtn")?.addEventListener("click", closeResumeModal);
 $("#resumeFooterClose")?.addEventListener("click", closeResumeModal);
 $("#resumePrintBtn")?.addEventListener("click", () => window.print());
+$("#eduDetailsBtn")?.addEventListener("click", () => openResumeModal("#resumeEduSection"));
+$$(".resume-view-btn").forEach(btn => {
+  btn.addEventListener("click", () => openResumeModal("#resumeEduSection"));
+});
 resumeModal?.addEventListener("click", event => {
   if (event.target === resumeModal) closeResumeModal();
 });

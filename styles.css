@@ -3297,168 +3297,601 @@ dialog.resume-modal::backdrop {
 }
 
 /* ==========================================================================
-   DUAL DEGREE EDUCATION PROFILE STYLES
+   DUAL DEGREE EDUCATION PROFILE (REFINED ARCHITECTURE)
    ========================================================================== */
+
+/* Bento Hero Tags & Spacing Balance */
+.bento-hero-footer {
+  margin-top: auto;
+  padding-top: 24px;
+}
+
+.bento-hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.bento-hero-tags span {
+  font: 10.5px var(--mono);
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line);
+  padding: 4px 10px;
+  border-radius: 20px;
+  transition: all 0.2s ease;
+}
+
+[data-theme="light"] .bento-hero-tags span {
+  background: #f7f7f2;
+  color: var(--ink);
+}
+
+.bento-hero-tags span:hover {
+  border-color: var(--lime);
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+
+[data-theme="dark"] .bento-hero-tags span:hover {
+  color: var(--lime);
+}
+
+/* Bento Education Card Container */
 .bento-education-card {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  min-height: 410px;
+  background: radial-gradient(circle at 85% 12%, rgba(231, 242, 109, 0.04), transparent 45%), var(--card-bg, #181916);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 30px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.2, 0, 0.1, 1), border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.bento-badge-edu {
+[data-theme="light"] .bento-education-card {
+  background: radial-gradient(circle at 85% 12%, rgba(239, 131, 84, 0.04), transparent 45%), #ffffff;
+  border-color: #e2e2d8;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+.bento-education-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--lime);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.32);
+}
+
+[data-theme="light"] .bento-education-card:hover {
+  border-color: var(--orange);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.08);
+}
+
+/* Card Header */
+.edu-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.edu-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   font: 10px var(--mono);
+  letter-spacing: 0.08em;
+  font-weight: 700;
   color: var(--orange);
   background: rgba(239, 131, 84, 0.1);
   border: 1px solid rgba(239, 131, 84, 0.3);
-  padding: 3px 8px;
-  border-radius: 12px;
-  letter-spacing: 0.06em;
-  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
 }
 
-[data-theme="dark"] .bento-badge-edu {
+[data-theme="dark"] .edu-pill {
   color: var(--lime);
   background: rgba(231, 242, 109, 0.1);
   border-color: rgba(231, 242, 109, 0.3);
 }
 
-.edu-card-heading {
-  font-size: 19px;
-  letter-spacing: -0.03em;
-  margin: 12px 0 10px;
-  color: var(--ink);
+.edu-beacon {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 6px currentColor;
+  animation: pulseBeacon 2s infinite;
 }
 
-[data-theme="dark"] .edu-card-heading {
+.edu-grad-year {
+  font: 10px var(--mono);
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+
+/* Card Intro */
+.edu-card-intro h4 {
+  font-size: 19px;
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+  margin: 0 0 4px;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+[data-theme="dark"] .edu-card-intro h4 {
   color: #f1f0e9;
 }
 
-.edu-degree-list {
+.edu-subtitle {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.4;
+  margin: 0 0 14px;
+}
+
+/* Dual Tracks Layout */
+.edu-tracks-container {
   display: flex;
   flex-direction: column;
+  position: relative;
+  margin: 2px 0 16px;
+}
+
+.edu-track-card {
+  display: flex;
+  align-items: flex-start;
   gap: 12px;
-  margin: 8px 0 16px;
-}
-
-.edu-degree-item {
-  background: rgba(0, 0, 0, 0.025);
-  border: 1px solid var(--line);
-  border-radius: 10px;
   padding: 12px 14px;
-  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid var(--line);
+  transition: transform 0.25s cubic-bezier(0.2, 0, 0.1, 1), border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+  position: relative;
+  z-index: 1;
 }
 
-[data-theme="dark"] .edu-degree-item {
-  background: rgba(255, 255, 255, 0.03);
+[data-theme="dark"] .edu-track-card {
+  background: rgba(255, 255, 255, 0.025);
   border-color: rgba(255, 255, 255, 0.08);
 }
 
-.edu-degree-item:hover {
-  transform: translateX(3px);
-  border-color: var(--orange);
-  background: rgba(239, 131, 84, 0.04);
+.edu-track-card:hover {
+  transform: translateX(4px);
+  background: rgba(255, 255, 255, 0.05);
 }
 
-[data-theme="dark"] .edu-degree-item:hover {
+.edu-track-card.tech-track:hover {
   border-color: var(--lime);
-  background: rgba(231, 242, 109, 0.05);
+  box-shadow: 0 4px 18px rgba(231, 242, 109, 0.12);
 }
 
-.edu-institution-line {
+[data-theme="light"] .edu-track-card.tech-track:hover {
+  border-color: #15803d;
+  box-shadow: 0 4px 18px rgba(21, 128, 61, 0.12);
+}
+
+.edu-track-card.biz-track:hover {
+  border-color: var(--orange);
+  box-shadow: 0 4px 18px rgba(239, 131, 84, 0.12);
+}
+
+/* Track Badges (Icon Nodes) */
+.edu-track-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.edu-track-card:hover .edu-track-badge {
+  transform: scale(1.08);
+}
+
+.tech-track .edu-track-badge {
+  background: rgba(231, 242, 109, 0.15);
+  color: var(--lime);
+  border: 1px solid rgba(231, 242, 109, 0.35);
+}
+
+[data-theme="light"] .tech-track .edu-track-badge {
+  background: rgba(21, 128, 61, 0.12);
+  color: #15803d;
+  border-color: rgba(21, 128, 61, 0.25);
+}
+
+.biz-track .edu-track-badge {
+  background: rgba(239, 131, 84, 0.15);
+  color: var(--orange);
+  border: 1px solid rgba(239, 131, 84, 0.35);
+}
+
+/* Track Content Typography & Hierarchy */
+.edu-track-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.edu-track-top {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 8px;
-  font-size: 13px;
-  color: var(--ink);
-  margin-bottom: 3px;
-}
-
-[data-theme="dark"] .edu-institution-line {
-  color: #f1f0e9;
+  margin-bottom: 2px;
 }
 
 .edu-degree-name {
-  font: 11.5px var(--mono);
-  color: var(--orange);
-  margin: 0 0 8px 0;
-  font-weight: 500;
+  font-size: 13.5px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--ink);
+  letter-spacing: -0.01em;
 }
 
 [data-theme="dark"] .edu-degree-name {
+  color: #f1f0e9;
+}
+
+.edu-degree-pill {
+  font: 9px var(--mono);
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+.edu-degree-pill.tech {
+  color: var(--orange);
+  background: rgba(239, 131, 84, 0.1);
+  border: 1px solid rgba(239, 131, 84, 0.25);
+}
+
+[data-theme="dark"] .edu-degree-pill.tech {
+  color: var(--lime);
+  background: rgba(231, 242, 109, 0.1);
+  border-color: rgba(231, 242, 109, 0.3);
+}
+
+.edu-degree-pill.biz {
+  color: var(--orange);
+  background: rgba(239, 131, 84, 0.1);
+  border: 1px solid rgba(239, 131, 84, 0.25);
+}
+
+.edu-school-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.edu-school-icon {
+  font-size: 11px;
+}
+
+.edu-school-name {
+  font-weight: 500;
+  color: var(--ink);
+}
+
+[data-theme="dark"] .edu-school-name {
+  color: #c9cbbf;
+}
+
+/* Micro Chips */
+.edu-chip-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.edu-chip-cluster span {
+  font: 9px var(--mono);
+  color: var(--muted);
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--line);
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+[data-theme="dark"] .edu-chip-cluster span {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.08);
+  color: #adb0a3;
+}
+
+.edu-track-card:hover .edu-chip-cluster span {
+  border-color: rgba(255, 255, 255, 0.16);
+  color: var(--ink);
+}
+
+[data-theme="dark"] .edu-track-card:hover .edu-chip-cluster span {
+  color: #f1f0e9;
+}
+
+/* Parallel Track Bridge with Particle Pulse */
+.edu-dual-bridge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 6px 0 6px 14px;
+  height: 18px;
+  position: relative;
+}
+
+.edu-bridge-line {
+  width: 2px;
+  height: 100%;
+  position: relative;
+  background: linear-gradient(180deg, var(--lime) 0%, var(--orange) 100%);
+  opacity: 0.6;
+  border-radius: 1px;
+}
+
+.edu-bridge-pulse {
+  position: absolute;
+  top: 0;
+  left: -2px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 8px var(--lime);
+  animation: bridgePulse 2.2s ease-in-out infinite alternate;
+}
+
+@keyframes bridgePulse {
+  0% { top: 0; background: var(--lime); box-shadow: 0 0 8px var(--lime); }
+  50% { opacity: 1; }
+  100% { top: calc(100% - 6px); background: var(--orange); box-shadow: 0 0 8px var(--orange); }
+}
+
+.edu-bridge-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font: 8.5px var(--mono);
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px dashed var(--line);
+  padding: 1px 7px;
+  border-radius: 10px;
+}
+
+[data-theme="dark"] .edu-bridge-badge {
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(255, 255, 255, 0.09);
+  color: #8b8e82;
+}
+
+.edu-bridge-icon {
+  font-size: 8px;
   color: var(--lime);
 }
 
-.edu-tags {
+/* Card Footer & Interactive Button */
+.edu-card-footer {
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px dashed var(--line);
+}
+
+.edu-synergy-callout {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.synergy-sparkle {
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.edu-view-btn {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font: 10px var(--mono);
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.2, 0, 0.1, 1);
+  white-space: nowrap;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
   gap: 5px;
 }
 
-.edu-tags span {
-  font: 9.5px var(--mono);
-  padding: 2px 7px;
-  border-radius: 4px;
-  background: rgba(0, 0, 0, 0.03);
+[data-theme="dark"] .edu-view-btn {
+  color: #f1f0e9;
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.edu-view-btn .btn-arrow {
+  transition: transform 0.2s ease;
+}
+
+.edu-view-btn:hover {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+  transform: translateY(-1px);
+}
+
+.edu-view-btn:hover .btn-arrow {
+  transform: translate(2px, -2px);
+}
+
+[data-theme="dark"] .edu-view-btn:hover {
+  background: var(--lime);
+  color: #121310;
+  border-color: var(--lime);
+}
+
+/* ==========================================================================
+   RESUME MODAL EDUCATION STYLES & HIGHLIGHT EFFECT
+   ========================================================================== */
+.resume-edu-card {
+  background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--line);
-  color: var(--muted);
+  border-left: 3px solid var(--orange);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-bottom: 14px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
-[data-theme="dark"] .edu-tags span {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(255, 255, 255, 0.1);
-  color: #b5b7ab;
+[data-theme="dark"] .resume-edu-card.tech {
+  border-left-color: var(--lime);
 }
 
-.edu-synthesis-badge {
-  margin-top: auto;
-  border-top: 1px dashed var(--line);
-  padding-top: 12px;
+[data-theme="dark"] .resume-edu-card.biz {
+  border-left-color: var(--orange);
 }
 
-/* Resume Modal Education Styles */
-.resume-edu-item {
-  margin-bottom: 20px;
-  padding-bottom: 16px;
-  border-bottom: 1px dashed var(--line);
+[data-theme="light"] .resume-edu-card {
+  background: #fbfbfa;
 }
 
-.resume-edu-item:last-child {
-  border-bottom: 0;
-  margin-bottom: 0;
-  padding-bottom: 0;
+[data-theme="light"] .resume-edu-card.tech {
+  border-left-color: #15803d;
 }
 
-.resume-edu-inst {
+[data-theme="light"] .resume-edu-card.biz {
+  border-left-color: var(--orange);
+}
+
+.resume-edu-title {
+  font-size: 15px;
+  margin: 0 0 2px;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+[data-theme="dark"] .resume-edu-title {
+  color: #f1f0e9;
+}
+
+.resume-edu-institution {
   font: 11px var(--mono);
   color: var(--orange);
-  margin: 3px 0 8px 0;
   font-weight: 500;
 }
 
-[data-theme="dark"] .resume-edu-inst {
+[data-theme="dark"] .resume-edu-card.tech .resume-edu-institution {
   color: var(--lime);
 }
 
-.resume-edu-highlights {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 10px;
-}
-
-.resume-edu-highlights span {
-  font: 10px var(--mono);
-  padding: 3px 8px;
-  border: 1px solid var(--line);
+.resume-edu-badge {
+  font: 9.5px var(--mono);
+  font-weight: 700;
+  padding: 2px 7px;
   border-radius: 4px;
-  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--line);
   color: var(--muted);
+  white-space: nowrap;
 }
 
-[data-theme="dark"] .resume-edu-highlights span {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(255, 255, 255, 0.1);
-  color: #adb0a3;
+.resume-edu-badge.tech {
+  color: var(--lime);
+  border-color: rgba(231, 242, 109, 0.3);
+  background: rgba(231, 242, 109, 0.08);
 }
+
+[data-theme="light"] .resume-edu-badge.tech {
+  color: #15803d;
+  border-color: rgba(21, 128, 61, 0.3);
+  background: rgba(21, 128, 61, 0.08);
+}
+
+.resume-edu-badge.biz {
+  color: var(--orange);
+  border-color: rgba(239, 131, 84, 0.3);
+  background: rgba(239, 131, 84, 0.08);
+}
+
+.resume-edu-meta {
+  font: 10px var(--mono);
+  color: var(--muted);
+  margin: 6px 0 8px;
+}
+
+.resume-edu-desc {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.resume-synergy-callout {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: rgba(231, 242, 109, 0.06);
+  border: 1px dashed rgba(231, 242, 109, 0.25);
+  margin-top: 14px;
+}
+
+[data-theme="light"] .resume-synergy-callout {
+  background: rgba(239, 131, 84, 0.06);
+  border-color: rgba(239, 131, 84, 0.25);
+}
+
+.synergy-callout-icon {
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.resume-synergy-callout p {
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--ink);
+  margin: 0;
+}
+
+[data-theme="dark"] .resume-synergy-callout p {
+  color: #d8dad0;
+}
+
+/* Modal Deep Link Highlight Animation */
+@keyframes resumeSectionFlash {
+  0% {
+    background: rgba(231, 242, 109, 0.18);
+    box-shadow: 0 0 28px rgba(231, 242, 109, 0.35);
+  }
+  100% {
+    background: transparent;
+    box-shadow: none;
+  }
+}
+
+.resume-section-highlight {
+  animation: resumeSectionFlash 1.8s ease-out;
+  border-radius: 12px;
+}
+
 
 
 

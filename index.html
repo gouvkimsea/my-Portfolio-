@@ -146,47 +146,101 @@
             <p>I’m a university student interested in the space where technology, software development, and management
               meet. I enjoy taking an idea from a rough sketch to something people can actually use, while staying
               honest about what I’m still learning.</p>
-
+            <div class="bento-hero-footer">
+              <div class="bento-hero-tags">
+                <span>⚡ Interactive Web</span>
+                <span>🦀 C++ &amp; WebGL</span>
+                <span>📐 Product Strategy</span>
+                <span>🇰🇭 Phnom Penh</span>
+              </div>
+            </div>
           </article>
 
-          <article class="bento-card bento-status bento-education-card reveal spotlight-card">
-            <div class="bento-header">
-              <span class="bento-badge-edu">🎓 DUAL DEGREE</span>
-              <span class="bento-year">2026</span>
+          <article class="bento-card bento-status bento-education-card reveal spotlight-card" id="bentoEduCard">
+            <div class="edu-card-header">
+              <div class="edu-pill">
+                <span class="edu-beacon"></span>
+                <span>DUAL DEGREE</span>
+              </div>
+              <span class="edu-grad-year">Expected 2026</span>
             </div>
-            <h4 class="edu-card-heading">CS &amp; Business Administration</h4>
-            
-            <div class="edu-degree-list">
-              <div class="edu-degree-item">
-                <div class="edu-institution-line">
-                  <span class="edu-icon">🏛️</span>
-                  <strong>Paragon International University</strong>
+
+            <div class="edu-card-intro">
+              <h4>Computer Science &amp; Business</h4>
+              <p class="edu-subtitle">Parallel dual undergraduate tracks in Phnom Penh</p>
+            </div>
+
+            <div class="edu-tracks-container">
+              <div class="edu-track-card tech-track">
+                <div class="edu-track-badge" aria-hidden="true">
+                  <svg class="edu-track-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="16 18 22 12 16 6"></polyline>
+                    <polyline points="8 6 2 12 8 18"></polyline>
+                  </svg>
                 </div>
-                <p class="edu-degree-name">Bachelor of Computer Science (B.Sc.)</p>
-                <div class="edu-tags">
-                  <span>Software Engineering</span>
-                  <span>Algorithms</span>
-                  <span>WebGL &amp; C++</span>
+                <div class="edu-track-content">
+                  <div class="edu-track-top">
+                    <h5 class="edu-degree-name">Computer Science</h5>
+                    <span class="edu-degree-pill tech">B.Sc.</span>
+                  </div>
+                  <div class="edu-school-row">
+                    <span class="edu-school-icon">🏛️</span>
+                    <span class="edu-school-name">Paragon International University</span>
+                  </div>
+                  <div class="edu-chip-cluster">
+                    <span>Algorithms</span>
+                    <span>WebGL &amp; C++</span>
+                    <span>Systems</span>
+                  </div>
                 </div>
               </div>
 
-              <div class="edu-degree-item">
-                <div class="edu-institution-line">
-                  <span class="edu-icon">📈</span>
-                  <strong>Bonamary University</strong>
+              <div class="edu-dual-bridge" aria-hidden="true">
+                <div class="edu-bridge-line">
+                  <span class="edu-bridge-core"></span>
+                  <span class="edu-bridge-pulse"></span>
                 </div>
-                <p class="edu-degree-name">Bachelor of Business Administration (B.B.A.)</p>
-                <div class="edu-tags">
-                  <span>Business Admin</span>
-                  <span>Management</span>
-                  <span>Strategy</span>
+                <div class="edu-bridge-badge">
+                  <span class="edu-bridge-icon">⚡</span>
+                  <span>PARALLEL ENROLLMENT</span>
+                </div>
+              </div>
+
+              <div class="edu-track-card biz-track">
+                <div class="edu-track-badge" aria-hidden="true">
+                  <svg class="edu-track-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                    <path d="M2 17l10 5 10-5"></path>
+                    <path d="M2 12l10 5 10-5"></path>
+                  </svg>
+                </div>
+                <div class="edu-track-content">
+                  <div class="edu-track-top">
+                    <h5 class="edu-degree-name">Business Administration</h5>
+                    <span class="edu-degree-pill biz">B.B.A.</span>
+                  </div>
+                  <div class="edu-school-row">
+                    <span class="edu-school-icon">📊</span>
+                    <span class="edu-school-name">Bonamary University</span>
+                  </div>
+                  <div class="edu-chip-cluster">
+                    <span>Strategic Mgmt</span>
+                    <span>Product Economics</span>
+                    <span>Operations</span>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div class="bento-metric-badge edu-synthesis-badge">
-              <strong>The Intersection of Tech &amp; Business</strong>
-              <small>Algorithmic engineering rigor paired with market insight</small>
+            <div class="edu-card-footer">
+              <div class="edu-synergy-callout">
+                <span class="synergy-sparkle">💡</span>
+                <span class="synergy-copy"><strong>Dual Engine:</strong> Rigor meets market insight</span>
+              </div>
+              <button class="edu-view-btn resume-view-btn magnetic" id="eduDetailsBtn" type="button" title="View comprehensive academic coursework in resume modal">
+                <span>Coursework</span>
+                <span class="btn-arrow">↗</span>
+              </button>
             </div>
           </article>
 
@@ -892,37 +946,54 @@
                 products.</p>
             </section>
 
-            <section class="resume-block resume-education-block">
+            <section class="resume-block resume-education-block" id="resumeEduSection">
               <h3 class="resume-block-title"><span>02</span> Education &amp; Academic Background</h3>
               
-              <div class="resume-item resume-edu-item">
+              <div class="resume-item resume-edu-card tech">
                 <div class="resume-item-top">
-                  <h4>Bachelor of Computer Science (B.Sc.)</h4>
-                  <span class="resume-tag">Paragon International University</span>
+                  <div>
+                    <h4 class="resume-edu-title">Bachelor of Computer Science (B.Sc.)</h4>
+                    <div class="resume-edu-institution">
+                      <span class="edu-school-icon">🏛️</span> Paragon International University
+                    </div>
+                  </div>
+                  <span class="resume-edu-badge tech">B.Sc. · Tech Track</span>
                 </div>
-                <p class="resume-edu-inst">Phnom Penh, Cambodia · Undergraduate · In Progress (2026)</p>
-                <p>Focused on software engineering, algorithms &amp; data structures, object-oriented systems (C++), full-stack web applications, and real-time graphics with WebGL.</p>
+                <p class="resume-edu-meta">Phnom Penh, Cambodia · Undergraduate · Expected 2026</p>
+                <p class="resume-edu-desc">Rigorous foundation in computer science and software development. Deep dive into algorithms, systems programming, and high-performance client rendering.</p>
                 <div class="resume-edu-highlights">
                   <span>Algorithms &amp; Data Structures</span>
                   <span>Software Engineering</span>
                   <span>C++ Systems</span>
                   <span>WebGL &amp; 3D Math</span>
+                  <span>Database Design</span>
                 </div>
               </div>
 
-              <div class="resume-item resume-edu-item">
+              <div class="resume-item resume-edu-card biz">
                 <div class="resume-item-top">
-                  <h4>Bachelor of Business Administration (B.B.A.)</h4>
-                  <span class="resume-tag">Bonamary University</span>
+                  <div>
+                    <h4 class="resume-edu-title">Bachelor of Business Administration (B.B.A.)</h4>
+                    <div class="resume-edu-institution">
+                      <span class="edu-school-icon">📊</span> Bonamary University
+                    </div>
+                  </div>
+                  <span class="resume-edu-badge biz">B.B.A. · Business Track</span>
                 </div>
-                <p class="resume-edu-inst">Phnom Penh, Cambodia · Undergraduate · In Progress (2026)</p>
-                <p>Focused on business administration, organizational operations, strategic product management, market feasibility, and commercial venture execution.</p>
+                <p class="resume-edu-meta">Phnom Penh, Cambodia · Undergraduate · Expected 2026</p>
+                <p class="resume-edu-desc">Comprehensive study of commercial business administration, financial principles, market feasibility, and strategic operations to turn software into scalable solutions.</p>
                 <div class="resume-edu-highlights">
-                  <span>Business Administration</span>
                   <span>Strategic Management</span>
                   <span>Product Economics</span>
-                  <span>Operations</span>
+                  <span>Organizational Behavior</span>
+                  <span>Venture Operations</span>
+                  <span>Market Feasibility</span>
                 </div>
+              </div>
+
+              <div class="resume-synergy-callout">
+                <span class="synergy-callout-icon">💡</span>
+                <p><strong>Dual-Degree Synergy:</strong> Bridging software engineering rigor with commercial product strategy — turning code into viable, user-centered solutions.</p>
               </div>
             </section>
 
@@ -1049,7 +1120,7 @@
         <button type="button" class="cmdk-item" data-action="open-project" data-project="portfolio"><span class="cmdk-icon">⚡</span> Portfolio <small>Personal Web Platform</small></button>
 
         <div class="cmdk-group-title">Quick Actions</div>
-        <button type="button" class="cmdk-item" data-action="view-resume"><span class="cmdk-icon">🎓</span> Education Profile
+        <button type="button" class="cmdk-item" data-action="view-education"><span class="cmdk-icon">🎓</span> Education Profile
           <small>Paragon.U CS &amp; Bonamary.U Business Admin</small></button>
         <button type="button" class="cmdk-item" data-action="play-game"><span class="cmdk-icon">🦖</span> Play Chrome Dino
           <small>Classic T-Rex runner mini-game in Bento Grid</small></button>
