@@ -1322,6 +1322,26 @@ dialog.project-modal {
   }
 }
 
+@media (max-width: 520px) {
+  .hud-contact-item {
+    grid-template-columns: 75px 1fr auto;
+    padding: 16px 14px;
+  }
+  .hud-label {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+  }
+  .hud-val {
+    font-size: 13.5px;
+    padding-right: 8px;
+  }
+  .hud-copy-btn {
+    right: 36px;
+    padding: 3px 7px;
+    font-size: 9px;
+  }
+}
+
 /* ==========================================================================
    SMEAN.AI STYLE ANIMATED FLOATING NAVBAR
    ========================================================================== */

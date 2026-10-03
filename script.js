@@ -235,6 +235,8 @@ cmdKResults?.addEventListener("click", e => {
     toggleTheme();
   } else if (action === "github") {
     window.open("https://github.com/gouvkimsea", "_blank", "noopener,noreferrer");
+  } else if (action === "linkedin") {
+    window.open("https://linkedin.com/in/gouvkimsea", "_blank", "noopener,noreferrer");
   }
 });
 
@@ -795,7 +797,7 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>education</b>, <b>skills</b>, <b>projects</b>, <b>achievements</b>, <b>play</b>, <b>starrunner</b>, <b>dino</b>, <b>stats</b>, <b>resume</b>, <b>matrix</b>, <b>neofetch</b>, <b>theme</b>, <b>search</b>, <b>contact</b>, <b>whoami</b>, <b>github</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>education</b>, <b>skills</b>, <b>projects</b>, <b>achievements</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>play</b>, <b>dino</b>, <b>matrix</b>, <b>neofetch</b>, <b>theme</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
   about: "Gouv Kimsea — Dual degree undergraduate in Computer Science (Paragon.U) & Business Administration (Bonamary.U) building tangible products.",
   education: () => {
     return `<pre style="color:var(--lime);font-size:11px;line-height:1.5;">
@@ -932,9 +934,15 @@ Engineering Stats (2026):
     }
     return `<pre style="color:#00ff66;font-family:monospace;letter-spacing:2px;font-size:11px;">${output}\n// MATRIX FLOW INITIALIZED // Welcome to the grid, agent.</pre>`;
   },
-  contact: "Email: <a href='mailto:gouvkimsea@gmail.com' style='color:var(--lime)'>gouvkimsea@gmail.com</a> | GitHub: <a href='https://github.com/gouvkimsea' target='_blank' style='color:var(--lime)'>github.com/gouvkimsea</a>",
+  contact: () => {
+    const el = document.getElementById("contact");
+    el?.scrollIntoView({ behavior: "smooth", block: "start" });
+    return "LET'S WORK. Direct channels:\n• Email: <a href='mailto:gouvkimsea@gmail.com' style='color:var(--lime)'>gouvkimsea@gmail.com</a>\n• GitHub: <a href='https://github.com/gouvkimsea' target='_blank' style='color:var(--lime)'>github.com/gouvkimsea</a>\n• LinkedIn: <a href='https://linkedin.com/in/gouvkimsea' target='_blank' style='color:var(--lime)'>linkedin.com/in/gouvkimsea</a>";
+  },
+  work: () => terminalCommands.contact(),
   whoami: "guest@gouvkimsea.dev — welcome, curious visitor!",
   github: "Opening GitHub profile in a new tab...",
+  linkedin: "Opening LinkedIn profile in a new tab...",
   date: () => new Date().toLocaleString(),
   sudo: "Permission denied: You are already in full control of this portfolio.",
   "cat about-me.js": "const developer = {\n  name: 'Gouv Kimsea',\n  focus: 'building & learning',\n  status: 'curious',\n  coffee: true\n};"
@@ -954,6 +962,8 @@ const executeCommand = rawCommand => {
 
   if (lower === "github") {
     window.open("https://github.com/gouvkimsea", "_blank", "noreferrer");
+  } else if (lower === "linkedin") {
+    window.open("https://linkedin.com/in/gouvkimsea", "_blank", "noreferrer");
   }
 
   let response;
