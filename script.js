@@ -1854,6 +1854,32 @@ const fallbackCopy = text => {
     }
 
     drawSprite(currentDinoSprite, dino.x, drawY, pixelScale, dinoColor);
+
+    // 6. Draw In-Canvas Game Over Banner (Direct on canvas, no floating DOM overlay)
+    if (state === STATE_GAMEOVER) {
+      ctx.save();
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+
+      // Backdrop badge
+      ctx.fillStyle = isLight ? "rgba(255, 255, 255, 0.88)" : "rgba(18, 19, 16, 0.88)";
+      ctx.fillRect(cssWidth / 2 - 110, cssHeight / 2 - 24, 220, 48);
+
+      ctx.strokeStyle = isLight ? "rgba(0, 0, 0, 0.12)" : "rgba(255, 255, 255, 0.15)";
+      ctx.lineWidth = 1;
+      ctx.strokeRect(cssWidth / 2 - 110, cssHeight / 2 - 24, 220, 48);
+
+      // GAME OVER Text
+      ctx.font = `bold 12px "DM Mono", monospace`;
+      ctx.fillStyle = dinoColor;
+      ctx.fillText("G A M E   O V E R", cssWidth / 2, cssHeight / 2 - 8);
+
+      // Retry hint
+      ctx.font = `9.5px "DM Mono", monospace`;
+      ctx.fillStyle = isLight ? "#c2410c" : "#e7f26d";
+      ctx.fillText("SPACE OR TAP TO RETRY ↻", cssWidth / 2, cssHeight / 2 + 10);
+      ctx.restore();
+    }
   };
 
   requestAnimationFrame(gameLoop);
