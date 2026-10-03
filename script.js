@@ -593,6 +593,32 @@ $$(".filter").forEach(filter => filter.addEventListener("click", () => {
   });
 }));
 
+// 6b. Achievements Filter with Smooth Transition
+const achieveFilters = $$(".achieve-filter-btn");
+const achieveCards = $$(".achievement-card");
+
+achieveFilters.forEach(btn => {
+  btn.addEventListener("click", () => {
+    playSound("click");
+    achieveFilters.forEach(b => {
+      b.classList.remove("active");
+      b.setAttribute("aria-selected", "false");
+    });
+    btn.classList.add("active");
+    btn.setAttribute("aria-selected", "true");
+
+    const filter = btn.dataset.filter;
+    achieveCards.forEach(card => {
+      const category = card.dataset.category;
+      if (filter === "all" || category === filter) {
+        card.classList.remove("dimmed");
+      } else {
+        card.classList.add("dimmed");
+      }
+    });
+  });
+});
+
 // 7. Project Modal with Rich Actions & Accessible Focus Restoration
 const projectData = {
   pinit: {
@@ -715,10 +741,34 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>skills</b>, <b>projects</b>, <b>play</b>, <b>starrunner</b>, <b>stats</b>, <b>resume</b>, <b>matrix</b>, <b>neofetch</b>, <b>theme</b>, <b>search</b>, <b>contact</b>, <b>whoami</b>, <b>github</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>skills</b>, <b>projects</b>, <b>achievements</b>, <b>play</b>, <b>starrunner</b>, <b>dino</b>, <b>stats</b>, <b>resume</b>, <b>matrix</b>, <b>neofetch</b>, <b>theme</b>, <b>search</b>, <b>contact</b>, <b>whoami</b>, <b>github</b>, <b>date</b>, <b>clear</b>",
   about: "Gouv Kimsea — University student exploring software development, business, and technology by building real projects.",
   skills: "JavaScript · C++ · Python · WebGL / Shaders · HTML5 / CSS3 · React · REST APIs · Node.js · SQL",
   projects: "1. <b>Pinit</b> — AI scam and suspicious link detector\n2. <b>Mini World</b> — 3D planet simulation & WebGL engine\n3. <b>DevPulse</b> — Real-time engineering flow & telemetry dashboard\n4. <b>This Portfolio</b> — Personal web platform & terminal CLI\nClick any project card to view interactive breakdown.",
+  achievements: () => {
+    const el = document.getElementById("achievements");
+    el?.scrollIntoView({ behavior: "smooth", block: "start" });
+    return `<pre style="color:var(--lime);font-size:11px;line-height:1.4;">
+🏆 Illustrated Achievements & Accolades:
+----------------------------------------
+1. Multi-Product Velocity (4 Shipped Apps: PinitAI, Mini World, DevPulse, Portfolio)
+2. Procedural WebGL 3D Engine (Pure WebGL, GLSL Shaders, 60 FPS)
+3. Pinit Threat Intelligence (AI Phishing & Scam Indicator Heuristics)
+4. 15+ Public Repositories (Continuous Git Velocity & Open Source)
+5. Computer Science Rigor (Algorithms, Data Structures, C++, SQL)
+6. Bespoke Interactive Craft (Terminal CLI, Chrome Dino Runner, Custom Physics)
+Scrolled to Section 05: Achievements!</pre>`;
+  },
+  accolades: () => {
+    const el = document.getElementById("achievements");
+    el?.scrollIntoView({ behavior: "smooth", block: "start" });
+    return "Scrolled to Section 05: Illustrated Achievements!";
+  },
+  trophies: () => {
+    const el = document.getElementById("achievements");
+    el?.scrollIntoView({ behavior: "smooth", block: "start" });
+    return "Scrolled to Section 05: Illustrated Achievements!";
+  },
   starrunner: () => {
     const el = document.getElementById("starGameWidget");
     el?.scrollIntoView({ behavior: "smooth", block: "center" });
