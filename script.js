@@ -1113,20 +1113,58 @@ contactForm?.addEventListener("submit", event => {
     submitBtn.innerHTML = "Sending... <span>↻</span>";
     formStatus.textContent = "";
 
-    setTimeout(() => {
+    const nameVal = $("#name")?.value.trim() || "";
+    const emailVal = $("#email")?.value.trim() || "";
+    const messageVal = $("#message")?.value.trim() || "";
+    const activeChip = $(".topic-chip.active", contactForm);
+    const topicVal = activeChip?.getAttribute("data-topic") || "General";
+    const formAction = contactForm.getAttribute("action");
+
+    const resetUI = (msg, isSuccess = true) => {
       submitBtn.classList.remove("is-sending");
       submitBtn.innerHTML = originalText;
-      playSound("success");
-      formStatus.textContent = "✓ Thanks, Gouv received your note!";
-      formStatus.style.color = "#648b4a";
-      contactForm.reset();
-      updateCharCount();
-      $$(".form-row", contactForm).forEach(row => {
-        row.classList.remove("valid", "invalid");
-        $(".error-message", row).textContent = "";
-      });
-      setTimeout(() => { formStatus.textContent = ""; }, 5000);
-    }, 700);
+      playSound(isSuccess ? "success" : "click");
+      formStatus.textContent = msg;
+      formStatus.style.color = isSuccess ? "#648b4a" : "#b34834";
+      if (isSuccess) {
+        contactForm.reset();
+        updateCharCount();
+        $$(".form-row", contactForm).forEach(row => {
+          row.classList.remove("valid", "invalid");
+          $(".error-message", row).textContent = "";
+        });
+      }
+      setTimeout(() => { formStatus.textContent = ""; }, 6000);
+    };
+
+    const dispatchMailtoFallback = () => {
+      const subject = encodeURIComponent(`[${topicVal}] Portfolio Note from ${nameVal}`);
+      const body = encodeURIComponent(`Hi Gouv,\n\n${messageVal}\n\n---\nSender: ${nameVal}\nEmail: ${emailVal}\nTopic: ${topicVal}`);
+      const mailtoUrl = `mailto:gouvkimsea@gmail.com?subject=${subject}&body=${body}`;
+      
+      resetUI("✓ Note ready! Opening your email client to dispatch to Gouv...", true);
+      setTimeout(() => {
+        window.location.href = mailtoUrl;
+      }, 700);
+    };
+
+    if (formAction && !formAction.includes("placeholder") && formAction.startsWith("http")) {
+      fetch(formAction, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({ name: nameVal, email: emailVal, topic: topicVal, message: messageVal })
+      })
+      .then(res => {
+        if (res.ok) {
+          resetUI("✓ Note delivered successfully! Gouv will be in touch.");
+        } else {
+          dispatchMailtoFallback();
+        }
+      })
+      .catch(() => dispatchMailtoFallback());
+    } else {
+      dispatchMailtoFallback();
+    }
   } else {
     formStatus.textContent = "Please check the highlighted fields.";
     formStatus.style.color = "#b34834";
