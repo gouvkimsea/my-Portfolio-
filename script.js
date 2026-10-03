@@ -554,7 +554,7 @@ runCodeBtn?.addEventListener("click", () => {
     runCodeBtn.style.pointerEvents = "";
     runCodeBtn.innerHTML = "<span>✓</span> Executed";
     playSound("success");
-    if (consoleText) consoleText.innerHTML = "<b>Gouv Kimsea</b> &lt;status: 'curious'&gt; ⚡ Ready to ship!";
+    if (consoleText) consoleText.innerHTML = "<b>Gouv Kimsea</b> &lt;status: 'curious'&gt; · Ready to ship!";
     setTimeout(() => {
       runCodeBtn.innerHTML = "<span>▶</span> Run";
       codeConsole?.classList.remove("active");
@@ -762,19 +762,19 @@ const terminalCommands = {
   about: "Gouv Kimsea — Dual degree undergraduate in Computer Science (Paragon.U) & Business Administration (Bonamary.U) building tangible products.",
   education: () => {
     return `<pre style="color:var(--lime);font-size:11px;line-height:1.5;">
-🎓 Academic Education Profile (Dual Degree):
+Academic Education Profile (Dual Degree):
 ================================================================
 1. Bachelor of Computer Science (B.Sc.)
-   🏛️ Paragon International University · Phnom Penh, Cambodia
+   Paragon International University · Phnom Penh, Cambodia
    Focus: Algorithms, Software Architecture, C++, WebGL & Systems
    Status: Undergraduate · Active (2026)
 
 2. Bachelor of Business Administration (B.B.A.)
-   🏛️ Bonamary University · Phnom Penh, Cambodia
+   Bonamary University · Phnom Penh, Cambodia
    Focus: Business Strategy, Operations & Product Economics
    Status: Undergraduate · Active (2026)
 ================================================================
-💡 The Intersection: Algorithmic rigor paired with market insight.</pre>`;
+The Intersection: Algorithmic rigor paired with market insight.</pre>`;
   },
   degree: () => terminalCommands.education(),
   university: () => terminalCommands.education(),
@@ -785,7 +785,7 @@ const terminalCommands = {
     const el = document.getElementById("achievements");
     el?.scrollIntoView({ behavior: "smooth", block: "start" });
     return `<pre style="color:var(--lime);font-size:11px;line-height:1.4;">
-🏆 Illustrated Achievements & Accolades:
+Illustrated Achievements & Accolades:
 ----------------------------------------
 1. Multi-Product Velocity (4 Shipped Apps: PinitAI, Mini World, DevPulse, Portfolio)
 2. Procedural WebGL 3D Engine (Pure WebGL, GLSL Shaders, 60 FPS)
@@ -809,46 +809,46 @@ Scrolled to Section 05: Achievements!</pre>`;
     const el = document.getElementById("starGameWidget");
     el?.scrollIntoView({ behavior: "smooth", block: "center" });
     el?.focus();
-    return "Scrolled to 🦖 Chrome Dino Runner in Bento Grid! Press SPACE or Tap to Play! 🎮";
+    return "Scrolled to Chrome Dino Runner in Bento Grid! Press SPACE or Tap to Play!";
   },
   game: () => {
     const el = document.getElementById("starGameWidget");
     el?.scrollIntoView({ behavior: "smooth", block: "center" });
     el?.focus();
-    return "Scrolled to 🦖 Chrome Dino Runner in Bento Grid! Press SPACE or Tap to Play! 🎮";
+    return "Scrolled to Chrome Dino Runner in Bento Grid! Press SPACE or Tap to Play!";
   },
   dino: () => {
     const el = document.getElementById("starGameWidget");
     el?.scrollIntoView({ behavior: "smooth", block: "center" });
     el?.focus();
-    return "Scrolled to 🦖 Chrome Dino Runner in Bento Grid! Press SPACE or Tap to Play! 🎮";
+    return "Scrolled to Chrome Dino Runner in Bento Grid! Press SPACE or Tap to Play!";
   },
   trex: () => {
     const el = document.getElementById("starGameWidget");
     el?.scrollIntoView({ behavior: "smooth", block: "center" });
     el?.focus();
-    return "Scrolled to 🦖 Chrome Dino Runner in Bento Grid! Press SPACE or Tap to Play! 🎮";
+    return "Scrolled to Chrome Dino Runner in Bento Grid! Press SPACE or Tap to Play!";
   },
   play: () => {
     window.open("miniworld.html", "_blank");
-    return "Launching Mini World 3D Planet Simulation in a new tab... 🪐";
+    return "Launching Mini World 3D Planet Simulation in a new tab...";
   },
   "3d": () => {
     window.open("miniworld.html", "_blank");
-    return "Launching Mini World 3D Planet Simulation in a new tab... 🪐";
+    return "Launching Mini World 3D Planet Simulation in a new tab...";
   },
   miniworld: () => {
     window.open("miniworld.html", "_blank");
-    return "Launching Mini World 3D Planet Simulation in a new tab... 🪐";
+    return "Launching Mini World 3D Planet Simulation in a new tab...";
   },
   stats: () => {
     return `<pre style="color:var(--lime);font-size:11px;line-height:1.4;">
-📊 Engineering Stats (2026):
+Engineering Stats (2026):
 ----------------------------------------
 • GitHub Repositories: 15+ Active
 • Featured Live Projects: 4 (Pinit, Mini World, DevPulse, Portfolio)
 • Primary Stack: JavaScript (ES2026), C++, Python, WebGL/GLSL
-• Status: Active Development & Open to Opportunities 🚀</pre>`;
+• Status: Active Development & Open to Opportunities</pre>`;
   },
   resume: () => {
     openResumeModal();
@@ -880,7 +880,7 @@ Scrolled to Section 05: Achievements!</pre>`;
                    Shell: custom-zsh (interactive)
                    Stack: JS, C++, Python, WebGL/GLSL, React, APIs
                    Editor: Antigravity IDE
-                   Status: Open to learning & building 🚀</pre>`;
+                   Status: Open to learning & building</pre>`;
   },
   matrix: () => {
     playSound("matrix");
@@ -1127,7 +1127,7 @@ const fallbackCopy = text => {
   document.body.removeChild(ta);
 };
 // ==========================================================================
-// 🦖 CLASSIC CHROME DINO RUNNER GAME ENGINE (Bento Grid Interactive Game)
+// CLASSIC CHROME DINO RUNNER GAME ENGINE (Bento Grid Interactive Game)
 // Authentic Google Chrome T-Rex runner with jump, duck, cacti & pterodactyls
 // ==========================================================================
 (function initChromeDinoGame() {
@@ -1416,13 +1416,13 @@ const fallbackCopy = text => {
   // Web Audio Synthesizer (Classic 8-bit Google Chrome Dino sounds)
   let audioCtx = null;
   let isMuted = localStorage.getItem("star_game_muted") === "true";
-  if (soundBtn) soundBtn.textContent = isMuted ? "🔇" : "🔊";
+  if (soundBtn) soundBtn.textContent = isMuted ? "MUTE" : "SFX";
 
   soundBtn?.addEventListener("click", e => {
     e.stopPropagation();
     isMuted = !isMuted;
     localStorage.setItem("star_game_muted", isMuted ? "true" : "false");
-    soundBtn.textContent = isMuted ? "🔇" : "🔊";
+    soundBtn.textContent = isMuted ? "MUTE" : "SFX";
     if (!isMuted) playSoundFx("jump");
   });
 

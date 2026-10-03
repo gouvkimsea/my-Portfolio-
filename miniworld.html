@@ -286,7 +286,7 @@
       <a href="index.html#projects" class="back-link" style="color:var(--text);text-decoration:none;display:flex;align-items:center;gap:6px;font-size:12px;margin-right:10px;padding-right:10px;border-right:1px solid var(--glass-border);">
         <span style="font-size:14px;">←</span> Portfolio
       </a>
-      <span class="brand-icon">🌍</span>
+      <span class="brand-icon">◈</span>
       <div>
         <div class="brand-title">Mini World 3D</div>
         <div class="brand-subtitle">Interactive Cartoon Planet · Gouv Kimsea</div>
@@ -294,40 +294,40 @@
     </div>
     <div class="top-actions">
       <button id="btnMeteor" class="glass-btn danger-btn active" title="Meteor Strike Mode (X)">
-        <span>☄️</span> Meteor
+        <span>◈</span> Meteor
       </button>
       <button id="btnCataclysm" class="glass-btn warning-btn" title="Total Cataclysm / Meteor Storm (C)">
-        <span>💥</span> Cataclysm
+        <span>★</span> Cataclysm
       </button>
       <button id="btnRebuild" class="glass-btn success-btn" style="display:none;" title="Restore & Rebuild Planet (R)">
-        <span>🌱</span> Rebuild World
+        <span>↺</span> Rebuild World
       </button>
       <button id="btnAudio" class="glass-btn" title="Toggle Sound (M)">
-        <span id="audioIcon">🔊</span> Sound
+        <span id="audioIcon">SFX</span> Sound
       </button>
       <button id="btnCycle" class="glass-btn active" title="Auto Day/Night Cycle (Space)">
-        <span>☀️</span> Auto Cycle
+        <span>☼</span> Auto Cycle
       </button>
     </div>
   </div>
 
-  <div class="toast" id="toast">☄️ Click planet to launch Meteor Strike • 💥 Cataclysm • 🌱 Rebuild • 🚗 Click cars • ✈️ Click plane</div>
+  <div class="toast" id="toast">Click planet to launch Meteor Strike • Cataclysm • Rebuild • Click cars • Click plane</div>
 
   <div class="hud bottom-bar">
     <div class="time-panel">
-      <span id="timeIcon">☀️</span>
+      <span id="timeIcon">☼</span>
       <span id="timeLabel" style="font-weight:600;min-width:55px;">Day</span>
       <input type="range" id="timeSlider" class="time-slider" min="0" max="1" step="0.002" value="0.25">
     </div>
 
     <div class="camera-presets">
-      <button class="preset-btn active" data-cam="0">🌍 Overview</button>
-      <button class="preset-btn" data-cam="1">🏘️ Harbor Town</button>
-      <button class="preset-btn" data-cam="2">🌾 Windmill</button>
-      <button class="preset-btn" data-cam="3">🏔️ Alpine</button>
-      <button class="preset-btn" data-cam="4">🚗 Follow Car</button>
-      <button class="preset-btn" data-cam="5">✈️ Pilot View</button>
-      <button class="preset-btn" data-cam="6">🎬 Tour</button>
+      <button class="preset-btn active" data-cam="0">Overview</button>
+      <button class="preset-btn" data-cam="1">Harbor Town</button>
+      <button class="preset-btn" data-cam="2">Windmill</button>
+      <button class="preset-btn" data-cam="3">Alpine</button>
+      <button class="preset-btn" data-cam="4">Follow Car</button>
+      <button class="preset-btn" data-cam="5">Pilot View</button>
+      <button class="preset-btn" data-cam="6">Tour</button>
     </div>
   </div>
 
@@ -1107,7 +1107,7 @@
       const btnRebuild = document.getElementById('btnRebuild');
       if (btnRebuild) btnRebuild.style.display = 'none';
       playRebuildChime();
-      showToast("🌱 Planet Restored & Rebuilt!");
+      showToast("Planet Restored & Rebuilt!");
     }
 
     function spawnMeteor(targetPos, radius = 1.5) {
@@ -1135,7 +1135,7 @@
       });
 
       playMeteorScream();
-      showToast("☄️ Meteor incoming! Impact imminent!");
+      showToast("Meteor incoming! Impact imminent!");
     }
 
     function onMeteorImpact(meteor) {
@@ -1179,7 +1179,7 @@
     }
 
     function triggerCataclysm() {
-      showToast("💥 TOTAL CATACLYSM: Meteor Storm Unleashed!");
+      showToast("TOTAL CATACLYSM: Meteor Storm Unleashed!");
       for (let m = 0; m < 5; m++) {
         setTimeout(() => {
           const lat = (Math.random() - 0.5) * 1.3;
@@ -1296,7 +1296,7 @@
       if (len(cross(norm(sub(plPos, camPos)), camFw)) < 0.12 && len(toPlane) < 35.0) {
         plane.rollTarget += TAU;
         playPlaneRoll();
-        showToast("✈️ Barrel Roll!");
+        showToast("Barrel Roll!");
         return;
       }
 
@@ -1307,7 +1307,7 @@
         if (distToRay < 0.08) {
           cars[c].hop = 1.0;
           playHonk();
-          showToast("🚗 Beep Beep!");
+          showToast("Beep Beep!");
           return;
         }
       }
@@ -1329,7 +1329,7 @@
           } else {
             spawnFirework(hitPos);
             playFireworkLaunch();
-            showToast("🎆 Firework Launched!");
+            showToast("Firework Launched!");
           }
         }
       }
@@ -1386,7 +1386,7 @@
       initAudio();
       audioEnabled = !audioEnabled;
       btnAudio.classList.toggle('active', audioEnabled);
-      audioIcon.textContent = audioEnabled ? '🔊' : '🔇';
+      audioIcon.textContent = audioEnabled ? 'SFX' : 'OFF';
     });
 
     const btnMeteor = document.getElementById('btnMeteor');
@@ -1397,7 +1397,7 @@
       initAudio();
       meteorMode = !meteorMode;
       btnMeteor.classList.toggle('active', meteorMode);
-      showToast(meteorMode ? "☄️ Meteor Strike Mode Activated! Click anywhere on planet." : "🎆 Firework Mode Activated! Click surface for fireworks.");
+      showToast(meteorMode ? "Meteor Strike Mode Activated! Click anywhere on planet." : "Firework Mode Activated! Click surface for fireworks.");
     });
 
     btnCataclysm.addEventListener('click', () => {
@@ -1414,13 +1414,13 @@
       timeSlider.value = timeOfDay;
       if (timeOfDay > 0.20 && timeOfDay < 0.65) {
         timeLabel.textContent = "Day";
-        timeIcon.textContent = "☀️";
+        timeIcon.textContent = "☼";
       } else if (timeOfDay >= 0.65 && timeOfDay < 0.80) {
         timeLabel.textContent = "Sunset";
-        timeIcon.textContent = "🌅";
+        timeIcon.textContent = "◑";
       } else {
         timeLabel.textContent = "Night";
-        timeIcon.textContent = "🌙";
+        timeIcon.textContent = "☾";
       }
     }
 
