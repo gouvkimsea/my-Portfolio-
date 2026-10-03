@@ -2732,4 +2732,209 @@ dialog.resume-modal::backdrop {
   color: var(--orange);
   transform: translateX(2px);
 }
+/* ==========================================================================
+   SKILLS & TOOLKIT INTERACTIVE ENHANCEMENTS
+   ========================================================================== */
+.chip-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.25s ease;
+  cursor: default;
+}
+
+.chip-item i {
+  font-style: normal;
+  font-size: 9px;
+  color: var(--lime);
+  opacity: 0.75;
+  font-weight: 600;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+[data-theme="light"] .chip-item i {
+  color: var(--orange);
+}
+
+.chip-item:hover {
+  border-color: var(--lime);
+  background: rgba(231, 242, 109, 0.08);
+  transform: translateY(-2px);
+}
+
+[data-theme="light"] .chip-item:hover {
+  border-color: var(--orange);
+  background: rgba(239, 131, 84, 0.08);
+}
+
+.chip-item:hover i {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* ==========================================================================
+   JOURNEY ROADMAP TIMELINE ENHANCEMENTS
+   ========================================================================== */
+.timeline {
+  position: relative;
+  border-left: 2px solid rgba(239, 131, 84, 0.35);
+  margin-top: 24px;
+}
+
+[data-theme="dark"] .timeline {
+  border-left-color: rgba(231, 242, 109, 0.25);
+}
+
+.timeline-content {
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 16px 20px;
+  transition: all 0.25s ease;
+}
+
+[data-theme="dark"] .timeline-content {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.timeline-item:hover .timeline-content {
+  background: var(--card-bg);
+  border-color: var(--line);
+  transform: translateX(4px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.timeline-item:hover .timeline-marker {
+  transform: scale(1.15);
+  border-color: var(--orange);
+  box-shadow: 0 0 14px rgba(239, 131, 84, 0.4);
+}
+
+.timeline-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.timeline-status-badge {
+  font: 9px var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
+  border-radius: 20px;
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--line);
+  color: var(--muted);
+}
+
+[data-theme="dark"] .timeline-status-badge {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.timeline-status-badge.live {
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.3);
+  font-weight: 600;
+}
+
+.timeline-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.timeline-tags span {
+  font: 10px var(--mono);
+  padding: 3px 8px;
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  color: var(--muted);
+  transition: all 0.2s ease;
+}
+
+[data-theme="dark"] .timeline-tags span {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.timeline-item:hover .timeline-tags span {
+  color: var(--ink);
+  border-color: var(--muted);
+}
+
+/* ==========================================================================
+   CONTACT SECTION INTERACTIVE TOPIC PICKER & CHAR COUNTER
+   ========================================================================== */
+.contact-topic-group {
+  margin-bottom: 18px;
+}
+
+.topic-label {
+  display: block;
+  font: 10px var(--mono);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.contact-topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.topic-chip {
+  font: 11px var(--mono);
+  background: transparent;
+  border: 1px solid var(--line);
+  padding: 6px 12px;
+  border-radius: 20px;
+  color: var(--muted);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.topic-chip:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+
+.topic-chip.active {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+[data-theme="dark"] .topic-chip.active {
+  background: var(--lime);
+  color: #121310;
+  border-color: var(--lime);
+  font-weight: 600;
+}
+
+.form-row-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.char-count {
+  font: 10px var(--mono);
+  color: var(--muted);
+  transition: color 0.2s ease;
+}
+
+.char-count.valid {
+  color: #10b981;
+  font-weight: 600;
+}
 

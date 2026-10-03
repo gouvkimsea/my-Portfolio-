@@ -221,29 +221,41 @@
             <div class="skill-icon">&lt;/&gt;</div>
             <h3>Programming</h3>
             <p>Learning to think clearly and solve problems with code.</p>
-            <div class="chips"><span>JavaScript</span><span>C++</span><span>Python</span></div><small
-              class="learning-state"><i></i> Growing</small>
+            <div class="chips">
+              <span class="chip-item" data-level="90%">JavaScript <i>90%</i></span>
+              <span class="chip-item" data-level="75%">C++ <i>75%</i></span>
+              <span class="chip-item" data-level="80%">Python <i>80%</i></span>
+            </div><small class="learning-state"><i></i> Growing</small>
           </article>
           <article class="skill-card reveal spotlight-card"><span class="skill-number">02</span>
             <div class="skill-icon">◈</div>
             <h3>Web development</h3>
             <p>Building responsive, accessible interfaces with intention.</p>
-            <div class="chips"><span>HTML / CSS</span><span>React</span><span>REST APIs</span></div><small
-              class="learning-state"><i></i> Practicing</small>
+            <div class="chips">
+              <span class="chip-item" data-level="95%">HTML / CSS <i>95%</i></span>
+              <span class="chip-item" data-level="85%">React <i>85%</i></span>
+              <span class="chip-item" data-level="88%">REST APIs <i>88%</i></span>
+            </div><small class="learning-state"><i></i> Practicing</small>
           </article>
           <article class="skill-card reveal spotlight-card"><span class="skill-number">03</span>
             <div class="skill-icon">⌁</div>
             <h3>Backend &amp; data</h3>
             <p>Exploring how products work behind the interface.</p>
-            <div class="chips"><span>Node.js</span><span>SQL</span><span>Databases</span></div><small
-              class="learning-state"><i></i> Exploring</small>
+            <div class="chips">
+              <span class="chip-item" data-level="82%">Node.js <i>82%</i></span>
+              <span class="chip-item" data-level="78%">SQL <i>78%</i></span>
+              <span class="chip-item" data-level="80%">Databases <i>80%</i></span>
+            </div><small class="learning-state"><i></i> Exploring</small>
           </article>
           <article class="skill-card reveal spotlight-card"><span class="skill-number">04</span>
             <div class="skill-icon">🪐</div>
             <h3>3D &amp; Graphics</h3>
             <p>Procedural simulation, geometry math, and interactive shaders.</p>
-            <div class="chips"><span>WebGL</span><span>GLSL</span><span>3D Math</span></div><small
-              class="learning-state"><i></i> Experimenting</small>
+            <div class="chips">
+              <span class="chip-item" data-level="76%">WebGL <i>76%</i></span>
+              <span class="chip-item" data-level="72%">GLSL <i>72%</i></span>
+              <span class="chip-item" data-level="75%">3D Math <i>75%</i></span>
+            </div><small class="learning-state"><i></i> Experimenting</small>
           </article>
         </div>
       </div>
@@ -260,7 +272,7 @@
         </div>
         <div class="filter-bar" role="group" aria-label="Filter projects">
           <button class="filter active" data-filter="all">All <sup>04</sup></button><button class="filter"
-            data-filter="web">Web <sup>03</sup></button><button class="filter" data-filter="ai">AI
+            data-filter="web">Web <sup>04</sup></button><button class="filter" data-filter="ai">AI
             <sup>02</sup></button><button class="filter" data-filter="3d">3D &amp; WebGL <sup>01</sup></button><button
             class="filter" data-filter="security">Security <sup>01</sup></button>
         </div>
@@ -338,7 +350,11 @@
                 <h3>This portfolio</h3>
                 <p>A personal corner of the internet for documenting the process, not just the outcome.</p>
                 <div class="project-tags"><span>Web</span><span>HTML</span><span>Design</span></div>
-              </div><button class="round-arrow project-open" aria-label="Open portfolio details">↗</button>
+              </div>
+              <div class="project-card-actions">
+                <a class="launch-btn magnetic" href="https://github.com/gouvkimsea/my-Portfolio-" target="_blank" rel="noreferrer" title="View Portfolio repository">Repo <span>↗</span></a>
+                <button class="round-arrow project-open" aria-label="Open portfolio details">↗</button>
+              </div>
             </div>
           </article>
           <article class="project-card reveal spotlight-card" data-category="web ai" data-project="devpulse">
@@ -363,7 +379,10 @@
                 <p>Real-time engineering telemetry and focus dashboard tracking build velocities and flow cycles.</p>
                 <div class="project-tags"><span>AI</span><span>Web</span><span>Telemetry</span></div>
               </div>
-              <button class="round-arrow project-open" aria-label="Open DevPulse details">↗</button>
+              <div class="project-card-actions">
+                <a class="launch-btn magnetic" href="https://github.com/gouvkimsea" target="_blank" rel="noreferrer" title="View DevPulse repository">Repo <span>↗</span></a>
+                <button class="round-arrow project-open" aria-label="Open DevPulse details">↗</button>
+              </div>
             </div>
           </article>
         </div>
@@ -378,27 +397,35 @@
         </div>
         <div class="timeline reveal">
           <div class="timeline-item active"><span class="timeline-marker">01</span>
-            <div><small>Now · 2026</small>
+            <div class="timeline-content">
+              <div class="timeline-meta"><small>Now · 2026</small><span class="timeline-status-badge live">● Current Focus</span></div>
               <h3>Shipping in public</h3>
               <p>Engineering real-world applications (PinitAI, Mini World 3D, DevPulse) and learning through high-iteration building.</p>
+              <div class="timeline-tags"><span>PinitAI</span><span>Mini World 3D</span><span>DevPulse</span></div>
             </div>
           </div>
           <div class="timeline-item"><span class="timeline-marker">02</span>
-            <div><small>Interactive Systems</small>
+            <div class="timeline-content">
+              <div class="timeline-meta"><small>Interactive Systems</small><span class="timeline-status-badge">Exploration</span></div>
               <h3>Full-stack &amp; WebGL graphics</h3>
               <p>Expanding from standard web interfaces into real-time 3D simulation, procedural math, and heuristic scam intelligence.</p>
+              <div class="timeline-tags"><span>WebGL</span><span>Shaders</span><span>Heuristics</span></div>
             </div>
           </div>
           <div class="timeline-item"><span class="timeline-marker">03</span>
-            <div><small>University</small>
+            <div class="timeline-content">
+              <div class="timeline-meta"><small>University</small><span class="timeline-status-badge">Foundations</span></div>
               <h3>Computer science foundations</h3>
               <p>Studying algorithms, systems architecture, and exploring the intersection of technology and product development.</p>
+              <div class="timeline-tags"><span>Data Structures</span><span>Algorithms</span><span>Systems</span></div>
             </div>
           </div>
           <div class="timeline-item"><span class="timeline-marker">04</span>
-            <div><small>Next chapter</small>
+            <div class="timeline-content">
+              <div class="timeline-meta"><small>Next chapter</small><span class="timeline-status-badge">Vision</span></div>
               <h3>Collaborating &amp; shipping</h3>
               <p>Contributing to thoughtful engineering teams, open-source ecosystems, and building software that solves real problems.</p>
+              <div class="timeline-tags"><span>Open Source</span><span>Teamwork</span><span>Product Impact</span></div>
             </div>
           </div>
         </div>
@@ -429,6 +456,7 @@
               <button type="button" class="terminal-chip" data-cmd="about">about</button>
               <button type="button" class="terminal-chip" data-cmd="skills">skills</button>
               <button type="button" class="terminal-chip" data-cmd="projects">projects</button>
+              <button type="button" class="terminal-chip" data-cmd="dino">dino</button>
               <button type="button" class="terminal-chip" data-cmd="play">play</button>
               <button type="button" class="terminal-chip" data-cmd="stats">stats</button>
               <button type="button" class="terminal-chip" data-cmd="matrix">matrix</button>
@@ -501,14 +529,27 @@
                   class="wb-dot wb-green"></span>
                 <small>new-message.eml</small>
               </div>
+              <div class="contact-topic-group">
+                <label class="topic-label">Conversation Topic</label>
+                <div class="contact-topics" id="contactTopics" role="group" aria-label="Select conversation topic">
+                  <button type="button" class="topic-chip active" data-topic="General">👋 Say Hello</button>
+                  <button type="button" class="topic-chip" data-topic="Opportunity">💼 Opportunity</button>
+                  <button type="button" class="topic-chip" data-topic="Collab">🚀 Collaboration</button>
+                  <button type="button" class="topic-chip" data-topic="Project">💡 Project Idea</button>
+                </div>
+              </div>
               <div class="form-row"><label for="name">Your name</label><input id="name" name="name" required
                   placeholder="Jane Doe" /><span class="error-message"></span></div>
               <div class="form-row"><label for="email">Email address</label><input id="email" name="email" type="email"
                   required placeholder="you@example.com" /><span class="error-message"></span></div>
               <div class="form-row"><label for="message">What’s on your mind?</label><textarea id="message"
                   name="message" rows="4" required minlength="20"
-                  placeholder="Tell me a little about your project or note..."></textarea><span
-                  class="error-message"></span></div>
+                  placeholder="Tell me a little about your project or note..."></textarea>
+                <div class="form-row-meta">
+                  <span class="char-count" id="charCount">0 / 20 min</span>
+                  <span class="error-message"></span>
+                </div>
+              </div>
               <button class="button button-primary magnetic" id="submitBtn" type="submit">Send note
                 <span>↗</span></button>
               <p class="form-status" role="status"></p>

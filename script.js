@@ -923,6 +923,36 @@ const validateField = (input, message, test) => {
   return ok;
 };
 
+const charCountEl = $("#charCount");
+const messageTextarea = $("#message");
+const updateCharCount = () => {
+  if (!messageTextarea || !charCountEl) return;
+  const len = messageTextarea.value.trim().length;
+  charCountEl.textContent = `${len} / 20 min`;
+  charCountEl.classList.toggle("valid", len >= 20);
+};
+messageTextarea?.addEventListener("input", updateCharCount);
+
+const topicStarters = {
+  "General": "Hi Gouv, wanted to reach out regarding ",
+  "Opportunity": "Hi Gouv, I have an internship / role opportunity for you: ",
+  "Collab": "Hey Gouv, would love to collaborate on ",
+  "Project": "Hi Gouv, I checked out your projects and have an idea: "
+};
+
+$$(".topic-chip").forEach(chip => {
+  chip.addEventListener("click", () => {
+    $$(".topic-chip").forEach(c => c.classList.remove("active"));
+    chip.classList.add("active");
+    const topic = chip.getAttribute("data-topic");
+    if (messageTextarea && (!messageTextarea.value.trim() || Object.values(topicStarters).some(s => messageTextarea.value.startsWith(s)))) {
+      messageTextarea.value = topicStarters[topic] || "";
+      messageTextarea.focus();
+      updateCharCount();
+    }
+  });
+});
+
 formRules.forEach(([input, message, test]) => {
   input?.addEventListener("input", () => {
     if (input.closest(".form-row").classList.contains("invalid")) {
@@ -957,6 +987,7 @@ contactForm?.addEventListener("submit", event => {
       formStatus.textContent = "✓ Thanks, Gouv received your note!";
       formStatus.style.color = "#648b4a";
       contactForm.reset();
+      updateCharCount();
       $$(".form-row", contactForm).forEach(row => {
         row.classList.remove("valid", "invalid");
         $(".error-message", row).textContent = "";
