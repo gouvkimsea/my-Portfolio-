@@ -3942,6 +3942,137 @@ dialog.resume-modal::backdrop {
   border-radius: 12px;
 }
 
+/* ==========================================================================
+   ACCESSIBILITY, FOCUS INDICATORS & PERFORMANCE OPTIMIZATIONS
+   ========================================================================== */
+
+/* 1. Skip to Content Link (WCAG 2.1 AA) */
+.skip-link {
+  position: absolute;
+  top: -120px;
+  left: 20px;
+  background: var(--ink, #181a17);
+  color: var(--lime, #e7f26d);
+  padding: 12px 20px;
+  font-family: var(--mono, monospace);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  z-index: 100000;
+  border-radius: 8px;
+  border: 2px solid var(--lime, #e7f26d);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  transition: top 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="light"] .skip-link {
+  background: #ffffff;
+  color: #0f172a;
+  border-color: var(--orange, #ef8354);
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  top: 20px;
+  outline: 2px solid var(--lime, #e7f26d);
+  outline-offset: 3px;
+}
+
+[data-theme="light"] .skip-link:focus,
+[data-theme="light"] .skip-link:focus-visible {
+  outline-color: var(--orange, #ef8354);
+}
+
+/* 2. Accessible Focus Rings (:focus-visible) */
+:focus-visible {
+  outline: 2px solid var(--lime, #e7f26d);
+  outline-offset: 3px;
+}
+
+[data-theme="light"] :focus-visible {
+  outline-color: var(--orange, #ef8354);
+}
+
+/* Specific interactive focus boundaries */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--lime, #e7f26d);
+  outline-offset: 3px;
+}
+
+[data-theme="light"] button:focus-visible,
+[data-theme="light"] a:focus-visible,
+[data-theme="light"] input:focus-visible,
+[data-theme="light"] textarea:focus-visible,
+[data-theme="light"] [tabindex]:focus-visible {
+  outline-color: var(--orange, #ef8354);
+}
+
+/* 3. Screen Reader Only Utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 4. Comprehensive Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .cursor-dot,
+  .cursor-ring,
+  .ambient-orb,
+  .visual-orbit,
+  .scan-line {
+    display: none !important;
+  }
+
+  .hero-canvas {
+    opacity: 0.25 !important;
+  }
+}
+
+/* 5. Forced Colors / High Contrast Mode */
+@media (forced-colors: active) {
+  .site-header {
+    border-bottom: 2px solid CanvasText;
+  }
+
+  button,
+  .button,
+  .topic-chip,
+  .terminal-chip,
+  .achieve-filter-btn {
+    border: 1px solid ButtonText !important;
+  }
+
+  :focus-visible {
+    outline: 3px solid Highlight !important;
+    outline-offset: 3px !important;
+  }
+}
+
 
 
 

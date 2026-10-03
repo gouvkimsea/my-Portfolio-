@@ -3,7 +3,26 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <title>Little World - 3D Miniature Planet Simulation</title>
+  <title>Mini World 3D — Procedural Planet Simulation &amp; WebGL Engine | Gouv Kimsea</title>
+  <meta name="description"
+    content="Interactive procedural 3D cartoon planet simulation built with pure WebGL, custom GLSL shaders, real-time vertex deformation, and dynamic day/night cycles." />
+  <meta name="author" content="Gouv Kimsea" />
+  <meta name="theme-color" content="#030712" />
+  <link rel="canonical" href="https://gouvkimsea.github.io/my-Portfolio-/miniworld.html" />
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://gouvkimsea.github.io/my-Portfolio-/miniworld.html" />
+  <meta property="og:title" content="Mini World 3D — Procedural Planet Simulation &amp; WebGL Engine" />
+  <meta property="og:description"
+    content="Interactive procedural 3D cartoon planet simulation built with pure WebGL, custom GLSL shaders, and vertex deformation physics." />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Mini World 3D — Procedural Planet Simulation &amp; WebGL Engine" />
+  <meta name="twitter:description"
+    content="Interactive procedural 3D cartoon planet simulation built with pure WebGL, custom GLSL shaders, and vertex deformation physics." />
+
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
@@ -1455,6 +1474,8 @@
     // =========================================================================
     let lastTime = performance.now();
     let camPos = [0, 0, 24], camFw = [0, 0, -1], camUp = [0, 1, 0], camRgt = [1, 0, 0];
+    let isWorldVisible = true;
+    let worldRafId = null;
 
     function resize() {
       const dpr = min(window.devicePixelRatio || 1, 2);
@@ -1466,8 +1487,25 @@
       }
     }
 
+    document.addEventListener("visibilitychange", () => {
+      isWorldVisible = !document.hidden;
+      if (isWorldVisible) {
+        lastTime = performance.now();
+        if (!worldRafId) worldRafId = requestAnimationFrame(render);
+      } else {
+        if (worldRafId) {
+          cancelAnimationFrame(worldRafId);
+          worldRafId = null;
+        }
+      }
+    });
+
     function render(now) {
-      requestAnimationFrame(render);
+      if (!isWorldVisible) {
+        worldRafId = null;
+        return;
+      }
+      worldRafId = requestAnimationFrame(render);
       const dt = min((now - lastTime) / 1000, 0.1);
       lastTime = now;
       resize();

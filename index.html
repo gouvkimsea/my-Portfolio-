@@ -4,13 +4,86 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gouv Kimsea — Student Developer &amp; Product Builder</title>
   <meta name="description"
-    content="Gouv Kimsea's portfolio — a student developer learning by building useful, thoughtful digital products." />
-  <meta property="og:title" content="Gouv Kimsea — Student Developer" />
-  <meta property="og:description"
-    content="A personal portfolio for a university student exploring software, business, and real-world projects." />
+    content="Personal portfolio of Gouv Kimsea — a dual-degree undergraduate in Computer Science (Paragon.U) &amp; Business Administration (Bonamary.U) building software, 3D WebGL simulations, and AI-assisted tools." />
+  <meta name="author" content="Gouv Kimsea" />
+  <meta name="keywords"
+    content="Gouv Kimsea, software developer, portfolio, computer science, business administration, WebGL, 3D graphics, JavaScript, AI tools, Phnom Penh, Cambodia, Paragon International University, Bonamary University" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <meta name="theme-color" content="#0d0f12" />
+  <link rel="canonical" href="https://gouvkimsea.github.io/my-Portfolio-/" />
+
+  <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
-  <title>Gouv Kimsea — Student Developer</title>
+  <meta property="og:url" content="https://gouvkimsea.github.io/my-Portfolio-/" />
+  <meta property="og:title" content="Gouv Kimsea — Student Developer &amp; Product Builder" />
+  <meta property="og:description"
+    content="A personal portfolio for a university student exploring software engineering, commercial business strategy, and real-world projects." />
+  <meta property="og:site_name" content="Gouv Kimsea Portfolio" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://gouvkimsea.github.io/my-Portfolio-/" />
+  <meta name="twitter:title" content="Gouv Kimsea — Student Developer &amp; Product Builder" />
+  <meta name="twitter:description"
+    content="Dual-degree student in Computer Science &amp; Business Administration building tangible software and 3D WebGL simulations." />
+
+  <!-- Font preconnect & resource hints -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" />
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://gouvkimsea.github.io/my-Portfolio-/#person",
+        "name": "Gouv Kimsea",
+        "jobTitle": "Student Developer & Product Builder",
+        "url": "https://gouvkimsea.github.io/my-Portfolio-/",
+        "sameAs": [
+          "https://github.com/gouvkimsea"
+        ],
+        "alumniOf": [
+          {
+            "@type": "EducationalOrganization",
+            "name": "Paragon International University"
+          },
+          {
+            "@type": "EducationalOrganization",
+            "name": "Bonamary University"
+          }
+        ],
+        "knowsAbout": [
+          "JavaScript",
+          "C++",
+          "Python",
+          "WebGL",
+          "HTML5",
+          "CSS3",
+          "Software Engineering",
+          "Product Economics"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://gouvkimsea.github.io/my-Portfolio-/#website",
+        "url": "https://gouvkimsea.github.io/my-Portfolio-/",
+        "name": "Gouv Kimsea Portfolio",
+        "publisher": {
+          "@id": "https://gouvkimsea.github.io/my-Portfolio-/#person"
+        }
+      }
+    ]
+  }
+  </script>
+
   <link rel="icon"
     href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23191a18'/%3E%3Ctext x='50' y='64' font-size='46' text-anchor='middle' fill='%23e7f26d' font-family='Arial'%3E%5B%5D%3C/text%3E%3C/svg%3E" />
   <link rel="stylesheet" href="styles.css" />
@@ -29,6 +102,7 @@
 </head>
 
 <body>
+  <a href="#main" class="skip-link">Skip to main content</a>
   <div class="loader" id="loader" aria-hidden="true"><span>[ ]</span><i></i></div>
   <div class="scroll-progress" id="scrollProgress"></div>
   <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
@@ -62,7 +136,7 @@
     </nav>
   </header>
 
-  <main>
+  <main id="main">
     <section class="hero section" id="home">
       <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
       <div class="ambient-orb orb-1" aria-hidden="true"></div>
@@ -890,7 +964,7 @@
     </div>
   </footer>
 
-  <dialog class="project-modal" id="projectModal"><button class="modal-close" id="modalClose"
+  <dialog class="project-modal" id="projectModal" aria-labelledby="modalTitle" aria-modal="true"><button class="modal-close" id="modalClose"
       aria-label="Close project details">×</button>
     <div class="modal-content">
       <p class="eyebrow">Project detail</p>
@@ -1080,12 +1154,12 @@
     </div>
   </dialog>
 
-  <dialog class="cmdk-modal" id="cmdKModal">
+  <dialog class="cmdk-modal" id="cmdKModal" aria-label="Command Palette" aria-modal="true">
     <div class="cmdk-shell">
       <div class="cmdk-header">
         <span class="cmdk-search-icon">⌘</span>
         <input type="text" class="cmdk-input" id="cmdKInput" placeholder="Type a command or jump to section..."
-          autocomplete="off" spellcheck="false" />
+          autocomplete="off" spellcheck="false" aria-label="Search navigation and commands" role="combobox" aria-expanded="true" aria-controls="cmdKResults" />
         <kbd class="cmdk-esc-hint">ESC</kbd>
       </div>
       <div class="cmdk-results" id="cmdKResults">

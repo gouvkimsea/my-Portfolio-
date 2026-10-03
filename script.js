@@ -391,9 +391,46 @@ if (canvas) {
         }
       }
     }
-    requestAnimationFrame(renderParticles);
+    if (isHeroVisible && !prefersReducedMotion) {
+      heroRafId = requestAnimationFrame(renderParticles);
+    } else {
+      heroRafId = null;
+    }
   };
-  requestAnimationFrame(renderParticles);
+
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let isHeroVisible = true;
+  let heroRafId = null;
+
+  const startHeroAnimation = () => {
+    if (!heroRafId && isHeroVisible && !prefersReducedMotion) {
+      heroRafId = requestAnimationFrame(renderParticles);
+    }
+  };
+
+  const stopHeroAnimation = () => {
+    if (heroRafId) {
+      cancelAnimationFrame(heroRafId);
+      heroRafId = null;
+    }
+  };
+
+  if ("IntersectionObserver" in window) {
+    const heroObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        isHeroVisible = entry.isIntersecting;
+        if (isHeroVisible) {
+          startHeroAnimation();
+        } else {
+          stopHeroAnimation();
+        }
+      });
+    }, { threshold: 0.05 });
+    heroObserver.observe(canvas);
+  }
+
+  // Draw initial frame
+  renderParticles();
 }
 
 // ==========================================================================
@@ -513,7 +550,7 @@ magneticElements.forEach(el => {
     const deltaX = (event.clientX - centerX) * 0.35;
     const deltaY = (event.clientY - centerY) * 0.35;
     el.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
-  });
+  }, { passive: true });
   el.addEventListener("pointerleave", () => {
     el.style.transform = "translate(0px, 0px)";
   });
@@ -532,7 +569,7 @@ if (heroVisual && codeCard) {
     codeCard.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateZ(10px)`;
     codeCard.style.setProperty("--glare-x", `${((x + 0.5) * 100).toFixed(1)}%`);
     codeCard.style.setProperty("--glare-y", `${((y + 0.5) * 100).toFixed(1)}%`);
-  });
+  }, { passive: true });
   heroVisual.addEventListener("pointerleave", () => {
     codeCard.style.transform = "perspective(1000px) rotate(3deg)";
   });
@@ -570,7 +607,7 @@ $$(".spotlight-card").forEach(card => {
     const y = event.clientY - rect.top;
     card.style.setProperty("--mouse-x", `${x}px`);
     card.style.setProperty("--mouse-y", `${y}px`);
-  });
+  }, { passive: true });
 });
 
 // 6. Project Filters with Smooth Transition
@@ -1654,11 +1691,45 @@ const fallbackCopy = text => {
     handleEndJump();
   });
 
-  // 60FPS Game Loop
+  // 60FPS Game Loop with Viewport Visibility Optimization
   let lastTime = performance.now();
+  let isGameVisible = true;
+  let gameRafId = null;
+
+  const startGameLoop = () => {
+    if (!gameRafId && isGameVisible) {
+      lastTime = performance.now();
+      gameRafId = requestAnimationFrame(gameLoop);
+    }
+  };
+
+  const stopGameLoop = () => {
+    if (gameRafId) {
+      cancelAnimationFrame(gameRafId);
+      gameRafId = null;
+    }
+  };
+
+  if ("IntersectionObserver" in window) {
+    const gameObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        isGameVisible = entry.isIntersecting;
+        if (isGameVisible) {
+          startGameLoop();
+        } else {
+          stopGameLoop();
+        }
+      });
+    }, { threshold: 0.05 });
+    gameObserver.observe(widget);
+  }
 
   const gameLoop = now => {
-    requestAnimationFrame(gameLoop);
+    if (!isGameVisible) {
+      gameRafId = null;
+      return;
+    }
+    gameRafId = requestAnimationFrame(gameLoop);
     const dt = Math.min((now - lastTime) / 16.666, 2.5);
     lastTime = now;
 
@@ -1882,6 +1953,6 @@ const fallbackCopy = text => {
     }
   };
 
-  requestAnimationFrame(gameLoop);
+  startGameLoop();
 })();
 
