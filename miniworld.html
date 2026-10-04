@@ -26,6 +26,8 @@
   <meta name="twitter:description"
     content="Interactive procedural 3D cartoon planet simulation built with pure WebGL, custom GLSL shaders, and vertex deformation physics." />
   <meta name="twitter:image" content="https://gouvkimsea.github.io/my-Portfolio-/og-image.jpg" />
+  <link rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23191a18'/%3E%3Ctext x='50' y='64' font-size='46' text-anchor='middle' fill='%23e7f26d' font-family='Arial'%3E%5B%5D%3C/text%3E%3C/svg%3E" />
 
   <style>
     *, *::before, *::after {
@@ -316,8 +318,8 @@
       </div>
     </div>
     <div class="top-actions">
-      <button id="btnMeteor" class="glass-btn danger-btn active" title="Meteor Strike Mode (X)">
-        <span>◈</span> Meteor
+      <button id="btnMeteor" class="glass-btn danger-btn active" title="Toggle Click Action: Meteor Strike (X) or Fireworks (F)">
+        <span id="meteorIcon">◈</span> <span id="meteorText">Meteor</span>
       </button>
       <button id="btnCataclysm" class="glass-btn warning-btn" title="Total Cataclysm / Meteor Storm (C)">
         <span>★</span> Cataclysm
@@ -1413,6 +1415,8 @@
     });
 
     const btnMeteor = document.getElementById('btnMeteor');
+    const meteorIcon = document.getElementById('meteorIcon');
+    const meteorText = document.getElementById('meteorText');
     const btnCataclysm = document.getElementById('btnCataclysm');
     const btnRebuild = document.getElementById('btnRebuild');
 
@@ -1420,7 +1424,9 @@
       initAudio();
       meteorMode = !meteorMode;
       btnMeteor.classList.toggle('active', meteorMode);
-      showToast(meteorMode ? "Meteor Strike Mode Activated! Click anywhere on planet." : "Firework Mode Activated! Click surface for fireworks.");
+      if (meteorIcon) meteorIcon.textContent = meteorMode ? '◈' : '🎆';
+      if (meteorText) meteorText.textContent = meteorMode ? 'Meteor' : 'Fireworks';
+      showToast(meteorMode ? "Meteor Strike Mode Active! Click planet surface to strike." : "Fireworks Mode Active! Click planet surface for fireworks.");
     });
 
     btnCataclysm.addEventListener('click', () => {
