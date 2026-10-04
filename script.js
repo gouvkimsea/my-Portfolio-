@@ -130,10 +130,118 @@ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", e =
 });
 
 // ==========================================================================
-// ⌘K Command Palette Controller (Replaces sound track)
+// Tactile Procedural Web Audio FX & Sound Toggle Controller
 // ==========================================================================
-const playSound = () => {}; // Sound effects removed
+let audioContext = null;
+let soundMuted = localStorage.getItem("portfolio_sound_muted") === "true";
 
+const getWebAudio = () => {
+  if (!audioContext) {
+    const AudioClass = window.AudioContext || window.webkitAudioContext;
+    if (AudioClass) audioContext = new AudioClass();
+  }
+  if (audioContext && audioContext.state === "suspended") {
+    audioContext.resume();
+  }
+  return audioContext;
+};
+
+const playSound = type => {
+  if (soundMuted) return;
+  try {
+    const ctx = getWebAudio();
+    if (!ctx) return;
+    const now = ctx.currentTime;
+
+    if (type === "click") {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(620, now);
+      osc.frequency.exponentialRampToValueAtTime(320, now + 0.04);
+      gain.gain.setValueAtTime(0.04, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.04);
+    } else if (type === "key") {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(380 + Math.random() * 80, now);
+      gain.gain.setValueAtTime(0.02, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.025);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.025);
+    } else if (type === "modal") {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(320, now);
+      osc.frequency.exponentialRampToValueAtTime(540, now + 0.07);
+      gain.gain.setValueAtTime(0.04, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.07);
+    } else if (type === "success") {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(440, now);
+      osc.frequency.setValueAtTime(554.37, now + 0.05);
+      osc.frequency.setValueAtTime(659.25, now + 0.10);
+      gain.gain.setValueAtTime(0.05, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.22);
+    } else if (type === "matrix") {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sawtooth";
+      osc.frequency.setValueAtTime(880, now);
+      osc.frequency.exponentialRampToValueAtTime(220, now + 0.16);
+      gain.gain.setValueAtTime(0.035, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.16);
+    }
+  } catch (e) {}
+};
+
+const soundToggle = $("#soundToggle");
+const soundIcon = $("#soundIcon");
+const soundLabel = $("#soundLabel");
+
+const updateSoundUI = () => {
+  if (!soundToggle) return;
+  soundToggle.classList.toggle("is-active", !soundMuted);
+  if (soundIcon) soundIcon.textContent = soundMuted ? "🔇" : "🔊";
+  if (soundLabel) soundLabel.textContent = soundMuted ? "MUTE" : "SFX";
+  soundToggle.setAttribute("aria-label", soundMuted ? "Sound muted (click to unmute)" : "Sound enabled (click to mute)");
+};
+
+soundToggle?.addEventListener("click", () => {
+  getWebAudio();
+  soundMuted = !soundMuted;
+  localStorage.setItem("portfolio_sound_muted", soundMuted ? "true" : "false");
+  updateSoundUI();
+  if (!soundMuted) playSound("click");
+});
+
+updateSoundUI();
+
+// ==========================================================================
+// ⌘K Command Palette Controller
+// ==========================================================================
 const cmdKModal = $("#cmdKModal");
 const cmdKBtn = $("#cmdKBtn");
 const cmdKInput = $("#cmdKInput");
@@ -141,6 +249,7 @@ const cmdKResults = $("#cmdKResults");
 
 const openCmdK = () => {
   if (!cmdKModal) return;
+  playSound("modal");
   cmdKModal.showModal();
   if (cmdKInput) {
     cmdKInput.value = "";
@@ -151,15 +260,23 @@ const openCmdK = () => {
 
 const closeCmdK = () => {
   if (cmdKModal && cmdKModal.open) {
+    playSound("modal");
     cmdKModal.close();
   }
 };
 
 cmdKBtn?.addEventListener("click", openCmdK);
 
-// Global Keyboard Shortcut: ⌘K or Ctrl+K
+// Global Keyboard Shortcut: ⌘K, Ctrl+K, or ?
 document.addEventListener("keydown", e => {
   if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+    e.preventDefault();
+    if (cmdKModal?.open) {
+      closeCmdK();
+    } else {
+      openCmdK();
+    }
+  } else if (e.key === "?" && !["INPUT", "TEXTAREA"].includes(document.activeElement?.tagName)) {
     e.preventDefault();
     if (cmdKModal?.open) {
       closeCmdK();

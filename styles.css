@@ -375,11 +375,13 @@ dialog.project-modal {
     gap: 8px;
   }
   .theme-toggle .theme-mode-text,
-  .sound-toggle .sound-label {
+  .sound-toggle .sound-label,
+  .cmdk-btn .cmdk-label {
     display: none;
   }
   .theme-toggle,
-  .sound-toggle {
+  .sound-toggle,
+  .cmdk-btn {
     padding: 6px 9px;
   }
 }
