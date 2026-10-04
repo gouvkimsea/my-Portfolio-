@@ -797,7 +797,7 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>education</b>, <b>skills</b>, <b>projects</b>, <b>achievements</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>play</b>, <b>dino</b>, <b>matrix</b>, <b>neofetch</b>, <b>theme</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>education</b>, <b>skills</b>, <b>projects</b>, <b>pinit</b>, <b>miniworld</b>, <b>devpulse</b>, <b>portfolio</b>, <b>achievements</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>play</b>, <b>dino</b>, <b>stats</b>, <b>matrix</b>, <b>neofetch</b>, <b>theme</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
   about: "Gouv Kimsea — Dual degree undergraduate in Computer Science (Paragon.U) & Business Administration (Bonamary.U) building tangible products.",
   education: () => {
     return `<pre style="color:var(--lime);font-size:11px;line-height:1.5;">
@@ -880,6 +880,18 @@ Scrolled to Section 05: Achievements!</pre>`;
     window.open("miniworld.html", "_blank");
     return "Launching Mini World 3D Planet Simulation in a new tab...";
   },
+  pinit: () => {
+    openModal("pinit");
+    return "Opening Pinit (AI Threat & Scam Detector) project modal...";
+  },
+  devpulse: () => {
+    openModal("devpulse");
+    return "Opening DevPulse (Developer Telemetry Dashboard) project modal...";
+  },
+  portfolio: () => {
+    openModal("portfolio");
+    return "Opening This Portfolio Platform breakdown modal...";
+  },
   stats: () => {
     return `<pre style="color:var(--lime);font-size:11px;line-height:1.4;">
 Engineering Stats (2026):
@@ -948,6 +960,15 @@ Engineering Stats (2026):
   "cat about-me.js": "const developer = {\n  name: 'Gouv Kimsea',\n  focus: 'building & learning',\n  status: 'curious',\n  coffee: true\n};"
 };
 
+const escapeHtml = str => {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+};
+
 const executeCommand = rawCommand => {
   const command = rawCommand.trim();
   if (!command) return;
@@ -972,12 +993,12 @@ const executeCommand = rawCommand => {
   } else if (terminalCommands[lower]) {
     response = terminalCommands[lower];
   } else if (lower.startsWith("echo ")) {
-    response = command.slice(5);
+    response = escapeHtml(command.slice(5));
   } else {
-    response = `Command not found: <b>${command}</b>. Type <b>help</b> to see options.`;
+    response = `Command not found: <b>${escapeHtml(command)}</b>. Type <b>help</b> to see options.`;
   }
 
-  terminalOutput.insertAdjacentHTML("beforeend", `<p><span class="command">$ ${command}</span></p><p>${response.replace(/\n/g, "<br/>")}</p>`);
+  terminalOutput.insertAdjacentHTML("beforeend", `<p><span class="command">$ ${escapeHtml(command)}</span></p><p>${response.replace(/\n/g, "<br/>")}</p>`);
   terminal.scrollTop = terminal.scrollHeight;
 };
 
