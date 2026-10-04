@@ -13,7 +13,7 @@ A modern, fast, and highly responsive personal portfolio for a student developer
 
 | Project | Category | Tech Stack | Highlights |
 | :--- | :--- | :--- | :--- |
-| **[Pinit](https://github.com/gouvkimsea)** | AI & Security | AI concept, Web Security, UI | Real-time heuristic scoring, suspicious link scanner, and explainable safety telemetry. |
+| **[Pinit](https://github.com/gouvkimsea/PinitAI)** | AI & Security | AI concept, Web Security, UI | Real-time heuristic scoring, suspicious link scanner, and explainable safety telemetry. |
 | **[Mini World](https://gouvkimsea.github.io/my-Portfolio-/miniworld.html)** | 3D Graphics & WebGL | WebGL, GLSL Shaders, 3D Math, Web Audio | Live procedural cartoon planet simulation, real-time vertex deformation, and meteor physics. |
 | **[DevPulse](https://github.com/gouvkimsea)** | Developer Telemetry | WebSockets, Metrics, JavaScript | Real-time engineering flow state, commit rhythm visualizations, and build telemetry. |
 | **[This Portfolio](https://gouvkimsea.github.io/my-Portfolio-/)** | Personal Platform | HTML5, Vanilla CSS3, ES6+ | Glassmorphism navigation, Bento Grid, ⌘K Command Palette, and interactive terminal CLI. |
@@ -22,13 +22,15 @@ A modern, fast, and highly responsive personal portfolio for a student developer
 
 ## Key Features
 
-- **Hero & Interactive 3D Card**: Editorial hero layout with mouse-tracking 3D tilt on the code card and constellation background.
+- **Hero & Interactive 3D Card**: Editorial hero layout with mouse-tracking 3D tilt on the code card, constellation background, and interactive stardust click burst physics.
+- **Tactile Procedural Web Audio FX**: Zero-asset Web Audio API micro-sound synthesis for button clicks, terminal typing, modal transitions, and theme toggling with a dedicated header mute control.
 - **Floating Island Navigation**: Magnetic sliding pill indicator with glassmorphism blur and automatic scroll morphing.
+- **⌘K Command Palette & Quick Search**: Fast keyboard navigation modal (`⌘K`, `Ctrl+K`, or `?`) for jumping between sections and triggering quick actions.
 - **About Bento Grid**: Multi-card layout featuring personal rules, 2026 focus, and the classic **Chrome Dino T-Rex Runner** mini-game (authentic pixel art T-Rex with running legs, jumping, crouching/ducking, cacti, flying pterodactyls, procedural 8-bit sound beeps, and local high score tracking).
+- **Dual-Degree 6-Card Toolkit Grid**: Comprehensive toolkit covering Programming, Web Development, Backend & Data, 3D & Graphics, Business & Strategy, and Systems & DevOps.
 - **Filterable Project Gallery**: Category filtering (All, Web, AI, 3D & WebGL, Security) with rich dialog modals.
-- **Interactive Resume / CV Modal**: Quick-access modal detailing background, toolkit, status, and direct print/PDF export support.
-- **⌘K Command Palette**: Fast keyboard navigation modal for jumping between sections and triggering quick actions (including Play Chrome Dino).
-- **In-Browser Terminal CLI**: Built-in emulator supporting `help`, `about`, `skills`, `projects`, `dino`, `play`, `stats`, `resume`, `matrix`, `neofetch`, `theme`, and `clear`.
+- **Interactive Resume / CV Modal**: Quick-access modal detailing dual-degree academic background, toolkit, status, and direct print/PDF export support.
+- **In-Browser Terminal CLI**: Built-in emulator supporting `help`, `about`, `education`, `skills`, `projects`, `pinit`, `miniworld`, `devpulse`, `portfolio`, `achievements`, `dino`, `play`, `stats`, `resume`, `matrix`, `neofetch`, `theme`, and `clear`.
 - **Accessible & Responsive**: Fully responsive across mobile, tablet, and desktop with support for `prefers-reduced-motion`.
 
 ---
