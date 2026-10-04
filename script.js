@@ -363,7 +363,7 @@ cmdKResults?.addEventListener("click", e => {
 const canvas = $("#heroCanvas");
 if (canvas) {
   const ctx = canvas.getContext("2d");
-  let width, height, particles = [];
+  let width, height, particles = [], sparks = [];
   let mouse = { x: -1000, y: -1000 };
 
   const resize = () => {
@@ -382,6 +382,27 @@ if (canvas) {
   window.addEventListener("mouseleave", () => {
     mouse.x = -1000;
     mouse.y = -1000;
+  });
+
+  canvas.addEventListener("pointerdown", e => {
+    const rect = canvas.getBoundingClientRect();
+    const cx = e.clientX - rect.left;
+    const cy = e.clientY - rect.top;
+    playSound("click");
+    for (let i = 0; i < 14; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const spd = Math.random() * 3.2 + 1.2;
+      sparks.push({
+        x: cx,
+        y: cy,
+        vx: Math.cos(angle) * spd,
+        vy: Math.sin(angle) * spd,
+        life: 1.0,
+        decay: Math.random() * 0.024 + 0.016,
+        radius: Math.random() * 2.4 + 1.2,
+        type: Math.floor(Math.random() * 3)
+      });
+    }
   });
 
   const count = Math.min(Math.floor(width / 24), 52);
@@ -510,6 +531,23 @@ if (canvas) {
         }
       }
     }
+    // Render and update interactive stardust sparks
+    for (let i = sparks.length - 1; i >= 0; i--) {
+      const sp = sparks[i];
+      sp.x += sp.vx;
+      sp.y += sp.vy;
+      sp.life -= sp.decay;
+      if (sp.life <= 0) {
+        sparks.splice(i, 1);
+        continue;
+      }
+      const col = palette[sp.type];
+      ctx.fillStyle = `rgba(${col.r}, ${col.g}, ${col.b}, ${sp.life})`;
+      ctx.beginPath();
+      ctx.arc(sp.x, sp.y, sp.radius * sp.life, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
     if (isHeroVisible && !prefersReducedMotion) {
       heroRafId = requestAnimationFrame(renderParticles);
     } else {
