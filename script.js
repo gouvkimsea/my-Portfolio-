@@ -756,7 +756,7 @@ Engineering Stats (2026):
                    Shell: custom-zsh (interactive)
                    Stack: JS, C++, Python, WebGL/GLSL, React, APIs
                    Editor: Antigravity IDE
-                   Status: Open to learning & building</pre>`;
+                   Status: Building & Available</pre>`;
   },
   contact: () => {
     const el = document.getElementById("contact");
