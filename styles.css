@@ -1557,14 +1557,18 @@ dialog.project-modal {
 .menu-toggle {
   display: none;
 }
-.mobile-menu-header,
-.mobile-menu-footer,
-.mobile-nav-arrow,
-.menu-backdrop {
+.mobile-drawer,
+.mobile-drawer-backdrop {
   display: none;
 }
 
 @media (max-width: 900px) {
+  /* Hide desktop horizontal pill navigation on mobile */
+  .nav-links,
+  .nav-availability {
+    display: none !important;
+  }
+
   .site-header {
     padding: 10px 14px;
   }
@@ -1578,15 +1582,12 @@ dialog.project-modal {
     align-items: center;
     justify-content: space-between;
   }
-  .nav-availability {
-    display: none !important;
-  }
 
   /* Left-Aligned Mobile Menu Toggle Button */
   .menu-toggle {
     display: inline-flex;
     align-items: center;
-    gap: 7px;
+    gap: 8px;
     order: -1; /* Placed cleanly on the left side of the navbar */
     background: rgba(255, 255, 255, 0.06);
     border: 1px solid rgba(255, 255, 255, 0.14);
@@ -1597,6 +1598,7 @@ dialog.project-modal {
     cursor: pointer;
     transition: all 0.2s ease;
     user-select: none;
+    z-index: 10;
   }
   [data-theme="dark"] .menu-toggle {
     background: rgba(255, 255, 255, 0.08);
@@ -1627,8 +1629,9 @@ dialog.project-modal {
   .burger-icon span:nth-child(2) { top: 4.5px; }
   .burger-icon span:nth-child(3) { top: 9px; }
 
-  /* Left-Side Slide-Out Navigation Drawer (Always Sleek Dark Mode) */
-  .nav-links {
+  /* Left-Side Mobile Navigation Drawer (Always Sleek Dark Mode) */
+  .mobile-drawer {
+    display: flex !important;
     position: fixed;
     top: 0;
     left: 0;
@@ -1636,50 +1639,44 @@ dialog.project-modal {
     width: min(300px, 82vw);
     height: 100vh;
     height: 100dvh;
-    background: #0f100d !important;
+    background: #0f100d !important; /* Deep dark mode background */
     color: #f5f4ef !important;
     border: none;
     border-right: 1px solid rgba(255, 255, 255, 0.12) !important;
     border-radius: 0 20px 20px 0;
-    display: flex;
     flex-direction: column;
     padding: 22px 18px;
-    gap: 6px;
+    gap: 12px;
     transform: translateX(-105%);
-    opacity: 1;
-    pointer-events: none;
     transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
     box-shadow: none;
     z-index: 9999;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    pointer-events: none;
   }
-
-  .nav-links.open {
+  .mobile-drawer.open {
     transform: translateX(0);
     pointer-events: auto;
-    box-shadow: 20px 0 60px rgba(0, 0, 0, 0.75);
+    box-shadow: 20px 0 60px rgba(0, 0, 0, 0.85);
   }
 
-  /* Mobile Drawer Header */
-  .mobile-menu-header {
+  /* Drawer Header */
+  .mobile-drawer-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding-bottom: 16px;
-    margin-bottom: 12px;
+    margin-bottom: 6px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
-  .mobile-brand {
+  .mobile-drawer-header .brand {
     font-size: 15px;
     font-weight: 700;
-    letter-spacing: 0.06em;
     color: #f5f4ef;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    letter-spacing: 0.06em;
   }
-  .mobile-brand span {
+  .mobile-drawer-header .brand span {
     display: inline-grid;
     place-items: center;
     background: #1c1d1a;
@@ -1692,7 +1689,7 @@ dialog.project-modal {
     height: 28px;
     font-weight: 700;
   }
-  .mobile-menu-close {
+  .mobile-drawer-close {
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.14);
     border-radius: 50%;
@@ -1706,14 +1703,19 @@ dialog.project-modal {
     cursor: pointer;
     transition: all 0.2s ease;
   }
-  .mobile-menu-close:hover {
+  .mobile-drawer-close:hover {
     background: rgba(239, 131, 84, 0.25);
     border-color: var(--orange);
     color: var(--orange);
   }
 
-  /* Nav Links inside Dark Drawer */
-  .nav-links .nav-link {
+  /* Drawer Links */
+  .mobile-drawer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .mobile-drawer-link {
     width: 100%;
     padding: 12px 14px;
     font-family: var(--mono);
@@ -1727,36 +1729,34 @@ dialog.project-modal {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    text-decoration: none;
   }
-  .nav-links .nav-link:hover {
+  .mobile-drawer-link:hover {
     color: #f5f4ef !important;
     background: rgba(255, 255, 255, 0.06);
     border-color: rgba(255, 255, 255, 0.08);
     transform: translateX(4px);
   }
-  .nav-links .nav-link.active {
+  .mobile-drawer-link.active {
     color: var(--lime, #e7f26d) !important;
     background: rgba(231, 242, 109, 0.1);
     border-color: rgba(231, 242, 109, 0.28);
     font-weight: 600;
   }
-  .nav-links .nav-link:after {
-    display: none !important;
-  }
-  .mobile-nav-arrow {
-    display: inline-block;
+  .mobile-drawer-link i {
+    font-style: normal;
     font-size: 13px;
-    color: #6b6e65;
+    color: #686b62;
     transition: color 0.2s ease, transform 0.2s ease;
   }
-  .nav-links .nav-link:hover .mobile-nav-arrow,
-  .nav-links .nav-link.active .mobile-nav-arrow {
+  .mobile-drawer-link:hover i,
+  .mobile-drawer-link.active i {
     color: var(--lime);
     transform: translate(2px, -2px);
   }
 
-  /* Mobile Drawer Footer */
-  .mobile-menu-footer {
+  /* Drawer Footer */
+  .mobile-drawer-footer {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -1764,44 +1764,38 @@ dialog.project-modal {
     padding-top: 18px;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
   }
-  .mobile-menu-status {
+  .mobile-drawer-status {
     font: 11px var(--mono);
     color: #9fa295;
     display: flex;
     align-items: center;
     gap: 6px;
   }
-  .mobile-menu-copy {
+  .mobile-drawer-footer small {
     font: 10px var(--mono);
     color: #686b62;
   }
 
-  /* Scrim Backdrop Overlay */
-  .menu-backdrop {
+  /* Backdrop Overlay */
+  .mobile-drawer-backdrop {
+    display: block !important;
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.72);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.35s ease;
     z-index: 9998;
-    display: block;
   }
-  .menu-backdrop.active {
+  .mobile-drawer-backdrop.active {
     opacity: 1;
     pointer-events: auto;
   }
 
   body.menu-open {
     overflow: hidden;
-  }
-
-  .nav-indicator,
-  .nav-indicator-tick,
-  .nav-indicator-dot {
-    display: none !important;
   }
 }
 

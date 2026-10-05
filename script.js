@@ -76,49 +76,66 @@ navLinksContainer?.addEventListener("mouseleave", () => {
 window.addEventListener("resize", () => updateNavIndicator(activeLink, false));
 window.addEventListener("load", () => setTimeout(() => updateNavIndicator(activeLink, false), 200));
 
-// Mobile navigation menu (Left-side drawer)
+// Mobile Navigation Drawer (Independent Left-Side Drawer)
 const menuToggle = $("#menuToggle");
-const menu = $("#mainMenu");
-const menuBackdrop = $("#menuBackdrop");
-const menuCloseBtn = $("#menuCloseBtn");
+const mobileDrawer = $("#mobileDrawer");
+const mobileDrawerBackdrop = $("#mobileDrawerBackdrop");
+const mobileDrawerClose = $("#mobileDrawerClose");
+const mobileDrawerLinks = $$(".mobile-drawer-link");
 
-const closeMenu = () => {
-  if (!menu) return;
-  menu.classList.remove("open");
-  menuBackdrop?.classList.remove("active");
+const closeMobileDrawer = () => {
+  if (!mobileDrawer) return;
+  mobileDrawer.classList.remove("open");
+  mobileDrawer.setAttribute("aria-hidden", "true");
+  mobileDrawerBackdrop?.classList.remove("active");
   document.body.classList.remove("menu-open");
   menuToggle?.setAttribute("aria-expanded", "false");
 };
 
-const openMenu = () => {
-  if (!menu) return;
-  menu.classList.add("open");
-  menuBackdrop?.classList.add("active");
+const openMobileDrawer = () => {
+  if (!mobileDrawer) return;
+  mobileDrawer.classList.add("open");
+  mobileDrawer.setAttribute("aria-hidden", "false");
+  mobileDrawerBackdrop?.classList.add("active");
   document.body.classList.add("menu-open");
   menuToggle?.setAttribute("aria-expanded", "true");
   if (typeof playSound === "function") playSound("click");
 };
 
 menuToggle?.addEventListener("click", () => {
-  if (menu?.classList.contains("open")) {
-    closeMenu();
+  if (mobileDrawer?.classList.contains("open")) {
+    closeMobileDrawer();
   } else {
-    openMenu();
+    openMobileDrawer();
   }
 });
 
-menuCloseBtn?.addEventListener("click", () => {
-  closeMenu();
+mobileDrawerClose?.addEventListener("click", () => {
+  closeMobileDrawer();
   if (typeof playSound === "function") playSound("click");
 });
 
-menuBackdrop?.addEventListener("click", closeMenu);
+mobileDrawerBackdrop?.addEventListener("click", closeMobileDrawer);
 
-$$(".nav-link").forEach(link => link.addEventListener("click", closeMenu));
+mobileDrawerLinks.forEach(link => {
+  link.addEventListener("click", () => {
+    mobileDrawerLinks.forEach(l => l.classList.remove("active"));
+    link.classList.add("active");
+    // Also sync desktop active link if applicable
+    const targetHref = link.getAttribute("href");
+    const matchingDesktopLink = $(`.nav-link[href="${targetHref}"]`);
+    if (matchingDesktopLink) {
+      navLinks.forEach(l => l.classList.remove("active"));
+      matchingDesktopLink.classList.add("active");
+      activeLink = matchingDesktopLink;
+    }
+    closeMobileDrawer();
+  });
+});
 
 document.addEventListener("keydown", event => {
   if (event.key === "Escape") {
-    closeMenu();
+    closeMobileDrawer();
     closeModal();
     closeResumeModal();
   }

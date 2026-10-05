@@ -125,34 +125,45 @@
   <div class="scroll-progress" id="scrollProgress"></div>
   <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
   <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
-  <div class="menu-backdrop" id="menuBackdrop" aria-hidden="true"></div>
+  <div class="mobile-drawer-backdrop" id="mobileDrawerBackdrop" aria-hidden="true"></div>
+  <aside class="mobile-drawer" id="mobileDrawer" aria-label="Mobile Navigation Drawer" aria-hidden="true">
+    <div class="mobile-drawer-header">
+      <a class="brand" href="#home"><span>[ ]</span> GK</a>
+      <button class="mobile-drawer-close" id="mobileDrawerClose" type="button" aria-label="Close navigation menu">✕</button>
+    </div>
+    <nav class="mobile-drawer-links">
+      <a class="mobile-drawer-link active" href="#home"><span>Home</span> <i aria-hidden="true">↗</i></a>
+      <a class="mobile-drawer-link" href="#about"><span>About</span> <i aria-hidden="true">↗</i></a>
+      <a class="mobile-drawer-link" href="#skills"><span>Skills</span> <i aria-hidden="true">↗</i></a>
+      <a class="mobile-drawer-link" href="#projects"><span>Projects</span> <i aria-hidden="true">↗</i></a>
+      <a class="mobile-drawer-link" href="#journey"><span>Journey</span> <i aria-hidden="true">↗</i></a>
+      <a class="mobile-drawer-link" href="#achievements"><span>Achievements</span> <i aria-hidden="true">↗</i></a>
+      <a class="mobile-drawer-link" href="#contact"><span>Contact</span> <i aria-hidden="true">↗</i></a>
+    </nav>
+    <div class="mobile-drawer-footer">
+      <div class="mobile-drawer-status"><span class="status-dot"></span> Open to learning &amp; builds</div>
+      <small>Gouv Kimsea · Phnom Penh</small>
+    </div>
+  </aside>
 
   <header class="site-header" id="top">
     <nav class="nav container" aria-label="Main navigation">
       <a class="brand" href="#home" aria-label="Go to homepage"><span>[ ]</span> GK</a>
-      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mainMenu" aria-label="Toggle navigation menu">
+      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mobileDrawer" aria-label="Toggle navigation menu">
         <span class="burger-icon" aria-hidden="true">
           <span></span><span></span><span></span>
         </span>
         <b class="menu-text">Menu</b>
       </button>
-      <div class="nav-links" id="mainMenu" role="dialog" aria-modal="true" aria-label="Navigation Drawer">
-        <div class="mobile-menu-header">
-          <a class="mobile-brand" href="#home"><span>[ ]</span> GK</a>
-          <button class="mobile-menu-close" id="menuCloseBtn" type="button" aria-label="Close navigation menu">✕</button>
-        </div>
+      <div class="nav-links" id="mainMenu">
         <span class="nav-indicator" aria-hidden="true"></span>
-        <a class="nav-link active" href="#home"><span>Home</span> <small class="mobile-nav-arrow" aria-hidden="true">↗</small></a>
-        <a class="nav-link" href="#about"><span>About</span> <small class="mobile-nav-arrow" aria-hidden="true">↗</small></a>
-        <a class="nav-link" href="#skills"><span>Skills</span> <small class="mobile-nav-arrow" aria-hidden="true">↗</small></a>
-        <a class="nav-link" href="#projects"><span>Projects</span> <small class="mobile-nav-arrow" aria-hidden="true">↗</small></a>
-        <a class="nav-link" href="#journey"><span>Journey</span> <small class="mobile-nav-arrow" aria-hidden="true">↗</small></a>
-        <a class="nav-link" href="#achievements"><span>Achievements</span> <small class="mobile-nav-arrow" aria-hidden="true">↗</small></a>
-        <a class="nav-link" href="#contact"><span>Contact</span> <small class="mobile-nav-arrow" aria-hidden="true">↗</small></a>
-        <div class="mobile-menu-footer">
-          <div class="mobile-menu-status"><span class="status-dot"></span> Open to learning &amp; builds</div>
-          <span class="mobile-menu-copy">Gouv Kimsea · Phnom Penh</span>
-        </div>
+        <a class="nav-link active" href="#home">Home</a>
+        <a class="nav-link" href="#about">About</a>
+        <a class="nav-link" href="#skills">Skills</a>
+        <a class="nav-link" href="#projects">Projects</a>
+        <a class="nav-link" href="#journey">Journey</a>
+        <a class="nav-link" href="#achievements">Achievements</a>
+        <a class="nav-link" href="#contact">Contact</a>
       </div>
       <div class="nav-right">
         <button class="theme-toggle magnetic" id="themeToggle" aria-label="Toggle dark or light theme"
