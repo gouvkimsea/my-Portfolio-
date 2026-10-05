@@ -104,8 +104,12 @@
   <script>
     (function () {
       try {
+        var isMobile = (window.innerWidth <= 900) || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         var savedTheme = localStorage.getItem("portfolio-theme");
         var theme = savedTheme ? savedTheme : "dark";
+        if (isMobile && !savedTheme) {
+          theme = "dark";
+        }
         document.documentElement.setAttribute("data-theme", theme);
       } catch (e) {
         document.documentElement.setAttribute("data-theme", "dark");
@@ -121,22 +125,34 @@
   <div class="scroll-progress" id="scrollProgress"></div>
   <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
   <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+  <div class="menu-backdrop" id="menuBackdrop" aria-hidden="true"></div>
 
   <header class="site-header" id="top">
     <nav class="nav container" aria-label="Main navigation">
       <a class="brand" href="#home" aria-label="Go to homepage"><span>[ ]</span> GK</a>
-      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mainMenu">
-        <span></span><span></span><span></span><b>Menu</b>
+      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mainMenu" aria-label="Toggle navigation menu">
+        <span class="burger-icon" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </span>
+        <b class="menu-text">Menu</b>
       </button>
-      <div class="nav-links" id="mainMenu">
+      <div class="nav-links" id="mainMenu" role="dialog" aria-modal="true" aria-label="Navigation Drawer">
+        <div class="mobile-menu-header">
+          <a class="mobile-brand" href="#home"><span>[ ]</span> GK</a>
+          <button class="mobile-menu-close" id="menuCloseBtn" type="button" aria-label="Close navigation menu">✕</button>
+        </div>
         <span class="nav-indicator" aria-hidden="true"></span>
-        <a class="nav-link active" href="#home">Home</a>
-        <a class="nav-link" href="#about">About</a>
-        <a class="nav-link" href="#skills">Skills</a>
-        <a class="nav-link" href="#projects">Projects</a>
-        <a class="nav-link" href="#journey">Journey</a>
-        <a class="nav-link" href="#achievements">Achievements</a>
-        <a class="nav-link" href="#contact">Contact</a>
+        <a class="nav-link active" href="#home"><span>Home</span> <small class="mobile-nav-arrow" aria-hidden="true">↗</small></a>
+        <a class="nav-link" href="#about"><span>About</span> <small class="mobile-nav-arrow" aria-hidden="true">↗</small></a>
+        <a class="nav-link" href="#skills"><span>Skills</span> <small class="mobile-nav-arrow" aria-hidden="true">↗</small></a>
+        <a class="nav-link" href="#projects"><span>Projects</span> <small class="mobile-nav-arrow" aria-hidden="true">↗</small></a>
+        <a class="nav-link" href="#journey"><span>Journey</span> <small class="mobile-nav-arrow" aria-hidden="true">↗</small></a>
+        <a class="nav-link" href="#achievements"><span>Achievements</span> <small class="mobile-nav-arrow" aria-hidden="true">↗</small></a>
+        <a class="nav-link" href="#contact"><span>Contact</span> <small class="mobile-nav-arrow" aria-hidden="true">↗</small></a>
+        <div class="mobile-menu-footer">
+          <div class="mobile-menu-status"><span class="status-dot"></span> Open to learning &amp; builds</div>
+          <span class="mobile-menu-copy">Gouv Kimsea · Phnom Penh</span>
+        </div>
       </div>
       <div class="nav-right">
         <button class="theme-toggle magnetic" id="themeToggle" aria-label="Toggle dark or light theme"

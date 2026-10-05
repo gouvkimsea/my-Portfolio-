@@ -76,22 +76,46 @@ navLinksContainer?.addEventListener("mouseleave", () => {
 window.addEventListener("resize", () => updateNavIndicator(activeLink, false));
 window.addEventListener("load", () => setTimeout(() => updateNavIndicator(activeLink, false), 200));
 
-// Mobile navigation menu
+// Mobile navigation menu (Left-side drawer)
 const menuToggle = $("#menuToggle");
 const menu = $("#mainMenu");
+const menuBackdrop = $("#menuBackdrop");
+const menuCloseBtn = $("#menuCloseBtn");
+
 const closeMenu = () => {
+  if (!menu) return;
   menu.classList.remove("open");
-  menuToggle.setAttribute("aria-expanded", "false");
+  menuBackdrop?.classList.remove("active");
+  document.body.classList.remove("menu-open");
+  menuToggle?.setAttribute("aria-expanded", "false");
 };
+
+const openMenu = () => {
+  if (!menu) return;
+  menu.classList.add("open");
+  menuBackdrop?.classList.add("active");
+  document.body.classList.add("menu-open");
+  menuToggle?.setAttribute("aria-expanded", "true");
+  if (typeof playSound === "function") playSound("click");
+};
+
 menuToggle?.addEventListener("click", () => {
-  const open = menu.classList.toggle("open");
-  menuToggle.setAttribute("aria-expanded", String(open));
+  if (menu?.classList.contains("open")) {
+    closeMenu();
+  } else {
+    openMenu();
+  }
+});
+
+menuCloseBtn?.addEventListener("click", () => {
+  closeMenu();
   if (typeof playSound === "function") playSound("click");
 });
+
+menuBackdrop?.addEventListener("click", closeMenu);
+
 $$(".nav-link").forEach(link => link.addEventListener("click", closeMenu));
-document.addEventListener("click", event => {
-  if (menu.classList.contains("open") && !menu.contains(event.target) && !menuToggle.contains(event.target)) closeMenu();
-});
+
 document.addEventListener("keydown", event => {
   if (event.key === "Escape") {
     closeMenu();
@@ -101,8 +125,9 @@ document.addEventListener("keydown", event => {
 });
 
 // Theme Controller (Dark Mode by default with user toggle and persistence)
+const isMobileDevice = window.innerWidth <= 900 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 const savedTheme = localStorage.getItem("portfolio-theme");
-const initialTheme = savedTheme || "dark";
+const initialTheme = (isMobileDevice && !savedTheme) ? "dark" : (savedTheme || "dark");
 
 const setTheme = (theme, persist = true) => {
   document.documentElement.setAttribute("data-theme", theme);
