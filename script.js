@@ -76,7 +76,7 @@ navLinksContainer?.addEventListener("mouseleave", () => {
 window.addEventListener("resize", () => updateNavIndicator(activeLink, false));
 window.addEventListener("load", () => setTimeout(() => updateNavIndicator(activeLink, false), 200));
 
-// Mobile Navigation Drawer (Independent Left-Side Drawer)
+// Mobile Navigation Drawer (Independent Right-Side Drawer)
 const menuToggle = $("#menuToggle");
 const mobileDrawer = $("#mobileDrawer");
 const mobileDrawerBackdrop = $("#mobileDrawerBackdrop");

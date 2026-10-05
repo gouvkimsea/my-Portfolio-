@@ -1583,12 +1583,11 @@ dialog.project-modal {
     justify-content: space-between;
   }
 
-  /* Left-Aligned Mobile Menu Toggle Button */
+  /* Right-Aligned Mobile Menu Toggle Button */
   .menu-toggle {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    order: -1; /* Placed cleanly on the left side of the navbar */
     background: rgba(255, 255, 255, 0.06);
     border: 1px solid rgba(255, 255, 255, 0.14);
     border-radius: 20px;
@@ -1629,12 +1628,13 @@ dialog.project-modal {
   .burger-icon span:nth-child(2) { top: 4.5px; }
   .burger-icon span:nth-child(3) { top: 9px; }
 
-  /* Left-Side Mobile Navigation Drawer (Always Sleek Dark Mode) */
+  /* Right-Side Mobile Navigation Drawer (Always Sleek Dark Mode) */
   .mobile-drawer {
     display: flex !important;
     position: fixed;
     top: 0;
-    left: 0;
+    right: 0;
+    left: auto;
     bottom: 0;
     width: min(300px, 82vw);
     height: 100vh;
@@ -1642,12 +1642,12 @@ dialog.project-modal {
     background: #0f100d !important; /* Deep dark mode background */
     color: #f5f4ef !important;
     border: none;
-    border-right: 1px solid rgba(255, 255, 255, 0.12) !important;
-    border-radius: 0 20px 20px 0;
+    border-left: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-radius: 20px 0 0 20px;
     flex-direction: column;
     padding: 22px 18px;
     gap: 12px;
-    transform: translateX(-105%);
+    transform: translateX(105%);
     transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
     box-shadow: none;
     z-index: 9999;
@@ -1658,7 +1658,7 @@ dialog.project-modal {
   .mobile-drawer.open {
     transform: translateX(0);
     pointer-events: auto;
-    box-shadow: 20px 0 60px rgba(0, 0, 0, 0.85);
+    box-shadow: -20px 0 60px rgba(0, 0, 0, 0.85);
   }
 
   /* Drawer Header */
