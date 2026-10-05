@@ -22,16 +22,16 @@ A modern, fast, and highly responsive personal portfolio for a student developer
 
 ## Key Features
 
-- **Hero & Interactive 3D Card**: Editorial hero layout with mouse-tracking 3D tilt on the code card, ambient glowing aura, and interactive workspace visuals.
-- **Tactile Procedural Web Audio FX**: Zero-asset Web Audio API micro-sound synthesis for button clicks, terminal typing, modal transitions, and theme toggling.
-- **Floating Island Navigation**: Magnetic sliding pill indicator with glassmorphism blur, automatic scroll morphing, and streamlined top header aesthetics with balanced hero spacing.
+- **Hero & Interactive Code Card**: Editorial hero layout with mouse-tracking tilt on the `developer.ts` card, live status badge, and clean academic highlights.
+- **Floating Island Navigation**: Magnetic sliding pill indicator with glassmorphism blur, automatic scroll morphing, and streamlined mobile navigation drawer.
 - **⌘K Command Palette & Quick Search**: Fast keyboard navigation modal (`⌘K`, `Ctrl+K`, or `?`) for jumping between sections and triggering quick actions.
-- **About Bento Grid**: Multi-card layout featuring personal rules, 2026 focus, and the classic **Chrome Dino T-Rex Runner** mini-game (authentic pixel art T-Rex with running legs, jumping, crouching/ducking, cacti, flying pterodactyls, procedural 8-bit sound beeps, and local high score tracking).
+- **About Bento Grid**: Multi-card layout featuring engineering principles, 2026 technical focus (Systems, WebGL & Product Architecture), and live availability.
 - **Dual-Degree 6-Card Toolkit Grid**: Comprehensive toolkit covering Programming, Web Development, Backend & Data, 3D & Graphics, Business & Strategy, and Systems & DevOps.
 - **Filterable Project Gallery**: Category filtering (All, Web, AI, 3D & WebGL, Security) with rich dialog modals.
+- **Engineering Milestones**: Grounded showcase of shipped applications, graphics engines, threat detection algorithms, and open-source contributions.
 - **Interactive Resume / CV Modal**: Quick-access modal detailing dual-degree academic background, toolkit, status, and direct print/PDF export support.
-- **In-Browser Terminal CLI**: Built-in emulator supporting `help`, `about`, `education`, `skills`, `projects`, `pinit`, `miniworld`, `devpulse`, `portfolio`, `achievements`, `dino`, `play`, `stats`, `resume`, `matrix`, `neofetch`, `theme`, and `clear`.
-- **Accessible & Responsive**: Fully responsive across mobile, tablet, and desktop with support for `prefers-reduced-motion`.
+- **In-Browser Terminal CLI**: Built-in interactive CLI supporting `help`, `about`, `education`, `skills`, `projects`, `pinit`, `miniworld`, `devpulse`, `portfolio`, `achievements`, `stats`, `resume`, `neofetch`, `theme`, and `clear`.
+- **Accessible & Responsive**: Fast, lightweight performance with zero external runtime dependencies, full mobile drawer navigation, and `prefers-reduced-motion` compliance.
 
 ---
 

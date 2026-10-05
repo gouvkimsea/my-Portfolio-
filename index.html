@@ -179,8 +179,6 @@
 
   <main id="main">
     <section class="hero section" id="home">
-      <div class="ambient-orb orb-1" aria-hidden="true"></div>
-      <div class="ambient-orb orb-2" aria-hidden="true"></div>
       <div class="hero-grid"></div>
       <div class="container hero-inner">
         <div class="hero-copy reveal">
@@ -204,7 +202,7 @@
             <div class="window-bar">
               <span class="wb-dot wb-red"></span><span class="wb-dot wb-yellow"></span><span
                 class="wb-dot wb-green"></span>
-              <small>about-me.js</small>
+              <small>developer.ts</small>
               <button class="code-run-btn" id="runCodeBtn" type="button" title="Run code snippet"><span>▶</span>
                 Run</button>
             </div>
@@ -216,13 +214,13 @@
                 <p class="indent"><label>name:</label> <strong>'Gouv Kimsea'</strong>,</p>
               </div>
               <div class="code-line"><span class="ln">3</span>
-                <p class="indent"><label>focus:</label> <strong>'building &amp; learning'</strong>,</p>
+                <p class="indent"><label>location:</label> <strong>'Phnom Penh, KH'</strong>,</p>
               </div>
               <div class="code-line"><span class="ln">4</span>
-                <p class="indent"><label>status:</label> <strong class="lime">'curious'</strong>,</p>
+                <p class="indent"><label>degree:</label> <strong class="lime">'CS &amp; Business Admin'</strong>,</p>
               </div>
               <div class="code-line"><span class="ln">5</span>
-                <p class="indent"><label>coffee:</label> <strong class="orange">true</strong></p>
+                <p class="indent"><label>focus:</label> <strong class="orange">'Web, 3D &amp; Products'</strong></p>
               </div>
               <div class="code-line"><span class="ln">6</span>
                 <p>};</p>
@@ -232,8 +230,7 @@
               </div>
             </div>
             <div class="code-console" id="codeConsole" aria-live="polite">
-              <span class="console-prefix">&gt;</span> <span class="console-text" id="consoleText">idle — ready to
-                compile</span>
+              <span class="console-prefix">&gt;</span> <span class="console-text" id="consoleText">ready to execute</span>
             </div>
           </div>
           <div class="float-note note-top"><span>01</span><b>build</b><small>learn by doing</small></div>
@@ -356,30 +353,39 @@
             </div>
           </article>
 
-          <article class="bento-card bento-stats reveal spotlight-card">
-            <div class="bento-star-game bento-dino-game" id="starGameWidget" tabindex="0" role="region" aria-label="Chrome Dino T-Rex Runner. Press Space or Click to Jump, Down Arrow to Duck.">
-              <div class="game-hud">
-                <div class="game-hud-left">
-                  <span class="game-status-beacon" aria-hidden="true"></span>
-                  <span class="game-title">T-REX RUNNER</span>
-                </div>
-                <div class="game-hud-right">
-                  <span class="game-hi" id="starGameHi">HI 00000</span>
-                  <span class="game-score" id="starGameScore">00000</span>
-                  <button class="game-sound-btn" id="starGameSoundBtn" type="button" aria-label="Toggle Sound" title="Toggle Sound">SFX</button>
+          <article class="bento-card bento-focus reveal spotlight-card">
+            <div class="bento-header">
+              <span class="bento-icon">◈</span>
+              <span class="bento-badge">FOCUS &amp; AVAILABILITY</span>
+            </div>
+            <h3>Building with purpose and curiosity.</h3>
+            <div class="bento-focus-items">
+              <div class="focus-item">
+                <span class="focus-dot"></span>
+                <div>
+                  <strong>Location</strong>
+                  <p>Phnom Penh, Cambodia</p>
                 </div>
               </div>
-              <div class="game-viewport">
-                <canvas id="starGameCanvas" width="340" height="120"></canvas>
+              <div class="focus-item">
+                <span class="focus-dot"></span>
+                <div>
+                  <strong>Active Exploration</strong>
+                  <p>Client-side 3D graphics, security heuristics &amp; scalable web systems</p>
+                </div>
               </div>
-              <div class="game-footer">
-                <span class="game-hint"><kbd>SPACE</kbd> Jump &bull; <kbd>↓</kbd> Duck</span>
-                <a class="game-gh-pill" href="https://github.com/gouvkimsea" target="_blank" rel="noreferrer" title="View Gouv Kimsea's GitHub Activity">
-                  <span>GitHub</span> ↗
-                </a>
+              <div class="focus-item">
+                <span class="focus-dot"></span>
+                <div>
+                  <strong>Availability</strong>
+                  <p>Open for 2026 internships, junior engineering roles, and team collaborations</p>
+                </div>
               </div>
             </div>
-            <p class="stat-footnote">Turning ideas into tangible products.</p>
+            <div class="bento-focus-footer">
+              <a class="bento-link" href="#contact">Get in touch <span>↗</span></a>
+              <a class="bento-link" href="https://github.com/gouvkimsea" target="_blank" rel="noreferrer">GitHub Activity <span>↗</span></a>
+            </div>
           </article>
 
           <article class="bento-card bento-quote reveal spotlight-card">
@@ -406,9 +412,9 @@
             <h3>Programming</h3>
             <p>Learning to think clearly and solve problems with code.</p>
             <div class="chips">
-              <span class="chip-item" data-level="90%">JavaScript <i>90%</i></span>
-              <span class="chip-item" data-level="75%">C++ <i>75%</i></span>
-              <span class="chip-item" data-level="80%">Python <i>80%</i></span>
+              <span class="chip-item">JavaScript</span>
+              <span class="chip-item">C++</span>
+              <span class="chip-item">Python</span>
             </div><small class="learning-state"><i></i> Growing</small>
           </article>
           <article class="skill-card reveal spotlight-card"><span class="skill-number">02</span>
@@ -416,9 +422,9 @@
             <h3>Web development</h3>
             <p>Building responsive, accessible interfaces with intention.</p>
             <div class="chips">
-              <span class="chip-item" data-level="95%">HTML / CSS <i>95%</i></span>
-              <span class="chip-item" data-level="85%">React <i>85%</i></span>
-              <span class="chip-item" data-level="88%">REST APIs <i>88%</i></span>
+              <span class="chip-item">HTML / CSS</span>
+              <span class="chip-item">React</span>
+              <span class="chip-item">REST APIs</span>
             </div><small class="learning-state"><i></i> Practicing</small>
           </article>
           <article class="skill-card reveal spotlight-card"><span class="skill-number">03</span>
@@ -426,9 +432,9 @@
             <h3>Backend &amp; data</h3>
             <p>Exploring how products work behind the interface.</p>
             <div class="chips">
-              <span class="chip-item" data-level="82%">Node.js <i>82%</i></span>
-              <span class="chip-item" data-level="78%">SQL <i>78%</i></span>
-              <span class="chip-item" data-level="80%">Databases <i>80%</i></span>
+              <span class="chip-item">Node.js</span>
+              <span class="chip-item">SQL</span>
+              <span class="chip-item">Databases</span>
             </div><small class="learning-state"><i></i> Exploring</small>
           </article>
           <article class="skill-card reveal spotlight-card"><span class="skill-number">04</span>
@@ -436,9 +442,9 @@
             <h3>3D &amp; Graphics</h3>
             <p>Procedural simulation, geometry math, and interactive shaders.</p>
             <div class="chips">
-              <span class="chip-item" data-level="76%">WebGL <i>76%</i></span>
-              <span class="chip-item" data-level="72%">GLSL <i>72%</i></span>
-              <span class="chip-item" data-level="75%">3D Math <i>75%</i></span>
+              <span class="chip-item">WebGL</span>
+              <span class="chip-item">GLSL</span>
+              <span class="chip-item">3D Math</span>
             </div><small class="learning-state"><i></i> Experimenting</small>
           </article>
           <article class="skill-card reveal spotlight-card"><span class="skill-number">05</span>
@@ -446,9 +452,9 @@
             <h3>Business &amp; Strategy</h3>
             <p>Bridging software architecture with product viability, unit economics, and market fit.</p>
             <div class="chips">
-              <span class="chip-item" data-level="86%">Product Strategy <i>86%</i></span>
-              <span class="chip-item" data-level="82%">Market Economics <i>82%</i></span>
-              <span class="chip-item" data-level="85%">Operations <i>85%</i></span>
+              <span class="chip-item">Product Strategy</span>
+              <span class="chip-item">Market Economics</span>
+              <span class="chip-item">Operations</span>
             </div><small class="learning-state"><i></i> Bridging</small>
           </article>
           <article class="skill-card reveal spotlight-card"><span class="skill-number">06</span>
@@ -456,9 +462,9 @@
             <h3>Systems &amp; DevOps</h3>
             <p>Automated deployment pipelines, source control discipline, and shell tooling.</p>
             <div class="chips">
-              <span class="chip-item" data-level="92%">Git &amp; GitHub <i>92%</i></span>
-              <span class="chip-item" data-level="84%">Linux / Shell <i>84%</i></span>
-              <span class="chip-item" data-level="80%">CI/CD Actions <i>80%</i></span>
+              <span class="chip-item">Git &amp; GitHub</span>
+              <span class="chip-item">Linux / Shell</span>
+              <span class="chip-item">CI/CD Actions</span>
             </div><small class="learning-state"><i></i> Automating</small>
           </article>
         </div>
@@ -640,20 +646,20 @@
       <div class="container">
         <div class="section-heading split reveal">
           <div>
-            <p class="eyebrow">05 / Accolades &amp; Milestones</p>
-            <h2>Proven craft.<br /><em>Illustrated achievements.</em></h2>
+            <p class="eyebrow">05 / Milestones &amp; Focus</p>
+            <h2>Proven craft.<br /><em>Engineering milestones.</em></h2>
           </div>
           <div class="achievements-heading-note">
             <div class="achievements-summary-badge">
               <span class="achieve-pulse-dot"></span>
-              <span><b>6 Unlocked Milestones</b> · Continuous Momentum</span>
+              <span><b>6 Engineering Milestones</b> · Continuous Momentum</span>
             </div>
-            <p class="heading-note">Turning raw curiosity into measured impact,<br />reproducible code, and production software.</p>
+            <p class="heading-note">Turning academic foundations into tangible,<br />reproducible code and production software.</p>
           </div>
         </div>
 
         <div class="achievement-filter-bar reveal" role="tablist" aria-label="Filter achievements">
-          <button type="button" class="achieve-filter-btn active" data-filter="all" role="tab" aria-selected="true">All Accolades <sup>06</sup></button>
+          <button type="button" class="achieve-filter-btn active" data-filter="all" role="tab" aria-selected="true">All Milestones <sup>06</sup></button>
           <button type="button" class="achieve-filter-btn" data-filter="shipped" role="tab" aria-selected="false">Shipped Apps <sup>02</sup></button>
           <button type="button" class="achieve-filter-btn" data-filter="graphics" role="tab" aria-selected="false">Graphics &amp; 3D <sup>02</sup></button>
           <button type="button" class="achieve-filter-btn" data-filter="foundations" role="tab" aria-selected="false">Systems &amp; Open Source <sup>02</sup></button>
@@ -673,7 +679,7 @@
                   <circle cx="50" cy="16" r="1.5" fill="var(--lime)" />
                 </svg>
               </div>
-              <span class="achieve-status-pill"><span class="achieve-dot"></span> UNLOCKED</span>
+              <span class="achieve-status-pill"><span class="achieve-dot"></span> PRODUCTION</span>
             </div>
             <div class="achieve-content">
               <small class="achieve-tag">PRODUCTION · 4 LIVE APPS</small>
@@ -705,7 +711,7 @@
                   <circle cx="48" cy="24" r="2.5" fill="var(--orange)" />
                 </svg>
               </div>
-              <span class="achieve-status-pill"><span class="achieve-dot"></span> UNLOCKED</span>
+              <span class="achieve-status-pill"><span class="achieve-dot"></span> 3D ENGINE</span>
             </div>
             <div class="achieve-content">
               <small class="achieve-tag">GRAPHICS &amp; ENGINE</small>
@@ -736,7 +742,7 @@
                   <path d="M28 30 L31 33 L37 27" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
               </div>
-              <span class="achieve-status-pill"><span class="achieve-dot"></span> UNLOCKED</span>
+              <span class="achieve-status-pill"><span class="achieve-dot"></span> SECURITY AI</span>
             </div>
             <div class="achieve-content">
               <small class="achieve-tag">AI &amp; WEB SECURITY</small>
@@ -769,7 +775,7 @@
                   <circle cx="20" cy="32" r="2" fill="#ffffff" />
                 </svg>
               </div>
-              <span class="achieve-status-pill"><span class="achieve-dot"></span> UNLOCKED</span>
+              <span class="achieve-status-pill"><span class="achieve-dot"></span> OPEN SOURCE</span>
             </div>
             <div class="achieve-content">
               <small class="achieve-tag">OPEN SOURCE · VELOCITY</small>
@@ -805,7 +811,7 @@
                   <circle cx="32" cy="32" r="4.5" fill="#ffffff" stroke="var(--lime)" stroke-width="2" />
                 </svg>
               </div>
-              <span class="achieve-status-pill"><span class="achieve-dot"></span> UNLOCKED</span>
+              <span class="achieve-status-pill"><span class="achieve-dot"></span> ACADEMIC</span>
             </div>
             <div class="achieve-content">
               <small class="achieve-tag">ACADEMIC · THEORY</small>
@@ -839,22 +845,22 @@
                   <path d="M44 32 L46 37 L51 39 L46 41 L44 46 L42 41 L37 39 L42 37 Z" fill="var(--lime)" />
                 </svg>
               </div>
-              <span class="achieve-status-pill"><span class="achieve-dot"></span> UNLOCKED</span>
+              <span class="achieve-status-pill"><span class="achieve-dot"></span> ARCHITECTURE</span>
             </div>
             <div class="achieve-content">
-              <small class="achieve-tag">INTERACTION &amp; POLISH</small>
-              <h3 class="achieve-title">Bespoke Interactive Craft</h3>
-              <p class="achieve-desc">Zero reliance on generic templates: built an in-browser zsh terminal CLI emulator, playable Chrome T-Rex runner with arcade sounds, fluid magnetic cursor physics, and instant Command Palette navigation.</p>
+              <small class="achieve-tag">ENGINEERING &amp; STANDARDS</small>
+              <h3 class="achieve-title">Modern Web Platform Architecture</h3>
+              <p class="achieve-desc">Crafted from first principles: clean Vanilla CSS design systems, responsive mobile drawer navigation, accessible ARIA dialog patterns, and atomic Git commit discipline.</p>
               <div class="achieve-meta-pills">
-                <span>Terminal CLI</span>
-                <span>Dino Runner</span>
-                <span>Fluid Cursor</span>
-                <span>Cmd+K</span>
+                <span>Vanilla CSS</span>
+                <span>Semantic HTML</span>
+                <span>Accessible UI</span>
+                <span>Git Hygiene</span>
               </div>
             </div>
             <div class="achieve-footer">
-              <span class="achieve-metric">✦ Pixel-Level Detail</span>
-              <a class="achieve-link" href="#terminal">Try Terminal ↗</a>
+              <span class="achieve-metric">✦ Clean Standards</span>
+              <a class="achieve-link" href="#projects">View Works ↗</a>
             </div>
           </article>
         </div>
@@ -891,7 +897,7 @@
             <form class="terminal-form" id="terminalForm">
               <label for="terminalInput">$</label>
               <input id="terminalInput" autocomplete="off" spellcheck="false" aria-label="Terminal command"
-                placeholder="try 'about', 'matrix', or 'neofetch'" />
+                placeholder="try 'about', 'skills', or 'projects'" />
             </form>
             <div class="terminal-hint-bar" aria-label="Quick terminal commands">
               <span>Quick commands:</span>
@@ -899,13 +905,9 @@
               <button type="button" class="terminal-chip" data-cmd="education">education</button>
               <button type="button" class="terminal-chip" data-cmd="skills">skills</button>
               <button type="button" class="terminal-chip" data-cmd="projects">projects</button>
-              <button type="button" class="terminal-chip" data-cmd="achievements">achievements</button>
-              <button type="button" class="terminal-chip" data-cmd="dino">dino</button>
-              <button type="button" class="terminal-chip" data-cmd="play">play</button>
-              <button type="button" class="terminal-chip" data-cmd="stats">stats</button>
-              <button type="button" class="terminal-chip" data-cmd="matrix">matrix</button>
-              <button type="button" class="terminal-chip" data-cmd="neofetch">neofetch</button>
+              <button type="button" class="terminal-chip" data-cmd="achievements">milestones</button>
               <button type="button" class="terminal-chip" data-cmd="resume">resume</button>
+              <button type="button" class="terminal-chip" data-cmd="contact">contact</button>
               <button type="button" class="terminal-chip" data-cmd="theme">theme</button>
               <button type="button" class="terminal-chip" data-cmd="clear">clear</button>
             </div>
@@ -1300,8 +1302,6 @@
         <div class="cmdk-group-title">Quick Actions</div>
         <button type="button" class="cmdk-item" data-action="view-education"><span class="cmdk-icon">✦</span> Education Profile
           <small>Paragon.U CS &amp; Bonamary.U Business Admin</small></button>
-        <button type="button" class="cmdk-item" data-action="play-game"><span class="cmdk-icon">▶</span> Play Chrome Dino
-          <small>Classic T-Rex runner mini-game in Bento Grid</small></button>
         <button type="button" class="cmdk-item" data-action="view-resume"><span class="cmdk-icon">CV</span> View Resume
           / CV <small>Experience, skills &amp; summary</small></button>
         <button type="button" class="cmdk-item" data-action="copy-email"><span class="cmdk-icon">@</span> Copy Email
