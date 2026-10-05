@@ -266,6 +266,8 @@ const closeCmdK = () => {
 };
 
 cmdKBtn?.addEventListener("click", openCmdK);
+const footerCmdKBtn = $("#footerCmdKBtn");
+footerCmdKBtn?.addEventListener("click", openCmdK);
 
 // Global Keyboard Shortcut: ⌘K, Ctrl+K, or ?
 document.addEventListener("keydown", e => {
