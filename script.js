@@ -18,7 +18,7 @@ window.addEventListener("scroll", () => {
 const header = $(".site-header");
 const navLinksContainer = $("#mainMenu");
 const navLinks = $$(".nav-link", navLinksContainer);
-let activeLink = $(".nav-link.active", navLinksContainer) || navLinks[0];
+let activeLink = $(".nav-link.active", navLinksContainer) || null;
 
 // Header Scroll Morphing (smean.ai floating glass capsule effect)
 window.addEventListener("scroll", () => {
@@ -338,6 +338,10 @@ const sectionObserver = new IntersectionObserver(entries => entries.forEach(entr
         updateNavIndicator(activeLink, false);
       }
     });
+    if (entry.target.id === "home") {
+      activeLink = null;
+      navLinksContainer?.removeAttribute("data-ind");
+    }
   }
 }), { rootMargin: "-25% 0px -45% 0px" });
 sections.forEach(section => sectionObserver.observe(section));

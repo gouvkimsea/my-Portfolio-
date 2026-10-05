@@ -2407,6 +2407,10 @@ dialog.cmdk-modal::backdrop {
   white-space: nowrap;
 }
 
+.nav-link:after {
+  display: none !important;
+}
+
 .nav-link:hover {
   color: #0b1120;
   transform: translateY(-0.5px);
