@@ -403,16 +403,7 @@ dialog.project-modal {
   box-shadow: 0 0 10px var(--lime);
 }
 
-/* 2. Hero Interactive Canvas & Ambient Glowing Orbs */
-.hero-canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0.65;
-}
+/* 2. Hero Ambient Glowing Orbs */
 .ambient-orb {
   position: absolute;
   border-radius: 50%;
@@ -2699,13 +2690,6 @@ dialog.resume-modal::backdrop {
   }
 }
 
-/* ==========================================================================
-   STAR VISIBILITY & CELESTIAL CONTRAST ENHANCEMENTS (LIGHT MODE)
-   ========================================================================== */
-[data-theme="light"] .hero-canvas {
-  opacity: 0.95;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.06));
-}
 
 /* Bento Header Star Icon (✦) High Visibility in Light & Dark Mode */
 .bento-icon {
@@ -4214,10 +4198,6 @@ textarea:focus-visible,
   .visual-orbit,
   .scan-line {
     display: none !important;
-  }
-
-  .hero-canvas {
-    opacity: 0.25 !important;
   }
 }
 
