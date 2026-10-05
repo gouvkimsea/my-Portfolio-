@@ -310,11 +310,6 @@ const closeCmdK = () => {
 cmdKBtn?.addEventListener("click", openCmdK);
 const footerCmdKBtn = $("#footerCmdKBtn");
 footerCmdKBtn?.addEventListener("click", openCmdK);
-const mobileDrawerCmdKBtn = $("#mobileDrawerCmdKBtn");
-mobileDrawerCmdKBtn?.addEventListener("click", () => {
-  closeMobileDrawer();
-  openCmdK();
-});
 
 // Global Keyboard Shortcut: ⌘K, Ctrl+K, or ?
 document.addEventListener("keydown", e => {

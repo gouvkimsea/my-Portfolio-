@@ -1710,40 +1710,6 @@ dialog.project-modal {
     color: var(--orange);
   }
 
-  /* Drawer Search / CMD+K Button */
-  .mobile-drawer-search {
-    margin-bottom: 4px;
-  }
-  .mobile-drawer-cmdk-btn {
-    width: 100%;
-    padding: 10px 14px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 12px;
-    color: #e5e7eb;
-    font: 12px var(--mono);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-  .mobile-drawer-cmdk-btn:hover {
-    background: rgba(255, 255, 255, 0.09);
-    border-color: var(--lime);
-    color: #ffffff;
-  }
-  .mobile-drawer-cmdk-btn i {
-    font-style: normal;
-    color: #686b62;
-    transition: color 0.2s ease, transform 0.2s ease;
-  }
-  .mobile-drawer-cmdk-btn:hover i {
-    color: var(--lime);
-    transform: translate(2px, -2px);
-  }
-
   /* Drawer Links */
   .mobile-drawer-links {
     display: flex;
