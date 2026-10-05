@@ -26,6 +26,16 @@ window.addEventListener("scroll", () => {
   header?.classList.toggle("scrolled", isScrolled);
 }, { passive: true });
 
+// Dynamic Glass Spotlight Hover on Navbar
+const mainNav = $(".nav");
+if (mainNav) {
+  mainNav.addEventListener("mousemove", e => {
+    const rect = mainNav.getBoundingClientRect();
+    mainNav.style.setProperty("--glass-x", `${e.clientX - rect.left}px`);
+    mainNav.style.setProperty("--glass-y", `${e.clientY - rect.top}px`);
+  });
+}
+
 // Smean.ai Sliding Magnetic Pill Indicator
 const updateNavIndicator = targetLink => {
   if (!navLinksContainer || !targetLink) return;

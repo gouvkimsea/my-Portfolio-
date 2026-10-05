@@ -1637,6 +1637,7 @@ dialog.project-modal {
 }
 
 .nav {
+  position: relative;
   pointer-events: auto;
   margin: 0 auto;
   height: 56px;
@@ -1646,26 +1647,98 @@ dialog.project-modal {
   align-items: center;
   justify-content: space-between;
   padding: 0 24px;
-  background: rgba(24, 25, 22, 0.55);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(24, 25, 22, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
   border-radius: 999px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
-  transition: max-width 0.55s cubic-bezier(0.4, 0, 0.2, 1),
-              padding 0.55s cubic-bezier(0.4, 0, 0.2, 1),
-              background 0.55s cubic-bezier(0.4, 0, 0.2, 1),
-              border-color 0.55s cubic-bezier(0.4, 0, 0.2, 1),
-              box-shadow 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  transition: max-width 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+              padding 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              backdrop-filter 0.35s ease;
 }
 
+/* Glass Specular Reflection Sheen */
+.nav::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.02) 40%, transparent 65%);
+  opacity: 0.35;
+  transition: opacity 0.35s ease;
+  z-index: 0;
+}
+
+/* Glass Interactive Radial Cursor Spotlight */
+.nav::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(240px circle at var(--glass-x, 50%) var(--glass-y, 50%), rgba(255, 255, 255, 0.15), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: 0;
+}
+
+/* Authentic Glass Appearance on Hover */
+.nav:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 45%, rgba(18, 19, 16, 0.72) 100%), rgba(22, 23, 20, 0.78);
+  backdrop-filter: blur(28px) saturate(190%) brightness(1.04);
+  -webkit-backdrop-filter: blur(28px) saturate(190%) brightness(1.04);
+  border-color: rgba(255, 255, 255, 0.24);
+  box-shadow: 0 20px 48px -10px rgba(0, 0, 0, 0.65),
+              0 0 0 1px rgba(255, 255, 255, 0.08),
+              inset 0 1px 1px 0 rgba(255, 255, 255, 0.45),
+              inset 0 -1px 2px 0 rgba(0, 0, 0, 0.35);
+  transform: translateY(-1.5px);
+}
+
+.nav:hover::before {
+  opacity: 0.95;
+}
+
+.nav:hover::after {
+  opacity: 1;
+}
+
+/* Light Mode Glass Base & Hover */
 [data-theme="light"] .nav {
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.75);
   border-color: rgba(0, 0, 0, 0.08);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04), inset 0 1px 0 #ffffff;
 }
 
-/* Scrolled: Morph into compact floating glass island capsule (smean.ai style) */
+[data-theme="light"] .nav::before {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.2) 45%, transparent 65%);
+  opacity: 0.55;
+}
+
+[data-theme="light"] .nav::after {
+  background: radial-gradient(240px circle at var(--glass-x, 50%) var(--glass-y, 50%), rgba(255, 255, 255, 0.7), transparent 70%);
+}
+
+[data-theme="light"] .nav:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(255, 255, 255, 0.75) 100%);
+  backdrop-filter: blur(28px) saturate(200%) brightness(1.02);
+  -webkit-backdrop-filter: blur(28px) saturate(200%) brightness(1.02);
+  border-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 18px 45px -10px rgba(32, 33, 30, 0.12),
+              0 0 0 1px rgba(0, 0, 0, 0.04),
+              inset 0 1px 2px 0 #ffffff,
+              inset 0 -1px 1px 0 rgba(0, 0, 0, 0.04);
+  transform: translateY(-1.5px);
+}
+
+/* Scrolled: Morph into compact floating glass island capsule */
 .site-header.scrolled .nav {
   max-width: 880px;
   padding: 0 16px;
@@ -1676,10 +1749,33 @@ dialog.project-modal {
   box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.6);
 }
 
+.site-header.scrolled .nav:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.04) 45%, rgba(16, 17, 14, 0.88) 100%), rgba(18, 19, 16, 0.9);
+  backdrop-filter: blur(32px) saturate(190%);
+  -webkit-backdrop-filter: blur(32px) saturate(190%);
+  border-color: rgba(231, 242, 109, 0.45);
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.75),
+              0 0 25px rgba(231, 242, 109, 0.14),
+              inset 0 1px 1px 0 rgba(255, 255, 255, 0.5),
+              inset 0 -1px 2px 0 rgba(0, 0, 0, 0.4);
+  transform: translateY(-1px);
+}
+
 [data-theme="light"] .site-header.scrolled .nav {
   background: rgba(255, 255, 255, 0.94);
   border-color: rgba(239, 131, 84, 0.28);
   box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .site-header.scrolled .nav:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(250, 250, 246, 0.88) 100%);
+  backdrop-filter: blur(32px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  border-color: rgba(239, 131, 84, 0.48);
+  box-shadow: 0 20px 48px -10px rgba(0, 0, 0, 0.14),
+              0 0 25px rgba(239, 131, 84, 0.12),
+              inset 0 1px 2px 0 #ffffff;
+  transform: translateY(-1px);
 }
 
 /* Hero Section: Harmonious gap below floating navbar */
@@ -2418,6 +2514,13 @@ dialog.cmdk-modal::backdrop {
 /* ==========================================================================
    PREMIUM LIQUID FROSTED GLASS NAV HOVER (LINEAR / VERCEL STYLE)
    ========================================================================== */
+.brand,
+.nav-links,
+.nav-right {
+  position: relative;
+  z-index: 1;
+}
+
 .nav-indicator-dot,
 .nav-indicator-tick {
   display: none !important;
@@ -2433,12 +2536,25 @@ dialog.cmdk-modal::backdrop {
   border-radius: 999px;
   padding: 4px;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.nav-links:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25), 0 0 16px rgba(255, 255, 255, 0.04);
 }
 
 [data-theme="light"] .nav-links {
   background: rgba(0, 0, 0, 0.035);
   border-color: rgba(0, 0, 0, 0.06);
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .nav-links:hover {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.09);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05), 0 0 16px rgba(255, 255, 255, 0.8);
 }
 
 /* Frosted Glass Floating Capsule Indicator */
@@ -2450,11 +2566,11 @@ dialog.cmdk-modal::backdrop {
   width: var(--ind-w, 0px);
   transform: translate(var(--ind-x, 0px), -50%);
   border-radius: 999px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.05) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.07) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 1px 0 rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   pointer-events: none;
   opacity: 0;
   z-index: 1;
@@ -2464,9 +2580,9 @@ dialog.cmdk-modal::backdrop {
 }
 
 [data-theme="light"] .nav-indicator {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(245, 245, 240, 0.9) 100%);
-  border-color: rgba(0, 0, 0, 0.08);
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08), inset 0 1px 0 #ffffff;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(245, 245, 240, 0.88) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08), inset 0 1px 2px #ffffff;
 }
 
 .nav-links[data-ind] .nav-indicator {
@@ -2494,6 +2610,56 @@ dialog.cmdk-modal::backdrop {
 .nav-link.active {
   color: var(--ink);
   font-weight: 600;
+}
+
+/* Glass Controls on Navbar Hover */
+.theme-toggle {
+  transition: background 0.25s, border-color 0.25s, color 0.25s, transform 0.2s, box-shadow 0.25s, backdrop-filter 0.25s;
+}
+
+.theme-toggle:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.04) 100%) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transform: translateY(-1px);
+}
+
+[data-theme="light"] .theme-toggle:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(245, 245, 240, 0.85) 100%) !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), inset 0 1px 2px #ffffff;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transform: translateY(-1px);
+}
+
+.nav-availability {
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition: background 0.25s, border-color 0.25s, color 0.25s, transform 0.2s, box-shadow 0.25s;
+}
+
+.nav-availability:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18), inset 0 1px 1px rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+
+[data-theme="light"] .nav-availability:hover {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06), inset 0 1px 2px #ffffff;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--ink);
+  transform: translateY(-1px);
 }
 
 /* ==========================================================================
