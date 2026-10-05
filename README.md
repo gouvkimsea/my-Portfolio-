@@ -23,8 +23,8 @@ A modern, fast, and highly responsive personal portfolio for a student developer
 ## Key Features
 
 - **Hero & Interactive 3D Card**: Editorial hero layout with mouse-tracking 3D tilt on the code card, constellation background, and interactive stardust click burst physics.
-- **Tactile Procedural Web Audio FX**: Zero-asset Web Audio API micro-sound synthesis for button clicks, terminal typing, modal transitions, and theme toggling with a dedicated header mute control.
-- **Floating Island Navigation**: Magnetic sliding pill indicator with glassmorphism blur and automatic scroll morphing.
+- **Tactile Procedural Web Audio FX**: Zero-asset Web Audio API micro-sound synthesis for button clicks, terminal typing, modal transitions, and theme toggling.
+- **Floating Island Navigation**: Magnetic sliding pill indicator with glassmorphism blur, automatic scroll morphing, and streamlined top header aesthetics with balanced hero spacing.
 - **⌘K Command Palette & Quick Search**: Fast keyboard navigation modal (`⌘K`, `Ctrl+K`, or `?`) for jumping between sections and triggering quick actions.
 - **About Bento Grid**: Multi-card layout featuring personal rules, 2026 focus, and the classic **Chrome Dino T-Rex Runner** mini-game (authentic pixel art T-Rex with running legs, jumping, crouching/ducking, cacti, flying pterodactyls, procedural 8-bit sound beeps, and local high score tracking).
 - **Dual-Degree 6-Card Toolkit Grid**: Comprehensive toolkit covering Programming, Web Development, Backend & Data, 3D & Graphics, Business & Strategy, and Systems & DevOps.
