@@ -25,12 +25,12 @@ A modern, fast, and highly responsive personal portfolio for a student developer
 - **Hero & Interactive Code Card**: Editorial hero layout with mouse-tracking tilt on the `developer.ts` card, live status badge, and clean academic highlights.
 - **Floating Island Navigation**: Magnetic sliding pill indicator with glassmorphism blur, automatic scroll morphing, and streamlined mobile navigation drawer.
 - **⌘K Command Palette & Quick Search**: Fast keyboard navigation modal (`⌘K`, `Ctrl+K`, or `?`) for jumping between sections and triggering quick actions.
-- **About Bento Grid**: Multi-card layout featuring engineering principles, 2026 technical focus (Systems, WebGL & Product Architecture), and live availability.
+- **About Bento Grid & Google Chrome Offline Dino**: Multi-card layout featuring engineering principles, dual-degree tracks, and the authentic **Google Chrome Offline T-Rex Runner** (`chrome://dino`) with the iconic "No internet" error screen, official Chromium 2x sprite sheet assets, running/jumping/ducking physics, in-canvas distance meter, and 8-bit sound FX.
 - **Dual-Degree 6-Card Toolkit Grid**: Comprehensive toolkit covering Programming, Web Development, Backend & Data, 3D & Graphics, Business & Strategy, and Systems & DevOps.
 - **Filterable Project Gallery**: Category filtering (All, Web, AI, 3D & WebGL, Security) with rich dialog modals.
 - **Engineering Milestones**: Grounded showcase of shipped applications, graphics engines, threat detection algorithms, and open-source contributions.
 - **Interactive Resume / CV Modal**: Quick-access modal detailing dual-degree academic background, toolkit, status, and direct print/PDF export support.
-- **In-Browser Terminal CLI**: Built-in interactive CLI supporting `help`, `about`, `education`, `skills`, `projects`, `pinit`, `miniworld`, `devpulse`, `portfolio`, `achievements`, `stats`, `resume`, `neofetch`, `theme`, and `clear`.
+- **In-Browser Terminal CLI**: Built-in interactive CLI supporting `help`, `about`, `education`, `skills`, `projects`, `pinit`, `miniworld`, `devpulse`, `portfolio`, `achievements`, `dino`, `stats`, `resume`, `neofetch`, `theme`, and `clear`.
 - **Accessible & Responsive**: Fast, lightweight performance with zero external runtime dependencies, full mobile drawer navigation, and `prefers-reduced-motion` compliance.
 
 ---

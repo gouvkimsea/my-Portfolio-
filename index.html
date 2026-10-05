@@ -353,38 +353,48 @@
             </div>
           </article>
 
-          <article class="bento-card bento-focus reveal spotlight-card">
-            <div class="bento-header">
-              <span class="bento-icon">◈</span>
-              <span class="bento-badge">FOCUS &amp; AVAILABILITY</span>
+          <article class="bento-card bento-stats reveal spotlight-card" id="bentoDinoCard">
+            <div class="chrome-offline-widget" id="dinoGameWidget" tabindex="0" role="region" aria-label="Google Chrome Offline Dino Runner. Press Space or Tap to play.">
+              <div class="chrome-offline-bar">
+                <div class="chrome-bar-left">
+                  <span class="chrome-signal-dot" aria-hidden="true"></span>
+                  <span class="chrome-bar-label">NO INTERNET</span>
+                  <span class="chrome-bar-err">ERR_INTERNET_DISCONNECTED</span>
+                </div>
+                <div class="chrome-bar-right">
+                  <span class="chrome-hud-hi" id="chromeHudHi">HI 00000</span>
+                  <span class="chrome-hud-score" id="chromeHudScore">00000</span>
+                  <button class="chrome-sfx-btn" id="chromeSfxBtn" type="button" aria-label="Toggle Sound Effects" title="Toggle Sound">SFX 🔊</button>
+                </div>
+              </div>
+
+              <div class="chrome-canvas-wrapper" id="chromeCanvasWrapper">
+                <canvas id="chromeDinoCanvas" width="560" height="150" aria-label="Classic Google Chrome Dino Runner Canvas"></canvas>
+              </div>
+
+              <div class="chrome-offline-body" id="chromeOfflineBody">
+                <h3 class="chrome-error-heading">No internet</h3>
+                <p class="chrome-error-prompt">Try:</p>
+                <ul class="chrome-error-checklist">
+                  <li>Checking the network cables, modem, and router</li>
+                  <li>Reconnecting to Wi-Fi</li>
+                </ul>
+                <div class="chrome-error-status-line">
+                  <span class="chrome-error-tag">ERR_INTERNET_DISCONNECTED</span>
+                  <span class="chrome-play-hint"><kbd>SPACE</kbd> TO PLAY</span>
+                </div>
+              </div>
+
+              <div class="chrome-offline-bottom">
+                <div class="chrome-controls-legend">
+                  <kbd>SPACE</kbd> Jump &bull; <kbd>&darr;</kbd> Duck
+                </div>
+                <a class="chrome-github-link" href="https://github.com/gouvkimsea" target="_blank" rel="noreferrer">GitHub &nearr;</a>
+              </div>
             </div>
-            <h3>Building with purpose and curiosity.</h3>
-            <div class="bento-focus-items">
-              <div class="focus-item">
-                <span class="focus-dot"></span>
-                <div>
-                  <strong>Location</strong>
-                  <p>Phnom Penh, Cambodia</p>
-                </div>
-              </div>
-              <div class="focus-item">
-                <span class="focus-dot"></span>
-                <div>
-                  <strong>Active Exploration</strong>
-                  <p>Client-side 3D graphics, security heuristics &amp; scalable web systems</p>
-                </div>
-              </div>
-              <div class="focus-item">
-                <span class="focus-dot"></span>
-                <div>
-                  <strong>Availability</strong>
-                  <p>Open for 2026 internships, junior engineering roles, and team collaborations</p>
-                </div>
-              </div>
-            </div>
-            <div class="bento-focus-footer">
-              <a class="bento-link" href="#contact">Get in touch <span>↗</span></a>
-              <a class="bento-link" href="https://github.com/gouvkimsea" target="_blank" rel="noreferrer">GitHub Activity <span>↗</span></a>
+
+            <div class="stats-footer">
+              <span class="stats-focus">Turning ideas into tangible products.</span>
             </div>
           </article>
 
@@ -1312,6 +1322,8 @@
           <small>github.com/gouvkimsea</small></button>
         <button type="button" class="cmdk-item" data-action="linkedin"><span class="cmdk-icon">in</span> LinkedIn Profile
           <small>linkedin.com/in/gouvkimsea</small></button>
+        <button type="button" class="cmdk-item" data-action="play-dino"><span class="cmdk-icon">🦖</span> Google Chrome Dino
+          <small>Classic offline T-Rex runner</small></button>
       </div>
     </div>
   </dialog>

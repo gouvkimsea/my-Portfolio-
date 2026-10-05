@@ -273,6 +273,8 @@ cmdKResults?.addEventListener("click", e => {
     window.open("https://github.com/gouvkimsea", "_blank", "noopener,noreferrer");
   } else if (action === "linkedin") {
     window.open("https://linkedin.com/in/gouvkimsea", "_blank", "noopener,noreferrer");
+  } else if (action === "play-dino") {
+    terminalCommands.dino();
   }
 });
 
@@ -633,7 +635,7 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>education</b>, <b>skills</b>, <b>projects</b>, <b>pinit</b>, <b>miniworld</b>, <b>devpulse</b>, <b>portfolio</b>, <b>achievements</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>education</b>, <b>skills</b>, <b>projects</b>, <b>pinit</b>, <b>miniworld</b>, <b>devpulse</b>, <b>portfolio</b>, <b>achievements</b>, <b>dino</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
   about: "Gouv Kimsea — Dual degree undergraduate in Computer Science (Paragon.U) & Business Administration (Bonamary.U) building tangible products.",
   education: () => {
     return `<pre style="color:var(--lime);font-size:11px;line-height:1.5;">
@@ -680,6 +682,15 @@ Scrolled to Section 05: Engineering Milestones!</pre>`;
     el?.scrollIntoView({ behavior: "smooth", block: "start" });
     return "Scrolled to Section 05: Engineering Milestones!";
   },
+  dino: () => {
+    const el = document.getElementById("dinoGameWidget");
+    el?.scrollIntoView({ behavior: "smooth", block: "center" });
+    el?.focus();
+    return "Scrolled to Google Chrome Dino in Bento Grid! Press SPACE or Tap to play!";
+  },
+  trex: () => terminalCommands.dino(),
+  offline: () => terminalCommands.dino(),
+  game: () => terminalCommands.dino(),
   miniworld: () => {
     window.open("miniworld.html", "_blank");
     return "Launching Mini World 3D Planet Simulation in a new tab...";
@@ -1032,3 +1043,613 @@ const fallbackCopy = text => {
   }
   document.body.removeChild(ta);
 };
+
+// ==========================================================================
+// AUTHENTIC GOOGLE CHROME OFFLINE DINO RUNNER GAME ENGINE
+// Pixel-perfect Chromium implementation using official sprite sheet coordinates
+// ==========================================================================
+(function initGoogleChromeDino() {
+  const widget = document.getElementById("dinoGameWidget");
+  const canvas = document.getElementById("chromeDinoCanvas");
+  if (!widget || !canvas) return;
+
+  const ctx = canvas.getContext("2d");
+  const hudScore = document.getElementById("chromeHudScore");
+  const hudHi = document.getElementById("chromeHudHi");
+  const sfxBtn = document.getElementById("chromeSfxBtn");
+
+  // Load official Chromium sprite sheet (2x HDPI for Retina & pixel crispness)
+  const sprite = new Image();
+  sprite.src = "offline-sprite-2x.png";
+
+  // Official Chromium HDPI Sprite Definitions (2441 x 130)
+  const SPRITES = {
+    TREX_STAND: { x: 1678, y: 2, w: 88, h: 94 },
+    TREX_BLINK: { x: 1766, y: 2, w: 88, h: 94 },
+    TREX_RUN1: { x: 1854, y: 2, w: 88, h: 94 },
+    TREX_RUN2: { x: 1942, y: 2, w: 88, h: 94 },
+    TREX_CRASH: { x: 2118, y: 2, w: 88, h: 94 },
+    TREX_DUCK1: { x: 2206, y: 2, w: 118, h: 50 },
+    TREX_DUCK2: { x: 2324, y: 2, w: 118, h: 50 },
+    CLOUD: { x: 166, y: 2, w: 92, h: 28 },
+    HORIZON: { x: 2, y: 104, w: 1200, h: 24 },
+    CACTUS_SMALL: { x: 446, y: 2, w: 34, h: 70 },
+    CACTUS_LARGE: { x: 652, y: 2, w: 50, h: 100 },
+    PTERO1: { x: 260, y: 2, w: 92, h: 80 },
+    PTERO2: { x: 352, y: 2, w: 92, h: 80 },
+    RESTART: { x: 2, y: 2, w: 72, h: 64 },
+    TEXT_GAME_OVER: { x: 1294, y: 28, w: 382, h: 22 }
+  };
+
+  // State Management
+  const STATE_WAITING = 0;
+  const STATE_PLAYING = 1;
+  const STATE_CRASHED = 2;
+
+  let state = STATE_WAITING;
+  let score = 0;
+  let hiScore = parseInt(localStorage.getItem("chrome_dino_hi") || "0", 10);
+  let distance = 0;
+  let speed = 6;
+  const initialSpeed = 6;
+  const maxSpeed = 13;
+  const acceleration = 0.0014;
+
+  let isMuted = false;
+  let audioCtx = null;
+
+  // Trex Physics & State
+  const trex = {
+    x: 28,
+    y: 0,
+    vy: 0,
+    w: 44,
+    h: 47,
+    duckW: 59,
+    duckH: 25,
+    groundY: 125,
+    isGrounded: true,
+    isDucking: false,
+    jumpVelocity: -10.5,
+    gravity: 0.58,
+    runFrame: 0,
+    runTimer: 0,
+    blinkTimer: 0,
+    isBlinking: false
+  };
+
+  // Environment elements
+  let horizonX = 0;
+  let obstacles = [];
+  let obstacleTimer = 0;
+  let minObstacleDistance = 220;
+  let clouds = [];
+
+  // Flash score on 100-pt milestone
+  let flashTimer = 0;
+  let flashVisible = true;
+
+  // Audio Synthesizer (Exact 8-bit Google Chrome sounds)
+  const initAudio = () => {
+    if (!audioCtx) {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (AudioCtx) audioCtx = new AudioCtx();
+    }
+    if (audioCtx && audioCtx.state === "suspended") {
+      audioCtx.resume();
+    }
+  };
+
+  const playSound = type => {
+    if (isMuted) return;
+    initAudio();
+    if (!audioCtx) return;
+    const now = audioCtx.currentTime;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    if (type === "jump") {
+      osc.type = "square";
+      osc.frequency.setValueAtTime(140, now);
+      osc.frequency.exponentialRampToValueAtTime(540, now + 0.12);
+      gain.gain.setValueAtTime(0.08, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+      osc.start(now);
+      osc.stop(now + 0.12);
+    } else if (type === "hit") {
+      osc.type = "sawtooth";
+      osc.frequency.setValueAtTime(130, now);
+      osc.frequency.linearRampToValueAtTime(40, now + 0.25);
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+      osc.start(now);
+      osc.stop(now + 0.25);
+    } else if (type === "milestone") {
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(587.33, now); // D5
+      osc.frequency.setValueAtTime(880, now + 0.1); // A5
+      gain.gain.setValueAtTime(0.09, now);
+      gain.gain.setValueAtTime(0.09, now + 0.1);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+      osc.start(now);
+      osc.stop(now + 0.35);
+    }
+  };
+
+  // High score HUD update
+  const updateHiScoreDisplay = () => {
+    const formatted = 'HI ' + String(hiScore).padStart(5, '0');
+    if (hudHi) hudHi.textContent = formatted;
+  };
+  updateHiScoreDisplay();
+
+  // Resize and DPI scaling
+  let cssWidth = 560;
+  let cssHeight = 140;
+  let groundY = 120;
+  let dpr = 1;
+
+  const resizeCanvas = () => {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const rect = canvas.getBoundingClientRect();
+    cssWidth = Math.max(300, Math.floor(rect.width || 560));
+    cssHeight = Math.floor(rect.height || 140);
+    groundY = cssHeight - 20;
+
+    canvas.width = cssWidth * dpr;
+    canvas.height = cssHeight * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.imageSmoothingEnabled = false;
+
+    trex.groundY = groundY;
+    if (trex.isGrounded && !trex.isDucking) {
+      trex.y = groundY - trex.h;
+    }
+  };
+  window.addEventListener("resize", resizeCanvas);
+  resizeCanvas();
+
+  // Initialize initial clouds
+  const initClouds = () => {
+    clouds = [
+      { x: cssWidth * 0.35, y: 25, speed: 0.8 },
+      { x: cssWidth * 0.75, y: 40, speed: 0.6 }
+    ];
+  };
+  initClouds();
+
+  // Reset Game
+  const resetGame = () => {
+    state = STATE_PLAYING;
+    score = 0;
+    distance = 0;
+    speed = initialSpeed;
+    obstacles = [];
+    obstacleTimer = 0;
+    minObstacleDistance = 220;
+    horizonX = 0;
+    flashTimer = 0;
+    flashVisible = true;
+
+    trex.y = groundY - trex.h;
+    trex.vy = 0;
+    trex.isGrounded = true;
+    trex.isDucking = false;
+    trex.runFrame = 0;
+
+    widget.classList.add("is-playing");
+    if (hudScore) hudScore.textContent = "00000";
+  };
+
+  // Trigger Jump / Start
+  const triggerJump = () => {
+    if (state === STATE_WAITING) {
+      resetGame();
+      trex.vy = trex.jumpVelocity;
+      trex.isGrounded = false;
+      playSound("jump");
+      return;
+    }
+    if (state === STATE_CRASHED) {
+      resetGame();
+      trex.vy = trex.jumpVelocity;
+      trex.isGrounded = false;
+      playSound("jump");
+      return;
+    }
+    if (state === STATE_PLAYING && trex.isGrounded) {
+      trex.vy = trex.jumpVelocity;
+      trex.isGrounded = false;
+      playSound("jump");
+    }
+  };
+
+  const endJumpEarly = () => {
+    if (state === STATE_PLAYING && trex.vy < -3.5) {
+      trex.vy = -3.5;
+    }
+  };
+
+  const setDucking = ducking => {
+    if (state !== STATE_PLAYING) return;
+    trex.isDucking = ducking;
+    if (ducking && !trex.isGrounded) {
+      trex.vy += trex.gravity * 2;
+    }
+  };
+
+  const gameOver = () => {
+    state = STATE_CRASHED;
+    playSound("hit");
+    if (score > hiScore) {
+      hiScore = score;
+      localStorage.setItem("chrome_dino_hi", String(hiScore));
+      updateHiScoreDisplay();
+    }
+  };
+
+  // Input listeners
+  const isInputActive = () => {
+    const el = document.activeElement;
+    return el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.isContentEditable);
+  };
+
+  window.addEventListener("keydown", event => {
+    if (isInputActive()) return;
+
+    if (event.code === "Space" || event.key === " " || event.key === "ArrowUp" || event.key === "KeyW") {
+      const rect = widget.getBoundingClientRect();
+      const inView = rect.top < window.innerHeight && rect.bottom > 0;
+      if (inView) {
+        event.preventDefault();
+        triggerJump();
+      }
+    } else if (event.key === "ArrowDown" || event.key === "KeyS") {
+      const rect = widget.getBoundingClientRect();
+      const inView = rect.top < window.innerHeight && rect.bottom > 0;
+      if (inView) {
+        event.preventDefault();
+        setDucking(true);
+      }
+    }
+  });
+
+  window.addEventListener("keyup", event => {
+    if (isInputActive()) return;
+
+    if (event.code === "Space" || event.key === " " || event.key === "ArrowUp" || event.key === "KeyW") {
+      endJumpEarly();
+    } else if (event.key === "ArrowDown" || event.key === "KeyS") {
+      setDucking(false);
+    }
+  });
+
+  // Canvas / Widget click
+  canvas.addEventListener("pointerdown", event => {
+    event.preventDefault();
+    if (state === STATE_CRASHED) {
+      const rect = canvas.getBoundingClientRect();
+      const clickX = event.clientX - rect.left;
+      const clickY = event.clientY - rect.top;
+      const restartBtnX = cssWidth / 2 - 18;
+      const restartBtnY = 60;
+      if (
+        clickX >= restartBtnX - 15 &&
+        clickX <= restartBtnX + 51 &&
+        clickY >= restartBtnY - 15 &&
+        clickY <= restartBtnY + 47
+      ) {
+        resetGame();
+        return;
+      }
+    }
+    triggerJump();
+  });
+
+  canvas.addEventListener("pointerup", () => {
+    endJumpEarly();
+  });
+
+  // Sound Toggle button
+  sfxBtn?.addEventListener("click", event => {
+    event.stopPropagation();
+    isMuted = !isMuted;
+    sfxBtn.classList.toggle("is-muted", isMuted);
+    sfxBtn.textContent = isMuted ? "SFX 🔇" : "SFX 🔊";
+    sfxBtn.setAttribute("aria-label", isMuted ? "Unmute Sound" : "Mute Sound");
+  });
+
+  // Drawing helpers
+  const drawSpriteHDPI = (s, destX, destY, destW, destH) => {
+    if (!sprite.complete || sprite.naturalWidth === 0) return;
+    ctx.drawImage(
+      sprite,
+      s.x,
+      s.y,
+      s.w,
+      s.h,
+      Math.round(destX),
+      Math.round(destY),
+      Math.round(destW),
+      Math.round(destH)
+    );
+  };
+
+  // In-canvas digit rendering (Chromium digits: 20x26 on sprite sheet)
+  const drawDigit = (val, destX, destY) => {
+    if (!sprite.complete || sprite.naturalWidth === 0) return;
+    const sx = 1294 + val * 20;
+    const sy = 2;
+    ctx.drawImage(sprite, sx, sy, 20, 26, Math.round(destX), Math.round(destY), 10, 13);
+  };
+
+  const drawScoreOnCanvas = () => {
+    const scoreStr = String(score).padStart(5, "0");
+    const hiStr = String(hiScore).padStart(5, "0");
+    const startX = cssWidth - 65;
+    const hiStartX = startX - 85;
+
+    // High Score: 'HI ' + 5 digits
+    if (hiScore > 0) {
+      drawDigit(10, hiStartX, 10); // H
+      drawDigit(11, hiStartX + 11, 10); // I
+      for (let i = 0; i < 5; i++) {
+        drawDigit(parseInt(hiStr[i], 10), hiStartX + 26 + i * 11, 10);
+      }
+    }
+
+    // Current Score (flash on milestone)
+    if (flashVisible) {
+      for (let i = 0; i < 5; i++) {
+        drawDigit(parseInt(scoreStr[i], 10), startX + i * 11, 10);
+      }
+    }
+  };
+
+  // Main Loop
+  let lastTime = performance.now();
+
+  const update = dt => {
+    if (state === STATE_WAITING) {
+      trex.blinkTimer += dt;
+      if (trex.blinkTimer > 5) {
+        trex.isBlinking = true;
+        if (trex.blinkTimer > 5.2) {
+          trex.isBlinking = false;
+          trex.blinkTimer = 0;
+        }
+      }
+      return;
+    }
+
+    if (state === STATE_PLAYING) {
+      speed = Math.min(speed + acceleration * 60 * dt, maxSpeed);
+      distance += speed * 60 * dt;
+      const oldScore = score;
+      score = Math.floor(distance / 10);
+
+      if (hudScore) hudScore.textContent = String(score).padStart(5, "0");
+
+      if (Math.floor(score / 100) > Math.floor(oldScore / 100) && score > 0) {
+        playSound("milestone");
+        flashTimer = 2.0;
+      }
+
+      if (flashTimer > 0) {
+        flashTimer -= dt;
+        flashVisible = Math.floor(flashTimer * 5) % 2 === 0;
+      } else {
+        flashVisible = true;
+      }
+
+      trex.vy += trex.gravity;
+      trex.y += trex.vy;
+
+      const currentGroundY = trex.isDucking ? groundY - trex.duckH : groundY - trex.h;
+      if (trex.y >= currentGroundY) {
+        trex.y = currentGroundY;
+        trex.vy = 0;
+        trex.isGrounded = true;
+      }
+
+      trex.runTimer += dt * (speed * 2);
+      if (trex.runTimer >= 1) {
+        trex.runFrame = (trex.runFrame + 1) % 2;
+        trex.runTimer = 0;
+      }
+
+      horizonX = (horizonX + speed * 60 * dt) % 600;
+
+      clouds.forEach(c => {
+        c.x -= c.speed * (speed * 0.4) * 60 * dt;
+        if (c.x < -60) {
+          c.x = cssWidth + Math.random() * 80;
+          c.y = 15 + Math.random() * 45;
+        }
+      });
+
+      obstacleTimer += speed * 60 * dt;
+      if (obstacleTimer > minObstacleDistance) {
+        if (Math.random() < 0.06) {
+          obstacleTimer = 0;
+          minObstacleDistance = 180 + Math.random() * 150;
+
+          let obsType = "small";
+          const r = Math.random();
+          if (score > 150 && r < 0.28) {
+            obsType = "ptero";
+          } else if (r < 0.6) {
+            obsType = "small";
+          } else {
+            obsType = "large";
+          }
+
+          let count = Math.random() < 0.4 ? 2 : (Math.random() < 0.2 ? 3 : 1);
+          let w = 17 * count;
+          let h = 35;
+          let y = groundY - 35;
+
+          if (obsType === "large") {
+            count = Math.random() < 0.35 ? 2 : 1;
+            w = 25 * count;
+            h = 50;
+            y = groundY - 50;
+          } else if (obsType === "ptero") {
+            count = 1;
+            w = 46;
+            h = 40;
+            const heights = [groundY - 32, groundY - 52, groundY - 75];
+            y = heights[Math.floor(Math.random() * heights.length)];
+          }
+
+          obstacles.push({
+            x: cssWidth + 20,
+            y,
+            w,
+            h,
+            type: obsType,
+            count,
+            frame: 0,
+            frameTimer: 0
+          });
+        }
+      }
+
+      for (let i = obstacles.length - 1; i >= 0; i--) {
+        const obs = obstacles[i];
+        obs.x -= speed * 60 * dt;
+
+        if (obs.type === "ptero") {
+          obs.frameTimer += dt * 6;
+          if (obs.frameTimer >= 1) {
+            obs.frame = (obs.frame + 1) % 2;
+            obs.frameTimer = 0;
+          }
+        }
+
+        const isDuck = trex.isDucking && trex.isGrounded;
+        const trexBox = {
+          x: trex.x + 4,
+          y: isDuck ? groundY - trex.duckH + 3 : trex.y + 4,
+          w: (isDuck ? trex.duckW : trex.w) - 8,
+          h: (isDuck ? trex.duckH : trex.h) - 6
+        };
+
+        const obsBox = {
+          x: obs.x + 3,
+          y: obs.y + 3,
+          w: obs.w - 6,
+          h: obs.h - 6
+        };
+
+        if (
+          trexBox.x < obsBox.x + obsBox.w &&
+          trexBox.x + trexBox.w > obsBox.x &&
+          trexBox.y < obsBox.y + obsBox.h &&
+          trexBox.y + trexBox.h > obsBox.y
+        ) {
+          gameOver();
+          break;
+        }
+
+        if (obs.x + obs.w < -30) {
+          obstacles.splice(i, 1);
+        }
+      }
+    }
+  };
+
+  const render = () => {
+    ctx.clearRect(0, 0, cssWidth, cssHeight);
+
+    // 1. Draw Clouds
+    clouds.forEach(c => {
+      drawSpriteHDPI(SPRITES.CLOUD, c.x, c.y, 46, 14);
+    });
+
+    // 2. Draw Horizon Ground
+    if (state !== STATE_WAITING) {
+      const groundW = 600;
+      let gx = -horizonX;
+      while (gx < cssWidth) {
+        drawSpriteHDPI(SPRITES.HORIZON, gx, groundY - 8, groundW, 12);
+        gx += groundW;
+      }
+    } else {
+      drawSpriteHDPI(SPRITES.HORIZON, 0, groundY - 8, cssWidth, 12);
+    }
+
+    // 3. Draw Obstacles
+    obstacles.forEach(obs => {
+      if (obs.type === "small") {
+        const s = {
+          x: SPRITES.CACTUS_SMALL.x,
+          y: SPRITES.CACTUS_SMALL.y,
+          w: 34 * obs.count,
+          h: 70
+        };
+        drawSpriteHDPI(s, obs.x, obs.y, 17 * obs.count, 35);
+      } else if (obs.type === "large") {
+        const s = {
+          x: SPRITES.CACTUS_LARGE.x,
+          y: SPRITES.CACTUS_LARGE.y,
+          w: 50 * obs.count,
+          h: 100
+        };
+        drawSpriteHDPI(s, obs.x, obs.y, 25 * obs.count, 50);
+      } else if (obs.type === "ptero") {
+        const s = obs.frame === 0 ? SPRITES.PTERO1 : SPRITES.PTERO2;
+        drawSpriteHDPI(s, obs.x, obs.y, 46, 40);
+      }
+    });
+
+    // 4. Draw Trex
+    let trexSprite;
+    let dw = trex.w;
+    let dh = trex.h;
+    let dy = trex.y;
+
+    if (state === STATE_CRASHED) {
+      trexSprite = SPRITES.TREX_CRASH;
+    } else if (trex.isDucking && trex.isGrounded) {
+      trexSprite = trex.runFrame === 0 ? SPRITES.TREX_DUCK1 : SPRITES.TREX_DUCK2;
+      dw = trex.duckW;
+      dh = trex.duckH;
+      dy = groundY - trex.duckH;
+    } else if (!trex.isGrounded) {
+      trexSprite = SPRITES.TREX_STAND;
+    } else if (state === STATE_PLAYING) {
+      trexSprite = trex.runFrame === 0 ? SPRITES.TREX_RUN1 : SPRITES.TREX_RUN2;
+    } else {
+      trexSprite = trex.isBlinking ? SPRITES.TREX_BLINK : SPRITES.TREX_STAND;
+      dy = groundY - trex.h;
+    }
+
+    drawSpriteHDPI(trexSprite, trex.x, dy, dw, dh);
+
+    // 5. Draw in-canvas Score Meter
+    if (state !== STATE_WAITING) {
+      drawScoreOnCanvas();
+    }
+
+    // 6. Draw Game Over Overlay
+    if (state === STATE_CRASHED) {
+      const centerX = cssWidth / 2;
+      drawSpriteHDPI(SPRITES.TEXT_GAME_OVER, centerX - 95, 35, 191, 11);
+      drawSpriteHDPI(SPRITES.RESTART, centerX - 18, 60, 36, 32);
+    }
+  };
+
+  const loop = now => {
+    const dt = Math.min((now - lastTime) / 1000, 0.1);
+    lastTime = now;
+
+    update(dt);
+    render();
+
+    requestAnimationFrame(loop);
+  };
+  requestAnimationFrame(loop);
+})();
