@@ -2189,6 +2189,12 @@ dialog.project-modal {
   padding-top: 64px;
 }
 
+/* Mobile Navigation Drawer Base (Hidden on Desktop) */
+.mobile-drawer,
+.mobile-drawer-backdrop {
+  display: none;
+}
+
 @media (max-width: 900px) {
   .hero {
     min-height: auto;
