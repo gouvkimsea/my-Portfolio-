@@ -1613,8 +1613,58 @@ dialog.project-modal {
 }
 
 /* ==========================================================================
-   MINIMALIST FLOATING PILL NAVBAR (RIN LAYHEANG REFERENCE DESIGN)
+   MINIMALIST FLOATING PILL NAVBAR & AMBIENT CURVES (REFERENCE DESIGN)
    ========================================================================== */
+:root {
+  --sans-nav: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Subtle Topographic Ambient Curves Background */
+.navbar-ambient-curves {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 5;
+  background: radial-gradient(ellipse 85% 160px at 50% 0%, rgba(246, 248, 252, 0.95) 0%, rgba(248, 250, 252, 0.5) 65%, transparent 100%);
+}
+
+.navbar-ambient-curves svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.navbar-ambient-curves path {
+  vector-effect: non-scaling-stroke;
+  stroke: rgba(148, 163, 184, 0.38);
+  stroke-width: 1.1px;
+}
+
+[data-theme="dark"] .navbar-ambient-curves {
+  background: radial-gradient(ellipse 85% 160px at 50% 0%, rgba(255, 255, 255, 0.04) 0%, transparent 100%);
+}
+
+[data-theme="dark"] .navbar-ambient-curves path {
+  stroke: rgba(148, 163, 184, 0.16);
+}
+
+/* Floating Navbar Container */
+@keyframes navbarEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .site-header {
   position: fixed;
   top: 0;
@@ -1626,19 +1676,21 @@ dialog.project-modal {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   border-bottom: none !important;
-  padding: 20px 24px;
-  transition: padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 22px 24px 16px;
+  transition: padding 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: none;
   display: flex;
   justify-content: center;
   align-items: center;
+  animation: navbarEntrance 0.35s cubic-bezier(0.16, 1, 0.3, 1) backwards;
 }
 
 .site-header.scrolled {
-  padding: 12px 24px;
+  padding: 12px 24px 10px;
   border-bottom: none !important;
 }
 
+/* Floating Translucent Frosted Glass Pill */
 .nav {
   position: relative;
   pointer-events: auto;
@@ -1648,67 +1700,25 @@ dialog.project-modal {
   max-width: calc(100vw - 32px);
   display: inline-flex;
   align-items: center;
-  gap: 32px;
+  gap: 40px;
   padding: 4px 5px 4px 28px;
-  background: rgba(255, 255, 255, 0.94) !important;
-  backdrop-filter: blur(24px) saturate(190%);
-  -webkit-backdrop-filter: blur(24px) saturate(190%);
-  border: 1px solid rgba(255, 255, 255, 0.92) !important;
+  background: rgba(255, 255, 255, 0.90) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.95) !important;
   border-radius: 9999px !important;
-  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.09), 0 0 0 1px rgba(0, 0, 0, 0.04), inset 0 1px 1.5px #ffffff !important;
-  overflow: hidden;
-  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.25s ease;
-}
-
-/* Glass Specular Reflection Sheen */
-.nav::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.15) 45%, transparent 70%);
-  opacity: 0.6;
-  transition: opacity 0.35s ease;
-  z-index: 0;
-}
-
-/* Glass Interactive Radial Cursor Spotlight */
-.nav::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  background: radial-gradient(220px circle at var(--glass-x, 50%) var(--glass-y, 50%), rgba(255, 255, 255, 0.6), transparent 70%);
-  opacity: 0;
-  transition: opacity 0.35s ease;
-  z-index: 0;
+  box-shadow: 0 4px 24px -2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.02), inset 0 1px 1px #ffffff !important;
+  transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .nav:hover {
-  background: rgba(255, 255, 255, 0.98) !important;
-  border-color: #ffffff !important;
-  box-shadow: 0 14px 38px -6px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.05), inset 0 1px 2px #ffffff !important;
-  transform: translateY(-1px);
-}
-
-.nav:hover::before {
-  opacity: 0.9;
-}
-
-.nav:hover::after {
-  opacity: 1;
+  background: rgba(255, 255, 255, 0.96) !important;
+  box-shadow: 0 8px 30px -4px rgba(15, 23, 42, 0.09), inset 0 1px 1.5px #ffffff !important;
 }
 
 .site-header.scrolled .nav {
-  background: rgba(255, 255, 255, 0.96) !important;
-  box-shadow: 0 12px 32px -6px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.05) !important;
-}
-
-.site-header.scrolled .nav:hover {
-  background: rgba(255, 255, 255, 0.99) !important;
-  box-shadow: 0 16px 42px -6px rgba(0, 0, 0, 0.14), inset 0 1px 2px #ffffff !important;
+  height: 48px;
+  box-shadow: 0 6px 24px -3px rgba(15, 23, 42, 0.08), inset 0 1px 1px #ffffff !important;
 }
 
 /* Hero Section: Harmonious gap below floating navbar */
@@ -1723,95 +1733,6 @@ dialog.project-modal {
     padding-top: 80px;
   }
 }
-
-@media (max-width: 900px) {
-  /* Hide desktop horizontal pill navigation and contact CTA on mobile navbar */
-  .nav-links,
-  .nav-contact-btn,
-  .nav-availability,
-  .cmdk-btn {
-    display: none !important;
-  }
-
-  .site-header {
-    padding: 12px 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-  }
-
-  .site-header.scrolled {
-    padding: 10px 16px;
-  }
-
-  .nav {
-    height: 48px;
-    width: calc(100% - 56px);
-    max-width: 480px;
-    padding: 4px 6px 4px 18px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0;
-  }
-
-  .theme-toggle {
-    position: static !important;
-    width: 42px !important;
-    height: 42px !important;
-    flex-shrink: 0;
-  }
-
-  /* Right-Aligned Mobile Menu Toggle Button */
-  .menu-toggle {
-    display: inline-flex !important;
-    align-items: center;
-    gap: 6px;
-    background: #090d16 !important;
-    color: #ffffff !important;
-    border: none !important;
-    border-radius: 9999px !important;
-    height: 38px;
-    padding: 0 14px;
-    font-family: var(--sans-nav, var(--sans));
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    user-select: none;
-    z-index: 10;
-  }
-
-  .menu-toggle:hover {
-    background: #1e293b !important;
-    transform: translateY(-0.5px);
-  }
-
-  .burger-icon {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 3.5px;
-    width: 14px;
-    height: 10px;
-  }
-
-  .burger-icon span {
-    display: block;
-    width: 14px;
-    height: 1.5px;
-    background: #ffffff !important;
-    border-radius: 1px;
-    transition: transform 0.25s ease, opacity 0.25s ease;
-  }
-
-  .menu-text {
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    color: #ffffff !important;
-  }
 
   /* Right-Side Mobile Navigation Drawer (Always Sleek Dark Mode) */
   .mobile-drawer {
@@ -1858,7 +1779,7 @@ dialog.project-modal {
   .mobile-drawer-header .brand {
     font-size: 15px;
     font-weight: 700;
-    color: #f5f4ef;
+    color: #ffffff !important;
     letter-spacing: 0.06em;
   }
   .mobile-drawer-header .brand span {
@@ -2342,7 +2263,7 @@ dialog.cmdk-modal::backdrop {
   font-weight: 800;
   letter-spacing: -0.015em;
   text-transform: uppercase;
-  color: #0b1120 !important;
+  color: #0c1322 !important;
   text-decoration: none;
   white-space: nowrap;
   display: inline-flex;
@@ -2367,7 +2288,7 @@ dialog.cmdk-modal::backdrop {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 26px;
+  gap: 28px;
   background: transparent !important;
   border: none !important;
   border-radius: 0 !important;
@@ -2380,14 +2301,15 @@ dialog.cmdk-modal::backdrop {
   position: relative;
   z-index: 2;
   font-family: var(--sans-nav);
-  font-size: 14.5px;
+  font-size: 14px;
   font-weight: 500;
-  color: #334155 !important;
+  color: #475569 !important;
   text-decoration: none;
   padding: 8px 0;
   border-radius: 0;
   background: transparent !important;
-  transition: color 0.2s ease, transform 0.2s ease;
+  opacity: 0.85;
+  transition: color 0.2s ease, opacity 0.2s ease;
   user-select: none;
   white-space: nowrap;
 }
@@ -2397,39 +2319,18 @@ dialog.cmdk-modal::backdrop {
 }
 
 .nav-link:hover {
-  color: #0b1120 !important;
-  transform: translateY(-0.5px);
-}
-
-.nav-link.active {
-  color: #0b1120 !important;
-  font-weight: 600;
-}
-
-/* Subtle Active Underline Indicator */
-.nav-indicator {
-  position: absolute;
-  bottom: 0px;
-  top: auto;
-  left: 0;
-  height: 2px;
-  width: var(--ind-w, 0px);
-  transform: translateX(var(--ind-x, 0px));
-  border-radius: 2px;
-  background: #0b1120 !important;
-  box-shadow: 0 1px 4px rgba(11, 17, 32, 0.2);
-  pointer-events: none;
-  opacity: 0;
-  z-index: 1;
-  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
-              width 0.32s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.nav-links[data-ind] .nav-indicator {
+  color: #0c1322 !important;
   opacity: 1;
 }
 
+.nav-link.active {
+  color: #0c1322 !important;
+  font-weight: 600;
+  opacity: 1;
+}
+
+/* No underline decoration by default */
+.nav-indicator,
 .nav-indicator-dot,
 .nav-indicator-tick {
   display: none !important;
@@ -2448,10 +2349,10 @@ dialog.cmdk-modal::backdrop {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  height: 44px;
-  padding: 0 24px;
+  height: 42px;
+  padding: 0 22px;
   border-radius: 9999px;
-  background: #090d16 !important;
+  background: #0c1322 !important;
   color: #ffffff !important;
   font-family: var(--sans-nav);
   font-size: 14px;
@@ -2459,26 +2360,32 @@ dialog.cmdk-modal::backdrop {
   text-decoration: none;
   letter-spacing: -0.01em;
   white-space: nowrap;
-  box-shadow: 0 2px 8px rgba(9, 13, 22, 0.25);
-  transition: background 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(12, 19, 34, 0.22);
+  transition: background 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
   user-select: none;
 }
 
 .nav-contact-arrow {
   display: inline-block;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 400;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
 }
 
 .nav-contact-btn:hover {
-  background: #1e293b !important;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(9, 13, 22, 0.35);
+  background: #182238 !important;
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 6px 18px rgba(12, 19, 34, 0.3);
 }
 
 .nav-contact-btn:hover .nav-contact-arrow {
-  transform: translate(2px, -2px);
+  transform: translate(2.5px, -2.5px);
+}
+
+.site-header.scrolled .nav-contact-btn {
+  height: 38px;
+  padding: 0 18px;
 }
 
 /* Desktop Hide Menu Toggle */
@@ -2552,6 +2459,228 @@ dialog.cmdk-modal::backdrop {
 [data-theme="dark"] .mobile-drawer-contact {
   background: #ffffff !important;
   color: #090d16 !important;
+}
+
+/* ==========================================================================
+   NAVBAR RESPONSIVE BEHAVIOR (TABLET & MOBILE)
+   ========================================================================== */
+
+/* Tablet Navbar (769px to 1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .nav {
+    gap: 24px;
+    padding: 4px 6px 4px 20px;
+  }
+  .nav-links {
+    gap: 18px;
+  }
+  .brand {
+    font-size: 14px;
+  }
+  .nav-contact-btn {
+    height: 40px;
+    padding: 0 18px;
+    font-size: 13.5px;
+  }
+}
+
+/* Mobile Navbar (<= 768px) */
+@media (max-width: 768px) {
+  .site-header {
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .site-header.scrolled {
+    padding: 8px 16px;
+  }
+
+  /* Desktop links, status availability, cmdk hidden on mobile */
+  .nav-links,
+  .nav-availability,
+  .cmdk-btn {
+    display: none !important;
+  }
+
+  /* Floating pill appearance preserved on mobile */
+  .nav {
+    height: 48px;
+    width: 100%;
+    max-width: 480px;
+    padding: 4px 6px 4px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+
+  .site-header.scrolled .nav {
+    height: 44px;
+  }
+
+  .brand {
+    font-size: 13.5px !important;
+    letter-spacing: -0.01em;
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+  }
+
+  /* Keep Contact CTA accessible on mobile */
+  .nav-contact-btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    height: 38px;
+    padding: 0 13px;
+    border-radius: 9999px;
+    font-size: 12.5px;
+    font-weight: 600;
+  }
+
+  .site-header.scrolled .nav-contact-btn {
+    height: 34px;
+    padding: 0 11px;
+    font-size: 12px;
+  }
+
+  .nav-contact-arrow {
+    font-size: 11px;
+  }
+
+  /* Theme toggle hidden from fixed header on mobile, accessible in drawer */
+  .theme-toggle {
+    display: none !important;
+  }
+
+  /* Right-Aligned Mobile Menu Toggle Button */
+  .menu-toggle {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: #0c1322 !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 9999px !important;
+    height: 38px;
+    padding: 0 13px;
+    font-family: var(--sans-nav);
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+    z-index: 10;
+  }
+
+  .site-header.scrolled .menu-toggle {
+    height: 34px;
+    padding: 0 11px;
+    font-size: 12px;
+  }
+
+  .menu-toggle:hover {
+    background: #1e293b !important;
+    transform: translateY(-0.5px);
+  }
+
+  .burger-icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+    width: 12px;
+    height: 9px;
+  }
+
+  .burger-icon span {
+    display: block;
+    width: 12px;
+    height: 1.5px;
+    background: #ffffff !important;
+    border-radius: 1px;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+
+  .menu-text {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: #ffffff !important;
+  }
+
+  /* Mobile Drawer Actions */
+  .mobile-drawer-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .mobile-drawer-theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 15px;
+    transition: background 0.2s ease;
+  }
+
+  .mobile-drawer-theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+}
+
+/* Narrow Mobile Screens (<= 420px): Keep everything comfortably fit with zero overflow */
+@media (max-width: 420px) {
+  .site-header {
+    padding: 10px 10px;
+  }
+
+  .nav {
+    height: 44px;
+    padding: 3px 4px 3px 14px;
+    gap: 6px;
+  }
+
+  .brand {
+    font-size: 12.5px !important;
+  }
+
+  .nav-right {
+    gap: 4px;
+  }
+
+  .nav-contact-btn {
+    height: 34px;
+    padding: 0 10px;
+    font-size: 11.5px;
+  }
+
+  .menu-toggle {
+    height: 34px;
+    padding: 0 10px;
+  }
+
+  .menu-text {
+    display: none;
+  }
 }
 
 /* ==========================================================================

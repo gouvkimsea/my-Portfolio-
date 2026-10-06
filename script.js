@@ -167,6 +167,7 @@ const toggleTheme = () => {
 };
 
 $("#themeToggle")?.addEventListener("click", toggleTheme);
+$("#mobileThemeToggle")?.addEventListener("click", toggleTheme);
 
 window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", e => {
   if (!localStorage.getItem("portfolio-theme")) {

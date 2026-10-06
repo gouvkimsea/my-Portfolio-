@@ -129,7 +129,13 @@
   <aside class="mobile-drawer" id="mobileDrawer" aria-label="Mobile Navigation Drawer" aria-hidden="true">
     <div class="mobile-drawer-header">
       <a class="brand" href="#home">GOUV KIMSEA</a>
-      <button class="mobile-drawer-close" id="mobileDrawerClose" type="button" aria-label="Close navigation menu">✕</button>
+      <div class="mobile-drawer-actions">
+        <button class="mobile-drawer-theme-toggle" id="mobileThemeToggle" type="button" aria-label="Toggle dark or light theme">
+          <span class="theme-icon sun" aria-hidden="true">☼</span>
+          <span class="theme-icon moon" aria-hidden="true">☾</span>
+        </button>
+        <button class="mobile-drawer-close" id="mobileDrawerClose" type="button" aria-label="Close navigation menu">✕</button>
+      </div>
     </div>
     <nav class="mobile-drawer-links">
       <a class="mobile-drawer-link" href="#about"><span>About</span> <i aria-hidden="true">↗</i></a>
@@ -143,6 +149,18 @@
       <small>Gouv Kimsea · Phnom Penh</small>
     </div>
   </aside>
+
+  <!-- Subtle Topographic Ambient Curves (Inspired by Reference Design) -->
+  <div class="navbar-ambient-curves" aria-hidden="true">
+    <svg viewBox="0 0 1920 280" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M-80,60 C260,10 620,130 960,70 C1300,10 1660,120 2000,50" />
+      <path d="M-80,110 C240,55 580,185 960,120 C1340,55 1700,175 2000,100" />
+      <path d="M-80,160 C220,100 540,240 960,170 C1380,100 1740,230 2000,150" />
+      <path d="M-80,210 C200,145 500,295 960,220 C1420,145 1780,285 2000,200" />
+      <path d="M-80,260 C180,190 460,350 960,270 C1460,190 1820,340 2000,250" />
+      <path d="M-80,20 C300,-25 660,80 960,30 C1260,-20 1620,70 2000,15" />
+    </svg>
+  </div>
 
   <header class="site-header" id="top">
     <nav class="nav" aria-label="Main navigation">
