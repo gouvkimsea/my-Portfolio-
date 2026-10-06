@@ -130,11 +130,22 @@
     <div class="mobile-drawer-header">
       <a class="brand" href="#home">GOUV KIMSEA</a>
       <div class="mobile-drawer-actions">
-        <button class="mobile-drawer-theme-toggle" id="mobileThemeToggle" type="button" aria-label="Toggle dark or light theme">
-          <span class="theme-icon sun" aria-hidden="true">☼</span>
-          <span class="theme-icon moon" aria-hidden="true">☾</span>
+        <button class="mobile-drawer-theme-toggle" id="mobileThemeToggle" type="button"
+          aria-label="Toggle dark or light theme">
+          <svg class="theme-icon sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path
+              d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41">
+            </path>
+          </svg>
+          <svg class="theme-icon moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+          </svg>
         </button>
-        <button class="mobile-drawer-close" id="mobileDrawerClose" type="button" aria-label="Close navigation menu">✕</button>
+        <button class="mobile-drawer-close" id="mobileDrawerClose" type="button"
+          aria-label="Close navigation menu">✕</button>
       </div>
     </div>
     <nav class="mobile-drawer-links">
@@ -143,7 +154,8 @@
       <a class="mobile-drawer-link" href="#skills"><span>Skills</span> <i aria-hidden="true">↗</i></a>
       <a class="mobile-drawer-link" href="#projects"><span>Projects</span> <i aria-hidden="true">↗</i></a>
       <a class="mobile-drawer-link" href="#journey"><span>Business</span> <i aria-hidden="true">↗</i></a>
-      <a class="mobile-drawer-link mobile-drawer-contact" href="#contact"><span>Contact</span> <i aria-hidden="true">↗</i></a>
+      <a class="mobile-drawer-link mobile-drawer-contact" href="#contact"><span>Contact</span> <i
+          aria-hidden="true">↗</i></a>
     </nav>
     <div class="mobile-drawer-footer">
       <small>Gouv Kimsea · Phnom Penh</small>
@@ -174,8 +186,25 @@
         <a class="nav-link" href="#journey">Business</a>
       </div>
       <div class="nav-right">
-        <a class="nav-contact-btn magnetic" href="#contact">Contact <span class="nav-contact-arrow" aria-hidden="true">↗</span></a>
-        <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mobileDrawer" aria-label="Toggle navigation menu">
+        <button class="theme-toggle magnetic" id="themeToggle" aria-label="Toggle dark or light theme"
+          title="Toggle theme">
+          <svg class="theme-icon sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path
+              d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41">
+            </path>
+          </svg>
+          <svg class="theme-icon moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+          </svg>
+          <span class="theme-mode-text sr-only">Toggle theme</span>
+        </button>
+        <a class="nav-contact-btn magnetic" href="#contact">Contact <span class="nav-contact-arrow"
+            aria-hidden="true">↗</span></a>
+        <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mobileDrawer"
+          aria-label="Toggle navigation menu">
           <span class="burger-icon" aria-hidden="true">
             <span></span><span></span><span></span>
           </span>
@@ -183,12 +212,6 @@
         </button>
       </div>
     </nav>
-    <button class="theme-toggle magnetic" id="themeToggle" aria-label="Toggle dark or light theme"
-      title="Toggle theme">
-      <span class="theme-icon sun" aria-hidden="true">☼</span>
-      <span class="theme-icon moon" aria-hidden="true">☾</span>
-      <span class="theme-mode-text sr-only">Toggle theme</span>
-    </button>
   </header>
 
   <main id="main">
@@ -202,7 +225,8 @@
           <p class="hero-text">I’m a university student exploring software development, business, and technology by
             building real projects and learning through experimentation.</p>
           <div class="hero-actions">
-            <a class="button button-primary magnetic" href="#projects">View my work <span class="hero-btn-arrow">↓</span></a>
+            <a class="button button-primary magnetic" href="#projects">View my work <span
+                class="hero-btn-arrow">↓</span></a>
             <button class="button button-secondary magnetic" id="resumeHeroBtn" type="button"
               aria-haspopup="dialog">Resume / CV <span class="hero-btn-icon">↗</span></button>
             <a class="text-link magnetic" href="#contact">Contact me <span class="hero-link-arrow">↗</span></a>
@@ -220,39 +244,85 @@
                 <span class="wb-dot wb-green" title="Expand"></span>
               </div>
               <div class="code-tabs" role="tablist" aria-label="Code files">
-                <button class="code-tab active" data-tab="profile" role="tab" aria-selected="true" type="button"><span class="tab-badge badge-ts">TS</span><span class="tab-label-full">developer.ts</span><span class="tab-label-short">dev.ts</span></button>
-                <button class="code-tab" data-tab="stack" role="tab" aria-selected="false" type="button"><span class="tab-badge badge-json">{}</span><span class="tab-label-full">skills.json</span><span class="tab-label-short">skills</span></button>
-                <button class="code-tab" data-tab="status" role="tab" aria-selected="false" type="button"><span class="tab-badge badge-sh">&gt;_</span><span class="tab-label-full">status.sh</span><span class="tab-label-short">status</span></button>
+                <button class="code-tab active" data-tab="profile" role="tab" aria-selected="true" type="button"><span
+                    class="tab-badge badge-ts">TS</span><span class="tab-label-full">developer.ts</span><span
+                    class="tab-label-short">dev.ts</span></button>
+                <button class="code-tab" data-tab="stack" role="tab" aria-selected="false" type="button"><span
+                    class="tab-badge badge-json">{}</span><span class="tab-label-full">skills.json</span><span
+                    class="tab-label-short">skills</span></button>
+                <button class="code-tab" data-tab="status" role="tab" aria-selected="false" type="button"><span
+                    class="tab-badge badge-sh">&gt;_</span><span class="tab-label-full">status.sh</span><span
+                    class="tab-label-short">status</span></button>
               </div>
-              <button class="code-run-btn" id="runCodeBtn" type="button" title="Execute script"><span class="run-icon">▶</span> <span class="run-label">Run</span></button>
+              <button class="code-run-btn" id="runCodeBtn" type="button" title="Execute script"><span
+                  class="run-icon">▶</span> <span class="run-label">Run</span></button>
             </div>
             <div class="code-body">
               <!-- Tab 1: developer.ts -->
               <div class="tab-pane active" id="pane-profile" role="tabpanel">
-                <div class="code-line"><span class="ln">1</span><p><i>const</i> <b>developer</b>: <i>Developer</i> = {</p></div>
-                <div class="code-line"><span class="ln">2</span><p class="indent"><label>name:</label> <strong>'Gouv Kimsea'</strong>,</p></div>
-                <div class="code-line"><span class="ln">3</span><p class="indent"><label>location:</label> <strong>'Phnom Penh, KH'</strong>,</p></div>
-                <div class="code-line"><span class="ln">4</span><p class="indent"><label>degree:</label> <strong class="lime">'CS &amp; Business Admin'</strong>,</p></div>
-                <div class="code-line"><span class="ln">5</span><p class="indent"><label>focus:</label> <strong class="orange">'Web, 3D &amp; Products'</strong>,</p></div>
-                <div class="code-line"><span class="ln">6</span><p class="indent"><label>available:</label> <strong class="cyan">true</strong></p></div>
-                <div class="code-line"><span class="ln">7</span><p>};</p></div>
+                <div class="code-line"><span class="ln">1</span>
+                  <p><i>const</i> <b>developer</b>: <i>Developer</i> = {</p>
+                </div>
+                <div class="code-line"><span class="ln">2</span>
+                  <p class="indent"><label>name:</label> <strong>'Gouv Kimsea'</strong>,</p>
+                </div>
+                <div class="code-line"><span class="ln">3</span>
+                  <p class="indent"><label>location:</label> <strong>'Phnom Penh, KH'</strong>,</p>
+                </div>
+                <div class="code-line"><span class="ln">4</span>
+                  <p class="indent"><label>degree:</label> <strong class="lime">'CS &amp; Business Admin'</strong>,</p>
+                </div>
+                <div class="code-line"><span class="ln">5</span>
+                  <p class="indent"><label>focus:</label> <strong class="orange">'Web, 3D &amp; Products'</strong>,</p>
+                </div>
+                <div class="code-line"><span class="ln">6</span>
+                  <p class="indent"><label>available:</label> <strong class="cyan">true</strong></p>
+                </div>
+                <div class="code-line"><span class="ln">7</span>
+                  <p>};</p>
+                </div>
               </div>
               <!-- Tab 2: skills.json -->
               <div class="tab-pane" id="pane-stack" role="tabpanel">
-                <div class="code-line"><span class="ln">1</span><p>{</p></div>
-                <div class="code-line"><span class="ln">2</span><p class="indent"><label>"core":</label> <strong>["TypeScript", "JS", "C++"]</strong>,</p></div>
-                <div class="code-line"><span class="ln">3</span><p class="indent"><label>"creative":</label> <strong class="lime">["Three.js", "WebGL", "Blender"]</strong>,</p></div>
-                <div class="code-line"><span class="ln">4</span><p class="indent"><label>"frameworks":</label> <strong class="orange">["Next.js", "React", "Node"]</strong>,</p></div>
-                <div class="code-line"><span class="ln">5</span><p class="indent"><label>"passion":</label> <strong class="cyan">"Crafting seamless UI"</strong></p></div>
-                <div class="code-line"><span class="ln">6</span><p>}</p></div>
+                <div class="code-line"><span class="ln">1</span>
+                  <p>{</p>
+                </div>
+                <div class="code-line"><span class="ln">2</span>
+                  <p class="indent"><label>"core":</label> <strong>["TypeScript", "JS", "C++"]</strong>,</p>
+                </div>
+                <div class="code-line"><span class="ln">3</span>
+                  <p class="indent"><label>"creative":</label> <strong class="lime">["Three.js", "WebGL",
+                      "Blender"]</strong>,</p>
+                </div>
+                <div class="code-line"><span class="ln">4</span>
+                  <p class="indent"><label>"frameworks":</label> <strong class="orange">["Next.js", "React",
+                      "Node"]</strong>,</p>
+                </div>
+                <div class="code-line"><span class="ln">5</span>
+                  <p class="indent"><label>"passion":</label> <strong class="cyan">"Crafting seamless UI"</strong></p>
+                </div>
+                <div class="code-line"><span class="ln">6</span>
+                  <p>}</p>
+                </div>
               </div>
               <!-- Tab 3: status.sh -->
               <div class="tab-pane" id="pane-status" role="tabpanel">
-                <div class="code-line"><span class="ln">1</span><p class="code-cmd"><span class="cmd-prompt">$</span> pnpm dev --turbo</p></div>
-                <div class="code-line"><span class="ln">2</span><p class="code-log"><span class="log-ok">✓</span> Paragon.U (CS) + Bonamary.U (BBA)</p></div>
-                <div class="code-line"><span class="ln">3</span><p class="code-log"><span class="log-ok">✓</span> 30+ interactive experiences deployed</p></div>
-                <div class="code-line"><span class="ln">4</span><p class="code-log"><span class="log-ok">✓</span> MiniWorld 3D experiment online</p></div>
-                <div class="code-line"><span class="ln">5</span><p class="code-log log-highlight"><span class="log-arrow">➜</span> ready for collaborative engineering</p></div>
+                <div class="code-line"><span class="ln">1</span>
+                  <p class="code-cmd"><span class="cmd-prompt">$</span> pnpm dev --turbo</p>
+                </div>
+                <div class="code-line"><span class="ln">2</span>
+                  <p class="code-log"><span class="log-ok">✓</span> Paragon.U (CS) + Bonamary.U (BBA)</p>
+                </div>
+                <div class="code-line"><span class="ln">3</span>
+                  <p class="code-log"><span class="log-ok">✓</span> 30+ interactive experiences deployed</p>
+                </div>
+                <div class="code-line"><span class="ln">4</span>
+                  <p class="code-log"><span class="log-ok">✓</span> MiniWorld 3D experiment online</p>
+                </div>
+                <div class="code-line"><span class="ln">5</span>
+                  <p class="code-log log-highlight"><span class="log-arrow">➜</span> ready for collaborative engineering
+                  </p>
+                </div>
               </div>
             </div>
             <div class="code-console" id="codeConsole" aria-live="polite">
@@ -320,7 +390,8 @@
             <div class="edu-tracks-container">
               <div class="edu-track-card tech-track">
                 <div class="edu-track-badge" aria-hidden="true">
-                  <svg class="edu-track-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <svg class="edu-track-svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="16 18 22 12 16 6"></polyline>
                     <polyline points="8 6 2 12 8 18"></polyline>
                   </svg>
@@ -354,7 +425,8 @@
 
               <div class="edu-track-card biz-track">
                 <div class="edu-track-badge" aria-hidden="true">
-                  <svg class="edu-track-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <svg class="edu-track-svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
                     <path d="M2 17l10 5 10-5"></path>
                     <path d="M2 12l10 5 10-5"></path>
@@ -382,7 +454,8 @@
                 <span class="synergy-sparkle">✦</span>
                 <span class="synergy-copy"><strong>Dual Engine:</strong> Rigor meets market insight</span>
               </div>
-              <button class="edu-view-btn resume-view-btn magnetic" id="eduDetailsBtn" type="button" title="View comprehensive academic coursework in resume modal">
+              <button class="edu-view-btn resume-view-btn magnetic" id="eduDetailsBtn" type="button"
+                title="View comprehensive academic coursework in resume modal">
                 <span>Coursework</span>
                 <span class="btn-arrow">↗</span>
               </button>
@@ -420,7 +493,8 @@
             </div>
             <div class="bento-focus-footer">
               <a class="bento-link" href="#contact">Get in touch <span>↗</span></a>
-              <a class="bento-link" href="https://github.com/gouvkimsea" target="_blank" rel="noreferrer">GitHub Activity <span>↗</span></a>
+              <a class="bento-link" href="https://github.com/gouvkimsea" target="_blank" rel="noreferrer">GitHub
+                Activity <span>↗</span></a>
             </div>
           </article>
 
@@ -547,7 +621,8 @@
                 <div class="project-tags"><span>AI</span><span>Web</span><span>Security</span></div>
               </div>
               <div class="project-card-actions">
-                <a class="launch-btn magnetic" href="https://github.com/gouvkimsea/PinitAI" target="_blank" rel="noreferrer" title="View PinitAI repository">Repo <span>↗</span></a>
+                <a class="launch-btn magnetic" href="https://github.com/gouvkimsea/PinitAI" target="_blank"
+                  rel="noreferrer" title="View PinitAI repository">Repo <span>↗</span></a>
                 <button class="round-arrow project-open" aria-label="Open Pinit details">↗</button>
               </div>
             </div>
@@ -571,11 +646,13 @@
               <div>
                 <small>02 — 3D Graphics &amp; Simulation</small>
                 <h3>Mini World</h3>
-                <p>Interactive 3D procedural cartoon planet sandbox with real-time terrain sculpting, day/night cycles, and meteor physics.</p>
+                <p>Interactive 3D procedural cartoon planet sandbox with real-time terrain sculpting, day/night cycles,
+                  and meteor physics.</p>
                 <div class="project-tags"><span>WebGL</span><span>3D Graphics</span><span>Web Audio</span></div>
               </div>
               <div class="project-card-actions">
-                <a class="launch-btn magnetic" href="miniworld.html" target="_blank" rel="noopener" title="Launch live 3D planet simulation">Play 3D <span>↗</span></a>
+                <a class="launch-btn magnetic" href="miniworld.html" target="_blank" rel="noopener"
+                  title="Launch live 3D planet simulation">Play 3D <span>↗</span></a>
                 <button class="round-arrow project-open" aria-label="Open Mini World details">↗</button>
               </div>
             </div>
@@ -598,7 +675,8 @@
                 <div class="project-tags"><span>Web</span><span>HTML</span><span>Design</span></div>
               </div>
               <div class="project-card-actions">
-                <a class="launch-btn magnetic" href="https://github.com/gouvkimsea/my-Portfolio-" target="_blank" rel="noreferrer" title="View Portfolio repository">Repo <span>↗</span></a>
+                <a class="launch-btn magnetic" href="https://github.com/gouvkimsea/my-Portfolio-" target="_blank"
+                  rel="noreferrer" title="View Portfolio repository">Repo <span>↗</span></a>
                 <button class="round-arrow project-open" aria-label="Open portfolio details">↗</button>
               </div>
             </div>
@@ -626,7 +704,8 @@
                 <div class="project-tags"><span>AI</span><span>Web</span><span>Telemetry</span></div>
               </div>
               <div class="project-card-actions">
-                <a class="launch-btn magnetic" href="https://github.com/gouvkimsea" target="_blank" rel="noreferrer" title="View DevPulse repository">Repo <span>↗</span></a>
+                <a class="launch-btn magnetic" href="https://github.com/gouvkimsea" target="_blank" rel="noreferrer"
+                  title="View DevPulse repository">Repo <span>↗</span></a>
                 <button class="round-arrow project-open" aria-label="Open DevPulse details">↗</button>
               </div>
             </div>
@@ -644,33 +723,43 @@
         <div class="timeline reveal">
           <div class="timeline-item active"><span class="timeline-marker">01</span>
             <div class="timeline-content">
-              <div class="timeline-meta"><small>Now · 2026</small><span class="timeline-status-badge live">● Current Focus</span></div>
+              <div class="timeline-meta"><small>Now · 2026</small><span class="timeline-status-badge live">● Current
+                  Focus</span></div>
               <h3>Shipping in public</h3>
-              <p>Engineering real-world applications (PinitAI, Mini World 3D, DevPulse) and learning through high-iteration building.</p>
+              <p>Engineering real-world applications (PinitAI, Mini World 3D, DevPulse) and learning through
+                high-iteration building.</p>
               <div class="timeline-tags"><span>PinitAI</span><span>Mini World 3D</span><span>DevPulse</span></div>
             </div>
           </div>
           <div class="timeline-item"><span class="timeline-marker">02</span>
             <div class="timeline-content">
-              <div class="timeline-meta"><small>Interactive Systems</small><span class="timeline-status-badge">Exploration</span></div>
+              <div class="timeline-meta"><small>Interactive Systems</small><span
+                  class="timeline-status-badge">Exploration</span></div>
               <h3>Full-stack &amp; WebGL graphics</h3>
-              <p>Expanding from standard web interfaces into real-time 3D simulation, procedural math, and heuristic scam intelligence.</p>
+              <p>Expanding from standard web interfaces into real-time 3D simulation, procedural math, and heuristic
+                scam intelligence.</p>
               <div class="timeline-tags"><span>WebGL</span><span>Shaders</span><span>Heuristics</span></div>
             </div>
           </div>
           <div class="timeline-item"><span class="timeline-marker">03</span>
             <div class="timeline-content">
-              <div class="timeline-meta"><small>Dual Degree · Paragon.U &amp; Bonamary.U</small><span class="timeline-status-badge">Foundations</span></div>
+              <div class="timeline-meta"><small>Dual Degree · Paragon.U &amp; Bonamary.U</small><span
+                  class="timeline-status-badge">Foundations</span></div>
               <h3>Computer science &amp; business administration</h3>
-              <p>Pursuing dual undergraduate degrees: B.Sc. in Computer Science at Paragon International University and B.B.A. in Business Administration at Bonamary University. Uniting technical rigor with commercial product strategy.</p>
-              <div class="timeline-tags"><span>Paragon.U CS</span><span>Bonamary.U BBA</span><span>Data Structures</span><span>Business Strategy</span></div>
+              <p>Pursuing dual undergraduate degrees: B.Sc. in Computer Science at Paragon International University and
+                B.B.A. in Business Administration at Bonamary University. Uniting technical rigor with commercial
+                product strategy.</p>
+              <div class="timeline-tags"><span>Paragon.U CS</span><span>Bonamary.U BBA</span><span>Data
+                  Structures</span><span>Business Strategy</span></div>
             </div>
           </div>
           <div class="timeline-item"><span class="timeline-marker">04</span>
             <div class="timeline-content">
-              <div class="timeline-meta"><small>Next chapter</small><span class="timeline-status-badge">Vision</span></div>
+              <div class="timeline-meta"><small>Next chapter</small><span class="timeline-status-badge">Vision</span>
+              </div>
               <h3>Collaborating &amp; shipping</h3>
-              <p>Contributing to thoughtful engineering teams, open-source ecosystems, and building software that solves real problems.</p>
+              <p>Contributing to thoughtful engineering teams, open-source ecosystems, and building software that solves
+                real problems.</p>
               <div class="timeline-tags"><span>Open Source</span><span>Teamwork</span><span>Product Impact</span></div>
             </div>
           </div>
@@ -690,15 +779,20 @@
               <span class="achieve-pulse-dot"></span>
               <span><b>6 Engineering Milestones</b> · Continuous Momentum</span>
             </div>
-            <p class="heading-note">Turning academic foundations into tangible,<br />reproducible code and production software.</p>
+            <p class="heading-note">Turning academic foundations into tangible,<br />reproducible code and production
+              software.</p>
           </div>
         </div>
 
         <div class="achievement-filter-bar reveal" role="tablist" aria-label="Filter achievements">
-          <button type="button" class="achieve-filter-btn active" data-filter="all" role="tab" aria-selected="true">All Milestones <sup>06</sup></button>
-          <button type="button" class="achieve-filter-btn" data-filter="shipped" role="tab" aria-selected="false">Shipped Apps <sup>02</sup></button>
-          <button type="button" class="achieve-filter-btn" data-filter="graphics" role="tab" aria-selected="false">Graphics &amp; 3D <sup>02</sup></button>
-          <button type="button" class="achieve-filter-btn" data-filter="foundations" role="tab" aria-selected="false">Systems &amp; Open Source <sup>02</sup></button>
+          <button type="button" class="achieve-filter-btn active" data-filter="all" role="tab" aria-selected="true">All
+            Milestones <sup>06</sup></button>
+          <button type="button" class="achieve-filter-btn" data-filter="shipped" role="tab"
+            aria-selected="false">Shipped Apps <sup>02</sup></button>
+          <button type="button" class="achieve-filter-btn" data-filter="graphics" role="tab"
+            aria-selected="false">Graphics &amp; 3D <sup>02</sup></button>
+          <button type="button" class="achieve-filter-btn" data-filter="foundations" role="tab"
+            aria-selected="false">Systems &amp; Open Source <sup>02</sup></button>
         </div>
 
         <div class="achievements-grid reveal">
@@ -706,9 +800,12 @@
             <div class="achieve-glow-backdrop" aria-hidden="true"></div>
             <div class="achieve-top">
               <div class="achieve-illu-wrap">
-                <svg class="achieve-illu" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <circle cx="32" cy="32" r="30" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.3" />
-                  <path d="M32 10 L39 25 L48 28 L39 37 L41 50 L32 44 L23 50 L25 37 L16 28 L25 25 Z" fill="url(#achieveGradOrange)" stroke="var(--orange)" stroke-width="1.5" stroke-linejoin="round" />
+                <svg class="achieve-illu" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true">
+                  <circle cx="32" cy="32" r="30" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"
+                    opacity="0.3" />
+                  <path d="M32 10 L39 25 L48 28 L39 37 L41 50 L32 44 L23 50 L25 37 L16 28 L25 25 Z"
+                    fill="url(#achieveGradOrange)" stroke="var(--orange)" stroke-width="1.5" stroke-linejoin="round" />
                   <circle cx="32" cy="28" r="3" fill="#ffffff" />
                   <path d="M28 48 L20 54 M36 48 L44 54" stroke="var(--lime)" stroke-width="2" stroke-linecap="round" />
                   <circle cx="14" cy="18" r="1.5" fill="var(--lime)" />
@@ -720,7 +817,9 @@
             <div class="achieve-content">
               <small class="achieve-tag">PRODUCTION · 4 LIVE APPS</small>
               <h3 class="achieve-title">Multi-Product Shipping Velocity</h3>
-              <p class="achieve-desc">Designed, architected, and shipped four distinct applications from scratch: PinitAI (scam detection), Mini World 3D (procedural planet), DevPulse (telemetry stream), and an interactive portfolio platform.</p>
+              <p class="achieve-desc">Designed, architected, and shipped four distinct applications from scratch:
+                PinitAI (scam detection), Mini World 3D (procedural planet), DevPulse (telemetry stream), and an
+                interactive portfolio platform.</p>
               <div class="achieve-meta-pills">
                 <span>PinitAI</span>
                 <span>Mini World</span>
@@ -738,12 +837,15 @@
             <div class="achieve-glow-backdrop" aria-hidden="true"></div>
             <div class="achieve-top">
               <div class="achieve-illu-wrap">
-                <svg class="achieve-illu" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <circle cx="32" cy="32" r="28" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2 4" opacity="0.3" />
+                <svg class="achieve-illu" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true">
+                  <circle cx="32" cy="32" r="28" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2 4"
+                    opacity="0.3" />
                   <circle cx="32" cy="32" r="16" fill="url(#achieveGradLime)" stroke="var(--lime)" stroke-width="1.5" />
                   <ellipse cx="32" cy="32" rx="16" ry="6" stroke="#20211e" stroke-width="1" opacity="0.4" />
                   <path d="M32 16 C38 22, 38 42, 32 48" stroke="#20211e" stroke-width="1" opacity="0.4" />
-                  <ellipse cx="32" cy="32" rx="26" ry="9" stroke="var(--orange)" stroke-width="1.8" transform="rotate(-25 32 32)" />
+                  <ellipse cx="32" cy="32" rx="26" ry="9" stroke="var(--orange)" stroke-width="1.8"
+                    transform="rotate(-25 32 32)" />
                   <circle cx="48" cy="24" r="2.5" fill="var(--orange)" />
                 </svg>
               </div>
@@ -752,7 +854,9 @@
             <div class="achieve-content">
               <small class="achieve-tag">GRAPHICS &amp; ENGINE</small>
               <h3 class="achieve-title">Procedural WebGL 3D Engine</h3>
-              <p class="achieve-desc">Engineered an interactive 3D miniature cartoon planet sandbox in pure WebGL with zero external game frameworks. Real-time spherical vertex deformation, procedural noise biomes, and custom GLSL lighting shaders running at 60 FPS.</p>
+              <p class="achieve-desc">Engineered an interactive 3D miniature cartoon planet sandbox in pure WebGL with
+                zero external game frameworks. Real-time spherical vertex deformation, procedural noise biomes, and
+                custom GLSL lighting shaders running at 60 FPS.</p>
               <div class="achieve-meta-pills">
                 <span>WebGL 2.0</span>
                 <span>GLSL Shaders</span>
@@ -770,12 +874,16 @@
             <div class="achieve-glow-backdrop" aria-hidden="true"></div>
             <div class="achieve-top">
               <div class="achieve-illu-wrap">
-                <svg class="achieve-illu" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <path d="M32 8 L50 17 L50 36 C50 48 32 56 32 56 C32 56 14 48 14 36 L14 17 Z" fill="url(#achieveGradOrange)" stroke="var(--orange)" stroke-width="1.8" />
-                  <circle cx="32" cy="30" r="10" stroke="var(--lime)" stroke-width="1.2" stroke-dasharray="2 3" opacity="0.8" />
+                <svg class="achieve-illu" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true">
+                  <path d="M32 8 L50 17 L50 36 C50 48 32 56 32 56 C32 56 14 48 14 36 L14 17 Z"
+                    fill="url(#achieveGradOrange)" stroke="var(--orange)" stroke-width="1.8" />
+                  <circle cx="32" cy="30" r="10" stroke="var(--lime)" stroke-width="1.2" stroke-dasharray="2 3"
+                    opacity="0.8" />
                   <line x1="32" y1="20" x2="32" y2="40" stroke="var(--lime)" stroke-width="1.2" opacity="0.6" />
                   <line x1="22" y1="30" x2="42" y2="30" stroke="var(--lime)" stroke-width="1.2" opacity="0.6" />
-                  <path d="M28 30 L31 33 L37 27" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M28 30 L31 33 L37 27" stroke="#ffffff" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
                 </svg>
               </div>
               <span class="achieve-status-pill"><span class="achieve-dot"></span> SECURITY AI</span>
@@ -783,7 +891,9 @@
             <div class="achieve-content">
               <small class="achieve-tag">AI &amp; WEB SECURITY</small>
               <h3 class="achieve-title">Pinit Scam Threat Intelligence</h3>
-              <p class="achieve-desc">Architected Pinit, an AI-assisted concept to detect suspicious URLs, phishing indicators, and online scams. Emphasizes explainable heuristic feedback and approachable digital security guardrails.</p>
+              <p class="achieve-desc">Architected Pinit, an AI-assisted concept to detect suspicious URLs, phishing
+                indicators, and online scams. Emphasizes explainable heuristic feedback and approachable digital
+                security guardrails.</p>
               <div class="achieve-meta-pills">
                 <span>Threat Detection</span>
                 <span>Heuristics</span>
@@ -792,7 +902,8 @@
             </div>
             <div class="achieve-footer">
               <span class="achieve-metric">AI Scam Prevention</span>
-              <a class="achieve-link" href="https://github.com/gouvkimsea/PinitAI" target="_blank" rel="noreferrer">Pinit Repo ↗</a>
+              <a class="achieve-link" href="https://github.com/gouvkimsea/PinitAI" target="_blank"
+                rel="noreferrer">Pinit Repo ↗</a>
             </div>
           </article>
 
@@ -800,13 +911,15 @@
             <div class="achieve-glow-backdrop" aria-hidden="true"></div>
             <div class="achieve-top">
               <div class="achieve-illu-wrap">
-                <svg class="achieve-illu" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <svg class="achieve-illu" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true">
                   <circle cx="20" cy="18" r="5" fill="var(--orange)" />
                   <circle cx="20" cy="46" r="5" fill="var(--orange)" />
                   <circle cx="44" cy="32" r="5" fill="var(--lime)" />
                   <line x1="20" y1="23" x2="20" y2="41" stroke="currentColor" stroke-width="2" opacity="0.6" />
                   <path d="M20 23 Q 20 32 30 32 L 39 32" stroke="var(--lime)" stroke-width="2" fill="none" />
-                  <path d="M39 32 Q 44 32 44 37 Q 44 46 25 46" stroke="var(--lime)" stroke-width="1.5" stroke-dasharray="2 3" fill="none" />
+                  <path d="M39 32 Q 44 32 44 37 Q 44 46 25 46" stroke="var(--lime)" stroke-width="1.5"
+                    stroke-dasharray="2 3" fill="none" />
                   <circle cx="28" cy="32" r="2" fill="#ffffff" />
                   <circle cx="20" cy="32" r="2" fill="#ffffff" />
                 </svg>
@@ -816,7 +929,9 @@
             <div class="achieve-content">
               <small class="achieve-tag">OPEN SOURCE · VELOCITY</small>
               <h3 class="achieve-title">15+ Public Repositories on GitHub</h3>
-              <p class="achieve-desc">Maintained a continuous open source shipping rhythm across 15+ codebases. Demonstrated disciplined version control, atomic commit hygiene, documentation standards, and architectural consistency.</p>
+              <p class="achieve-desc">Maintained a continuous open source shipping rhythm across 15+ codebases.
+                Demonstrated disciplined version control, atomic commit hygiene, documentation standards, and
+                architectural consistency.</p>
               <div class="achieve-meta-pills">
                 <span>15+ Repos</span>
                 <span>Clean Commits</span>
@@ -833,8 +948,10 @@
             <div class="achieve-glow-backdrop" aria-hidden="true"></div>
             <div class="achieve-top">
               <div class="achieve-illu-wrap">
-                <svg class="achieve-illu" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <polygon points="32,10 50,22 50,44 32,54 14,44 14,22" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.3" />
+                <svg class="achieve-illu" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true">
+                  <polygon points="32,10 50,22 50,44 32,54 14,44 14,22" stroke="currentColor" stroke-width="1.5"
+                    fill="none" opacity="0.3" />
                   <line x1="32" y1="10" x2="32" y2="54" stroke="var(--lime)" stroke-width="1.5" />
                   <line x1="14" y1="22" x2="50" y2="44" stroke="var(--orange)" stroke-width="1.2" />
                   <line x1="14" y1="44" x2="50" y2="22" stroke="var(--orange)" stroke-width="1.2" />
@@ -852,7 +969,9 @@
             <div class="achieve-content">
               <small class="achieve-tag">ACADEMIC · THEORY</small>
               <h3 class="achieve-title">Computer Science Foundations</h3>
-              <p class="achieve-desc">Rigorous university computer science background grounding pragmatic development: data structures (trees, graphs, heaps), asymptotic Big-O optimization, C++ memory allocation, and relational SQL engines.</p>
+              <p class="achieve-desc">Rigorous university computer science background grounding pragmatic development:
+                data structures (trees, graphs, heaps), asymptotic Big-O optimization, C++ memory allocation, and
+                relational SQL engines.</p>
               <div class="achieve-meta-pills">
                 <span>Algorithms</span>
                 <span>Data Structures</span>
@@ -870,13 +989,16 @@
             <div class="achieve-glow-backdrop" aria-hidden="true"></div>
             <div class="achieve-top">
               <div class="achieve-illu-wrap">
-                <svg class="achieve-illu" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <rect x="10" y="14" width="44" height="36" rx="4" stroke="currentColor" stroke-width="1.8" fill="url(#achieveGradLime)" fill-opacity="0.1" />
+                <svg class="achieve-illu" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true">
+                  <rect x="10" y="14" width="44" height="36" rx="4" stroke="currentColor" stroke-width="1.8"
+                    fill="url(#achieveGradLime)" fill-opacity="0.1" />
                   <line x1="10" y1="23" x2="54" y2="23" stroke="currentColor" stroke-width="1.2" opacity="0.4" />
                   <circle cx="16" cy="18.5" r="1.5" fill="var(--orange)" />
                   <circle cx="21" cy="18.5" r="1.5" fill="#facc15" />
                   <circle cx="26" cy="18.5" r="1.5" fill="var(--lime)" />
-                  <path d="M16 31 L20 34 L16 37" stroke="var(--lime)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M16 31 L20 34 L16 37" stroke="var(--lime)" stroke-width="1.8" stroke-linecap="round"
+                    stroke-linejoin="round" />
                   <rect x="23" y="31" width="5" height="6" fill="var(--orange)" />
                   <path d="M44 32 L46 37 L51 39 L46 41 L44 46 L42 41 L37 39 L42 37 Z" fill="var(--lime)" />
                 </svg>
@@ -886,7 +1008,8 @@
             <div class="achieve-content">
               <small class="achieve-tag">ENGINEERING &amp; STANDARDS</small>
               <h3 class="achieve-title">Modern Web Platform Architecture</h3>
-              <p class="achieve-desc">Crafted from first principles: clean Vanilla CSS design systems, responsive mobile drawer navigation, accessible ARIA dialog patterns, and atomic Git commit discipline.</p>
+              <p class="achieve-desc">Crafted from first principles: clean Vanilla CSS design systems, responsive mobile
+                drawer navigation, accessible ARIA dialog patterns, and atomic Git commit discipline.</p>
               <div class="achieve-meta-pills">
                 <span>Vanilla CSS</span>
                 <span>Semantic HTML</span>
@@ -955,28 +1078,54 @@
     <section class="section contact-section work-section" id="contact">
       <!-- Topographic Elevation Contour Map Background -->
       <div class="topo-bg-layer" aria-hidden="true">
-        <svg class="topo-svg" viewBox="0 0 1440 850" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <svg class="topo-svg" viewBox="0 0 1440 850" fill="none" xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="xMidYMid slice">
           <!-- Concentric Crest Loops (Upper-Left Topographic Peak) -->
-          <path d="M 330,130 C 375,140 405,175 395,220 C 385,265 340,300 285,290 C 230,280 200,235 210,185 C 220,140 275,120 330,130 Z" stroke="currentColor" stroke-width="1.2" opacity="0.35" />
-          <path d="M 350,95 C 420,110 460,165 445,235 C 430,305 365,350 285,335 C 205,320 165,255 180,175 C 195,105 270,80 350,95 Z" stroke="currentColor" stroke-width="1.2" opacity="0.4" />
-          <path d="M 370,60 C 470,80 520,155 500,250 C 480,335 395,395 290,375 C 185,355 135,275 155,170 C 175,75 260,45 370,60 Z" stroke="currentColor" stroke-width="1.2" opacity="0.45" />
-          <path d="M 390,25 C 520,45 580,145 555,265 C 530,370 425,435 295,415 C 165,390 105,290 130,165 C 155,45 250,10 390,25 Z" stroke="currentColor" stroke-width="1.2" opacity="0.5" />
-          
+          <path
+            d="M 330,130 C 375,140 405,175 395,220 C 385,265 340,300 285,290 C 230,280 200,235 210,185 C 220,140 275,120 330,130 Z"
+            stroke="currentColor" stroke-width="1.2" opacity="0.35" />
+          <path
+            d="M 350,95 C 420,110 460,165 445,235 C 430,305 365,350 285,335 C 205,320 165,255 180,175 C 195,105 270,80 350,95 Z"
+            stroke="currentColor" stroke-width="1.2" opacity="0.4" />
+          <path
+            d="M 370,60 C 470,80 520,155 500,250 C 480,335 395,395 290,375 C 185,355 135,275 155,170 C 175,75 260,45 370,60 Z"
+            stroke="currentColor" stroke-width="1.2" opacity="0.45" />
+          <path
+            d="M 390,25 C 520,45 580,145 555,265 C 530,370 425,435 295,415 C 165,390 105,290 130,165 C 155,45 250,10 390,25 Z"
+            stroke="currentColor" stroke-width="1.2" opacity="0.5" />
+
           <!-- Mid Elevation Loops -->
-          <path d="M 420,-10 C 580,15 650,135 620,280 C 590,405 460,480 305,455 C 145,430 75,305 105,160 C 135,15 250,-25 420,-10 Z" stroke="currentColor" stroke-width="1.2" opacity="0.55" />
-          <path d="M -30,180 C 90,40 280,-30 460,-5 C 640,20 730,150 690,320 C 650,460 510,540 330,510 C 160,480 70,370 10,260 Z" stroke="currentColor" stroke-width="1.2" opacity="0.6" />
-          
+          <path
+            d="M 420,-10 C 580,15 650,135 620,280 C 590,405 460,480 305,455 C 145,430 75,305 105,160 C 135,15 250,-25 420,-10 Z"
+            stroke="currentColor" stroke-width="1.2" opacity="0.55" />
+          <path
+            d="M -30,180 C 90,40 280,-30 460,-5 C 640,20 730,150 690,320 C 650,460 510,540 330,510 C 160,480 70,370 10,260 Z"
+            stroke="currentColor" stroke-width="1.2" opacity="0.6" />
+
           <!-- Sweeping Continental Elevation Ridges across to the Right Column -->
-          <path d="M -80,290 C 70,100 300,-20 520,10 C 740,40 850,190 800,390 C 750,560 570,650 350,610 C 150,575 40,430 -30,330" stroke="currentColor" stroke-width="1.2" opacity="0.65" />
-          <path d="M -90,420 C 100,180 350,-10 620,20 C 880,50 1010,230 940,470 C 870,670 640,780 380,730 C 140,685 -20,550 -80,440" stroke="currentColor" stroke-width="1.2" opacity="0.7" />
-          <path d="M -100,560 C 120,260 400,0 720,30 C 1020,60 1160,270 1080,550 C 1000,790 730,900 430,840 C 160,785 -40,650 -90,560" stroke="currentColor" stroke-width="1.2" opacity="0.75" />
-          <path d="M -100,700 C 150,380 460,10 820,40 C 1160,70 1310,310 1220,620 C 1130,890 820,1010 490,940 C 190,875 -50,750 -90,680" stroke="currentColor" stroke-width="1.2" opacity="0.8" />
-          <path d="M -100,840 C 180,500 520,20 920,50 C 1300,80 1460,350 1360,690 C 1260,990 910,1110 550,1040 C 220,965 -60,850 -90,810" stroke="currentColor" stroke-width="1.2" opacity="0.85" />
-          
+          <path
+            d="M -80,290 C 70,100 300,-20 520,10 C 740,40 850,190 800,390 C 750,560 570,650 350,610 C 150,575 40,430 -30,330"
+            stroke="currentColor" stroke-width="1.2" opacity="0.65" />
+          <path
+            d="M -90,420 C 100,180 350,-10 620,20 C 880,50 1010,230 940,470 C 870,670 640,780 380,730 C 140,685 -20,550 -80,440"
+            stroke="currentColor" stroke-width="1.2" opacity="0.7" />
+          <path
+            d="M -100,560 C 120,260 400,0 720,30 C 1020,60 1160,270 1080,550 C 1000,790 730,900 430,840 C 160,785 -40,650 -90,560"
+            stroke="currentColor" stroke-width="1.2" opacity="0.75" />
+          <path
+            d="M -100,700 C 150,380 460,10 820,40 C 1160,70 1310,310 1220,620 C 1130,890 820,1010 490,940 C 190,875 -50,750 -90,680"
+            stroke="currentColor" stroke-width="1.2" opacity="0.8" />
+          <path
+            d="M -100,840 C 180,500 520,20 920,50 C 1300,80 1460,350 1360,690 C 1260,990 910,1110 550,1040 C 220,965 -60,850 -90,810"
+            stroke="currentColor" stroke-width="1.2" opacity="0.85" />
+
           <!-- Outer East Ridges -->
-          <path d="M 680,-40 C 1060,10 1390,200 1490,470 C 1590,740 1430,940 1110,1000" stroke="currentColor" stroke-width="1.2" opacity="0.75" />
-          <path d="M 880,-40 C 1210,30 1510,240 1590,520 C 1670,800 1500,1000 1210,1060" stroke="currentColor" stroke-width="1.2" opacity="0.65" />
-          <path d="M 1080,-40 C 1360,50 1620,280 1690,570 C 1760,860 1570,1060 1310,1120" stroke="currentColor" stroke-width="1.2" opacity="0.55" />
+          <path d="M 680,-40 C 1060,10 1390,200 1490,470 C 1590,740 1430,940 1110,1000" stroke="currentColor"
+            stroke-width="1.2" opacity="0.75" />
+          <path d="M 880,-40 C 1210,30 1510,240 1590,520 C 1670,800 1500,1000 1210,1060" stroke="currentColor"
+            stroke-width="1.2" opacity="0.65" />
+          <path d="M 1080,-40 C 1360,50 1620,280 1690,570 C 1760,860 1570,1060 1310,1120" stroke="currentColor"
+            stroke-width="1.2" opacity="0.55" />
         </svg>
       </div>
 
@@ -993,7 +1142,8 @@
             <div class="hud-contact-list" role="list">
               <!-- EMAIL Item -->
               <div class="hud-item-wrapper" role="listitem">
-                <a class="hud-contact-item" href="mailto:gouvkimsea@gmail.com" title="Direct Email: gouvkimsea@gmail.com">
+                <a class="hud-contact-item" href="mailto:gouvkimsea@gmail.com"
+                  title="Direct Email: gouvkimsea@gmail.com">
                   <span class="hud-corner hud-corner-tl" aria-hidden="true"></span>
                   <span class="hud-corner hud-corner-tr" aria-hidden="true"></span>
                   <span class="hud-corner hud-corner-bl" aria-hidden="true"></span>
@@ -1002,12 +1152,14 @@
                   <span class="hud-val">gouvkimsea@gmail.com</span>
                   <span class="hud-arrow" aria-hidden="true">↗</span>
                 </a>
-                <button class="hud-copy-btn magnetic" id="copyEmailBtn" type="button" title="Copy email address to clipboard">Copy</button>
+                <button class="hud-copy-btn magnetic" id="copyEmailBtn" type="button"
+                  title="Copy email address to clipboard">Copy</button>
               </div>
 
               <!-- GITHUB Item -->
               <div class="hud-item-wrapper" role="listitem">
-                <a class="hud-contact-item" href="https://github.com/gouvkimsea" target="_blank" rel="noreferrer" title="GitHub: github.com/gouvkimsea">
+                <a class="hud-contact-item" href="https://github.com/gouvkimsea" target="_blank" rel="noreferrer"
+                  title="GitHub: github.com/gouvkimsea">
                   <span class="hud-corner hud-corner-tl" aria-hidden="true"></span>
                   <span class="hud-corner hud-corner-tr" aria-hidden="true"></span>
                   <span class="hud-corner hud-corner-bl" aria-hidden="true"></span>
@@ -1020,20 +1172,22 @@
 
               <!-- LINKEDIN Item -->
               <div class="hud-item-wrapper" role="listitem">
-                <a class="hud-contact-item" href="https://linkedin.com/in/gouvkimsea" target="_blank" rel="noreferrer" title="LinkedIn: linkedin.com/in/gouvkimsea">
+                <a class="hud-contact-item" href="www.linkedin.com/in/gouv-kimsea-16795143a" target="_blank"
+                  rel="noreferrer" title="LinkedIn: linkedin.com/in/gouvkimsea">
                   <span class="hud-corner hud-corner-tl" aria-hidden="true"></span>
                   <span class="hud-corner hud-corner-tr" aria-hidden="true"></span>
                   <span class="hud-corner hud-corner-bl" aria-hidden="true"></span>
                   <span class="hud-corner hud-corner-br" aria-hidden="true"></span>
                   <span class="hud-label">LINKEDIN</span>
-                  <span class="hud-val">linkedin.com/in/gouvkimsea</span>
+                  <span class="hud-val">www.linkedin.com/in/gouv-kimsea</span>
                   <span class="hud-arrow" aria-hidden="true">↗</span>
                 </a>
               </div>
 
               <!-- RESUME Item (triggers curriculum vitae modal) -->
               <div class="hud-item-wrapper" role="listitem">
-                <button class="hud-contact-item hud-btn-trigger" id="resumeContactBtn" type="button" aria-haspopup="dialog" title="View Curriculum Vitae">
+                <button class="hud-contact-item hud-btn-trigger" id="resumeContactBtn" type="button"
+                  aria-haspopup="dialog" title="View Curriculum Vitae">
                   <span class="hud-corner hud-corner-tl" aria-hidden="true"></span>
                   <span class="hud-corner hud-corner-tr" aria-hidden="true"></span>
                   <span class="hud-corner hud-corner-bl" aria-hidden="true"></span>
@@ -1049,14 +1203,16 @@
 
         <!-- Interactive Direct Message Drawer -->
         <div class="work-drawer-wrap reveal">
-          <button type="button" class="work-drawer-toggle" id="toggleContactFormBtn" aria-expanded="false" aria-controls="contactFormDrawer">
+          <button type="button" class="work-drawer-toggle" id="toggleContactFormBtn" aria-expanded="false"
+            aria-controls="contactFormDrawer">
             <span>Prefer to send a message directly? Click to write a note</span>
             <span class="drawer-chevron" aria-hidden="true">↓</span>
           </button>
           <div class="work-drawer-content" id="contactFormDrawer" hidden>
             <form class="contact-form" id="contactForm" novalidate>
               <div class="form-window-bar">
-                <span class="wb-dot wb-red"></span><span class="wb-dot wb-yellow"></span><span class="wb-dot wb-green"></span>
+                <span class="wb-dot wb-red"></span><span class="wb-dot wb-yellow"></span><span
+                  class="wb-dot wb-green"></span>
                 <small>new-message.eml</small>
               </div>
               <div class="contact-topic-group">
@@ -1068,15 +1224,20 @@
                   <button type="button" class="topic-chip" data-topic="Project">Project Idea</button>
                 </div>
               </div>
-              <div class="form-row"><label for="name">Your name</label><input id="name" name="name" required placeholder="Jane Doe" /><span class="error-message"></span></div>
-              <div class="form-row"><label for="email">Email address</label><input id="email" name="email" type="email" required placeholder="you@example.com" /><span class="error-message"></span></div>
-              <div class="form-row"><label for="message">What’s on your mind?</label><textarea id="message" name="message" rows="4" required minlength="20" placeholder="Tell me a little about your project or note..."></textarea>
+              <div class="form-row"><label for="name">Your name</label><input id="name" name="name" required
+                  placeholder="Jane Doe" /><span class="error-message"></span></div>
+              <div class="form-row"><label for="email">Email address</label><input id="email" name="email" type="email"
+                  required placeholder="you@example.com" /><span class="error-message"></span></div>
+              <div class="form-row"><label for="message">What’s on your mind?</label><textarea id="message"
+                  name="message" rows="4" required minlength="2"
+                  placeholder="Tell me a little about your project or note..."></textarea>
                 <div class="form-row-meta">
-                  <span class="char-count" id="charCount">0 / 20 min</span>
+                  <span class="char-count" id="charCount">0</span>
                   <span class="error-message"></span>
                 </div>
               </div>
-              <button class="button button-primary magnetic" id="submitBtn" type="submit">Send note <span>↗</span></button>
+              <button class="button button-primary magnetic" id="submitBtn" type="submit">Send note
+                <span>↗</span></button>
               <p class="form-status" role="status"></p>
               <small class="form-note">Validated client-side. Ready to connect to any backend service.</small>
             </form>
@@ -1091,21 +1252,17 @@
       <a class="brand" href="#top" aria-label="Go to top of page"><span>[ ]</span> GK</a>
       <div class="footer-center">
         <p>© 2026 Gouv Kimsea. Built with curiosity and code.</p>
-        <span class="footer-meta">Active Development · <a href="https://github.com/gouvkimsea/my-Portfolio-" target="_blank" rel="noreferrer">Open Source on GitHub ↗</a></span>
+        <span class="footer-meta">Active Development · <a href="https://github.com/gouvkimsea/my-Portfolio-"
+            target="_blank" rel="noreferrer">Open Source on GitHub ↗</a></span>
       </div>
       <div class="footer-links">
-        <button class="footer-cmd-btn magnetic" id="footerCmdKBtn" type="button" aria-label="Open command palette"
-          title="Search commands (⌘K or Ctrl+K)">
-          <span class="cmd-kbd">⌘K</span> Palette
-        </button>
-        <a href="miniworld.html" target="_blank" rel="noopener">Mini World 3D ↗</a>
         <a href="#home">Back to top ↑</a>
       </div>
     </div>
   </footer>
 
-  <dialog class="project-modal" id="projectModal" aria-labelledby="modalTitle" aria-modal="true"><button class="modal-close" id="modalClose"
-      aria-label="Close project details">×</button>
+  <dialog class="project-modal" id="projectModal" aria-labelledby="modalTitle" aria-modal="true"><button
+      class="modal-close" id="modalClose" aria-label="Close project details">×</button>
     <div class="modal-content">
       <p class="eyebrow">Project detail</p>
       <h2 id="modalTitle">Pinit</h2>
@@ -1154,7 +1311,7 @@
 
             <section class="resume-block resume-education-block" id="resumeEduSection">
               <h3 class="resume-block-title"><span>02</span> Education &amp; Academic Background</h3>
-              
+
               <div class="resume-item resume-edu-card tech">
                 <div class="resume-item-top">
                   <div>
@@ -1166,7 +1323,8 @@
                   <span class="resume-edu-badge tech">B.Sc. · Tech Track</span>
                 </div>
                 <p class="resume-edu-meta">Phnom Penh, Cambodia · Undergraduate · Expected 2026</p>
-                <p class="resume-edu-desc">Rigorous foundation in computer science and software development. Deep dive into algorithms, systems programming, and high-performance client rendering.</p>
+                <p class="resume-edu-desc">Rigorous foundation in computer science and software development. Deep dive
+                  into algorithms, systems programming, and high-performance client rendering.</p>
                 <div class="resume-edu-highlights">
                   <span>Algorithms &amp; Data Structures</span>
                   <span>Software Engineering</span>
@@ -1187,7 +1345,8 @@
                   <span class="resume-edu-badge biz">B.B.A. · Business Track</span>
                 </div>
                 <p class="resume-edu-meta">Phnom Penh, Cambodia · Undergraduate · Expected 2026</p>
-                <p class="resume-edu-desc">Comprehensive study of commercial business administration, financial principles, market feasibility, and strategic operations to turn software into scalable solutions.</p>
+                <p class="resume-edu-desc">Comprehensive study of commercial business administration, financial
+                  principles, market feasibility, and strategic operations to turn software into scalable solutions.</p>
                 <div class="resume-edu-highlights">
                   <span>Strategic Management</span>
                   <span>Product Economics</span>
@@ -1199,7 +1358,8 @@
 
               <div class="resume-synergy-callout">
                 <span class="synergy-callout-icon">✦</span>
-                <p><strong>Dual-Degree Synergy:</strong> Bridging software engineering rigor with commercial product strategy — turning code into viable, user-centered solutions.</p>
+                <p><strong>Dual-Degree Synergy:</strong> Bridging software engineering rigor with commercial product
+                  strategy — turning code into viable, user-centered solutions.</p>
               </div>
             </section>
 
@@ -1210,7 +1370,8 @@
                   <h4>Mini World — 3D Planet Simulation &amp; WebGL Engine</h4>
                   <span class="resume-tag">WebGL · 3D Math · Web Audio</span>
                 </div>
-                <p>Interactive procedural 3D world with real-time terrain sculpting, vertex deformation, procedural audio synthesis, and celestial lighting.</p>
+                <p>Interactive procedural 3D world with real-time terrain sculpting, vertex deformation, procedural
+                  audio synthesis, and celestial lighting.</p>
               </div>
               <div class="resume-item">
                 <div class="resume-item-top">
@@ -1297,7 +1458,7 @@
       <div class="resume-footer">
         <span class="resume-footer-note">Updated for 2026 · Ready to build and learn</span>
         <div class="resume-footer-actions">
-          <a class="modal-btn" href="mailto:gouvkimsea@gmail.com">Get in Touch ↗</a>
+          <a class="modal-btn" href="gouvkimsea@gmail.com">Get in Touch ↗</a>
           <button class="modal-btn secondary" id="resumeFooterClose" type="button">Close</button>
         </div>
       </div>
@@ -1309,7 +1470,8 @@
       <div class="cmdk-header">
         <span class="cmdk-search-icon">⌘</span>
         <input type="text" class="cmdk-input" id="cmdKInput" placeholder="Type a command or jump to section..."
-          autocomplete="off" spellcheck="false" aria-label="Search navigation and commands" role="combobox" aria-expanded="true" aria-controls="cmdKResults" />
+          autocomplete="off" spellcheck="false" aria-label="Search navigation and commands" role="combobox"
+          aria-expanded="true" aria-controls="cmdKResults" />
         <kbd class="cmdk-esc-hint">ESC</kbd>
       </div>
       <div class="cmdk-results" id="cmdKResults">
@@ -1330,13 +1492,18 @@
             class="cmdk-icon">@</span> Let’s Work <small>Direct contact &amp; links</small></button>
 
         <div class="cmdk-group-title">Featured Projects</div>
-        <button type="button" class="cmdk-item" data-action="open-project" data-project="miniworld"><span class="cmdk-icon">01</span> Mini World <small>3D Planet Simulation &amp; WebGL</small></button>
-        <button type="button" class="cmdk-item" data-action="open-project" data-project="pinit"><span class="cmdk-icon">02</span> Pinit <small>AI Scam &amp; Threat Detector</small></button>
-        <button type="button" class="cmdk-item" data-action="open-project" data-project="devpulse"><span class="cmdk-icon">03</span> DevPulse <small>Real-time Developer Telemetry</small></button>
-        <button type="button" class="cmdk-item" data-action="open-project" data-project="portfolio"><span class="cmdk-icon">04</span> Portfolio <small>Personal Web Platform</small></button>
+        <button type="button" class="cmdk-item" data-action="open-project" data-project="miniworld"><span
+            class="cmdk-icon">01</span> Mini World <small>3D Planet Simulation &amp; WebGL</small></button>
+        <button type="button" class="cmdk-item" data-action="open-project" data-project="pinit"><span
+            class="cmdk-icon">02</span> Pinit <small>AI Scam &amp; Threat Detector</small></button>
+        <button type="button" class="cmdk-item" data-action="open-project" data-project="devpulse"><span
+            class="cmdk-icon">03</span> DevPulse <small>Real-time Developer Telemetry</small></button>
+        <button type="button" class="cmdk-item" data-action="open-project" data-project="portfolio"><span
+            class="cmdk-icon">04</span> Portfolio <small>Personal Web Platform</small></button>
 
         <div class="cmdk-group-title">Quick Actions</div>
-        <button type="button" class="cmdk-item" data-action="view-education"><span class="cmdk-icon">✦</span> Education Profile
+        <button type="button" class="cmdk-item" data-action="view-education"><span class="cmdk-icon">✦</span> Education
+          Profile
           <small>Paragon.U CS &amp; Bonamary.U Business Admin</small></button>
         <button type="button" class="cmdk-item" data-action="view-resume"><span class="cmdk-icon">CV</span> View Resume
           / CV <small>Experience, skills &amp; summary</small></button>
@@ -1346,7 +1513,8 @@
           Theme <small>Dark / Light mode</small></button>
         <button type="button" class="cmdk-item" data-action="github"><span class="cmdk-icon">⌘</span> GitHub Profile
           <small>github.com/gouvkimsea</small></button>
-        <button type="button" class="cmdk-item" data-action="linkedin"><span class="cmdk-icon">in</span> LinkedIn Profile
+        <button type="button" class="cmdk-item" data-action="linkedin"><span class="cmdk-icon">in</span> LinkedIn
+          Profile
           <small>linkedin.com/in/gouvkimsea</small></button>
       </div>
     </div>
