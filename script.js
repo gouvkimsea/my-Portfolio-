@@ -82,6 +82,38 @@ navLinksContainer?.addEventListener("mouseleave", () => {
 window.addEventListener("resize", () => updateNavIndicator(activeLink, false));
 window.addEventListener("load", () => setTimeout(() => updateNavIndicator(activeLink, false), 200));
 
+// Section Scrollspy for Center Pill Active State
+const sectionIds = ["about", "skills", "projects", "journey", "achievements"];
+const observedSections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+
+const updateScrollspy = () => {
+  if (window.scrollY < 120) {
+    navLinks.forEach(l => l.classList.remove("active"));
+    activeLink = null;
+    navLinksContainer?.removeAttribute("data-ind");
+    return;
+  }
+  const scrollPos = window.scrollY + 200;
+  let currentSection = null;
+  for (const sec of observedSections) {
+    if (sec.offsetTop <= scrollPos && sec.offsetTop + sec.offsetHeight > scrollPos) {
+      currentSection = sec.id;
+      break;
+    }
+  }
+  if (currentSection) {
+    const targetLink = $(`.nav-link[href="#${currentSection}"]`, navLinksContainer);
+    if (targetLink && targetLink !== activeLink) {
+      navLinks.forEach(l => l.classList.remove("active"));
+      targetLink.classList.add("active");
+      activeLink = targetLink;
+      updateNavIndicator(activeLink, false);
+    }
+  }
+};
+
+window.addEventListener("scroll", updateScrollspy, { passive: true });
+
 // Mobile Navigation Drawer (Independent Right-Side Drawer)
 const menuToggle = $("#menuToggle");
 const mobileDrawer = $("#mobileDrawer");
