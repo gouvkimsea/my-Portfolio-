@@ -493,12 +493,15 @@ dialog.project-modal {
 .code-tabs {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 4px;
   background: rgba(0, 0, 0, 0.28);
   padding: 3px;
   border-radius: 8px;
   overflow-x: auto;
   scrollbar-width: none;
+  flex: 1;
+  min-width: 0;
 }
 .code-tabs::-webkit-scrollbar {
   display: none;
@@ -2167,7 +2170,6 @@ dialog.project-modal {
     min-height: auto;
     padding-top: 54px;
   }
-}
 
   /* Right-Side Mobile Navigation Drawer (Always Sleek Dark Mode) */
   .mobile-drawer {
