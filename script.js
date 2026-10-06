@@ -451,7 +451,7 @@ magneticElements.forEach(el => {
 const heroVisual = $("#heroVisual");
 const codeCard = $("#heroCodeCard") || $(".code-card");
 const noteTop = null;
-const noteBottom = $("#noteBottom");
+const noteBottom = null;
 
 if (heroVisual && codeCard) {
   heroVisual.addEventListener("pointermove", event => {
