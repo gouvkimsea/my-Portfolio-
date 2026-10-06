@@ -450,7 +450,7 @@ magneticElements.forEach(el => {
 // 3. Hero Code Card 3D Perspective Tilt & Parallax Glare
 const heroVisual = $("#heroVisual");
 const codeCard = $("#heroCodeCard") || $(".code-card");
-const noteTop = $("#noteTop");
+const noteTop = null;
 const noteBottom = $("#noteBottom");
 
 if (heroVisual && codeCard) {
