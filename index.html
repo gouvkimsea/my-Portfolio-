@@ -197,62 +197,84 @@
       <div class="container hero-inner">
         <div class="hero-copy reveal">
           <p class="eyebrow"><span class="eyebrow-line"></span> Hello, I'm Gouv Kimsea</p>
-          <h1>Student developer<br /><span class="type-wrap">&amp; <em class="typewriter"
+          <h1>Student developer<br /><span class="type-wrap">&amp;&nbsp;<em class="typewriter"
                 id="typewriter">builder.</em><span class="type-cursor" aria-hidden="true">_</span></span></h1>
           <p class="hero-text">I’m a university student exploring software development, business, and technology by
             building real projects and learning through experimentation.</p>
           <div class="hero-actions">
-            <a class="button button-primary magnetic" href="#projects">View my work <span>↓</span></a>
+            <a class="button button-primary magnetic" href="#projects">View my work <span class="hero-btn-arrow">↓</span></a>
             <button class="button button-secondary magnetic" id="resumeHeroBtn" type="button"
-              aria-haspopup="dialog">Resume / CV <span></span></button>
-            <a class="text-link magnetic" href="#contact">Contact me <span>↗</span></a>
+              aria-haspopup="dialog">Resume / CV <span class="hero-btn-icon">↗</span></button>
+            <a class="text-link magnetic" href="#contact">Contact me <span class="hero-link-arrow">↗</span></a>
           </div>
           <div class="scroll-cue"><span class="scroll-line"></span> Scroll to explore</div>
         </div>
         <div class="hero-visual reveal" id="heroVisual" aria-label="Interactive developer workspace illustration">
           <div class="visual-orbit orbit-one"></div>
           <div class="visual-orbit orbit-two"></div>
-          <div class="code-card spotlight-card">
+          <div class="code-card spotlight-card" id="heroCodeCard">
             <div class="window-bar">
-              <span class="wb-dot wb-red"></span><span class="wb-dot wb-yellow"></span><span
-                class="wb-dot wb-green"></span>
-              <small>developer.ts</small>
-              <button class="code-run-btn" id="runCodeBtn" type="button" title="Run code snippet"><span>▶</span>
-                Run</button>
+              <div class="wb-dots">
+                <span class="wb-dot wb-red" title="Close"></span>
+                <span class="wb-dot wb-yellow" title="Minimize"></span>
+                <span class="wb-dot wb-green" title="Expand"></span>
+              </div>
+              <div class="code-tabs" role="tablist" aria-label="Code files">
+                <button class="code-tab active" data-tab="profile" role="tab" aria-selected="true" type="button"><span class="tab-badge badge-ts">TS</span><span class="tab-label-full">developer.ts</span><span class="tab-label-short">dev.ts</span></button>
+                <button class="code-tab" data-tab="stack" role="tab" aria-selected="false" type="button"><span class="tab-badge badge-json">{}</span><span class="tab-label-full">skills.json</span><span class="tab-label-short">skills</span></button>
+                <button class="code-tab" data-tab="status" role="tab" aria-selected="false" type="button"><span class="tab-badge badge-sh">&gt;_</span><span class="tab-label-full">status.sh</span><span class="tab-label-short">status</span></button>
+              </div>
+              <button class="code-run-btn" id="runCodeBtn" type="button" title="Execute script"><span class="run-icon">▶</span> <span class="run-label">Run</span></button>
             </div>
             <div class="code-body">
-              <div class="code-line"><span class="ln">1</span>
-                <p><i>const</i> <b>developer</b> = {</p>
+              <!-- Tab 1: developer.ts -->
+              <div class="tab-pane active" id="pane-profile" role="tabpanel">
+                <div class="code-line"><span class="ln">1</span><p><i>const</i> <b>developer</b>: <i>Developer</i> = {</p></div>
+                <div class="code-line"><span class="ln">2</span><p class="indent"><label>name:</label> <strong>'Gouv Kimsea'</strong>,</p></div>
+                <div class="code-line"><span class="ln">3</span><p class="indent"><label>location:</label> <strong>'Phnom Penh, KH'</strong>,</p></div>
+                <div class="code-line"><span class="ln">4</span><p class="indent"><label>degree:</label> <strong class="lime">'CS &amp; Business Admin'</strong>,</p></div>
+                <div class="code-line"><span class="ln">5</span><p class="indent"><label>focus:</label> <strong class="orange">'Web, 3D &amp; Products'</strong>,</p></div>
+                <div class="code-line"><span class="ln">6</span><p class="indent"><label>available:</label> <strong class="cyan">true</strong></p></div>
+                <div class="code-line"><span class="ln">7</span><p>};</p></div>
               </div>
-              <div class="code-line"><span class="ln">2</span>
-                <p class="indent"><label>name:</label> <strong>'Gouv Kimsea'</strong>,</p>
+              <!-- Tab 2: skills.json -->
+              <div class="tab-pane" id="pane-stack" role="tabpanel">
+                <div class="code-line"><span class="ln">1</span><p>{</p></div>
+                <div class="code-line"><span class="ln">2</span><p class="indent"><label>"core":</label> <strong>["TypeScript", "JS", "C++"]</strong>,</p></div>
+                <div class="code-line"><span class="ln">3</span><p class="indent"><label>"creative":</label> <strong class="lime">["Three.js", "WebGL", "Blender"]</strong>,</p></div>
+                <div class="code-line"><span class="ln">4</span><p class="indent"><label>"frameworks":</label> <strong class="orange">["Next.js", "React", "Node"]</strong>,</p></div>
+                <div class="code-line"><span class="ln">5</span><p class="indent"><label>"passion":</label> <strong class="cyan">"Crafting seamless UI"</strong></p></div>
+                <div class="code-line"><span class="ln">6</span><p>}</p></div>
               </div>
-              <div class="code-line"><span class="ln">3</span>
-                <p class="indent"><label>location:</label> <strong>'Phnom Penh, KH'</strong>,</p>
-              </div>
-              <div class="code-line"><span class="ln">4</span>
-                <p class="indent"><label>degree:</label> <strong class="lime">'CS &amp; Business Admin'</strong>,</p>
-              </div>
-              <div class="code-line"><span class="ln">5</span>
-                <p class="indent"><label>focus:</label> <strong class="orange">'Web, 3D &amp; Products'</strong></p>
-              </div>
-              <div class="code-line"><span class="ln">6</span>
-                <p>};</p>
-              </div>
-              <div class="code-line"><span class="ln">7</span>
-                <p class="code-comment">// click ▶ Run to execute <span class="blink">_</span></p>
+              <!-- Tab 3: status.sh -->
+              <div class="tab-pane" id="pane-status" role="tabpanel">
+                <div class="code-line"><span class="ln">1</span><p class="code-cmd"><span class="cmd-prompt">$</span> pnpm dev --turbo</p></div>
+                <div class="code-line"><span class="ln">2</span><p class="code-log"><span class="log-ok">✓</span> Paragon.U (CS) + Bonamary.U (BBA)</p></div>
+                <div class="code-line"><span class="ln">3</span><p class="code-log"><span class="log-ok">✓</span> 30+ interactive experiences deployed</p></div>
+                <div class="code-line"><span class="ln">4</span><p class="code-log"><span class="log-ok">✓</span> MiniWorld 3D experiment online</p></div>
+                <div class="code-line"><span class="ln">5</span><p class="code-log log-highlight"><span class="log-arrow">➜</span> ready for collaborative engineering</p></div>
               </div>
             </div>
             <div class="code-console" id="codeConsole" aria-live="polite">
-              <span class="console-prefix">&gt;</span> <span class="console-text" id="consoleText">ready to execute</span>
+              <div class="console-left">
+                <span class="console-prefix">&gt;</span>
+                <span class="console-text" id="consoleText">ready to execute · click ▶ Run</span>
+              </div>
+              <button class="console-reset-btn" id="consoleResetBtn" type="button" title="Reset output">reset</button>
             </div>
           </div>
-          <div class="float-note note-top"><span>01</span><b>build</b><small>learn by doing</small></div>
-          <div class="float-note note-bottom"><span class="status-dot"></span><b>currently</b><small>exploring
-              ideas</small></div>
+          <div class="float-note note-top" id="noteTop">
+            <span class="fn-tag">01</span>
+            <b>build</b>
+            <small>learn by doing</small>
+          </div>
+          <div class="float-note note-bottom" id="noteBottom">
+            <span class="status-pulse-dot"><span class="status-dot"></span></span>
+            <b>currently</b>
+            <small>exploring ideas</small>
+          </div>
         </div>
       </div>
-
     </section>
 
     <section class="section about-section" id="about">

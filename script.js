@@ -295,7 +295,7 @@ cmdKResults?.addEventListener("click", e => {
 // ==========================================================================
 const typewriterEl = $("#typewriter");
 if (typewriterEl) {
-  const words = ["builder.", "software explorer.", "creative engineer.", "problem solver."];
+  const words = ["builder.", "software explorer.", "WebGL & 3D creator.", "creative engineer.", "problem solver."];
   let wordIdx = 0;
   let charIdx = words[0].length;
   let isDeleting = true;
@@ -305,26 +305,26 @@ if (typewriterEl) {
     const currentWord = words[wordIdx];
     if (isDeleting) {
       charIdx--;
-      typeSpeed = 45;
+      typeSpeed = 40;
     } else {
       charIdx++;
-      typeSpeed = 85;
+      typeSpeed = 80;
     }
 
     typewriterEl.textContent = currentWord.substring(0, charIdx);
 
     if (!isDeleting && charIdx === currentWord.length) {
-      typeSpeed = 2400; // Pause on complete word
+      typeSpeed = 2200; // Pause on complete word
       isDeleting = true;
     } else if (isDeleting && charIdx === 0) {
       isDeleting = false;
       wordIdx = (wordIdx + 1) % words.length;
-      typeSpeed = 400; // Pause before typing next word
+      typeSpeed = 450; // Pause before typing next word
     }
 
     setTimeout(typeLoop, typeSpeed);
   };
-  setTimeout(typeLoop, 2200);
+  setTimeout(typeLoop, 3500);
 }
 
 // Scroll spy & reveal animations
@@ -417,45 +417,147 @@ magneticElements.forEach(el => {
   });
 });
 
-// 3. Hero Code Card 3D Perspective Tilt & Dynamic Glare
+// 3. Hero Code Card 3D Perspective Tilt & Parallax Glare
 const heroVisual = $("#heroVisual");
-const codeCard = $(".code-card");
+const codeCard = $("#heroCodeCard") || $(".code-card");
+const noteTop = $("#noteTop");
+const noteBottom = $("#noteBottom");
+
 if (heroVisual && codeCard) {
   heroVisual.addEventListener("pointermove", event => {
     const rect = heroVisual.getBoundingClientRect();
     const x = (event.clientX - rect.left) / rect.width - 0.5;
     const y = (event.clientY - rect.top) / rect.height - 0.5;
-    const rotateX = -y * 18;
-    const rotateY = x * 22;
-    codeCard.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateZ(10px)`;
+    const rotateX = -y * 16;
+    const rotateY = x * 20;
+
+    codeCard.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateZ(8px)`;
     codeCard.style.setProperty("--glare-x", `${((x + 0.5) * 100).toFixed(1)}%`);
     codeCard.style.setProperty("--glare-y", `${((y + 0.5) * 100).toFixed(1)}%`);
+
+    // Parallax spatial depth on floating badges
+    if (noteTop) {
+      const pX = -x * 20;
+      const pY = -y * 16;
+      noteTop.style.transform = `translate3d(${pX.toFixed(1)}px, ${pY.toFixed(1)}px, 32px)`;
+    }
+    if (noteBottom) {
+      const pX = x * 18;
+      const pY = y * 14;
+      noteBottom.style.transform = `translate3d(${pX.toFixed(1)}px, ${pY.toFixed(1)}px, 32px)`;
+    }
   }, { passive: true });
+
   heroVisual.addEventListener("pointerleave", () => {
     codeCard.style.transform = "perspective(1000px) rotate(3deg)";
+    if (noteTop) noteTop.style.transform = "";
+    if (noteBottom) noteBottom.style.transform = "";
   });
 }
 
-// 4. Code Card Live IDE Execution Simulation
+// 4. Interactive IDE Code Tabs & Execution Simulation
+const codeTabs = $$(".code-tab");
+const tabPanes = {
+  profile: $("#pane-profile"),
+  stack: $("#pane-stack"),
+  status: $("#pane-status")
+};
+let activeTabId = "profile";
+
+codeTabs.forEach(tab => {
+  tab.addEventListener("click", () => {
+    const target = tab.dataset.tab;
+    if (!target || target === activeTabId) return;
+
+    codeTabs.forEach(t => {
+      const isActive = t === tab;
+      t.classList.toggle("active", isActive);
+      t.setAttribute("aria-selected", isActive ? "true" : "false");
+    });
+
+    Object.entries(tabPanes).forEach(([id, pane]) => {
+      if (pane) pane.classList.toggle("active", id === target);
+    });
+
+    activeTabId = target;
+
+    // Context-sensitive console prompt
+    const codeConsole = $("#codeConsole");
+    const consoleText = $("#consoleText");
+    if (codeConsole && !codeConsole.classList.contains("running")) {
+      codeConsole.classList.remove("active");
+      if (consoleText) {
+        const prompts = {
+          profile: "ready to execute · click ▶ Run",
+          stack: "skills.json loaded · click ▶ Run to test",
+          status: "status.sh ready · click ▶ Run to run check"
+        };
+        consoleText.textContent = prompts[target] || "ready to execute · click ▶ Run";
+      }
+    }
+  });
+});
+
 const runCodeBtn = $("#runCodeBtn");
 const codeConsole = $("#codeConsole");
 const consoleText = $("#consoleText");
+const consoleResetBtn = $("#consoleResetBtn");
+
+let isRunningCode = false;
 
 runCodeBtn?.addEventListener("click", () => {
-  runCodeBtn.style.pointerEvents = "none";
-  runCodeBtn.innerHTML = "<span>↻</span> Running...";
-  codeConsole?.classList.add("active");
-  if (consoleText) consoleText.textContent = "evaluating developer.ts...";
+  if (isRunningCode) return;
+  isRunningCode = true;
+
+  runCodeBtn.classList.remove("executed");
+  runCodeBtn.classList.add("running");
+  runCodeBtn.innerHTML = '<span class="run-icon">↻</span> <span class="run-label">Running...</span>';
+
+  codeConsole?.classList.remove("active");
+  codeConsole?.classList.add("running");
+
+  const runPayloads = {
+    profile: [
+      "evaluating developer.ts...",
+      "<b>Gouv Kimsea</b> · CS @ Paragon.U &amp; BBA @ Bonamary.U · Phnom Penh 🇰🇭"
+    ],
+    stack: [
+      "compiling tech-stack dependencies...",
+      "<b>Stack Loaded:</b> TypeScript · Three.js · React · Node · Blender (ready)"
+    ],
+    status: [
+      "running status.sh environment checks...",
+      "<b>Status: 100% OK</b> · 30+ components active · 0 errors · ready to build"
+    ]
+  };
+
+  const [evalMsg, resultMsg] = runPayloads[activeTabId] || runPayloads.profile;
+  if (consoleText) consoleText.textContent = evalMsg;
 
   setTimeout(() => {
-    runCodeBtn.style.pointerEvents = "";
-    runCodeBtn.innerHTML = "<span>✓</span> Executed";
-    if (consoleText) consoleText.innerHTML = "<b>Gouv Kimsea</b> · Student Developer · Paragon.U CS &amp; Bonamary.U BBA";
+    runCodeBtn.classList.remove("running");
+    runCodeBtn.classList.add("executed");
+    runCodeBtn.innerHTML = '<span class="run-icon">✓</span> <span class="run-label">Built</span>';
+
+    codeConsole?.classList.remove("running");
+    codeConsole?.classList.add("active");
+    if (consoleText) consoleText.innerHTML = resultMsg;
+
     setTimeout(() => {
-      runCodeBtn.innerHTML = "<span>▶</span> Run";
-      codeConsole?.classList.remove("active");
-    }, 4500);
-  }, 500);
+      runCodeBtn.classList.remove("executed");
+      runCodeBtn.innerHTML = '<span class="run-icon">▶</span> <span class="run-label">Run</span>';
+      isRunningCode = false;
+    }, 4200);
+  }, 450);
+});
+
+consoleResetBtn?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  codeConsole?.classList.remove("active", "running");
+  runCodeBtn?.classList.remove("running", "executed");
+  if (runCodeBtn) runCodeBtn.innerHTML = '<span class="run-icon">▶</span> <span class="run-label">Run</span>';
+  if (consoleText) consoleText.textContent = "ready to execute · click ▶ Run";
+  isRunningCode = false;
 });
 
 // 5. Spotlight Card Effect (Linear / Vercel cursor border glow)
