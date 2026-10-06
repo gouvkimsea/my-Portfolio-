@@ -1676,7 +1676,7 @@ dialog.project-modal {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   border-bottom: none !important;
-  padding: 22px 24px 16px;
+  padding: 0 24px 10px;
   transition: padding 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: none;
   display: flex;
@@ -1686,7 +1686,7 @@ dialog.project-modal {
 }
 
 .site-header.scrolled {
-  padding: 12px 24px 10px;
+  padding: 0 24px 8px;
   border-bottom: none !important;
 }
 
@@ -1721,16 +1721,16 @@ dialog.project-modal {
   box-shadow: 0 6px 24px -3px rgba(15, 23, 42, 0.08), inset 0 1px 1px #ffffff !important;
 }
 
-/* Hero Section: Harmonious gap below floating navbar */
+/* Hero Section: Snug spacing below navbar */
 .hero {
   min-height: 700px;
-  padding-top: 100px;
+  padding-top: 64px;
 }
 
 @media (max-width: 900px) {
   .hero {
     min-height: auto;
-    padding-top: 80px;
+    padding-top: 54px;
   }
 }
 
@@ -2396,7 +2396,7 @@ dialog.cmdk-modal::backdrop {
 /* Theme Toggle Button (Fixed Clean Button in Viewport Corner) */
 .theme-toggle {
   position: fixed;
-  top: 22px;
+  top: 8px;
   right: 28px;
   z-index: 1001;
   width: 42px;
@@ -2487,7 +2487,7 @@ dialog.cmdk-modal::backdrop {
 /* Mobile Navbar (<= 768px) */
 @media (max-width: 768px) {
   .site-header {
-    padding: 12px 16px;
+    padding: 0 16px 8px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2496,7 +2496,7 @@ dialog.cmdk-modal::backdrop {
   }
 
   .site-header.scrolled {
-    padding: 8px 16px;
+    padding: 0 16px 6px;
   }
 
   /* Desktop links, status availability, cmdk hidden on mobile */
@@ -2650,7 +2650,7 @@ dialog.cmdk-modal::backdrop {
 /* Narrow Mobile Screens (<= 420px): Keep everything comfortably fit with zero overflow */
 @media (max-width: 420px) {
   .site-header {
-    padding: 10px 10px;
+    padding: 0 8px 6px;
   }
 
   .nav {
