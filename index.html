@@ -82,7 +82,10 @@
           "HTML5",
           "CSS3",
           "Software Engineering",
-          "Product Economics"
+          "Product Economics",
+          "PHP",
+          "Tailwind CSS",
+          "MySQL"
         ]
       },
       {
@@ -150,10 +153,10 @@
     </div>
     <nav class="mobile-drawer-links">
       <a class="mobile-drawer-link" href="#about"><span>About</span> <i aria-hidden="true">↗</i></a>
-      <a class="mobile-drawer-link" href="#achievements"><span>Achievements</span> <i aria-hidden="true">↗</i></a>
       <a class="mobile-drawer-link" href="#skills"><span>Skills</span> <i aria-hidden="true">↗</i></a>
       <a class="mobile-drawer-link" href="#projects"><span>Projects</span> <i aria-hidden="true">↗</i></a>
       <a class="mobile-drawer-link" href="#journey"><span>Business</span> <i aria-hidden="true">↗</i></a>
+      <a class="mobile-drawer-link" href="#achievements"><span>Achievements</span> <i aria-hidden="true">↗</i></a>
       <a class="mobile-drawer-link mobile-drawer-contact" href="#contact"><span>Contact</span> <i
           aria-hidden="true">↗</i></a>
     </nav>
@@ -180,10 +183,10 @@
       <div class="nav-links" id="mainMenu">
         <span class="nav-indicator" aria-hidden="true"></span>
         <a class="nav-link" href="#about">About</a>
-        <a class="nav-link" href="#achievements">Achievements</a>
         <a class="nav-link" href="#skills">Skills</a>
         <a class="nav-link" href="#projects">Projects</a>
         <a class="nav-link" href="#journey">Business</a>
+        <a class="nav-link" href="#achievements">Achievements</a>
       </div>
       <div class="nav-right">
         <button class="theme-toggle magnetic" id="themeToggle" aria-label="Toggle dark or light theme"
@@ -369,7 +372,7 @@
                 <span class="edu-beacon"></span>
                 <span>DUAL DEGREE</span>
               </div>
-              <span class="edu-grad-year">Expected 2026</span>
+              <span class="edu-grad-year">Expected 2028</span>
             </div>
 
             <div class="edu-card-intro">
@@ -401,18 +404,7 @@
                   </div>
                 </div>
               </div>
-
-              <div class="edu-dual-bridge" aria-hidden="true">
-                <div class="edu-bridge-line">
-                  <span class="edu-bridge-core"></span>
-                  <span class="edu-bridge-pulse"></span>
-                </div>
-                <div class="edu-bridge-badge">
-                  <span class="edu-bridge-icon">✦</span>
-                  <span>PARALLEL ENROLLMENT</span>
-                </div>
-              </div>
-
+              <br>
               <div class="edu-track-card biz-track">
                 <div class="edu-track-badge" aria-hidden="true">
                   <svg class="edu-track-svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
@@ -438,43 +430,23 @@
                 </div>
               </div>
             </div>
-
-            <div class="edu-card-footer">
-              <div class="edu-synergy-callout">
-                <span class="synergy-sparkle">✦</span>
-                <span class="synergy-copy"><strong>Dual Engine:</strong> Rigor meets market insight</span>
-              </div>
-              <button class="edu-view-btn resume-view-btn magnetic" id="eduDetailsBtn" type="button"
-                title="View comprehensive academic coursework in resume modal">
-                <span>Coursework</span>
-                <span class="btn-arrow">↗</span>
-              </button>
-            </div>
           </article>
-
           <article class="bento-card bento-focus reveal spotlight-card">
-            <div class="bento-header">
-              <span class="bento-icon">◈</span>
-              <span class="bento-badge">FOCUS &amp; AVAILABILITY</span>
-            </div>
             <h3>Building with purpose and curiosity.</h3>
             <div class="bento-focus-items">
               <div class="focus-item">
-                <span class="focus-dot"></span>
                 <div>
                   <strong>Location</strong>
                   <p>Phnom Penh, Cambodia</p>
                 </div>
               </div>
               <div class="focus-item">
-                <span class="focus-dot"></span>
                 <div>
                   <strong>Active Exploration</strong>
                   <p>Client-side 3D graphics, security heuristics &amp; scalable web systems</p>
                 </div>
               </div>
               <div class="focus-item">
-                <span class="focus-dot"></span>
                 <div>
                   <strong>Availability</strong>
                   <p>Open for 2026 internships, junior engineering roles, and team collaborations</p>
@@ -493,6 +465,42 @@
             <p class="quote-body">Progress looks like curiosity, consistency, and shipping the next version.</p>
             <div class="quote-author">GK Personal Rulebook</div>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section terminal-section" id="terminal-section">
+      <div class="container">
+        <div class="terminal-wrap reveal">
+          <div class="terminal-heading"><span class="eyebrow">A little peek
+              inside</span><span>interactive-terminal</span></div>
+          <div class="terminal spotlight-card" id="terminal">
+            <div class="terminal-bar">
+              <span class="wb-dot wb-red"></span><span class="wb-dot wb-yellow"></span><span
+                class="wb-dot wb-green"></span>
+              <span class="terminal-title">gouv@macbook:~</span>
+            </div>
+            <div class="terminal-output" id="terminalOutput">
+              <p>Welcome. Type <b>help</b> to see what I can do.</p>
+            </div>
+            <form class="terminal-form" id="terminalForm">
+              <label for="terminalInput">$</label>
+              <input id="terminalInput" autocomplete="off" spellcheck="false" aria-label="Terminal command"
+                placeholder="try 'about', 'skills', or 'projects'" />
+            </form>
+            <div class="terminal-hint-bar" aria-label="Quick terminal commands">
+              <span>Quick commands:</span>
+              <button type="button" class="terminal-chip" data-cmd="about">about</button>
+              <button type="button" class="terminal-chip" data-cmd="education">education</button>
+              <button type="button" class="terminal-chip" data-cmd="skills">skills</button>
+              <button type="button" class="terminal-chip" data-cmd="projects">projects</button>
+              <button type="button" class="terminal-chip" data-cmd="achievements">milestones</button>
+              <button type="button" class="terminal-chip" data-cmd="resume">resume</button>
+              <button type="button" class="terminal-chip" data-cmd="contact">contact</button>
+              <button type="button" class="terminal-chip" data-cmd="theme">theme</button>
+              <button type="button" class="terminal-chip" data-cmd="clear">clear</button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -611,6 +619,8 @@
                 <div class="project-tags"><span>AI</span><span>Web</span><span>Security</span></div>
               </div>
               <div class="project-card-actions">
+                <button class="launch-btn magnetic pinit-demo-btn" id="openPinitScannerBtn" type="button"
+                  title="Test Pinit Interactive AI Threat Scanner">Try Scanner <span>⚡</span></button>
                 <a class="launch-btn magnetic" href="https://github.com/gouvkimsea/PinitAI" target="_blank"
                   rel="noreferrer" title="View PinitAI repository">Repo <span>↗</span></a>
                 <button class="round-arrow project-open" aria-label="Open Pinit details">↗</button>
@@ -716,7 +726,7 @@
               <div class="timeline-meta"><small>Now · 2026</small><span class="timeline-status-badge live">● Current
                   Focus</span></div>
               <h3>Shipping in public</h3>
-              <p>Engineering real-world applications (PinitAI, Mini World 3D, DevPulse) and learning through
+              <p>Engineering real-world applications (PinitAI, Joul service) and learning through
                 high-iteration building.</p>
               <div class="timeline-tags"><span>PinitAI</span><span>Mini World 3D</span><span>DevPulse</span></div>
             </div>
@@ -1029,41 +1039,6 @@
       </div>
     </section>
 
-    <section class="section terminal-section">
-      <div class="container">
-        <div class="terminal-wrap reveal">
-          <div class="terminal-heading"><span class="eyebrow">A little peek
-              inside</span><span>interactive-terminal</span></div>
-          <div class="terminal spotlight-card" id="terminal">
-            <div class="terminal-bar">
-              <span class="wb-dot wb-red"></span><span class="wb-dot wb-yellow"></span><span
-                class="wb-dot wb-green"></span>
-              <span class="terminal-title">zsh — gouv@macbook:~</span>
-            </div>
-            <div class="terminal-output" id="terminalOutput">
-              <p>Welcome. Type <b>help</b> to see what I can do.</p>
-            </div>
-            <form class="terminal-form" id="terminalForm">
-              <label for="terminalInput">$</label>
-              <input id="terminalInput" autocomplete="off" spellcheck="false" aria-label="Terminal command"
-                placeholder="try 'about', 'skills', or 'projects'" />
-            </form>
-            <div class="terminal-hint-bar" aria-label="Quick terminal commands">
-              <span>Quick commands:</span>
-              <button type="button" class="terminal-chip" data-cmd="about">about</button>
-              <button type="button" class="terminal-chip" data-cmd="education">education</button>
-              <button type="button" class="terminal-chip" data-cmd="skills">skills</button>
-              <button type="button" class="terminal-chip" data-cmd="projects">projects</button>
-              <button type="button" class="terminal-chip" data-cmd="achievements">milestones</button>
-              <button type="button" class="terminal-chip" data-cmd="resume">resume</button>
-              <button type="button" class="terminal-chip" data-cmd="contact">contact</button>
-              <button type="button" class="terminal-chip" data-cmd="theme">theme</button>
-              <button type="button" class="terminal-chip" data-cmd="clear">clear</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <section class="section contact-section work-section" id="contact">
       <!-- Topographic Elevation Contour Map Background -->
@@ -1132,7 +1107,8 @@
             <div class="hud-contact-list" role="list">
               <!-- EMAIL Item -->
               <div class="hud-item-wrapper" role="listitem">
-                <a class="hud-contact-item" href="gouvkimsea@gmail.com" title="Direct Email: gouvkimsea@gmail.com">
+                <a class="hud-contact-item" href="mailto:gouvkimsea@gmail.com"
+                  title="Direct Email: gouvkimsea@gmail.com">
                   <span class="hud-corner hud-corner-tl" aria-hidden="true"></span>
                   <span class="hud-corner hud-corner-tr" aria-hidden="true"></span>
                   <span class="hud-corner hud-corner-bl" aria-hidden="true"></span>
@@ -1161,7 +1137,7 @@
 
               <!-- LINKEDIN Item -->
               <div class="hud-item-wrapper" role="listitem">
-                <a class="hud-contact-item" href="www.linkedin.com/in/gouv-kimsea-16795143a" target="_blank"
+                <a class="hud-contact-item" href="https://www.linkedin.com/in/gouv-kimsea-16795143a" target="_blank"
                   rel="noreferrer" title="LinkedIn: linkedin.com/in/gouvkimsea">
                   <span class="hud-corner hud-corner-tl" aria-hidden="true"></span>
                   <span class="hud-corner hud-corner-tr" aria-hidden="true"></span>
@@ -1204,7 +1180,7 @@
                   class="wb-dot wb-green"></span>
                 <small>new-message.eml</small>
               </div>
-              <div class="contact-topic-group">
+              <div class="contact-topic-group" style="color: white;">
                 <label class="topic-label">Conversation Topic</label>
                 <div class="contact-topics" id="contactTopics" role="group" aria-label="Select conversation topic">
                   <button type="button" class="topic-chip active" data-topic="General">Say Hello</button>
@@ -1213,13 +1189,14 @@
                   <button type="button" class="topic-chip" data-topic="Project">Project Idea</button>
                 </div>
               </div>
-              <div class="form-row"><label for="name">Your name</label><input id="name" name="name" required
-                  placeholder="Jane Doe" /><span class="error-message"></span></div>
-              <div class="form-row"><label for="email">Email address</label><input id="email" name="email" type="email"
-                  required placeholder="you@example.com" /><span class="error-message"></span></div>
-              <div class="form-row"><label for="message">What’s on your mind?</label><textarea id="message"
-                  name="message" rows="4" required minlength="2"
-                  placeholder="Tell me a little about your project or note..."></textarea>
+              <div class="form-row" style="color: white;"><label for="name">Your name</label><input id="name"
+                  name="name" required placeholder="Your name" /><span class="error-message"></span></div>
+              <div class="form-row" style="color: white;"><label for="email">Email address</label><input id="email"
+                  name="email" type="email" required placeholder="you@example.com" /><span class="error-message"></span>
+              </div>
+              <div class="form-row" style="color: white;"><label for="message">What’s on your mind?</label><textarea
+                  id="message" name="message" rows="4" required minlength="2"
+                  placeholder="Tell me a little about your project or note..." style="color: white;"></textarea>
                 <div class="form-row-meta">
                   <span class="char-count" id="charCount">0</span>
                   <span class="error-message"></span>
@@ -1228,7 +1205,7 @@
               <button class="button button-primary magnetic" id="submitBtn" type="submit">Send note
                 <span>↗</span></button>
               <p class="form-status" role="status"></p>
-              <small class="form-note">Validated client-side. Ready to connect to any backend service.</small>
+
             </form>
           </div>
         </div>
@@ -1245,6 +1222,10 @@
             target="_blank" rel="noreferrer">Open Source on GitHub ↗</a></span>
       </div>
       <div class="footer-links">
+        <button class="footer-cmd-btn magnetic" id="footerCmdKBtn" type="button" aria-label="Open command palette"
+          title="Search commands (⌘K or Ctrl+K)">
+          <span class="cmd-kbd">⌘K</span> Palette
+        </button>
         <a href="#home">Back to top ↑</a>
       </div>
     </div>
@@ -1266,6 +1247,93 @@
           <p id="modalLearned"></p>
         </div>
       </div>
+
+      <!-- Interactive Pinit Threat Heuristics Sandbox (Active for Pinit) -->
+      <div class="pinit-sandbox" id="pinitSandbox" hidden>
+        <div class="pinit-sandbox-header">
+          <div class="pinit-sandbox-badge">
+            <span class="pinit-live-pulse" aria-hidden="true"></span>
+            <span>PINIT HEURISTIC RADAR</span>
+          </div>
+          <span class="pinit-latency-stat">Engine: v2.4 · 24ms Client Telemetry</span>
+        </div>
+
+        <p class="pinit-sandbox-desc">
+          Test any URL or message against Pinit's multi-layered heuristic safety algorithms. Analyzes protocol integrity, lookalike brand spoofing, TLD abuse tiers, and credential-harvesting urgency tokens.
+        </p>
+
+        <!-- Interactive Input Bar -->
+        <div class="pinit-scanner-bar">
+          <div class="pinit-input-wrap">
+            <span class="pinit-protocol-badge" id="pinitProtocolBadge" title="Protocol Status">URL</span>
+            <input type="text" id="pinitInput" class="pinit-input"
+              placeholder="Paste any URL or message to scan..."
+              value="http://secure-login-chase-update.info/verify?otp=4920"
+              spellcheck="false" autocomplete="off" aria-label="URL or message to scan with Pinit" />
+            <button type="button" class="pinit-clear-btn" id="pinitClearBtn" title="Clear input" aria-label="Clear input">×</button>
+          </div>
+          <button type="button" class="pinit-scan-action-btn" id="pinitScanBtn" aria-label="Analyze with Pinit">
+            <span class="pinit-btn-spin" id="pinitBtnSpin" aria-hidden="true"></span>
+            <span class="pinit-btn-text">Analyze</span>
+            <span class="pinit-btn-arrow" aria-hidden="true">⚡</span>
+          </button>
+        </div>
+
+        <!-- Preset Chips -->
+        <div class="pinit-presets-bar">
+          <span class="pinit-presets-label">Quick Presets:</span>
+          <div class="pinit-preset-chips" role="group" aria-label="Quick test preset scenarios">
+            <button type="button" class="pinit-preset-chip danger active" data-preset="bank">
+              🚨 Bank OTP Phishing
+            </button>
+            <button type="button" class="pinit-preset-chip danger" data-preset="crypto">
+              🚨 Crypto Airdrop Drain
+            </button>
+            <button type="button" class="pinit-preset-chip warn" data-preset="shortener">
+              ⚠️ Masked Redirect
+            </button>
+            <button type="button" class="pinit-preset-chip safe" data-preset="paragon">
+              🛡️ Paragon University
+            </button>
+            <button type="button" class="pinit-preset-chip safe" data-preset="portfolio">
+              🛡️ Gouv Portfolio
+            </button>
+          </div>
+        </div>
+
+        <!-- Analysis Verdict & Radar Card -->
+        <div class="pinit-result-card" id="pinitResultCard" data-status="danger" role="region" aria-live="polite">
+          <div class="pinit-verdict-row">
+            <div class="pinit-verdict-left">
+              <div class="pinit-verdict-radar" aria-hidden="true">
+                <div class="pinit-radar-ring"></div>
+                <div class="pinit-radar-sweep"></div>
+                <div class="pinit-radar-core"></div>
+              </div>
+              <div class="pinit-verdict-text-group">
+                <span class="pinit-verdict-tag" id="pinitVerdictTag">CRITICAL RISK · PHISHING</span>
+                <h4 class="pinit-verdict-title" id="pinitVerdictTitle">Deceptive Origin &amp; Credential Lure</h4>
+              </div>
+            </div>
+            <div class="pinit-score-block">
+              <span class="pinit-score-val" id="pinitScoreVal">94%</span>
+              <span class="pinit-score-lbl" id="pinitScoreLbl">THREAT PROBABILITY</span>
+            </div>
+          </div>
+
+          <!-- Explainability Report Box -->
+          <div class="pinit-explain-box">
+            <span class="pinit-explain-icon" aria-hidden="true">✦</span>
+            <p id="pinitExplainText">Pinit detected multi-tiered risk factors including unencrypted HTTP transport, high-risk TLD registration, and brand impersonation tokens targeting credential harvesting.</p>
+          </div>
+
+          <!-- Heuristic Signals Grid (4 Telemetry Tiles) -->
+          <div class="pinit-signals-grid" id="pinitSignalsGrid">
+            <!-- Dynamically populated signal tiles -->
+          </div>
+        </div>
+      </div>
+
       <div class="modal-tech" id="modalTech"></div>
       <div class="modal-actions" id="modalActions"></div>
     </div>
@@ -1447,7 +1515,7 @@
       <div class="resume-footer">
         <span class="resume-footer-note">Updated for 2026 · Ready to build and learn</span>
         <div class="resume-footer-actions">
-          <a class="modal-btn" href="gouvkimsea@gmail.com">Get in Touch ↗</a>
+          <a class="modal-btn" href="mailto:gouvkimsea@gmail.com">Get in Touch ↗</a>
           <button class="modal-btn secondary" id="resumeFooterClose" type="button">Close</button>
         </div>
       </div>
@@ -1485,6 +1553,8 @@
             class="cmdk-icon">01</span> Mini World <small>3D Planet Simulation &amp; WebGL</small></button>
         <button type="button" class="cmdk-item" data-action="open-project" data-project="pinit"><span
             class="cmdk-icon">02</span> Pinit <small>AI Scam &amp; Threat Detector</small></button>
+        <button type="button" class="cmdk-item" data-action="open-pinit-demo"><span
+            class="cmdk-icon">⚡</span> Try Pinit Scanner <small>Interactive AI phishing simulator</small></button>
         <button type="button" class="cmdk-item" data-action="open-project" data-project="devpulse"><span
             class="cmdk-icon">03</span> DevPulse <small>Real-time Developer Telemetry</small></button>
         <button type="button" class="cmdk-item" data-action="open-project" data-project="portfolio"><span

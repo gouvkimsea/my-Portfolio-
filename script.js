@@ -12,9 +12,6 @@ window.addEventListener("scroll", () => {
   if (scrollProgress) scrollProgress.style.width = `${progress}%`;
 }, { passive: true });
 
-// ==========================================================================
-// Smean.ai Style Animated Navigation Controller
-// ==========================================================================
 const header = $(".site-header");
 const navLinksContainer = $("#mainMenu");
 const navLinks = $$(".nav-link", navLinksContainer);
@@ -36,7 +33,7 @@ if (mainNav) {
   });
 }
 
-// Smean.ai Sliding Magnetic Pill Indicator
+// Sliding Magnetic Pill Indicator
 const updateNavIndicator = targetLink => {
   if (!navLinksContainer || !targetLink) return;
   if (window.innerWidth <= 900) {
@@ -304,6 +301,11 @@ cmdKResults?.addEventListener("click", e => {
   } else if (action === "open-project") {
     const proj = item.getAttribute("data-project");
     if (proj) openModal(proj);
+  } else if (action === "open-pinit-demo") {
+    openModal("pinit");
+    setTimeout(() => {
+      $("#pinitInput")?.focus();
+    }, 180);
   } else if (action === "copy-email") {
     $("#copyEmailBtn")?.click();
   } else if (action === "view-education") {
@@ -325,7 +327,7 @@ cmdKResults?.addEventListener("click", e => {
 // ==========================================================================
 const typewriterEl = $("#typewriter");
 if (typewriterEl) {
-  const words = ["builder.", "software explorer.", "WebGL & 3D creator.", "creative engineer.", "problem solver."];
+  const words = ["builder.", "software explorer.", "web designer.", "creative engineer.", "problem solver."];
   let wordIdx = 0;
   let charIdx = words[0].length;
   let isDeleting = true;
@@ -385,7 +387,7 @@ const revealObserver = new IntersectionObserver(entries => entries.forEach(entry
 }), { threshold: .12 });
 $$(".reveal").forEach(item => revealObserver.observe(item));
 
-// 1. Fluid Custom Cursor with Momentum & Centering
+// 1. Fluid Custom Turtle Cursor & Momentum Ripple Aura
 const dot = $("#cursorDot"), ring = $("#cursorRing");
 let mouseX = -100, mouseY = -100;
 let ringX = -100, ringY = -100;
@@ -401,7 +403,7 @@ if (window.matchMedia("(pointer: fine)").matches) {
       isCursorActive = true;
       document.body.classList.add("cursor-visible");
     }
-    dot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+    if (dot) dot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
   }, { passive: true });
 
   document.addEventListener("mouseleave", () => document.body.classList.remove("cursor-visible"));
@@ -410,7 +412,7 @@ if (window.matchMedia("(pointer: fine)").matches) {
   });
 
   const renderCursor = () => {
-    if (isCursorActive) {
+    if (isCursorActive && ring) {
       ringX += (mouseX - ringX) * 0.18;
       ringY += (mouseY - ringY) * 0.18;
       ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
@@ -422,13 +424,23 @@ if (window.matchMedia("(pointer: fine)").matches) {
   document.addEventListener("pointerdown", () => document.body.classList.add("cursor-press"));
   document.addEventListener("pointerup", () => document.body.classList.remove("cursor-press"));
 
-  const registerHoverListeners = () => {
-    $$("a, button, input, textarea, .project-card, .terminal-chip").forEach(item => {
-      item.addEventListener("mouseenter", () => document.body.classList.add("cursor-hover"));
-      item.addEventListener("mouseleave", () => document.body.classList.remove("cursor-hover"));
-    });
-  };
-  registerHoverListeners();
+  // Dynamic interactive element hover delegation
+  const interactiveSelector = "a, button, input[type='button'], input[type='submit'], summary, select, label, [role='button'], [role='tab'], [role='link'], .magnetic, .nav-link, .project-card, .terminal-chip, .topic-chip, .achieve-filter-btn, .hud-item, .hud-contact-item, .hud-copy-btn, .work-drawer-toggle, .theme-toggle, .menu-toggle, .cmdk-btn, .cmdk-item, .code-tab, .code-run-btn, .console-reset-btn, .chrome-sfx-btn, .resume-action-btn, .resume-modal-close, .mobile-drawer-close, .edu-view-btn, .btn, .button, .clickable, [data-filter], [data-topic]";
+
+  document.addEventListener("pointerover", event => {
+    if (event.target && event.target.closest && event.target.closest(interactiveSelector)) {
+      document.body.classList.add("cursor-hover");
+    }
+  }, { passive: true });
+
+  document.addEventListener("pointerout", event => {
+    if (event.target && event.target.closest && event.target.closest(interactiveSelector)) {
+      const related = event.relatedTarget;
+      if (!related || !related.closest || !related.closest(interactiveSelector)) {
+        document.body.classList.remove("cursor-hover");
+      }
+    }
+  }, { passive: true });
 }
 
 // 2. Magnetic Elements Interaction
@@ -698,6 +710,335 @@ const projectData = {
 const modal = $("#projectModal");
 let previousActiveElement = null;
 
+// ==========================================================================
+// Pinit AI Threat Heuristics Simulator Engine
+// ==========================================================================
+const PINIT_PRESETS = {
+  bank: {
+    url: "http://secure-login-chase-update.info/verify?otp=4920",
+    note: "Simulated phishing attack impersonating banking login over unencrypted HTTP with lookalike tokens."
+  },
+  crypto: {
+    url: "https://claim-eth2026-airdrop.xyz/connect-wallet",
+    note: "Simulated smart contract drain lure using an unverified .xyz registrar and token giveaway keywords."
+  },
+  shortener: {
+    url: "http://bit.ly/urgent-security-reset-902",
+    note: "Masked redirect service obfuscating destination target with panic-inducing security call-to-actions."
+  },
+  paragon: {
+    url: "https://paragoniu.edu.kh",
+    note: "Legitimate educational institution origin with verified SSL certificate and clean namespace."
+  },
+  portfolio: {
+    url: "https://gouvkimsea.github.io/my-Portfolio-/",
+    note: "Official personal platform hosted on verified GitHub Pages infrastructure."
+  }
+};
+
+const analyzePinitTarget = rawInput => {
+  const input = (rawInput || "").trim();
+  if (!input) return null;
+
+  let urlStr = input;
+  if (!/^https?:\/\//i.test(urlStr)) {
+    urlStr = "https://" + urlStr;
+  }
+
+  let parsed;
+  try {
+    parsed = new URL(urlStr);
+  } catch (e) {
+    parsed = {
+      hostname: input.replace(/[\/\?#].*$/, ""),
+      protocol: "https:",
+      pathname: "",
+      search: ""
+    };
+  }
+
+  const hostname = (parsed.hostname || "").toLowerCase();
+  const protocol = (parsed.protocol || "").toLowerCase();
+  const fullUrl = urlStr.toLowerCase();
+
+  const signals = [];
+  let threatScore = 0;
+
+  // 1. Transport Security
+  const isHttps = protocol === "https:";
+  if (!isHttps) {
+    threatScore += 28;
+    signals.push({
+      cat: "Transport Layer",
+      label: "Insecure Protocol (HTTP)",
+      status: "danger",
+      pill: "Insecure HTTP",
+      desc: "Plaintext traffic susceptible to interception. Trustworthy authentication requires HTTPS."
+    });
+  } else {
+    signals.push({
+      cat: "Transport Layer",
+      label: "Encrypted Transport (HTTPS)",
+      status: "safe",
+      pill: "TLS Active",
+      desc: "End-to-end transport layer encryption confirmed via standard HTTPS handshake."
+    });
+  }
+
+  // 2. Direct IP Address Host
+  const isIp = /^(\d{1,3}\.){3}\d{1,3}$/.test(hostname);
+  if (isIp) {
+    threatScore += 45;
+    signals.push({
+      cat: "Domain Host",
+      label: "Direct IP Origin",
+      status: "danger",
+      pill: "Raw IP Host",
+      desc: "Obfuscated infrastructure bypassing domain reputation records."
+    });
+  }
+
+  // 3. Trusted Whitelist Check
+  const trustedOrigins = [
+    "github.com", "github.io", "paragoniu.edu.kh", "google.com",
+    "microsoft.com", "apple.com", "bonamary.edu.kh", "linkedin.com"
+  ];
+  const isTrusted = trustedOrigins.some(t => hostname === t || hostname.endsWith("." + t));
+  if (isTrusted && !hostname.includes("login-") && !hostname.includes("verify-")) {
+    threatScore = Math.max(1, threatScore - 40);
+  }
+
+  // 4. High-risk TLD Registry
+  const highRiskTlds = [".xyz", ".top", ".info", ".click", ".buzz", ".club", ".work", ".link", ".live", ".fit"];
+  const tldMatch = highRiskTlds.find(tld => hostname.endsWith(tld));
+  if (tldMatch) {
+    threatScore += 30;
+    signals.push({
+      cat: "Domain Registry",
+      label: `Elevated-Risk TLD (${tldMatch})`,
+      status: "warn",
+      pill: `${tldMatch} Flagged`,
+      desc: "Registrar namespace frequently associated with bulk throwaway phishing deployments."
+    });
+  } else {
+    signals.push({
+      cat: "Domain Registry",
+      label: "Standard Top-Level Domain",
+      status: "safe",
+      pill: "Standard TLD",
+      desc: "Domain extension conforms to verified operational registry standards."
+    });
+  }
+
+  // 5. Lookalike Brand Impersonation / Homoglyphs
+  const brandList = ["chase", "paypal", "apple", "google", "bank", "crypto", "binance", "metamask", "netflix", "amazon", "discord"];
+  const brandFound = brandList.find(b => hostname.includes(b));
+  if (brandFound && !isTrusted) {
+    threatScore += 36;
+    signals.push({
+      cat: "Identity Spoofing",
+      label: `Brand Target Match ("${brandFound}")`,
+      status: "danger",
+      pill: `Spoof: ${brandFound}`,
+      desc: `Unauthorized origin imitating reputable brand "${brandFound}" to induce false confidence.`
+    });
+  } else {
+    signals.push({
+      cat: "Identity Spoofing",
+      label: "Zero Brand Imitation",
+      status: "safe",
+      pill: "Clean Identity",
+      desc: "No unauthorized trademark or homoglyph impersonation patterns detected."
+    });
+  }
+
+  // 6. Urgency & Credential Harvesting Lure Tokens
+  const urgentWords = ["verify", "login", "otp", "airdrop", "claim", "free", "wallet", "urgent", "suspend", "update", "security", "bonus", "reward"];
+  const matchedWords = urgentWords.filter(w => fullUrl.includes(w));
+  if (matchedWords.length > 0 && !isTrusted) {
+    threatScore += Math.min(32, matchedWords.length * 12);
+    signals.push({
+      cat: "Social Engineering",
+      label: `Urgent Lure Tokens (${matchedWords.slice(0, 3).join(", ")})`,
+      status: "danger",
+      pill: "Urgency Lure",
+      desc: "Lexical triggers specifically structured to rush user into compromising credentials."
+    });
+  } else if (!isTrusted) {
+    signals.push({
+      cat: "Social Engineering",
+      label: "Zero Panic Vector Tokens",
+      status: "safe",
+      pill: "Neutral Intent",
+      desc: "No urgent credential-harvesting keywords or deceptive lures found in query path."
+    });
+  }
+
+  // 7. Subdomain Chaining / Hyphen Density
+  const hyphenCount = (hostname.match(/-/g) || []).length;
+  if (hyphenCount >= 2 && !isTrusted) {
+    threatScore += 18;
+    signals.push({
+      cat: "Lexical Entropy",
+      label: `High Hyphen Chaining (${hyphenCount} Hyphens)`,
+      status: "warn",
+      pill: "High Entropy",
+      desc: "Artificially elongated hostname designed to bypass visual browser URL inspection."
+    });
+  }
+
+  // 8. Shortened Redirect Masking
+  const shorteners = ["bit.ly", "tinyurl.com", "t.co", "is.gd", "cutt.ly"];
+  if (shorteners.some(s => hostname === s || hostname.endsWith("." + s))) {
+    threatScore += 24;
+    signals.push({
+      cat: "Redirect Hop",
+      label: "URL Shortener Masking",
+      status: "warn",
+      pill: "Masked Target",
+      desc: "Destination endpoint is concealed behind an opaque intermediate redirection service."
+    });
+  }
+
+  // Clamp threat score
+  threatScore = Math.min(99, Math.max(1, threatScore));
+
+  let status, verdictTag, verdictTitle, explain;
+  if (threatScore >= 65) {
+    status = "danger";
+    verdictTag = "CRITICAL RISK · PHISHING DETECTED";
+    verdictTitle = "Deceptive Origin & Credential Lure";
+    explain = `Pinit detected multiple severe risk indicators: ${signals.filter(s => s.status === 'danger').map(s => s.label).join(", ") || "elevated heuristic flags"}. Avoid interacting with or submitting data to this origin.`;
+  } else if (threatScore >= 30) {
+    status = "warn";
+    verdictTag = "ELEVATED CAUTION · SUSPICIOUS";
+    verdictTitle = "Non-Standard Origin & Heuristic Anomalies";
+    explain = "Non-standard origin flags detected (e.g. unverified redirect or unusual registry profile). Exercise caution and verify identity before proceeding.";
+  } else {
+    status = "safe";
+    verdictTag = "VERIFIED SAFE · TRUSTED ORIGIN";
+    verdictTitle = "Clean Namespace & Verified Security Profile";
+    explain = "No deceptive lookalikes, urgency triggers, or insecure protocols detected. Structure adheres to standard legitimate web security practices.";
+  }
+
+  return {
+    url: input,
+    threatScore,
+    safetyScore: 100 - threatScore,
+    status,
+    verdictTag,
+    verdictTitle,
+    explain,
+    isHttps,
+    signals: signals.slice(0, 4)
+  };
+};
+
+let pinitInitialized = false;
+
+const runPinitScan = targetUrl => {
+  const result = analyzePinitTarget(targetUrl);
+  if (!result) return;
+
+  const resultCard = $("#pinitResultCard");
+  const scanBtn = $("#pinitScanBtn");
+  const protocolBadge = $("#pinitProtocolBadge");
+  const verdictTag = $("#pinitVerdictTag");
+  const verdictTitle = $("#pinitVerdictTitle");
+  const scoreVal = $("#pinitScoreVal");
+  const scoreLbl = $("#pinitScoreLbl");
+  const explainText = $("#pinitExplainText");
+  const signalsGrid = $("#pinitSignalsGrid");
+
+  if (scanBtn) scanBtn.classList.add("is-scanning");
+
+  setTimeout(() => {
+    if (scanBtn) scanBtn.classList.remove("is-scanning");
+
+    if (protocolBadge) {
+      protocolBadge.textContent = result.isHttps ? "HTTPS" : "HTTP";
+      protocolBadge.style.color = result.isHttps ? "var(--lime)" : "#ff4d4d";
+    }
+
+    if (resultCard) {
+      resultCard.setAttribute("data-status", result.status);
+    }
+
+    if (verdictTag) verdictTag.textContent = result.verdictTag;
+    if (verdictTitle) verdictTitle.textContent = result.verdictTitle;
+
+    if (scoreVal) {
+      scoreVal.textContent = result.status === "safe" ? `${result.safetyScore}%` : `${result.threatScore}%`;
+    }
+    if (scoreLbl) {
+      scoreLbl.textContent = result.status === "safe" ? "SAFETY CONFIDENCE" : "THREAT PROBABILITY";
+    }
+
+    if (explainText) explainText.textContent = result.explain;
+
+    if (signalsGrid) {
+      signalsGrid.innerHTML = result.signals.map(s => `
+        <div class="pinit-signal-tile">
+          <div class="pinit-signal-header">
+            <span class="pinit-signal-cat">${s.cat}</span>
+            <span class="pinit-signal-pill ${s.status}">${s.pill}</span>
+          </div>
+          <div class="pinit-signal-label">${s.label}</div>
+          <div class="pinit-signal-desc">${s.desc}</div>
+        </div>
+      `).join("");
+    }
+  }, 180);
+};
+
+const initPinitScanner = () => {
+  const pinitInput = $("#pinitInput");
+  const pinitScanBtn = $("#pinitScanBtn");
+  const pinitClearBtn = $("#pinitClearBtn");
+  const presetChips = $$(".pinit-preset-chip");
+
+  if (!pinitInitialized) {
+    pinitInitialized = true;
+
+    pinitScanBtn?.addEventListener("click", () => {
+      const val = pinitInput?.value.trim();
+      if (val) runPinitScan(val);
+    });
+
+    pinitInput?.addEventListener("keydown", e => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        const val = pinitInput.value.trim();
+        if (val) runPinitScan(val);
+      }
+    });
+
+    pinitClearBtn?.addEventListener("click", () => {
+      if (pinitInput) {
+        pinitInput.value = "";
+        pinitInput.focus();
+      }
+    });
+
+    presetChips.forEach(chip => {
+      chip.addEventListener("click", () => {
+        presetChips.forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+        const presetKey = chip.getAttribute("data-preset");
+        const preset = PINIT_PRESETS[presetKey];
+        if (preset && pinitInput) {
+          pinitInput.value = preset.url;
+          runPinitScan(preset.url);
+        }
+      });
+    });
+  }
+
+  // Run initial scan on open
+  const currentVal = pinitInput?.value.trim() || PINIT_PRESETS.bank.url;
+  runPinitScan(currentVal);
+};
+
 const openModal = projectKey => {
   const data = projectData[projectKey];
   if (!data) return;
@@ -710,6 +1051,17 @@ const openModal = projectKey => {
   $("#modalActions").innerHTML = data.actions.map(act =>
     `<a class="modal-btn ${act.primary ? '' : 'secondary'}" href="${act.url}" target="_blank" rel="noreferrer">${act.label}</a>`
   ).join("");
+
+  const pinitSandbox = $("#pinitSandbox");
+  if (pinitSandbox) {
+    if (projectKey === "pinit") {
+      pinitSandbox.hidden = false;
+      initPinitScanner();
+    } else {
+      pinitSandbox.hidden = true;
+    }
+  }
+
   modal.showModal();
   $("#modalClose")?.focus();
 };
@@ -727,6 +1079,14 @@ $$(".project-open").forEach(button => button.addEventListener("click", () => {
   const card = button.closest(".project-card");
   if (card) openModal(card.dataset.project);
 }));
+
+$("#openPinitScannerBtn")?.addEventListener("click", () => {
+  openModal("pinit");
+  setTimeout(() => {
+    $("#pinitInput")?.focus();
+  }, 180);
+});
+
 $("#modalClose")?.addEventListener("click", closeModal);
 modal?.addEventListener("click", event => { if (event.target === modal) closeModal(); });
 
@@ -803,7 +1163,7 @@ The Intersection: Algorithmic rigor paired with market insight.</pre>`;
   degree: () => terminalCommands.education(),
   university: () => terminalCommands.education(),
   school: () => terminalCommands.education(),
-  skills: "JavaScript · C++ · Python · WebGL / Shaders · HTML5 / CSS3 · React · REST APIs · Node.js · SQL",
+  skills: "JavaScript · C++ · Python · WebGL / Shaders · HTML5 / CSS3 · React · REST APIs · Node.js · SQL · MySQL · PHP",
   projects: "1. <b>Pinit</b> — AI scam and suspicious link detector\n2. <b>Mini World</b> — 3D planet simulation & WebGL engine\n3. <b>DevPulse</b> — Real-time engineering flow & telemetry dashboard\n4. <b>This Portfolio</b> — Personal web platform & terminal CLI\nClick any project card to view interactive breakdown.",
   achievements: () => {
     const el = document.getElementById("achievements");
@@ -811,12 +1171,14 @@ The Intersection: Algorithmic rigor paired with market insight.</pre>`;
     return `<pre style="color:var(--lime);font-size:11px;line-height:1.4;">
 Engineering Milestones & Accolades:
 ----------------------------------------
-1. Multi-Product Velocity (4 Shipped Apps: PinitAI, Mini World, DevPulse, Portfolio)
+1. Multi-Product Velocity (Shipped Apps: PinitAI, Portfolio, Chinese Learning Platform, Tracking App, To-Do List, Joul Platform)
 2. Procedural WebGL 3D Engine (Pure WebGL, GLSL Shaders, 60 FPS)
 3. Pinit Threat Intelligence (AI Phishing & Scam Indicator Heuristics)
 4. 15+ Public Repositories (Continuous Git Velocity & Open Source)
-5. Computer Science Rigor (Algorithms, Data Structures, C++, SQL)
+5. Computer Science (Algorithms, Data Structures, C++, SQL)
 6. Modern Web Platform Architecture (Accessible, lightweight, bespoke engineering craft)
+7. C++ Terminal-Based Systems (Student Information Management System, Library Book System)
+
 Scrolled to Section 05: Engineering Milestones!</pre>`;
   },
   accolades: () => {
@@ -1063,7 +1425,26 @@ formRules.forEach(([input, message, test]) => {
   });
 });
 
-contactForm?.addEventListener("submit", event => {
+// ==========================================================================
+// Google Form Backend Integration (No Database Required)
+// ==========================================================================
+const GOOGLE_FORM_CONFIG = {
+  formUrl: "https://docs.google.com/forms/d/e/1FAIpQLSd2dStAmvIJ3mzqzWCrm_kJ-JqFGlmWaSCPlPkex5dEejrfkw/formResponse",
+  fields: {
+    topic: "entry.1634699630",
+    name: "entry.863589244",
+    email: "entry.438219289",
+    message: "entry.1323986657"
+  },
+  topicMapping: {
+    "General": "General Inquiry",
+    "Opportunity": "General Inquiry",
+    "Collab": "Feedback",
+    "Project": "Feedback"
+  }
+};
+
+contactForm?.addEventListener("submit", async event => {
   event.preventDefault();
   let allValid = true;
   formRules.forEach(([input, message, test]) => {
@@ -1104,27 +1485,50 @@ contactForm?.addEventListener("submit", event => {
       const subject = encodeURIComponent(`[${topicVal}] Portfolio Note from ${nameVal}`);
       const body = encodeURIComponent(`Hi Gouv,\n\n${messageVal}\n\n---\nSender: ${nameVal}\nEmail: ${emailVal}\nTopic: ${topicVal}`);
       const mailtoUrl = `mailto:gouvkimsea@gmail.com?subject=${subject}&body=${body}`;
-      
+
       resetUI("✓ Note ready! Opening your email client to dispatch to Gouv...", true);
       setTimeout(() => {
         window.location.href = mailtoUrl;
       }, 700);
     };
 
-    if (formAction && !formAction.includes("placeholder") && formAction.startsWith("http")) {
+    // If Google Form is configured, dispatch directly via Google Form
+    if (GOOGLE_FORM_CONFIG.formUrl && GOOGLE_FORM_CONFIG.formUrl.startsWith("http")) {
+      const selectedTopic = GOOGLE_FORM_CONFIG.topicMapping?.[topicVal] || topicVal;
+      const formData = new URLSearchParams();
+      if (GOOGLE_FORM_CONFIG.fields.topic) formData.append(GOOGLE_FORM_CONFIG.fields.topic, selectedTopic);
+      if (GOOGLE_FORM_CONFIG.fields.name) formData.append(GOOGLE_FORM_CONFIG.fields.name, nameVal);
+      if (GOOGLE_FORM_CONFIG.fields.email) formData.append(GOOGLE_FORM_CONFIG.fields.email, emailVal);
+      if (GOOGLE_FORM_CONFIG.fields.message) formData.append(GOOGLE_FORM_CONFIG.fields.message, messageVal);
+
+      try {
+        await fetch(GOOGLE_FORM_CONFIG.formUrl, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          body: formData.toString()
+        });
+        resetUI("✓ Note delivered successfully! Thank you for reaching out.");
+      } catch (err) {
+        console.warn("Google Form submission error, falling back to mailto:", err);
+        dispatchMailtoFallback();
+      }
+    } else if (formAction && !formAction.includes("placeholder") && formAction.startsWith("http")) {
       fetch(formAction, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Accept": "application/json" },
         body: JSON.stringify({ name: nameVal, email: emailVal, topic: topicVal, message: messageVal })
       })
-      .then(res => {
-        if (res.ok) {
-          resetUI("✓ Note delivered successfully! Gouv will be in touch.");
-        } else {
-          dispatchMailtoFallback();
-        }
-      })
-      .catch(() => dispatchMailtoFallback());
+        .then(res => {
+          if (res.ok) {
+            resetUI("✓ Note delivered successfully! Gouv will be in touch.");
+          } else {
+            dispatchMailtoFallback();
+          }
+        })
+        .catch(() => dispatchMailtoFallback());
     } else {
       dispatchMailtoFallback();
     }
