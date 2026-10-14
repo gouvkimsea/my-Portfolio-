@@ -174,22 +174,35 @@ document.addEventListener("keydown", event => {
   }
 });
 
-// Theme Controller (Dark Mode by default with user toggle and persistence)
+// Theme Controller (Light Mode by default with user toggle and persistence)
 const isMobileDevice = window.innerWidth <= 900 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 const savedTheme = localStorage.getItem("portfolio-theme");
-const initialTheme = (isMobileDevice && !savedTheme) ? "dark" : (savedTheme || "dark");
+const initialTheme = (isMobileDevice && !savedTheme) ? "light" : (savedTheme || "light");
 
 const setTheme = (theme, persist = true) => {
   document.documentElement.setAttribute("data-theme", theme);
   if (persist) localStorage.setItem("portfolio-theme", theme);
   const textEl = $("#themeToggle .theme-mode-text");
   if (textEl) textEl.textContent = theme === "dark" ? "Light" : "Dark";
+  const toggleBtn = $("#themeToggle");
+  if (toggleBtn) {
+    toggleBtn.setAttribute("aria-label", theme === "dark" ? "Switch to light theme" : "Switch to dark theme");
+    toggleBtn.setAttribute("title", theme === "dark" ? "Switch to light theme" : "Switch to dark theme");
+  }
+  const mobileToggleBtn = $("#mobileThemeToggle");
+  if (mobileToggleBtn) {
+    mobileToggleBtn.setAttribute("aria-label", theme === "dark" ? "Switch to light theme" : "Switch to dark theme");
+  }
+  const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+  if (metaThemeColor) {
+    metaThemeColor.setAttribute("content", theme === "dark" ? "#0d0f12" : "#f5f4ef");
+  }
 };
 
 setTheme(initialTheme, false);
 
 const toggleTheme = () => {
-  const current = document.documentElement.getAttribute("data-theme") || "dark";
+  const current = document.documentElement.getAttribute("data-theme") || "light";
   const next = current === "dark" ? "light" : "dark";
   setTheme(next, true);
   return next;
@@ -208,7 +221,6 @@ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", e =
 // ⌘K Command Palette Controller
 // ==========================================================================
 const cmdKModal = $("#cmdKModal");
-const cmdKBtn = $("#cmdKBtn");
 const cmdKInput = $("#cmdKInput");
 const cmdKResults = $("#cmdKResults");
 
@@ -228,9 +240,7 @@ const closeCmdK = () => {
   }
 };
 
-cmdKBtn?.addEventListener("click", openCmdK);
-const footerCmdKBtn = $("#footerCmdKBtn");
-footerCmdKBtn?.addEventListener("click", openCmdK);
+$("#footerCmdKBtn")?.addEventListener("click", openCmdK);
 
 // Global Keyboard Shortcut: ⌘K, Ctrl+K, or ?
 document.addEventListener("keydown", e => {
@@ -392,8 +402,26 @@ const dot = $("#cursorDot"), ring = $("#cursorRing");
 let mouseX = -100, mouseY = -100;
 let ringX = -100, ringY = -100;
 let isCursorActive = false;
+let isCursorMoving = false;
+let cursorRafId = null;
 
 if (window.matchMedia("(pointer: fine)").matches) {
+  const renderCursor = () => {
+    if (isCursorActive && ring) {
+      const dx = mouseX - ringX;
+      const dy = mouseY - ringY;
+      ringX += dx * 0.18;
+      ringY += dy * 0.18;
+      ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
+      if (Math.abs(dx) > 0.15 || Math.abs(dy) > 0.15) {
+        cursorRafId = requestAnimationFrame(renderCursor);
+      } else {
+        isCursorMoving = false;
+        cursorRafId = null;
+      }
+    }
+  };
+
   window.addEventListener("pointermove", event => {
     mouseX = event.clientX;
     mouseY = event.clientY;
@@ -404,22 +432,24 @@ if (window.matchMedia("(pointer: fine)").matches) {
       document.body.classList.add("cursor-visible");
     }
     if (dot) dot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+    if (!isCursorMoving) {
+      isCursorMoving = true;
+      cursorRafId = requestAnimationFrame(renderCursor);
+    }
   }, { passive: true });
 
-  document.addEventListener("mouseleave", () => document.body.classList.remove("cursor-visible"));
+  document.addEventListener("mouseleave", () => {
+    document.body.classList.remove("cursor-visible");
+    isCursorMoving = false;
+    if (cursorRafId) {
+      cancelAnimationFrame(cursorRafId);
+      cursorRafId = null;
+    }
+  });
+
   document.addEventListener("mouseenter", () => {
     if (isCursorActive) document.body.classList.add("cursor-visible");
   });
-
-  const renderCursor = () => {
-    if (isCursorActive && ring) {
-      ringX += (mouseX - ringX) * 0.18;
-      ringY += (mouseY - ringY) * 0.18;
-      ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
-    }
-    requestAnimationFrame(renderCursor);
-  };
-  requestAnimationFrame(renderCursor);
 
   document.addEventListener("pointerdown", () => document.body.classList.add("cursor-press"));
   document.addEventListener("pointerup", () => document.body.classList.remove("cursor-press"));
@@ -462,8 +492,6 @@ magneticElements.forEach(el => {
 // 3. Hero Code Card 3D Perspective Tilt & Parallax Glare
 const heroVisual = $("#heroVisual");
 const codeCard = $("#heroCodeCard") || $(".code-card");
-const noteTop = null;
-const noteBottom = null;
 
 if (heroVisual && codeCard) {
   heroVisual.addEventListener("pointermove", event => {
@@ -476,24 +504,10 @@ if (heroVisual && codeCard) {
     codeCard.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateZ(8px)`;
     codeCard.style.setProperty("--glare-x", `${((x + 0.5) * 100).toFixed(1)}%`);
     codeCard.style.setProperty("--glare-y", `${((y + 0.5) * 100).toFixed(1)}%`);
-
-    // Parallax spatial depth on floating badges
-    if (noteTop) {
-      const pX = -x * 20;
-      const pY = -y * 16;
-      noteTop.style.transform = `translate3d(${pX.toFixed(1)}px, ${pY.toFixed(1)}px, 32px)`;
-    }
-    if (noteBottom) {
-      const pX = x * 18;
-      const pY = y * 14;
-      noteBottom.style.transform = `translate3d(${pX.toFixed(1)}px, ${pY.toFixed(1)}px, 32px)`;
-    }
   }, { passive: true });
 
   heroVisual.addEventListener("pointerleave", () => {
     codeCard.style.transform = "perspective(1000px) rotate(3deg)";
-    if (noteTop) noteTop.style.transform = "";
-    if (noteBottom) noteBottom.style.transform = "";
   });
 }
 
@@ -1039,7 +1053,7 @@ const initPinitScanner = () => {
   runPinitScan(currentVal);
 };
 
-const openModal = projectKey => {
+function openModal(projectKey) {
   const data = projectData[projectKey];
   if (!data) return;
   previousActiveElement = document.activeElement;
@@ -1064,16 +1078,16 @@ const openModal = projectKey => {
 
   modal.showModal();
   $("#modalClose")?.focus();
-};
+}
 
-const closeModal = () => {
+function closeModal() {
   if (modal?.open) {
     modal.close();
     if (previousActiveElement && typeof previousActiveElement.focus === "function") {
       previousActiveElement.focus();
     }
   }
-};
+}
 
 $$(".project-open").forEach(button => button.addEventListener("click", () => {
   const card = button.closest(".project-card");
@@ -1126,7 +1140,6 @@ $("#resumeContactBtn")?.addEventListener("click", () => openResumeModal());
 $("#resumeCloseBtn")?.addEventListener("click", closeResumeModal);
 $("#resumeFooterClose")?.addEventListener("click", closeResumeModal);
 $("#resumePrintBtn")?.addEventListener("click", () => window.print());
-$("#eduDetailsBtn")?.addEventListener("click", () => openResumeModal("#resumeEduSection"));
 $$(".resume-view-btn").forEach(btn => {
   btn.addEventListener("click", () => openResumeModal("#resumeEduSection"));
 });
@@ -1142,8 +1155,22 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>education</b>, <b>skills</b>, <b>projects</b>, <b>pinit</b>, <b>miniworld</b>, <b>devpulse</b>, <b>portfolio</b>, <b>achievements</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>journey</b>, <b>education</b>, <b>skills</b>, <b>projects</b>, <b>pinit</b>, <b>miniworld</b>, <b>devpulse</b>, <b>portfolio</b>, <b>achievements</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
   about: "Gouv Kimsea — Dual degree undergraduate in Computer Science (Paragon.U) & Business Administration (Bonamary.U) building tangible products.",
+  journey: () => {
+    const el = document.getElementById("journey");
+    el?.scrollIntoView({ behavior: "smooth", block: "start" });
+    return `<pre style="color:var(--lime);font-size:11px;line-height:1.5;">
+Gouv Kimsea — Engineering Roadmap & Journey:
+================================================================
+Phase 01 [Current]: Shipping in public (PinitAI, Mini World 3D, DevPulse)
+Phase 02 [Exploration]: Full-stack systems & procedural WebGL shaders
+Phase 03 [Foundations]: Dual undergraduate degrees (Paragon.U CS & Bonamary.U BBA)
+Phase 04 [Horizon]: Team engineering, scalable systems & open-source
+================================================================
+Scrolled to Section 04: The Journey & Roadmap!</pre>`;
+  },
+  roadmap: () => terminalCommands.journey(),
   education: () => {
     return `<pre style="color:var(--lime);font-size:11px;line-height:1.5;">
 Academic Education Profile (Dual Degree):
@@ -1592,3 +1619,102 @@ const fallbackCopy = text => {
 };
 
 // ==========================================================================
+// Section 04: The Journey & Roadmap Interactive Controller
+// ==========================================================================
+const initJourneySection = () => {
+  const steps = $$(".journey-stepper .stepper-step");
+  const cards = $$(".journey-feed .journey-milestone-card");
+  const indicator = $("#journeyIndicatorBar");
+  const pinitDemoBtn = $("#journeyPinitBtn");
+
+  const updateActiveStep = (stepNum) => {
+    const num = parseInt(stepNum, 10);
+    steps.forEach((btn) => {
+      const isMatch = parseInt(btn.dataset.step, 10) === num;
+      btn.classList.toggle("active", isMatch);
+      btn.setAttribute("aria-selected", isMatch ? "true" : "false");
+    });
+
+    cards.forEach((card) => {
+      const isMatch = parseInt(card.dataset.step, 10) === num;
+      card.classList.toggle("active", isMatch);
+    });
+
+    if (indicator && steps.length > 0) {
+      const activeIdx = Math.max(0, Math.min(num - 1, steps.length - 1));
+      indicator.style.transform = `translateY(${activeIdx * 100}%)`;
+    }
+  };
+
+  // Click on stepper button
+  steps.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const targetId = btn.dataset.target;
+      const targetCard = document.getElementById(targetId);
+      const stepNum = btn.dataset.step;
+
+      updateActiveStep(stepNum);
+
+      if (targetCard) {
+        targetCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+    });
+  });
+
+  // Click on milestone card to activate
+  cards.forEach((card) => {
+    card.addEventListener("click", (e) => {
+      if (e.target.closest("a, button, input, textarea")) return;
+      const stepNum = card.dataset.step;
+      if (stepNum) updateActiveStep(stepNum);
+    });
+  });
+
+  // ScrollSpy with IntersectionObserver
+  if ("IntersectionObserver" in window && cards.length > 0) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const stepNum = entry.target.dataset.step;
+            if (stepNum) updateActiveStep(stepNum);
+          }
+        });
+      },
+      {
+        rootMargin: "-20% 0px -40% 0px",
+        threshold: 0.15,
+      }
+    );
+
+    cards.forEach((card) => observer.observe(card));
+  }
+
+  // Journey Pinit Scanner demo trigger
+  pinitDemoBtn?.addEventListener("click", () => {
+    if (typeof openModal === "function") {
+      openModal("pinit");
+      setTimeout(() => {
+        const pinitSection = $("#pinitThreatLab");
+        pinitSection?.scrollIntoView({ behavior: "smooth" });
+      }, 300);
+    }
+  });
+
+  // Magnetic hover for deliverable chips inside journey
+  $$(".journey-feed .deliv-chip.magnetic").forEach((el) => {
+    el.addEventListener("pointermove", (event) => {
+      const rect = el.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const deltaX = (event.clientX - centerX) * 0.15;
+      const deltaY = (event.clientY - centerY) * 0.15;
+      el.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+    });
+    el.addEventListener("pointerleave", () => {
+      el.style.transform = "translate(0px, 0px)";
+    });
+  });
+};
+
+initJourneySection();

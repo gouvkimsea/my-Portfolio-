@@ -30,7 +30,7 @@ A modern, fast, and highly responsive personal portfolio for a student developer
 - **Filterable Project Gallery**: Category filtering (All, Web, AI, 3D & WebGL, Security) with rich dialog modals.
 - **Engineering Milestones**: Grounded showcase of shipped applications, graphics engines, threat detection algorithms, and open-source contributions.
 - **Interactive Resume / CV Modal**: Quick-access modal detailing dual-degree academic background, toolkit, status, and direct print/PDF export support.
-- **In-Browser Terminal CLI**: Built-in interactive CLI supporting `help`, `about`, `education`, `skills`, `projects`, `pinit`, `miniworld`, `devpulse`, `portfolio`, `achievements`, `stats`, `resume`, `neofetch`, `theme`, and `clear`.
+- **In-Browser Terminal CLI**: Built-in interactive CLI supporting `help`, `about`, `journey`, `education`, `skills`, `projects`, `pinit`, `miniworld`, `devpulse`, `portfolio`, `achievements`, `stats`, `resume`, `neofetch`, `theme`, and `clear`.
 - **Accessible & Responsive**: Fast, lightweight performance with zero external runtime dependencies, full mobile drawer navigation, and `prefers-reduced-motion` compliance.
 
 ---

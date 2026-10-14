@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 
 <head>
   <meta charset="UTF-8" />
@@ -11,7 +11,7 @@
   <meta name="keywords"
     content="Gouv Kimsea, software developer, portfolio, computer science, business administration, WebGL, 3D graphics, JavaScript, AI tools, Phnom Penh, Cambodia, Paragon International University, Bonamary University" />
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-  <meta name="theme-color" content="#0d0f12" />
+  <meta name="theme-color" content="#f5f4ef" />
   <link rel="canonical" href="https://gouvkimsea.github.io/my-Portfolio-/" />
 
   <!-- Open Graph / Facebook -->
@@ -109,13 +109,13 @@
       try {
         var isMobile = (window.innerWidth <= 900) || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         var savedTheme = localStorage.getItem("portfolio-theme");
-        var theme = savedTheme ? savedTheme : "dark";
+        var theme = savedTheme ? savedTheme : "light";
         if (isMobile && !savedTheme) {
-          theme = "dark";
+          theme = "light";
         }
         document.documentElement.setAttribute("data-theme", theme);
       } catch (e) {
-        document.documentElement.setAttribute("data-theme", "dark");
+        document.documentElement.setAttribute("data-theme", "light");
       }
     })();
   </script>
@@ -155,7 +155,7 @@
       <a class="mobile-drawer-link" href="#about"><span>About</span> <i aria-hidden="true">↗</i></a>
       <a class="mobile-drawer-link" href="#skills"><span>Skills</span> <i aria-hidden="true">↗</i></a>
       <a class="mobile-drawer-link" href="#projects"><span>Projects</span> <i aria-hidden="true">↗</i></a>
-      <a class="mobile-drawer-link" href="#journey"><span>Business</span> <i aria-hidden="true">↗</i></a>
+      <a class="mobile-drawer-link" href="#journey"><span>Journey</span> <i aria-hidden="true">↗</i></a>
       <a class="mobile-drawer-link" href="#achievements"><span>Achievements</span> <i aria-hidden="true">↗</i></a>
       <a class="mobile-drawer-link mobile-drawer-contact" href="#contact"><span>Contact</span> <i
           aria-hidden="true">↗</i></a>
@@ -185,7 +185,7 @@
         <a class="nav-link" href="#about">About</a>
         <a class="nav-link" href="#skills">Skills</a>
         <a class="nav-link" href="#projects">Projects</a>
-        <a class="nav-link" href="#journey">Business</a>
+        <a class="nav-link" href="#journey">Journey</a>
         <a class="nav-link" href="#achievements">Achievements</a>
       </div>
       <div class="nav-right">
@@ -494,6 +494,7 @@
               <button type="button" class="terminal-chip" data-cmd="education">education</button>
               <button type="button" class="terminal-chip" data-cmd="skills">skills</button>
               <button type="button" class="terminal-chip" data-cmd="projects">projects</button>
+              <button type="button" class="terminal-chip" data-cmd="journey">journey</button>
               <button type="button" class="terminal-chip" data-cmd="achievements">milestones</button>
               <button type="button" class="terminal-chip" data-cmd="resume">resume</button>
               <button type="button" class="terminal-chip" data-cmd="contact">contact</button>
@@ -715,54 +716,250 @@
     </section>
 
     <section class="section journey-section" id="journey">
-      <div class="container two-col">
-        <div class="section-heading reveal">
-          <p class="eyebrow">04 / The journey</p>
-          <h2>Still becoming<br /><em>the developer I want to be.</em></h2>
-        </div>
-        <div class="timeline reveal">
-          <div class="timeline-item active"><span class="timeline-marker">01</span>
-            <div class="timeline-content">
-              <div class="timeline-meta"><small>Now · 2026</small><span class="timeline-status-badge live">● Current
-                  Focus</span></div>
-              <h3>Shipping in public</h3>
-              <p>Engineering real-world applications (PinitAI, Joul service) and learning through
-                high-iteration building.</p>
-              <div class="timeline-tags"><span>PinitAI</span><span>Mini World 3D</span><span>DevPulse</span></div>
+      <div class="container journey-container">
+        <!-- Sticky Left Rail / Sidebar -->
+        <aside class="journey-sidebar">
+          <div class="journey-sidebar-sticky">
+            <p class="eyebrow"><span class="eyebrow-line"></span> 04 / The Journey</p>
+            <h2 class="journey-headline">Still becoming<br /><em>the developer I want to be.</em></h2>
+            <p class="journey-intro-text">
+              Bridging rigorous theoretical foundations in Computer Science and Business Strategy with daily, hands-on software development in public.
+            </p>
+
+            <div class="journey-status-pill">
+              <span class="status-pulse-dot" aria-hidden="true"></span>
+              <span><strong>CURRENT:</strong> 2026 Shipping Cycle</span>
             </div>
-          </div>
-          <div class="timeline-item"><span class="timeline-marker">02</span>
-            <div class="timeline-content">
-              <div class="timeline-meta"><small>Interactive Systems</small><span
-                  class="timeline-status-badge">Exploration</span></div>
-              <h3>Full-stack &amp; WebGL graphics</h3>
-              <p>Expanding from standard web interfaces into real-time 3D simulation, procedural math, and heuristic
-                scam intelligence.</p>
-              <div class="timeline-tags"><span>WebGL</span><span>Shaders</span><span>Heuristics</span></div>
-            </div>
-          </div>
-          <div class="timeline-item"><span class="timeline-marker">03</span>
-            <div class="timeline-content">
-              <div class="timeline-meta"><small>Dual Degree · Paragon.U &amp; Bonamary.U</small><span
-                  class="timeline-status-badge">Foundations</span></div>
-              <h3>Computer science &amp; business administration</h3>
-              <p>Pursuing dual undergraduate degrees: B.Sc. in Computer Science at Paragon International University and
-                B.B.A. in Business Administration at Bonamary University. Uniting technical rigor with commercial
-                product strategy.</p>
-              <div class="timeline-tags"><span>Paragon.U CS</span><span>Bonamary.U BBA</span><span>Data
-                  Structures</span><span>Business Strategy</span></div>
-            </div>
-          </div>
-          <div class="timeline-item"><span class="timeline-marker">04</span>
-            <div class="timeline-content">
-              <div class="timeline-meta"><small>Next chapter</small><span class="timeline-status-badge">Vision</span>
+
+            <!-- Interactive Stage Stepper / Quick-Nav -->
+            <nav class="journey-stepper" aria-label="Roadmap stages">
+              <div class="stepper-track-line" aria-hidden="true">
+                <span class="stepper-indicator-bar" id="journeyIndicatorBar"></span>
               </div>
-              <h3>Collaborating &amp; shipping</h3>
-              <p>Contributing to thoughtful engineering teams, open-source ecosystems, and building software that solves
-                real problems.</p>
-              <div class="timeline-tags"><span>Open Source</span><span>Teamwork</span><span>Product Impact</span></div>
+              <button type="button" class="stepper-step active" data-step="1" data-target="journeyMilestone1">
+                <span class="step-badge">01</span>
+                <span class="step-meta">
+                  <strong>Dual Foundations</strong>
+                  <small>Paragon CS &amp; Bonamary BBA</small>
+                </span>
+              </button>
+              <button type="button" class="stepper-step" data-step="2" data-target="journeyMilestone2">
+                <span class="step-badge">02</span>
+                <span class="step-meta">
+                  <strong>Graphics &amp; Systems</strong>
+                  <small>Procedural WebGL &amp; Math</small>
+                </span>
+              </button>
+              <button type="button" class="stepper-step" data-step="3" data-target="journeyMilestone3">
+                <span class="step-badge">03</span>
+                <span class="step-meta">
+                  <strong>Shipping in Public</strong>
+                  <small>Live Tools &amp; Heuristics</small>
+                </span>
+              </button>
+              <button type="button" class="stepper-step" data-step="4" data-target="journeyMilestone4">
+                <span class="step-badge">04</span>
+                <span class="step-meta">
+                  <strong>Next Chapter</strong>
+                  <small>Scale, Team &amp; Open Source</small>
+                </span>
+              </button>
+            </nav>
+
+            <div class="journey-sidebar-cta">
+              <button type="button" class="journey-academic-link resume-view-btn">
+                <span>View Full Academic Roadmap</span>
+                <i aria-hidden="true">↗</i>
+              </button>
             </div>
           </div>
+        </aside>
+
+        <!-- Right Timeline Stream -->
+        <div class="journey-feed">
+          <div class="journey-rail-track" aria-hidden="true"></div>
+
+          <!-- Milestone 01 -->
+          <article class="journey-milestone-card spotlight-card active" id="journeyMilestone1" data-step="1">
+            <div class="milestone-node" aria-hidden="true">
+              <span class="node-ring"></span>
+              <span class="node-number">01</span>
+            </div>
+            <div class="milestone-content">
+              <div class="milestone-header">
+                <div class="milestone-pills">
+                  <span class="milestone-pill dual">DUAL UNDERGRADUATE</span>
+                  <span class="milestone-date">2024 — Present</span>
+                </div>
+                <span class="milestone-tag">Foundational Phase</span>
+              </div>
+
+              <h3 class="milestone-title">Computer Science &amp; Business Administration</h3>
+              <p class="milestone-summary">
+                Pursuing parallel dual degrees to pair rigorous technical engineering fundamentals with commercial viability, unit economics, and operational clarity.
+              </p>
+
+              <!-- Dual Degree Mini Bento -->
+              <div class="milestone-dual-boxes">
+                <div class="dual-box tech">
+                  <div class="dual-box-top">
+                    <span class="dual-box-icon">⚡</span>
+                    <strong>Paragon.U (B.Sc. CS)</strong>
+                  </div>
+                  <p>Algorithms, Data Structures, C++, Linear Algebra, and Systems Engineering.</p>
+                </div>
+                <div class="dual-box biz">
+                  <div class="dual-box-top">
+                    <span class="dual-box-icon">📊</span>
+                    <strong>Bonamary.U (B.B.A.)</strong>
+                  </div>
+                  <p>Business Strategy, Marketing, Financial Economics, and Product Operations.</p>
+                </div>
+              </div>
+
+              <div class="milestone-deliverables">
+                <span class="deliverables-heading">Tangible Focus</span>
+                <div class="deliverables-chips">
+                  <button type="button" class="deliv-chip resume-view-btn"><span>Academic CV Details</span> <i aria-hidden="true">↗</i></button>
+                  <span class="deliv-chip-static">Algorithmic Problem Solving</span>
+                  <span class="deliv-chip-static">Dual Curriculum</span>
+                </div>
+              </div>
+
+              <div class="milestone-footer">
+                <div class="milestone-tech-tags">
+                  <span>C++</span>
+                  <span>Data Structures</span>
+                  <span>Economics</span>
+                  <span>Strategy</span>
+                </div>
+                <span class="milestone-badge-note">Core Dual Foundation</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Milestone 02 -->
+          <article class="journey-milestone-card spotlight-card" id="journeyMilestone2" data-step="2">
+            <div class="milestone-node" aria-hidden="true">
+              <span class="node-ring"></span>
+              <span class="node-number">02</span>
+            </div>
+            <div class="milestone-content">
+              <div class="milestone-header">
+                <div class="milestone-pills">
+                  <span class="milestone-pill systems">SYSTEMS &amp; GRAPHICS</span>
+                  <span class="milestone-date">Deep Exploration</span>
+                </div>
+                <span class="milestone-tag">Interactive Math</span>
+              </div>
+
+              <h3 class="milestone-title">Procedural WebGL &amp; Custom Shaders</h3>
+              <p class="milestone-summary">
+                Ventured beyond standard DOM elements into low-level 3D mathematics, custom GLSL fragment/vertex pipelines, procedural spherical noise, and real-time orbit physics without relying on bloated external libraries.
+              </p>
+
+              <div class="milestone-deliverables">
+                <span class="deliverables-heading">Tangible Deliverables</span>
+                <div class="deliverables-chips">
+                  <a class="deliv-chip magnetic" href="miniworld.html" target="_blank"><span>Mini World 3D (Simulation)</span> <i aria-hidden="true">↗</i></a>
+                  <span class="deliv-chip-static">Pure WebGL 60 FPS</span>
+                  <span class="deliv-chip-static">Custom GLSL Shaders</span>
+                </div>
+              </div>
+
+              <div class="milestone-footer">
+                <div class="milestone-tech-tags">
+                  <span>WebGL</span>
+                  <span>GLSL</span>
+                  <span>Trigonometry</span>
+                  <span>Canvas</span>
+                </div>
+                <span class="milestone-badge-note">Zero Heavy 3D Libraries</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Milestone 03 -->
+          <article class="journey-milestone-card spotlight-card" id="journeyMilestone3" data-step="3">
+            <div class="milestone-node active" aria-hidden="true">
+              <span class="node-ring"></span>
+              <span class="node-number">03</span>
+            </div>
+            <div class="milestone-content">
+              <div class="milestone-header">
+                <div class="milestone-pills">
+                  <span class="milestone-pill live">● CURRENT FOCUS</span>
+                  <span class="milestone-date">2026 — Present</span>
+                </div>
+                <span class="milestone-tag live-tag">Active Velocity</span>
+              </div>
+
+              <h3 class="milestone-title">Shipping in Public &amp; Threat Intelligence</h3>
+              <p class="milestone-summary">
+                Engineering production-ready web applications with instant user feedback loops. Built heuristic browser scam detection algorithms, telemetry dashboards, and modern interfaces with high iteration speed.
+              </p>
+
+              <div class="milestone-deliverables">
+                <span class="deliverables-heading">Tangible Deliverables</span>
+                <div class="deliverables-chips">
+                  <button type="button" class="deliv-chip magnetic pinit-demo-btn" id="journeyPinitBtn"><span>PinitAI Scanner</span> <i aria-hidden="true">⚡</i></button>
+                  <a class="deliv-chip magnetic" href="https://github.com/gouvkimsea/PinitAI" target="_blank" rel="noreferrer"><span>PinitAI Repository</span> <i aria-hidden="true">↗</i></a>
+                  <a class="deliv-chip magnetic" href="#projects"><span>DevPulse Stream</span> <i aria-hidden="true">↗</i></a>
+                </div>
+              </div>
+
+              <div class="milestone-footer">
+                <div class="milestone-tech-tags">
+                  <span>Threat Modeling</span>
+                  <span>JavaScript</span>
+                  <span>Node.js</span>
+                  <span>Heuristics</span>
+                </div>
+                <span class="milestone-badge-note">High Shipping Cadence</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Milestone 04 -->
+          <article class="journey-milestone-card spotlight-card" id="journeyMilestone4" data-step="4">
+            <div class="milestone-node" aria-hidden="true">
+              <span class="node-ring"></span>
+              <span class="node-number">04</span>
+            </div>
+            <div class="milestone-content">
+              <div class="milestone-header">
+                <div class="milestone-pills">
+                  <span class="milestone-pill future">FUTURE HORIZON</span>
+                  <span class="milestone-date">Collaborative Target</span>
+                </div>
+                <span class="milestone-tag">Continuous Growth</span>
+              </div>
+
+              <h3 class="milestone-title">Team Engineering, Scalability &amp; Open Source</h3>
+              <p class="milestone-summary">
+                Preparing for impactful contributions within high-standard engineering teams. Focusing on robust system architecture, clean pull request workflows, CI/CD automated validation, and enduring open-source software.
+              </p>
+
+              <div class="milestone-deliverables">
+                <span class="deliverables-heading">Tangible Deliverables</span>
+                <div class="deliverables-chips">
+                  <a class="deliv-chip magnetic" href="https://github.com/gouvkimsea" target="_blank" rel="noreferrer"><span>15+ Public Repositories</span> <i aria-hidden="true">↗</i></a>
+                  <a class="deliv-chip magnetic" href="#contact"><span>Let's Build Together</span> <i aria-hidden="true">↗</i></a>
+                  <span class="deliv-chip-static">Clean Code Reviews</span>
+                </div>
+              </div>
+
+              <div class="milestone-footer">
+                <div class="milestone-tech-tags">
+                  <span>Open Source</span>
+                  <span>CI/CD</span>
+                  <span>Architecture</span>
+                  <span>Team Git</span>
+                </div>
+                <span class="milestone-badge-note">Building in Public</span>
+              </div>
+            </div>
+          </article>
         </div>
       </div>
     </section>
