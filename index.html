@@ -590,10 +590,10 @@
           <p class="heading-note">A few experiments, class projects,<br />and ideas made tangible.</p>
         </div>
         <div class="filter-bar" role="group" aria-label="Filter projects">
-          <button class="filter active" data-filter="all">All <sup>04</sup></button><button class="filter"
-            data-filter="web">Web <sup>04</sup></button><button class="filter" data-filter="ai">AI
+          <button class="filter active" data-filter="all">All <sup>05</sup></button><button class="filter"
+            data-filter="web">Web <sup>05</sup></button><button class="filter" data-filter="ai">AI
             <sup>02</sup></button><button class="filter" data-filter="3d">3D &amp; WebGL <sup>01</sup></button><button
-            class="filter" data-filter="security">Security <sup>01</sup></button>
+            class="filter" data-filter="security">Security <sup>02</sup></button>
         </div>
         <div class="project-grid">
           <article class="project-card featured reveal spotlight-card" data-category="ai security web"
@@ -610,7 +610,7 @@
               </div>
               <span class="preview-label">PIN<span>IT</span></span>
               <div class="scan-line"></div>
-              <div class="preview-grid"></div><span class="preview-corner">01 / 04</span>
+              <div class="preview-grid"></div><span class="preview-corner">01 / 05</span>
             </div>
             <div class="project-info">
               <div><small>01 — Product experiment</small>
@@ -641,7 +641,7 @@
                 <div class="meteor-streak"></div>
               </div>
               <span class="preview-label">MINI<span>WORLD</span></span>
-              <span class="preview-corner">02 / 04</span>
+              <span class="preview-corner">02 / 05</span>
             </div>
             <div class="project-info">
               <div>
@@ -658,27 +658,43 @@
               </div>
             </div>
           </article>
-          <article class="project-card reveal spotlight-card" data-category="web" data-project="portfolio">
-            <div class="project-preview portfolio-preview">
+          <article class="project-card wide-card reveal spotlight-card" data-category="web security"
+            data-project="joul">
+            <div class="project-preview joul-preview">
               <div class="preview-browser-bar"><span class="pdot"></span><span class="pdot"></span><span
                   class="pdot"></span>
-                <div class="preview-url-bar"><span class="lock-icon">●</span> gouvkimsea.dev</div>
+                <div class="preview-url-bar"><span class="lock-icon">●</span> https://joul.rentals/fleet</div>
               </div>
-              <span class="preview-label">[ your<br /><em>space</em> ]</span>
-              <div class="mini-window"><i></i><i></i><i></i>
-                <hr /><b></b><b></b><b></b>
-              </div><span class="preview-corner">03 / 04</span>
+              <div class="joul-stat-pill">PHP 8.x · MySQL · 197 Tests Passed</div>
+              <div class="joul-fleet-system" aria-hidden="true">
+                <div class="joul-timeline-track">
+                  <span class="joul-track-label">Fleet Engine:</span>
+                  <span class="joul-track-seg rented">08:00–14:00 RENTED</span>
+                  <span class="joul-track-seg buffer">+2H BUFFER 🧼</span>
+                  <span class="joul-track-seg clear">16:00 READY</span>
+                </div>
+                <div class="joul-escrow-badge">
+                  <span class="joul-escrow-dot"></span>
+                  <span>100% ESCROW SECURED</span>
+                </div>
+              </div>
+              <span class="preview-label">JOUL<span>RENTAL</span></span>
+              <div class="joul-preview-grid"></div>
+              <span class="preview-corner">03 / 05</span>
             </div>
             <div class="project-info">
-              <div><small>03 — Personal project</small>
-                <h3>This portfolio</h3>
-                <p>A personal corner of the internet for documenting the process, not just the outcome.</p>
-                <div class="project-tags"><span>Web</span><span>HTML</span><span>Design</span></div>
+              <div>
+                <small>03 — Enterprise Fleet &amp; Escrow Platform</small>
+                <h3>JOUL Rental Service</h3>
+                <p>Full-featured vehicle and equipment rental platform with automated turnaround buffers, escrow-backed double-entry financial ledger, role-based access control, and 197 automated test assertions.</p>
+                <div class="project-tags"><span>PHP 8</span><span>MySQL</span><span>Fleet Ops</span><span>Escrow Ledger</span><span>RBAC</span></div>
               </div>
               <div class="project-card-actions">
-                <a class="launch-btn magnetic" href="https://github.com/gouvkimsea/my-Portfolio-" target="_blank"
-                  rel="noreferrer" title="View Portfolio repository">Repo <span>↗</span></a>
-                <button class="round-arrow project-open" aria-label="Open portfolio details">↗</button>
+                <button class="launch-btn magnetic joul-demo-btn" id="openJoulSimulatorBtn" type="button"
+                  title="Test JOUL Rental Concurrency &amp; Escrow Simulator">Fleet Engine <span>⚡</span></button>
+                <a class="launch-btn magnetic" href="https://github.com/gouvkimsea/rental-service" target="_blank"
+                  rel="noreferrer" title="View Rental Service repository">Repo <span>↗</span></a>
+                <button class="round-arrow project-open" aria-label="Open JOUL Rental details">↗</button>
               </div>
             </div>
           </article>
@@ -695,7 +711,7 @@
               </div>
               <div class="pulse-beacon" aria-hidden="true"><span class="beacon-ring"></span><span
                   class="beacon-dot"></span></div>
-              <span class="preview-corner">04 / 04</span>
+              <span class="preview-corner">04 / 05</span>
             </div>
             <div class="project-info">
               <div>
@@ -708,6 +724,30 @@
                 <a class="launch-btn magnetic" href="https://github.com/gouvkimsea" target="_blank" rel="noreferrer"
                   title="View DevPulse repository">Repo <span>↗</span></a>
                 <button class="round-arrow project-open" aria-label="Open DevPulse details">↗</button>
+              </div>
+            </div>
+          </article>
+          <article class="project-card reveal spotlight-card" data-category="web" data-project="portfolio">
+            <div class="project-preview portfolio-preview">
+              <div class="preview-browser-bar"><span class="pdot"></span><span class="pdot"></span><span
+                  class="pdot"></span>
+                <div class="preview-url-bar"><span class="lock-icon">●</span> gouvkimsea.dev</div>
+              </div>
+              <span class="preview-label">[ your<br /><em>space</em> ]</span>
+              <div class="mini-window"><i></i><i></i><i></i>
+                <hr /><b></b><b></b><b></b>
+              </div><span class="preview-corner">05 / 05</span>
+            </div>
+            <div class="project-info">
+              <div><small>05 — Personal project</small>
+                <h3>This portfolio</h3>
+                <p>A personal corner of the internet for documenting the process, not just the outcome.</p>
+                <div class="project-tags"><span>Web</span><span>HTML</span><span>Design</span></div>
+              </div>
+              <div class="project-card-actions">
+                <a class="launch-btn magnetic" href="https://github.com/gouvkimsea/my-Portfolio-" target="_blank"
+                  rel="noreferrer" title="View Portfolio repository">Repo <span>↗</span></a>
+                <button class="round-arrow project-open" aria-label="Open portfolio details">↗</button>
               </div>
             </div>
           </article>
@@ -903,8 +943,9 @@
                 <span class="deliverables-heading">Tangible Deliverables</span>
                 <div class="deliverables-chips">
                   <button type="button" class="deliv-chip magnetic pinit-demo-btn" id="journeyPinitBtn"><span>PinitAI Scanner</span> <i aria-hidden="true">⚡</i></button>
+                  <button type="button" class="deliv-chip magnetic joul-demo-btn" id="journeyJoulBtn"><span>JOUL Rental Platform</span> <i aria-hidden="true">⚡</i></button>
+                  <a class="deliv-chip magnetic" href="https://github.com/gouvkimsea/rental-service" target="_blank" rel="noreferrer"><span>Rental Service Repo</span> <i aria-hidden="true">↗</i></a>
                   <a class="deliv-chip magnetic" href="https://github.com/gouvkimsea/PinitAI" target="_blank" rel="noreferrer"><span>PinitAI Repository</span> <i aria-hidden="true">↗</i></a>
-                  <a class="deliv-chip magnetic" href="#projects"><span>DevPulse Stream</span> <i aria-hidden="true">↗</i></a>
                 </div>
               </div>
 
@@ -1012,12 +1053,13 @@
               <span class="achieve-status-pill"><span class="achieve-dot"></span> PRODUCTION</span>
             </div>
             <div class="achieve-content">
-              <small class="achieve-tag">PRODUCTION · 4 LIVE APPS</small>
+              <small class="achieve-tag">PRODUCTION · 5 SHIPPED APPS</small>
               <h3 class="achieve-title">Multi-Product Shipping Velocity</h3>
-              <p class="achieve-desc">Designed, architected, and shipped four distinct applications from scratch:
-                PinitAI (scam detection), Mini World 3D (procedural planet), DevPulse (telemetry stream), and an
+              <p class="achieve-desc">Designed, architected, and shipped five distinct applications from scratch:
+                JOUL Rental Service (enterprise fleet &amp; escrow platform), PinitAI (scam detection), Mini World 3D (procedural planet), DevPulse (telemetry stream), and an
                 interactive portfolio platform.</p>
               <div class="achieve-meta-pills">
+                <span>JOUL Rental</span>
                 <span>PinitAI</span>
                 <span>Mini World</span>
                 <span>DevPulse</span>
@@ -1531,6 +1573,115 @@
         </div>
       </div>
 
+      <!-- Interactive JOUL Concurrency & Escrow Simulator (Active for JOUL) -->
+      <div class="joul-sandbox" id="joulSandbox" hidden>
+        <div class="joul-sandbox-header">
+          <div class="joul-sandbox-badge">
+            <span class="joul-live-pulse" aria-hidden="true"></span>
+            <span>JOUL FLEET CONCURRENCY &amp; ESCROW ENGINE</span>
+          </div>
+          <span class="joul-tests-stat">5 Test Suites · 197 Passing Assertions</span>
+        </div>
+
+        <p class="joul-sandbox-desc">
+          Test real-time vehicle booking concurrency and financial escrow accounting. Simulates the interval overlap equation <code>NOT (OrderEnd &le; ExistingStart OR OrderStart &ge; ExistingBufferEnd)</code> and automated turnaround safety buffers implemented in <code>RentalService::checkVehiclesAvailability()</code>.
+        </p>
+
+        <!-- Fleet Vehicle Select Bar -->
+        <div class="joul-controls-grid">
+          <div class="joul-control-col">
+            <label class="joul-control-label" for="joulVehicleSelect">Select Fleet Vehicle:</label>
+            <div class="joul-select-wrap">
+              <select id="joulVehicleSelect" class="joul-select" aria-label="Select Fleet Vehicle">
+                <option value="prius" selected>🚗 Toyota Prius (City Car · $45/day · 2h Buffer · $150 Escrow)</option>
+                <option value="transit">🚐 Ford Transit 12-Pax (Van · $95/day · 3h Buffer · $300 Escrow)</option>
+                <option value="nmax">🛵 Yamaha NMAX 155 (Scooter · $22/day · 1h Buffer · $80 Escrow)</option>
+                <option value="trek">🚲 Trek FX3 Disc (Bicycle · $15/day · 1h Buffer · $40 Escrow)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Schedule Scenarios -->
+        <div class="joul-scenarios-bar">
+          <span class="joul-scenarios-label">Simulate Incoming Booking Request:</span>
+          <div class="joul-scenario-chips" role="group" aria-label="Simulation test scenarios">
+            <button type="button" class="joul-scenario-chip danger active" data-scenario="overlap">
+              ⚠️ Direct Window Overlap (12:00 — 17:00)
+            </button>
+            <button type="button" class="joul-scenario-chip warn" data-scenario="buffer">
+              🛑 Buffer Violation (14:30 — 19:00)
+            </button>
+            <button type="button" class="joul-scenario-chip safe" data-scenario="clear">
+              ✅ Clear &amp; Valid Request (16:30 — 21:00)
+            </button>
+          </div>
+        </div>
+
+        <!-- Engine Calculation & Math Breakdown Card -->
+        <div class="joul-result-card" id="joulResultCard" data-status="danger" role="region" aria-live="polite">
+          <div class="joul-verdict-row">
+            <div class="joul-verdict-left">
+              <div class="joul-status-icon-wrap" aria-hidden="true">
+                <span class="joul-status-icon" id="joulStatusIcon">✕</span>
+              </div>
+              <div class="joul-verdict-text-group">
+                <span class="joul-verdict-tag" id="joulVerdictTag">COLLISION · BOOKING REJECTED</span>
+                <h4 class="joul-verdict-title" id="joulVerdictTitle">Direct Existing Order Overlap</h4>
+              </div>
+            </div>
+            <div class="joul-score-block">
+              <span class="joul-score-val" id="joulEscrowVal">$195.00</span>
+              <span class="joul-score-lbl">TOTAL ESTIMATED DUE</span>
+            </div>
+          </div>
+
+          <!-- Interval Timeline Visualization Bar -->
+          <div class="joul-timeline-visual">
+            <div class="joul-vis-legend">
+              <span><b>Existing Booking:</b> 08:00 — 14:00</span>
+              <span id="joulBufferLegend"><b>Turnaround Buffer:</b> +2h (14:00 — 16:00)</span>
+              <span id="joulRequestLegend"><b>Incoming Request:</b> 12:00 — 17:00</span>
+            </div>
+            <div class="joul-vis-bar" id="joulVisBar" aria-hidden="true">
+              <div class="joul-bar-slot existing" style="width: 35%;">Existing Order [08:00-14:00]</div>
+              <div class="joul-bar-slot buffer" id="joulVisBufferSlot" style="width: 15%;">Buffer [+2h]</div>
+              <div class="joul-bar-slot request danger" id="joulVisRequestSlot" style="width: 30%;">Incoming [12:00-17:00]</div>
+            </div>
+          </div>
+
+          <!-- Explainability & Financial Ledger Box -->
+          <div class="joul-explain-box">
+            <span class="joul-explain-icon" aria-hidden="true">✦</span>
+            <p id="joulExplainText">Interval check failed: Requested start time falls directly inside an existing customer order. System prevented double booking.</p>
+          </div>
+
+          <!-- Financial Accounting Tiles -->
+          <div class="joul-ledger-grid">
+            <div class="joul-ledger-tile">
+              <span class="joul-ledger-lbl">Rental Rate</span>
+              <strong class="joul-ledger-val" id="joulRentalRateVal">$45.00 / day</strong>
+              <small class="joul-ledger-sub">Base Vehicle Charge</small>
+            </div>
+            <div class="joul-ledger-tile">
+              <span class="joul-ledger-lbl">Security Deposit Escrow</span>
+              <strong class="joul-ledger-val" id="joulDepositVal">$150.00 (Refundable)</strong>
+              <small class="joul-ledger-sub">Held in Segregated Trust</small>
+            </div>
+            <div class="joul-ledger-tile">
+              <span class="joul-ledger-lbl">Turnaround Buffer</span>
+              <strong class="joul-ledger-val" id="joulBufferVal">2 Hours Clean Window</strong>
+              <small class="joul-ledger-sub">Safety &amp; Fleet Inspection</small>
+            </div>
+            <div class="joul-ledger-tile">
+              <span class="joul-ledger-lbl">RBAC &amp; Test Guard</span>
+              <strong class="joul-ledger-val" id="joulRbacVal">197 Tests Passing</strong>
+              <small class="joul-ledger-sub">Double-Entry Ledger Verified</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="modal-tech" id="modalTech"></div>
       <div class="modal-actions" id="modalActions"></div>
     </div>
@@ -1619,6 +1770,13 @@
 
             <section class="resume-block">
               <h3 class="resume-block-title"><span>03</span> Featured Projects</h3>
+              <div class="resume-item">
+                <div class="resume-item-top">
+                  <h4>JOUL Rental Service — Vehicle Fleet &amp; Escrow Platform</h4>
+                  <span class="resume-tag">PHP 8 · MySQL · RBAC · Accounting</span>
+                </div>
+                <p>Full-featured enterprise vehicle rental platform featuring mathematical interval overlap algorithms, 2-hour turnaround safety buffers, segregated security deposit escrow ledger, and 197 automated test assertions.</p>
+              </div>
               <div class="resume-item">
                 <div class="resume-item-top">
                   <h4>Mini World — 3D Planet Simulation &amp; WebGL Engine</h4>
@@ -1746,16 +1904,20 @@
             class="cmdk-icon">@</span> Let’s Work <small>Direct contact &amp; links</small></button>
 
         <div class="cmdk-group-title">Featured Projects</div>
-        <button type="button" class="cmdk-item" data-action="open-project" data-project="miniworld"><span
-            class="cmdk-icon">01</span> Mini World <small>3D Planet Simulation &amp; WebGL</small></button>
+        <button type="button" class="cmdk-item" data-action="open-project" data-project="joul"><span
+            class="cmdk-icon">01</span> JOUL Rental <small>Enterprise Vehicle &amp; Fleet Platform</small></button>
+        <button type="button" class="cmdk-item" data-action="open-joul-demo"><span
+            class="cmdk-icon">⚡</span> Try Fleet Simulator <small>Concurrency buffer &amp; escrow calculator</small></button>
         <button type="button" class="cmdk-item" data-action="open-project" data-project="pinit"><span
             class="cmdk-icon">02</span> Pinit <small>AI Scam &amp; Threat Detector</small></button>
         <button type="button" class="cmdk-item" data-action="open-pinit-demo"><span
             class="cmdk-icon">⚡</span> Try Pinit Scanner <small>Interactive AI phishing simulator</small></button>
+        <button type="button" class="cmdk-item" data-action="open-project" data-project="miniworld"><span
+            class="cmdk-icon">03</span> Mini World <small>3D Planet Simulation &amp; WebGL</small></button>
         <button type="button" class="cmdk-item" data-action="open-project" data-project="devpulse"><span
-            class="cmdk-icon">03</span> DevPulse <small>Real-time Developer Telemetry</small></button>
+            class="cmdk-icon">04</span> DevPulse <small>Real-time Developer Telemetry</small></button>
         <button type="button" class="cmdk-item" data-action="open-project" data-project="portfolio"><span
-            class="cmdk-icon">04</span> Portfolio <small>Personal Web Platform</small></button>
+            class="cmdk-icon">05</span> Portfolio <small>Personal Web Platform</small></button>
 
         <div class="cmdk-group-title">Quick Actions</div>
         <button type="button" class="cmdk-item" data-action="view-education"><span class="cmdk-icon">✦</span> Education

@@ -311,6 +311,8 @@ cmdKResults?.addEventListener("click", e => {
   } else if (action === "open-project") {
     const proj = item.getAttribute("data-project");
     if (proj) openModal(proj);
+  } else if (action === "open-joul-demo") {
+    openModal("joul");
   } else if (action === "open-pinit-demo") {
     openModal("pinit");
     setTimeout(() => {
@@ -675,6 +677,17 @@ achieveFilters.forEach(btn => {
 
 // 7. Project Modal with Rich Actions & Accessible Focus Restoration
 const projectData = {
+  joul: {
+    title: "JOUL Rental Service — Vehicle Fleet & Escrow Platform",
+    overview: "A full-featured, enterprise-grade vehicle and equipment rental platform built with PHP 8.x and MySQL. Combines an interactive customer booking storefront with fleet inventory controls, role-based access governance, escrow-backed double-entry financial ledger, and an automated background maintenance worker.",
+    problem: "Real-world vehicle rentals suffer from high-risk double bookings, tight turnarounds leading to uninspected vehicles, and messy security deposit disputes across manual staff ledgers.",
+    learned: "Engineered mathematical interval overlap detection algorithms with mandatory turnaround cleaning/inspection buffers, segregated deposit escrow accounting, granular server-side RBAC with session hardening, and built 5 automated test suites with 197 passing assertions.",
+    tech: ["PHP 8.x", "MySQL / InnoDB", "Double-Entry Ledger", "Turnaround Buffers", "RBAC Security", "CSRF Hardening", "Automated Testing"],
+    actions: [
+      { label: "Rental Service Repository ↗", url: "https://github.com/gouvkimsea/rental-service", primary: true },
+      { label: "Architecture & Test Suite ↗", url: "https://github.com/gouvkimsea/rental-service#key-features", primary: false }
+    ]
+  },
   pinit: {
     title: "Pinit",
     overview: "An AI-powered concept for helping people identify potentially suspicious online content, phishing attempts, and scams.",
@@ -1053,6 +1066,156 @@ const initPinitScanner = () => {
   runPinitScan(currentVal);
 };
 
+// ==========================================================================
+// JOUL Fleet Concurrency & Escrow Simulator Engine
+// ==========================================================================
+const JOUL_FLEET_DATA = {
+  prius: {
+    name: "Toyota Prius (City Car)",
+    rate: 45,
+    buffer: 2,
+    escrow: 150
+  },
+  transit: {
+    name: "Ford Transit 12-Pax (Van)",
+    rate: 95,
+    buffer: 3,
+    escrow: 300
+  },
+  nmax: {
+    name: "Yamaha NMAX 155 (Scooter)",
+    rate: 22,
+    buffer: 1,
+    escrow: 80
+  },
+  trek: {
+    name: "Trek FX3 Disc (Bicycle)",
+    rate: 15,
+    buffer: 1,
+    escrow: 40
+  }
+};
+
+const JOUL_SCENARIOS = {
+  overlap: {
+    reqStart: "12:00",
+    reqEnd: "17:00",
+    status: "danger",
+    verdictTag: "COLLISION · BOOKING REJECTED",
+    verdictTitle: "Direct Existing Order Overlap",
+    icon: "✕",
+    explain: "Interval overlap check triggered: Customer requested start time (12:00) occurs during existing confirmed order (08:00 - 14:00). Concurrency guard prevented double booking.",
+    reqWidth: 35
+  },
+  buffer: {
+    reqStart: "14:30",
+    reqEnd: "19:00",
+    status: "warn",
+    verdictTag: "BUFFER VIOLATION · RESERVED WINDOW",
+    verdictTitle: "Turnaround Safety Window Active",
+    icon: "!",
+    explain: "Buffer violation: While previous rental ends at 14:00, vehicle turnaround cleaning and safety checks require an active buffer. Handover prohibited until buffer expires.",
+    reqWidth: 35
+  },
+  clear: {
+    reqStart: "16:30",
+    reqEnd: "21:00",
+    status: "safe",
+    verdictTag: "APPROVED · ZERO CONCURRENCY COLLISION",
+    verdictTitle: "Window Clear & Ready for Dispatch",
+    icon: "✓",
+    explain: "Schedule validation complete: Order window (16:30 - 21:00) begins comfortably after turnaround buffer expiration. Financial ledger calculated and ready.",
+    reqWidth: 35
+  }
+};
+
+let joulInitialized = false;
+
+function runJoulSimulation(scenarioKey, vehicleKey) {
+  const vehicle = JOUL_FLEET_DATA[vehicleKey] || JOUL_FLEET_DATA.prius;
+  const scenario = JOUL_SCENARIOS[scenarioKey] || JOUL_SCENARIOS.overlap;
+
+  const resultCard = $("#joulResultCard");
+  const verdictTag = $("#joulVerdictTag");
+  const verdictTitle = $("#joulVerdictTitle");
+  const statusIcon = $("#joulStatusIcon");
+  const escrowVal = $("#joulEscrowVal");
+  const explainText = $("#joulExplainText");
+  const bufferLegend = $("#joulBufferLegend");
+  const requestLegend = $("#joulRequestLegend");
+  const visBufferSlot = $("#joulVisBufferSlot");
+  const visRequestSlot = $("#joulVisRequestSlot");
+  const rentalRateVal = $("#joulRentalRateVal");
+  const depositVal = $("#joulDepositVal");
+  const bufferVal = $("#joulBufferVal");
+
+  if (!resultCard) return;
+
+  resultCard.setAttribute("data-status", scenario.status);
+  if (verdictTag) verdictTag.textContent = scenario.verdictTag;
+  if (verdictTitle) verdictTitle.textContent = scenario.verdictTitle;
+  if (statusIcon) statusIcon.textContent = scenario.icon;
+  if (explainText) explainText.textContent = scenario.explain;
+
+  const totalEstimated = (vehicle.rate + vehicle.escrow).toFixed(2);
+  if (escrowVal) escrowVal.textContent = `$${totalEstimated}`;
+  if (rentalRateVal) rentalRateVal.textContent = `$${vehicle.rate.toFixed(2)} / day`;
+  if (depositVal) depositVal.textContent = `$${vehicle.escrow.toFixed(2)} (Refundable)`;
+  if (bufferVal) bufferVal.textContent = `${vehicle.buffer} Hours Clean Window`;
+
+  const bufferEndHour = 14 + vehicle.buffer;
+  const bufferEndStr = `${bufferEndHour.toString().padStart(2, "0")}:00`;
+
+  if (bufferLegend) {
+    bufferLegend.innerHTML = `<b>Turnaround Buffer:</b> +${vehicle.buffer}h (14:00 — ${bufferEndStr})`;
+  }
+  if (requestLegend) {
+    requestLegend.innerHTML = `<b>Incoming Request:</b> ${scenario.reqStart} — ${scenario.reqEnd}`;
+  }
+
+  if (visBufferSlot) {
+    visBufferSlot.textContent = `Buffer [+${vehicle.buffer}h]`;
+    visBufferSlot.style.width = `${Math.min(25, vehicle.buffer * 7)}%`;
+  }
+
+  if (visRequestSlot) {
+    visRequestSlot.className = `joul-bar-slot request ${scenario.status}`;
+    visRequestSlot.textContent = `Incoming [${scenario.reqStart}-${scenario.reqEnd}]`;
+    visRequestSlot.style.width = `${scenario.reqWidth}%`;
+  }
+}
+
+function initJoulSimulator() {
+  const vehicleSelect = $("#joulVehicleSelect");
+  const scenarioChips = $$(".joul-scenario-chip");
+
+  if (!joulInitialized) {
+    joulInitialized = true;
+
+    vehicleSelect?.addEventListener("change", () => {
+      const activeChip = $(".joul-scenario-chip.active");
+      const scenarioKey = activeChip?.getAttribute("data-scenario") || "overlap";
+      const vehicleKey = vehicleSelect.value;
+      runJoulSimulation(scenarioKey, vehicleKey);
+    });
+
+    scenarioChips.forEach(chip => {
+      chip.addEventListener("click", () => {
+        scenarioChips.forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+        const scenarioKey = chip.getAttribute("data-scenario") || "overlap";
+        const vehicleKey = vehicleSelect?.value || "prius";
+        runJoulSimulation(scenarioKey, vehicleKey);
+      });
+    });
+  }
+
+  const activeChip = $(".joul-scenario-chip.active");
+  const currentScenario = activeChip?.getAttribute("data-scenario") || "overlap";
+  const currentVehicle = vehicleSelect?.value || "prius";
+  runJoulSimulation(currentScenario, currentVehicle);
+}
+
 function openModal(projectKey) {
   const data = projectData[projectKey];
   if (!data) return;
@@ -1073,6 +1236,16 @@ function openModal(projectKey) {
       initPinitScanner();
     } else {
       pinitSandbox.hidden = true;
+    }
+  }
+
+  const joulSandbox = $("#joulSandbox");
+  if (joulSandbox) {
+    if (projectKey === "joul") {
+      joulSandbox.hidden = false;
+      initJoulSimulator();
+    } else {
+      joulSandbox.hidden = true;
     }
   }
 
@@ -1099,6 +1272,10 @@ $("#openPinitScannerBtn")?.addEventListener("click", () => {
   setTimeout(() => {
     $("#pinitInput")?.focus();
   }, 180);
+});
+
+$("#openJoulSimulatorBtn")?.addEventListener("click", () => {
+  openModal("joul");
 });
 
 $("#modalClose")?.addEventListener("click", closeModal);
@@ -1155,7 +1332,7 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>journey</b>, <b>education</b>, <b>skills</b>, <b>projects</b>, <b>pinit</b>, <b>miniworld</b>, <b>devpulse</b>, <b>portfolio</b>, <b>achievements</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>journey</b>, <b>education</b>, <b>skills</b>, <b>projects</b>, <b>joul</b>, <b>pinit</b>, <b>miniworld</b>, <b>devpulse</b>, <b>portfolio</b>, <b>achievements</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
   about: "Gouv Kimsea — Dual degree undergraduate in Computer Science (Paragon.U) & Business Administration (Bonamary.U) building tangible products.",
   journey: () => {
     const el = document.getElementById("journey");
@@ -1163,7 +1340,7 @@ const terminalCommands = {
     return `<pre style="color:var(--lime);font-size:11px;line-height:1.5;">
 Gouv Kimsea — Engineering Roadmap & Journey:
 ================================================================
-Phase 01 [Current]: Shipping in public (PinitAI, Mini World 3D, DevPulse)
+Phase 01 [Current]: Shipping in public (JOUL Rental, PinitAI, Mini World 3D, DevPulse)
 Phase 02 [Exploration]: Full-stack systems & procedural WebGL shaders
 Phase 03 [Foundations]: Dual undergraduate degrees (Paragon.U CS & Bonamary.U BBA)
 Phase 04 [Horizon]: Team engineering, scalable systems & open-source
@@ -1191,7 +1368,7 @@ The Intersection: Algorithmic rigor paired with market insight.</pre>`;
   university: () => terminalCommands.education(),
   school: () => terminalCommands.education(),
   skills: "JavaScript · C++ · Python · WebGL / Shaders · HTML5 / CSS3 · React · REST APIs · Node.js · SQL · MySQL · PHP",
-  projects: "1. <b>Pinit</b> — AI scam and suspicious link detector\n2. <b>Mini World</b> — 3D planet simulation & WebGL engine\n3. <b>DevPulse</b> — Real-time engineering flow & telemetry dashboard\n4. <b>This Portfolio</b> — Personal web platform & terminal CLI\nClick any project card to view interactive breakdown.",
+  projects: "1. <b>JOUL Rental Service</b> — Enterprise vehicle fleet & escrow ledger platform (PHP 8 / MySQL)\n2. <b>Pinit</b> — AI scam and suspicious link detector\n3. <b>Mini World</b> — 3D planet simulation & WebGL engine\n4. <b>DevPulse</b> — Real-time engineering flow & telemetry dashboard\n5. <b>This Portfolio</b> — Personal web platform & terminal CLI\nClick any project card to view interactive breakdown.",
   achievements: () => {
     const el = document.getElementById("achievements");
     el?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -1223,6 +1400,11 @@ Scrolled to Section 05: Engineering Milestones!</pre>`;
     el?.scrollIntoView({ behavior: "smooth", block: "center" });
     return "Scrolled to Bento Focus & Availability!";
   },
+  joul: () => {
+    openModal("joul");
+    return "Opening JOUL Rental Service (Enterprise Fleet & Escrow Platform) project modal & fleet simulator...";
+  },
+  rental: () => terminalCommands.joul(),
   miniworld: () => {
     window.open("miniworld.html", "_blank");
     return "Launching Mini World 3D Planet Simulation in a new tab...";
@@ -1244,8 +1426,8 @@ Scrolled to Section 05: Engineering Milestones!</pre>`;
 Engineering Stats (2026):
 ----------------------------------------
 • GitHub Repositories: 15+ Active
-• Featured Live Projects: 4 (Pinit, Mini World, DevPulse, Portfolio)
-• Primary Stack: JavaScript (ES2026), C++, Python, WebGL/GLSL
+• Featured Live Projects: 5 (JOUL Rental, Pinit, Mini World, DevPulse, Portfolio)
+• Primary Stack: JavaScript (ES2026), PHP 8 / MySQL, C++, Python, WebGL/GLSL
 • Status: Active Development & Open to Opportunities</pre>`;
   },
   resume: () => {
@@ -1698,6 +1880,14 @@ const initJourneySection = () => {
         const pinitSection = $("#pinitThreatLab");
         pinitSection?.scrollIntoView({ behavior: "smooth" });
       }, 300);
+    }
+  });
+
+  // Journey JOUL Rental Fleet demo trigger
+  const joulJourneyBtn = $("#journeyJoulBtn");
+  joulJourneyBtn?.addEventListener("click", () => {
+    if (typeof openModal === "function") {
+      openModal("joul");
     }
   });
 

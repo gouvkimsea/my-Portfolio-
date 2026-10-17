@@ -2608,6 +2608,687 @@ dialog.project-modal[open]::backdrop {
   color: #121310;
 }
 
+/* ==========================================================================
+   JOUL Rental Service — Project Preview & Fleet Concurrency Engine
+   ========================================================================== */
+.project-card.wide-card {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 900px) {
+  .project-card.wide-card {
+    grid-column: auto;
+  }
+}
+
+.joul-preview {
+  background: #141f23;
+  position: relative;
+  overflow: hidden;
+  height: 280px;
+  display: grid;
+  place-items: center;
+}
+
+[data-theme="light"] .joul-preview {
+  background: #d4e2e6;
+}
+
+.joul-preview-grid {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 49.8%, rgba(224, 93, 58, 0.08) 50%),
+              linear-gradient(rgba(224, 93, 58, 0.08) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 46px;
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+[data-theme="light"] .joul-preview-grid {
+  background: linear-gradient(90deg, transparent 49.8%, rgba(224, 93, 58, 0.12) 50%),
+              linear-gradient(rgba(224, 93, 58, 0.12) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 46px;
+}
+
+.joul-stat-pill {
+  position: absolute;
+  top: 14px;
+  left: 18px;
+  font: 10px var(--mono);
+  font-weight: 700;
+  color: var(--orange);
+  background: rgba(224, 93, 58, 0.15);
+  border: 1px solid rgba(224, 93, 58, 0.35);
+  padding: 4px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+  z-index: 2;
+  user-select: none;
+}
+
+[data-theme="light"] .joul-stat-pill {
+  color: #bf3f19;
+  background: rgba(224, 93, 58, 0.12);
+  border-color: rgba(224, 93, 58, 0.3);
+}
+
+.joul-fleet-system {
+  position: absolute;
+  bottom: 18px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  z-index: 2;
+  pointer-events: none;
+  flex-wrap: wrap;
+}
+
+.joul-timeline-track {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font: 10px var(--mono);
+  color: var(--ink);
+  backdrop-filter: blur(4px);
+}
+
+[data-theme="light"] .joul-timeline-track {
+  background: rgba(255, 255, 255, 0.88);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.joul-track-label {
+  color: var(--muted);
+  font-weight: 600;
+  margin-right: 2px;
+}
+
+.joul-track-seg {
+  padding: 2px 7px;
+  border-radius: 3px;
+  font-size: 9px;
+  letter-spacing: 0.03em;
+  font-weight: 600;
+}
+
+.joul-track-seg.rented {
+  background: rgba(224, 93, 58, 0.25);
+  color: var(--orange);
+  border: 1px solid rgba(224, 93, 58, 0.45);
+}
+
+.joul-track-seg.buffer {
+  background: rgba(231, 242, 109, 0.2);
+  color: var(--lime);
+  border: 1px dashed rgba(231, 242, 109, 0.5);
+  animation: pulseBuffer 2s infinite ease-in-out;
+}
+
+[data-theme="light"] .joul-track-seg.buffer {
+  color: #556b00;
+  background: rgba(142, 168, 20, 0.2);
+  border-color: rgba(142, 168, 20, 0.5);
+}
+
+.joul-track-seg.clear {
+  background: rgba(100, 200, 120, 0.2);
+  color: #7ee89b;
+  border: 1px solid rgba(100, 200, 120, 0.4);
+}
+
+[data-theme="light"] .joul-track-seg.clear {
+  color: #1b7a37;
+  background: rgba(27, 122, 55, 0.18);
+  border-color: rgba(27, 122, 55, 0.35);
+}
+
+@keyframes pulseBuffer {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+.joul-escrow-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font: 10px var(--mono);
+  color: var(--lime);
+  backdrop-filter: blur(4px);
+}
+
+[data-theme="light"] .joul-escrow-badge {
+  background: rgba(255, 255, 255, 0.88);
+  border-color: rgba(0, 0, 0, 0.08);
+  color: #4b6100;
+}
+
+.joul-escrow-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 6px currentColor;
+}
+
+.joul-demo-btn {
+  background: var(--orange);
+  border-color: var(--orange);
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.joul-demo-btn:hover {
+  background: var(--lime);
+  border-color: var(--lime);
+  color: #121310;
+}
+
+/* ==========================================================================
+   Interactive JOUL Fleet Concurrency & Escrow Simulator
+   ========================================================================== */
+.joul-sandbox {
+  margin: 32px 0 28px;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  transition: border-color 0.2s ease;
+}
+
+[data-theme="light"] .joul-sandbox {
+  background: rgba(0, 0, 0, 0.035);
+  border-color: #d6d4c8;
+}
+
+.joul-sandbox-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.joul-sandbox-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 10px var(--mono);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--orange);
+  background: rgba(224, 93, 58, 0.12);
+  padding: 4px 10px;
+  border: 1px solid rgba(224, 93, 58, 0.35);
+  border-radius: 20px;
+}
+
+[data-theme="light"] .joul-sandbox-badge {
+  color: #bf3f19;
+  background: rgba(224, 93, 58, 0.14);
+  border-color: rgba(224, 93, 58, 0.35);
+}
+
+.joul-live-pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 8px currentColor;
+  animation: pulseBeacon 1.8s ease-in-out infinite;
+}
+
+.joul-tests-stat {
+  font: 10px var(--mono);
+  color: var(--muted);
+}
+
+.joul-sandbox-desc {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+
+.joul-sandbox-desc code {
+  font: 11px var(--mono);
+  background: rgba(0, 0, 0, 0.25);
+  padding: 2px 5px;
+  border-radius: 3px;
+  color: var(--ink);
+}
+
+[data-theme="light"] .joul-sandbox-desc code {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.joul-controls-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.joul-control-col {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.joul-control-label {
+  font: 11px var(--mono);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.joul-select-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.joul-select {
+  width: 100%;
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  padding: 10px 14px;
+  font: 12px var(--mono);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.joul-select:focus {
+  outline: none;
+  border-color: var(--orange);
+  box-shadow: 0 0 0 2px rgba(224, 93, 58, 0.2);
+}
+
+.joul-scenarios-bar {
+  margin-bottom: 18px;
+}
+
+.joul-scenarios-label {
+  display: block;
+  font: 11px var(--mono);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.joul-scenario-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.joul-scenario-chip {
+  padding: 8px 14px;
+  font: 11px var(--mono);
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.joul-scenario-chip:hover {
+  border-color: var(--ink);
+  transform: translateY(-1px);
+}
+
+.joul-scenario-chip.danger.active {
+  border-color: var(--orange);
+  background: rgba(224, 93, 58, 0.15);
+  color: var(--orange);
+  font-weight: 700;
+}
+
+[data-theme="light"] .joul-scenario-chip.danger.active {
+  color: #bf3f19;
+}
+
+.joul-scenario-chip.warn.active {
+  border-color: #e6b800;
+  background: rgba(230, 184, 0, 0.15);
+  color: #f7d046;
+  font-weight: 700;
+}
+
+[data-theme="light"] .joul-scenario-chip.warn.active {
+  color: #946f00;
+}
+
+.joul-scenario-chip.safe.active {
+  border-color: #4ade80;
+  background: rgba(74, 222, 128, 0.15);
+  color: #4ade80;
+  font-weight: 700;
+}
+
+[data-theme="light"] .joul-scenario-chip.safe.active {
+  color: #15803d;
+}
+
+/* Engine Result Card */
+.joul-result-card {
+  padding: 20px;
+  border-radius: 4px;
+  border: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.25);
+  transition: all 0.25s ease;
+}
+
+[data-theme="light"] .joul-result-card {
+  background: #ffffff;
+  border-color: #dcd9ce;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.joul-result-card[data-status="danger"] {
+  border-left: 4px solid var(--orange);
+}
+
+.joul-result-card[data-status="warn"] {
+  border-left: 4px solid #e6b800;
+}
+
+.joul-result-card[data-status="safe"] {
+  border-left: 4px solid #4ade80;
+}
+
+.joul-verdict-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.joul-verdict-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.joul-status-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.joul-result-card[data-status="danger"] .joul-status-icon-wrap {
+  background: rgba(224, 93, 58, 0.2);
+  color: var(--orange);
+  border: 1px solid rgba(224, 93, 58, 0.4);
+}
+
+.joul-result-card[data-status="warn"] .joul-status-icon-wrap {
+  background: rgba(230, 184, 0, 0.2);
+  color: #f7d046;
+  border: 1px solid rgba(230, 184, 0, 0.4);
+}
+
+[data-theme="light"] .joul-result-card[data-status="warn"] .joul-status-icon-wrap {
+  color: #946f00;
+}
+
+.joul-result-card[data-status="safe"] .joul-status-icon-wrap {
+  background: rgba(74, 222, 128, 0.2);
+  color: #4ade80;
+  border: 1px solid rgba(74, 222, 128, 0.4);
+}
+
+[data-theme="light"] .joul-result-card[data-status="safe"] .joul-status-icon-wrap {
+  color: #15803d;
+}
+
+.joul-verdict-tag {
+  font: 10px var(--mono);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.joul-result-card[data-status="danger"] .joul-verdict-tag {
+  color: var(--orange);
+}
+
+.joul-result-card[data-status="warn"] .joul-verdict-tag {
+  color: #f7d046;
+}
+
+[data-theme="light"] .joul-result-card[data-status="warn"] .joul-verdict-tag {
+  color: #946f00;
+}
+
+.joul-result-card[data-status="safe"] .joul-verdict-tag {
+  color: #4ade80;
+}
+
+[data-theme="light"] .joul-result-card[data-status="safe"] .joul-verdict-tag {
+  color: #15803d;
+}
+
+.joul-verdict-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-top: 2px;
+}
+
+.joul-score-block {
+  text-align: right;
+}
+
+.joul-score-val {
+  display: block;
+  font: 700 22px var(--sans);
+  color: var(--ink);
+  line-height: 1.1;
+}
+
+.joul-score-lbl {
+  font: 9px var(--mono);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Timeline Visual */
+.joul-timeline-visual {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+[data-theme="light"] .joul-timeline-visual {
+  background: rgba(0, 0, 0, 0.025);
+}
+
+.joul-vis-legend {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font: 10px var(--mono);
+  color: var(--muted);
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.joul-vis-legend span b {
+  color: var(--ink);
+}
+
+.joul-vis-bar {
+  display: flex;
+  gap: 4px;
+  height: 34px;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 4px;
+  padding: 3px;
+  overflow: hidden;
+}
+
+[data-theme="light"] .joul-vis-bar {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.joul-bar-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  font: 10px var(--mono);
+  font-weight: 600;
+  padding: 0 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: all 0.25s ease;
+}
+
+.joul-bar-slot.existing {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--ink);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="light"] .joul-bar-slot.existing {
+  background: #e5e3dc;
+  border-color: #cfccc2;
+}
+
+.joul-bar-slot.buffer {
+  background: rgba(231, 242, 109, 0.2);
+  color: var(--lime);
+  border: 1px dashed rgba(231, 242, 109, 0.4);
+}
+
+[data-theme="light"] .joul-bar-slot.buffer {
+  color: #4b6100;
+  background: rgba(142, 168, 20, 0.2);
+  border-color: rgba(142, 168, 20, 0.4);
+}
+
+.joul-bar-slot.request.danger {
+  background: rgba(224, 93, 58, 0.35);
+  color: var(--orange);
+  border: 1px solid var(--orange);
+}
+
+.joul-bar-slot.request.warn {
+  background: rgba(230, 184, 0, 0.35);
+  color: #f7d046;
+  border: 1px solid #e6b800;
+}
+
+[data-theme="light"] .joul-bar-slot.request.warn {
+  color: #946f00;
+}
+
+.joul-bar-slot.request.safe {
+  background: rgba(74, 222, 128, 0.3);
+  color: #4ade80;
+  border: 1px solid #4ade80;
+}
+
+[data-theme="light"] .joul-bar-slot.request.safe {
+  color: #15803d;
+}
+
+.joul-explain-box {
+  display: flex;
+  gap: 10px;
+  background: rgba(0, 0, 0, 0.15);
+  padding: 12px 14px;
+  border-radius: 4px;
+  border-left: 3px solid var(--line);
+  margin-bottom: 16px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+[data-theme="light"] .joul-explain-box {
+  background: #f7f6f2;
+  border-left-color: #dcd9ce;
+}
+
+.joul-explain-icon {
+  color: var(--orange);
+  font-size: 14px;
+}
+
+.joul-ledger-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .joul-ledger-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.joul-ledger-tile {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--line);
+  padding: 12px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+[data-theme="light"] .joul-ledger-tile {
+  background: #fbfbfa;
+  border-color: #e5e3dc;
+}
+
+.joul-ledger-lbl {
+  font: 9px var(--mono);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.joul-ledger-val {
+  font: 600 13px var(--sans);
+  color: var(--ink);
+}
+
+.joul-ledger-sub {
+  font: 9px var(--mono);
+  color: var(--muted);
+}
+
+
+
 /* 6. Interactive Terminal Polish & Section Layout */
 .terminal-section {
   background: #1c1e19;
