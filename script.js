@@ -313,6 +313,8 @@ cmdKResults?.addEventListener("click", e => {
     if (proj) openModal(proj);
   } else if (action === "open-joul-demo") {
     openModal("joul");
+  } else if (action === "open-clp-demo") {
+    openModal("clp");
   } else if (action === "open-pinit-demo") {
     openModal("pinit");
     setTimeout(() => {
@@ -686,6 +688,17 @@ const projectData = {
     actions: [
       { label: "Rental Service Repository ↗", url: "https://github.com/gouvkimsea/rental-service", primary: true },
       { label: "Architecture & Test Suite ↗", url: "https://github.com/gouvkimsea/rental-service#key-features", primary: false }
+    ]
+  },
+  clp: {
+    title: "Chinese Learning Platform (CLP) — Full-Stack Monorepo",
+    overview: "An enterprise-grade, monorepo Chinese language learning ecosystem engineered with NestJS, Next.js, and Prisma. Features an interactive SuperMemo-2 (SM-2) spaced repetition algorithm, HSK 1–6 vocabulary progression, and an AI conversational tutor powered by Google Gemini.",
+    problem: "Mastering Mandarin Chinese requires scientific spaced repetition scheduling and immediate conversational feedback, but traditional apps lock learners into rigid curricula without personalized AI dialogue or granular retention analytics.",
+    learned: "Engineered pure SuperMemo-2 (SM-2) mathematical interval algorithms, integrated Gemini 1.5 Pro with structured grammar correction prompts, orchestrated a high-performance Turbo monorepo (NestJS API, Next.js student and admin portals, CLI tool), and modeled complex flashcard review ledgers with Prisma ORM.",
+    tech: ["TypeScript", "NestJS", "Next.js", "Prisma ORM", "Gemini AI", "SuperMemo-2 (SM-2)", "Monorepo"],
+    actions: [
+      { label: "Monorepo GitHub ↗", url: "https://github.com/gouvkimsea", primary: true },
+      { label: "Explore Architecture & SRS Engine ↗", url: "https://github.com/gouvkimsea/my-Portfolio-", primary: false }
     ]
   },
   pinit: {
@@ -1216,6 +1229,198 @@ function initJoulSimulator() {
   runJoulSimulation(currentScenario, currentVehicle);
 }
 
+// ==========================================================================
+// Chinese Learning Platform (CLP) — SuperMemo-2 (SM-2) & Gemini AI Simulator
+// ==========================================================================
+const CLP_VOCAB_DATA = {
+  xue: {
+    char: "学",
+    pinyin: "xué",
+    meaning: "to study / to learn (HSK 1)",
+    radical: "子 (child) under 宀 (roof)",
+    baseInterval: 6,
+    baseRep: 2,
+    baseEf: 2.50
+  },
+  ai: {
+    char: "爱",
+    pinyin: "ài",
+    meaning: "to love / affection (HSK 1)",
+    radical: "爫 (claw) + 冖 + 友 (friend)",
+    baseInterval: 3,
+    baseRep: 1,
+    baseEf: 2.40
+  },
+  dao: {
+    char: "道",
+    pinyin: "dào",
+    meaning: "way / path / principle (HSK 3)",
+    radical: "辶 (walk) + 首 (head)",
+    baseInterval: 12,
+    baseRep: 3,
+    baseEf: 2.60
+  },
+  ming: {
+    char: "明",
+    pinyin: "míng",
+    meaning: "bright / clear (HSK 1)",
+    radical: "日 (sun) + 月 (moon)",
+    baseInterval: 1,
+    baseRep: 0,
+    baseEf: 2.50
+  },
+  zhi: {
+    char: "智",
+    pinyin: "zhì",
+    meaning: "wisdom / knowledge (HSK 5)",
+    radical: "知 (know) + 日 (sun)",
+    baseInterval: 18,
+    baseRep: 4,
+    baseEf: 2.70
+  }
+};
+
+const CLP_QUALITY_FEEDBACK = {
+  5: {
+    status: "safe",
+    verdictTag: "PERFECT RECALL · INTERVAL EXPANDED",
+    verdictTitle: "Retention Verified · Interval Multiplied by Ease Factor",
+    tutorPrefix: "太棒了！(Excellent!)",
+    tutorAdvice: "Flawless pronunciation and radical breakdown. Your memory retention is projected at 98%. Interval safely expanded."
+  },
+  4: {
+    status: "safe",
+    verdictTag: "SOLID RECALL · EASE FACTOR SUSTAINED",
+    verdictTitle: "Correct Response with Hesitation · Review Scheduled",
+    tutorPrefix: "非常好！(Very Good!)",
+    tutorAdvice: "Accurate recall with slight hesitation. Notice how the radical connects to the meaning. Keep this streak alive for maximum neural consolidation."
+  },
+  3: {
+    status: "warn",
+    verdictTag: "PASSING THRESHOLD · MARGINAL RECALL",
+    verdictTitle: "Correct but Serious Difficulty · Short Interval Retained",
+    tutorPrefix: "勉强记住了。(Marginally Remembered)",
+    tutorAdvice: "You remembered correctly, but with significant effort. The SM-2 algorithm slightly decreased your ease factor to schedule an earlier refresher."
+  },
+  2: {
+    status: "warn",
+    verdictTag: "RECALL FAILED · FAMILIAR ON REVEAL",
+    verdictTitle: "Memory Lapse · Interval Reset to Day 1",
+    tutorPrefix: "需要复习！(Review Needed)",
+    tutorAdvice: "You recognized the character once shown. Repetition count resets to 0 so we can re-anchor the radical components in memory tomorrow."
+  },
+  1: {
+    status: "danger",
+    verdictTag: "INCORRECT · WEAK TRACE",
+    verdictTitle: "Incorrect Response · Immediate Review Queue",
+    tutorPrefix: "加油！(Keep Going!)",
+    tutorAdvice: "Let's break down the stroke order and etymology. Daily active recall will rebuild this neural pathway quickly."
+  },
+  0: {
+    status: "danger",
+    verdictTag: "TOTAL BLACKOUT · FULL RE-LEARNING",
+    verdictTitle: "Zero Retention · Placed in Today's Intensive Queue",
+    tutorPrefix: "没关系，重新开始！(No Worries, Fresh Start!)",
+    tutorAdvice: "Zero retention happens when intervals stretch too far. We've reset the card and added contextual mnemonics to guide you."
+  }
+};
+
+let clpInitialized = false;
+
+function calculateSm2(quality, prevInterval, prevRepetitions, prevEaseFactor) {
+  let repetitions = prevRepetitions;
+  let easeFactor = prevEaseFactor;
+  let interval = 0;
+
+  if (quality >= 3) {
+    if (repetitions === 0) {
+      interval = 1;
+    } else if (repetitions === 1) {
+      interval = 6;
+    } else {
+      interval = Math.round(prevInterval * easeFactor);
+    }
+    repetitions++;
+  } else {
+    repetitions = 0;
+    interval = 1;
+  }
+
+  easeFactor = easeFactor + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02));
+  if (easeFactor < 1.3) {
+    easeFactor = 1.3;
+  }
+
+  return { interval, repetitions, easeFactor: parseFloat(easeFactor.toFixed(2)) };
+}
+
+function runClpSimulation(quality, hanziKey) {
+  const vocab = CLP_VOCAB_DATA[hanziKey] || CLP_VOCAB_DATA.xue;
+  const feedback = CLP_QUALITY_FEEDBACK[quality] || CLP_QUALITY_FEEDBACK[5];
+
+  const sm2 = calculateSm2(quality, vocab.baseInterval, vocab.baseRep, vocab.baseEf);
+
+  const resultCard = $("#clpResultCard");
+  const displayChar = $("#clpDisplayChar");
+  const displayPinyin = $("#clpDisplayPinyin");
+  const verdictTag = $("#clpVerdictTag");
+  const verdictTitle = $("#clpVerdictTitle");
+  const intervalVal = $("#clpIntervalVal");
+  const efVal = $("#clpEfVal");
+  const repVal = $("#clpRepVal");
+  const retVal = $("#clpRetVal");
+  const tutorText = $("#clpAiTutorText");
+
+  if (!resultCard) return;
+
+  resultCard.setAttribute("data-status", feedback.status);
+  if (displayChar) displayChar.textContent = vocab.char;
+  if (displayPinyin) displayPinyin.textContent = `${vocab.pinyin} · ${vocab.meaning}`;
+  if (verdictTag) verdictTag.textContent = feedback.verdictTag;
+  if (verdictTitle) verdictTitle.textContent = `${feedback.verdictTitle.split(" · ")[0]} · Next Review in ${sm2.interval} ${sm2.interval === 1 ? 'Day' : 'Days'}`;
+  if (intervalVal) intervalVal.textContent = `${sm2.interval} ${sm2.interval === 1 ? 'Day' : 'Days'}`;
+  if (efVal) efVal.textContent = sm2.easeFactor.toFixed(2);
+  if (repVal) repVal.textContent = sm2.repetitions;
+
+  const retentionEstimate = Math.min(99, Math.max(30, Math.round((quality / 5) * 60 + (sm2.easeFactor / 2.5) * 35)));
+  if (retVal) retVal.textContent = `${retentionEstimate}%`;
+
+  if (tutorText) {
+    tutorText.innerHTML = `"${feedback.tutorPrefix} <b>${vocab.char}</b> (${vocab.pinyin}): Radical <i>${vocab.radical}</i>. ${feedback.tutorAdvice}"`;
+  }
+}
+
+function initClpSimulator() {
+  const hanziSelect = $("#clpHanziSelect");
+  const qualityChips = $$(".clp-quality-chip");
+
+  if (!clpInitialized) {
+    clpInitialized = true;
+
+    hanziSelect?.addEventListener("change", () => {
+      const activeChip = $(".clp-quality-chip.active");
+      const quality = parseInt(activeChip?.getAttribute("data-quality") || "5", 10);
+      const hanziKey = hanziSelect.value;
+      runClpSimulation(quality, hanziKey);
+    });
+
+    qualityChips.forEach(chip => {
+      chip.addEventListener("click", () => {
+        qualityChips.forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+        const quality = parseInt(chip.getAttribute("data-quality") || "5", 10);
+        const hanziKey = hanziSelect?.value || "xue";
+        runClpSimulation(quality, hanziKey);
+      });
+    });
+  }
+
+  const activeChip = $(".clp-quality-chip.active");
+  const currentQuality = parseInt(activeChip?.getAttribute("data-quality") || "5", 10);
+  const currentHanzi = hanziSelect?.value || "xue";
+  runClpSimulation(currentQuality, currentHanzi);
+}
+
 function openModal(projectKey) {
   const data = projectData[projectKey];
   if (!data) return;
@@ -1249,6 +1454,16 @@ function openModal(projectKey) {
     }
   }
 
+  const clpSandbox = $("#clpSandbox");
+  if (clpSandbox) {
+    if (projectKey === "clp") {
+      clpSandbox.hidden = false;
+      initClpSimulator();
+    } else {
+      clpSandbox.hidden = true;
+    }
+  }
+
   modal.showModal();
   $("#modalClose")?.focus();
 }
@@ -1276,6 +1491,10 @@ $("#openPinitScannerBtn")?.addEventListener("click", () => {
 
 $("#openJoulSimulatorBtn")?.addEventListener("click", () => {
   openModal("joul");
+});
+
+$("#openClpSimulatorBtn")?.addEventListener("click", () => {
+  openModal("clp");
 });
 
 $("#modalClose")?.addEventListener("click", closeModal);
@@ -1332,7 +1551,7 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>journey</b>, <b>education</b>, <b>skills</b>, <b>projects</b>, <b>joul</b>, <b>pinit</b>, <b>miniworld</b>, <b>devpulse</b>, <b>portfolio</b>, <b>achievements</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>journey</b>, <b>education</b>, <b>skills</b>, <b>projects</b>, <b>joul</b>, <b>clp</b>, <b>pinit</b>, <b>miniworld</b>, <b>devpulse</b>, <b>portfolio</b>, <b>achievements</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
   about: "Gouv Kimsea — Dual degree undergraduate in Computer Science (Paragon.U) & Business Administration (Bonamary.U) building tangible products.",
   journey: () => {
     const el = document.getElementById("journey");
@@ -1340,7 +1559,7 @@ const terminalCommands = {
     return `<pre style="color:var(--lime);font-size:11px;line-height:1.5;">
 Gouv Kimsea — Engineering Roadmap & Journey:
 ================================================================
-Phase 01 [Current]: Shipping in public (JOUL Rental, PinitAI, Mini World 3D, DevPulse)
+Phase 01 [Current]: Shipping in public (JOUL Rental, CLP, PinitAI, Mini World 3D, DevPulse)
 Phase 02 [Exploration]: Full-stack systems & procedural WebGL shaders
 Phase 03 [Foundations]: Dual undergraduate degrees (Paragon.U CS & Bonamary.U BBA)
 Phase 04 [Horizon]: Team engineering, scalable systems & open-source
@@ -1367,8 +1586,8 @@ The Intersection: Algorithmic rigor paired with market insight.</pre>`;
   degree: () => terminalCommands.education(),
   university: () => terminalCommands.education(),
   school: () => terminalCommands.education(),
-  skills: "JavaScript · C++ · Python · WebGL / Shaders · HTML5 / CSS3 · React · REST APIs · Node.js · SQL · MySQL · PHP",
-  projects: "1. <b>JOUL Rental Service</b> — Enterprise vehicle fleet & escrow ledger platform (PHP 8 / MySQL)\n2. <b>Pinit</b> — AI scam and suspicious link detector\n3. <b>Mini World</b> — 3D planet simulation & WebGL engine\n4. <b>DevPulse</b> — Real-time engineering flow & telemetry dashboard\n5. <b>This Portfolio</b> — Personal web platform & terminal CLI\nClick any project card to view interactive breakdown.",
+  skills: "JavaScript · TypeScript · NestJS · Next.js · Prisma · C++ · Python · WebGL / Shaders · HTML5 / CSS3 · React · REST APIs · Node.js · SQL · MySQL · PHP",
+  projects: "1. <b>JOUL Rental Service</b> — Enterprise vehicle fleet & escrow ledger platform (PHP 8 / MySQL)\n2. <b>Chinese Learning Platform</b> — Full-stack monorepo with SuperMemo-2 SRS & Gemini AI tutor (NestJS / Next.js / Prisma)\n3. <b>Pinit</b> — AI scam and suspicious link detector\n4. <b>Mini World</b> — 3D planet simulation & WebGL engine\n5. <b>DevPulse</b> — Real-time engineering flow & telemetry dashboard\n6. <b>This Portfolio</b> — Personal web platform & terminal CLI\nClick any project card to view interactive breakdown.",
   achievements: () => {
     const el = document.getElementById("achievements");
     el?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -1405,6 +1624,13 @@ Scrolled to Section 05: Engineering Milestones!</pre>`;
     return "Opening JOUL Rental Service (Enterprise Fleet & Escrow Platform) project modal & fleet simulator...";
   },
   rental: () => terminalCommands.joul(),
+  clp: () => {
+    openModal("clp");
+    return "Opening Chinese Learning Platform (Monorepo, SuperMemo-2 SRS & Gemini AI) project modal & flashcard simulator...";
+  },
+  chinese: () => terminalCommands.clp(),
+  srs: () => terminalCommands.clp(),
+  sm2: () => terminalCommands.clp(),
   miniworld: () => {
     window.open("miniworld.html", "_blank");
     return "Launching Mini World 3D Planet Simulation in a new tab...";
@@ -1426,8 +1652,8 @@ Scrolled to Section 05: Engineering Milestones!</pre>`;
 Engineering Stats (2026):
 ----------------------------------------
 • GitHub Repositories: 15+ Active
-• Featured Live Projects: 5 (JOUL Rental, Pinit, Mini World, DevPulse, Portfolio)
-• Primary Stack: JavaScript (ES2026), PHP 8 / MySQL, C++, Python, WebGL/GLSL
+• Featured Live Projects: 6 (JOUL Rental, Chinese Learning Platform, Pinit, Mini World, DevPulse, Portfolio)
+• Primary Stack: TypeScript, NestJS, Next.js, Prisma, PHP 8 / MySQL, C++, Python, WebGL/GLSL
 • Status: Active Development & Open to Opportunities</pre>`;
   },
   resume: () => {
@@ -1888,6 +2114,14 @@ const initJourneySection = () => {
   joulJourneyBtn?.addEventListener("click", () => {
     if (typeof openModal === "function") {
       openModal("joul");
+    }
+  });
+
+  // Journey CLP Chinese Learning Platform demo trigger
+  const clpJourneyBtn = $("#journeyClpBtn");
+  clpJourneyBtn?.addEventListener("click", () => {
+    if (typeof openModal === "function") {
+      openModal("clp");
     }
   });
 

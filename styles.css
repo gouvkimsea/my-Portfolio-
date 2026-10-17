@@ -3287,6 +3287,570 @@ dialog.project-modal[open]::backdrop {
   color: var(--muted);
 }
 
+/* ==========================================================================
+   Chinese Learning Platform — Project Preview & SM-2 Spaced Repetition Engine
+   ========================================================================== */
+.clp-preview {
+  background: #251c14;
+  position: relative;
+  overflow: hidden;
+  height: 280px;
+  display: grid;
+  place-items: center;
+}
+
+[data-theme="light"] .clp-preview {
+  background: #f0e5da;
+}
+
+.clp-preview-grid {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 49.8%, rgba(217, 74, 38, 0.08) 50%),
+              linear-gradient(rgba(217, 74, 38, 0.08) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 46px;
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+[data-theme="light"] .clp-preview-grid {
+  background: linear-gradient(90deg, transparent 49.8%, rgba(217, 74, 38, 0.12) 50%),
+              linear-gradient(rgba(217, 74, 38, 0.12) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 46px;
+}
+
+.clp-stat-pill {
+  position: absolute;
+  top: 14px;
+  left: 18px;
+  font: 10px var(--mono);
+  font-weight: 700;
+  color: #ff8a65;
+  background: rgba(255, 112, 67, 0.15);
+  border: 1px solid rgba(255, 112, 67, 0.35);
+  padding: 4px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+  z-index: 2;
+  user-select: none;
+}
+
+[data-theme="light"] .clp-stat-pill {
+  color: #bf3f19;
+  background: rgba(217, 74, 38, 0.12);
+  border-color: rgba(217, 74, 38, 0.3);
+}
+
+.clp-hanzi-system {
+  position: absolute;
+  bottom: 18px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  z-index: 2;
+  pointer-events: none;
+  flex-wrap: wrap;
+}
+
+.clp-hanzi-card {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.65);
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(4px);
+}
+
+[data-theme="light"] .clp-hanzi-card {
+  background: rgba(255, 255, 255, 0.88);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.clp-hanzi-character {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--orange);
+  line-height: 1;
+}
+
+.clp-hanzi-pinyin {
+  font: 10px var(--mono);
+  color: var(--ink);
+  letter-spacing: 0.03em;
+}
+
+.clp-srs-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.65);
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font: 10px var(--mono);
+  color: var(--lime);
+  backdrop-filter: blur(4px);
+}
+
+[data-theme="light"] .clp-srs-badge {
+  background: rgba(255, 255, 255, 0.88);
+  border-color: rgba(0, 0, 0, 0.08);
+  color: #4b6100;
+}
+
+.clp-srs-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 6px currentColor;
+}
+
+.clp-demo-btn {
+  background: #d94a26;
+  border-color: #d94a26;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.clp-demo-btn:hover {
+  background: var(--lime);
+  border-color: var(--lime);
+  color: #121310;
+}
+
+/* ==========================================================================
+   Interactive CLP SM-2 Spaced Repetition Sandbox
+   ========================================================================== */
+.clp-sandbox {
+  margin: 32px 0 28px;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  transition: border-color 0.2s ease;
+}
+
+[data-theme="light"] .clp-sandbox {
+  background: rgba(0, 0, 0, 0.035);
+  border-color: #d6d4c8;
+}
+
+.clp-sandbox-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.clp-sandbox-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 10px var(--mono);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ff8a65;
+  background: rgba(255, 112, 67, 0.12);
+  padding: 4px 10px;
+  border: 1px solid rgba(255, 112, 67, 0.35);
+  border-radius: 20px;
+}
+
+[data-theme="light"] .clp-sandbox-badge {
+  color: #bf3f19;
+  background: rgba(217, 74, 38, 0.14);
+  border-color: rgba(217, 74, 38, 0.35);
+}
+
+.clp-live-pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 8px currentColor;
+  animation: pulseBeacon 1.8s ease-in-out infinite;
+}
+
+.clp-math-stat {
+  font: 10px var(--mono);
+  color: var(--muted);
+}
+
+.clp-sandbox-desc {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+
+.clp-sandbox-desc code {
+  font: 11px var(--mono);
+  background: rgba(0, 0, 0, 0.25);
+  padding: 2px 5px;
+  border-radius: 3px;
+  color: var(--ink);
+}
+
+[data-theme="light"] .clp-sandbox-desc code {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.clp-controls-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.clp-control-col {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.clp-control-label {
+  font: 11px var(--mono);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.clp-select-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.clp-select {
+  width: 100%;
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  padding: 10px 14px;
+  font: 12px var(--mono);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.clp-select:focus {
+  outline: none;
+  border-color: #d94a26;
+  box-shadow: 0 0 0 2px rgba(217, 74, 38, 0.2);
+}
+
+.clp-quality-bar {
+  margin-bottom: 18px;
+}
+
+.clp-quality-label {
+  display: block;
+  font: 11px var(--mono);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.clp-quality-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.clp-quality-chip {
+  padding: 8px 14px;
+  font: 11px var(--mono);
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.clp-quality-chip:hover {
+  border-color: var(--ink);
+  transform: translateY(-1px);
+}
+
+.clp-quality-chip.danger.active {
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  font-weight: 700;
+}
+
+[data-theme="light"] .clp-quality-chip.danger.active {
+  color: #b91c1c;
+}
+
+.clp-quality-chip.warn.active {
+  border-color: #e6b800;
+  background: rgba(230, 184, 0, 0.15);
+  color: #f7d046;
+  font-weight: 700;
+}
+
+[data-theme="light"] .clp-quality-chip.warn.active {
+  color: #946f00;
+}
+
+.clp-quality-chip.safe.active {
+  border-color: #4ade80;
+  background: rgba(74, 222, 128, 0.15);
+  color: #4ade80;
+  font-weight: 700;
+}
+
+[data-theme="light"] .clp-quality-chip.safe.active {
+  color: #15803d;
+}
+
+/* CLP Result Card */
+.clp-result-card {
+  padding: 20px;
+  border-radius: 4px;
+  border: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.25);
+  transition: all 0.25s ease;
+}
+
+[data-theme="light"] .clp-result-card {
+  background: #ffffff;
+  border-color: #dcd9ce;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.clp-result-card[data-status="danger"] {
+  border-left: 4px solid #ef4444;
+}
+
+.clp-result-card[data-status="warn"] {
+  border-left: 4px solid #e6b800;
+}
+
+.clp-result-card[data-status="safe"] {
+  border-left: 4px solid #4ade80;
+}
+
+.clp-verdict-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.clp-verdict-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.clp-char-display-box {
+  width: 52px;
+  height: 52px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--line);
+}
+
+[data-theme="light"] .clp-char-display-box {
+  background: #f7f5ef;
+}
+
+.clp-display-char {
+  font-size: 24px;
+  font-weight: 800;
+  color: #d94a26;
+  line-height: 1;
+}
+
+.clp-display-pinyin {
+  font: 9px var(--mono);
+  color: var(--muted);
+}
+
+.clp-verdict-tag {
+  font: 10px var(--mono);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.clp-result-card[data-status="danger"] .clp-verdict-tag {
+  color: #ef4444;
+}
+
+.clp-result-card[data-status="warn"] .clp-verdict-tag {
+  color: #f7d046;
+}
+
+[data-theme="light"] .clp-result-card[data-status="warn"] .clp-verdict-tag {
+  color: #946f00;
+}
+
+.clp-result-card[data-status="safe"] .clp-verdict-tag {
+  color: #4ade80;
+}
+
+[data-theme="light"] .clp-result-card[data-status="safe"] .clp-verdict-tag {
+  color: #15803d;
+}
+
+.clp-verdict-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-top: 2px;
+}
+
+.clp-math-formula-box {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+[data-theme="light"] .clp-math-formula-box {
+  background: rgba(0, 0, 0, 0.025);
+}
+
+.clp-formula-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.clp-math-badge {
+  font: 9px var(--mono);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--lime);
+  background: rgba(231, 242, 109, 0.12);
+  padding: 2px 6px;
+  border-radius: 3px;
+  border: 1px solid rgba(231, 242, 109, 0.3);
+}
+
+[data-theme="light"] .clp-math-badge {
+  color: #4b6100;
+  background: rgba(142, 168, 20, 0.12);
+  border-color: rgba(142, 168, 20, 0.35);
+}
+
+.clp-formula-line code {
+  font: 11px var(--mono);
+  color: var(--ink);
+}
+
+.clp-math-stats-row {
+  display: flex;
+  gap: 20px;
+  font: 11px var(--mono);
+  color: var(--muted);
+  flex-wrap: wrap;
+}
+
+.clp-math-stats-row span b {
+  color: var(--ink);
+}
+
+.clp-ai-tutor-box {
+  background: rgba(0, 0, 0, 0.15);
+  border-left: 3px solid #d94a26;
+  border-radius: 4px;
+  padding: 14px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+[data-theme="light"] .clp-ai-tutor-box {
+  background: #fbf9f5;
+  border-left-color: #d94a26;
+}
+
+.clp-ai-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font: 11px var(--mono);
+  color: #d94a26;
+  margin-bottom: 6px;
+}
+
+.clp-ai-sparkle {
+  font-size: 13px;
+}
+
+.clp-ledger-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .clp-ledger-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.clp-ledger-tile {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--line);
+  padding: 12px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+[data-theme="light"] .clp-ledger-tile {
+  background: #fbfbfa;
+  border-color: #e5e3dc;
+}
+
+.clp-ledger-lbl {
+  font: 9px var(--mono);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.clp-ledger-val {
+  font: 600 13px var(--sans);
+  color: var(--ink);
+}
+
+.clp-ledger-sub {
+  font: 9px var(--mono);
+  color: var(--muted);
+}
+
+
+
 
 
 /* 6. Interactive Terminal Polish & Section Layout */
