@@ -23,6 +23,13 @@ const MIME_TYPES = {
 };
 
 const server = http.createServer((req, res) => {
+  req.on('error', (err) => {
+    console.error('Request error:', err.message);
+  });
+  res.on('error', (err) => {
+    console.error('Response error:', err.message);
+  });
+
   let reqPath = decodeURIComponent(req.url.split('?')[0]);
   if (reqPath === '/' || reqPath === '') reqPath = '/index.html';
   
@@ -49,6 +56,18 @@ const server = http.createServer((req, res) => {
     });
 
     const readStream = fs.createReadStream(filePath);
+    readStream.on('error', (streamErr) => {
+      console.error('Stream error:', streamErr.message);
+      if (!res.headersSent) {
+        res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
+        res.end('500 Internal Server Error');
+      }
+    });
+
+    res.on('close', () => {
+      readStream.destroy();
+    });
+
     readStream.pipe(res);
   });
 });
@@ -59,8 +78,24 @@ server.on('error', (err) => {
     port++;
     server.listen(port);
   } else {
-    console.error(err);
+    console.error('Server error:', err);
   }
+});
+
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err.message);
+});
+
+process.on('unhandledRejection', (reason) => {
+  console.error('Unhandled Rejection:', reason);
+});
+
+process.on('SIGTERM', () => {
+  server.close(() => process.exit(0));
+});
+
+process.on('SIGINT', () => {
+  server.close(() => process.exit(0));
 });
 
 server.listen(port, () => {
