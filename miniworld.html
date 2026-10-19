@@ -309,29 +309,29 @@
   <div class="hud top-bar">
     <div class="brand">
       <a href="index.html#projects" class="back-link" style="color:var(--text);text-decoration:none;display:flex;align-items:center;gap:6px;font-size:12px;margin-right:10px;padding-right:10px;border-right:1px solid var(--glass-border);">
-        <span style="font-size:14px;">←</span> Portfolio
+        <span class="back-arrow" style="font-size:14px;">←</span> Portfolio
       </a>
       <span class="brand-icon">◈</span>
-      <div>
+      <div class="brand-text">
         <div class="brand-title">Mini World 3D</div>
         <div class="brand-subtitle">Interactive Cartoon Planet · Gouv Kimsea</div>
       </div>
     </div>
     <div class="top-actions">
       <button id="btnMeteor" class="glass-btn danger-btn active" title="Toggle Click Action: Meteor Strike (X) or Fireworks (F)">
-        <span id="meteorIcon">◈</span> <span id="meteorText">Meteor</span>
+        <span class="btn-icon" id="meteorIcon">◈</span> <span class="btn-text" id="meteorText">Meteor</span>
       </button>
       <button id="btnCataclysm" class="glass-btn warning-btn" title="Total Cataclysm / Meteor Storm (C)">
-        <span>★</span> Cataclysm
+        <span class="btn-icon">★</span> Cataclysm
       </button>
       <button id="btnRebuild" class="glass-btn success-btn" style="display:none;" title="Restore & Rebuild Planet (R)">
-        <span>↺</span> Rebuild World
+        <span class="btn-icon">↺</span> Rebuild World
       </button>
       <button id="btnAudio" class="glass-btn" title="Toggle Sound (M)">
-        <span id="audioIcon">SFX</span> Sound
+        <span class="btn-icon" id="audioIcon">SFX</span> Sound
       </button>
       <button id="btnCycle" class="glass-btn active" title="Auto Day/Night Cycle (Space)">
-        <span>☼</span> Auto Cycle
+        <span class="btn-icon">☼</span> Auto Cycle
       </button>
     </div>
   </div>
@@ -340,8 +340,8 @@
 
   <div class="hud bottom-bar">
     <div class="time-panel">
-      <span id="timeIcon">☼</span>
-      <span id="timeLabel" style="font-weight:600;min-width:55px;">Day</span>
+      <span class="time-icon" id="timeIcon">☼</span>
+      <span class="time-label" id="timeLabel" style="font-weight:600;min-width:55px;">Day</span>
       <input type="range" id="timeSlider" class="time-slider" min="0" max="1" step="0.002" value="0.25">
     </div>
 
