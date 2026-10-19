@@ -1213,10 +1213,10 @@ function runJoulSimulation(scenarioKey, vehicleKey) {
   const bufferEndStr = `${bufferEndHour.toString().padStart(2, "0")}:00`;
 
   if (bufferLegend) {
-    bufferLegend.innerHTML = `<b>Turnaround Buffer:</b> +${vehicle.buffer}h (14:00 — ${bufferEndStr})`;
+    bufferLegend.innerHTML = `<b class="joul-legend-bold">Turnaround Buffer:</b> +${vehicle.buffer}h (14:00 — ${bufferEndStr})`;
   }
   if (requestLegend) {
-    requestLegend.innerHTML = `<b>Incoming Request:</b> ${scenario.reqStart} — ${scenario.reqEnd}`;
+    requestLegend.innerHTML = `<b class="joul-legend-bold">Incoming Request:</b> ${scenario.reqStart} — ${scenario.reqEnd}`;
   }
 
   if (visBufferSlot) {
@@ -1462,7 +1462,7 @@ function openModal(projectKey) {
   $("#modalOverview").textContent = data.overview;
   $("#modalProblem").textContent = data.problem;
   $("#modalLearned").textContent = data.learned;
-  $("#modalTech").innerHTML = data.tech.map(item => `<span>${item}</span>`).join("");
+  $("#modalTech").innerHTML = data.tech.map(item => `<span class="modal-tech-tag">${item}</span>`).join("");
   $("#modalActions").innerHTML = data.actions.map(act =>
     `<a class="modal-btn ${act.primary ? '' : 'secondary'}" href="${act.url}" target="_blank" rel="noreferrer">${act.label}</a>`
   ).join("");

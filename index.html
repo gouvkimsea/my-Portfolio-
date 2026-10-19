@@ -124,7 +124,7 @@
 
 <body>
   <a href="#main" class="skip-link">Skip to main content</a>
-  <div class="loader" id="loader" aria-hidden="true"><span>[ ]</span><i></i></div>
+  <div class="loader" id="loader" aria-hidden="true"><span class="loader-brackets">[ ]</span><i class="loader-bar"></i></div>
   <div class="scroll-progress" id="scrollProgress"></div>
   <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
   <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
@@ -152,28 +152,28 @@
       </div>
     </div>
     <nav class="mobile-drawer-links">
-      <a class="mobile-drawer-link" href="#about"><span>About</span> <i aria-hidden="true">↗</i></a>
-      <a class="mobile-drawer-link" href="#skills"><span>Skills</span> <i aria-hidden="true">↗</i></a>
-      <a class="mobile-drawer-link" href="#projects"><span>Projects</span> <i aria-hidden="true">↗</i></a>
-      <a class="mobile-drawer-link" href="#journey"><span>Journey</span> <i aria-hidden="true">↗</i></a>
-      <a class="mobile-drawer-link" href="#achievements"><span>Achievements</span> <i aria-hidden="true">↗</i></a>
-      <a class="mobile-drawer-link mobile-drawer-contact" href="#contact"><span>Contact</span> <i
-          aria-hidden="true">↗</i></a>
+      <a class="mobile-drawer-link" href="#about"><span class="drawer-link-text">About</span> <i class="drawer-link-icon" aria-hidden="true">↗</i></a>
+      <a class="mobile-drawer-link" href="#skills"><span class="drawer-link-text">Skills</span> <i class="drawer-link-icon" aria-hidden="true">↗</i></a>
+      <a class="mobile-drawer-link" href="#projects"><span class="drawer-link-text">Projects</span> <i class="drawer-link-icon" aria-hidden="true">↗</i></a>
+      <a class="mobile-drawer-link" href="#journey"><span class="drawer-link-text">Journey</span> <i class="drawer-link-icon" aria-hidden="true">↗</i></a>
+      <a class="mobile-drawer-link" href="#achievements"><span class="drawer-link-text">Achievements</span> <i class="drawer-link-icon" aria-hidden="true">↗</i></a>
+      <a class="mobile-drawer-link mobile-drawer-contact" href="#contact"><span class="drawer-link-text">Contact</span> <i
+          class="drawer-link-icon" aria-hidden="true">↗</i></a>
     </nav>
     <div class="mobile-drawer-footer">
-      <small>Gouv Kimsea · Phnom Penh</small>
+      <small class="drawer-footnote">Gouv Kimsea · Phnom Penh</small>
     </div>
   </aside>
 
   <!-- Subtle Topographic Ambient Curves (Inspired by Reference Design) -->
   <div class="navbar-ambient-curves" aria-hidden="true">
-    <svg viewBox="0 0 1920 280" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-      <path d="M-80,60 C260,10 620,130 960,70 C1300,10 1660,120 2000,50" />
-      <path d="M-80,110 C240,55 580,185 960,120 C1340,55 1700,175 2000,100" />
-      <path d="M-80,160 C220,100 540,240 960,170 C1380,100 1740,230 2000,150" />
-      <path d="M-80,210 C200,145 500,295 960,220 C1420,145 1780,285 2000,200" />
-      <path d="M-80,260 C180,190 460,350 960,270 C1460,190 1820,340 2000,250" />
-      <path d="M-80,20 C300,-25 660,80 960,30 C1260,-20 1620,70 2000,15" />
+    <svg class="ambient-curves-svg" viewBox="0 0 1920 280" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path class="ambient-curve-path" d="M-80,60 C260,10 620,130 960,70 C1300,10 1660,120 2000,50" />
+      <path class="ambient-curve-path" d="M-80,110 C240,55 580,185 960,120 C1340,55 1700,175 2000,100" />
+      <path class="ambient-curve-path" d="M-80,160 C220,100 540,240 960,170 C1380,100 1740,230 2000,150" />
+      <path class="ambient-curve-path" d="M-80,210 C200,145 500,295 960,220 C1420,145 1780,285 2000,200" />
+      <path class="ambient-curve-path" d="M-80,260 C180,190 460,350 960,270 C1460,190 1820,340 2000,250" />
+      <path class="ambient-curve-path" d="M-80,20 C300,-25 660,80 960,30 C1260,-20 1620,70 2000,15" />
     </svg>
   </div>
 
@@ -209,7 +209,7 @@
         <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mobileDrawer"
           aria-label="Toggle navigation menu">
           <span class="burger-icon" aria-hidden="true">
-            <span></span><span></span><span></span>
+            <span class="burger-bar"></span><span class="burger-bar"></span><span class="burger-bar"></span>
           </span>
           <b class="menu-text">Menu</b>
         </button>
@@ -217,13 +217,13 @@
     </nav>
   </header>
 
-  <main id="main">
+  <main class="main-content" id="main">
     <section class="hero section" id="home">
       <div class="hero-grid"></div>
       <div class="container hero-inner">
         <div class="hero-copy reveal">
           <p class="eyebrow"><span class="eyebrow-line"></span> Hello, I'm Gouv Kimsea</p>
-          <h1>Student developer<br /><span class="type-wrap">&amp;&nbsp;<em class="typewriter"
+          <h1 class="hero-title">Student developer<br /><span class="type-wrap">&amp;&nbsp;<em class="typewriter"
                 id="typewriter">builder.</em><span class="type-cursor" aria-hidden="true">_</span></span></h1>
           <p class="hero-text">I’m a university student exploring software development, business, and technology by
             building real projects and learning through experimentation.</p>
@@ -264,48 +264,48 @@
               <!-- Tab 1: developer.ts -->
               <div class="tab-pane active" id="pane-profile" role="tabpanel">
                 <div class="code-line"><span class="ln">1</span>
-                  <p><i>const</i> <b>developer</b>: <i>Developer</i> = {</p>
+                  <p class="code-text"><i class="code-kw">const</i> <b class="code-var">developer</b>: <i class="code-type">Developer</i> = {</p>
                 </div>
                 <div class="code-line"><span class="ln">2</span>
-                  <p class="indent"><label>name:</label> <strong>'Gouv Kimsea'</strong>,</p>
+                  <p class="code-text indent"><label class="code-prop">name:</label> <strong class="code-val">'Gouv Kimsea'</strong>,</p>
                 </div>
                 <div class="code-line"><span class="ln">3</span>
-                  <p class="indent"><label>location:</label> <strong>'Phnom Penh, KH'</strong>,</p>
+                  <p class="code-text indent"><label class="code-prop">location:</label> <strong class="code-val">'Phnom Penh, KH'</strong>,</p>
                 </div>
                 <div class="code-line"><span class="ln">4</span>
-                  <p class="indent"><label>degree:</label> <strong class="lime">'CS &amp; Business Admin'</strong>,</p>
+                  <p class="code-text indent"><label class="code-prop">degree:</label> <strong class="code-val lime">'CS &amp; Business Admin'</strong>,</p>
                 </div>
                 <div class="code-line"><span class="ln">5</span>
-                  <p class="indent"><label>focus:</label> <strong class="orange">'Web, 3D &amp; Products'</strong>,</p>
+                  <p class="code-text indent"><label class="code-prop">focus:</label> <strong class="code-val orange">'Web, 3D &amp; Products'</strong>,</p>
                 </div>
                 <div class="code-line"><span class="ln">6</span>
-                  <p class="indent"><label>available:</label> <strong class="cyan">true</strong></p>
+                  <p class="code-text indent"><label class="code-prop">available:</label> <strong class="code-val cyan">true</strong></p>
                 </div>
                 <div class="code-line"><span class="ln">7</span>
-                  <p>};</p>
+                  <p class="code-text">};</p>
                 </div>
               </div>
               <!-- Tab 2: skills.json -->
               <div class="tab-pane" id="pane-stack" role="tabpanel">
                 <div class="code-line"><span class="ln">1</span>
-                  <p>{</p>
+                  <p class="code-text">{</p>
                 </div>
                 <div class="code-line"><span class="ln">2</span>
-                  <p class="indent"><label>"core":</label> <strong>["TypeScript", "JS", "C++"]</strong>,</p>
+                  <p class="code-text indent"><label class="code-prop">"core":</label> <strong class="code-val">["TypeScript", "JS", "C++"]</strong>,</p>
                 </div>
                 <div class="code-line"><span class="ln">3</span>
-                  <p class="indent"><label>"creative":</label> <strong class="lime">["Three.js", "WebGL",
+                  <p class="code-text indent"><label class="code-prop">"creative":</label> <strong class="code-val lime">["Three.js", "WebGL",
                       "Blender"]</strong>,</p>
                 </div>
                 <div class="code-line"><span class="ln">4</span>
-                  <p class="indent"><label>"frameworks":</label> <strong class="orange">["Next.js", "React",
+                  <p class="code-text indent"><label class="code-prop">"frameworks":</label> <strong class="code-val orange">["Next.js", "React",
                       "Node"]</strong>,</p>
                 </div>
                 <div class="code-line"><span class="ln">5</span>
-                  <p class="indent"><label>"passion":</label> <strong class="cyan">"Crafting seamless UI"</strong></p>
+                  <p class="code-text indent"><label class="code-prop">"passion":</label> <strong class="code-val cyan">"Crafting seamless UI"</strong></p>
                 </div>
                 <div class="code-line"><span class="ln">6</span>
-                  <p>}</p>
+                  <p class="code-text">}</p>
                 </div>
               </div>
               <!-- Tab 3: status.sh -->
@@ -343,25 +343,25 @@
     <section class="section about-section" id="about">
       <div class="container">
         <div class="section-heading split reveal">
-          <div>
+          <div class="section-heading-text">
             <p class="eyebrow">01 / About me</p>
-            <h2>A work in<br /><em>progress.</em></h2>
+            <h2 class="section-title">A work in<br /><em class="heading-em">progress.</em></h2>
           </div>
           <p class="heading-note">Turning questions into products —<br />one small, practical project at a time.</p>
         </div>
         <div class="about-bento-grid">
           <article class="bento-card bento-hero reveal spotlight-card">
             <div class="bento-header"><span class="bento-icon">✦</span></div>
-            <h3>Turning questions into tangible software.</h3>
-            <p>I’m a university student interested in the space where technology, software development, and management
+            <h3 class="bento-title">Turning questions into tangible software.</h3>
+            <p class="bento-desc">I’m a university student interested in the space where technology, software development, and management
               meet. I enjoy taking an idea from a rough sketch to something people can actually use, while staying
               honest about what I’m still learning.</p>
             <div class="bento-hero-footer">
               <div class="bento-hero-tags">
-                <span>Interactive Web</span>
-                <span>C++ &amp; Webdesign</span>
-                <span>Product Strategy</span>
-                <span>Phnom Penh</span>
+                <span class="bento-tag">Interactive Web</span>
+                <span class="bento-tag">C++ &amp; Webdesign</span>
+                <span class="bento-tag">Product Strategy</span>
+                <span class="bento-tag">Phnom Penh</span>
               </div>
             </div>
           </article>
@@ -370,13 +370,13 @@
             <div class="edu-card-header">
               <div class="edu-pill">
                 <span class="edu-beacon"></span>
-                <span>DUAL DEGREE</span>
+                <span class="edu-pill-label">DUAL DEGREE</span>
               </div>
               <span class="edu-grad-year">Expected 2028</span>
             </div>
 
             <div class="edu-card-intro">
-              <h4>Computer Science &amp; Business</h4>
+              <h4 class="edu-card-heading">Computer Science &amp; Business</h4>
               <p class="edu-subtitle">Parallel dual undergraduate tracks in Phnom Penh</p>
             </div>
 
@@ -385,8 +385,8 @@
                 <div class="edu-track-badge" aria-hidden="true">
                   <svg class="edu-track-svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="16 18 22 12 16 6"></polyline>
-                    <polyline points="8 6 2 12 8 18"></polyline>
+                    <polyline class="edu-poly" points="16 18 22 12 16 6"></polyline>
+                    <polyline class="edu-poly" points="8 6 2 12 8 18"></polyline>
                   </svg>
                 </div>
                 <div class="edu-track-content">
@@ -398,9 +398,9 @@
                     <span class="edu-school-name">Paragon International University</span>
                   </div>
                   <div class="edu-chip-cluster">
-                    <span>Algorithms</span>
-                    <span>WebGL &amp; C++</span>
-                    <span>Systems</span>
+                    <span class="edu-chip-item">Algorithms</span>
+                    <span class="edu-chip-item">WebGL &amp; C++</span>
+                    <span class="edu-chip-item">Systems</span>
                   </div>
                 </div>
               </div>
@@ -423,40 +423,40 @@
                     <span class="edu-school-name">Bonamary University</span>
                   </div>
                   <div class="edu-chip-cluster">
-                    <span>Strategic Mgmt</span>
-                    <span>Product Economics</span>
-                    <span>Operations</span>
+                    <span class="edu-chip-item">Strategic Mgmt</span>
+                    <span class="edu-chip-item">Product Economics</span>
+                    <span class="edu-chip-item">Operations</span>
                   </div>
                 </div>
               </div>
             </div>
           </article>
           <article class="bento-card bento-focus reveal spotlight-card">
-            <h3>Building with purpose and curiosity.</h3>
+            <h3 class="bento-title">Building with purpose and curiosity.</h3>
             <div class="bento-focus-items">
               <div class="focus-item">
-                <div>
-                  <strong>Location</strong>
-                  <p>Phnom Penh, Cambodia</p>
+                <div class="focus-item-content">
+                  <strong class="focus-label">Location</strong>
+                  <p class="focus-val">Phnom Penh, Cambodia</p>
                 </div>
               </div>
               <div class="focus-item">
-                <div>
-                  <strong>Active Exploration</strong>
-                  <p>Client-side 3D graphics, security heuristics &amp; scalable web systems</p>
+                <div class="focus-item-content">
+                  <strong class="focus-label">Active Exploration</strong>
+                  <p class="focus-val">Client-side 3D graphics, security heuristics &amp; scalable web systems</p>
                 </div>
               </div>
               <div class="focus-item">
-                <div>
-                  <strong>Availability</strong>
-                  <p>Open for 2026 internships, junior engineering roles, and team collaborations</p>
+                <div class="focus-item-content">
+                  <strong class="focus-label">Availability</strong>
+                  <p class="focus-val">Open for 2026 internships, junior engineering roles, and team collaborations</p>
                 </div>
               </div>
             </div>
             <div class="bento-focus-footer">
-              <a class="bento-link" href="#contact">Get in touch <span>↗</span></a>
+              <a class="bento-link" href="#contact">Get in touch <span class="bento-link-icon" aria-hidden="true">↗</span></a>
               <a class="bento-link" href="https://github.com/gouvkimsea" target="_blank" rel="noreferrer">GitHub
-                Activity <span>↗</span></a>
+                Activity <span class="bento-link-icon" aria-hidden="true">↗</span></a>
             </div>
           </article>
 
@@ -473,7 +473,7 @@
       <div class="container">
         <div class="terminal-wrap reveal">
           <div class="terminal-heading"><span class="eyebrow">A little peek
-              inside</span><span>interactive-terminal</span></div>
+              inside</span><span class="terminal-sub">interactive-terminal</span></div>
           <div class="terminal spotlight-card" id="terminal">
             <div class="terminal-bar">
               <span class="wb-dot wb-red"></span><span class="wb-dot wb-yellow"></span><span
@@ -481,15 +481,15 @@
               <span class="terminal-title">gouv@macbook:~</span>
             </div>
             <div class="terminal-output" id="terminalOutput">
-              <p>Welcome. Type <b>help</b> to see what I can do.</p>
+              <p class="term-msg">Welcome. Type <strong class="term-bold">help</strong> to see what I can do.</p>
             </div>
             <form class="terminal-form" id="terminalForm">
-              <label for="terminalInput">$</label>
-              <input id="terminalInput" autocomplete="off" spellcheck="false" aria-label="Terminal command"
+              <label class="terminal-prompt" for="terminalInput">$</label>
+              <input class="terminal-input" id="terminalInput" autocomplete="off" spellcheck="false" aria-label="Terminal command"
                 placeholder="try 'about', 'skills', or 'projects'" />
             </form>
             <div class="terminal-hint-bar" aria-label="Quick terminal commands">
-              <span>Quick commands:</span>
+              <span class="hint-label">Quick commands:</span>
               <button type="button" class="terminal-chip" data-cmd="about">about</button>
               <button type="button" class="terminal-chip" data-cmd="education">education</button>
               <button type="button" class="terminal-chip" data-cmd="skills">skills</button>
@@ -509,72 +509,72 @@
     <section class="section skills-section" id="skills">
       <div class="container">
         <div class="section-heading split reveal">
-          <div>
+          <div class="section-heading-text">
             <p class="eyebrow">02 / Toolkit</p>
-            <h2>Learning the<br /><em>language of ideas.</em></h2>
+            <h2 class="section-title">Learning the<br /><em class="heading-em">language of ideas.</em></h2>
           </div>
           <p class="heading-note">A growing toolkit, not a finished list.<br />The best skill is staying curious.</p>
         </div>
         <div class="skill-grid">
           <article class="skill-card reveal spotlight-card"><span class="skill-number">01</span>
             <div class="skill-icon">&lt;/&gt;</div>
-            <h3>Programming</h3>
-            <p>Learning to think clearly and solve problems with code.</p>
+            <h3 class="skill-title">Programming</h3>
+            <p class="skill-desc">Learning to think clearly and solve problems with code.</p>
             <div class="chips">
               <span class="chip-item">JavaScript</span>
               <span class="chip-item">C++</span>
               <span class="chip-item">Python</span>
-            </div><small class="learning-state"><i></i> Growing</small>
+            </div><small class="learning-state"><i class="state-dot" aria-hidden="true"></i> Growing</small>
           </article>
           <article class="skill-card reveal spotlight-card"><span class="skill-number">02</span>
             <div class="skill-icon">◈</div>
-            <h3>Web development</h3>
-            <p>Building responsive, accessible interfaces with intention.</p>
+            <h3 class="skill-title">Web development</h3>
+            <p class="skill-desc">Building responsive, accessible interfaces with intention.</p>
             <div class="chips">
               <span class="chip-item">HTML / CSS</span>
               <span class="chip-item">React</span>
               <span class="chip-item">REST APIs</span>
-            </div><small class="learning-state"><i></i> Practicing</small>
+            </div><small class="learning-state"><i class="state-dot" aria-hidden="true"></i> Practicing</small>
           </article>
           <article class="skill-card reveal spotlight-card"><span class="skill-number">03</span>
             <div class="skill-icon">⌁</div>
-            <h3>Backend &amp; data</h3>
-            <p>Exploring how products work behind the interface.</p>
+            <h3 class="skill-title">Backend &amp; data</h3>
+            <p class="skill-desc">Exploring how products work behind the interface.</p>
             <div class="chips">
               <span class="chip-item">Node.js</span>
               <span class="chip-item">SQL</span>
               <span class="chip-item">Databases</span>
-            </div><small class="learning-state"><i></i> Exploring</small>
+            </div><small class="learning-state"><i class="state-dot" aria-hidden="true"></i> Exploring</small>
           </article>
           <article class="skill-card reveal spotlight-card"><span class="skill-number">04</span>
             <div class="skill-icon">✦</div>
-            <h3>3D &amp; Graphics</h3>
-            <p>Procedural simulation, geometry math, and interactive shaders.</p>
+            <h3 class="skill-title">3D &amp; Graphics</h3>
+            <p class="skill-desc">Procedural simulation, geometry math, and interactive shaders.</p>
             <div class="chips">
               <span class="chip-item">WebGL</span>
               <span class="chip-item">GLSL</span>
               <span class="chip-item">3D Math</span>
-            </div><small class="learning-state"><i></i> Experimenting</small>
+            </div><small class="learning-state"><i class="state-dot" aria-hidden="true"></i> Experimenting</small>
           </article>
           <article class="skill-card reveal spotlight-card"><span class="skill-number">05</span>
             <div class="skill-icon">💼</div>
-            <h3>Business &amp; Strategy</h3>
-            <p>Bridging software architecture with product viability, unit economics, and market fit.</p>
+            <h3 class="skill-title">Business &amp; Strategy</h3>
+            <p class="skill-desc">Bridging software architecture with product viability, unit economics, and market fit.</p>
             <div class="chips">
               <span class="chip-item">Product Strategy</span>
               <span class="chip-item">Market Economics</span>
               <span class="chip-item">Operations</span>
-            </div><small class="learning-state"><i></i> Bridging</small>
+            </div><small class="learning-state"><i class="state-dot" aria-hidden="true"></i> Bridging</small>
           </article>
           <article class="skill-card reveal spotlight-card"><span class="skill-number">06</span>
             <div class="skill-icon">⚙</div>
-            <h3>Systems &amp; DevOps</h3>
-            <p>Automated deployment pipelines, source control discipline, and shell tooling.</p>
+            <h3 class="skill-title">Systems &amp; DevOps</h3>
+            <p class="skill-desc">Automated deployment pipelines, source control discipline, and shell tooling.</p>
             <div class="chips">
               <span class="chip-item">Git &amp; GitHub</span>
               <span class="chip-item">Linux / Shell</span>
               <span class="chip-item">CI/CD Actions</span>
-            </div><small class="learning-state"><i></i> Automating</small>
+            </div><small class="learning-state"><i class="state-dot" aria-hidden="true"></i> Automating</small>
           </article>
         </div>
       </div>
@@ -583,17 +583,17 @@
     <section class="section projects-section" id="projects">
       <div class="container">
         <div class="section-heading split reveal">
-          <div>
+          <div class="section-heading-text">
             <p class="eyebrow">03 / Selected work</p>
-            <h2>Things I’m<br /><em>figuring out.</em></h2>
+            <h2 class="section-title">Things I’m<br /><em class="heading-em">figuring out.</em></h2>
           </div>
           <p class="heading-note">A few experiments, class projects,<br />and ideas made tangible.</p>
         </div>
         <div class="filter-bar" role="group" aria-label="Filter projects">
-          <button class="filter active" data-filter="all">All <sup>06</sup></button><button class="filter"
-            data-filter="web">Web <sup>06</sup></button><button class="filter" data-filter="ai">AI
-            <sup>03</sup></button><button class="filter" data-filter="3d">3D &amp; WebGL <sup>01</sup></button><button
-            class="filter" data-filter="security">Security <sup>02</sup></button>
+          <button class="filter active" data-filter="all">All <sup class="filter-count">06</sup></button><button class="filter"
+            data-filter="web">Web <sup class="filter-count">06</sup></button><button class="filter" data-filter="ai">AI
+            <sup class="filter-count">03</sup></button><button class="filter" data-filter="3d">3D &amp; WebGL <sup class="filter-count">01</sup></button><button
+            class="filter" data-filter="security">Security <sup class="filter-count">02</sup></button>
         </div>
         <div class="project-grid">
           <article class="project-card featured reveal spotlight-card" data-category="ai security web"
@@ -608,22 +608,22 @@
                 <div class="threat-badge"><span class="threat-dot"></span><span class="threat-score">98.4% SAFE</span>
                 </div>
               </div>
-              <span class="preview-label">PIN<span>IT</span></span>
+              <span class="preview-label">PIN<span class="preview-label-accent">IT</span></span>
               <div class="scan-line"></div>
               <div class="preview-grid"></div><span class="preview-corner">01 / 06</span>
             </div>
             <div class="project-info">
-              <div><small>01 — Product experiment</small>
-                <h3>Pinit</h3>
-                <p>An AI-powered concept for helping people identify potentially suspicious online content and scams.
+              <div class="project-info-header"><small class="project-tagline">01 — Product experiment</small>
+                <h3 class="project-title">Pinit</h3>
+                <p class="project-desc">An AI-powered concept for helping people identify potentially suspicious online content and scams.
                 </p>
-                <div class="project-tags"><span>AI</span><span>Web</span><span>Security</span></div>
+                <div class="project-tags"><span class="project-tag">AI</span><span class="project-tag">Web</span><span class="project-tag">Security</span></div>
               </div>
               <div class="project-card-actions">
                 <button class="launch-btn magnetic pinit-demo-btn" id="openPinitScannerBtn" type="button"
-                  title="Test Pinit Interactive AI Threat Scanner">Try Scanner <span>⚡</span></button>
+                  title="Test Pinit Interactive AI Threat Scanner">Try Scanner <span class="btn-arrow" aria-hidden="true">⚡</span></button>
                 <a class="launch-btn magnetic" href="https://github.com/gouvkimsea/PinitAI" target="_blank"
-                  rel="noreferrer" title="View PinitAI repository">Repo <span>↗</span></a>
+                  rel="noreferrer" title="View PinitAI repository">Repo <span class="btn-arrow" aria-hidden="true">↗</span></a>
                 <button class="round-arrow project-open" aria-label="Open Pinit details">↗</button>
               </div>
             </div>
@@ -640,20 +640,20 @@
                 <div class="planet-orbit-ring"></div>
                 <div class="meteor-streak"></div>
               </div>
-              <span class="preview-label">MINI<span>WORLD</span></span>
+              <span class="preview-label">MINI<span class="preview-label-accent">WORLD</span></span>
               <span class="preview-corner">02 / 06</span>
             </div>
             <div class="project-info">
-              <div>
-                <small>02 — 3D Graphics &amp; Simulation</small>
-                <h3>Mini World</h3>
-                <p>Interactive 3D procedural cartoon planet sandbox with real-time terrain sculpting, day/night cycles,
+              <div class="project-info-header">
+                <small class="project-tagline">02 — 3D Graphics &amp; Simulation</small>
+                <h3 class="project-title">Mini World</h3>
+                <p class="project-desc">Interactive 3D procedural cartoon planet sandbox with real-time terrain sculpting, day/night cycles,
                   and meteor physics.</p>
-                <div class="project-tags"><span>WebGL</span><span>3D Graphics</span><span>Web Audio</span></div>
+                <div class="project-tags"><span class="project-tag">WebGL</span><span class="project-tag">3D Graphics</span><span class="project-tag">Web Audio</span></div>
               </div>
               <div class="project-card-actions">
                 <a class="launch-btn magnetic" href="miniworld.html" target="_blank" rel="noopener"
-                  title="Launch live 3D planet simulation">Play 3D <span>↗</span></a>
+                  title="Launch live 3D planet simulation">Play 3D <span class="btn-arrow" aria-hidden="true">↗</span></a>
                 <button class="round-arrow project-open" aria-label="Open Mini World details">↗</button>
               </div>
             </div>
@@ -675,25 +675,25 @@
                 </div>
                 <div class="joul-escrow-badge">
                   <span class="joul-escrow-dot"></span>
-                  <span>100% ESCROW SECURED</span>
+                  <span class="joul-escrow-text">100% ESCROW SECURED</span>
                 </div>
               </div>
-              <span class="preview-label">JOUL<span>RENTAL</span></span>
+              <span class="preview-label">JOUL<span class="preview-label-accent">RENTAL</span></span>
               <div class="joul-preview-grid"></div>
               <span class="preview-corner">03 / 06</span>
             </div>
             <div class="project-info">
-              <div>
-                <small>03 — Enterprise Fleet &amp; Escrow Platform</small>
-                <h3>JOUL Rental Service</h3>
-                <p>Full-featured vehicle and equipment rental platform with automated turnaround buffers, escrow-backed double-entry financial ledger, role-based access control, and 197 automated test assertions.</p>
-                <div class="project-tags"><span>PHP 8</span><span>MySQL</span><span>Fleet Ops</span><span>Escrow Ledger</span><span>RBAC</span></div>
+              <div class="project-info-header">
+                <small class="project-tagline">03 — Enterprise Fleet &amp; Escrow Platform</small>
+                <h3 class="project-title">JOUL Rental Service</h3>
+                <p class="project-desc">Full-featured vehicle and equipment rental platform with automated turnaround buffers, escrow-backed double-entry financial ledger, role-based access control, and 197 automated test assertions.</p>
+                <div class="project-tags"><span class="project-tag">PHP 8</span><span class="project-tag">MySQL</span><span class="project-tag">Fleet Ops</span><span class="project-tag">Escrow Ledger</span><span class="project-tag">RBAC</span></div>
               </div>
               <div class="project-card-actions">
                 <button class="launch-btn magnetic joul-demo-btn" id="openJoulSimulatorBtn" type="button"
-                  title="Test JOUL Rental Concurrency &amp; Escrow Simulator">Fleet Engine <span>⚡</span></button>
+                  title="Test JOUL Rental Concurrency &amp; Escrow Simulator">Fleet Engine <span class="btn-arrow" aria-hidden="true">⚡</span></button>
                 <a class="launch-btn magnetic" href="https://github.com/gouvkimsea/rental-service" target="_blank"
-                  rel="noreferrer" title="View Rental Service repository">Repo <span>↗</span></a>
+                  rel="noreferrer" title="View Rental Service repository">Repo <span class="btn-arrow" aria-hidden="true">↗</span></a>
                 <button class="round-arrow project-open" aria-label="Open JOUL Rental details">↗</button>
               </div>
             </div>
@@ -712,25 +712,25 @@
                 </div>
                 <div class="clp-srs-badge">
                   <span class="clp-srs-dot"></span>
-                  <span>SM-2: 6d INTERVAL · EF 2.50</span>
+                  <span class="clp-srs-text">SM-2: 6d INTERVAL · EF 2.50</span>
                 </div>
               </div>
-              <span class="preview-label">HANZI<span>AI</span></span>
+              <span class="preview-label">HANZI<span class="preview-label-accent">AI</span></span>
               <div class="clp-preview-grid"></div>
               <span class="preview-corner">04 / 06</span>
             </div>
             <div class="project-info">
-              <div>
-                <small>04 — Full-Stack Monorepo &amp; AI EdTech</small>
-                <h3>Chinese Learning Platform</h3>
-                <p>Full-stack Mandarin language platform with NestJS API gateway, dual Next.js portals, SuperMemo-2 spaced repetition math engine, and Gemini AI conversational tutoring.</p>
-                <div class="project-tags"><span>NestJS</span><span>Next.js</span><span>Prisma</span><span>SM-2 SRS</span><span>Gemini AI</span><span>TypeScript</span></div>
+              <div class="project-info-header">
+                <small class="project-tagline">04 — Full-Stack Monorepo &amp; AI EdTech</small>
+                <h3 class="project-title">Chinese Learning Platform</h3>
+                <p class="project-desc">Full-stack Mandarin language platform with NestJS API gateway, dual Next.js portals, SuperMemo-2 spaced repetition math engine, and Gemini AI conversational tutoring.</p>
+                <div class="project-tags"><span class="project-tag">NestJS</span><span class="project-tag">Next.js</span><span class="project-tag">Prisma</span><span class="project-tag">SM-2 SRS</span><span class="project-tag">Gemini AI</span><span class="project-tag">TypeScript</span></div>
               </div>
               <div class="project-card-actions">
                 <button class="launch-btn magnetic clp-demo-btn" id="openClpSimulatorBtn" type="button"
-                  title="Test Chinese Learning Platform SM-2 Engine">SM-2 Engine <span>⚡</span></button>
+                  title="Test Chinese Learning Platform SM-2 Engine">SM-2 Engine <span class="btn-arrow" aria-hidden="true">⚡</span></button>
                 <a class="launch-btn magnetic" href="https://github.com/gouvkimsea" target="_blank"
-                  rel="noreferrer" title="View Gouv Kimsea repositories">Profile <span>↗</span></a>
+                  rel="noreferrer" title="View Gouv Kimsea repositories">Profile <span class="btn-arrow" aria-hidden="true">↗</span></a>
                 <button class="round-arrow project-open" aria-label="Open Chinese Learning Platform details">↗</button>
               </div>
             </div>
@@ -742,24 +742,24 @@
                 <div class="preview-url-bar"><span class="lock-icon">●</span> devpulse.stream</div>
               </div>
               <div class="devpulse-stat-pill">240 req/s · 18ms</div>
-              <span class="preview-label">DEV<span>PULSE</span></span>
+              <span class="preview-label">DEV<span class="preview-label-accent">PULSE</span></span>
               <div class="telemetry-wave" aria-hidden="true">
-                <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
               </div>
               <div class="pulse-beacon" aria-hidden="true"><span class="beacon-ring"></span><span
                   class="beacon-dot"></span></div>
               <span class="preview-corner">05 / 06</span>
             </div>
             <div class="project-info">
-              <div>
-                <small>05 — Engineering metrics</small>
-                <h3>DevPulse</h3>
-                <p>Real-time engineering telemetry and focus dashboard tracking build velocities and flow cycles.</p>
-                <div class="project-tags"><span>AI</span><span>Web</span><span>Telemetry</span></div>
+              <div class="project-info-header">
+                <small class="project-tagline">05 — Engineering metrics</small>
+                <h3 class="project-title">DevPulse</h3>
+                <p class="project-desc">Real-time engineering telemetry and focus dashboard tracking build velocities and flow cycles.</p>
+                <div class="project-tags"><span class="project-tag">AI</span><span class="project-tag">Web</span><span class="project-tag">Telemetry</span></div>
               </div>
               <div class="project-card-actions">
                 <a class="launch-btn magnetic" href="https://github.com/gouvkimsea" target="_blank" rel="noreferrer"
-                  title="View DevPulse repository">Repo <span>↗</span></a>
+                  title="View DevPulse repository">Repo <span class="btn-arrow" aria-hidden="true">↗</span></a>
                 <button class="round-arrow project-open" aria-label="Open DevPulse details">↗</button>
               </div>
             </div>
@@ -770,20 +770,20 @@
                   class="pdot"></span>
                 <div class="preview-url-bar"><span class="lock-icon">●</span> gouvkimsea.dev</div>
               </div>
-              <span class="preview-label">[ your<br /><em>space</em> ]</span>
-              <div class="mini-window"><i></i><i></i><i></i>
-                <hr /><b></b><b></b><b></b>
+              <span class="preview-label">[ your<br /><em class="preview-label-em">space</em> ]</span>
+              <div class="mini-window"><i class="window-dot red"></i><i class="window-dot yellow"></i><i class="window-dot green"></i>
+                <hr class="window-divider" /><b class="window-line"></b><b class="window-line"></b><b class="window-line"></b>
               </div><span class="preview-corner">06 / 06</span>
             </div>
             <div class="project-info">
-              <div><small>06 — Personal project</small>
-                <h3>This portfolio</h3>
-                <p>A personal corner of the internet for documenting the process, not just the outcome.</p>
-                <div class="project-tags"><span>Web</span><span>HTML</span><span>Design</span></div>
+              <div class="project-info-header"><small class="project-tagline">06 — Personal project</small>
+                <h3 class="project-title">This portfolio</h3>
+                <p class="project-desc">A personal corner of the internet for documenting the process, not just the outcome.</p>
+                <div class="project-tags"><span class="project-tag">Web</span><span class="project-tag">HTML</span><span class="project-tag">Design</span></div>
               </div>
               <div class="project-card-actions">
                 <a class="launch-btn magnetic" href="https://github.com/gouvkimsea/my-Portfolio-" target="_blank"
-                  rel="noreferrer" title="View Portfolio repository">Repo <span>↗</span></a>
+                  rel="noreferrer" title="View Portfolio repository">Repo <span class="btn-arrow" aria-hidden="true">↗</span></a>
                 <button class="round-arrow project-open" aria-label="Open portfolio details">↗</button>
               </div>
             </div>
@@ -2016,7 +2016,7 @@
           </article>
         </div>
 
-        <svg width="0" height="0" style="position:absolute;visibility:hidden" aria-hidden="true">
+        <svg class="achieve-defs-svg" width="0" height="0" style="position:absolute;visibility:hidden" aria-hidden="true">
           <defs>
             <linearGradient id="achieveGradOrange" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stop-color="var(--orange)" stop-opacity="0.3" />
@@ -2162,7 +2162,7 @@
         <div class="work-drawer-wrap reveal">
           <button type="button" class="work-drawer-toggle" id="toggleContactFormBtn" aria-expanded="false"
             aria-controls="contactFormDrawer">
-            <span>Prefer to send a message directly? Click to write a note</span>
+            <span class="work-drawer-text">Prefer to send a message directly? Click to write a note</span>
             <span class="drawer-chevron" aria-hidden="true">↓</span>
           </button>
           <div class="work-drawer-content" id="contactFormDrawer" hidden>
@@ -2170,7 +2170,7 @@
               <div class="form-window-bar">
                 <span class="wb-dot wb-red"></span><span class="wb-dot wb-yellow"></span><span
                   class="wb-dot wb-green"></span>
-                <small>new-message.eml</small>
+                <small class="form-window-title">new-message.eml</small>
               </div>
               <div class="contact-topic-group" style="color: white;">
                 <label class="topic-label">Conversation Topic</label>
@@ -2181,12 +2181,12 @@
                   <button type="button" class="topic-chip" data-topic="Project">Project Idea</button>
                 </div>
               </div>
-              <div class="form-row" style="color: white;"><label for="name">Your name</label><input id="name"
+              <div class="form-row" style="color: white;"><label class="form-label" for="name">Your name</label><input class="form-input" id="name"
                   name="name" required placeholder="Your name" /><span class="error-message"></span></div>
-              <div class="form-row" style="color: white;"><label for="email">Email address</label><input id="email"
+              <div class="form-row" style="color: white;"><label class="form-label" for="email">Email address</label><input class="form-input" id="email"
                   name="email" type="email" required placeholder="you@example.com" /><span class="error-message"></span>
               </div>
-              <div class="form-row" style="color: white;"><label for="message">What’s on your mind?</label><textarea
+              <div class="form-row" style="color: white;"><label class="form-label" for="message">What’s on your mind?</label><textarea class="form-textarea"
                   id="message" name="message" rows="4" required minlength="2"
                   placeholder="Tell me a little about your project or note..." style="color: white;"></textarea>
                 <div class="form-row-meta">
@@ -2195,7 +2195,7 @@
                 </div>
               </div>
               <button class="button button-primary magnetic" id="submitBtn" type="submit">Send note
-                <span>↗</span></button>
+                <span class="btn-arrow" aria-hidden="true">↗</span></button>
               <p class="form-status" role="status"></p>
 
             </form>
@@ -2207,10 +2207,10 @@
 
   <footer class="footer">
     <div class="container footer-inner">
-      <a class="brand" href="#top" aria-label="Go to top of page"><span>[ ]</span> GK</a>
+      <a class="brand" href="#top" aria-label="Go to top of page"><span class="brand-brackets">[ ]</span> GK</a>
       <div class="footer-center">
-        <p>© 2026 Gouv Kimsea. Built with curiosity and code.</p>
-        <span class="footer-meta">Active Development · <a href="https://github.com/gouvkimsea/my-Portfolio-"
+        <p class="footer-copy">© 2026 Gouv Kimsea. Built with curiosity and code.</p>
+        <span class="footer-meta">Active Development · <a class="footer-repo-link" href="https://github.com/gouvkimsea/my-Portfolio-"
             target="_blank" rel="noreferrer">Open Source on GitHub ↗</a></span>
       </div>
       <div class="footer-links">
@@ -2218,7 +2218,7 @@
           title="Search commands (⌘K or Ctrl+K)">
           <span class="cmd-kbd">⌘K</span> Palette
         </button>
-        <a href="#home">Back to top ↑</a>
+        <a class="footer-top-link" href="#home">Back to top ↑</a>
       </div>
     </div>
   </footer>
@@ -2227,16 +2227,16 @@
       class="modal-close" id="modalClose" aria-label="Close project details">×</button>
     <div class="modal-content">
       <p class="eyebrow">Project detail</p>
-      <h2 id="modalTitle">Pinit</h2>
+      <h2 class="modal-title" id="modalTitle">Pinit</h2>
       <p class="modal-lead" id="modalOverview"></p>
       <div class="modal-columns">
-        <div>
-          <h4>Problem</h4>
-          <p id="modalProblem"></p>
+        <div class="modal-col">
+          <h4 class="modal-col-heading">Problem</h4>
+          <p class="modal-col-text" id="modalProblem"></p>
         </div>
-        <div>
-          <h4>What I learned</h4>
-          <p id="modalLearned"></p>
+        <div class="modal-col">
+          <h4 class="modal-col-heading">What I learned</h4>
+          <p class="modal-col-text" id="modalLearned"></p>
         </div>
       </div>
 
@@ -2245,7 +2245,7 @@
         <div class="pinit-sandbox-header">
           <div class="pinit-sandbox-badge">
             <span class="pinit-live-pulse" aria-hidden="true"></span>
-            <span>PINIT HEURISTIC RADAR</span>
+            <span class="pinit-badge-text">PINIT HEURISTIC RADAR</span>
           </div>
           <span class="pinit-latency-stat">Engine: v2.4 · 24ms Client Telemetry</span>
         </div>
@@ -2316,7 +2316,7 @@
           <!-- Explainability Report Box -->
           <div class="pinit-explain-box">
             <span class="pinit-explain-icon" aria-hidden="true">✦</span>
-            <p id="pinitExplainText">Pinit detected multi-tiered risk factors including unencrypted HTTP transport, high-risk TLD registration, and brand impersonation tokens targeting credential harvesting.</p>
+            <p class="pinit-explain-text" id="pinitExplainText">Pinit detected multi-tiered risk factors including unencrypted HTTP transport, high-risk TLD registration, and brand impersonation tokens targeting credential harvesting.</p>
           </div>
 
           <!-- Heuristic Signals Grid (4 Telemetry Tiles) -->
@@ -2331,13 +2331,13 @@
         <div class="joul-sandbox-header">
           <div class="joul-sandbox-badge">
             <span class="joul-live-pulse" aria-hidden="true"></span>
-            <span>JOUL FLEET CONCURRENCY &amp; ESCROW ENGINE</span>
+            <span class="joul-badge-text">JOUL FLEET CONCURRENCY &amp; ESCROW ENGINE</span>
           </div>
           <span class="joul-tests-stat">5 Test Suites · 197 Passing Assertions</span>
         </div>
 
         <p class="joul-sandbox-desc">
-          Test real-time vehicle booking concurrency and financial escrow accounting. Simulates the interval overlap equation <code>NOT (OrderEnd &le; ExistingStart OR OrderStart &ge; ExistingBufferEnd)</code> and automated turnaround safety buffers implemented in <code>RentalService::checkVehiclesAvailability()</code>.
+          Test real-time vehicle booking concurrency and financial escrow accounting. Simulates the interval overlap equation <code class="joul-code-inline">NOT (OrderEnd &le; ExistingStart OR OrderStart &ge; ExistingBufferEnd)</code> and automated turnaround safety buffers implemented in <code class="joul-code-inline">RentalService::checkVehiclesAvailability()</code>.
         </p>
 
         <!-- Fleet Vehicle Select Bar -->
@@ -2346,10 +2346,10 @@
             <label class="joul-control-label" for="joulVehicleSelect">Select Fleet Vehicle:</label>
             <div class="joul-select-wrap">
               <select id="joulVehicleSelect" class="joul-select" aria-label="Select Fleet Vehicle">
-                <option value="prius" selected>🚗 Toyota Prius (City Car · $45/day · 2h Buffer · $150 Escrow)</option>
-                <option value="transit">🚐 Ford Transit 12-Pax (Van · $95/day · 3h Buffer · $300 Escrow)</option>
-                <option value="nmax">🛵 Yamaha NMAX 155 (Scooter · $22/day · 1h Buffer · $80 Escrow)</option>
-                <option value="trek">🚲 Trek FX3 Disc (Bicycle · $15/day · 1h Buffer · $40 Escrow)</option>
+                <option class="joul-select-option" value="prius" selected>🚗 Toyota Prius (City Car · $45/day · 2h Buffer · $150 Escrow)</option>
+                <option class="joul-select-option" value="transit">🚐 Ford Transit 12-Pax (Van · $95/day · 3h Buffer · $300 Escrow)</option>
+                <option class="joul-select-option" value="nmax">🛵 Yamaha NMAX 155 (Scooter · $22/day · 1h Buffer · $80 Escrow)</option>
+                <option class="joul-select-option" value="trek">🚲 Trek FX3 Disc (Bicycle · $15/day · 1h Buffer · $40 Escrow)</option>
               </select>
             </div>
           </div>
@@ -2392,9 +2392,9 @@
           <!-- Interval Timeline Visualization Bar -->
           <div class="joul-timeline-visual">
             <div class="joul-vis-legend">
-              <span><b>Existing Booking:</b> 08:00 — 14:00</span>
-              <span id="joulBufferLegend"><b>Turnaround Buffer:</b> +2h (14:00 — 16:00)</span>
-              <span id="joulRequestLegend"><b>Incoming Request:</b> 12:00 — 17:00</span>
+              <span class="joul-legend-item"><b class="joul-legend-bold">Existing Booking:</b> 08:00 — 14:00</span>
+              <span class="joul-legend-item" id="joulBufferLegend"><b class="joul-legend-bold">Turnaround Buffer:</b> +2h (14:00 — 16:00)</span>
+              <span class="joul-legend-item" id="joulRequestLegend"><b class="joul-legend-bold">Incoming Request:</b> 12:00 — 17:00</span>
             </div>
             <div class="joul-vis-bar" id="joulVisBar" aria-hidden="true">
               <div class="joul-bar-slot existing" style="width: 35%;">Existing Order [08:00-14:00]</div>
@@ -2406,7 +2406,7 @@
           <!-- Explainability & Financial Ledger Box -->
           <div class="joul-explain-box">
             <span class="joul-explain-icon" aria-hidden="true">✦</span>
-            <p id="joulExplainText">Interval check failed: Requested start time falls directly inside an existing customer order. System prevented double booking.</p>
+            <p class="joul-explain-text" id="joulExplainText">Interval check failed: Requested start time falls directly inside an existing customer order. System prevented double booking.</p>
           </div>
 
           <!-- Financial Accounting Tiles -->
@@ -2440,13 +2440,13 @@
         <div class="clp-sandbox-header">
           <div class="clp-sandbox-badge">
             <span class="clp-live-pulse" aria-hidden="true"></span>
-            <span>CLP SUPERMEMO-2 (SM-2) SPACED REPETITION ENGINE</span>
+            <span class="clp-badge-text">CLP SUPERMEMO-2 (SM-2) SPACED REPETITION ENGINE</span>
           </div>
           <span class="clp-math-stat">Algorithm: SrsMath.calculate() · Pure Algorithmic Service</span>
         </div>
 
         <p class="clp-sandbox-desc">
-          Test the mathematical spaced repetition memory retention curve implemented in <code>apps/api/src/flashcard/srs.math.ts</code>. Simulates quality recall evaluation ($q \in [0..5]$), dynamic Ease Factor ($EF$) decay/growth, repetition interval leaps, and Gemini AI tutor sentence generation.
+          Test the mathematical spaced repetition memory retention curve implemented in <code class="clp-code-inline">apps/api/src/flashcard/srs.math.ts</code>. Simulates quality recall evaluation ($q \in [0..5]$), dynamic Ease Factor ($EF$) decay/growth, repetition interval leaps, and Gemini AI tutor sentence generation.
         </p>
 
         <!-- Flashcard Hanzi Selector Bar -->
@@ -2455,10 +2455,10 @@
             <label class="clp-control-label" for="clpHanziSelect">Select HSK Vocabulary Flashcard:</label>
             <div class="clp-select-wrap">
               <select id="clpHanziSelect" class="clp-select" aria-label="Select HSK Vocabulary Flashcard">
-                <option value="xue" selected>学 (xué) — To study / learn · HSK 1 (Base EF: 2.50)</option>
-                <option value="ming">明 (míng) — Bright / clear · HSK 2 (Base EF: 2.50)</option>
-                <option value="tong">通 (tōng) — To connect / master · HSK 3 (Base EF: 2.50)</option>
-                <option value="rong">融 (róng) — To harmonize / blend · HSK 4 (Base EF: 2.50)</option>
+                <option class="clp-select-option" value="xue" selected>学 (xué) — To study / learn · HSK 1 (Base EF: 2.50)</option>
+                <option class="clp-select-option" value="ming">明 (míng) — Bright / clear · HSK 2 (Base EF: 2.50)</option>
+                <option class="clp-select-option" value="tong">通 (tōng) — To connect / master · HSK 3 (Base EF: 2.50)</option>
+                <option class="clp-select-option" value="rong">融 (róng) — To harmonize / blend · HSK 4 (Base EF: 2.50)</option>
               </select>
             </div>
           </div>
@@ -2512,12 +2512,12 @@
           <div class="clp-math-formula-box">
             <div class="clp-formula-line">
               <span class="clp-math-badge">SM-2 Math</span>
-              <code>EF' = EF + (0.1 - (5 - q) * (0.08 + (5 - q) * 0.02))</code>
+              <code class="clp-formula-code">EF' = EF + (0.1 - (5 - q) * (0.08 + (5 - q) * 0.02))</code>
             </div>
             <div class="clp-math-stats-row">
-              <span><b>Ease Factor (EF):</b> <span id="clpEfVal">2.60</span></span>
-              <span><b>Repetitions:</b> <span id="clpRepVal">2</span></span>
-              <span><b>Retention Probability:</b> <span id="clpRetVal">95%</span></span>
+              <span class="clp-stat-item"><b class="clp-stat-bold">Ease Factor (EF):</b> <span class="clp-stat-val" id="clpEfVal">2.60</span></span>
+              <span class="clp-stat-item"><b class="clp-stat-bold">Repetitions:</b> <span class="clp-stat-val" id="clpRepVal">2</span></span>
+              <span class="clp-stat-item"><b class="clp-stat-bold">Retention Probability:</b> <span class="clp-stat-val" id="clpRetVal">95%</span></span>
             </div>
           </div>
 
@@ -2525,9 +2525,9 @@
           <div class="clp-ai-tutor-box">
             <div class="clp-ai-header">
               <span class="clp-ai-sparkle">✦</span>
-              <strong>Gemini Pro AI Tutor Dialogue &amp; Grammar Analysis:</strong>
+              <strong class="clp-ai-title">Gemini Pro AI Tutor Dialogue &amp; Grammar Analysis:</strong>
             </div>
-            <p id="clpAiTutorText">"太棒了！'好好学习，天天向上。' (Study diligently and make progress every day.) Mastered radical: 子 (child) under 宀 (roof) — symbolizes nurturing wisdom through steady daily practice."</p>
+            <p class="clp-ai-text" id="clpAiTutorText">"太棒了！'好好学习，天天向上。' (Study diligently and make progress every day.) Mastered radical: 子 (child) under 宀 (roof) — symbolizes nurturing wisdom through steady daily practice."</p>
           </div>
 
           <!-- Architecture & Stack Metrics -->
@@ -2566,7 +2566,7 @@
       <div class="resume-header">
         <div class="resume-header-left">
           <span class="resume-badge">Curriculum Vitae</span>
-          <h2 id="resumeModalTitle">Gouv Kimsea</h2>
+          <h2 class="resume-title" id="resumeModalTitle">Gouv Kimsea</h2>
           <p class="resume-subtitle">Student Developer &amp; Product Builder · Phnom Penh, Cambodia</p>
         </div>
         <div class="resume-header-actions">
@@ -2582,18 +2582,18 @@
         <div class="resume-grid">
           <div class="resume-main">
             <section class="resume-block">
-              <h3 class="resume-block-title"><span>01</span> Profile &amp; Focus</h3>
-              <p>Passionate university student and developer focused on modern web applications, AI-assisted tools, and
+              <h3 class="resume-block-title"><span class="resume-block-num">01</span> Profile &amp; Focus</h3>
+              <p class="resume-profile-text">Passionate university student and developer focused on modern web applications, AI-assisted tools, and
                 thoughtful digital interfaces. Dedicated to rapid prototyping, writing clean code, and shipping real
                 products.</p>
             </section>
 
             <section class="resume-block resume-education-block" id="resumeEduSection">
-              <h3 class="resume-block-title"><span>02</span> Education &amp; Academic Background</h3>
+              <h3 class="resume-block-title"><span class="resume-block-num">02</span> Education &amp; Academic Background</h3>
 
               <div class="resume-item resume-edu-card tech">
                 <div class="resume-item-top">
-                  <div>
+                  <div class="resume-edu-meta-col">
                     <h4 class="resume-edu-title">Bachelor of Computer Science (B.Sc.)</h4>
                     <div class="resume-edu-institution">
                       <span class="edu-school-icon">✦</span> Paragon International University
@@ -2605,17 +2605,17 @@
                 <p class="resume-edu-desc">Rigorous foundation in computer science and software development. Deep dive
                   into algorithms, systems programming, and high-performance client rendering.</p>
                 <div class="resume-edu-highlights">
-                  <span>Algorithms &amp; Data Structures</span>
-                  <span>Software Engineering</span>
-                  <span>C++ Systems</span>
-                  <span>WebGL &amp; 3D Math</span>
-                  <span>Database Design</span>
+                  <span class="resume-edu-chip">Algorithms &amp; Data Structures</span>
+                  <span class="resume-edu-chip">Software Engineering</span>
+                  <span class="resume-edu-chip">C++ Systems</span>
+                  <span class="resume-edu-chip">WebGL &amp; 3D Math</span>
+                  <span class="resume-edu-chip">Database Design</span>
                 </div>
               </div>
 
               <div class="resume-item resume-edu-card biz">
                 <div class="resume-item-top">
-                  <div>
+                  <div class="resume-edu-meta-col">
                     <h4 class="resume-edu-title">Bachelor of Business Administration (B.B.A.)</h4>
                     <div class="resume-edu-institution">
                       <span class="edu-school-icon">◈</span> Bonamary University
@@ -2627,67 +2627,67 @@
                 <p class="resume-edu-desc">Comprehensive study of commercial business administration, financial
                   principles, market feasibility, and strategic operations to turn software into scalable solutions.</p>
                 <div class="resume-edu-highlights">
-                  <span>Strategic Management</span>
-                  <span>Product Economics</span>
-                  <span>Organizational Behavior</span>
-                  <span>Venture Operations</span>
-                  <span>Market Feasibility</span>
+                  <span class="resume-edu-chip">Strategic Management</span>
+                  <span class="resume-edu-chip">Product Economics</span>
+                  <span class="resume-edu-chip">Organizational Behavior</span>
+                  <span class="resume-edu-chip">Venture Operations</span>
+                  <span class="resume-edu-chip">Market Feasibility</span>
                 </div>
               </div>
 
               <div class="resume-synergy-callout">
                 <span class="synergy-callout-icon">✦</span>
-                <p><strong>Dual-Degree Synergy:</strong> Bridging software engineering rigor with commercial product
+                <p class="resume-synergy-desc"><strong class="resume-synergy-lead">Dual-Degree Synergy:</strong> Bridging software engineering rigor with commercial product
                   strategy — turning code into viable, user-centered solutions.</p>
               </div>
             </section>
 
             <section class="resume-block">
-              <h3 class="resume-block-title"><span>03</span> Featured Projects</h3>
+              <h3 class="resume-block-title"><span class="resume-block-num">03</span> Featured Projects</h3>
               <div class="resume-item">
                 <div class="resume-item-top">
-                  <h4>Chinese Learning Platform — Full-Stack Monorepo &amp; AI EdTech</h4>
+                  <h4 class="resume-item-title">Chinese Learning Platform — Full-Stack Monorepo &amp; AI EdTech</h4>
                   <span class="resume-tag">NestJS · Next.js · Prisma · SM-2 · Gemini AI</span>
                 </div>
-                <p>Enterprise full-stack language acquisition platform with dual Next.js portals, NestJS API gateway, SuperMemo-2 (SM-2) spaced repetition algorithm, and Gemini AI conversational tutoring.</p>
+                <p class="resume-item-desc">Enterprise full-stack language acquisition platform with dual Next.js portals, NestJS API gateway, SuperMemo-2 (SM-2) spaced repetition algorithm, and Gemini AI conversational tutoring.</p>
               </div>
               <div class="resume-item">
                 <div class="resume-item-top">
-                  <h4>JOUL Rental Service — Vehicle Fleet &amp; Escrow Platform</h4>
+                  <h4 class="resume-item-title">JOUL Rental Service — Vehicle Fleet &amp; Escrow Platform</h4>
                   <span class="resume-tag">PHP 8 · MySQL · RBAC · Accounting</span>
                 </div>
-                <p>Full-featured enterprise vehicle rental platform featuring mathematical interval overlap algorithms, 2-hour turnaround safety buffers, segregated security deposit escrow ledger, and 197 automated test assertions.</p>
+                <p class="resume-item-desc">Full-featured enterprise vehicle rental platform featuring mathematical interval overlap algorithms, 2-hour turnaround safety buffers, segregated security deposit escrow ledger, and 197 automated test assertions.</p>
               </div>
               <div class="resume-item">
                 <div class="resume-item-top">
-                  <h4>Mini World — 3D Planet Simulation &amp; WebGL Engine</h4>
+                  <h4 class="resume-item-title">Mini World — 3D Planet Simulation &amp; WebGL Engine</h4>
                   <span class="resume-tag">WebGL · 3D Math · Web Audio</span>
                 </div>
-                <p>Interactive procedural 3D world with real-time terrain sculpting, vertex deformation, procedural
+                <p class="resume-item-desc">Interactive procedural 3D world with real-time terrain sculpting, vertex deformation, procedural
                   audio synthesis, and celestial lighting.</p>
               </div>
               <div class="resume-item">
                 <div class="resume-item-top">
-                  <h4>Pinit — AI Scam &amp; Suspicious Link Detector</h4>
+                  <h4 class="resume-item-title">Pinit — AI Scam &amp; Suspicious Link Detector</h4>
                   <span class="resume-tag">AI · Security · Web</span>
                 </div>
-                <p>Designed and built a digital guardrail interface helping users evaluate suspicious URLs, scam
+                <p class="resume-item-desc">Designed and built a digital guardrail interface helping users evaluate suspicious URLs, scam
                   messages, and deceptive links with real-time heuristic scoring.</p>
               </div>
               <div class="resume-item">
                 <div class="resume-item-top">
-                  <h4>DevPulse — Real-Time Developer Telemetry</h4>
+                  <h4 class="resume-item-title">DevPulse — Real-Time Developer Telemetry</h4>
                   <span class="resume-tag">Telemetry · WebSockets · JS</span>
                 </div>
-                <p>Telemetry dashboard and flow-state analytics platform measuring commit rhythms, build velocity, and
+                <p class="resume-item-desc">Telemetry dashboard and flow-state analytics platform measuring commit rhythms, build velocity, and
                   focus cycles.</p>
               </div>
               <div class="resume-item">
                 <div class="resume-item-top">
-                  <h4>Interactive Developer Portfolio</h4>
+                  <h4 class="resume-item-title">Interactive Developer Portfolio</h4>
                   <span class="resume-tag">HTML5 · CSS3 · ES6+</span>
                 </div>
-                <p>High-performance personal web platform featuring custom canvas physics, accessible modals, and
+                <p class="resume-item-desc">High-performance personal web platform featuring custom canvas physics, accessible modals, and
                   in-browser terminal CLI.</p>
               </div>
             </section>
@@ -2695,53 +2695,53 @@
 
           <div class="resume-side">
             <section class="resume-block">
-              <h3 class="resume-block-title"><span>04</span> Technical Toolkit</h3>
+              <h3 class="resume-block-title"><span class="resume-block-num">04</span> Technical Toolkit</h3>
               <div class="resume-skills-group">
-                <small>Languages</small>
+                <small class="resume-skills-label">Languages</small>
                 <div class="resume-tags">
-                  <span>JavaScript (ES6+)</span>
-                  <span>C++</span>
-                  <span>Python</span>
+                  <span class="resume-tag-pill">JavaScript (ES6+)</span>
+                  <span class="resume-tag-pill">C++</span>
+                  <span class="resume-tag-pill">Python</span>
                 </div>
               </div>
               <div class="resume-skills-group">
-                <small>Frontend &amp; UI</small>
+                <small class="resume-skills-label">Frontend &amp; UI</small>
                 <div class="resume-tags">
-                  <span>HTML5 / CSS3</span>
-                  <span>React</span>
-                  <span>WebGL / Shaders</span>
-                  <span>Responsive Design</span>
-                  <span>UI / UX Prototyping</span>
+                  <span class="resume-tag-pill">HTML5 / CSS3</span>
+                  <span class="resume-tag-pill">React</span>
+                  <span class="resume-tag-pill">WebGL / Shaders</span>
+                  <span class="resume-tag-pill">Responsive Design</span>
+                  <span class="resume-tag-pill">UI / UX Prototyping</span>
                 </div>
               </div>
               <div class="resume-skills-group">
-                <small>Backend &amp; Data</small>
+                <small class="resume-skills-label">Backend &amp; Data</small>
                 <div class="resume-tags">
-                  <span>Node.js</span>
-                  <span>REST APIs</span>
-                  <span>SQL / Relational DBs</span>
-                  <span>Git / GitHub</span>
+                  <span class="resume-tag-pill">Node.js</span>
+                  <span class="resume-tag-pill">REST APIs</span>
+                  <span class="resume-tag-pill">SQL / Relational DBs</span>
+                  <span class="resume-tag-pill">Git / GitHub</span>
                 </div>
               </div>
               <div class="resume-skills-group">
-                <small>Business &amp; Strategy</small>
+                <small class="resume-skills-label">Business &amp; Strategy</small>
                 <div class="resume-tags">
-                  <span>Product Strategy</span>
-                  <span>Market Feasibility</span>
-                  <span>Unit Economics</span>
-                  <span>Operations</span>
+                  <span class="resume-tag-pill">Product Strategy</span>
+                  <span class="resume-tag-pill">Market Feasibility</span>
+                  <span class="resume-tag-pill">Unit Economics</span>
+                  <span class="resume-tag-pill">Operations</span>
                 </div>
               </div>
             </section>
 
             <section class="resume-block">
-              <h3 class="resume-block-title"><span>05</span> Status &amp; Contact</h3>
+              <h3 class="resume-block-title"><span class="resume-block-num">05</span> Status &amp; Contact</h3>
               <ul class="resume-info-list">
-                <li><strong>Status:</strong> Open to Internships &amp; Junior Roles</li>
-                <li><strong>Location:</strong> Phnom Penh, Cambodia</li>
-                <li><strong>Email:</strong> gouvkimsea@gmail.com</li>
-                <li><strong>GitHub:</strong> github.com/gouvkimsea</li>
-                <li><strong>LinkedIn:</strong> linkedin.com/in/gouvkimsea</li>
+                <li class="resume-info-item"><strong class="resume-info-label">Status:</strong> Open to Internships &amp; Junior Roles</li>
+                <li class="resume-info-item"><strong class="resume-info-label">Location:</strong> Phnom Penh, Cambodia</li>
+                <li class="resume-info-item"><strong class="resume-info-label">Email:</strong> gouvkimsea@gmail.com</li>
+                <li class="resume-info-item"><strong class="resume-info-label">GitHub:</strong> github.com/gouvkimsea</li>
+                <li class="resume-info-item"><strong class="resume-info-label">LinkedIn:</strong> linkedin.com/in/gouvkimsea</li>
               </ul>
             </section>
           </div>
@@ -2770,63 +2770,63 @@
       <div class="cmdk-results" id="cmdKResults">
         <div class="cmdk-group-title">Navigation</div>
         <button type="button" class="cmdk-item" data-action="goto" data-target="#home"><span class="cmdk-icon">◈</span>
-          Home <small>Jump to top</small></button>
+          Home <small class="cmdk-desc">Jump to top</small></button>
         <button type="button" class="cmdk-item" data-action="goto" data-target="#about"><span class="cmdk-icon">✦</span>
-          About Gouv <small>Bento &amp; Philosophy</small></button>
+          About Gouv <small class="cmdk-desc">Bento &amp; Philosophy</small></button>
         <button type="button" class="cmdk-item" data-action="goto" data-target="#skills"><span
-            class="cmdk-icon">◈</span> Skills &amp; Toolkit <small>Tech stack</small></button>
+            class="cmdk-icon">◈</span> Skills &amp; Toolkit <small class="cmdk-desc">Tech stack</small></button>
         <button type="button" class="cmdk-item" data-action="goto" data-target="#projects"><span
-            class="cmdk-icon">✦</span> Selected Work <small>Projects &amp; experiments</small></button>
+            class="cmdk-icon">✦</span> Selected Work <small class="cmdk-desc">Projects &amp; experiments</small></button>
         <button type="button" class="cmdk-item" data-action="goto" data-target="#journey"><span
-            class="cmdk-icon">◈</span> The Journey <small>Timeline &amp; roadmap</small></button>
+            class="cmdk-icon">◈</span> The Journey <small class="cmdk-desc">Timeline &amp; roadmap</small></button>
         <button type="button" class="cmdk-item" data-action="goto" data-target="#githubAchievementConsole"><span
-            class="cmdk-icon">◈</span> GitHub Console <small>Interactive ship log &amp; live achievements</small></button>
+            class="cmdk-icon">◈</span> GitHub Console <small class="cmdk-desc">Interactive ship log &amp; live achievements</small></button>
         <button type="button" class="cmdk-item" data-action="goto" data-target="#achievements"><span
-            class="cmdk-icon">★</span> Achievements <small>Illustrated milestones &amp; craft</small></button>
+            class="cmdk-icon">★</span> Achievements <small class="cmdk-desc">Illustrated milestones &amp; craft</small></button>
         <button type="button" class="cmdk-item" data-action="goto" data-target="#contact"><span
-            class="cmdk-icon">@</span> Let’s Work <small>Direct contact &amp; links</small></button>
+            class="cmdk-icon">@</span> Let’s Work <small class="cmdk-desc">Direct contact &amp; links</small></button>
 
         <div class="cmdk-group-title">Featured Projects</div>
         <button type="button" class="cmdk-item" data-action="open-project" data-project="clp"><span
-            class="cmdk-icon">01</span> Chinese Learning Platform <small>NestJS, Next.js &amp; SM-2 SRS</small></button>
+            class="cmdk-icon">01</span> Chinese Learning Platform <small class="cmdk-desc">NestJS, Next.js &amp; SM-2 SRS</small></button>
         <button type="button" class="cmdk-item" data-action="open-clp-demo"><span
-            class="cmdk-icon">⚡</span> Try SM-2 SRS Simulator <small>Interactive spaced repetition math</small></button>
+            class="cmdk-icon">⚡</span> Try SM-2 SRS Simulator <small class="cmdk-desc">Interactive spaced repetition math</small></button>
         <button type="button" class="cmdk-item" data-action="open-project" data-project="joul"><span
-            class="cmdk-icon">02</span> JOUL Rental <small>Enterprise Vehicle &amp; Fleet Platform</small></button>
+            class="cmdk-icon">02</span> JOUL Rental <small class="cmdk-desc">Enterprise Vehicle &amp; Fleet Platform</small></button>
         <button type="button" class="cmdk-item" data-action="open-joul-demo"><span
-            class="cmdk-icon">⚡</span> Try Fleet Simulator <small>Concurrency buffer &amp; escrow calculator</small></button>
+            class="cmdk-icon">⚡</span> Try Fleet Simulator <small class="cmdk-desc">Concurrency buffer &amp; escrow calculator</small></button>
         <button type="button" class="cmdk-item" data-action="open-project" data-project="pinit"><span
-            class="cmdk-icon">03</span> Pinit <small>AI Scam &amp; Threat Detector</small></button>
+            class="cmdk-icon">03</span> Pinit <small class="cmdk-desc">AI Scam &amp; Threat Detector</small></button>
         <button type="button" class="cmdk-item" data-action="open-pinit-demo"><span
-            class="cmdk-icon">⚡</span> Try Pinit Scanner <small>Interactive AI phishing simulator</small></button>
+            class="cmdk-icon">⚡</span> Try Pinit Scanner <small class="cmdk-desc">Interactive AI phishing simulator</small></button>
         <button type="button" class="cmdk-item" data-action="open-project" data-project="miniworld"><span
-            class="cmdk-icon">04</span> Mini World <small>3D Planet Simulation &amp; WebGL</small></button>
+            class="cmdk-icon">04</span> Mini World <small class="cmdk-desc">3D Planet Simulation &amp; WebGL</small></button>
         <button type="button" class="cmdk-item" data-action="open-project" data-project="devpulse"><span
-            class="cmdk-icon">05</span> DevPulse <small>Real-time Developer Telemetry</small></button>
+            class="cmdk-icon">05</span> DevPulse <small class="cmdk-desc">Real-time Developer Telemetry</small></button>
         <button type="button" class="cmdk-item" data-action="open-project" data-project="portfolio"><span
-            class="cmdk-icon">06</span> Portfolio <small>Personal Web Platform</small></button>
+            class="cmdk-icon">06</span> Portfolio <small class="cmdk-desc">Personal Web Platform</small></button>
         <button type="button" class="cmdk-item" data-action="open-project" data-project="aquarium"><span
-            class="cmdk-icon">07</span> Aquarium Filter Sim <small>TypeScript fluid &amp; biological physics</small></button>
+            class="cmdk-icon">07</span> Aquarium Filter Sim <small class="cmdk-desc">TypeScript fluid &amp; biological physics</small></button>
         <button type="button" class="cmdk-item" data-action="open-project" data-project="gesture"><span
-            class="cmdk-icon">08</span> Gesture App <small>Python 21-joint computer vision</small></button>
+            class="cmdk-icon">08</span> Gesture App <small class="cmdk-desc">Python 21-joint computer vision</small></button>
         <button type="button" class="cmdk-item" data-action="open-project" data-project="saas"><span
-            class="cmdk-icon">09</span> Productivity SaaS &amp; POS <small>PHP sprint velocity &amp; ledger</small></button>
+            class="cmdk-icon">09</span> Productivity SaaS &amp; POS <small class="cmdk-desc">PHP sprint velocity &amp; ledger</small></button>
 
         <div class="cmdk-group-title">Quick Actions</div>
         <button type="button" class="cmdk-item" data-action="view-education"><span class="cmdk-icon">✦</span> Education
           Profile
-          <small>Paragon.U CS &amp; Bonamary.U Business Admin</small></button>
+          <small class="cmdk-desc">Paragon.U CS &amp; Bonamary.U Business Admin</small></button>
         <button type="button" class="cmdk-item" data-action="view-resume"><span class="cmdk-icon">CV</span> View Resume
-          / CV <small>Experience, skills &amp; summary</small></button>
+          / CV <small class="cmdk-desc">Experience, skills &amp; summary</small></button>
         <button type="button" class="cmdk-item" data-action="copy-email"><span class="cmdk-icon">@</span> Copy Email
-          <small>gouvkimsea@gmail.com</small></button>
+          <small class="cmdk-desc">gouvkimsea@gmail.com</small></button>
         <button type="button" class="cmdk-item" data-action="toggle-theme"><span class="cmdk-icon">☼</span> Switch
-          Theme <small>Dark / Light mode</small></button>
+          Theme <small class="cmdk-desc">Dark / Light mode</small></button>
         <button type="button" class="cmdk-item" data-action="github"><span class="cmdk-icon">⌘</span> GitHub Profile
-          <small>github.com/gouvkimsea</small></button>
+          <small class="cmdk-desc">github.com/gouvkimsea</small></button>
         <button type="button" class="cmdk-item" data-action="linkedin"><span class="cmdk-icon">in</span> LinkedIn
           Profile
-          <small>linkedin.com/in/gouvkimsea</small></button>
+          <small class="cmdk-desc">linkedin.com/in/gouvkimsea</small></button>
       </div>
     </div>
   </dialog>

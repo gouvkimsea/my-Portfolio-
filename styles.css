@@ -571,12 +571,14 @@ h2 em {
   margin: 35px 0 22px
 }
 
-.skill-card h3 {
+.skill-card h3,
+.skill-card .skill-title {
   font-size: 22px;
   letter-spacing: -.04em
 }
 
-.skill-card p {
+.skill-card p,
+.skill-card .skill-desc {
   color: #aeb0a5;
   font-size: 13px;
   line-height: 1.6;
@@ -591,7 +593,9 @@ h2 em {
 }
 
 .chips span,
-.project-tags span {
+.chips .chip-item,
+.project-tags span,
+.project-tags .project-tag {
   font: 10px var(--mono);
   border: 1px solid #575a50;
   padding: 6px 8px;
@@ -606,7 +610,8 @@ h2 em {
   font: 10px var(--mono)
 }
 
-.learning-state i {
+.learning-state i,
+.learning-state .state-dot {
   display: inline-block;
   width: 5px;
   height: 5px;
@@ -649,7 +654,8 @@ h2 em {
   position: absolute
 }
 
-.filter sup {
+.filter sup,
+.filter .filter-count {
   font-size: 8px;
   color: var(--orange);
   margin-left: 4px
@@ -688,7 +694,8 @@ h2 em {
   z-index: 1
 }
 
-.preview-label span {
+.preview-label span,
+.preview-label .preview-label-accent {
   color: var(--orange)
 }
 
@@ -697,7 +704,8 @@ h2 em {
   text-align: center
 }
 
-.preview-label em {
+.preview-label em,
+.preview-label .preview-label-em {
   font-family: var(--serif);
   font-weight: 400
 }
@@ -739,7 +747,8 @@ h2 em {
   box-shadow: 10px 12px 0 rgba(32, 33, 30, .08)
 }
 
-.mini-window i {
+.mini-window i,
+.mini-window .window-dot {
   display: inline-block;
   width: 5px;
   height: 5px;
@@ -748,13 +757,15 @@ h2 em {
   margin-right: 3px
 }
 
-.mini-window hr {
+.mini-window hr,
+.mini-window .window-divider {
   border: 0;
   border-top: 1px solid #5d5e55;
   margin: 11px 0
 }
 
-.mini-window b {
+.mini-window b,
+.mini-window .window-line {
   display: block;
   background: #a0a488;
   width: 60%;
@@ -770,17 +781,20 @@ h2 em {
   border-bottom: 1px solid var(--line)
 }
 
-.project-info small {
+.project-info small,
+.project-info .project-tagline {
   font: 10px var(--mono);
   color: var(--muted)
 }
 
-.project-info h3 {
+.project-info h3,
+.project-info .project-title {
   font-size: 25px;
   margin: 8px 0
 }
 
-.project-info p {
+.project-info p,
+.project-info .project-desc {
   font-size: 13px;
   color: var(--muted);
   max-width: 490px;
@@ -792,7 +806,8 @@ h2 em {
   gap: 6px
 }
 
-.project-tags span {
+.project-tags span,
+.project-tags .project-tag {
   border-color: var(--line);
   color: var(--muted)
 }
@@ -1379,7 +1394,8 @@ h2 em {
   color: var(--lime)
 }
 
-.terminal-form input {
+.terminal-form input,
+.terminal-form .terminal-input {
   background: transparent;
   border: 0;
   outline: 0;
@@ -1446,7 +1462,9 @@ h2 em {
 }
 
 .form-row input,
-.form-row textarea {
+.form-row .form-input,
+.form-row textarea,
+.form-row .form-textarea {
   width: 100%;
   border: 0;
   border-bottom: 1px solid #bdbdb3;
@@ -1458,12 +1476,16 @@ h2 em {
 }
 
 .form-row input:focus,
-.form-row textarea:focus {
+.form-row .form-input:focus,
+.form-row textarea:focus,
+.form-row .form-textarea:focus {
   border-color: var(--ink)
 }
 
 .form-row.invalid input,
-.form-row.invalid textarea {
+.form-row.invalid .form-input,
+.form-row.invalid textarea,
+.form-row.invalid .form-textarea {
   border-color: #c34f39
 }
 
@@ -1596,7 +1618,8 @@ dialog::backdrop {
   padding: 55px
 }
 
-.modal-content h2 {
+.modal-content h2,
+.modal-content .modal-title {
   font-size: 60px;
   letter-spacing: -.08em;
   margin: 20px 0 10px
@@ -1615,13 +1638,15 @@ dialog::backdrop {
   margin: 40px 0
 }
 
-.modal-columns h4 {
+.modal-columns h4,
+.modal-columns .modal-col-heading {
   font: 10px var(--mono);
   text-transform: uppercase;
   color: var(--orange)
 }
 
-.modal-columns p {
+.modal-columns p,
+.modal-columns .modal-col-text {
   font-size: 13px;
   color: var(--muted);
   line-height: 1.6
@@ -1633,7 +1658,8 @@ dialog::backdrop {
   flex-wrap: wrap
 }
 
-.modal-tech span {
+.modal-tech span,
+.modal-tech .modal-tech-tag {
   font: 10px var(--mono);
   border: 1px solid var(--line);
   padding: 7px
@@ -3139,7 +3165,8 @@ dialog.project-modal[open]::backdrop {
   flex-wrap: wrap;
 }
 
-.joul-vis-legend span b {
+.joul-vis-legend span b,
+.joul-vis-legend .joul-legend-bold {
   color: var(--ink);
 }
 
@@ -3759,7 +3786,8 @@ dialog.project-modal[open]::backdrop {
   border-color: rgba(142, 168, 20, 0.35);
 }
 
-.clp-formula-line code {
+.clp-formula-line code,
+.clp-formula-line .clp-formula-code {
   font: 11px var(--mono);
   color: var(--ink);
 }
@@ -3772,7 +3800,8 @@ dialog.project-modal[open]::backdrop {
   flex-wrap: wrap;
 }
 
-.clp-math-stats-row span b {
+.clp-math-stats-row span b,
+.clp-math-stats-row .clp-stat-bold {
   color: var(--ink);
 }
 
@@ -3919,7 +3948,8 @@ dialog.project-modal[open]::backdrop {
   transform: translateY(-1px);
 }
 
-.terminal-form input {
+.terminal-form input,
+.terminal-form .terminal-input {
   caret-color: var(--lime);
 }
 
@@ -3945,12 +3975,16 @@ dialog.project-modal[open]::backdrop {
 }
 
 .form-row input,
-.form-row textarea {
+.form-row .form-input,
+.form-row textarea,
+.form-row .form-textarea {
   transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
 .form-row.valid input,
-.form-row.valid textarea {
+.form-row.valid .form-input,
+.form-row.valid textarea,
+.form-row.valid .form-textarea {
   border-color: #648b4a;
 }
 
@@ -4849,7 +4883,8 @@ dialog.project-modal {
   height: 38px;
 }
 
-.telemetry-wave span {
+.telemetry-wave span,
+.telemetry-wave .wave-bar {
   width: 4px;
   background: var(--lime);
   border-radius: 2px;
@@ -6346,7 +6381,8 @@ dialog.cmdk-modal::backdrop {
   transition: transform 0.15s ease;
 }
 
-.cmdk-item small {
+.cmdk-item small,
+.cmdk-item .cmdk-desc {
   margin-left: auto;
   font: 11px var(--mono);
   color: #94a3b8;
@@ -6354,7 +6390,8 @@ dialog.cmdk-modal::backdrop {
   transition: color 0.15s ease;
 }
 
-[data-theme="light"] .cmdk-item small {
+[data-theme="light"] .cmdk-item small,
+[data-theme="light"] .cmdk-item .cmdk-desc {
   color: #475569;
 }
 
@@ -6391,7 +6428,9 @@ dialog.cmdk-modal::backdrop {
 }
 
 .cmdk-item:hover small,
-.cmdk-item.selected small {
+.cmdk-item.selected small,
+.cmdk-item:hover .cmdk-desc,
+.cmdk-item.selected .cmdk-desc {
   color: #f1f5f9;
   font-weight: 600;
 }
@@ -6411,7 +6450,9 @@ dialog.cmdk-modal::backdrop {
 }
 
 [data-theme="light"] .cmdk-item:hover small,
-[data-theme="light"] .cmdk-item.selected small {
+[data-theme="light"] .cmdk-item.selected small,
+[data-theme="light"] .cmdk-item:hover .cmdk-desc,
+[data-theme="light"] .cmdk-item.selected .cmdk-desc {
   color: #0f172a;
   font-weight: 600;
 }
@@ -7218,7 +7259,8 @@ dialog.resume-modal::backdrop {
   margin-bottom: 10px;
 }
 
-.resume-header h2 {
+.resume-header h2,
+.resume-header .resume-title {
   font-size: 32px;
   letter-spacing: -0.05em;
   margin: 0 0 6px;
@@ -7314,12 +7356,15 @@ dialog.resume-modal::backdrop {
   gap: 8px;
 }
 
-.resume-block-title span {
+.resume-block-title span,
+.resume-block-title .resume-block-num {
   font: 10px var(--mono);
   color: var(--orange);
 }
 
-.resume-block p {
+.resume-block p,
+.resume-block .resume-profile-text,
+.resume-block .resume-item-desc {
   font-size: 13px;
   line-height: 1.65;
   color: var(--muted);
@@ -7346,7 +7391,8 @@ dialog.resume-modal::backdrop {
   margin-bottom: 6px;
 }
 
-.resume-item-top h4 {
+.resume-item-top h4,
+.resume-item-top .resume-item-title {
   font-size: 14px;
   margin: 0;
   color: var(--ink);
@@ -7362,7 +7408,8 @@ dialog.resume-modal::backdrop {
   margin-bottom: 14px;
 }
 
-.resume-skills-group small {
+.resume-skills-group small,
+.resume-skills-group .resume-skills-label {
   display: block;
   font: 10px var(--mono);
   text-transform: uppercase;
@@ -7376,7 +7423,8 @@ dialog.resume-modal::backdrop {
   gap: 6px;
 }
 
-.resume-tags span {
+.resume-tags span,
+.resume-tags .resume-tag-pill {
   font: 10px var(--mono);
   border: 1px solid var(--line);
   padding: 4px 8px;
@@ -7385,7 +7433,8 @@ dialog.resume-modal::backdrop {
   background: rgba(255, 255, 255, 0.03);
 }
 
-[data-theme="light"] .resume-tags span {
+[data-theme="light"] .resume-tags span,
+[data-theme="light"] .resume-tags .resume-tag-pill {
   background: #f4f3ed;
 }
 
@@ -7395,14 +7444,16 @@ dialog.resume-modal::backdrop {
   margin: 0;
 }
 
-.resume-info-list li {
+.resume-info-list li,
+.resume-info-list .resume-info-item {
   font-size: 12px;
   color: var(--muted);
   padding: 6px 0;
   border-bottom: 1px solid rgba(120, 120, 110, 0.15);
 }
 
-.resume-info-list li strong {
+.resume-info-list li strong,
+.resume-info-list .resume-info-label {
   color: var(--ink);
   font-weight: 500;
   margin-right: 6px;
@@ -7730,8 +7781,10 @@ dialog.resume-modal::backdrop {
   font-weight: 500;
 }
 
-.launch-btn span {
+.launch-btn span,
+.launch-btn .btn-arrow {
   font-size: 11px;
+  display: inline-block;
   transition: transform 0.2s ease;
 }
 
@@ -7743,7 +7796,8 @@ dialog.resume-modal::backdrop {
   box-shadow: 0 4px 12px rgba(239, 131, 84, 0.3);
 }
 
-.launch-btn:hover span {
+.launch-btn:hover span,
+.launch-btn:hover .btn-arrow {
   transform: translate(2px, -2px);
 }
 
@@ -7778,13 +7832,15 @@ dialog.resume-modal::backdrop {
   margin-top: 4px;
 }
 
-.footer-meta a {
+.footer-meta a,
+.footer-meta .footer-repo-link {
   color: var(--lime);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 
-.footer-meta a:hover {
+.footer-meta a:hover,
+.footer-meta .footer-repo-link:hover {
   color: var(--orange);
 }
 
@@ -7966,7 +8022,8 @@ dialog.resume-modal::backdrop {
   box-shadow: 0 0 6px var(--orange);
 }
 
-.focus-item strong {
+.focus-item strong,
+.focus-item .focus-label {
   display: block;
   font: 11px var(--mono);
   letter-spacing: 0.04em;
@@ -7975,7 +8032,8 @@ dialog.resume-modal::backdrop {
   margin-bottom: 2px;
 }
 
-.focus-item p {
+.focus-item p,
+.focus-item .focus-val {
   color: var(--ink);
   margin: 0;
   font-size: 13px;
@@ -10329,7 +10387,8 @@ dialog.resume-modal::backdrop {
   gap: 7px;
 }
 
-.bento-hero-tags span {
+.bento-hero-tags span,
+.bento-hero-tags .bento-tag {
   font: 10.5px var(--mono);
   color: var(--muted);
   background: rgba(255, 255, 255, 0.03);
@@ -10339,18 +10398,21 @@ dialog.resume-modal::backdrop {
   transition: all 0.2s ease;
 }
 
-[data-theme="light"] .bento-hero-tags span {
+[data-theme="light"] .bento-hero-tags span,
+[data-theme="light"] .bento-hero-tags .bento-tag {
   background: #f7f7f2;
   color: var(--ink);
 }
 
-.bento-hero-tags span:hover {
+.bento-hero-tags span:hover,
+.bento-hero-tags .bento-tag:hover {
   border-color: var(--lime);
   color: var(--ink);
   transform: translateY(-1px);
 }
 
-[data-theme="dark"] .bento-hero-tags span:hover {
+[data-theme="dark"] .bento-hero-tags span:hover,
+[data-theme="dark"] .bento-hero-tags .bento-tag:hover {
   color: var(--lime);
 }
 
@@ -10611,7 +10673,8 @@ dialog.resume-modal::backdrop {
   gap: 4px;
 }
 
-.edu-chip-cluster span {
+.edu-chip-cluster span,
+.edu-chip-cluster .edu-chip-item {
   font: 9px var(--mono);
   color: var(--muted);
   background: rgba(0, 0, 0, 0.03);
@@ -10621,18 +10684,21 @@ dialog.resume-modal::backdrop {
   transition: all 0.2s ease;
 }
 
-[data-theme="dark"] .edu-chip-cluster span {
+[data-theme="dark"] .edu-chip-cluster span,
+[data-theme="dark"] .edu-chip-cluster .edu-chip-item {
   background: rgba(255, 255, 255, 0.03);
   border-color: rgba(255, 255, 255, 0.08);
   color: #adb0a3;
 }
 
-.edu-track-card:hover .edu-chip-cluster span {
+.edu-track-card:hover .edu-chip-cluster span,
+.edu-track-card:hover .edu-chip-cluster .edu-chip-item {
   border-color: rgba(255, 255, 255, 0.16);
   color: var(--ink);
 }
 
-[data-theme="dark"] .edu-track-card:hover .edu-chip-cluster span {
+[data-theme="dark"] .edu-track-card:hover .edu-chip-cluster span,
+[data-theme="dark"] .edu-track-card:hover .edu-chip-cluster .edu-chip-item {
   color: #f1f0e9;
 }
 
@@ -10870,6 +10936,31 @@ dialog.resume-modal::backdrop {
   line-height: 1.6;
   color: var(--muted);
   margin-bottom: 10px;
+}
+
+.resume-edu-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.resume-edu-highlights span,
+.resume-edu-highlights .resume-edu-chip {
+  font: 10px var(--mono);
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  transition: all 0.2s ease;
+}
+
+[data-theme="light"] .resume-edu-highlights span,
+[data-theme="light"] .resume-edu-highlights .resume-edu-chip {
+  background: #f4f3ec;
+  border-color: #e5e3d8;
+  color: #555;
 }
 
 .resume-synergy-callout {
