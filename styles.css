@@ -8375,12 +8375,18 @@ dialog.resume-modal::backdrop {
   color: var(--lime);
 }
 
-.journey-academic-link i {
+.journey-academic-link.academic-btn-secondary {
+  margin-top: 8px;
+}
+
+.journey-academic-link i,
+.journey-academic-link .academic-link-icon {
   font-style: normal;
   transition: transform 0.2s ease;
 }
 
-.journey-academic-link:hover i {
+.journey-academic-link:hover i,
+.journey-academic-link:hover .academic-link-icon {
   transform: translate(2px, -2px);
 }
 
@@ -9067,6 +9073,16 @@ dialog.resume-modal::backdrop {
   color: var(--lime);
 }
 
+.console-action-btn .btn-icon {
+  font-style: normal;
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.console-action-btn:hover .btn-icon {
+  transform: translate(2px, -2px);
+}
+
 @media (max-width: 860px) {
   .console-pane {
     grid-template-columns: 1fr;
@@ -9317,13 +9333,15 @@ dialog.resume-modal::backdrop {
   font-size: 14px;
 }
 
-.dual-box-top strong {
+.dual-box-top strong,
+.dual-box-top .dual-box-name {
   font-size: 13px;
   font-weight: 600;
   color: var(--ink);
 }
 
-.dual-box p {
+.dual-box p,
+.dual-box .dual-box-desc {
   font-size: 12px;
   line-height: 1.55;
   color: var(--muted);
@@ -9394,12 +9412,15 @@ dialog.resume-modal::backdrop {
   transform: translateY(-1px);
 }
 
-.deliv-chip i {
+.deliv-chip i,
+.deliv-chip .chip-icon {
   font-style: normal;
+  display: inline-block;
   transition: transform 0.2s ease;
 }
 
-.deliv-chip:hover i {
+.deliv-chip:hover i,
+.deliv-chip:hover .chip-icon {
   transform: translate(2px, -2px);
 }
 
@@ -9438,18 +9459,21 @@ dialog.resume-modal::backdrop {
   gap: 6px;
 }
 
-.milestone-tech-tags span {
+.milestone-tech-tags span,
+.milestone-tech-tags .milestone-tag-pill {
   font: 10px var(--mono);
   padding: 4px 9px;
   border-radius: 4px;
 }
 
-[data-theme="light"] .milestone-tech-tags span {
+[data-theme="light"] .milestone-tech-tags span,
+[data-theme="light"] .milestone-tech-tags .milestone-tag-pill {
   background: #f0f0e8;
   color: var(--muted);
 }
 
-[data-theme="dark"] .milestone-tech-tags span {
+[data-theme="dark"] .milestone-tech-tags span,
+[data-theme="dark"] .milestone-tech-tags .milestone-tag-pill {
   background: rgba(255, 255, 255, 0.035);
   color: #9a9c92;
 }
@@ -9710,19 +9734,23 @@ dialog.resume-modal::backdrop {
   color: #a0a298;
 }
 
-.m-pill strong {
+.m-pill strong,
+.m-pill .pill-metric {
   color: var(--ink);
 }
 
-[data-theme="dark"] .m-pill strong {
+[data-theme="dark"] .m-pill strong,
+[data-theme="dark"] .m-pill .pill-metric {
   color: #ffffff;
 }
 
-.m-pill.highlight strong {
+.m-pill.highlight strong,
+.m-pill.highlight .pill-metric {
   color: #10b981;
 }
 
-[data-theme="dark"] .m-pill.highlight strong {
+[data-theme="dark"] .m-pill.highlight strong,
+[data-theme="dark"] .m-pill.highlight .pill-metric {
   color: var(--lime);
 }
 
@@ -9991,13 +10019,15 @@ dialog.resume-modal::backdrop {
   user-select: none;
 }
 
-.achieve-filter-btn sup {
+.achieve-filter-btn sup,
+.achieve-filter-btn .filter-count {
   color: var(--orange);
   font-size: 8px;
   margin-left: 4px;
 }
 
-[data-theme="dark"] .achieve-filter-btn sup {
+[data-theme="dark"] .achieve-filter-btn sup,
+[data-theme="dark"] .achieve-filter-btn .filter-count {
   color: var(--lime);
 }
 
@@ -10200,7 +10230,8 @@ dialog.resume-modal::backdrop {
   margin-bottom: 20px;
 }
 
-.achieve-meta-pills span {
+.achieve-meta-pills span,
+.achieve-meta-pills .achieve-pill-item {
   font: 10px var(--mono);
   padding: 3px 8px;
   border-radius: 4px;
@@ -10210,18 +10241,21 @@ dialog.resume-modal::backdrop {
   transition: all 0.2s ease;
 }
 
-[data-theme="dark"] .achieve-meta-pills span {
+[data-theme="dark"] .achieve-meta-pills span,
+[data-theme="dark"] .achieve-meta-pills .achieve-pill-item {
   background: rgba(255, 255, 255, 0.04);
   border-color: rgba(255, 255, 255, 0.1);
   color: #adb0a3;
 }
 
-.achievement-card:hover .achieve-meta-pills span {
+.achievement-card:hover .achieve-meta-pills span,
+.achievement-card:hover .achieve-meta-pills .achieve-pill-item {
   border-color: var(--muted);
   color: var(--ink);
 }
 
-[data-theme="dark"] .achievement-card:hover .achieve-meta-pills span {
+[data-theme="dark"] .achievement-card:hover .achieve-meta-pills span,
+[data-theme="dark"] .achievement-card:hover .achieve-meta-pills .achieve-pill-item {
   color: #f1f0e9;
   border-color: rgba(255, 255, 255, 0.25);
 }
