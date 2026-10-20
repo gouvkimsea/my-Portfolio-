@@ -31,6 +31,7 @@ A modern, fast, and highly responsive personal portfolio for a student developer
 - **Dual-Degree 6-Card Toolkit Grid**: Comprehensive toolkit covering Programming, Web Development, Backend & Data, 3D & Graphics, Business & Strategy, and Systems & DevOps.
 - **Filterable Project Gallery**: Category filtering (All, Web, AI, 3D & WebGL, Security) with rich dialog modals.
 - **Interactive In-Modal Engineering Sandboxes**: Live simulators directly inside project dialogs, including:
+  - *Aquarium Nitrogen Cycle & Bio-Fluid Lab*: Live kinetic biochemical simulation of closed aquatic ecosystems with real-time Ammonia (NH₃), Nitrite (NO₂⁻), and Nitrate (NO₃⁻) conversion equations, customizable bio-load stocking levels, filter turnover rates (50-500 GPH), media matrices (Bio-Rings, Sponge, Carbon, Uncycled), interactive feeding events, and 30-day accelerated cycling curve.
   - *Mini World WebGL Shader & Biome Lab*: Real-time GLSL fragment cel-shading engine with interactive diffuse threshold, Fresnel rim power, and solar azimuth sliders alongside one-click biome presets (Earth, Alien, Magma, Cryo).
   - *CLP SM-2 Spaced Repetition Engine*: Dynamic mathematical memory retention curve & Gemini AI tutor.
   - *JOUL Concurrency & Escrow Simulator*: Real-time interval overlap calculation, turnaround buffers & trust ledger.
@@ -43,7 +44,7 @@ A modern, fast, and highly responsive personal portfolio for a student developer
   - *Procedural Celestial Audio Engine*: Web Audio API generative ambient synth with detuned sub-bass drone oscillators, harmonic fifths, and randomized celestial wind chime arpeggios. 3-state cycle (`♫ Music` / `SFX Only` / `Mute`).
 - **Engineering Milestones & Illustrated Achievements**: Interactive console showing shipped projects, GitHub commit rhythm, and illustrated craft badges.
 - **Interactive Resume / CV Modal**: Quick-access modal detailing dual-degree academic background, toolkit, status, and direct print/PDF export support.
-- **In-Browser Terminal CLI**: Built-in interactive CLI supporting `help`, `about`, `journey`, `education`, `skills`, `projects`, `pinit`, `joul`, `clp`, `miniworld`, `shader`, `glsl`, `devpulse`, `portfolio`, `achievements`, `stats`, `resume`, `neofetch`, `theme`, and `clear`.
+- **In-Browser Terminal CLI**: Built-in interactive CLI supporting `help`, `about`, `journey`, `education`, `skills`, `projects`, `pinit`, `aquarium`, `nitrogen`, `filter`, `joul`, `clp`, `miniworld`, `shader`, `glsl`, `devpulse`, `portfolio`, `achievements`, `stats`, `resume`, `neofetch`, `theme`, and `clear`.
 - **Accessible & Responsive**: Fast, lightweight performance with zero external runtime dependencies, full mobile drawer navigation, 100% semantic class architecture, and `prefers-reduced-motion` compliance.
 
 ---
