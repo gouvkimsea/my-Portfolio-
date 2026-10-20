@@ -16,9 +16,9 @@ A modern, fast, and highly responsive personal portfolio for a student developer
 | **[Chinese Learning Platform](https://github.com/gouvkimsea/chinese-learning-platform)** | EdTech & AI | NestJS, Next.js, Prisma, SM-2 SRS, Gemini AI | Enterprise language platform with SuperMemo-2 spaced repetition memory retention curve & Gemini AI dialogue tutor. |
 | **[JOUL Rental Service](https://github.com/gouvkimsea/JOUL_Rental_Service)** | Fleet & FinTech | PHP 8, MySQL, RBAC, Financial Escrow | Vehicle fleet booking with mathematical interval overlap concurrency checks, turnaround safety buffers & escrow trust accounting. |
 | **[Pinit](https://github.com/gouvkimsea/PinitAI)** | AI & Security | AI concept, Web Security, Telemetry | Real-time heuristic scoring, multi-tier phishing detection, and explainable safety telemetry radar. |
-| **[Mini World](https://gouvkimsea.github.io/my-Portfolio-/miniworld.html)** | 3D Graphics & WebGL | WebGL, GLSL Shaders, 3D Math, Web Audio | Live procedural cartoon planet simulation, controllable 6-wheel Rover & UFO flight, ocean whales & dolphins, orbiting space station, seasonal snow blanket shaders, terraforming, and meteor physics. |
+| **[Mini World](https://gouvkimsea.github.io/my-Portfolio-/miniworld.html)** | 3D Graphics & WebGL | WebGL, GLSL Shaders, 3D Math, Web Audio | Live procedural cartoon planet simulation, controllable 6-wheel Rover & UFO flight, ocean whales & dolphins, orbiting space station, seasonal snow blanket shaders, terraforming, meteor physics, tactical radar minimap HUD, high-resolution Photo Mode, and generative celestial soundscape. |
 | **[DevPulse](https://github.com/gouvkimsea)** | Developer Telemetry | WebSockets, Metrics, JavaScript | Real-time engineering flow state, commit rhythm visualizations, and build telemetry. |
-| **[This Portfolio](https://gouvkimsea.github.io/my-Portfolio-/)** | Personal Platform | HTML5, Vanilla CSS3, ES6+ | Glassmorphism navigation, Bento Grid, ⌘K Command Palette, interactive terminal CLI & 100% semantic class architecture. |
+| **[This Portfolio](https://gouvkimsea.github.io/my-Portfolio-/)** | Personal Platform | HTML5, Vanilla CSS3, ES6+ | Glassmorphism navigation, Bento Grid, ⌘K Command Palette, interactive terminal CLI, live WebGL Shader Lab & 100% semantic class architecture. |
 
 ---
 
@@ -31,12 +31,17 @@ A modern, fast, and highly responsive personal portfolio for a student developer
 - **Dual-Degree 6-Card Toolkit Grid**: Comprehensive toolkit covering Programming, Web Development, Backend & Data, 3D & Graphics, Business & Strategy, and Systems & DevOps.
 - **Filterable Project Gallery**: Category filtering (All, Web, AI, 3D & WebGL, Security) with rich dialog modals.
 - **Interactive In-Modal Engineering Sandboxes**: Live simulators directly inside project dialogs, including:
+  - *Mini World WebGL Shader & Biome Lab*: Real-time GLSL fragment cel-shading engine with interactive diffuse threshold, Fresnel rim power, and solar azimuth sliders alongside one-click biome presets (Earth, Alien, Magma, Cryo).
   - *CLP SM-2 Spaced Repetition Engine*: Dynamic mathematical memory retention curve & Gemini AI tutor.
   - *JOUL Concurrency & Escrow Simulator*: Real-time interval overlap calculation, turnaround buffers & trust ledger.
   - *Pinit Threat Radar*: Multi-tiered phishing heuristic scanner with client telemetry & risk explainability.
+- **Mini World 3D Planet Engine**:
+  - *Tactical Radar Minimap HUD*: Circular 2D canvas overlay with rotating 360° radar sweep, distance rings, and real-time orthographic camera-relative entity blips (Rover, UFO, Ocean Fauna, Space Station, Highway Traffic). Toggleable via `N` key.
+  - *High-Resolution Photo Mode*: UI-isolated snapshot engine capturing crisp PNG stills with auto-download and flash feedback. Accessible via `K` key or top HUD button.
+  - *Procedural Celestial Audio Engine*: Web Audio API generative ambient synth with detuned sub-bass drone oscillators, harmonic fifths, and randomized celestial wind chime arpeggios. 3-state cycle (`♫ Music` / `SFX Only` / `Mute`).
 - **Engineering Milestones & Illustrated Achievements**: Interactive console showing shipped projects, GitHub commit rhythm, and illustrated craft badges.
 - **Interactive Resume / CV Modal**: Quick-access modal detailing dual-degree academic background, toolkit, status, and direct print/PDF export support.
-- **In-Browser Terminal CLI**: Built-in interactive CLI supporting `help`, `about`, `journey`, `education`, `skills`, `projects`, `pinit`, `joul`, `clp`, `miniworld`, `devpulse`, `portfolio`, `achievements`, `stats`, `resume`, `neofetch`, `theme`, and `clear`.
+- **In-Browser Terminal CLI**: Built-in interactive CLI supporting `help`, `about`, `journey`, `education`, `skills`, `projects`, `pinit`, `joul`, `clp`, `miniworld`, `shader`, `glsl`, `devpulse`, `portfolio`, `achievements`, `stats`, `resume`, `neofetch`, `theme`, and `clear`.
 - **Accessible & Responsive**: Fast, lightweight performance with zero external runtime dependencies, full mobile drawer navigation, 100% semantic class architecture, and `prefers-reduced-motion` compliance.
 
 ---
