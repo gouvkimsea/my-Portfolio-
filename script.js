@@ -714,9 +714,9 @@ const projectData = {
   },
   miniworld: {
     title: "Mini World — 3D Planet Simulation",
-    overview: "An interactive procedural 3D miniature cartoon planet sandbox built in pure WebGL. Features real-time mesh deformation, procedural terrain biomes, celestial lighting, and physical meteor impact dynamics.",
-    problem: "Real-time spherical 3D geometry manipulation and procedural shader lighting typically require heavy 3D game engines, creating massive bundle sizes.",
-    learned: "Engineered custom 3D vector/matrix math, subdivision cubesphere geometry, procedural noise biomes, Web Audio API sound synthesis, and real-time vertex displacement craters.",
+    overview: "An interactive procedural 3D cartoon planet sandbox built in pure WebGL. Features a controllable UFO spaceship with tractor beam, living roaming sheep & alien Zog, dynamic thunderstorm & polar aurora weather systems, real-time terraforming land sculpting, and physical meteor impact dynamics.",
+    problem: "Real-time spherical 3D geometry manipulation, flight physics, and procedural shader lighting typically require heavy 3D game engines, creating massive bundle sizes.",
+    learned: "Engineered custom 3D vector/matrix math, subdivision cubesphere geometry, spherical UFO flight dynamics with third-person chase camera, living creature walk cycles, procedural celestial lighting with dynamic lightning flashes, Web Audio API sound synthesis, and real-time vertex displacement craters.",
     tech: ["WebGL", "GLSL Shaders", "3D Math", "Web Audio API", "JavaScript"],
     actions: [
       { label: "Launch Live 3D Simulation ↗", url: "miniworld.html", primary: true },

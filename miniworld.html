@@ -189,6 +189,96 @@
       color: #ffffff;
       box-shadow: 0 0 16px rgba(34, 197, 94, 0.55);
     }
+    .glass-btn.purple-btn {
+      color: #e9d5ff;
+      border-color: rgba(168, 85, 247, 0.4);
+      background: rgba(88, 28, 135, 0.4);
+    }
+    .glass-btn.purple-btn:hover, .glass-btn.purple-btn.active {
+      background: rgba(147, 51, 234, 0.65);
+      border-color: #a855f7;
+      color: #ffffff;
+      box-shadow: 0 0 16px rgba(168, 85, 247, 0.55);
+    }
+    .glass-btn.cyan-btn {
+      color: #a5f3fc;
+      border-color: rgba(6, 182, 212, 0.4);
+      background: rgba(21, 94, 117, 0.4);
+    }
+    .glass-btn.cyan-btn:hover, .glass-btn.cyan-btn.active {
+      background: rgba(8, 145, 178, 0.65);
+      border-color: #06b6d4;
+      color: #ffffff;
+      box-shadow: 0 0 16px rgba(6, 182, 212, 0.55);
+    }
+
+    /* UFO Flight HUD */
+    .ufo-hud {
+      position: fixed;
+      bottom: 84px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: none;
+      align-items: center;
+      gap: 12px;
+      background: var(--glass);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      border-radius: 999px;
+      padding: 6px 16px;
+      box-shadow: 0 8px 32px rgba(168, 85, 247, 0.25);
+      z-index: 10;
+    }
+    .ufo-hud.visible {
+      display: flex;
+    }
+    .ufo-stat {
+      font-size: 11px;
+      font-weight: 600;
+      color: #e9d5ff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Touch Controls for Mobile UFO Flight */
+    .ufo-touch-controls, .ufo-touch-actions {
+      position: fixed;
+      display: none;
+      z-index: 15;
+    }
+    .ufo-touch-controls {
+      bottom: 24px;
+      left: 16px;
+      display: none;
+      grid-template-columns: repeat(3, 44px);
+      grid-template-rows: repeat(2, 44px);
+      gap: 6px;
+    }
+    .ufo-touch-actions {
+      bottom: 24px;
+      right: 16px;
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .dpad-btn {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      color: #ffffff;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      cursor: pointer;
+    }
+    .dpad-btn:active {
+      background: rgba(147, 51, 234, 0.7);
+      border-color: #a855f7;
+    }
 
     /* Bottom Control Bar */
     .bottom-bar {
@@ -300,6 +390,8 @@
       .brand-subtitle { display: none; }
       .time-slider { width: 90px; }
       .preset-btn { padding: 6px 10px; font-size: 11px; }
+      .top-actions { overflow-x: auto; max-width: 60vw; }
+      .ufo-hud { font-size: 10px; padding: 4px 10px; }
     }
   </style>
 </head>
@@ -318,8 +410,14 @@
       </div>
     </div>
     <div class="top-actions">
-      <button id="btnMeteor" class="glass-btn danger-btn active" title="Toggle Click Action: Meteor Strike (X) or Fireworks (F)">
-        <span class="btn-icon" id="meteorIcon">◈</span> <span class="btn-text" id="meteorText">Meteor</span>
+      <button id="btnTool" class="glass-btn danger-btn active" title="Cycle Click Tool: Meteor Strike (X), Fireworks (F), Terraform Land (T), Plant Flora (P)">
+        <span class="btn-icon" id="toolIcon">☄️</span> <span class="btn-text" id="toolText">Meteor</span>
+      </button>
+      <button id="btnUfo" class="glass-btn purple-btn" title="Toggle Controllable UFO Spaceship (U)">
+        <span class="btn-icon">🛸</span> <span class="btn-text">UFO Pilot</span>
+      </button>
+      <button id="btnWeather" class="glass-btn cyan-btn" title="Cycle Weather: Clear ☼ / Storm ⛈️ / Aurora 🌌 (W)">
+        <span class="btn-icon" id="weatherIcon">☼</span> <span class="btn-text" id="weatherText">Clear</span>
       </button>
       <button id="btnCataclysm" class="glass-btn warning-btn" title="Total Cataclysm / Meteor Storm (C)">
         <span class="btn-icon">★</span> Cataclysm
@@ -336,7 +434,17 @@
     </div>
   </div>
 
-  <div class="toast" id="toast">Click planet to launch Meteor Strike • Cataclysm • Rebuild • Click cars • Click plane</div>
+  <div class="toast" id="toast">Click planet: Meteor Strike • 🛸 UFO Pilot (U) • ⛈️ Weather (W) • ⛰️ Terraform (T) • Click sheep/alien/cars</div>
+
+  <!-- UFO Flight HUD Overlay -->
+  <div class="hud ufo-hud" id="ufoHud">
+    <div class="ufo-stat"><span>🛸</span> <span id="ufoSpeed">0 km/h</span></div>
+    <div class="ufo-stat"><span>▲</span> <span id="ufoAlt">3.2m</span></div>
+    <button id="btnTractor" class="glass-btn purple-btn" title="Toggle Tractor Beam (B)">
+      <span class="btn-icon">⚡</span> <span id="tractorText">Tractor Beam</span>
+    </button>
+    <div class="ufo-stat" style="color:var(--text-muted);font-size:10px;">WASD = Fly • Space = Boost • Q/E = Altitude</div>
+  </div>
 
   <div class="hud bottom-bar">
     <div class="time-panel">
@@ -352,7 +460,8 @@
       <button class="preset-btn" data-cam="3">Alpine</button>
       <button class="preset-btn" data-cam="4">Follow Car</button>
       <button class="preset-btn" data-cam="5">Pilot View</button>
-      <button class="preset-btn" data-cam="6">Tour</button>
+      <button class="preset-btn" data-cam="6">🛸 UFO Chase</button>
+      <button class="preset-btn" data-cam="7">Tour</button>
     </div>
   </div>
 
@@ -489,6 +598,108 @@
           g.gain.exponentialRampToValueAtTime(0.001, t + i * 0.08 + 0.6);
           osc.connect(g); g.connect(audioCtx.destination);
           osc.start(t + i * 0.08); osc.stop(t + i * 0.08 + 0.6);
+        });
+      } catch (e) {}
+    }
+
+    function playUfoBoost() {
+      if (!audioEnabled || !audioCtx) return;
+      try {
+        const t = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator(), g = audioCtx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(180, t);
+        osc.frequency.exponentialRampToValueAtTime(540, t + 0.35);
+        osc.frequency.exponentialRampToValueAtTime(220, t + 0.7);
+        g.gain.setValueAtTime(0.06, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.7);
+        osc.connect(g); g.connect(audioCtx.destination);
+        osc.start(t); osc.stop(t + 0.7);
+      } catch (e) {}
+    }
+
+    function playTractorBeam() {
+      if (!audioEnabled || !audioCtx) return;
+      try {
+        const t = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator(), lfo = audioCtx.createOscillator();
+        const lfoGain = audioCtx.createGain(), g = audioCtx.createGain();
+        osc.type = 'sine'; osc.frequency.setValueAtTime(380, t);
+        lfo.type = 'sine'; lfo.frequency.setValueAtTime(14, t);
+        lfoGain.gain.setValueAtTime(60, t);
+        lfo.connect(osc.frequency);
+        g.gain.setValueAtTime(0.07, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
+        osc.connect(g); g.connect(audioCtx.destination);
+        lfo.start(t); osc.start(t);
+        lfo.stop(t + 0.5); osc.stop(t + 0.5);
+      } catch (e) {}
+    }
+
+    function playSheepBaa() {
+      if (!audioEnabled || !audioCtx) return;
+      try {
+        const t = audioCtx.currentTime;
+        [330, 392].forEach((freq) => {
+          const osc = audioCtx.createOscillator(), g = audioCtx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, t);
+          osc.frequency.linearRampToValueAtTime(freq * 0.95, t + 0.38);
+          g.gain.setValueAtTime(0.05, t);
+          g.gain.exponentialRampToValueAtTime(0.001, t + 0.42);
+          osc.connect(g); g.connect(audioCtx.destination);
+          osc.start(t); osc.stop(t + 0.42);
+        });
+      } catch (e) {}
+    }
+
+    function playAlienChirp() {
+      if (!audioEnabled || !audioCtx) return;
+      try {
+        const t = audioCtx.currentTime;
+        [600, 900, 1200, 1600].forEach((freq, idx) => {
+          const osc = audioCtx.createOscillator(), g = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, t + idx * 0.06);
+          g.gain.setValueAtTime(0.04, t + idx * 0.06);
+          g.gain.exponentialRampToValueAtTime(0.001, t + idx * 0.06 + 0.12);
+          osc.connect(g); g.connect(audioCtx.destination);
+          osc.start(t + idx * 0.06); osc.stop(t + idx * 0.06 + 0.12);
+        });
+      } catch (e) {}
+    }
+
+    function playThunder() {
+      if (!audioEnabled || !audioCtx) return;
+      try {
+        const t = audioCtx.currentTime;
+        const b = audioCtx.createBuffer(1, audioCtx.sampleRate * 1.2, audioCtx.sampleRate);
+        const d = b.getChannelData(0);
+        for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (d.length * 0.35));
+        const src = audioCtx.createBufferSource();
+        src.buffer = b;
+        const f = audioCtx.createBiquadFilter();
+        f.type = 'lowpass'; f.frequency.setValueAtTime(260, t);
+        f.frequency.linearRampToValueAtTime(70, t + 1.2);
+        const g = audioCtx.createGain(); g.gain.setValueAtTime(0.32, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 1.2);
+        src.connect(f); f.connect(g); g.connect(audioCtx.destination);
+        src.start(t);
+      } catch (e) {}
+    }
+
+    function playTerraformSprout() {
+      if (!audioEnabled || !audioCtx) return;
+      try {
+        const t = audioCtx.currentTime;
+        [440, 554.37, 659.25, 880].forEach((f, idx) => {
+          const osc = audioCtx.createOscillator(), g = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(f, t + idx * 0.07);
+          g.gain.setValueAtTime(0.06, t + idx * 0.07);
+          g.gain.exponentialRampToValueAtTime(0.001, t + idx * 0.07 + 0.35);
+          osc.connect(g); g.connect(audioCtx.destination);
+          osc.start(t + idx * 0.07); osc.stop(t + idx * 0.07 + 0.35);
         });
       } catch (e) {}
     }
@@ -955,12 +1166,66 @@
     let windmillBladeAngle = 0;
     const fireworks = [];
 
-    // METEOR & PLANETARY DESTRUCTION SYSTEM
+    // METEOR, WEATHER & PLANETARY EXPLORATION SYSTEM
     const meteors = [];
     const blastWaves = [];
     const debrisParticles = [];
     let camShake = 0;
-    let meteorMode = true;
+    let clickToolMode = 'meteor'; // 'meteor', 'firework', 'raise', 'plant'
+    let weatherMode = 'clear';    // 'clear', 'storm', 'aurora'
+
+    // Controllable UFO Spaceship
+    const ufo = {
+      active: false,
+      dir: sph(0.38, 1.25, 1.0),
+      pos: [0, 0, 0],
+      alt: 3.4,
+      targetAlt: 3.4,
+      heading: 0.8,
+      speed: 0,
+      maxSpeed: 8.5,
+      bank: 0,
+      tractorActive: false,
+      beamRadius: 1.8,
+      beamPulser: 0,
+      spin: 0
+    };
+    const ufoKeys = { forward: false, backward: false, left: false, right: false, up: false, down: false, boost: false };
+    const ufoExhaust = [];
+
+    // Animated Roaming Sheep on Farm / Meadows
+    const sheepList = [
+      { posDir: sph(0.34, 2.08), heading: 0.4, speed: 0.09, walkCycle: 0, grazeTimer: 2.0, isGrazing: false, hop: 0 },
+      { posDir: sph(0.26, 2.22), heading: 1.6, speed: 0.07, walkCycle: 0.8, grazeTimer: 3.5, isGrazing: false, hop: 0 },
+      { posDir: sph(0.36, 2.28), heading: 2.8, speed: 0.08, walkCycle: 1.4, grazeTimer: 1.5, isGrazing: false, hop: 0 },
+      { posDir: sph(0.40, 2.16), heading: 4.2, speed: 0.06, walkCycle: 2.2, grazeTimer: 4.2, isGrazing: false, hop: 0 }
+    ];
+
+    // Animated Friendly Space Alien "Zog" on Coral Isle
+    const alienCritter = {
+      posDir: sph(-0.35, -1.65),
+      heading: 1.2,
+      speed: 0.12,
+      walkCycle: 0,
+      hop: 0,
+      antennaGlow: 0,
+      jumpTimer: 3.0
+    };
+
+    // Dynamic Player-Terraformed Planted Trees & Glowing Mushrooms
+    const plantedFlora = [];
+
+    // Weather: Rain Particles & Thunder
+    const rainDrops = [];
+    for (let r = 0; r < 160; r++) {
+      rainDrops.push({
+        dir: sph(Math.asin(2 * Math.random() - 1), Math.random() * TAU),
+        alt: R_OCEAN + 1.2 + Math.random() * 5.0,
+        spd: 16.0 + Math.random() * 8.0
+      });
+    }
+    let thunderTimer = 4.0;
+    let lightningFlash = 0;
 
     // =========================================================================
     // 6. SHADER PROGRAMS
@@ -999,6 +1264,7 @@
        varying vec4 vC;
        uniform vec3 L, E;
        uniform float timeOfDay;
+       uniform float lightningFlash;
        void main(){
          vec3 N = normalize(vN);
          vec3 V = normalize(E - vW);
@@ -1026,7 +1292,7 @@
            c += vec3(1.0, 0.98, 0.88) * spec * 0.70;
          }
 
-         // Emissive lighting: glowing windows, headlights, lantern, sun
+         // Emissive lighting: glowing windows, headlights, lantern, sun, alien/UFO lights
          if (vC.a > 0.95) {
            float nightBoost = 1.0 + smoothstep(0.4, 0.8, timeOfDay) * 1.5;
            c = vC.rgb * (1.8 * nightBoost);
@@ -1036,6 +1302,11 @@
          float rim = pow(1.0 - max(dot(N, V), 0.0), 3.0);
          vec3 rimCol = mix(vec3(0.42, 0.78, 1.0), vec3(0.85, 0.45, 0.65), smoothstep(0.4, 0.7, timeOfDay));
          c += rimCol * rim * 0.45;
+
+         // Dynamic Lightning Flash Illumination
+         if (lightningFlash > 0.01) {
+           c += vec3(0.65, 0.85, 1.0) * lightningFlash * 1.6;
+         }
 
          gl_FragColor = vec4(c, 1.0);
        }`
@@ -1124,11 +1395,82 @@
       gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(Bs), gl.DYNAMIC_DRAW);
     }
 
+    function raiseTerrain(targetPos, blastRadius = 2.4, elevateHeight = 0.85) {
+      hasPlanetaryDamage = true;
+      const btnRebuild = document.getElementById('btnRebuild');
+      if (btnRebuild) btnRebuild.style.display = 'flex';
+
+      for (let i = 0; i < Bs.length; i += 30) {
+        let triAffected = false;
+        for (let v = 0; v < 3; v++) {
+          const idx = i + v * 10;
+          const px = Bs[idx], py = Bs[idx + 1], pz = Bs[idx + 2];
+          const dist = Math.hypot(px - targetPos[0], py - targetPos[1], pz - targetPos[2]);
+          if (dist < blastRadius) {
+            triAffected = true;
+            const w = 1.0 - (dist / blastRadius);
+            const wSmooth = w * w * (3 - 2 * w);
+            const pNorm = norm([px, py, pz]);
+            const lift = wSmooth * elevateHeight;
+            Bs[idx] += pNorm[0] * lift;
+            Bs[idx + 1] += pNorm[1] * lift;
+            Bs[idx + 2] += pNorm[2] * lift;
+
+            // Turn ocean into lush fertile island!
+            const newR = Math.hypot(Bs[idx], Bs[idx + 1], Bs[idx + 2]);
+            if (newR > R_OCEAN + 0.45) {
+              Bs[idx + 6] = 0.28; Bs[idx + 7] = 0.76; Bs[idx + 8] = 0.35; Bs[idx + 9] = 0.0;
+            } else if (newR > R_OCEAN + 0.05) {
+              Bs[idx + 6] = 0.95; Bs[idx + 7] = 0.88; Bs[idx + 8] = 0.52; Bs[idx + 9] = 0.0;
+            }
+          }
+        }
+        if (triAffected) {
+          const v0 = [Bs[i], Bs[i + 1], Bs[i + 2]];
+          const v1 = [Bs[i + 10], Bs[i + 11], Bs[i + 12]];
+          const v2 = [Bs[i + 20], Bs[i + 21], Bs[i + 22]];
+          let fn = cross(sub(v1, v0), sub(v2, v0));
+          const l = len(fn);
+          if (l > 1e-6) {
+            fn = mul(fn, 1 / l);
+            if (dot(fn, add(add(v0, v1), v2)) < 0) fn = mul(fn, -1);
+            for (let v = 0; v < 3; v++) {
+              Bs[i + v * 10 + 3] = fn[0];
+              Bs[i + v * 10 + 4] = fn[1];
+              Bs[i + v * 10 + 5] = fn[2];
+            }
+          }
+        }
+      }
+
+      gl.bindBuffer(gl.ARRAY_BUFFER, staticBuf);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(Bs), gl.DYNAMIC_DRAW);
+      playTerraformSprout();
+      showToast("⛰️ Terraformed: New Land Raised!");
+    }
+
+    function plantFlora(targetPos) {
+      const pNorm = norm(targetPos);
+      const s = getTerrain(pNorm);
+      const r = max(s.r, len(targetPos));
+      const type = plantedFlora.length % 3;
+      plantedFlora.push({
+        dir: pNorm,
+        r: r,
+        type: type,
+        scale: 0.65 + Math.random() * 0.45,
+        rot: Math.random() * TAU
+      });
+      playTerraformSprout();
+      showToast("🌲 Flora Sprouted: " + (type === 2 ? "Glowing Alien Mushroom" : (type === 1 ? "Blossom Tree" : "Alpine Pine")) + "!");
+    }
+
     function rebuildPlanet() {
       for (let i = 0; i < Bs.length; i++) Bs[i] = pristineBs[i];
       gl.bindBuffer(gl.ARRAY_BUFFER, staticBuf);
       gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(Bs), gl.DYNAMIC_DRAW);
       hasPlanetaryDamage = false;
+      plantedFlora.length = 0;
       const btnRebuild = document.getElementById('btnRebuild');
       if (btnRebuild) btnRebuild.style.display = 'none';
       playRebuildChime();
@@ -1237,6 +1579,7 @@
       { name: "Alpine", yaw: -0.55, pitch: 0.65, dist: 15.0, center: mul(ALPS_C, 9.0) },
       { name: "Follow Car", follow: 'car' },
       { name: "Cockpit", follow: 'plane' },
+      { name: "UFO", follow: 'ufo' },
       { name: "Tour", tour: true }
     ];
 
@@ -1266,7 +1609,7 @@
       lastMouseX = e.clientX; lastMouseY = e.clientY;
       targetYaw += dx * 0.006;
       targetPitch = clamp(targetPitch - dy * 0.006, -1.2, 1.2);
-      if (activePreset === 6) activePreset = -1; // Interrupt tour on manual move
+      if (activePreset === 7) activePreset = -1; // Interrupt tour on manual move
     });
 
     window.addEventListener('mouseup', () => { isDragging = false; });
@@ -1305,7 +1648,7 @@
     window.addEventListener('touchend', () => { isDragging = false; });
 
     // =========================================================================
-    // 8. INTERACTIVE RAYCASTING (Clicks: Car Honk, Plane Roll, Fireworks)
+    // 8. INTERACTIVE RAYCASTING (Clicks: UFO, Sheep, Alien, Plane, Cars, Planet)
     // =========================================================================
     cv.addEventListener('click', e => {
       if (e.target.closest('.hud')) return;
@@ -1315,17 +1658,51 @@
       const ndcX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       const ndcY = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
 
-      // Check click on airplane
+      // 1. Check click on UFO Spaceship
+      const toUfo = sub(ufo.pos, camPos);
+      if (len(cross(norm(toUfo), camFw)) < 0.12 && len(toUfo) < 36.0) {
+        ufo.spin += TAU * 2;
+        ufo.speed = min(ufo.maxSpeed * 1.5, ufo.speed + 4.0);
+        playUfoBoost();
+        showToast("🛸 UFO Turbo Boost & Spin!");
+        return;
+      }
+
+      // 2. Check click on airplane
       const plPos = sph(plane.lat, plane.orbitAngle, plane.r);
       const toPlane = sub(plPos, camPos);
-      if (len(cross(norm(sub(plPos, camPos)), camFw)) < 0.12 && len(toPlane) < 35.0) {
+      if (len(cross(norm(toPlane), camFw)) < 0.12 && len(toPlane) < 35.0) {
         plane.rollTarget += TAU;
         playPlaneRoll();
         showToast("Barrel Roll!");
         return;
       }
 
-      // Check click on cars
+      // 3. Check click on Sheep
+      for (let s = 0; s < sheepList.length; s++) {
+        const shPos = mul(sheepList[s].posDir, getTerrain(sheepList[s].posDir).r + 0.1);
+        const distToRay = len(cross(norm(sub(shPos, camPos)), camFw));
+        if (distToRay < 0.075) {
+          sheepList[s].hop = 2.4;
+          playSheepBaa();
+          showToast("🐑 Baaa! Sheep leaped!");
+          return;
+        }
+      }
+
+      // 4. Check click on Alien Critter
+      {
+        const alPos = mul(alienCritter.posDir, getTerrain(alienCritter.posDir).r + 0.1);
+        const distToRay = len(cross(norm(sub(alPos, camPos)), camFw));
+        if (distToRay < 0.08) {
+          alienCritter.hop = 2.6;
+          playAlienChirp();
+          showToast("👽 Zog the Alien did a somersault!");
+          return;
+        }
+      }
+
+      // 5. Check click on cars
       for (let c = 0; c < cars.length; c++) {
         const p = roadPath[floor(cars[c].posIdx) % NR];
         const distToRay = len(cross(norm(sub(p.pos, camPos)), camFw));
@@ -1337,8 +1714,7 @@
         }
       }
 
-      // Otherwise: Launch celebratory firework from planet surface!
-      // Sphere intersection with radius R_OCEAN
+      // 6. Otherwise: Planet Surface Raycast Hit
       const rayOrigin = camPos;
       const rayDir = norm(sub(add(add(mul(camFw, 1.0), mul(camRgt, ndcX * 0.55)), mul(camUp, ndcY * 0.55)), [0,0,0]));
       const bRay = dot(rayOrigin, rayDir);
@@ -1349,12 +1725,16 @@
         const tHit = -bRay - sqrt(disc);
         if (tHit > 0) {
           const hitPos = add(rayOrigin, mul(rayDir, tHit));
-          if (meteorMode) {
+          if (clickToolMode === 'meteor') {
             spawnMeteor(hitPos, 1.4 + Math.random() * 0.4);
-          } else {
+          } else if (clickToolMode === 'firework') {
             spawnFirework(hitPos);
             playFireworkLaunch();
-            showToast("Firework Launched!");
+            showToast("🎆 Firework Launched!");
+          } else if (clickToolMode === 'raise') {
+            raiseTerrain(hitPos, 2.4, 0.85);
+          } else if (clickToolMode === 'plant') {
+            plantFlora(hitPos);
           }
         }
       }
@@ -1379,11 +1759,11 @@
       t.textContent = text;
       t.style.opacity = '1';
       clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => { t.style.opacity = '0.7'; }, 2000);
+      toastTimer = setTimeout(() => { t.style.opacity = '0.7'; }, 2200);
     }
 
     // =========================================================================
-    // 9. TIME OF DAY & UI BINDINGS
+    // 9. TIME OF DAY, WEATHER & UI BINDINGS
     // =========================================================================
     let timeOfDay = 0.25; // 0 = Midnight, 0.25 = Sunrise, 0.5 = Noon, 0.75 = Sunset
     let autoCycle = true;
@@ -1414,20 +1794,83 @@
       audioIcon.textContent = audioEnabled ? 'SFX' : 'OFF';
     });
 
-    const btnMeteor = document.getElementById('btnMeteor');
-    const meteorIcon = document.getElementById('meteorIcon');
-    const meteorText = document.getElementById('meteorText');
+    // Tool Selector
+    const TOOL_MODES = [
+      { id: 'meteor', icon: '☄️', label: 'Meteor', toast: '☄️ Meteor Strike Mode (Click planet to strike, X key)' },
+      { id: 'firework', icon: '🎆', label: 'Fireworks', toast: '🎆 Fireworks Mode (Click planet to shoot, F key)' },
+      { id: 'raise', icon: '⛰️', label: 'Raise Land', toast: '⛰️ Terraforming: Click planet to raise new islands/mountains (T key)' },
+      { id: 'plant', icon: '🌲', label: 'Plant Flora', toast: '🌲 Nature: Click to sprout trees and glowing mushrooms (P key)' }
+    ];
+    let toolIndex = 0;
+    const btnTool = document.getElementById('btnTool');
+    const toolIcon = document.getElementById('toolIcon');
+    const toolText = document.getElementById('toolText');
+    function setToolMode(idx) {
+      toolIndex = (idx + TOOL_MODES.length) % TOOL_MODES.length;
+      clickToolMode = TOOL_MODES[toolIndex].id;
+      if (toolIcon) toolIcon.textContent = TOOL_MODES[toolIndex].icon;
+      if (toolText) toolText.textContent = TOOL_MODES[toolIndex].label;
+      showToast(TOOL_MODES[toolIndex].toast);
+    }
+    if (btnTool) btnTool.addEventListener('click', () => { initAudio(); setToolMode(toolIndex + 1); });
+
+    // UFO Pilot Toggle
+    const btnUfo = document.getElementById('btnUfo');
+    const ufoHud = document.getElementById('ufoHud');
+    function toggleUfo() {
+      initAudio();
+      ufo.active = !ufo.active;
+      if (btnUfo) btnUfo.classList.toggle('active', ufo.active);
+      if (ufoHud) ufoHud.classList.toggle('visible', ufo.active);
+      if (ufo.active) {
+        applyPreset(6); // Automatically lock onto UFO Chase camera
+        playUfoBoost();
+        showToast("🛸 UFO Pilot Active! Fly with WASD, Boost with Space, Tractor Beam with B");
+      } else {
+        applyPreset(0);
+        showToast("UFO Hover Autopilot Engaged");
+      }
+    }
+    if (btnUfo) btnUfo.addEventListener('click', toggleUfo);
+
+    // Tractor Beam Button
+    const btnTractor = document.getElementById('btnTractor');
+    const tractorText = document.getElementById('tractorText');
+    function toggleTractor() {
+      initAudio();
+      ufo.tractorActive = !ufo.tractorActive;
+      if (btnTractor) btnTractor.classList.toggle('active', ufo.tractorActive);
+      if (tractorText) tractorText.textContent = ufo.tractorActive ? 'BEAM ACTIVE' : 'Tractor Beam';
+      if (ufo.tractorActive) {
+        playTractorBeam();
+        showToast("⚡ Tractor Beam Activated! Hover over cars or creatures!");
+      }
+    }
+    if (btnTractor) btnTractor.addEventListener('click', toggleTractor);
+
+    // Weather Cycler
+    const WEATHER_MODES = [
+      { id: 'clear', icon: '☼', label: 'Clear', toast: '☼ Weather: Clear Sunny Skies' },
+      { id: 'storm', icon: '⛈️', label: 'Storm', toast: '⛈️ Weather: Rain & Rolling Thunderstorm' },
+      { id: 'aurora', icon: '🌌', label: 'Aurora', toast: '🌌 Weather: Magical Polar Aurora Borealis' }
+    ];
+    let weatherIndex = 0;
+    const btnWeather = document.getElementById('btnWeather');
+    const weatherIcon = document.getElementById('weatherIcon');
+    const weatherText = document.getElementById('weatherText');
+    function cycleWeather(idx) {
+      weatherIndex = (idx !== undefined ? idx : (weatherIndex + 1)) % WEATHER_MODES.length;
+      weatherMode = WEATHER_MODES[weatherIndex].id;
+      if (weatherIcon) weatherIcon.textContent = WEATHER_MODES[weatherIndex].icon;
+      if (weatherText) weatherText.textContent = WEATHER_MODES[weatherIndex].label;
+      if (weatherMode === 'storm') playThunder();
+      else if (weatherMode === 'aurora') playTerraformSprout();
+      showToast(WEATHER_MODES[weatherIndex].toast);
+    }
+    if (btnWeather) btnWeather.addEventListener('click', () => { initAudio(); cycleWeather(); });
+
     const btnCataclysm = document.getElementById('btnCataclysm');
     const btnRebuild = document.getElementById('btnRebuild');
-
-    btnMeteor.addEventListener('click', () => {
-      initAudio();
-      meteorMode = !meteorMode;
-      btnMeteor.classList.toggle('active', meteorMode);
-      if (meteorIcon) meteorIcon.textContent = meteorMode ? '◈' : '🎆';
-      if (meteorText) meteorText.textContent = meteorMode ? 'Meteor' : 'Fireworks';
-      showToast(meteorMode ? "Meteor Strike Mode Active! Click planet surface to strike." : "Fireworks Mode Active! Click planet surface for fireworks.");
-    });
 
     btnCataclysm.addEventListener('click', () => {
       initAudio();
@@ -1457,26 +1900,51 @@
       btn.addEventListener('click', () => applyPreset(idx));
     });
 
-    // Keyboard shortcuts
+    // Keyboard Flight & Tool Shortcuts
     window.addEventListener('keydown', e => {
       initAudio();
-      if (e.key >= '1' && e.key <= '7') applyPreset(parseInt(e.key) - 1);
-      if (e.code === 'Space') {
-        autoCycle = !autoCycle;
-        btnCycle.classList.toggle('active', autoCycle);
+      const k = e.key.toLowerCase();
+      const code = e.code;
+      if (e.key >= '1' && e.key <= '8') applyPreset(parseInt(e.key) - 1);
+      if (code === 'KeyW' || code === 'ArrowUp') {
+        if (ufo.active) { ufoKeys.forward = true; e.preventDefault(); }
       }
-      if (e.key.toLowerCase() === 'm') btnAudio.click();
-      if (e.key.toLowerCase() === 'x') {
-        // Launch meteor at current camera target
-        const aimDir = norm(sub([0,0,0], camPos));
-        spawnMeteor(mul(aimDir, -R_OCEAN), 1.5);
+      if (code === 'KeyS' || code === 'ArrowDown') { if (ufo.active) { ufoKeys.backward = true; e.preventDefault(); } }
+      if (code === 'KeyA' || code === 'ArrowLeft') { if (ufo.active) { ufoKeys.left = true; e.preventDefault(); } }
+      if (code === 'KeyD' || code === 'ArrowRight') { if (ufo.active) { ufoKeys.right = true; e.preventDefault(); } }
+      if (code === 'KeyQ') { if (ufo.active) ufoKeys.up = true; }
+      if (code === 'KeyE') { if (ufo.active) ufoKeys.down = true; }
+      if (code === 'Space') {
+        if (ufo.active) {
+          ufoKeys.boost = true;
+          playUfoBoost();
+          e.preventDefault();
+        } else {
+          autoCycle = !autoCycle;
+          btnCycle.classList.toggle('active', autoCycle);
+        }
       }
-      if (e.key.toLowerCase() === 'c') triggerCataclysm();
-      if (e.key.toLowerCase() === 'r') rebuildPlanet();
-      if (e.key.toLowerCase() === 'f') {
-        spawnFirework(sph(0.2, 0.5, R_OCEAN));
-        playFireworkLaunch();
-      }
+      if (k === 'u') toggleUfo();
+      if (k === 'w' && !ufo.active) cycleWeather();
+      if (k === 'b') toggleTractor();
+      if (k === 't') setToolMode(2);
+      if (k === 'p') setToolMode(3);
+      if (k === 'x') { setToolMode(0); const aimDir = norm(sub([0,0,0], camPos)); spawnMeteor(mul(aimDir, -R_OCEAN), 1.5); }
+      if (k === 'f') { setToolMode(1); spawnFirework(sph(0.2, 0.5, R_OCEAN)); playFireworkLaunch(); }
+      if (k === 'm') btnAudio.click();
+      if (k === 'c') triggerCataclysm();
+      if (k === 'r') rebuildPlanet();
+    });
+
+    window.addEventListener('keyup', e => {
+      const code = e.code;
+      if (code === 'KeyW' || code === 'ArrowUp') ufoKeys.forward = false;
+      if (code === 'KeyS' || code === 'ArrowDown') ufoKeys.backward = false;
+      if (code === 'KeyA' || code === 'ArrowLeft') ufoKeys.left = false;
+      if (code === 'KeyD' || code === 'ArrowRight') ufoKeys.right = false;
+      if (code === 'KeyQ') ufoKeys.up = false;
+      if (code === 'KeyE') ufoKeys.down = false;
+      if (code === 'Space') ufoKeys.boost = false;
     });
 
     // =========================================================================
@@ -1531,7 +1999,7 @@
       const sunDir = norm([cos(sunAngle), sin(sunAngle), 0.5]);
 
       // 2. Update Camera interpolation
-      if (activePreset === 6) {
+      if (activePreset === 7) {
         // Tour mode: slowly sweep camera around world
         tourTime += dt * 0.18;
         targetYaw = tourTime;
@@ -1548,18 +2016,33 @@
         const plPos = sph(plane.lat, plane.orbitAngle, plane.r);
         targetCenter = plPos;
         targetDist = 11.0;
+      } else if (activePreset === 6) {
+        // UFO Chase View
+        targetCenter = ufo.pos;
+        targetDist = 8.5;
+        const uUp = norm(ufo.dir);
+        const refNorth = (abs(uUp[1]) > 0.95) ? [1, 0, 0] : [0, 1, 0];
+        const uEast = norm(cross(refNorth, uUp));
+        const uNorth = cross(uUp, uEast);
+        const uFw = norm(add(mul(uEast, sin(ufo.heading)), mul(uNorth, cos(ufo.heading))));
+        const camIdeal = add(add(ufo.pos, mul(uFw, -7.0)), mul(uUp, 3.0));
+        currentCenter = mix3(currentCenter, ufo.pos, 0.15);
+        camPos = mix3(camPos, camIdeal, 0.15);
       }
 
-      yaw += (targetYaw - yaw) * 0.1;
-      pitch += (targetPitch - pitch) * 0.1;
-      dist += (targetDist - dist) * 0.1;
-      currentCenter = mix3(currentCenter, targetCenter, 0.08);
+      if (activePreset !== 6) {
+        yaw += (targetYaw - yaw) * 0.1;
+        pitch += (targetPitch - pitch) * 0.1;
+        dist += (targetDist - dist) * 0.1;
+        currentCenter = mix3(currentCenter, targetCenter, 0.08);
 
-      camPos = [
-        currentCenter[0] + dist * cos(pitch) * sin(yaw),
-        currentCenter[1] + dist * sin(pitch),
-        currentCenter[2] + dist * cos(pitch) * cos(yaw)
-      ];
+        camPos = [
+          currentCenter[0] + dist * cos(pitch) * sin(yaw),
+          currentCenter[1] + dist * sin(pitch),
+          currentCenter[2] + dist * cos(pitch) * cos(yaw)
+        ];
+      }
+
       if (camShake > 0.01) {
         camShake *= 0.92;
         const sAmt = camShake * 0.45;
@@ -1597,7 +2080,136 @@
         cl.lon = (cl.lon + cl.spd * dt * 8.0) % TAU;
       });
 
-      // 4. Build Dynamic Buffer (Cars, Plane, Windmill Blades, Clouds, Fireworks)
+      // UFO Flight Physics & Controls
+      if (ufo.active) {
+        if (ufoKeys.left) ufo.heading -= dt * 2.4;
+        if (ufoKeys.right) ufo.heading += dt * 2.4;
+        const targetBank = (ufoKeys.left ? 0.36 : 0) - (ufoKeys.right ? 0.36 : 0);
+        ufo.bank += (targetBank - ufo.bank) * 0.16;
+
+        const maxS = ufoKeys.boost ? ufo.maxSpeed * 1.85 : ufo.maxSpeed;
+        if (ufoKeys.forward) {
+          ufo.speed = min(maxS, ufo.speed + dt * 15.0);
+        } else if (ufoKeys.backward) {
+          ufo.speed = max(-maxS * 0.45, ufo.speed - dt * 10.0);
+        } else {
+          ufo.speed *= Math.exp(-dt * 2.4);
+        }
+
+        if (ufoKeys.up) ufo.targetAlt = min(8.5, ufo.targetAlt + dt * 4.5);
+        if (ufoKeys.down) ufo.targetAlt = max(1.5, ufo.targetAlt - dt * 4.5);
+        ufo.alt += (ufo.targetAlt - ufo.alt) * 0.14;
+
+        const uUp = norm(ufo.dir);
+        const refNorth = (abs(uUp[1]) > 0.95) ? [1, 0, 0] : [0, 1, 0];
+        const uEast = norm(cross(refNorth, uUp));
+        const uNorth = cross(uUp, uEast);
+        const uFw = norm(add(mul(uEast, sin(ufo.heading)), mul(uNorth, cos(ufo.heading))));
+
+        const arcDist = (ufo.speed * dt) / (R_OCEAN + ufo.alt);
+        ufo.dir = norm(add(mul(uUp, cos(arcDist)), mul(uFw, sin(arcDist))));
+        ufo.pos = mul(ufo.dir, R_OCEAN + ufo.alt);
+
+        const speedEl = document.getElementById('ufoSpeed');
+        const altEl = document.getElementById('ufoAlt');
+        if (speedEl) speedEl.textContent = Math.round(abs(ufo.speed) * 18) + ' km/h';
+        if (altEl) altEl.textContent = (ufo.alt).toFixed(1) + 'm';
+
+        // Thruster exhaust particles
+        if (abs(ufo.speed) > 0.4 || ufoKeys.boost) {
+          const exColor = ufoKeys.boost ? [0.95, 0.25, 0.95] : [0.2, 0.9, 1.0];
+          ufoExhaust.push({
+            pos: sub(ufo.pos, mul(uFw, 0.45)),
+            vel: add(mul(uFw, -2.2), mul(norm([Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5]), 0.6)),
+            life: 0.35,
+            color: exColor
+          });
+        }
+
+        // Tractor Beam Interaction
+        if (ufo.tractorActive) {
+          ufo.beamPulser += dt * 6.0;
+          sheepList.forEach(sheep => {
+            const shPos = mul(sheep.posDir, getTerrain(sheep.posDir).r);
+            if (len(sub(shPos, mul(ufo.dir, getTerrain(ufo.dir).r))) < ufo.beamRadius + 0.9) {
+              sheep.hop = 2.4;
+            }
+          });
+          cars.forEach(car => {
+            const p = roadPath[floor(car.posIdx) % NR];
+            if (len(sub(p.pos, mul(ufo.dir, getTerrain(ufo.dir).r))) < ufo.beamRadius + 0.9) {
+              car.hop = 2.4;
+            }
+          });
+          const alPos = mul(alienCritter.posDir, getTerrain(alienCritter.posDir).r);
+          if (len(sub(alPos, mul(ufo.dir, getTerrain(ufo.dir).r))) < ufo.beamRadius + 0.9) {
+            alienCritter.hop = 2.4;
+          }
+        }
+      } else {
+        // Idle hover
+        ufo.heading += dt * 0.12;
+        ufo.pos = mul(ufo.dir, R_OCEAN + ufo.alt + sin(now * 0.003) * 0.12);
+      }
+
+      if (ufo.spin > 0.01) ufo.spin = max(0, ufo.spin - dt * 10.0);
+
+      // Roaming Sheep
+      sheepList.forEach(sheep => {
+        if (sheep.hop > 0) sheep.hop = max(0, sheep.hop - dt * 3.5);
+        sheep.grazeTimer -= dt;
+        if (sheep.grazeTimer <= 0) {
+          sheep.isGrazing = !sheep.isGrazing;
+          sheep.grazeTimer = sheep.isGrazing ? (2.0 + Math.random() * 3.0) : (3.5 + Math.random() * 4.0);
+          if (!sheep.isGrazing) sheep.heading += (Math.random() - 0.5) * 1.6;
+        }
+        if (!sheep.isGrazing) {
+          sheep.walkCycle += dt * 3.6;
+          const sUp = norm(sheep.posDir);
+          const sFw = norm(cross([0, 1, 0], sUp));
+          const sRgt = cross(sUp, sFw);
+          const walkDir = norm(add(mul(sFw, cos(sheep.heading)), mul(sRgt, sin(sheep.heading))));
+          const stepDist = (sheep.speed * dt) / R_OCEAN;
+          sheep.posDir = norm(add(sheep.posDir, mul(walkDir, stepDist)));
+        }
+      });
+
+      // Alien Critter ("Zog")
+      alienCritter.antennaGlow = (sin(now * 0.008) * 0.5 + 0.5);
+      if (alienCritter.hop > 0) alienCritter.hop = max(0, alienCritter.hop - dt * 3.2);
+      alienCritter.jumpTimer -= dt;
+      if (alienCritter.jumpTimer <= 0) {
+        alienCritter.jumpTimer = 3.8 + Math.random() * 3.2;
+        alienCritter.hop = 1.3;
+        alienCritter.heading += (Math.random() - 0.5) * 2.2;
+      }
+      alienCritter.walkCycle += dt * 4.2;
+      const alUp = norm(alienCritter.posDir);
+      const alFw = norm(cross([0, 1, 0], alUp));
+      const alRgt = cross(alUp, alFw);
+      const alWalk = norm(add(mul(alFw, cos(alienCritter.heading)), mul(alRgt, sin(alienCritter.heading))));
+      alienCritter.posDir = norm(add(alienCritter.posDir, mul(alWalk, (alienCritter.speed * dt) / R_OCEAN)));
+
+      // Weather: Thunderstorm & Rain
+      if (weatherMode === 'storm') {
+        rainDrops.forEach(drop => {
+          drop.alt -= drop.spd * dt;
+          if (drop.alt <= R_OCEAN + 0.05) {
+            drop.alt = R_OCEAN + 5.5 + Math.random() * 1.5;
+            drop.dir = sph(Math.asin(2 * Math.random() - 1), Math.random() * TAU);
+          }
+        });
+
+        thunderTimer -= dt;
+        if (thunderTimer <= 0) {
+          thunderTimer = 4.5 + Math.random() * 5.0;
+          lightningFlash = 0.16;
+          playThunder();
+        }
+      }
+      if (lightningFlash > 0.001) lightningFlash = max(0, lightningFlash - dt * 2.5);
+
+      // 4. Build Dynamic Buffer (Cars, Plane, Windmill, Clouds, UFO, Creatures, Flora, Weather)
       const dynamicGeo = [];
 
       // A. Cars
@@ -1644,7 +2256,6 @@
         const plFw = norm(cross([0.2, 0.9, 0.3], plUp));
         let plRgt = norm(cross(plUp, plFw));
 
-        // Apply barrel roll
         const rCos = cos(plane.rollAngle), rSin = sin(plane.rollAngle);
         const rollUp = add(mul(plUp, rCos), mul(plRgt, rSin));
         const rollRgt = cross(rollUp, plFw);
@@ -1705,11 +2316,9 @@
         m.trail.push([...m.currentPos]);
         if (m.trail.length > 14) m.trail.shift();
 
-        // Molten incandescent core & dark crust
         put(dynamicGeo, P.sp, T(m.currentPos[0], m.currentPos[1], m.currentPos[2], m.radius * 0.75, m.radius * 0.75, m.radius * 0.75), [1.0, 0.45, 0.08], 1.0);
         put(dynamicGeo, P.sp, T(m.currentPos[0], m.currentPos[1], m.currentPos[2], m.radius, m.radius, m.radius), [0.30, 0.22, 0.18], 0.0);
 
-        // Blazing smoke & flame trail puffs
         m.trail.forEach((tPos, ti) => {
           const f = ti / m.trail.length;
           const sz = m.radius * (0.35 + f * 0.65);
@@ -1735,11 +2344,183 @@
       for (let i = debrisParticles.length - 1; i >= 0; i--) {
         const dp = debrisParticles[i];
         dp.life -= dt;
-        // Planet gravity pulling debris back down
         dp.vel = add(dp.vel, mul(norm(dp.pos), -14.0 * dt));
         dp.pos = add(dp.pos, mul(dp.vel, dt));
         put(dynamicGeo, P.bx, T(dp.pos[0], dp.pos[1], dp.pos[2], dp.size, dp.size, dp.size), dp.color, 1.0);
         if (dp.life <= 0) debrisParticles.splice(i, 1);
+      }
+
+      // J. Controllable UFO Spaceship & Alien Pilot
+      {
+        const uUp = norm(ufo.dir);
+        const refNorth = (abs(uUp[1]) > 0.95) ? [1, 0, 0] : [0, 1, 0];
+        const uEast = norm(cross(refNorth, uUp));
+        const uNorth = cross(uUp, uEast);
+        const uFw = norm(add(mul(uEast, sin(ufo.heading)), mul(uNorth, cos(ufo.heading))));
+        let uRgt = norm(cross(uUp, uFw));
+
+        // Banking & spin
+        const bCos = cos(ufo.bank + ufo.spin), bSin = sin(ufo.bank + ufo.spin);
+        const bankedUp = add(mul(uUp, bCos), mul(uRgt, bSin));
+        const bankedRgt = cross(bankedUp, uFw);
+
+        const uM = fromB(bankedRgt, bankedUp, uFw, ufo.pos);
+
+        // Saucer lower hull & upper hull
+        put(dynamicGeo, P.fr, mm(uM, T(0, -0.06, 0, 1.15, 0.12, 1.15)), [0.82, 0.86, 0.92]);
+        put(dynamicGeo, P.fr, mm(uM, mm(T(0, 0.06, 0, 1.15, 0.12, 1.15), fromB([1,0,0],[0,-1,0],[0,0,1],[0,0,0]))), [0.72, 0.76, 0.84]);
+
+        // Glowing neon turquoise trim ring
+        const neonColor = (sin(now * 0.006) > 0) ? [0.2, 0.9, 1.0] : [0.75, 0.25, 1.0];
+        put(dynamicGeo, P.cy, mm(uM, T(0, -0.02, 0, 1.18, 0.04, 1.18)), neonColor, 1.0);
+
+        // Glass Cockpit Dome
+        put(dynamicGeo, P.sp, mm(uM, T(0, 0.14, 0, 0.52, 0.42, 0.52)), [0.35, 0.88, 1.0], 0.7);
+
+        // Tiny Alien Pilot Head inside Dome
+        put(dynamicGeo, P.sp, mm(uM, T(0, 0.18, 0.02, 0.22, 0.22, 0.22)), [0.32, 0.94, 0.46]);
+        put(dynamicGeo, P.sp, mm(uM, T(0.06, 0.22, 0.10, 0.05, 0.05, 0.05)), [0.05, 0.05, 0.05], 1.0);
+        put(dynamicGeo, P.sp, mm(uM, T(-0.06, 0.22, 0.10, 0.05, 0.05, 0.05)), [0.05, 0.05, 0.05], 1.0);
+
+        // Top Antenna & Pulsing Beacon
+        put(dynamicGeo, P.cy, mm(uM, T(0, 0.35, 0, 0.04, 0.25, 0.04)), [0.75, 0.75, 0.8]);
+        put(dynamicGeo, P.sp, mm(uM, T(0, 0.58, 0, 0.10, 0.10, 0.10)), [1.0, 0.85, 0.2], 1.0);
+
+        // Underbody Thruster Ring
+        put(dynamicGeo, P.cy, mm(uM, T(0, -0.14, 0, 0.45, 0.06, 0.45)), [0.25, 0.85, 1.0], 1.0);
+
+        // Tractor Beam Conical Field
+        if (ufo.tractorActive) {
+          const pulseAlpha = 0.75 + sin(ufo.beamPulser) * 0.25;
+          const beamLength = ufo.alt - 0.2;
+          const beamM = mm(uM, fromB([ufo.beamRadius, 0, 0], [0, -beamLength, 0], [0, 0, ufo.beamRadius], [0, -0.15, 0]));
+          put(dynamicGeo, P.fr, beamM, [0.25, 1.0, 0.65], pulseAlpha);
+        }
+      }
+
+      // UFO Exhaust Particles
+      for (let i = ufoExhaust.length - 1; i >= 0; i--) {
+        const ep = ufoExhaust[i];
+        ep.life -= dt;
+        ep.pos = add(ep.pos, mul(ep.vel, dt));
+        const sz = 0.12 * (ep.life / 0.35);
+        put(dynamicGeo, P.sp, T(ep.pos[0], ep.pos[1], ep.pos[2], sz, sz, sz), ep.color, 1.0);
+        if (ep.life <= 0) ufoExhaust.splice(i, 1);
+      }
+
+      // K. Roaming Sheep
+      sheepList.forEach(sheep => {
+        const sTerr = getTerrain(sheep.posDir);
+        const sR = sTerr.r + sin(sheep.hop * PI) * 0.35;
+        const sUp = norm(sheep.posDir);
+        const sFwRef = norm(cross([0, 1, 0], sUp));
+        const sFw = norm(add(mul(sFwRef, cos(sheep.heading)), mul(cross(sUp, sFwRef), sin(sheep.heading))));
+        const sRgt = cross(sUp, sFw);
+        const sM = fromB(sRgt, sUp, sFw, mul(sheep.posDir, sR));
+
+        const legSwing = sheep.isGrazing ? 0 : sin(sheep.walkCycle * 6.0) * 0.10;
+        const headDip = sheep.isGrazing ? -0.08 : 0.04;
+
+        // Fluffy Wool Body
+        put(dynamicGeo, P.bx, mm(sM, T(0, 0.16, 0, 0.26, 0.22, 0.36)), [0.96, 0.96, 0.94]);
+        put(dynamicGeo, P.sp, mm(sM, T(0, 0.16, 0, 0.28, 0.24, 0.38)), [0.98, 0.98, 0.96]);
+
+        // Head with grazing dip
+        put(dynamicGeo, P.bx, mm(sM, T(0, 0.16 + headDip, 0.22, 0.14, 0.14, 0.15)), [0.24, 0.22, 0.20]);
+        put(dynamicGeo, P.bx, mm(sM, T(0.06, 0.20 + headDip, 0.28, 0.03, 0.03, 0.02)), [1.0, 1.0, 1.0], 1.0);
+        put(dynamicGeo, P.bx, mm(sM, T(-0.06, 0.20 + headDip, 0.28, 0.03, 0.03, 0.02)), [1.0, 1.0, 1.0], 1.0);
+
+        // 4 Little Legs
+        [[-0.09, 0.12], [0.09, 0.12], [-0.09, -0.12], [0.09, -0.12]].forEach(([lx, lz], li) => {
+          const lOff = (li % 2 === 0) ? legSwing : -legSwing;
+          put(dynamicGeo, P.bx, mm(sM, T(lx, 0.05, lz + lOff, 0.05, 0.11, 0.05)), [0.22, 0.20, 0.18]);
+        });
+      });
+
+      // L. Alien Critter ("Zog")
+      {
+        const alTerr = getTerrain(alienCritter.posDir);
+        const alR = alTerr.r + sin(alienCritter.hop * PI) * 0.45;
+        const alUp = norm(alienCritter.posDir);
+        const alFwRef = norm(cross([0, 1, 0], alUp));
+        const alFw = norm(add(mul(alFwRef, cos(alienCritter.heading)), mul(cross(alUp, alFwRef), sin(alienCritter.heading))));
+        const alRgt = cross(alUp, alFw);
+        const alM = fromB(alRgt, alUp, alFw, mul(alienCritter.posDir, alR));
+
+        // Pear shaped neon lime body
+        put(dynamicGeo, P.sp, mm(alM, T(0, 0.22, 0, 0.26, 0.32, 0.26)), [0.32, 0.94, 0.46]);
+
+        // Big cyclops eye
+        put(dynamicGeo, P.sp, mm(alM, T(0, 0.26, 0.12, 0.12, 0.12, 0.08)), [0.98, 0.98, 1.0]);
+        put(dynamicGeo, P.sp, mm(alM, T(0, 0.26, 0.16, 0.06, 0.06, 0.04)), [0.05, 0.05, 0.08], 1.0);
+
+        // Antenna with pulsating orb
+        put(dynamicGeo, P.cy, mm(alM, T(0, 0.40, 0, 0.03, 0.18, 0.03)), [0.32, 0.94, 0.46]);
+        const orbCol = mix3([0.85, 0.25, 1.0], [0.35, 0.9, 1.0], alienCritter.antennaGlow);
+        put(dynamicGeo, P.sp, mm(alM, T(0, 0.54, 0, 0.08, 0.08, 0.08)), orbCol, 1.0);
+
+        // Waddling feet
+        const wadd = sin(alienCritter.walkCycle * 6.0) * 0.04;
+        put(dynamicGeo, P.bx, mm(alM, T(0.08, 0.04, wadd, 0.08, 0.05, 0.12)), [0.22, 0.72, 0.34]);
+        put(dynamicGeo, P.bx, mm(alM, T(-0.08, 0.04, -wadd, 0.08, 0.05, 0.12)), [0.22, 0.72, 0.34]);
+      }
+
+      // M. User Planted Flora & Glowing Mushrooms
+      plantedFlora.forEach(fl => {
+        const fUp = fl.dir;
+        const fFw = norm(cross([0, 1, 0], fUp));
+        const fM = fromB(cross(fUp, fFw), fUp, fFw, mul(fUp, fl.r));
+        const sc = fl.scale;
+
+        if (fl.type === 0) {
+          // Alpine Pine
+          place(dynamicGeo, P.cy, fUp, bas(fUp, fFw), fl.r, 0.12 * sc, 0.42 * sc, 0.12 * sc, [0.38, 0.24, 0.14]);
+          [[0.75, 0.55, 0.30], [0.58, 0.50, 0.65], [0.40, 0.45, 1.00]].forEach(q => {
+            place(dynamicGeo, P.co, fUp, bas(fUp, fFw), fl.r, q[0] * sc, q[1] * sc, q[0] * sc, [0.12, 0.52, 0.24], 0, q[2] * sc);
+          });
+        } else if (fl.type === 1) {
+          // Cherry Blossom Tree
+          place(dynamicGeo, P.cy, fUp, bas(fUp, fFw), fl.r, 0.14 * sc, 0.50 * sc, 0.14 * sc, [0.42, 0.26, 0.16]);
+          place(dynamicGeo, P.sp, fUp, bas(fUp, fFw), fl.r, 0.85 * sc, 0.85 * sc, 0.85 * sc, [0.96, 0.56, 0.72], 0, 0.75 * sc);
+        } else {
+          // Bioluminescent Alien Mushroom
+          place(dynamicGeo, P.cy, fUp, bas(fUp, fFw), fl.r, 0.10 * sc, 0.45 * sc, 0.10 * sc, [0.85, 0.88, 0.95]);
+          place(dynamicGeo, P.sp, fUp, bas(fUp, fFw), fl.r, 0.65 * sc, 0.35 * sc, 0.65 * sc, [0.2, 0.9, 1.0], 1.0, 0.42 * sc);
+        }
+      });
+
+      // N. Weather: Rain Streaks & Polar Aurora Borealis
+      if (weatherMode === 'storm') {
+        rainDrops.forEach(drop => {
+          const rPos = mul(drop.dir, drop.alt);
+          put(dynamicGeo, P.bx, T(rPos[0], rPos[1], rPos[2], 0.02, 0.25, 0.02), [0.75, 0.88, 1.0], 0.8);
+        });
+      }
+
+      // Aurora Borealis Curtains
+      if (weatherMode === 'aurora' || (weatherMode === 'clear' && (timeOfDay < 0.25 || timeOfDay > 0.72))) {
+        const polarCenter = ALPS_C;
+        const fPol = bas(polarCenter, [0, 1, 0]);
+        const ribbonSteps = 28;
+        for (let b = 0; b < 2; b++) {
+          const rRadius = 2.8 + b * 1.4;
+          const bandCol = (b === 0) ? [0.15, 0.95, 0.55] : [0.75, 0.25, 0.95];
+          for (let s = 0; s < ribbonSteps; s++) {
+            const a0 = (s / ribbonSteps) * TAU;
+            const a1 = ((s + 1) / ribbonSteps) * TAU;
+
+            const w0 = sin(now * 0.0025 + s * 0.4 + b) * 0.35;
+            const w1 = sin(now * 0.0025 + (s + 1) * 0.4 + b) * 0.35;
+
+            const p0_b = add(mul(polarCenter, R_OCEAN + 4.2 + w0), add(mul(fPol.x, cos(a0) * rRadius), mul(fPol.z, sin(a0) * rRadius)));
+            const p0_t = add(mul(polarCenter, R_OCEAN + 6.8 + w0 * 1.4), add(mul(fPol.x, cos(a0) * rRadius), mul(fPol.z, sin(a0) * rRadius)));
+            const p1_b = add(mul(polarCenter, R_OCEAN + 4.2 + w1), add(mul(fPol.x, cos(a1) * rRadius), mul(fPol.z, sin(a1) * rRadius)));
+            const p1_t = add(mul(polarCenter, R_OCEAN + 6.8 + w1 * 1.4), add(mul(fPol.x, cos(a1) * rRadius), mul(fPol.z, sin(a1) * rRadius)));
+
+            tri(dynamicGeo, p0_b, p1_b, p1_t, bandCol, 1.0);
+            tri(dynamicGeo, p0_b, p1_t, p0_t, bandCol, 1.0);
+          }
+        }
       }
 
       // 5. Render Scene
@@ -1765,6 +2546,7 @@
       gl.uniform3fv(gl.getUniformLocation(PM, 'L'), sunDir);
       gl.uniform3fv(gl.getUniformLocation(PM, 'E'), camPos);
       gl.uniform1f(gl.getUniformLocation(PM, 'timeOfDay'), timeOfDay);
+      gl.uniform1f(gl.getUniformLocation(PM, 'lightningFlash'), lightningFlash);
 
       gl.bindBuffer(gl.ARRAY_BUFFER, staticBuf);
       gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 40, 0);
@@ -1772,7 +2554,7 @@
       gl.enableVertexAttribArray(2); gl.vertexAttribPointer(2, 4, gl.FLOAT, false, 40, 24);
       gl.drawArrays(gl.TRIANGLES, 0, Bs.length / 10);
 
-      // Dynamic Geometry (Cars, Airplane, Clouds, Windmill, Fireworks)
+      // Dynamic Geometry (Cars, Airplane, Clouds, Windmill, Fireworks, UFO, Creatures, Flora, Weather)
       if (dynamicGeo.length > 0) {
         gl.bindBuffer(gl.ARRAY_BUFFER, dynBuf);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(dynamicGeo), gl.DYNAMIC_DRAW);
