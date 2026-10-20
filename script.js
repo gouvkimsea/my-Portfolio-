@@ -1718,6 +1718,377 @@ function stopMiniworldLab() {
   }
 }
 
+// ==========================================================================
+// Aquarium Nitrogen Cycle & Biological Filtration Simulation Engine
+// ==========================================================================
+let aqLabRaf = null;
+let aqLabInitialized = false;
+
+let aqFishCount = 6;
+let aqFlowRate = 180;
+let aqMedia = 'bio'; // 'bio', 'sponge', 'carbon', 'uncycled'
+let aqAmmonia = 0.00;
+let aqNitrite = 0.00;
+let aqNitrate = 5.20;
+let aqColony = 0.98;
+let aqWastePulse = 0.0;
+let aqCycleDay = 0;
+let aqCyclingMode = false;
+let aqWaterFlash = 0;
+
+let aqFishList = [];
+let aqBubblesList = [];
+let aqFoodList = [];
+let aqLastTime = performance.now();
+
+function initAquariumLab() {
+  const canvas = $("#aquariumCanvas");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  // Initialize Fish Entities
+  if (aqFishList.length === 0) {
+    const fishColors = [
+      { body: '#fb923c', fin: '#ea580c' }, // Clownfish Orange
+      { body: '#38bdf8', fin: '#0284c7' }, // Neon Blue
+      { body: '#facc15', fin: '#ca8a04' }, // Gold Barb
+      { body: '#f43f5e', fin: '#be123c' }, // Ruby Tetra
+      { body: '#a855f7', fin: '#7e22ce' }, // Purple Betta
+      { body: '#34d399', fin: '#059669' }  // Emerald Danio
+    ];
+    for (let i = 0; i < 8; i++) {
+      const c = fishColors[i % fishColors.length];
+      aqFishList.push({
+        x: 40 + Math.random() * 260,
+        y: 40 + Math.random() * 140,
+        vx: (Math.random() > 0.5 ? 1 : -1) * (0.45 + Math.random() * 0.55),
+        vy: (Math.random() - 0.5) * 0.25,
+        bodyColor: c.body,
+        finColor: c.fin,
+        size: 11 + Math.random() * 4,
+        tailPhase: Math.random() * Math.PI * 2
+      });
+    }
+
+    // Initialize Bubbles
+    for (let i = 0; i < 18; i++) {
+      aqBubblesList.push({
+        x: 18 + Math.random() * 24,
+        y: Math.random() * 220,
+        r: 1.5 + Math.random() * 2.2,
+        speed: 0.6 + Math.random() * 0.9,
+        wobble: Math.random() * Math.PI * 2
+      });
+    }
+  }
+
+  // Bind UI Controls (Once)
+  if (!aqLabInitialized) {
+    aqLabInitialized = true;
+
+    $("#aqFishSlider")?.addEventListener("input", e => {
+      aqFishCount = parseInt(e.target.value, 10);
+      const val = $("#aqFishVal");
+      if (val) val.textContent = `${aqFishCount} fish`;
+    });
+
+    $("#aqFlowSlider")?.addEventListener("input", e => {
+      aqFlowRate = parseInt(e.target.value, 10);
+      const val = $("#aqFlowVal");
+      if (val) val.textContent = `${aqFlowRate} GPH`;
+    });
+
+    $$(".aquarium-sandbox .mw-chip")?.forEach(chip => {
+      chip.addEventListener("click", () => {
+        $$(".aquarium-sandbox .mw-chip").forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+        aqMedia = chip.dataset.media;
+        if (aqMedia === 'uncycled') {
+          aqColony = 0.12;
+        } else if (aqMedia === 'bio') {
+          aqColony = 0.98;
+        }
+      });
+    });
+
+    $("#aqFeedBtn")?.addEventListener("click", () => {
+      aqWastePulse += 2.2;
+      for (let f = 0; f < 12; f++) {
+        aqFoodList.push({
+          x: 40 + Math.random() * 260,
+          y: 10 + Math.random() * 20,
+          vy: 0.4 + Math.random() * 0.5,
+          color: Math.random() > 0.5 ? '#b45309' : '#d97706',
+          r: 1.5 + Math.random() * 1.5
+        });
+      }
+      const pill = $("#aqHudPill");
+      if (pill) pill.textContent = "🐟 Feeding Event: Organic Protein Added";
+    });
+
+    $("#aqWaterChangeBtn")?.addEventListener("click", () => {
+      aqNitrate *= 0.75;
+      aqAmmonia *= 0.75;
+      aqNitrite *= 0.75;
+      aqWaterFlash = 0.35;
+      const pill = $("#aqHudPill");
+      if (pill) pill.textContent = "💧 25% Water Change: Soluble Nitrates Diluted";
+    });
+
+    $("#aqCycleResetBtn")?.addEventListener("click", () => {
+      aqCyclingMode = true;
+      aqCycleDay = 1;
+      aqAmmonia = 0.8;
+      aqNitrite = 0.05;
+      aqNitrate = 0.5;
+      aqColony = 0.15;
+      const pill = $("#aqHudPill");
+      if (pill) pill.textContent = "⏳ Accelerated Cycling: Tracking 30-Day Microbial Flora";
+    });
+  }
+
+  aqLastTime = performance.now();
+
+  function renderAquarium(now) {
+    const dt = Math.min((now - aqLastTime) / 1000, 0.1);
+    aqLastTime = now;
+
+    const W = canvas.width, H = canvas.height;
+
+    // Biological Nitrogen Kinetics Calculation
+    if (aqCyclingMode) {
+      aqCycleDay += dt * 3.2; // 1s = 3.2 days
+      if (aqCycleDay <= 10) {
+        aqAmmonia = Math.min(5.0, aqAmmonia + dt * 0.8);
+        aqNitrite = Math.min(1.2, aqNitrite + dt * 0.15);
+        aqColony = Math.min(0.4, aqColony + dt * 0.04);
+      } else if (aqCycleDay <= 20) {
+        aqAmmonia = Math.max(0.1, aqAmmonia - dt * 0.9);
+        aqNitrite = Math.min(5.2, aqNitrite + dt * 0.7);
+        aqNitrate = Math.min(18.0, aqNitrate + dt * 1.5);
+        aqColony = Math.min(0.75, aqColony + dt * 0.05);
+      } else if (aqCycleDay <= 30) {
+        aqAmmonia = Math.max(0.0, aqAmmonia - dt * 0.5);
+        aqNitrite = Math.max(0.0, aqNitrite - dt * 0.8);
+        aqNitrate = Math.min(35.0, aqNitrate + dt * 1.8);
+        aqColony = Math.min(1.0, aqColony + dt * 0.04);
+      } else {
+        aqCyclingMode = false;
+        aqAmmonia = 0.00;
+        aqNitrite = 0.00;
+        aqColony = 0.98;
+        const pill = $("#aqHudPill");
+        if (pill) pill.textContent = "✓ Cycling Complete: Mature Bacterial Equilibrium";
+      }
+    } else {
+      const wasteRate = aqFishCount * 0.04 + aqWastePulse;
+      aqWastePulse = Math.max(0, aqWastePulse - dt * 0.35);
+
+      const mediaEff = (aqMedia === 'bio') ? 1.5 : (aqMedia === 'sponge' ? 1.0 : (aqMedia === 'carbon' ? 1.25 : 0.08));
+      const convSpeed = (aqFlowRate / 180) * aqColony * mediaEff;
+
+      const ammInput = wasteRate * 0.16;
+      const ammConverted = Math.min(aqAmmonia, aqAmmonia * convSpeed * 0.78 * dt);
+      aqAmmonia = Math.max(0, aqAmmonia + (ammInput - ammConverted) * dt);
+
+      const nitConverted = Math.min(aqNitrite, aqNitrite * convSpeed * 0.85 * dt);
+      aqNitrite = Math.max(0, aqNitrite + (ammConverted * 0.95 - nitConverted) * dt);
+
+      aqNitrate = Math.min(140.0, aqNitrate + (nitConverted * 0.82) * dt);
+
+      if (aqMedia === 'uncycled') {
+        aqColony = Math.max(0.08, aqColony - dt * 0.04);
+      } else {
+        aqColony = Math.min(1.0, aqColony + dt * 0.02);
+      }
+    }
+
+    // Update Telemetry Elements
+    const ammEl = $("#aqAmmoniaVal"), nitrEl = $("#aqNitriteVal"), nitraEl = $("#aqNitrateVal"), colEl = $("#aqBacterialVal");
+    if (ammEl) ammEl.textContent = `${aqAmmonia.toFixed(2)} ppm`;
+    if (nitrEl) nitrEl.textContent = `${aqNitrite.toFixed(2)} ppm`;
+    if (nitraEl) nitraEl.textContent = `${aqNitrate.toFixed(1)} ppm`;
+    if (colEl) colEl.textContent = `${Math.round(aqColony * 100)}%`;
+
+    const ammSt = $("#aqAmmoniaStatus"), nitrSt = $("#aqNitriteStatus"), nitraSt = $("#aqNitrateStatus"), colSt = $("#aqBacterialStatus");
+    if (ammSt) {
+      if (aqAmmonia < 0.25) { ammSt.textContent = "Safe (< 0.25)"; ammSt.className = "aq-metric-status safe"; }
+      else if (aqAmmonia < 1.0) { ammSt.textContent = "Stress Warning"; ammSt.className = "aq-metric-status warning"; }
+      else { ammSt.textContent = "Lethal Toxicity!"; ammSt.className = "aq-metric-status danger"; }
+    }
+    if (nitrSt) {
+      if (aqNitrite < 0.25) { nitrSt.textContent = "Safe (< 0.25)"; nitrSt.className = "aq-metric-status safe"; }
+      else if (aqNitrite < 0.8) { nitrSt.textContent = "Elevated"; nitrSt.className = "aq-metric-status warning"; }
+      else { nitrSt.textContent = "Cellular Hypoxia!"; nitrSt.className = "aq-metric-status danger"; }
+    }
+    if (nitraSt) {
+      if (aqNitrate < 20) { nitraSt.textContent = "Optimal Plant Nutrient"; nitraSt.className = "aq-metric-status optimal"; }
+      else if (aqNitrate < 40) { nitraSt.textContent = "Safe Threshold"; nitraSt.className = "aq-metric-status safe"; }
+      else { nitraSt.textContent = "Water Change Needed!"; nitraSt.className = "aq-metric-status danger"; }
+    }
+    if (colSt) {
+      colSt.textContent = (aqColony > 0.85) ? "Mature Bio-Bed" : ((aqColony > 0.4) ? "Colonizing Filter" : "Immature Media");
+      colSt.className = (aqColony > 0.85) ? "aq-metric-status safe" : "aq-metric-status warning";
+    }
+
+    // Canvas Background Aquatic Gradient
+    const grad = ctx.createLinearGradient(0, 0, 0, H);
+    grad.addColorStop(0, "#0a2540");
+    grad.addColorStop(0.5, "#061727");
+    grad.addColorStop(1, "#040d16");
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, H);
+
+    // Caustics Light Rays
+    ctx.fillStyle = "rgba(56, 189, 248, 0.06)";
+    for (let c = 0; c < 4; c++) {
+      const rx = (now * 0.04 + c * 85) % W;
+      ctx.beginPath();
+      ctx.moveTo(rx - 15, 0);
+      ctx.lineTo(rx + 35, 0);
+      ctx.lineTo(rx + 65, H);
+      ctx.lineTo(rx - 40, H);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    // Substrate Gravel Bed at Bottom
+    ctx.fillStyle = "#1e293b";
+    ctx.fillRect(0, H - 22, W, 22);
+    ctx.fillStyle = "#334155";
+    ctx.fillRect(0, H - 24, W, 3);
+
+    // Swaying Aquatic Plant Fronds (5 plants)
+    ctx.strokeStyle = "#10b981";
+    ctx.lineWidth = 3;
+    ctx.lineCap = "round";
+    for (let p = 0; p < 5; p++) {
+      const baseX = 80 + p * 55;
+      const sway = Math.sin(now * 0.002 + p * 1.5) * 12;
+      ctx.beginPath();
+      ctx.moveTo(baseX, H - 22);
+      ctx.quadraticCurveTo(baseX + sway * 0.5, H - 65, baseX + sway, H - 95);
+      ctx.stroke();
+
+      ctx.fillStyle = "#34d399";
+      for (let l = 1; l <= 3; l++) {
+        const ly = H - 22 - l * 22;
+        const lx = baseX + sway * (l / 3.5);
+        ctx.beginPath();
+        ctx.ellipse(lx + 6, ly, 7, 3, 0.35, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(lx - 6, ly - 4, 7, 3, -0.35, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    // Filter Box & Airstone
+    ctx.fillStyle = "#0f172a";
+    ctx.fillRect(10, 10, 36, 75);
+    ctx.fillStyle = (aqMedia === 'bio') ? "#f59e0b" : ((aqMedia === 'carbon') ? "#334155" : "#3b82f6");
+    ctx.fillRect(14, 25, 28, 52);
+
+    // Water Flow Stream Out of Filter
+    const flowAmp = Math.min(aqFlowRate / 150, 2.5);
+    ctx.strokeStyle = "rgba(56, 189, 248, 0.4)";
+    ctx.lineWidth = 2;
+    for (let j = 0; j < 3; j++) {
+      const fx = 46 + ((now * 0.08 * flowAmp + j * 20) % 65);
+      ctx.beginPath();
+      ctx.moveTo(fx, 20 + j * 5);
+      ctx.lineTo(fx + 10, 20 + j * 5);
+      ctx.stroke();
+    }
+
+    // Rising Air Bubbles
+    ctx.fillStyle = "rgba(255, 255, 255, 0.55)";
+    ctx.strokeStyle = "rgba(56, 189, 248, 0.75)";
+    ctx.lineWidth = 1;
+    aqBubblesList.forEach(b => {
+      b.y -= b.speed * 60 * dt;
+      b.wobble += dt * 4;
+      const bx = b.x + Math.sin(b.wobble) * 2;
+      if (b.y < 12) b.y = H - 26;
+      ctx.beginPath();
+      ctx.arc(bx, b.y, b.r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+    });
+
+    // Sinking Food Flakes
+    for (let f = aqFoodList.length - 1; f >= 0; f--) {
+      const flake = aqFoodList[f];
+      flake.y += flake.vy * 60 * dt;
+      ctx.fillStyle = flake.color;
+      ctx.beginPath();
+      ctx.arc(flake.x, flake.y, flake.r, 0, Math.PI * 2);
+      ctx.fill();
+      if (flake.y >= H - 24) aqFoodList.splice(f, 1);
+    }
+
+    // Swimming Fish Entities
+    const visibleCount = Math.min(aqFishCount, aqFishList.length);
+    for (let i = 0; i < visibleCount; i++) {
+      const fish = aqFishList[i];
+      fish.x += fish.vx * 60 * dt;
+      fish.y += fish.vy * 60 * dt;
+      fish.tailPhase += dt * 8 * Math.abs(fish.vx);
+
+      if (fish.x > W - 25) { fish.x = W - 25; fish.vx *= -1; }
+      else if (fish.x < 55) { fish.x = 55; fish.vx *= -1; }
+
+      if (fish.y > H - 35) { fish.y = H - 35; fish.vy *= -1; }
+      else if (fish.y < 35) { fish.y = 35; fish.vy *= -1; }
+
+      const dir = (fish.vx > 0) ? 1 : -1;
+      const tailWag = Math.sin(fish.tailPhase) * 4;
+
+      ctx.fillStyle = fish.bodyColor;
+      ctx.beginPath();
+      ctx.ellipse(fish.x, fish.y, fish.size, fish.size * 0.52, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = fish.finColor;
+      ctx.beginPath();
+      ctx.moveTo(fish.x - dir * fish.size * 0.8, fish.y);
+      ctx.lineTo(fish.x - dir * (fish.size + 8), fish.y - 6 + tailWag);
+      ctx.lineTo(fish.x - dir * (fish.size + 8), fish.y + 6 + tailWag);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath();
+      ctx.arc(fish.x + dir * fish.size * 0.55, fish.y - 2, 2.2, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#0f172a";
+      ctx.beginPath();
+      ctx.arc(fish.x + dir * (fish.size * 0.55 + 0.6), fish.y - 2, 1.2, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Fresh Water Flash Overlay on Water Change
+    if (aqWaterFlash > 0.01) {
+      ctx.fillStyle = `rgba(56, 189, 248, ${aqWaterFlash})`;
+      ctx.fillRect(0, 0, W, H);
+      aqWaterFlash = Math.max(0, aqWaterFlash - dt * 0.8);
+    }
+
+    aqLabRaf = requestAnimationFrame(renderAquarium);
+  }
+
+  stopAquariumLab();
+  aqLabRaf = requestAnimationFrame(renderAquarium);
+}
+
+function stopAquariumLab() {
+  if (aqLabRaf) {
+    cancelAnimationFrame(aqLabRaf);
+    aqLabRaf = null;
+  }
+}
+
 function openModal(projectKey) {
   const data = projectData[projectKey];
   if (!data) return;
@@ -1772,12 +2143,24 @@ function openModal(projectKey) {
     }
   }
 
+  const aquariumSandbox = $("#aquariumSandbox");
+  if (aquariumSandbox) {
+    if (projectKey === "aquarium") {
+      aquariumSandbox.hidden = false;
+      initAquariumLab();
+    } else {
+      aquariumSandbox.hidden = true;
+      stopAquariumLab();
+    }
+  }
+
   modal.showModal();
   $("#modalClose")?.focus();
 }
 
 function closeModal() {
   stopMiniworldLab();
+  stopAquariumLab();
   if (modal?.open) {
     modal.close();
     if (previousActiveElement && typeof previousActiveElement.focus === "function") {
@@ -1860,7 +2243,7 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>journey</b>, <b>education</b>, <b>skills</b>, <b>projects</b>, <b>pinit</b>, <b>aquarium</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>devpulse</b>, <b>portfolio</b>, <b>achievements</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>journey</b>, <b>education</b>, <b>skills</b>, <b>projects</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>devpulse</b>, <b>portfolio</b>, <b>achievements</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
   about: "Gouv Kimsea — Dual degree undergraduate in Computer Science (Paragon.U) & Business Administration (Bonamary.U) building tangible products.",
   journey: () => {
     const el = document.getElementById("journey");
@@ -1935,8 +2318,14 @@ Scrolled to Section 05: Engineering Milestones!</pre>`;
   rental: () => terminalCommands.joul(),
   aquarium: () => {
     openModal("aquarium");
-    return "Opening Aquarium Filter Sim (TypeScript Fluid & Bio Filtration Physics) project modal...";
+    setTimeout(() => {
+      const lab = document.getElementById("aquariumSandbox");
+      if (lab) lab.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 250);
+    return "Opening Aquarium Filter Sim modal & biological nitrogen cycle physics lab...";
   },
+  nitrogen: () => terminalCommands.aquarium(),
+  filter: () => terminalCommands.aquarium(),
   gesture: () => {
     openModal("gesture");
     return "Opening Gesture App (Python 21-Joint Computer Vision & MediaPipe Engine) project modal...";

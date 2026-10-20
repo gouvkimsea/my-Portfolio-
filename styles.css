@@ -11127,6 +11127,136 @@ dialog.resume-modal::backdrop {
   }
 }
 
+/* Aquarium Nitrogen Cycle & Filtration Simulator Sandbox */
+.aquarium-sandbox {
+  margin-top: 24px;
+  border-top: 1px solid var(--line);
+  padding-top: 20px;
+}
+.aq-lab-container {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 20px;
+  align-items: center;
+  margin: 16px 0;
+}
+.aq-canvas-box {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #06111e;
+  aspect-ratio: 16/10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.aq-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.aq-hud-pill {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  color: #38bdf8;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+}
+.aq-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.aq-action-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+.aq-btn {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.aq-btn:hover {
+  border-color: var(--lime);
+  color: var(--lime);
+}
+[data-theme="light"] .aq-btn:hover {
+  border-color: var(--orange);
+  color: var(--orange);
+}
+.aq-btn.primary {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: #38bdf8;
+  color: #38bdf8;
+}
+.aq-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 14px;
+}
+.aq-metric-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+}
+.aq-metric-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+.aq-metric-val {
+  font-size: 15px;
+  font-weight: 700;
+  font-family: monospace;
+  color: var(--text);
+}
+.aq-metric-status {
+  font-size: 10px;
+  margin-top: 4px;
+  font-weight: 500;
+}
+.aq-metric-status.safe {
+  color: #4ade80;
+}
+.aq-metric-status.warning {
+  color: #facc15;
+}
+.aq-metric-status.danger {
+  color: #ef4444;
+}
+.aq-metric-status.optimal {
+  color: #38bdf8;
+}
+@media (max-width: 640px) {
+  .aq-lab-container {
+    grid-template-columns: 1fr;
+  }
+  .aq-metrics-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 /* 1. Skip to Content Link (WCAG 2.1 AA) */
 .skip-link {
   position: absolute;

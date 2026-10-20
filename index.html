@@ -2632,6 +2632,92 @@
         </div>
       </div>
 
+      <!-- Interactive Aquarium Nitrogen Cycle & Filtration Simulator Sandbox (Active for Aquarium) -->
+      <div class="project-sandbox aquarium-sandbox" id="aquariumSandbox" hidden>
+        <div class="sandbox-header">
+          <div class="clp-sandbox-badge">
+            <span class="clp-live-pulse" aria-hidden="true"></span>
+            <span class="clp-badge-text">NITROGEN CYCLE &amp; BIO-FLUID ENGINE</span>
+          </div>
+          <span class="pinit-latency-stat">TypeScript Kinetics · 3-Stage Filtration</span>
+        </div>
+
+        <p class="clp-sandbox-desc">
+          Live kinetic simulation of closed aquatic biochemistry. Modeled after Gouv Kimsea's <code>aquarium-filter-sim</code> engine: tracks toxic Ammonia (NH₃) conversion to Nitrite (NO₂⁻) and safe Nitrate (NO₃⁻) by nitrifying bacterial colonies across filtration media.
+        </p>
+
+        <div class="aq-lab-container">
+          <!-- Animated Aquarium Canvas / Diagram -->
+          <div class="aq-canvas-box">
+            <canvas id="aquariumCanvas" class="aq-canvas" width="340" height="220" aria-label="Aquarium Nitrogen Cycle Live Simulation"></canvas>
+            <div class="aq-hud-pill" id="aqHudPill">System: Balanced (Nitrate: 5.2 ppm)</div>
+          </div>
+
+          <!-- Controls & Real-Time Parameter Sliders -->
+          <div class="aq-controls">
+            <!-- Parameter 1: Bio-load / Fish Count -->
+            <div class="mw-control-group">
+              <div class="mw-slider-header">
+                <span class="mw-slider-title">🐟 Bio-Load / Fish Population</span>
+                <span class="mw-val-badge" id="aqFishVal">6 fish</span>
+              </div>
+              <input type="range" id="aqFishSlider" class="mw-range-slider" min="1" max="20" step="1" value="6" aria-label="Aquarium Fish Stocking Level">
+            </div>
+
+            <!-- Parameter 2: Filter Flow Rate (GPH) -->
+            <div class="mw-control-group">
+              <div class="mw-slider-header">
+                <span class="mw-slider-title">🌀 Filter Turnover Rate (GPH)</span>
+                <span class="mw-val-badge" id="aqFlowVal">180 GPH</span>
+              </div>
+              <input type="range" id="aqFlowSlider" class="mw-range-slider" min="50" max="500" step="10" value="180" aria-label="Filter Flow Rate in Gallons Per Hour">
+            </div>
+
+            <!-- Parameter 3: Filtration Media Type -->
+            <div class="mw-control-group">
+              <span class="mw-slider-title">Filter Media Matrix:</span>
+              <div class="mw-biome-chips" role="group" aria-label="Filtration Media Selection">
+                <button type="button" class="mw-chip active" data-media="bio">Bio-Rings (Nitrobacter)</button>
+                <button type="button" class="mw-chip" data-media="sponge">Coarse Sponge (Mech)</button>
+                <button type="button" class="mw-chip" data-media="carbon">Active Carbon (Chem)</button>
+                <button type="button" class="mw-chip" data-media="uncycled">Uncycled Tank</button>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="aq-action-bar">
+              <button type="button" class="aq-btn" id="aqFeedBtn">🐟 Feed Fish (+Waste)</button>
+              <button type="button" class="aq-btn primary" id="aqWaterChangeBtn">💧 25% Water Change</button>
+              <button type="button" class="aq-btn" id="aqCycleResetBtn">↺ Cycle Simulation</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metric Telemetry Cards -->
+        <div class="aq-metrics-grid">
+          <div class="aq-metric-card" id="cardAmmonia">
+            <div class="aq-metric-label">Ammonia (NH₃)</div>
+            <div class="aq-metric-val" id="aqAmmoniaVal">0.00 ppm</div>
+            <div class="aq-metric-status safe" id="aqAmmoniaStatus">Safe (&lt; 0.25)</div>
+          </div>
+          <div class="aq-metric-card" id="cardNitrite">
+            <div class="aq-metric-label">Nitrite (NO₂⁻)</div>
+            <div class="aq-metric-val" id="aqNitriteVal">0.00 ppm</div>
+            <div class="aq-metric-status safe" id="aqNitriteStatus">Safe (&lt; 0.25)</div>
+          </div>
+          <div class="aq-metric-card" id="cardNitrate">
+            <div class="aq-metric-label">Nitrate (NO₃⁻)</div>
+            <div class="aq-metric-val" id="aqNitrateVal">5.20 ppm</div>
+            <div class="aq-metric-status optimal" id="aqNitrateStatus">Optimal Plant Nutrient</div>
+          </div>
+          <div class="aq-metric-card" id="cardBacterial">
+            <div class="aq-metric-label">Filter Bio-Colony</div>
+            <div class="aq-metric-val" id="aqBacterialVal">98%</div>
+            <div class="aq-metric-status safe" id="aqBacterialStatus">Mature Bio-Bed</div>
+          </div>
+        </div>
+      </div>
+
       <div class="modal-tech" id="modalTech"></div>
       <div class="modal-actions" id="modalActions"></div>
     </div>
