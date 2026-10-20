@@ -506,7 +506,7 @@
       </div>
     </div>
     <div class="top-actions">
-      <button id="btnTool" class="glass-btn danger-btn active" title="Cycle Click Tool: Meteor Strike (X), Fireworks (F), Terraform Land (T), Plant Flora (P)">
+      <button id="btnTool" class="glass-btn danger-btn active" title="Cycle Click Tool: Meteor Strike (X), Lightning (Z), Fireworks (F), Raise Land (T), Dig Ocean (G), Plant Flora (P)">
         <span class="btn-icon" id="toolIcon">☄️</span> <span class="btn-text" id="toolText">Meteor</span>
       </button>
       <button id="btnUfo" class="glass-btn purple-btn" title="Toggle Controllable UFO Spaceship (U)">
@@ -826,6 +826,55 @@
           g.gain.exponentialRampToValueAtTime(0.001, t + idx * 0.07 + 0.35);
           osc.connect(g); g.connect(audioCtx.destination);
           osc.start(t + idx * 0.07); osc.stop(t + idx * 0.07 + 0.35);
+        });
+      } catch (e) {}
+    }
+
+    function playLightningStrike() {
+      if (!audioEnabled || !audioCtx) return;
+      try {
+        const t = audioCtx.currentTime;
+        const b = audioCtx.createBuffer(1, Math.floor(audioCtx.sampleRate * 0.45), audioCtx.sampleRate);
+        const d = b.getChannelData(0);
+        for (let i = 0; i < d.length; i++) {
+          d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (d.length * 0.18)) * (Math.random() > 0.35 ? 1 : -0.7);
+        }
+        const src = audioCtx.createBufferSource();
+        src.buffer = b;
+        const fHigh = audioCtx.createBiquadFilter();
+        fHigh.type = 'highpass';
+        fHigh.frequency.setValueAtTime(1200, t);
+        const gHigh = audioCtx.createGain();
+        gHigh.gain.setValueAtTime(0.38, t);
+        gHigh.gain.exponentialRampToValueAtTime(0.001, t + 0.45);
+        src.connect(fHigh); fHigh.connect(gHigh); gHigh.connect(audioCtx.destination);
+        src.start(t);
+
+        const osc = audioCtx.createOscillator();
+        const gBass = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(170, t);
+        osc.frequency.exponentialRampToValueAtTime(32, t + 0.85);
+        gBass.gain.setValueAtTime(0.32, t);
+        gBass.gain.exponentialRampToValueAtTime(0.001, t + 0.85);
+        osc.connect(gBass); gBass.connect(audioCtx.destination);
+        osc.start(t); osc.stop(t + 0.85);
+      } catch (e) {}
+    }
+
+    function playTerraformExcavate() {
+      if (!audioEnabled || !audioCtx) return;
+      try {
+        const t = audioCtx.currentTime;
+        [220, 185, 146, 110].forEach((f, idx) => {
+          const osc = audioCtx.createOscillator(), g = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(f, t + idx * 0.06);
+          osc.frequency.linearRampToValueAtTime(f * 0.85, t + idx * 0.06 + 0.28);
+          g.gain.setValueAtTime(0.07, t + idx * 0.06);
+          g.gain.exponentialRampToValueAtTime(0.001, t + idx * 0.06 + 0.30);
+          osc.connect(g); g.connect(audioCtx.destination);
+          osc.start(t + idx * 0.06); osc.stop(t + idx * 0.06 + 0.30);
         });
       } catch (e) {}
     }
@@ -1828,6 +1877,133 @@
       showToast("⛰️ Terraformed: New Land Raised!");
     }
 
+    function lowerTerrain(targetPos, blastRadius = 2.4, depth = 0.85) {
+      hasPlanetaryDamage = true;
+      const btnRebuild = document.getElementById('btnRebuild');
+      if (btnRebuild) btnRebuild.style.display = 'flex';
+
+      for (let i = 0; i < Bs.length; i += 30) {
+        let triAffected = false;
+        for (let v = 0; v < 3; v++) {
+          const idx = i + v * 10;
+          const px = Bs[idx], py = Bs[idx + 1], pz = Bs[idx + 2];
+          const dist = Math.hypot(px - targetPos[0], py - targetPos[1], pz - targetPos[2]);
+          if (dist < blastRadius) {
+            triAffected = true;
+            const w = 1.0 - (dist / blastRadius);
+            const wSmooth = w * w * (3 - 2 * w);
+            const pNorm = norm([px, py, pz]);
+            const drop = wSmooth * depth;
+            Bs[idx] -= pNorm[0] * drop;
+            Bs[idx + 1] -= pNorm[1] * drop;
+            Bs[idx + 2] -= pNorm[2] * drop;
+
+            const newR = Math.hypot(Bs[idx], Bs[idx + 1], Bs[idx + 2]);
+            if (newR <= R_OCEAN - 0.10) {
+              Bs[idx + 6] = 0.08; Bs[idx + 7] = 0.28; Bs[idx + 8] = 0.65; Bs[idx + 9] = 0.0;
+            } else if (newR <= R_OCEAN + 0.15) {
+              Bs[idx + 6] = 0.94; Bs[idx + 7] = 0.86; Bs[idx + 8] = 0.55; Bs[idx + 9] = 0.0;
+            }
+          }
+        }
+        if (triAffected) {
+          const v0 = [Bs[i], Bs[i + 1], Bs[i + 2]];
+          const v1 = [Bs[i + 10], Bs[i + 11], Bs[i + 12]];
+          const v2 = [Bs[i + 20], Bs[i + 21], Bs[i + 22]];
+          let fn = cross(sub(v1, v0), sub(v2, v0));
+          const l = len(fn);
+          if (l > 1e-6) {
+            fn = mul(fn, 1 / l);
+            if (dot(fn, add(add(v0, v1), v2)) < 0) fn = mul(fn, -1);
+            for (let v = 0; v < 3; v++) {
+              Bs[i + v * 10 + 3] = fn[0];
+              Bs[i + v * 10 + 4] = fn[1];
+              Bs[i + v * 10 + 5] = fn[2];
+            }
+          }
+        }
+      }
+
+      gl.bindBuffer(gl.ARRAY_BUFFER, staticBuf);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(Bs), gl.DYNAMIC_DRAW);
+      playTerraformExcavate();
+
+      const pNorm = norm(targetPos);
+      for (let i = 0; i < 24; i++) {
+        const sDir = norm([
+          pNorm[0] + (Math.random() - 0.5) * 1.5,
+          pNorm[1] + (Math.random() - 0.5) * 1.5,
+          pNorm[2] + (Math.random() - 0.5) * 1.5
+        ]);
+        debrisParticles.push({
+          pos: add(targetPos, mul(sDir, 0.1)),
+          vel: mul(sDir, 4.0 + Math.random() * 6.0),
+          size: 0.14 + Math.random() * 0.12,
+          life: 0.55 + Math.random() * 0.4,
+          color: [0.35, 0.72, 0.98]
+        });
+      }
+
+      showToast("🌊 Ocean Excavated: Trench & Lake Formed!");
+    }
+
+    function scorchTerrain(targetPos, scorchRadius = 1.4) {
+      for (let i = 0; i < Bs.length; i += 30) {
+        let triAffected = false;
+        for (let v = 0; v < 3; v++) {
+          const idx = i + v * 10;
+          const px = Bs[idx], py = Bs[idx + 1], pz = Bs[idx + 2];
+          const dist = Math.hypot(px - targetPos[0], py - targetPos[1], pz - targetPos[2]);
+          if (dist < scorchRadius) {
+            triAffected = true;
+            const w = 1.0 - (dist / scorchRadius);
+            Bs[idx + 6] = mix(Bs[idx + 6], 0.12, w * 0.85);
+            Bs[idx + 7] = mix(Bs[idx + 7], 0.12, w * 0.85);
+            Bs[idx + 8] = mix(Bs[idx + 8], 0.14, w * 0.85);
+          }
+        }
+      }
+      gl.bindBuffer(gl.ARRAY_BUFFER, staticBuf);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(Bs), gl.DYNAMIC_DRAW);
+    }
+
+    function strikeLightning(targetPos) {
+      lightningFlash = 0.55;
+      camShake = 1.35;
+      playLightningStrike();
+      hasPlanetaryDamage = true;
+      const btnRebuild = document.getElementById('btnRebuild');
+      if (btnRebuild) btnRebuild.style.display = 'flex';
+
+      scorchTerrain(targetPos, 1.4);
+
+      blastWaves.push({
+        pos: targetPos,
+        radius: 0.2,
+        maxRadius: 2.4,
+        life: 0.42,
+        maxLife: 0.42
+      });
+
+      const hitNorm = norm(targetPos);
+      for (let i = 0; i < 40; i++) {
+        const sDir = norm([
+          hitNorm[0] + (Math.random() - 0.5) * 1.8,
+          hitNorm[1] + (Math.random() - 0.5) * 1.8,
+          hitNorm[2] + (Math.random() - 0.5) * 1.8
+        ]);
+        debrisParticles.push({
+          pos: add(targetPos, mul(sDir, 0.2)),
+          vel: mul(sDir, 9.0 + Math.random() * 12.0),
+          size: 0.12 + Math.random() * 0.15,
+          life: 0.45 + Math.random() * 0.45,
+          color: (Math.random() > 0.4) ? [0.45, 0.90, 1.0] : [0.95, 0.98, 1.0]
+        });
+      }
+
+      showToast("⚡ Divine Lightning Strike!");
+    }
+
     function plantFlora(targetPos) {
       const pNorm = norm(targetPos);
       const s = getTerrain(pNorm);
@@ -2156,12 +2332,16 @@
           const hitPos = add(rayOrigin, mul(rayDir, tHit));
           if (clickToolMode === 'meteor') {
             spawnMeteor(hitPos, 1.4 + Math.random() * 0.4);
+          } else if (clickToolMode === 'lightning') {
+            strikeLightning(hitPos);
           } else if (clickToolMode === 'firework') {
             spawnFirework(hitPos);
             playFireworkLaunch();
             showToast("🎆 Firework Launched!");
           } else if (clickToolMode === 'raise') {
             raiseTerrain(hitPos, 2.4, 0.85);
+          } else if (clickToolMode === 'lower') {
+            lowerTerrain(hitPos, 2.4, 0.85);
           } else if (clickToolMode === 'plant') {
             plantFlora(hitPos);
           }
@@ -2246,8 +2426,10 @@
     // Tool Selector
     const TOOL_MODES = [
       { id: 'meteor', icon: '☄️', label: 'Meteor', toast: '☄️ Meteor Strike Mode (Click planet to strike, X key)' },
+      { id: 'lightning', icon: '⚡', label: 'Lightning', toast: '⚡ Celestial Lightning Strike (Click planet, Z key)' },
       { id: 'firework', icon: '🎆', label: 'Fireworks', toast: '🎆 Fireworks Mode (Click planet to shoot, F key)' },
       { id: 'raise', icon: '⛰️', label: 'Raise Land', toast: '⛰️ Terraforming: Click planet to raise new islands/mountains (T key)' },
+      { id: 'lower', icon: '🌊', label: 'Dig Ocean', toast: '🌊 Terraforming: Click planet to excavate ocean basins & lakes (G key)' },
       { id: 'plant', icon: '🌲', label: 'Plant Flora', toast: '🌲 Nature: Click to sprout trees and glowing mushrooms (P key)' }
     ];
     let toolIndex = 0;
@@ -2641,10 +2823,26 @@
         showToast(rover.headlights ? "💡 Rover Headlights On" : "🌑 Rover Headlights Off");
       }
       if (k === 'b') toggleTractor();
-      if (k === 't') setToolMode(2);
-      if (k === 'p') setToolMode(3);
       if (k === 'x') { setToolMode(0); const aimDir = norm(sub([0,0,0], camPos)); spawnMeteor(mul(aimDir, -R_OCEAN), 1.5); }
-      if (k === 'f') { setToolMode(1); spawnFirework(sph(0.2, 0.5, R_OCEAN)); playFireworkLaunch(); }
+      if (k === 'z') { setToolMode(1); const aimDir = norm(sub([0,0,0], camPos)); strikeLightning(mul(aimDir, -R_OCEAN)); }
+      if (k === 'f') { setToolMode(2); spawnFirework(sph(0.2, 0.5, R_OCEAN)); playFireworkLaunch(); }
+      if (k === 't') setToolMode(3);
+      if (k === 'g') setToolMode(4);
+      if (k === 'p') setToolMode(5);
+      if (e.key === '[' || e.key === '{') {
+        timeOfDay = (timeOfDay - 0.05 + 1.0) % 1.0;
+        timeSlider.value = timeOfDay;
+        autoCycle = false;
+        btnCycle.classList.remove('active');
+        showToast("☼ Time: " + Math.round(timeOfDay * 24) + ":00");
+      }
+      if (e.key === ']' || e.key === '}') {
+        timeOfDay = (timeOfDay + 0.05) % 1.0;
+        timeSlider.value = timeOfDay;
+        autoCycle = false;
+        btnCycle.classList.remove('active');
+        showToast("☼ Time: " + Math.round(timeOfDay * 24) + ":00");
+      }
       if (k === 'm') btnAudio.click();
       if (k === 'c') triggerCataclysm();
       if (k === 'r') rebuildPlanet();
