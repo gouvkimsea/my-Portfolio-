@@ -38,6 +38,8 @@ A modern, fast, and highly responsive personal portfolio for a student developer
 - **Mini World 3D Planet Engine**:
   - *Tactical Radar Minimap HUD*: Circular 2D canvas overlay with rotating 360° radar sweep, distance rings, and real-time orthographic camera-relative entity blips (Rover, UFO, Ocean Fauna, Space Station, Highway Traffic). Toggleable via `N` key.
   - *High-Resolution Photo Mode*: UI-isolated snapshot engine capturing crisp PNG stills with auto-download and flash feedback. Accessible via `K` key or top HUD button.
+  - *Celestial Powers & Terraforming*: Real-time vertex mesh sculptors and atmospheric powers: Meteor Strikes (`X`), Divine Lightning Strikes with illumination flash & scorched carbon terrain (`Z`), Fireworks (`F`), Island Raising (`T`), Ocean Basin Excavation (`G`), and Flora Planting (`P`).
+  - *Flight & Controls Cheat Sheet*: Glassmorphic interactive keyboard shortcut guide and vehicle flight manual accessible via `?` key or top HUD button.
   - *Procedural Celestial Audio Engine*: Web Audio API generative ambient synth with detuned sub-bass drone oscillators, harmonic fifths, and randomized celestial wind chime arpeggios. 3-state cycle (`♫ Music` / `SFX Only` / `Mute`).
 - **Engineering Milestones & Illustrated Achievements**: Interactive console showing shipped projects, GitHub commit rhythm, and illustrated craft badges.
 - **Interactive Resume / CV Modal**: Quick-access modal detailing dual-degree academic background, toolkit, status, and direct print/PDF export support.
