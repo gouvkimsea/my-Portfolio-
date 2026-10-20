@@ -332,6 +332,49 @@
       border-color: #a855f7;
     }
 
+    /* Tactical Radar Minimap HUD */
+    .radar-container {
+      position: fixed;
+      bottom: 24px;
+      left: 20px;
+      width: 140px;
+      height: 140px;
+      background: rgba(15, 23, 42, 0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      border-radius: 50%;
+      box-shadow: 0 10px 32px rgba(0, 0, 0, 0.55), inset 0 0 20px rgba(56, 189, 248, 0.15);
+      z-index: 10;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .radar-container.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.85);
+    }
+    .radar-canvas {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      display: block;
+    }
+    .radar-label {
+      position: absolute;
+      top: 6px;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: rgba(56, 189, 248, 0.9);
+      text-transform: uppercase;
+      pointer-events: none;
+      text-shadow: 0 0 6px rgba(56, 189, 248, 0.6);
+    }
+
     /* Bottom Control Bar */
     .bottom-bar {
       bottom: 20px;
@@ -444,6 +487,7 @@
       .preset-btn { padding: 6px 10px; font-size: 11px; }
       .top-actions { overflow-x: auto; max-width: 60vw; }
       .ufo-hud, .rover-hud { font-size: 10px; padding: 4px 10px; }
+      .radar-container { width: 100px; height: 100px; bottom: 84px; left: 12px; }
     }
   </style>
 </head>
@@ -483,6 +527,12 @@
       <button id="btnRebuild" class="glass-btn success-btn" style="display:none;" title="Restore & Rebuild Planet (R)">
         <span class="btn-icon">↺</span> Rebuild World
       </button>
+      <button id="btnRadar" class="glass-btn active" title="Toggle Tactical Planet Radar (N)">
+        <span class="btn-icon">🧭</span> <span class="btn-text">Radar</span>
+      </button>
+      <button id="btnPhoto" class="glass-btn" title="Capture High-Res Photo Snapshot (K)">
+        <span class="btn-icon">📸</span> <span class="btn-text">Photo</span>
+      </button>
       <button id="btnAudio" class="glass-btn" title="Toggle Sound (M)">
         <span class="btn-icon" id="audioIcon">SFX</span> Sound
       </button>
@@ -492,7 +542,7 @@
     </div>
   </div>
 
-  <div class="toast" id="toast">Click planet/ocean • 🛸 UFO (U) • 🚜 Rover (V) • ❄️ Seasons (S) • ⛈️ Weather (W) • Click whales/station</div>
+  <div class="toast" id="toast">Click planet/ocean • 🛸 UFO (U) • 🚜 Rover (V) • 🧭 Radar (N) • 📸 Photo (K) • ❄️ Seasons (S)</div>
 
   <!-- UFO Flight HUD Overlay -->
   <div class="hud ufo-hud" id="ufoHud">
@@ -509,6 +559,12 @@
     <div class="rover-stat"><span>🚜</span> <span id="roverSpeed">0 km/h</span></div>
     <div class="rover-stat"><span id="roverLights">💡 Lights ON</span></div>
     <div class="rover-stat" style="color:var(--text-muted);font-size:10px;">WASD = Drive • Space = Jump • H = Siren • L = Lights</div>
+  </div>
+
+  <!-- Tactical Radar Minimap Overlay -->
+  <div class="hud radar-container" id="radarContainer" title="Tactical Radar Minimap (N)">
+    <canvas id="radarCanvas" class="radar-canvas" width="280" height="280"></canvas>
+    <div class="radar-label">RADAR</div>
   </div>
 
   <div class="hud bottom-bar">
@@ -2221,6 +2277,202 @@
       }
     }
 
+    // =========================================================================
+    // TACTICAL RADAR MINIMAP ENGINE & PHOTO CAPTURE
+    // =========================================================================
+    const radarCanvas = document.getElementById('radarCanvas');
+    const radarCtx = radarCanvas ? radarCanvas.getContext('2d') : null;
+    let radarEnabled = true;
+    let radarSweepAngle = 0;
+    const btnRadar = document.getElementById('btnRadar');
+    const radarContainer = document.getElementById('radarContainer');
+
+    function toggleRadar() {
+      initAudio();
+      radarEnabled = !radarEnabled;
+      if (btnRadar) btnRadar.classList.toggle('active', radarEnabled);
+      if (radarContainer) radarContainer.classList.toggle('hidden', !radarEnabled);
+      showToast(radarEnabled ? "🧭 Tactical Radar Online" : "🧭 Tactical Radar Offline");
+    }
+    if (btnRadar) btnRadar.addEventListener('click', toggleRadar);
+
+    function updateRadar(dt) {
+      if (!radarEnabled || !radarCtx) return;
+      radarSweepAngle = (radarSweepAngle + dt * 2.6) % TAU;
+      const ctx = radarCtx;
+      const W = 280, H = 280, cx = 140, cy = 140, R = 124;
+
+      ctx.clearRect(0, 0, W, H);
+
+      // Radar background base
+      ctx.fillStyle = "rgba(4, 13, 28, 0.75)";
+      ctx.beginPath();
+      ctx.arc(cx, cy, R, 0, TAU);
+      ctx.fill();
+
+      // Range concentric circles
+      ctx.lineWidth = 1;
+      [0.33, 0.66, 1.0].forEach(frac => {
+        ctx.strokeStyle = "rgba(56, 189, 248, 0.22)";
+        ctx.beginPath();
+        ctx.arc(cx, cy, R * frac, 0, TAU);
+        ctx.stroke();
+      });
+
+      // Axis crosshairs
+      ctx.strokeStyle = "rgba(56, 189, 248, 0.18)";
+      ctx.beginPath();
+      ctx.moveTo(cx - R, cy); ctx.lineTo(cx + R, cy);
+      ctx.moveTo(cx, cy - R); ctx.lineTo(cx, cy + R);
+      ctx.stroke();
+
+      // Sweeping radar beam gradient
+      try {
+        const sweepGrad = ctx.createConicGradient(radarSweepAngle, cx, cy);
+        sweepGrad.addColorStop(0, "rgba(56, 189, 248, 0.32)");
+        sweepGrad.addColorStop(0.12, "rgba(56, 189, 248, 0.0)");
+        sweepGrad.addColorStop(1.0, "rgba(56, 189, 248, 0.0)");
+        ctx.fillStyle = sweepGrad;
+        ctx.beginPath();
+        ctx.arc(cx, cy, R, 0, TAU);
+        ctx.fill();
+      } catch (e) {}
+
+      // Project 3D sphere coordinate to 2D radar disc
+      const projectToRadar = (pos) => {
+        const xCam = dot(pos, camRgt);
+        const yCam = dot(pos, camUp);
+        const zCam = dot(pos, camFw);
+        const isFacing = zCam > -0.2;
+        const px = cx + (xCam / (R_OCEAN * 1.15)) * (R * 0.85);
+        const py = cy - (yCam / (R_OCEAN * 1.15)) * (R * 0.85);
+        return { x: px, y: py, isFacing };
+      };
+
+      // 1. Draw Town landmark blip
+      const townPt = projectToRadar(mul(TOWN_C, 8.5));
+      if (townPt.isFacing) {
+        ctx.fillStyle = "rgba(255, 255, 255, 0.75)";
+        ctx.font = "8px sans-serif";
+        ctx.fillText("TOWN", townPt.x + 4, townPt.y - 2);
+        ctx.beginPath(); ctx.arc(townPt.x, townPt.y, 2.5, 0, TAU); ctx.fill();
+      }
+
+      // 2. Draw Cars (Red)
+      cars.forEach(car => {
+        const p = roadPath[floor(car.posIdx) % NR];
+        const pt = projectToRadar(p.pos);
+        if (pt.isFacing) {
+          ctx.fillStyle = "#ef4444";
+          ctx.beginPath(); ctx.arc(pt.x, pt.y, 2.5, 0, TAU); ctx.fill();
+        }
+      });
+
+      // 3. Draw Dolphins (Cyan)
+      dolphins.forEach(dlp => {
+        const pt = projectToRadar(mul(dlp.dir, R_OCEAN));
+        if (pt.isFacing) {
+          ctx.fillStyle = "#38bdf8";
+          ctx.beginPath(); ctx.arc(pt.x, pt.y, 3, 0, TAU); ctx.fill();
+        }
+      });
+
+      // 4. Draw Whale (Blue)
+      {
+        const pt = projectToRadar(mul(whale.dir, R_OCEAN));
+        if (pt.isFacing) {
+          ctx.fillStyle = "#3b82f6";
+          ctx.beginPath(); ctx.arc(pt.x, pt.y, 4.5, 0, TAU); ctx.fill();
+        }
+      }
+
+      // 5. Draw Space Station (Golden Cross)
+      {
+        const pt = projectToRadar(spaceStation.pos);
+        ctx.fillStyle = "#fbbf24";
+        ctx.beginPath(); ctx.arc(pt.x, pt.y, 4, 0, TAU); ctx.fill();
+        ctx.strokeStyle = "#fef08a";
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(pt.x - 5, pt.y); ctx.lineTo(pt.x + 5, pt.y);
+        ctx.moveTo(pt.x, pt.y - 5); ctx.lineTo(pt.x, pt.y + 5);
+        ctx.stroke();
+      }
+
+      // 6. Draw UFO (Purple Diamond)
+      {
+        const pt = projectToRadar(ufo.pos);
+        if (pt.isFacing) {
+          ctx.fillStyle = "#c084fc";
+          ctx.beginPath();
+          ctx.moveTo(pt.x, pt.y - 5); ctx.lineTo(pt.x + 5, pt.y);
+          ctx.lineTo(pt.x, pt.y + 5); ctx.lineTo(pt.x - 5, pt.y);
+          ctx.closePath();
+          ctx.fill();
+          if (ufo.active) {
+            ctx.strokeStyle = "#a855f7";
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+          }
+        }
+      }
+
+      // 7. Draw Rover (Emerald Green Dot with Ring)
+      {
+        const pt = projectToRadar(rover.pos);
+        if (pt.isFacing) {
+          ctx.fillStyle = "#10b981";
+          ctx.beginPath(); ctx.arc(pt.x, pt.y, 5, 0, TAU); ctx.fill();
+          ctx.strokeStyle = "#34d399";
+          ctx.lineWidth = 2;
+          ctx.stroke();
+        }
+      }
+
+      // Outer Compass Ring
+      ctx.strokeStyle = "rgba(56, 189, 248, 0.65)";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(cx, cy, R - 1, 0, TAU);
+      ctx.stroke();
+    }
+
+    // High-Res Photo Snapshot Mode
+    const btnPhoto = document.getElementById('btnPhoto');
+    function captureScreenshot() {
+      initAudio();
+      showToast("📸 Capturing High-Res Snapshot...");
+      const huds = document.querySelectorAll('.hud, .toast');
+      huds.forEach(el => el.style.opacity = '0');
+
+      requestAnimationFrame(() => {
+        render(performance.now());
+        setTimeout(() => {
+          try {
+            cv.toBlob(blob => {
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              const d = new Date();
+              const stamp = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}-${String(d.getHours()).padStart(2, '0')}${String(d.getMinutes()).padStart(2, '0')}${String(d.getSeconds()).padStart(2, '0')}`;
+              a.download = `miniworld-planet-${stamp}.png`;
+              a.href = url;
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+              URL.revokeObjectURL(url);
+              playFireworkPop();
+              showToast("📸 High-Res Snapshot Downloaded!");
+            }, 'image/png');
+          } catch (e) {
+            showToast("📸 Snapshot captured!");
+          } finally {
+            huds.forEach(el => el.style.opacity = '');
+          }
+        }, 80);
+      });
+    }
+    if (btnPhoto) btnPhoto.addEventListener('click', captureScreenshot);
+
     document.querySelectorAll('.preset-btn').forEach((btn, idx) => {
       btn.addEventListener('click', () => applyPreset(idx));
     });
@@ -2268,6 +2520,8 @@
       }
       if (k === 'v') toggleRover();
       if (k === 'u') toggleUfo();
+      if (k === 'n') toggleRadar();
+      if (k === 'k') captureScreenshot();
       if (k === 's' && !rover.active && !ufo.active) cycleSeason();
       if (k === 'w' && !ufo.active && !rover.active) cycleWeather();
       if (k === 'h') { playRoverHonk(); showToast("🚜 *HONK HONK!*"); }
@@ -3262,6 +3516,9 @@
         gl.enableVertexAttribArray(2); gl.vertexAttribPointer(2, 4, gl.FLOAT, false, 40, 24);
         gl.drawArrays(gl.TRIANGLES, 0, dynamicGeo.length / 10);
       }
+
+      // 6. Tactical Radar 2D Minimap
+      updateRadar(dt);
     }
 
     resize();
