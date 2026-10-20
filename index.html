@@ -2555,6 +2555,83 @@
         </div>
       </div>
 
+      <!-- Mini World 3D WebGL Shader & Celestial Lab Sandbox -->
+      <div class="project-sandbox miniworld-sandbox" id="miniworldSandbox" hidden>
+        <div class="sandbox-header">
+          <div class="clp-sandbox-badge">
+            <span class="clp-live-pulse" aria-hidden="true"></span>
+            <span class="clp-badge-text">PURE WEBGL 2.0 &amp; GLSL CEL-SHADING LAB</span>
+          </div>
+          <span class="clp-math-stat">Shader Engine: Custom Vertex Deformation &amp; Cel-Shaders</span>
+        </div>
+
+        <p class="clp-sandbox-desc">
+          Interactive real-time WebGL shader laboratory. Experiment with procedural cel-shading light bands, atmospheric Fresnel rim glow intensity, time-of-day solar azimuth, and dynamic planetary biomes running live in pure WebGL.
+        </p>
+
+        <div class="mw-lab-container">
+          <!-- 3D Mini Canvas Preview -->
+          <div class="mw-lab-preview-box">
+            <canvas id="mwLabCanvas" width="280" height="200" class="mw-lab-canvas"></canvas>
+            <div class="mw-lab-hud-pill">60.0 FPS · GLSL Active</div>
+          </div>
+
+          <!-- Controls -->
+          <div class="mw-lab-controls">
+            <!-- Biome Selector -->
+            <div class="mw-control-group">
+              <label class="clp-control-label">Procedural Biome Preset:</label>
+              <div class="mw-biome-chips">
+                <button type="button" class="mw-chip active" data-biome="earth">🌍 Earth</button>
+                <button type="button" class="mw-chip" data-biome="alien">🟣 Alien</button>
+                <button type="button" class="mw-chip" data-biome="magma">🌋 Magma</button>
+                <button type="button" class="mw-chip" data-biome="cryo">❄️ Cryo</button>
+              </div>
+            </div>
+
+            <!-- Toon Bands Slider -->
+            <div class="mw-control-group">
+              <div class="mw-slider-header">
+                <span class="mw-slider-title">Cel-Shading Diffuse Threshold:</span>
+                <span class="mw-val-badge" id="mwValToon">0.15</span>
+              </div>
+              <input type="range" class="clp-select mw-range-slider" id="mwSliderToon" min="0.05" max="0.45" step="0.05" value="0.15">
+            </div>
+
+            <!-- Rim Power Slider -->
+            <div class="mw-control-group">
+              <div class="mw-slider-header">
+                <span class="mw-slider-title">Atmospheric Fresnel Rim Power:</span>
+                <span class="mw-val-badge" id="mwValRim">3.0</span>
+              </div>
+              <input type="range" class="clp-select mw-range-slider" id="mwSliderRim" min="1.0" max="6.0" step="0.5" value="3.0">
+            </div>
+
+            <!-- Solar Azimuth Slider -->
+            <div class="mw-control-group">
+              <div class="mw-slider-header">
+                <span class="mw-slider-title">Solar Angle / Time of Day:</span>
+                <span class="mw-val-badge" id="mwValSun">Noon (0.50)</span>
+              </div>
+              <input type="range" class="clp-select mw-range-slider" id="mwSliderSun" min="0" max="1" step="0.05" value="0.50">
+            </div>
+          </div>
+        </div>
+
+        <!-- Live GLSL Code Fragment -->
+        <div class="clp-math-formula-box">
+          <div class="clp-formula-line">
+            <span class="clp-math-badge">GLSL Shader Core</span>
+            <code class="clp-formula-code">float rim = pow(1.0 - max(dot(N, V), 0.0), <span id="mwGlslRimVal">3.0</span>);</code>
+          </div>
+          <div class="clp-math-stats-row">
+            <span class="clp-stat-item"><b class="clp-stat-bold">Cel Diffuse:</b> <span class="clp-stat-val" id="mwStatToon">smoothstep(-0.15, 0.15, d)</span></span>
+            <span class="clp-stat-item"><b class="clp-stat-bold">Subdivisions:</b> <span class="clp-stat-val">Cubesphere 8x8</span></span>
+            <span class="clp-stat-item"><b class="clp-stat-bold">Dependencies:</b> <span class="clp-stat-val">0 KB (Pure WebGL)</span></span>
+          </div>
+        </div>
+      </div>
+
       <div class="modal-tech" id="modalTech"></div>
       <div class="modal-actions" id="modalActions"></div>
     </div>

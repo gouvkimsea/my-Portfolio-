@@ -1454,6 +1454,270 @@ function initClpSimulator() {
   runClpSimulation(currentQuality, currentHanzi);
 }
 
+// =========================================================================
+// MINI WORLD 3D WEBGL SHADER LAB (Interactive Project Modal Sandbox)
+// =========================================================================
+let mwLabGl = null;
+let mwLabProg = null;
+let mwLabRaf = null;
+let mwLabBuffer = null;
+let mwLabInitialized = false;
+
+const MW_BIOMES = {
+  earth: {
+    ocean: [0.08, 0.45, 0.85],
+    land: [0.25, 0.75, 0.35],
+    rim: [0.45, 0.85, 1.0]
+  },
+  alien: {
+    ocean: [0.65, 0.15, 0.75],
+    land: [0.15, 0.85, 0.65],
+    rim: [0.85, 0.45, 1.0]
+  },
+  magma: {
+    ocean: [0.95, 0.35, 0.05],
+    land: [0.18, 0.16, 0.18],
+    rim: [1.0, 0.65, 0.15]
+  },
+  cryo: {
+    ocean: [0.12, 0.25, 0.55],
+    land: [0.95, 0.98, 1.0],
+    rim: [0.65, 0.95, 1.0]
+  }
+};
+
+let mwActiveBiome = 'earth';
+let mwToonThreshold = 0.15;
+let mwRimPower = 3.0;
+let mwTimeOfDay = 0.5;
+
+function initMiniworldLab() {
+  const canvas = $("#mwLabCanvas");
+  if (!canvas) return;
+
+  if (!mwLabGl) {
+    mwLabGl = canvas.getContext("webgl", { antialias: true, alpha: false });
+    if (!mwLabGl) return;
+
+    const vs = `
+      attribute vec3 aPos;
+      attribute vec3 aNorm;
+      attribute float aElev;
+      uniform mat4 uMvp;
+      uniform mat4 uModel;
+      varying vec3 vNorm;
+      varying vec3 vPos;
+      varying float vElev;
+      void main() {
+        vNorm = mat3(uModel) * aNorm;
+        vec4 worldP = uModel * vec4(aPos, 1.0);
+        vPos = worldP.xyz;
+        vElev = aElev;
+        gl_Position = uMvp * vec4(aPos, 1.0);
+      }
+    `;
+
+    const fs = `
+      precision mediump float;
+      varying vec3 vNorm;
+      varying vec3 vPos;
+      varying float vElev;
+      uniform vec3 uSunDir;
+      uniform float uToon;
+      uniform float uRimPower;
+      uniform vec3 uOceanCol;
+      uniform vec3 uLandCol;
+      uniform vec3 uRimCol;
+
+      void main() {
+        vec3 N = normalize(vNorm);
+        vec3 V = normalize(vec3(0.0, 0.0, 3.5) - vPos);
+        float d = dot(N, uSunDir);
+
+        float toon = smoothstep(-uToon, uToon, d) * 0.70 + 0.30;
+        vec3 baseCol = (vElev > 0.04) ? uLandCol : uOceanCol;
+        float rim = pow(1.0 - max(dot(N, V), 0.0), uRimPower);
+
+        vec3 finalCol = baseCol * toon + uRimCol * rim * 0.55;
+        gl_FragColor = vec4(finalCol, 1.0);
+      }
+    `;
+
+    function createShader(gl, type, src) {
+      const s = gl.createShader(type);
+      gl.shaderSource(s, src);
+      gl.compileShader(s);
+      return s;
+    }
+
+    const p = mwLabGl.createProgram();
+    mwLabGl.attachShader(p, createShader(mwLabGl, mwLabGl.VERTEX_SHADER, vs));
+    mwLabGl.attachShader(p, createShader(mwLabGl, mwLabGl.FRAGMENT_SHADER, fs));
+    mwLabGl.linkProgram(p);
+    mwLabProg = p;
+
+    // Subdivision sphere mesh
+    const verts = [];
+    const latBands = 20, lonBands = 20, rad = 1.15;
+    for (let lat = 0; lat < latBands; lat++) {
+      const theta1 = (lat / latBands) * Math.PI;
+      const theta2 = ((lat + 1) / latBands) * Math.PI;
+      for (let lon = 0; lon < lonBands; lon++) {
+        const phi1 = (lon / lonBands) * Math.PI * 2;
+        const phi2 = ((lon + 1) / lonBands) * Math.PI * 2;
+
+        const getPt = (th, ph) => {
+          const nx = Math.sin(th) * Math.cos(ph);
+          const ny = Math.cos(th);
+          const nz = Math.sin(th) * Math.sin(ph);
+          const elev = (Math.sin(nx * 3.5) * Math.cos(ny * 3.5) + Math.sin(nz * 3.0)) > 0.1 ? 0.08 : 0.0;
+          const r = rad + elev;
+          return [nx * r, ny * r, nz * r, nx, ny, nz, elev];
+        };
+
+        const p1 = getPt(theta1, phi1);
+        const p2 = getPt(theta2, phi1);
+        const p3 = getPt(theta2, phi2);
+        const p4 = getPt(theta1, phi2);
+
+        verts.push(...p1, ...p2, ...p3, ...p1, ...p3, ...p4);
+      }
+    }
+
+    mwLabBuffer = mwLabGl.createBuffer();
+    mwLabGl.bindBuffer(mwLabGl.ARRAY_BUFFER, mwLabBuffer);
+    mwLabGl.bufferData(mwLabGl.ARRAY_BUFFER, new Float32Array(verts), mwLabGl.STATIC_DRAW);
+  }
+
+  if (!mwLabInitialized) {
+    mwLabInitialized = true;
+
+    $$(".mw-chip").forEach(chip => {
+      chip.addEventListener("click", () => {
+        $$(".mw-chip").forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+        mwActiveBiome = chip.getAttribute("data-biome") || "earth";
+      });
+    });
+
+    const sToon = $("#mwSliderToon");
+    const vToon = $("#mwValToon");
+    const statToon = $("#mwStatToon");
+    sToon?.addEventListener("input", e => {
+      mwToonThreshold = parseFloat(e.target.value);
+      if (vToon) vToon.textContent = mwToonThreshold.toFixed(2);
+      if (statToon) statToon.textContent = `smoothstep(-${mwToonThreshold.toFixed(2)}, ${mwToonThreshold.toFixed(2)}, d)`;
+    });
+
+    const sRim = $("#mwSliderRim");
+    const vRim = $("#mwValRim");
+    const glslRim = $("#mwGlslRimVal");
+    sRim?.addEventListener("input", e => {
+      mwRimPower = parseFloat(e.target.value);
+      if (vRim) vRim.textContent = mwRimPower.toFixed(1);
+      if (glslRim) glslRim.textContent = mwRimPower.toFixed(1);
+    });
+
+    const sSun = $("#mwSliderSun");
+    const vSun = $("#mwValSun");
+    sSun?.addEventListener("input", e => {
+      mwTimeOfDay = parseFloat(e.target.value);
+      if (vSun) {
+        const lbl = mwTimeOfDay < 0.25 ? "Dawn" : (mwTimeOfDay < 0.65 ? "Noon" : (mwTimeOfDay < 0.85 ? "Sunset" : "Night"));
+        vSun.textContent = `${lbl} (${mwTimeOfDay.toFixed(2)})`;
+      }
+    });
+  }
+
+  let rotAngle = 0;
+  const gl = mwLabGl;
+  const prog = mwLabProg;
+
+  function renderLab() {
+    rotAngle += 0.015;
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    gl.clearColor(0.04, 0.06, 0.11, 1.0);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    gl.enable(gl.DEPTH_TEST);
+
+    gl.useProgram(prog);
+
+    const aspect = canvas.width / canvas.height;
+    const fov = 45 * Math.PI / 180;
+    const f = 1.0 / Math.tan(fov / 2);
+    const zN = 0.1, zF = 100.0;
+    const proj = [
+      f / aspect, 0, 0, 0,
+      0, f, 0, 0,
+      0, 0, (zF + zN) / (zN - zF), -1,
+      0, 0, (2 * zF * zN) / (zN - zF), 0
+    ];
+
+    const cR = Math.cos(rotAngle), sR = Math.sin(rotAngle);
+    const tilt = 0.25;
+    const cT = Math.cos(tilt), sT = Math.sin(tilt);
+    const model = [
+      cR, sR * sT, sR * cT, 0,
+      0, cT, -sT, 0,
+      -sR, cR * sT, cR * cT, 0,
+      0, 0, -2.8, 1
+    ];
+
+    const mvp = new Float32Array(16);
+    for (let i = 0; i < 4; i++) {
+      for (let j = 0; j < 4; j++) {
+        let sum = 0;
+        for (let k = 0; k < 4; k++) sum += proj[k * 4 + i] * model[j * 4 + k];
+        mvp[j * 4 + i] = sum;
+      }
+    }
+
+    const sunAngle = mwTimeOfDay * Math.PI * 2 - Math.PI / 2;
+    const sunDir = [Math.cos(sunAngle), Math.sin(sunAngle), 0.5];
+    const sLen = Math.hypot(sunDir[0], sunDir[1], sunDir[2]);
+    sunDir[0] /= sLen; sunDir[1] /= sLen; sunDir[2] /= sLen;
+
+    const biome = MW_BIOMES[mwActiveBiome] || MW_BIOMES.earth;
+
+    gl.uniformMatrix4fv(gl.getUniformLocation(prog, "uMvp"), false, mvp);
+    gl.uniformMatrix4fv(gl.getUniformLocation(prog, "uModel"), false, new Float32Array(model));
+    gl.uniform3fv(gl.getUniformLocation(prog, "uSunDir"), sunDir);
+    gl.uniform1f(gl.getUniformLocation(prog, "uToon"), mwToonThreshold);
+    gl.uniform1f(gl.getUniformLocation(prog, "uRimPower"), mwRimPower);
+    gl.uniform3fv(gl.getUniformLocation(prog, "uOceanCol"), biome.ocean);
+    gl.uniform3fv(gl.getUniformLocation(prog, "uLandCol"), biome.land);
+    gl.uniform3fv(gl.getUniformLocation(prog, "uRimCol"), biome.rim);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, mwLabBuffer);
+    const aPos = gl.getAttribLocation(prog, "aPos");
+    const aNorm = gl.getAttribLocation(prog, "aNorm");
+    const aElev = gl.getAttribLocation(prog, "aElev");
+
+    gl.enableVertexAttribArray(aPos);
+    gl.vertexAttribPointer(aPos, 3, gl.FLOAT, false, 28, 0);
+
+    gl.enableVertexAttribArray(aNorm);
+    gl.vertexAttribPointer(aNorm, 3, gl.FLOAT, false, 28, 12);
+
+    gl.enableVertexAttribArray(aElev);
+    gl.vertexAttribPointer(aElev, 1, gl.FLOAT, false, 28, 24);
+
+    gl.drawArrays(gl.TRIANGLES, 0, 20 * 20 * 6);
+
+    mwLabRaf = requestAnimationFrame(renderLab);
+  }
+
+  stopMiniworldLab();
+  mwLabRaf = requestAnimationFrame(renderLab);
+}
+
+function stopMiniworldLab() {
+  if (mwLabRaf) {
+    cancelAnimationFrame(mwLabRaf);
+    mwLabRaf = null;
+  }
+}
+
 function openModal(projectKey) {
   const data = projectData[projectKey];
   if (!data) return;
@@ -1497,11 +1761,23 @@ function openModal(projectKey) {
     }
   }
 
+  const miniworldSandbox = $("#miniworldSandbox");
+  if (miniworldSandbox) {
+    if (projectKey === "miniworld") {
+      miniworldSandbox.hidden = false;
+      initMiniworldLab();
+    } else {
+      miniworldSandbox.hidden = true;
+      stopMiniworldLab();
+    }
+  }
+
   modal.showModal();
   $("#modalClose")?.focus();
 }
 
 function closeModal() {
+  stopMiniworldLab();
   if (modal?.open) {
     modal.close();
     if (previousActiveElement && typeof previousActiveElement.focus === "function") {
@@ -1584,7 +1860,7 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>journey</b>, <b>education</b>, <b>skills</b>, <b>projects</b>, <b>pinit</b>, <b>aquarium</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>miniworld</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>devpulse</b>, <b>portfolio</b>, <b>achievements</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>journey</b>, <b>education</b>, <b>skills</b>, <b>projects</b>, <b>pinit</b>, <b>aquarium</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>devpulse</b>, <b>portfolio</b>, <b>achievements</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
   about: "Gouv Kimsea — Dual degree undergraduate in Computer Science (Paragon.U) & Business Administration (Bonamary.U) building tangible products.",
   journey: () => {
     const el = document.getElementById("journey");
@@ -1684,6 +1960,16 @@ Scrolled to Section 05: Engineering Milestones!</pre>`;
     window.open("miniworld.html", "_blank");
     return "Launching Mini World 3D Planet Simulation in a new tab...";
   },
+  shader: () => {
+    openModal("miniworld");
+    setTimeout(() => {
+      const lab = document.getElementById("miniworldSandbox");
+      if (lab) lab.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 250);
+    return "Opening Mini World modal and activating Interactive WebGL Biome & Shader Lab...";
+  },
+  glsl: () => terminalCommands.shader(),
+  biome: () => terminalCommands.shader(),
   pinit: () => {
     openModal("pinit");
     return "Opening Pinit (AI Threat & Scam Detector) project modal...";
