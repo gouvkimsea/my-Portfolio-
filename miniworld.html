@@ -211,6 +211,28 @@
       color: #ffffff;
       box-shadow: 0 0 16px rgba(6, 182, 212, 0.55);
     }
+    .glass-btn.emerald-btn {
+      color: #a7f3d0;
+      border-color: rgba(16, 185, 129, 0.4);
+      background: rgba(6, 78, 59, 0.4);
+    }
+    .glass-btn.emerald-btn:hover, .glass-btn.emerald-btn.active {
+      background: rgba(5, 150, 105, 0.65);
+      border-color: #10b981;
+      color: #ffffff;
+      box-shadow: 0 0 16px rgba(16, 185, 129, 0.55);
+    }
+    .glass-btn.amber-btn {
+      color: #fef08a;
+      border-color: rgba(234, 179, 8, 0.4);
+      background: rgba(113, 63, 18, 0.4);
+    }
+    .glass-btn.amber-btn:hover, .glass-btn.amber-btn.active {
+      background: rgba(202, 138, 4, 0.65);
+      border-color: #eab308;
+      color: #ffffff;
+      box-shadow: 0 0 16px rgba(234, 179, 8, 0.55);
+    }
 
     /* UFO Flight HUD */
     .ufo-hud {
@@ -242,7 +264,37 @@
       gap: 6px;
     }
 
-    /* Touch Controls for Mobile UFO Flight */
+    /* Rover Ground HUD */
+    .rover-hud {
+      position: fixed;
+      bottom: 84px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: none;
+      align-items: center;
+      gap: 12px;
+      background: var(--glass);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      border-radius: 999px;
+      padding: 6px 16px;
+      box-shadow: 0 8px 32px rgba(16, 185, 129, 0.25);
+      z-index: 10;
+    }
+    .rover-hud.visible {
+      display: flex;
+    }
+    .rover-stat {
+      font-size: 11px;
+      font-weight: 600;
+      color: #a7f3d0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Touch Controls for Mobile UFO & Rover Flight */
     .ufo-touch-controls, .ufo-touch-actions {
       position: fixed;
       display: none;
@@ -391,7 +443,7 @@
       .time-slider { width: 90px; }
       .preset-btn { padding: 6px 10px; font-size: 11px; }
       .top-actions { overflow-x: auto; max-width: 60vw; }
-      .ufo-hud { font-size: 10px; padding: 4px 10px; }
+      .ufo-hud, .rover-hud { font-size: 10px; padding: 4px 10px; }
     }
   </style>
 </head>
@@ -416,6 +468,12 @@
       <button id="btnUfo" class="glass-btn purple-btn" title="Toggle Controllable UFO Spaceship (U)">
         <span class="btn-icon">🛸</span> <span class="btn-text">UFO Pilot</span>
       </button>
+      <button id="btnRover" class="glass-btn emerald-btn" title="Toggle Surface Rover Driving Mode (V)">
+        <span class="btn-icon">🚜</span> <span class="btn-text">Rover Drive</span>
+      </button>
+      <button id="btnSeason" class="glass-btn amber-btn" title="Cycle Seasons: Spring 🌱 / Summer ☀️ / Autumn 🍂 / Winter ❄️ (S)">
+        <span class="btn-icon" id="seasonIcon">☀️</span> <span class="btn-text" id="seasonText">Summer</span>
+      </button>
       <button id="btnWeather" class="glass-btn cyan-btn" title="Cycle Weather: Clear ☼ / Storm ⛈️ / Aurora 🌌 (W)">
         <span class="btn-icon" id="weatherIcon">☼</span> <span class="btn-text" id="weatherText">Clear</span>
       </button>
@@ -434,7 +492,7 @@
     </div>
   </div>
 
-  <div class="toast" id="toast">Click planet: Meteor Strike • 🛸 UFO Pilot (U) • ⛈️ Weather (W) • ⛰️ Terraform (T) • Click sheep/alien/cars</div>
+  <div class="toast" id="toast">Click planet/ocean • 🛸 UFO (U) • 🚜 Rover (V) • ❄️ Seasons (S) • ⛈️ Weather (W) • Click whales/station</div>
 
   <!-- UFO Flight HUD Overlay -->
   <div class="hud ufo-hud" id="ufoHud">
@@ -444,6 +502,13 @@
       <span class="btn-icon">⚡</span> <span id="tractorText">Tractor Beam</span>
     </button>
     <div class="ufo-stat" style="color:var(--text-muted);font-size:10px;">WASD = Fly • Space = Boost • Q/E = Altitude</div>
+  </div>
+
+  <!-- Rover Ground HUD Overlay -->
+  <div class="hud rover-hud" id="roverHud">
+    <div class="rover-stat"><span>🚜</span> <span id="roverSpeed">0 km/h</span></div>
+    <div class="rover-stat"><span id="roverLights">💡 Lights ON</span></div>
+    <div class="rover-stat" style="color:var(--text-muted);font-size:10px;">WASD = Drive • Space = Jump • H = Siren • L = Lights</div>
   </div>
 
   <div class="hud bottom-bar">
@@ -461,7 +526,9 @@
       <button class="preset-btn" data-cam="4">Follow Car</button>
       <button class="preset-btn" data-cam="5">Pilot View</button>
       <button class="preset-btn" data-cam="6">🛸 UFO Chase</button>
-      <button class="preset-btn" data-cam="7">Tour</button>
+      <button class="preset-btn" data-cam="7">🚜 Rover Cam</button>
+      <button class="preset-btn" data-cam="8">🛰️ Space Station</button>
+      <button class="preset-btn" data-cam="9">Tour</button>
     </div>
   </div>
 
@@ -700,6 +767,106 @@
           g.gain.exponentialRampToValueAtTime(0.001, t + idx * 0.07 + 0.35);
           osc.connect(g); g.connect(audioCtx.destination);
           osc.start(t + idx * 0.07); osc.stop(t + idx * 0.07 + 0.35);
+        });
+      } catch (e) {}
+    }
+
+    function playRoverHonk() {
+      if (!audioEnabled || !audioCtx) return;
+      try {
+        const t = audioCtx.currentTime;
+        [340, 510].forEach(freq => {
+          const osc = audioCtx.createOscillator(), g = audioCtx.createGain();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(freq, t);
+          osc.frequency.linearRampToValueAtTime(freq * 1.08, t + 0.16);
+          g.gain.setValueAtTime(0.08, t);
+          g.gain.exponentialRampToValueAtTime(0.001, t + 0.22);
+          osc.connect(g); g.connect(audioCtx.destination);
+          osc.start(t); osc.stop(t + 0.22);
+        });
+      } catch (e) {}
+    }
+
+    function playRoverEngine() {
+      if (!audioEnabled || !audioCtx) return;
+      try {
+        const t = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator(), g = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(90, t);
+        osc.frequency.exponentialRampToValueAtTime(180, t + 0.3);
+        g.gain.setValueAtTime(0.04, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
+        osc.connect(g); g.connect(audioCtx.destination);
+        osc.start(t); osc.stop(t + 0.3);
+      } catch (e) {}
+    }
+
+    function playWhaleSong() {
+      if (!audioEnabled || !audioCtx) return;
+      try {
+        const t = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator(), g = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(190, t);
+        osc.frequency.exponentialRampToValueAtTime(260, t + 0.6);
+        osc.frequency.exponentialRampToValueAtTime(75, t + 1.8);
+        g.gain.setValueAtTime(0.001, t);
+        g.gain.linearRampToValueAtTime(0.09, t + 0.5);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 1.9);
+        osc.connect(g); g.connect(audioCtx.destination);
+        osc.start(t); osc.stop(t + 1.9);
+      } catch (e) {}
+    }
+
+    function playSplash() {
+      if (!audioEnabled || !audioCtx) return;
+      try {
+        const t = audioCtx.currentTime;
+        const b = audioCtx.createBuffer(1, audioCtx.sampleRate * 0.45, audioCtx.sampleRate);
+        const d = b.getChannelData(0);
+        for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (d.length * 0.25));
+        const src = audioCtx.createBufferSource();
+        src.buffer = b;
+        const f = audioCtx.createBiquadFilter();
+        f.type = 'bandpass'; f.frequency.setValueAtTime(1600, t);
+        f.frequency.exponentialRampToValueAtTime(400, t + 0.45);
+        const g = audioCtx.createGain(); g.gain.setValueAtTime(0.18, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.45);
+        src.connect(f); f.connect(g); g.connect(audioCtx.destination);
+        src.start(t);
+      } catch (e) {}
+    }
+
+    function playStationPing() {
+      if (!audioEnabled || !audioCtx) return;
+      try {
+        const t = audioCtx.currentTime;
+        [1760, 2200].forEach((freq, idx) => {
+          const osc = audioCtx.createOscillator(), g = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, t + idx * 0.08);
+          g.gain.setValueAtTime(0.05, t + idx * 0.08);
+          g.gain.exponentialRampToValueAtTime(0.001, t + idx * 0.08 + 0.25);
+          osc.connect(g); g.connect(audioCtx.destination);
+          osc.start(t + idx * 0.08); osc.stop(t + idx * 0.08 + 0.25);
+        });
+      } catch (e) {}
+    }
+
+    function playSeasonChime() {
+      if (!audioEnabled || !audioCtx) return;
+      try {
+        const t = audioCtx.currentTime;
+        [523.25, 659.25, 783.99, 1046.50, 1318.51].forEach((f, idx) => {
+          const osc = audioCtx.createOscillator(), g = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(f, t + idx * 0.06);
+          g.gain.setValueAtTime(0.05, t + idx * 0.06);
+          g.gain.exponentialRampToValueAtTime(0.001, t + idx * 0.06 + 0.4);
+          osc.connect(g); g.connect(audioCtx.destination);
+          osc.start(t + idx * 0.06); osc.stop(t + idx * 0.06 + 0.4);
         });
       } catch (e) {}
     }
@@ -1215,6 +1382,64 @@
     // Dynamic Player-Terraformed Planted Trees & Glowing Mushrooms
     const plantedFlora = [];
 
+    // Controllable Planetary Surface Rover
+    const rover = {
+      active: false,
+      dir: sph(0.24, 0.45, 1.0),
+      pos: [0, 0, 0],
+      heading: 1.2,
+      speed: 0,
+      maxSpeed: 6.8,
+      steer: 0,
+      hop: 0,
+      headlights: true,
+      wheelSpin: 0,
+      dishRot: 0
+    };
+    const roverKeys = { forward: false, backward: false, left: false, right: false, boost: false };
+
+    // Ocean Wildlife: Majestic Blue Whale & Jumping Dolphins
+    const whale = {
+      dir: sph(-0.12, 0.92, 1.0),
+      heading: 0.55,
+      speed: 0.075,
+      pitch: 0,
+      breachPhase: 0,
+      spoutTimer: 3.5,
+      isSurfaced: false
+    };
+    const whaleSpoutParticles = [];
+
+    const dolphins = [
+      { dir: sph(0.10, 1.35, 1.0), heading: 0.85, speed: 0.18, jumpPhase: 0, jumpTimer: 2.8, isJumping: false },
+      { dir: sph(0.15, 1.45, 1.0), heading: 0.95, speed: 0.16, jumpPhase: 0.9, jumpTimer: 3.4, isJumping: false },
+      { dir: sph(-0.25, -1.25, 1.0), heading: 2.2, speed: 0.19, jumpPhase: 1.8, jumpTimer: 2.0, isJumping: false }
+    ];
+    const waterSplashes = [];
+
+    // Modular Orbiting Space Station (Cosmic Orbit)
+    const spaceStation = {
+      orbitAngle: 0.8,
+      orbitSpeed: 0.07,
+      alt: 13.8,
+      solarWingRot: 0,
+      beaconTimer: 0,
+      pos: [0, 0, 0]
+    };
+
+    // Dynamic Seasonal Cycle & Snow Transition
+    let seasonMode = 'summer'; // 'spring', 'summer', 'autumn', 'winter'
+    let snowCover = 0.0;
+    const snowFlakes = [];
+    for (let s = 0; s < 180; s++) {
+      snowFlakes.push({
+        dir: sph(Math.asin(2 * Math.random() - 1), Math.random() * TAU),
+        alt: R_OCEAN + 0.8 + Math.random() * 4.5,
+        spd: 3.2 + Math.random() * 2.8,
+        drift: Math.random() * TAU
+      });
+    }
+
     // Weather: Rain Particles & Thunder
     const rainDrops = [];
     for (let r = 0; r < 160; r++) {
@@ -1265,6 +1490,7 @@
        uniform vec3 L, E;
        uniform float timeOfDay;
        uniform float lightningFlash;
+       uniform float snowCover;
        void main(){
          vec3 N = normalize(vN);
          vec3 V = normalize(E - vW);
@@ -1306,6 +1532,14 @@
          // Dynamic Lightning Flash Illumination
          if (lightningFlash > 0.01) {
            c += vec3(0.65, 0.85, 1.0) * lightningFlash * 1.6;
+         }
+
+         // Dynamic Winter Snow Blanket on land
+         if (snowCover > 0.01 && vC.a < 0.45) {
+           float elev = length(vW);
+           float snowWeight = smoothstep(8.48, 8.85, elev);
+           vec3 snowCol = vec3(0.96, 0.98, 1.0) * (sunCol * 0.92 + ambientCol * 1.15);
+           c = mix(c, snowCol, snowCover * snowWeight * 0.88);
          }
 
          gl_FragColor = vec4(c, 1.0);
@@ -1580,6 +1814,8 @@
       { name: "Follow Car", follow: 'car' },
       { name: "Cockpit", follow: 'plane' },
       { name: "UFO", follow: 'ufo' },
+      { name: "Rover", follow: 'rover' },
+      { name: "Station", follow: 'station' },
       { name: "Tour", tour: true }
     ];
 
@@ -1609,7 +1845,7 @@
       lastMouseX = e.clientX; lastMouseY = e.clientY;
       targetYaw += dx * 0.006;
       targetPitch = clamp(targetPitch - dy * 0.006, -1.2, 1.2);
-      if (activePreset === 7) activePreset = -1; // Interrupt tour on manual move
+      if (activePreset === 9) activePreset = -1; // Interrupt tour on manual move
     });
 
     window.addEventListener('mouseup', () => { isDragging = false; });
@@ -1714,7 +1950,55 @@
         }
       }
 
-      // 6. Otherwise: Planet Surface Raycast Hit
+      // 6. Check click on Surface Rover
+      {
+        const toRover = sub(rover.pos, camPos);
+        if (len(cross(norm(toRover), camFw)) < 0.10 && len(toRover) < 36.0) {
+          rover.hop = 1.4;
+          playRoverHonk();
+          showToast("🚜 Rover Suspension Hop & Horn!");
+          return;
+        }
+      }
+
+      // 7. Check click on Ocean Whale
+      {
+        const whalePos = mul(whale.dir, R_OCEAN + (whale.isSurfaced ? 0.35 : -0.15));
+        const toWhale = sub(whalePos, camPos);
+        if (len(cross(norm(toWhale), camFw)) < 0.12 && len(toWhale) < 38.0) {
+          whale.breachPhase = 0.05;
+          whale.isSurfaced = true;
+          whale.spoutTimer = 0.1;
+          playWhaleSong();
+          showToast("🐋 Majestic Blue Whale Breached & Sang!");
+          return;
+        }
+      }
+
+      // 8. Check click on Dolphins
+      for (let d = 0; d < dolphins.length; d++) {
+        const dPos = mul(dolphins[d].dir, R_OCEAN + 0.2);
+        const toDolphin = sub(dPos, camPos);
+        if (len(cross(norm(toDolphin), camFw)) < 0.09 && len(toDolphin) < 36.0) {
+          dolphins[d].isJumping = true;
+          dolphins[d].jumpPhase = 0.1;
+          playSplash();
+          showToast("🐬 Dolphin Acrobat Leap & Splash!");
+          return;
+        }
+      }
+
+      // 9. Check click on Orbiting Space Station
+      {
+        const toStation = sub(spaceStation.pos, camPos);
+        if (len(cross(norm(toStation), camFw)) < 0.12 && len(toStation) < 48.0) {
+          playStationPing();
+          showToast("🛰️ Space Station Telemetry Ping Received!");
+          return;
+        }
+      }
+
+      // 10. Otherwise: Planet Surface Raycast Hit
       const rayOrigin = camPos;
       const rayDir = norm(sub(add(add(mul(camFw, 1.0), mul(camRgt, ndcX * 0.55)), mul(camUp, ndcY * 0.55)), [0,0,0]));
       const bRay = dot(rayOrigin, rayDir);
@@ -1848,6 +2132,47 @@
     }
     if (btnTractor) btnTractor.addEventListener('click', toggleTractor);
 
+    // Surface Rover Driver Toggle
+    const btnRover = document.getElementById('btnRover');
+    const roverHud = document.getElementById('roverHud');
+    function toggleRover() {
+      initAudio();
+      rover.active = !rover.active;
+      if (rover.active && ufo.active) toggleUfo(); // switch off ufo when entering rover
+      if (btnRover) btnRover.classList.toggle('active', rover.active);
+      if (roverHud) roverHud.classList.toggle('visible', rover.active);
+      if (rover.active) {
+        applyPreset(7); // Lock onto Rover camera
+        playRoverEngine();
+        showToast("🚜 Rover Active! WASD = Drive, Space = Jump, H = Horn, L = Lights");
+      } else {
+        applyPreset(0);
+        showToast("Rover Parked & Handbrake Engaged");
+      }
+    }
+    if (btnRover) btnRover.addEventListener('click', toggleRover);
+
+    // Seasonal Cycle System (Summer, Autumn, Winter, Spring)
+    const SEASONS = [
+      { id: 'summer', icon: '☀️', label: 'Summer', toast: '☀️ Summer Season: Warm golden sun & lush green fields' },
+      { id: 'autumn', icon: '🍂', label: 'Autumn', toast: '🍂 Autumn Season: Crisp mountain air & amber harvest' },
+      { id: 'winter', icon: '❄️', label: 'Winter', toast: '❄️ Winter Season: Drifting snowflakes & frosty white blanket' },
+      { id: 'spring', icon: '🌱', label: 'Spring', toast: '🌱 Spring Season: Alpine blossoms & blooming meadows' }
+    ];
+    let seasonIndex = 0;
+    const btnSeason = document.getElementById('btnSeason');
+    const seasonIcon = document.getElementById('seasonIcon');
+    const seasonText = document.getElementById('seasonText');
+    function cycleSeason(idx) {
+      seasonIndex = (idx !== undefined ? idx : (seasonIndex + 1)) % SEASONS.length;
+      seasonMode = SEASONS[seasonIndex].id;
+      if (seasonIcon) seasonIcon.textContent = SEASONS[seasonIndex].icon;
+      if (seasonText) seasonText.textContent = SEASONS[seasonIndex].label;
+      playSeasonChime();
+      showToast(SEASONS[seasonIndex].toast);
+    }
+    if (btnSeason) btnSeason.addEventListener('click', () => { initAudio(); cycleSeason(); });
+
     // Weather Cycler
     const WEATHER_MODES = [
       { id: 'clear', icon: '☼', label: 'Clear', toast: '☼ Weather: Clear Sunny Skies' },
@@ -1900,22 +2225,39 @@
       btn.addEventListener('click', () => applyPreset(idx));
     });
 
-    // Keyboard Flight & Tool Shortcuts
+    // Keyboard Flight, Driving & Tool Shortcuts
     window.addEventListener('keydown', e => {
       initAudio();
       const k = e.key.toLowerCase();
       const code = e.code;
-      if (e.key >= '1' && e.key <= '8') applyPreset(parseInt(e.key) - 1);
-      if (code === 'KeyW' || code === 'ArrowUp') {
-        if (ufo.active) { ufoKeys.forward = true; e.preventDefault(); }
+      if (e.key >= '0' && e.key <= '9') {
+        const pIdx = (e.key === '0') ? 9 : (parseInt(e.key) - 1);
+        applyPreset(pIdx);
       }
-      if (code === 'KeyS' || code === 'ArrowDown') { if (ufo.active) { ufoKeys.backward = true; e.preventDefault(); } }
-      if (code === 'KeyA' || code === 'ArrowLeft') { if (ufo.active) { ufoKeys.left = true; e.preventDefault(); } }
-      if (code === 'KeyD' || code === 'ArrowRight') { if (ufo.active) { ufoKeys.right = true; e.preventDefault(); } }
+      if (code === 'KeyW' || code === 'ArrowUp') {
+        if (rover.active) { roverKeys.forward = true; e.preventDefault(); }
+        else if (ufo.active) { ufoKeys.forward = true; e.preventDefault(); }
+      }
+      if (code === 'KeyS' || code === 'ArrowDown') {
+        if (rover.active) { roverKeys.backward = true; e.preventDefault(); }
+        else if (ufo.active) { ufoKeys.backward = true; e.preventDefault(); }
+      }
+      if (code === 'KeyA' || code === 'ArrowLeft') {
+        if (rover.active) { roverKeys.left = true; e.preventDefault(); }
+        else if (ufo.active) { ufoKeys.left = true; e.preventDefault(); }
+      }
+      if (code === 'KeyD' || code === 'ArrowRight') {
+        if (rover.active) { roverKeys.right = true; e.preventDefault(); }
+        else if (ufo.active) { ufoKeys.right = true; e.preventDefault(); }
+      }
       if (code === 'KeyQ') { if (ufo.active) ufoKeys.up = true; }
       if (code === 'KeyE') { if (ufo.active) ufoKeys.down = true; }
       if (code === 'Space') {
-        if (ufo.active) {
+        if (rover.active) {
+          roverKeys.boost = true;
+          if (rover.hop <= 0.05) { rover.hop = 1.1; playRoverHonk(); }
+          e.preventDefault();
+        } else if (ufo.active) {
           ufoKeys.boost = true;
           playUfoBoost();
           e.preventDefault();
@@ -1924,8 +2266,17 @@
           btnCycle.classList.toggle('active', autoCycle);
         }
       }
+      if (k === 'v') toggleRover();
       if (k === 'u') toggleUfo();
-      if (k === 'w' && !ufo.active) cycleWeather();
+      if (k === 's' && !rover.active && !ufo.active) cycleSeason();
+      if (k === 'w' && !ufo.active && !rover.active) cycleWeather();
+      if (k === 'h') { playRoverHonk(); showToast("🚜 *HONK HONK!*"); }
+      if (k === 'l') {
+        rover.headlights = !rover.headlights;
+        const rl = document.getElementById('roverLights');
+        if (rl) rl.textContent = rover.headlights ? '💡 Lights ON' : '🌑 Lights OFF';
+        showToast(rover.headlights ? "💡 Rover Headlights On" : "🌑 Rover Headlights Off");
+      }
       if (k === 'b') toggleTractor();
       if (k === 't') setToolMode(2);
       if (k === 'p') setToolMode(3);
@@ -1938,13 +2289,13 @@
 
     window.addEventListener('keyup', e => {
       const code = e.code;
-      if (code === 'KeyW' || code === 'ArrowUp') ufoKeys.forward = false;
-      if (code === 'KeyS' || code === 'ArrowDown') ufoKeys.backward = false;
-      if (code === 'KeyA' || code === 'ArrowLeft') ufoKeys.left = false;
-      if (code === 'KeyD' || code === 'ArrowRight') ufoKeys.right = false;
+      if (code === 'KeyW' || code === 'ArrowUp') { roverKeys.forward = false; ufoKeys.forward = false; }
+      if (code === 'KeyS' || code === 'ArrowDown') { roverKeys.backward = false; ufoKeys.backward = false; }
+      if (code === 'KeyA' || code === 'ArrowLeft') { roverKeys.left = false; ufoKeys.left = false; }
+      if (code === 'KeyD' || code === 'ArrowRight') { roverKeys.right = false; ufoKeys.right = false; }
       if (code === 'KeyQ') ufoKeys.up = false;
       if (code === 'KeyE') ufoKeys.down = false;
-      if (code === 'Space') ufoKeys.boost = false;
+      if (code === 'Space') { roverKeys.boost = false; ufoKeys.boost = false; }
     });
 
     // =========================================================================
@@ -1999,7 +2350,7 @@
       const sunDir = norm([cos(sunAngle), sin(sunAngle), 0.5]);
 
       // 2. Update Camera interpolation
-      if (activePreset === 7) {
+      if (activePreset === 9) {
         // Tour mode: slowly sweep camera around world
         tourTime += dt * 0.18;
         targetYaw = tourTime;
@@ -2028,9 +2379,25 @@
         const camIdeal = add(add(ufo.pos, mul(uFw, -7.0)), mul(uUp, 3.0));
         currentCenter = mix3(currentCenter, ufo.pos, 0.15);
         camPos = mix3(camPos, camIdeal, 0.15);
+      } else if (activePreset === 7) {
+        // Planetary Rover Ground Chase View
+        targetCenter = rover.pos;
+        targetDist = 6.8;
+        const rUp = norm(rover.dir);
+        const refNorth = (abs(rUp[1]) > 0.95) ? [1, 0, 0] : [0, 1, 0];
+        const rEast = norm(cross(refNorth, rUp));
+        const rNorth = cross(rUp, rEast);
+        const rFw = norm(add(mul(rEast, sin(rover.heading)), mul(rNorth, cos(rover.heading))));
+        const camIdeal = add(add(rover.pos, mul(rFw, -4.6)), mul(rUp, 2.2));
+        currentCenter = mix3(currentCenter, add(rover.pos, mul(rFw, 1.4)), 0.18);
+        camPos = mix3(camPos, camIdeal, 0.18);
+      } else if (activePreset === 8) {
+        // Orbiting Space Station View
+        targetCenter = spaceStation.pos;
+        targetDist = 8.5;
       }
 
-      if (activePreset !== 6) {
+      if (activePreset !== 6 && activePreset !== 7) {
         yaw += (targetYaw - yaw) * 0.1;
         pitch += (targetPitch - pitch) * 0.1;
         dist += (targetDist - dist) * 0.1;
@@ -2209,7 +2576,129 @@
       }
       if (lightningFlash > 0.001) lightningFlash = max(0, lightningFlash - dt * 2.5);
 
-      // 4. Build Dynamic Buffer (Cars, Plane, Windmill, Clouds, UFO, Creatures, Flora, Weather)
+      // Rover Ground Driving & Spherical Terrain Physics
+      if (rover.active) {
+        if (roverKeys.left) { rover.heading -= dt * 2.2; rover.steer = mix(rover.steer, -0.42, 0.22); }
+        else if (roverKeys.right) { rover.heading += dt * 2.2; rover.steer = mix(rover.steer, 0.42, 0.22); }
+        else { rover.steer = mix(rover.steer, 0, 0.18); }
+
+        const maxS = roverKeys.boost ? rover.maxSpeed * 1.5 : rover.maxSpeed;
+        if (roverKeys.forward) {
+          rover.speed = min(maxS, rover.speed + dt * 11.0);
+        } else if (roverKeys.backward) {
+          rover.speed = max(-maxS * 0.5, rover.speed - dt * 9.0);
+        } else {
+          rover.speed *= Math.exp(-dt * 3.2);
+        }
+      } else {
+        rover.speed *= Math.exp(-dt * 4.5);
+        rover.steer = mix(rover.steer, 0, 0.12);
+      }
+
+      if (rover.hop > 0) rover.hop = max(0, rover.hop - dt * 2.8);
+      rover.wheelSpin += rover.speed * dt * 14.0;
+      rover.dishRot += dt * 1.8;
+
+      // Spherical navigation
+      const rUp = norm(rover.dir);
+      const rRefNorth = (abs(rUp[1]) > 0.95) ? [1, 0, 0] : [0, 1, 0];
+      const rEast = norm(cross(rRefNorth, rUp));
+      const rNorth = cross(rUp, rEast);
+      const rFw = norm(add(mul(rEast, sin(rover.heading)), mul(rNorth, cos(rover.heading))));
+
+      const rStep = (rover.speed * dt) / R_OCEAN;
+      rover.dir = norm(add(mul(rUp, cos(rStep)), mul(rFw, sin(rStep))));
+      const rTerr = getTerrain(rover.dir);
+      const rAltitude = max(rTerr.r, R_OCEAN + 0.05) + sin(rover.hop * PI) * 0.45;
+      rover.pos = mul(rover.dir, rAltitude);
+
+      const rSpeedEl = document.getElementById('roverSpeed');
+      if (rSpeedEl) rSpeedEl.textContent = Math.round(abs(rover.speed) * 12) + ' km/h';
+
+      // Ocean Wildlife: Whale Breaching & Blowhole Spout
+      whale.heading += dt * 0.045;
+      const wUp = norm(whale.dir);
+      const wRefNorth = (abs(wUp[1]) > 0.95) ? [1, 0, 0] : [0, 1, 0];
+      const wEast = norm(cross(wRefNorth, wUp));
+      const wNorth = cross(wUp, wEast);
+      const wFw = norm(add(mul(wEast, sin(whale.heading)), mul(wNorth, cos(whale.heading))));
+      const wStep = (whale.speed * dt) / R_OCEAN;
+      whale.dir = norm(add(mul(wUp, cos(wStep)), mul(wFw, sin(wStep))));
+
+      whale.spoutTimer -= dt;
+      if (whale.spoutTimer <= 0) {
+        whale.isSurfaced = true;
+        whale.breachPhase += dt * 1.4;
+        if (whale.breachPhase > PI) {
+          whale.breachPhase = 0;
+          whale.isSurfaced = false;
+          whale.spoutTimer = 7.0 + Math.random() * 8.0;
+          playSplash();
+          waterSplashes.push({ pos: mul(whale.dir, R_OCEAN + 0.05), radius: 0.35, maxRadius: 1.8, life: 0.85, maxLife: 0.85 });
+        }
+      }
+
+      if (whale.isSurfaced && whale.breachPhase > 0.35 && whale.breachPhase < 2.0) {
+        if (Math.random() > 0.25) {
+          const spoutPos = add(mul(whale.dir, R_OCEAN + 0.42), mul(wFw, 0.45));
+          whaleSpoutParticles.push({
+            pos: spoutPos,
+            vel: add(mul(wUp, 3.8 + Math.random() * 2.2), mul(norm([Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5]), 0.65)),
+            life: 0.90,
+            maxLife: 0.90
+          });
+        }
+      }
+
+      // Ocean Wildlife: Leaping Dolphins & Splashes
+      dolphins.forEach(dlp => {
+        dlp.heading += dt * 0.07;
+        const dUp = norm(dlp.dir);
+        const dRefNorth = (abs(dUp[1]) > 0.95) ? [1, 0, 0] : [0, 1, 0];
+        const dEast = norm(cross(dRefNorth, dUp));
+        const dNorth = cross(dUp, dEast);
+        const dFw = norm(add(mul(dEast, sin(dlp.heading)), mul(dNorth, cos(dlp.heading))));
+        const dStep = (dlp.speed * dt) / R_OCEAN;
+        dlp.dir = norm(add(mul(dUp, cos(dStep)), mul(dFw, sin(dStep))));
+
+        dlp.jumpTimer -= dt;
+        if (dlp.jumpTimer <= 0) {
+          dlp.isJumping = true;
+          dlp.jumpPhase += dt * 2.8;
+          if (dlp.jumpPhase >= PI) {
+            dlp.jumpPhase = 0;
+            dlp.isJumping = false;
+            dlp.jumpTimer = 3.2 + Math.random() * 4.0;
+            playSplash();
+            waterSplashes.push({ pos: mul(dlp.dir, R_OCEAN + 0.05), radius: 0.22, maxRadius: 0.95, life: 0.65, maxLife: 0.65 });
+          }
+        }
+      });
+
+      // Modular Orbiting Space Station (High Celestial Orbit)
+      spaceStation.orbitAngle += dt * spaceStation.orbitSpeed;
+      spaceStation.solarWingRot += dt * 0.45;
+      spaceStation.beaconTimer += dt * 3.8;
+      const stLat = 0.42 * sin(spaceStation.orbitAngle * 1.5);
+      const stLon = spaceStation.orbitAngle;
+      spaceStation.pos = sph(stLat, stLon, spaceStation.alt);
+
+      // Seasonal Transition & Snow Particles
+      const targetSnow = (seasonMode === 'winter') ? 1.0 : (seasonMode === 'autumn' ? 0.2 : 0.0);
+      snowCover += (targetSnow - snowCover) * dt * 0.85;
+
+      if (seasonMode === 'winter' || snowCover > 0.05) {
+        snowFlakes.forEach(sf => {
+          sf.alt -= sf.spd * dt;
+          sf.drift += dt * 1.4;
+          if (sf.alt <= R_OCEAN + 0.05) {
+            sf.alt = R_OCEAN + 4.8 + Math.random() * 1.8;
+            sf.dir = sph(Math.asin(2 * Math.random() - 1), Math.random() * TAU);
+          }
+        });
+      }
+
+      // 4. Build Dynamic Buffer (Cars, Plane, Windmill, Clouds, UFO, Rover, Wildlife, Station, Weather)
       const dynamicGeo = [];
 
       // A. Cars
@@ -2523,6 +3012,215 @@
         }
       }
 
+      // O. Controllable Planetary Surface Rover (6-Wheel All-Terrain Exploration Vehicle)
+      {
+        const rUp = norm(rover.dir);
+        const rRefNorth = (abs(rUp[1]) > 0.95) ? [1, 0, 0] : [0, 1, 0];
+        const rEast = norm(cross(rRefNorth, rUp));
+        const rNorth = cross(rUp, rEast);
+        const rFw = norm(add(mul(rEast, sin(rover.heading)), mul(rNorth, cos(rover.heading))));
+        const rRgt = cross(rUp, rFw);
+
+        const rM = fromB(rRgt, rUp, rFw, rover.pos);
+
+        // Rugged Sci-Fi Chassis (Titanium Slate)
+        put(dynamicGeo, P.bx, mm(rM, T(0, 0.20, 0, 0.44, 0.16, 0.72)), [0.24, 0.26, 0.30]);
+        // Armored front bumper & bullbar
+        put(dynamicGeo, P.bx, mm(rM, T(0, 0.15, 0.38, 0.46, 0.10, 0.08)), [0.15, 0.16, 0.18]);
+        // Rear scientific equipment rack
+        put(dynamicGeo, P.bx, mm(rM, T(0, 0.25, -0.22, 0.38, 0.14, 0.24)), [0.88, 0.65, 0.18]);
+        // Sample canister
+        put(dynamicGeo, P.cy, mm(rM, T(0.10, 0.34, -0.20, 0.10, 0.12, 0.10)), [0.20, 0.85, 0.65], 0.7);
+
+        // Pressurized Golden Visor Cockpit Dome
+        put(dynamicGeo, P.sp, mm(rM, T(0, 0.28, 0.10, 0.34, 0.22, 0.36)), [0.95, 0.78, 0.25], 0.65);
+
+        // Rotating High-Gain Satellite Dish on Cabin Roof
+        put(dynamicGeo, P.cy, mm(rM, T(-0.10, 0.36, -0.05, 0.04, 0.18, 0.04)), [0.75, 0.75, 0.80]);
+        put(dynamicGeo, P.fr, mm(rM, mm(T(-0.10, 0.48, -0.05, 0.24, 0.08, 0.24), fromB([1,0,0],[0,0,1],[0,-1,0],[0,0,0]))), [0.92, 0.94, 0.98]);
+
+        // Dual Halogen Headlights & Volumetric Beams
+        put(dynamicGeo, P.sp, mm(rM, T(0.15, 0.22, 0.38, 0.07, 0.07, 0.04)), [1.0, 0.98, 0.75], rover.headlights ? 1.0 : 0.0);
+        put(dynamicGeo, P.sp, mm(rM, T(-0.15, 0.22, 0.38, 0.07, 0.07, 0.04)), [1.0, 0.98, 0.75], rover.headlights ? 1.0 : 0.0);
+        if (rover.headlights) {
+          // Volumetric headlight cones
+          const beamMatL = mm(rM, fromB([0.45, 0, 0], [0, 0, 1.8], [0, -0.45, 0], [0.15, 0.22, 0.42]));
+          const beamMatR = mm(rM, fromB([0.45, 0, 0], [0, 0, 1.8], [0, -0.45, 0], [-0.15, 0.22, 0.42]));
+          put(dynamicGeo, P.co, beamMatL, [1.0, 0.98, 0.82], 0.32);
+          put(dynamicGeo, P.co, beamMatR, [1.0, 0.98, 0.82], 0.32);
+        }
+
+        // Red Tail Hazard Beacons
+        put(dynamicGeo, P.bx, mm(rM, T(0.16, 0.22, -0.37, 0.06, 0.04, 0.02)), [1.0, 0.15, 0.15], 1.0);
+        put(dynamicGeo, P.bx, mm(rM, T(-0.16, 0.22, -0.37, 0.06, 0.04, 0.02)), [1.0, 0.15, 0.15], 1.0);
+
+        // 6 All-Terrain Suspension Wheels (3 Left, 3 Right)
+        const wheelOffsets = [
+          [-0.26, 0.11, 0.26, true],  // Front Left (Steered)
+          [0.26, 0.11, 0.26, true],   // Front Right (Steered)
+          [-0.26, 0.11, 0.0, false],  // Mid Left
+          [0.26, 0.11, 0.0, false],   // Mid Right
+          [-0.26, 0.11, -0.26, false],// Rear Left
+          [0.26, 0.11, -0.26, false]  // Rear Right
+        ];
+
+        wheelOffsets.forEach(([wx, wy, wz, isFront]) => {
+          const steerAngle = isFront ? rover.steer : 0;
+          const sCos = cos(steerAngle), sSin = sin(steerAngle);
+
+          // Wheel basis matrix oriented along axle
+          const wAxisM = fromB(
+            [sCos, 0, -sSin],
+            [0, 1, 0],
+            [sSin, 0, sCos],
+            [wx, wy, wz]
+          );
+
+          // Tire cylinder
+          put(dynamicGeo, P.cy, mm(rM, mm(wAxisM, fromB([0.16, 0, 0], [0, 0, 0.16], [0, -0.09, 0], [0, 0, 0]))), [0.12, 0.12, 0.14]);
+          // Golden hubcap
+          put(dynamicGeo, P.cy, mm(rM, mm(wAxisM, fromB([0.08, 0, 0], [0, 0, 0.08], [0, -0.10, 0], [0, 0, 0]))), [0.92, 0.75, 0.22]);
+          // Suspension rocker arm
+          put(dynamicGeo, P.bx, mm(rM, T(wx * 0.65, wy + 0.04, wz, 0.05, 0.04, 0.08)), [0.20, 0.20, 0.22]);
+        });
+      }
+
+      // P. Ocean Wildlife: Majestic Blue Whale & Blowhole Mist Fountain
+      {
+        const wUp = norm(whale.dir);
+        const wRefNorth = (abs(wUp[1]) > 0.95) ? [1, 0, 0] : [0, 1, 0];
+        const wEast = norm(cross(wRefNorth, wUp));
+        const wNorth = cross(wUp, wEast);
+        const wFw = norm(add(mul(wEast, sin(whale.heading)), mul(wNorth, cos(whale.heading))));
+        const wRgt = cross(wUp, wFw);
+
+        const breachPitch = whale.isSurfaced ? (sin(whale.breachPhase) * 0.42 - 0.12) : 0;
+        const pCos = cos(breachPitch), pSin = sin(breachPitch);
+        const pitchedFw = norm(add(mul(wFw, pCos), mul(wUp, pSin)));
+        const pitchedUp = cross(pitchedFw, wRgt);
+
+        const whaleAltitude = R_OCEAN + (whale.isSurfaced ? (sin(whale.breachPhase) * 0.52 - 0.10) : -0.22);
+        const whalePos = mul(whale.dir, whaleAltitude);
+        const wM = fromB(wRgt, pitchedUp, pitchedFw, whalePos);
+
+        // Huge Streamlined Blue Torpedo Body
+        put(dynamicGeo, P.sp, mm(wM, T(0, 0.08, 0, 0.58, 0.48, 1.45)), [0.18, 0.28, 0.46]);
+        // Pale Grooved Belly
+        put(dynamicGeo, P.sp, mm(wM, T(0, -0.04, 0.08, 0.46, 0.32, 1.15)), [0.82, 0.88, 0.94]);
+
+        // Tail Flukes (oscillating gracefully with swim cycle)
+        const flukeFlap = sin(now * 0.0035) * 0.22;
+        const fCos = cos(flukeFlap), fSin = sin(flukeFlap);
+        const flukeM = mm(wM, mm(T(0, 0.04, -0.85), fromB([1,0,0],[0,fCos,-fSin],[0,fSin,fCos],[0,0,0])));
+        put(dynamicGeo, P.bx, mm(flukeM, T(0, 0, -0.25, 0.88, 0.05, 0.28)), [0.18, 0.28, 0.46]);
+
+        // Pectoral Fins (Left & Right)
+        put(dynamicGeo, P.bx, mm(wM, T(0.42, -0.05, 0.22, 0.45, 0.04, 0.20)), [0.18, 0.28, 0.46]);
+        put(dynamicGeo, P.bx, mm(wM, T(-0.42, -0.05, 0.22, 0.45, 0.04, 0.20)), [0.18, 0.28, 0.46]);
+
+        // Blowhole Spout Mist Particles
+        for (let i = whaleSpoutParticles.length - 1; i >= 0; i--) {
+          const sp = whaleSpoutParticles[i];
+          sp.life -= dt;
+          sp.pos = add(sp.pos, mul(sp.vel, dt));
+          sp.vel[1] -= dt * 2.5; // gravity pull
+          const spSz = 0.12 * (sp.life / sp.maxLife);
+          put(dynamicGeo, P.sp, T(sp.pos[0], sp.pos[1], sp.pos[2], spSz, spSz, spSz), [0.85, 0.96, 1.0], 0.7);
+          if (sp.life <= 0) whaleSpoutParticles.splice(i, 1);
+        }
+      }
+
+      // Q. Ocean Wildlife: Playful Leaping Dolphins & Water Rings
+      dolphins.forEach((dlp) => {
+        const dUp = norm(dlp.dir);
+        const dRefNorth = (abs(dUp[1]) > 0.95) ? [1, 0, 0] : [0, 1, 0];
+        const dEast = norm(cross(dRefNorth, dUp));
+        const dNorth = cross(dUp, dEast);
+        const dFw = norm(add(mul(dEast, sin(dlp.heading)), mul(dNorth, cos(dlp.heading))));
+        const dRgt = cross(dUp, dFw);
+
+        const leapPitch = dlp.isJumping ? (cos(dlp.jumpPhase) * 0.65) : 0;
+        const lpCos = cos(leapPitch), lpSin = sin(leapPitch);
+        const pitchedFw = norm(add(mul(dFw, lpCos), mul(dUp, lpSin)));
+        const pitchedUp = cross(pitchedFw, dRgt);
+
+        const dAlt = R_OCEAN + (dlp.isJumping ? (sin(dlp.jumpPhase) * 0.85) : 0.02);
+        const dPos = mul(dlp.dir, dAlt);
+        const dM = fromB(dRgt, pitchedUp, pitchedFw, dPos);
+
+        // Sleek Dolphin Body
+        put(dynamicGeo, P.sp, mm(dM, T(0, 0, 0, 0.24, 0.20, 0.68)), [0.26, 0.46, 0.70]);
+        // White Belly
+        put(dynamicGeo, P.sp, mm(dM, T(0, -0.04, 0.02, 0.18, 0.12, 0.52)), [0.92, 0.96, 0.98]);
+        // Curved Dorsal Fin
+        put(dynamicGeo, P.co, mm(dM, T(0, 0.16, -0.05, 0.06, 0.18, 0.14)), [0.22, 0.40, 0.62]);
+        // Beaked Snout
+        put(dynamicGeo, P.co, mm(dM, mm(T(0, -0.02, 0.42, 0.08, 0.16, 0.08), fromB([1,0,0],[0,0,-1],[0,1,0],[0,0,0]))), [0.24, 0.44, 0.66]);
+        // Tail Fluke
+        put(dynamicGeo, P.bx, mm(dM, T(0, 0, -0.40, 0.32, 0.03, 0.12)), [0.24, 0.44, 0.66]);
+      });
+
+      // Expanding Water Splash Rings
+      for (let i = waterSplashes.length - 1; i >= 0; i--) {
+        const ws = waterSplashes[i];
+        ws.life -= dt;
+        ws.radius += (ws.maxRadius - ws.radius) * dt * 5.0;
+        const wNorm = norm(ws.pos);
+        const wRef = (abs(wNorm[1]) > 0.95) ? [1, 0, 0] : [0, 1, 0];
+        const wTgt = norm(cross(wRef, wNorm));
+        const wBin = cross(wNorm, wTgt);
+        const wsM = fromB(mul(wTgt, ws.radius), mul(wNorm, 0.04), mul(wBin, ws.radius), ws.pos);
+        put(dynamicGeo, P.cy, wsM, [0.72, 0.94, 1.0], 0.6 * (ws.life / ws.maxLife));
+        if (ws.life <= 0) waterSplashes.splice(i, 1);
+      }
+
+      // R. Modular Orbiting Space Station (High Celestial Orbit)
+      {
+        const stUp = norm(spaceStation.pos);
+        const stFw = norm(cross([0.3, 0.9, 0.2], stUp));
+        const stRgt = cross(stUp, stFw);
+        const stM = fromB(stRgt, stUp, stFw, spaceStation.pos);
+
+        // Central Pressurized Core Modules
+        put(dynamicGeo, P.cy, mm(stM, fromB([0.32, 0, 0], [0, 1.8, 0], [0, 0, 0.32], [0, -0.9, 0])), [0.92, 0.94, 0.98]);
+        put(dynamicGeo, P.sp, mm(stM, T(0, 0.95, 0, 0.34, 0.34, 0.34)), [0.88, 0.90, 0.94]);
+        put(dynamicGeo, P.sp, mm(stM, T(0, -0.95, 0, 0.34, 0.34, 0.34)), [0.88, 0.90, 0.94]);
+
+        // Transverse Main Truss Boom
+        put(dynamicGeo, P.bx, mm(stM, T(0, 0, 0, 3.8, 0.10, 0.10)), [0.32, 0.34, 0.38]);
+
+        // Earth Observation Cupola Dome
+        put(dynamicGeo, P.sp, mm(stM, T(0, 0, -0.28, 0.18, 0.18, 0.18)), [0.35, 0.85, 1.0], 0.8);
+
+        // 4 Giant Photovoltaic Solar Panels on Rotating Gimbals
+        const sRot = spaceStation.solarWingRot;
+        const sCos = cos(sRot), sSin = sin(sRot);
+        const panelRotM = fromB([1, 0, 0], [0, sCos, -sSin], [0, sSin, sCos], [0, 0, 0]);
+
+        [-1.4, 1.4].forEach(px => {
+          [0.6, -0.6].forEach(pz => {
+            const panM = mm(stM, mm(T(px, 0, pz), panelRotM));
+            // Photovoltaic cells
+            put(dynamicGeo, P.bx, mm(panM, T(0, 0, 0, 0.85, 0.02, 0.95)), [0.12, 0.24, 0.65], 0.4);
+            // Golden solar frame
+            put(dynamicGeo, P.bx, mm(panM, T(0, 0, 0, 0.90, 0.04, 0.04)), [0.95, 0.75, 0.18]);
+          });
+        });
+
+        // Flashing Strobe Navigation Beacons
+        const beaconFlash = (sin(spaceStation.beaconTimer) > 0.4) ? 1.0 : 0.0;
+        put(dynamicGeo, P.sp, mm(stM, T(1.95, 0, 0, 0.08, 0.08, 0.08)), [1.0, 0.15, 0.15], beaconFlash);
+        put(dynamicGeo, P.sp, mm(stM, T(-1.95, 0, 0, 0.08, 0.08, 0.08)), [0.15, 1.0, 0.25], beaconFlash);
+      }
+
+      // S. Winter Snow Season: Drifting Snowflakes
+      if (seasonMode === 'winter' || snowCover > 0.05) {
+        snowFlakes.forEach(sf => {
+          const sPos = add(mul(sf.dir, sf.alt), mul(norm([cos(sf.drift), 0, sin(sf.drift)]), 0.15));
+          put(dynamicGeo, P.bx, T(sPos[0], sPos[1], sPos[2], 0.04, 0.04, 0.04), [0.96, 0.98, 1.0], 0.9);
+        });
+      }
+
       // 5. Render Scene
       gl.clearColor(0.02, 0.04, 0.09, 1.0);
       gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -2547,6 +3245,7 @@
       gl.uniform3fv(gl.getUniformLocation(PM, 'E'), camPos);
       gl.uniform1f(gl.getUniformLocation(PM, 'timeOfDay'), timeOfDay);
       gl.uniform1f(gl.getUniformLocation(PM, 'lightningFlash'), lightningFlash);
+      gl.uniform1f(gl.getUniformLocation(PM, 'snowCover'), snowCover);
 
       gl.bindBuffer(gl.ARRAY_BUFFER, staticBuf);
       gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 40, 0);
