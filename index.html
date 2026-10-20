@@ -2718,6 +2718,94 @@
         </div>
       </div>
 
+      <!-- Interactive Gesture App 21-Joint Computer Vision Sandbox (Active for Gesture) -->
+      <div class="project-sandbox gesture-sandbox" id="gestureSandbox" hidden>
+        <div class="sandbox-header">
+          <div class="clp-sandbox-badge">
+            <span class="clp-live-pulse" aria-hidden="true"></span>
+            <span class="clp-badge-text">MEDIAPIPE 21-JOINT SKELETAL VISION LAB</span>
+          </div>
+          <span class="pinit-latency-stat">Python / OpenCV Kinematics · 60 FPS Tracking</span>
+        </div>
+
+        <p class="clp-sandbox-desc">
+          Real-time spatial computer vision engine modeled after Gouv Kimsea's <code>Gesture_app</code>. Tracks 21 anatomical landmarks across 3D coordinates, computing joint angles, bounding box envelopes, and Euclidean distance thresholds for touchless human-computer interaction.
+        </p>
+
+        <div class="gest-lab-container">
+          <!-- Animated Computer Vision Canvas -->
+          <div class="gest-canvas-box">
+            <canvas id="gestureCanvas" class="gest-canvas" width="340" height="240" aria-label="21-Joint Hand Landmark Skeletal Vision Tracker"></canvas>
+            <div class="gest-hud-pill" id="gestHudPill">Gesture: Open Palm (100% Tracking)</div>
+          </div>
+
+          <!-- Controls & Preset Pose Chips -->
+          <div class="gest-controls">
+            <!-- Preset Pose Chips -->
+            <div class="mw-control-group">
+              <span class="mw-slider-title">Spatial Gesture Presets:</span>
+              <div class="mw-biome-chips" role="group" aria-label="Hand Gesture Preset Poses">
+                <button type="button" class="mw-chip active" data-pose="palm">✋ Open Palm</button>
+                <button type="button" class="mw-chip" data-pose="pinch">🤏 Pinch Click</button>
+                <button type="button" class="mw-chip" data-pose="peace">✌️ Peace / V</button>
+                <button type="button" class="mw-chip" data-pose="fist">✊ Closed Fist</button>
+                <button type="button" class="mw-chip" data-pose="point">☝️ Point Cursor</button>
+                <button type="button" class="mw-chip" data-pose="thumbs">👍 Thumbs Up</button>
+              </div>
+            </div>
+
+            <!-- Spatial Sensitivity Slider -->
+            <div class="mw-control-group">
+              <div class="mw-slider-header">
+                <span class="mw-slider-title">🎯 Pinch Trigger Distance Threshold</span>
+                <span class="mw-val-badge" id="gestDistVal">35 px</span>
+              </div>
+              <input type="range" id="gestDistSlider" class="mw-range-slider" min="15" max="60" step="1" value="35" aria-label="Euclidean Distance Pinch Threshold">
+            </div>
+
+            <!-- Hand Size / Scale Slider -->
+            <div class="mw-control-group">
+              <div class="mw-slider-header">
+                <span class="mw-slider-title">📏 Skeletal Landmark Scale</span>
+                <span class="mw-val-badge" id="gestScaleVal">1.0x</span>
+              </div>
+              <input type="range" id="gestScaleSlider" class="mw-range-slider" min="0.7" max="1.3" step="0.05" value="1.0" aria-label="Hand Landmark Scale">
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="aq-action-bar">
+              <button type="button" class="aq-btn active" id="gestToggleBboxBtn">🔲 Bounding Box: ON</button>
+              <button type="button" class="aq-btn active" id="gestToggleCoordsBtn">🔢 Joint IDs: ON</button>
+              <button type="button" class="aq-btn primary" id="gestTriggerPinchBtn">⚡ Simulate Pinch Event</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Telemetry Cards -->
+        <div class="aq-metrics-grid">
+          <div class="aq-metric-card" id="cardPinchDist">
+            <div class="aq-metric-label">Pinch Distance (D₄₋₈)</div>
+            <div class="aq-metric-val" id="gestPinchDistVal">92.4 px</div>
+            <div class="aq-metric-status optimal" id="gestPinchStatus">Released</div>
+          </div>
+          <div class="aq-metric-card" id="cardJoints">
+            <div class="aq-metric-label">Landmarks Tracked</div>
+            <div class="aq-metric-val" id="gestJointsVal">21 / 21</div>
+            <div class="aq-metric-status safe">Full Skeleton Locked</div>
+          </div>
+          <div class="aq-metric-card" id="cardConfidence">
+            <div class="aq-metric-label">Inference Confidence</div>
+            <div class="aq-metric-val" id="gestConfidenceVal">99.4%</div>
+            <div class="aq-metric-status safe">High Confidence</div>
+          </div>
+          <div class="aq-metric-card" id="cardGesture">
+            <div class="aq-metric-label">Detected Pose</div>
+            <div class="aq-metric-val" id="gestDetectedVal" style="font-size:13px;">Open Palm</div>
+            <div class="aq-metric-status safe" id="gestGestureStatus">Ready for Input</div>
+          </div>
+        </div>
+      </div>
+
       <div class="modal-tech" id="modalTech"></div>
       <div class="modal-actions" id="modalActions"></div>
     </div>

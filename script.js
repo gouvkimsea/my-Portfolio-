@@ -2089,6 +2089,318 @@ function stopAquariumLab() {
   }
 }
 
+// ==========================================================================
+// Gesture App 21-Joint Computer Vision & Kinematics Engine
+// ==========================================================================
+let gestLabRaf = null;
+let gestLabInitialized = false;
+
+let gestActivePose = 'palm'; // 'palm', 'pinch', 'peace', 'fist', 'point', 'thumbs'
+let gestPinchThreshold = 35;
+let gestScale = 1.0;
+let gestShowBbox = true;
+let gestShowCoords = true;
+
+let gestMouseX = 170;
+let gestMouseY = 120;
+let gestTargetX = 170;
+let gestTargetY = 120;
+let gestPinchAnimation = 0;
+
+// MediaPipe 21-Joint Landmark Connections
+const GEST_BONES = [
+  [0, 1], [1, 2], [2, 3], [3, 4],       // Thumb
+  [0, 5], [5, 6], [6, 7], [7, 8],       // Index
+  [0, 9], [9, 10], [10, 11], [11, 12],  // Middle
+  [0, 13], [13, 14], [14, 15], [15, 16],// Ring
+  [0, 17], [17, 18], [18, 19], [19, 20],// Pinky
+  [5, 9], [9, 13], [13, 17]             // Palm Cross
+];
+
+// Base Coordinate Offsets relative to palm center (x, y)
+const GEST_POSE_TEMPLATES = {
+  palm: [
+    [0, 75], // 0: Wrist
+    [-22, 52], [-38, 30], [-52, 10], [-64, -6], // 1-4: Thumb
+    [-25, -2], [-28, -32], [-31, -62], [-34, -90], // 5-8: Index
+    [0, -6], [0, -40], [0, -72], [0, -102], // 9-12: Middle
+    [24, -2], [26, -32], [28, -62], [30, -88], // 13-16: Ring
+    [45, 10], [50, -16], [54, -42], [58, -68]  // 17-20: Pinky
+  ],
+  pinch: [
+    [0, 75],
+    [-18, 52], [-24, 30], [-20, 5], [-12, -38],
+    [-22, -2], [-22, -25], [-18, -38], [-12, -38],
+    [0, -6], [0, -40], [0, -72], [0, -102],
+    [24, -2], [26, -32], [28, -62], [30, -88],
+    [45, 10], [50, -16], [54, -42], [58, -68]
+  ],
+  peace: [
+    [0, 75],
+    [-18, 50], [-26, 32], [-18, 20], [-10, 15],
+    [-20, -2], [-24, -34], [-28, -68], [-34, -100],
+    [10, -6], [16, -38], [22, -72], [28, -104],
+    [24, -2], [22, 15], [18, 26], [16, 32],
+    [42, 10], [38, 20], [34, 28], [30, 34]
+  ],
+  fist: [
+    [0, 75],
+    [-16, 50], [-22, 32], [-14, 18], [-6, 12],
+    [-20, -2], [-20, 18], [-16, 28], [-12, 32],
+    [0, -6], [0, 16], [0, 26], [0, 30],
+    [20, -2], [18, 16], [16, 26], [14, 30],
+    [38, 10], [34, 22], [30, 28], [26, 32]
+  ],
+  point: [
+    [0, 75],
+    [-18, 50], [-26, 32], [-18, 20], [-8, 15],
+    [-22, -2], [-26, -35], [-28, -68], [-30, -102],
+    [0, -6], [0, 18], [0, 28], [0, 32],
+    [20, -2], [18, 18], [16, 28], [14, 32],
+    [38, 10], [34, 22], [30, 28], [26, 32]
+  ],
+  thumbs: [
+    [0, 75],
+    [-24, 50], [-42, 28], [-54, -2], [-62, -45],
+    [-18, -2], [-16, 18], [-12, 28], [-8, 32],
+    [0, -6], [0, 18], [0, 28], [0, 32],
+    [18, -2], [16, 18], [14, 28], [12, 32],
+    [36, 10], [32, 22], [28, 28], [24, 32]
+  ]
+};
+
+let gestCurrentLandmarks = GEST_POSE_TEMPLATES.palm.map(p => [...p]);
+
+function initGestureLab() {
+  const canvas = $("#gestureCanvas");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  if (!gestLabInitialized) {
+    gestLabInitialized = true;
+
+    canvas.addEventListener("mousemove", e => {
+      const rect = canvas.getBoundingClientRect();
+      gestTargetX = (e.clientX - rect.left) * (canvas.width / rect.width);
+      gestTargetY = (e.clientY - rect.top) * (canvas.height / rect.height);
+    });
+
+    canvas.addEventListener("mouseleave", () => {
+      gestTargetX = canvas.width / 2;
+      gestTargetY = canvas.height / 2 + 10;
+    });
+
+    $$(".gesture-sandbox .mw-chip")?.forEach(chip => {
+      chip.addEventListener("click", () => {
+        $$(".gesture-sandbox .mw-chip").forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+        gestActivePose = chip.dataset.pose;
+      });
+    });
+
+    $("#gestDistSlider")?.addEventListener("input", e => {
+      gestPinchThreshold = parseInt(e.target.value, 10);
+      const val = $("#gestDistVal");
+      if (val) val.textContent = `${gestPinchThreshold} px`;
+    });
+
+    $("#gestScaleSlider")?.addEventListener("input", e => {
+      gestScale = parseFloat(e.target.value);
+      const val = $("#gestScaleVal");
+      if (val) val.textContent = `${gestScale.toFixed(2)}x`;
+    });
+
+    $("#gestToggleBboxBtn")?.addEventListener("click", () => {
+      gestShowBbox = !gestShowBbox;
+      const btn = $("#gestToggleBboxBtn");
+      if (btn) {
+        btn.textContent = `🔲 Bounding Box: ${gestShowBbox ? 'ON' : 'OFF'}`;
+        btn.classList.toggle("active", gestShowBbox);
+      }
+    });
+
+    $("#gestToggleCoordsBtn")?.addEventListener("click", () => {
+      gestShowCoords = !gestShowCoords;
+      const btn = $("#gestToggleCoordsBtn");
+      if (btn) {
+        btn.textContent = `🔢 Joint IDs: ${gestShowCoords ? 'ON' : 'OFF'}`;
+        btn.classList.toggle("active", gestShowCoords);
+      }
+    });
+
+    $("#gestTriggerPinchBtn")?.addEventListener("click", () => {
+      gestPinchAnimation = 1.0;
+      $$(".gesture-sandbox .mw-chip").forEach(c => c.classList.toggle("active", c.dataset.pose === 'pinch'));
+      gestActivePose = 'pinch';
+      const pill = $("#gestHudPill");
+      if (pill) pill.textContent = "🤏 PINCH TRIGGERED · Touchless Spatial Click Registered!";
+    });
+  }
+
+  function renderGesture(now) {
+    const W = canvas.width, H = canvas.height;
+
+    gestMouseX += (gestTargetX - gestMouseX) * 0.12;
+    gestMouseY += (gestTargetY - gestMouseY) * 0.12;
+
+    const centerX = gestMouseX;
+    const centerY = gestMouseY;
+
+    const targetPose = GEST_POSE_TEMPLATES[gestActivePose] || GEST_POSE_TEMPLATES.palm;
+    for (let i = 0; i < 21; i++) {
+      gestCurrentLandmarks[i][0] += (targetPose[i][0] - gestCurrentLandmarks[i][0]) * 0.16;
+      gestCurrentLandmarks[i][1] += (targetPose[i][1] - gestCurrentLandmarks[i][1]) * 0.16;
+    }
+
+    ctx.fillStyle = "#070d18";
+    ctx.fillRect(0, 0, W, H);
+
+    ctx.strokeStyle = "rgba(16, 185, 129, 0.05)";
+    ctx.lineWidth = 1;
+    for (let x = 0; x < W; x += 20) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+    }
+    for (let y = 0; y < H; y += 20) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    }
+
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    const screenPts = gestCurrentLandmarks.map(pt => {
+      const sx = centerX + pt[0] * gestScale;
+      const sy = centerY + pt[1] * gestScale;
+      minX = Math.min(minX, sx);
+      minY = Math.min(minY, sy);
+      maxX = Math.max(maxX, sx);
+      maxY = Math.max(maxY, sy);
+      return [sx, sy];
+    });
+
+    if (gestShowBbox) {
+      const pad = 12;
+      const bx = minX - pad, by = minY - pad, bw = (maxX - minX) + pad * 2, bh = (maxY - minY) + pad * 2;
+      ctx.strokeStyle = "rgba(52, 211, 153, 0.4)";
+      ctx.lineWidth = 1;
+      ctx.strokeRect(bx, by, bw, bh);
+
+      ctx.strokeStyle = "#10b981";
+      ctx.lineWidth = 2.5;
+      const rLen = 10;
+      ctx.beginPath(); ctx.moveTo(bx, by + rLen); ctx.lineTo(bx, by); ctx.lineTo(bx + rLen, by); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(bx + bw - rLen, by); ctx.lineTo(bx + bw, by); ctx.lineTo(bx + bw, by + rLen); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(bx, by + bh - rLen); ctx.lineTo(bx, by + bh); ctx.lineTo(bx + rLen, by + bh); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(bx + bw - rLen, by + bh); ctx.lineTo(bx + bw, by + bh); ctx.lineTo(bx + bw, by + bh - rLen); ctx.stroke();
+
+      ctx.fillStyle = "rgba(16, 185, 129, 0.85)";
+      ctx.font = "9px ui-monospace, monospace";
+      ctx.fillText(`HAND 0.99 [${Math.round(bw)}x${Math.round(bh)}]`, bx + 4, by - 4);
+    }
+
+    ctx.strokeStyle = "rgba(56, 189, 248, 0.75)";
+    ctx.lineWidth = 2.5;
+    GEST_BONES.forEach(b => {
+      const p0 = screenPts[b[0]], p1 = screenPts[b[1]];
+      ctx.beginPath();
+      ctx.moveTo(p0[0], p0[1]);
+      ctx.lineTo(p1[0], p1[1]);
+      ctx.stroke();
+    });
+
+    const tTip = screenPts[4], iTip = screenPts[8];
+    const pinchDist = Math.hypot(tTip[0] - iTip[0], tTip[1] - iTip[1]);
+    const isPinch = pinchDist <= gestPinchThreshold || gestPinchAnimation > 0.05;
+
+    ctx.setLineDash([3, 3]);
+    ctx.strokeStyle = isPinch ? "#f43f5e" : "rgba(231, 242, 109, 0.6)";
+    ctx.lineWidth = isPinch ? 2.5 : 1.2;
+    ctx.beginPath();
+    ctx.moveTo(tTip[0], tTip[1]);
+    ctx.lineTo(iTip[0], iTip[1]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    const midX = (tTip[0] + iTip[0]) / 2;
+    const midY = (tTip[1] + iTip[1]) / 2;
+    ctx.fillStyle = isPinch ? "#f43f5e" : "#1e293b";
+    ctx.beginPath();
+    ctx.roundRect(midX - 22, midY - 8, 44, 16, 4);
+    ctx.fill();
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "8px ui-monospace, monospace";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(`${pinchDist.toFixed(0)}px`, midX, midY);
+    ctx.textAlign = "start";
+    ctx.textBaseline = "alphabetic";
+
+    const tipIndices = [4, 8, 12, 16, 20];
+    screenPts.forEach((pt, idx) => {
+      const isTip = tipIndices.includes(idx);
+      const isPinchTip = isPinch && (idx === 4 || idx === 8);
+
+      ctx.fillStyle = isPinchTip ? "#f43f5e" : (isTip ? "#e7f26d" : "#38bdf8");
+      ctx.beginPath();
+      ctx.arc(pt[0], pt[1], isTip ? 4.5 : 3, 0, Math.PI * 2);
+      ctx.fill();
+
+      if (isTip) {
+        ctx.strokeStyle = isPinchTip ? "rgba(244, 63, 94, 0.45)" : "rgba(56, 189, 248, 0.45)";
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc(pt[0], pt[1], isPinchTip ? 8 : 6, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      if (gestShowCoords) {
+        ctx.fillStyle = "#94a3b8";
+        ctx.font = "8px ui-monospace, monospace";
+        ctx.fillText(idx, pt[0] + 5, pt[1] - 3);
+      }
+    });
+
+    if (gestPinchAnimation > 0.01) {
+      gestPinchAnimation = Math.max(0, gestPinchAnimation - 0.04);
+    }
+
+    const pinchDistEl = $("#gestPinchDistVal");
+    if (pinchDistEl) pinchDistEl.textContent = `${pinchDist.toFixed(1)} px`;
+
+    const pinchSt = $("#gestPinchStatus");
+    if (pinchSt) {
+      pinchSt.textContent = isPinch ? "PINCH TRIGGERED 🎯" : "Released";
+      pinchSt.className = isPinch ? "aq-metric-status danger" : "aq-metric-status optimal";
+    }
+
+    const poseMap = {
+      palm: "Open Palm",
+      pinch: "Pinch Click 🤏",
+      peace: "Peace / Victory ✌️",
+      fist: "Closed Fist ✊",
+      point: "Point Cursor ☝️",
+      thumbs: "Thumbs Up 👍"
+    };
+    const detEl = $("#gestDetectedVal");
+    if (detEl) detEl.textContent = isPinch ? "Pinch Click 🤏" : (poseMap[gestActivePose] || "Unknown");
+
+    const hudPill = $("#gestHudPill");
+    if (hudPill && !isPinch && gestPinchAnimation <= 0.05) {
+      hudPill.textContent = `Gesture: ${poseMap[gestActivePose] || 'Active'} · 60 FPS`;
+    }
+
+    gestLabRaf = requestAnimationFrame(renderGesture);
+  }
+
+  stopGestureLab();
+  gestLabRaf = requestAnimationFrame(renderGesture);
+}
+
+function stopGestureLab() {
+  if (gestLabRaf) {
+    cancelAnimationFrame(gestLabRaf);
+    gestLabRaf = null;
+  }
+}
+
 function openModal(projectKey) {
   const data = projectData[projectKey];
   if (!data) return;
@@ -2154,6 +2466,17 @@ function openModal(projectKey) {
     }
   }
 
+  const gestureSandbox = $("#gestureSandbox");
+  if (gestureSandbox) {
+    if (projectKey === "gesture") {
+      gestureSandbox.hidden = false;
+      initGestureLab();
+    } else {
+      gestureSandbox.hidden = true;
+      stopGestureLab();
+    }
+  }
+
   modal.showModal();
   $("#modalClose")?.focus();
 }
@@ -2161,6 +2484,7 @@ function openModal(projectKey) {
 function closeModal() {
   stopMiniworldLab();
   stopAquariumLab();
+  stopGestureLab();
   if (modal?.open) {
     modal.close();
     if (previousActiveElement && typeof previousActiveElement.focus === "function") {
@@ -2243,7 +2567,7 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>journey</b>, <b>education</b>, <b>skills</b>, <b>projects</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>devpulse</b>, <b>portfolio</b>, <b>achievements</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>journey</b>, <b>education</b>, <b>skills</b>, <b>projects</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>cv</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>devpulse</b>, <b>portfolio</b>, <b>achievements</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
   about: "Gouv Kimsea — Dual degree undergraduate in Computer Science (Paragon.U) & Business Administration (Bonamary.U) building tangible products.",
   journey: () => {
     const el = document.getElementById("journey");
@@ -2328,8 +2652,15 @@ Scrolled to Section 05: Engineering Milestones!</pre>`;
   filter: () => terminalCommands.aquarium(),
   gesture: () => {
     openModal("gesture");
-    return "Opening Gesture App (Python 21-Joint Computer Vision & MediaPipe Engine) project modal...";
+    setTimeout(() => {
+      const lab = document.getElementById("gestureSandbox");
+      if (lab) lab.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 250);
+    return "Opening Gesture App (Python 21-Joint Computer Vision & MediaPipe Engine) project modal & spatial skeletal vision lab...";
   },
+  cv: () => terminalCommands.gesture(),
+  mediapipe: () => terminalCommands.gesture(),
+  hand: () => terminalCommands.gesture(),
   saas: () => {
     openModal("saas");
     return "Opening Productivity SaaS & POS Systems (PHP & MySQL Engines) project modal...";
