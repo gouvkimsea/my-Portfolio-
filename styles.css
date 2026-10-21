@@ -3737,6 +3737,142 @@ dialog.project-modal[open]::backdrop {
 }
 
 /* ==========================================================================
+   Productivity SaaS & POS Systems — Project Preview Showcase
+   ========================================================================== */
+.saas-preview {
+  background: #0f172a;
+  position: relative;
+  overflow: hidden;
+  height: 280px;
+  display: grid;
+  place-items: center;
+}
+
+[data-theme="light"] .saas-preview {
+  background: #dbe4ee;
+}
+
+.saas-preview-grid {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 49.8%, rgba(56, 189, 248, 0.08) 50%),
+              linear-gradient(rgba(56, 189, 248, 0.08) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 46px;
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+[data-theme="light"] .saas-preview-grid {
+  background: linear-gradient(90deg, transparent 49.8%, rgba(2, 132, 199, 0.12) 50%),
+              linear-gradient(rgba(2, 132, 199, 0.12) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 46px;
+}
+
+.saas-stat-pill {
+  position: absolute;
+  top: 14px;
+  left: 18px;
+  font: 10px var(--mono);
+  font-weight: 700;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  padding: 4px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+  z-index: 2;
+  user-select: none;
+}
+
+[data-theme="light"] .saas-stat-pill {
+  color: #0369a1;
+  background: rgba(56, 189, 248, 0.18);
+  border-color: rgba(3, 105, 161, 0.35);
+}
+
+.saas-sprint-system {
+  position: absolute;
+  bottom: 18px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  z-index: 2;
+  pointer-events: none;
+  flex-wrap: wrap;
+}
+
+.saas-timeline-track {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.65);
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font: 10px var(--mono);
+  color: var(--ink);
+  backdrop-filter: blur(4px);
+}
+
+[data-theme="light"] .saas-timeline-track {
+  background: rgba(255, 255, 255, 0.88);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.saas-track-seg.pts {
+  color: var(--lime);
+  font-weight: 700;
+}
+
+.saas-track-seg.target {
+  color: #38bdf8;
+  font-weight: 700;
+}
+
+.saas-acid-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.65);
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font: 10px var(--mono);
+  color: #34d399;
+  backdrop-filter: blur(4px);
+}
+
+[data-theme="light"] .saas-acid-badge {
+  background: rgba(255, 255, 255, 0.88);
+  border-color: rgba(0, 0, 0, 0.08);
+  color: #047857;
+}
+
+.saas-acid-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 6px currentColor;
+}
+
+.saas-demo-btn {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.saas-demo-btn:hover {
+  background: var(--lime);
+  border-color: var(--lime);
+  color: #121310;
+}
+
+/* ==========================================================================
    Interactive CLP SM-2 Spaced Repetition Sandbox
    ========================================================================== */
 .clp-sandbox {

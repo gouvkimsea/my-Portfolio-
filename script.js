@@ -2885,6 +2885,10 @@ $("#openGestureLabBtn")?.addEventListener("click", () => {
   openModal("gesture");
 });
 
+$("#openSaasLabBtn")?.addEventListener("click", () => {
+  openModal("saas");
+});
+
 $("#consoleSaasDemo")?.addEventListener("click", () => {
   openModal("saas");
 });
