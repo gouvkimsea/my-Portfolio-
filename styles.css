@@ -819,17 +819,31 @@ h2 em {
   width: 43px;
   height: 43px;
   flex: none;
-  transition: .3s
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease, color 0.3s ease;
+}
+
+.project-card {
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+  will-change: transform;
+}
+
+.project-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(231, 242, 109, 0.25);
+}
+
+[data-theme="dark"] .project-card:hover {
+  box-shadow: 0 20px 42px -15px rgba(0, 0, 0, 0.55), 0 0 25px rgba(231, 242, 109, 0.08), 0 0 0 1px rgba(231, 242, 109, 0.3);
 }
 
 .project-card:hover .project-preview {
-  transform: translateY(-3px)
+  transform: translateY(-4px) scale(1.01);
 }
 
 .project-card:hover .round-arrow {
   background: var(--ink);
   color: var(--paper);
-  transform: rotate(45deg)
+  transform: rotate(45deg) scale(1.08);
 }
 
 .project-footnote {
@@ -1587,14 +1601,49 @@ h2 em {
 
 .reveal {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity .7s, transform .7s
+  transform: translateY(28px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
 }
 
 .reveal.visible {
   opacity: 1;
-  transform: none
+  transform: translateY(0);
 }
+
+/* Staggered Grid Cascade Entrance */
+.project-grid .project-card:nth-child(1),
+.projects-grid .project-card:nth-child(1) { transition-delay: 50ms; }
+.project-grid .project-card:nth-child(2),
+.projects-grid .project-card:nth-child(2) { transition-delay: 110ms; }
+.project-grid .project-card:nth-child(3),
+.projects-grid .project-card:nth-child(3) { transition-delay: 170ms; }
+.project-grid .project-card:nth-child(4),
+.projects-grid .project-card:nth-child(4) { transition-delay: 230ms; }
+.project-grid .project-card:nth-child(5),
+.projects-grid .project-card:nth-child(5) { transition-delay: 290ms; }
+.project-grid .project-card:nth-child(6),
+.projects-grid .project-card:nth-child(6) { transition-delay: 350ms; }
+.project-grid .project-card:nth-child(7),
+.projects-grid .project-card:nth-child(7) { transition-delay: 410ms; }
+.project-grid .project-card:nth-child(8),
+.projects-grid .project-card:nth-child(8) { transition-delay: 470ms; }
+.project-grid .project-card:nth-child(9),
+.projects-grid .project-card:nth-child(9) { transition-delay: 530ms; }
+
+.toolkit-grid .skill-card:nth-child(1) { transition-delay: 60ms; }
+.toolkit-grid .skill-card:nth-child(2) { transition-delay: 130ms; }
+.toolkit-grid .skill-card:nth-child(3) { transition-delay: 200ms; }
+.toolkit-grid .skill-card:nth-child(4) { transition-delay: 270ms; }
+.toolkit-grid .skill-card:nth-child(5) { transition-delay: 340ms; }
+.toolkit-grid .skill-card:nth-child(6) { transition-delay: 410ms; }
+
+.achievements-grid .achievement-card:nth-child(1) { transition-delay: 60ms; }
+.achievements-grid .achievement-card:nth-child(2) { transition-delay: 140ms; }
+.achievements-grid .achievement-card:nth-child(3) { transition-delay: 220ms; }
+.achievements-grid .achievement-card:nth-child(4) { transition-delay: 300ms; }
+.achievements-grid .achievement-card:nth-child(5) { transition-delay: 380ms; }
+.achievements-grid .achievement-card:nth-child(6) { transition-delay: 460ms; }
 
 .project-card.hidden {
   display: none
@@ -5265,6 +5314,7 @@ dialog.project-modal {
 .spotlight-card {
   position: relative;
   overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
 }
 
 .spotlight-card::before {
@@ -11876,7 +11926,145 @@ textarea:focus-visible,
   border: 0;
 }
 
-/* 4. Comprehensive Reduced Motion Support */
+/* ==========================================================================
+   ELEVATED MODERN ANIMATION SYSTEM & DYNAMIC MICRO-INTERACTIONS
+   ========================================================================== */
+
+/* 1. Hero Ambient Fluid Aurora Glow */
+.hero-aurora-glow {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  width: min(720px, 90vw);
+  height: min(720px, 90vw);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, 
+    rgba(231, 242, 109, 0.16) 0%, 
+    rgba(56, 189, 248, 0.12) 35%, 
+    rgba(239, 131, 84, 0.08) 60%, 
+    transparent 78%);
+  filter: blur(85px);
+  pointer-events: none;
+  z-index: 0;
+  animation: auroraDrift 22s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate;
+  opacity: 0.85;
+}
+
+[data-theme="dark"] .hero-aurora-glow {
+  background: radial-gradient(circle at 50% 50%, 
+    rgba(231, 242, 109, 0.14) 0%, 
+    rgba(56, 189, 248, 0.11) 35%, 
+    rgba(168, 85, 247, 0.1) 65%, 
+    transparent 80%);
+  filter: blur(100px);
+  opacity: 0.75;
+}
+
+@keyframes auroraDrift {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg) scale(1) translate(0, 0);
+  }
+  33% {
+    transform: translate(-50%, -50%) rotate(120deg) scale(1.15) translate(30px, -20px);
+  }
+  66% {
+    transform: translate(-50%, -50%) rotate(240deg) scale(0.95) translate(-25px, 25px);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg) scale(1.08) translate(15px, -10px);
+  }
+}
+
+/* 2. Interactive Click Ripple Burst */
+.button,
+.launch-btn,
+.nav-contact-btn,
+.console-action-btn,
+.magnetic {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-ripple-wave {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(231, 242, 109, 0.45) 0%, rgba(255, 255, 255, 0.25) 50%, transparent 80%);
+  transform: translate(-50%, -50%) scale(0);
+  animation: rippleSpread 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  z-index: 100;
+}
+
+[data-theme="dark"] .btn-ripple-wave {
+  background: radial-gradient(circle, rgba(231, 242, 109, 0.55) 0%, rgba(56, 189, 248, 0.3) 50%, transparent 80%);
+}
+
+@keyframes rippleSpread {
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(4); opacity: 0; }
+}
+
+/* 3. Floating Micro-Motions on Badges & Stat Chips */
+.preview-corner,
+.clp-stat-pill,
+.pinit-protocol-badge {
+  animation: badgeFloating 4.5s ease-in-out infinite alternate;
+}
+
+@keyframes badgeFloating {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-3px); }
+}
+
+.achieve-pulse-dot,
+.status-pulse-dot,
+.pinit-live-pulse,
+.joul-live-pulse,
+.clp-live-pulse {
+  animation: radarPulseCore 2.4s ease-in-out infinite;
+}
+
+@keyframes radarPulseCore {
+  0%, 100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(231, 242, 109, 0.7); }
+  50% { transform: scale(1.15); opacity: 0.9; box-shadow: 0 0 0 6px rgba(231, 242, 109, 0); }
+}
+
+/* 4. Achievement Card Hover Elevation */
+.achievement-card {
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+  will-change: transform;
+}
+
+.achievement-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 32px -10px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="dark"] .achievement-card:hover {
+  box-shadow: 0 18px 36px -12px rgba(0, 0, 0, 0.45), 0 0 20px rgba(231, 242, 109, 0.06);
+}
+
+/* 5. Shimmer Sheen Border on Featured Project Card */
+.project-card.featured::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(231, 242, 109, 0.15), transparent);
+  transform: skewX(-20deg);
+  pointer-events: none;
+  animation: featuredSheen 8s ease-in-out infinite;
+}
+
+@keyframes featuredSheen {
+  0%, 75% { left: -100%; }
+  100% { left: 200%; }
+}
+
+/* 6. Comprehensive Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
 
   *,
@@ -11896,7 +12084,10 @@ textarea:focus-visible,
   .cursor-dot,
   .cursor-ring,
   .visual-orbit,
-  .scan-line {
+  .scan-line,
+  .hero-aurora-glow,
+  .btn-ripple-wave,
+  .project-card.featured::after {
     display: none !important;
   }
 }

@@ -51,7 +51,14 @@ A modern, fast, and highly responsive personal portfolio for a student developer
 - **Engineering Milestones & Illustrated Achievements**: Interactive 7-tab console (PinitAI, Aquarium Sim, JOUL Fleet, Gesture Vision, Mini World 3D, Productivity SaaS & POS, and CLP Monorepo) showing shipped architectures, GitHub commit rhythm, and illustrated craft badges.
 - **Interactive Resume / CV Modal**: Quick-access modal detailing dual-degree academic background, toolkit, status, and direct print/PDF export support.
 - **In-Browser Terminal CLI**: Built-in interactive CLI supporting `help`, `about`, `journey`, `education`, `skills`, `projects`, `pinit`, `aquarium`, `nitrogen`, `filter`, `gesture`, `vision`, `mediapipe`, `joul`, `rental`, `clp`, `chinese`, `srs`, `sm2`, `miniworld`, `shader`, `glsl`, `saas`, `pos`, `devpulse`, `portfolio`, `achievements`, `stats`, `resume`, `cv`, `neofetch`, `theme`, `cmdk`, and `clear`.
-- **Accessible & Responsive**: Fast, lightweight performance with zero external runtime dependencies, full mobile drawer navigation, 100% semantic class architecture, and `prefers-reduced-motion` compliance.
+- **Elevated Modern Animation System & Dynamic Micro-Interactions**:
+  - *Fluid Aurora Drift*: Ambient radial mesh gradient in the hero section with smooth 22s fluid breathing rotation.
+  - *Spring Physics & Staggered Cascades*: Cubic-bezier (`0.16, 1, 0.3, 1`) scroll entrances with sequential cascade delays across project cards, toolkit skills, and achievement cards.
+  - *Interactive 3D Perspective Tilt*: Mouse-relative perspective tilt (`rotateX`, `rotateY`) on cards with graceful spring return, gated behind `(pointer: fine)` for mobile safety.
+  - *Dynamic Ripple Wave Bursts*: High-performance click burst ripples on interactive buttons, CTAs, and controls.
+  - *Smooth Numeric Counter Rollups*: `easeOutExpo` telemetry and metric rollups on scroll visibility.
+  - *Shimmer Sheens & Radar Pulses*: Featured project light sweep sheen, radar pulse cores, and micro-floating badges.
+- **Accessible & Responsive**: Fast, lightweight performance with zero external runtime dependencies, full mobile drawer navigation, 100% semantic class architecture, and complete `prefers-reduced-motion` compliance.
 
 ---
 

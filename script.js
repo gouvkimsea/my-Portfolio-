@@ -676,7 +676,9 @@ consoleResetBtn?.addEventListener("click", (e) => {
   isRunningCode = false;
 });
 
-// 5. Spotlight Card Effect (Linear / Vercel cursor border glow)
+// 5. Spotlight Card Effect (Linear / Vercel cursor border glow + subtle 3D tilt)
+const isTouchDevice = () => window.matchMedia("(pointer: coarse)").matches;
+
 $$(".spotlight-card").forEach(card => {
   card.addEventListener("pointermove", event => {
     const rect = card.getBoundingClientRect();
@@ -684,7 +686,19 @@ $$(".spotlight-card").forEach(card => {
     const y = event.clientY - rect.top;
     card.style.setProperty("--mouse-x", `${x}px`);
     card.style.setProperty("--mouse-y", `${y}px`);
+
+    if (!isTouchDevice() && !card.classList.contains("no-tilt") && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const tiltX = ((y / rect.height) - 0.5) * -5.5;
+      const tiltY = ((x / rect.width) - 0.5) * 5.5;
+      card.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) translateY(-5px)`;
+    }
   }, { passive: true });
+
+  card.addEventListener("pointerleave", () => {
+    if (!isTouchDevice()) {
+      card.style.transform = "";
+    }
+  });
 });
 
 // 6. Project Filters with Smooth Transition
@@ -4124,3 +4138,88 @@ const initJourneySection = () => {
 };
 
 initJourneySection();
+
+// ==========================================================================
+// 10. Interactive Dynamic Ripple Waves on Click
+// ==========================================================================
+const initClickRipples = () => {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  document.addEventListener("click", e => {
+    const target = e.target.closest(".button, .launch-btn, .nav-contact-btn, .console-action-btn, .theme-toggle, .hud-copy-btn");
+    if (!target) return;
+
+    const rect = target.getBoundingClientRect();
+    const ripple = document.createElement("span");
+    ripple.className = "btn-ripple-wave";
+
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const size = Math.max(rect.width, rect.height) * 2;
+
+    ripple.style.width = `${size}px`;
+    ripple.style.height = `${size}px`;
+    ripple.style.left = `${x}px`;
+    ripple.style.top = `${y}px`;
+
+    target.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 650);
+  });
+};
+initClickRipples();
+
+// ==========================================================================
+// 11. Dynamic Telemetry Number Count-Up Animation on Scroll
+// ==========================================================================
+const initCounterAnimations = () => {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const counterEls = $$(".telemetry-num, .pill-metric, .achieve-metric");
+  if (!counterEls.length) return;
+
+  const countUpObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      observer.unobserve(el);
+
+      const text = el.textContent.trim();
+      const match = text.match(/^([^\d]*)([\d,.]+)(.*)$/);
+      if (!match) return;
+
+      const prefix = match[1] || "";
+      const rawNum = parseFloat(match[2].replace(/,/g, ""));
+      const suffix = match[3] || "";
+      const isDecimal = match[2].includes(".");
+      const hasComma = match[2].includes(",");
+
+      if (isNaN(rawNum)) return;
+
+      const startTime = performance.now();
+      const duration = 1200; // ms
+
+      const updateCount = now => {
+        const progress = Math.min((now - startTime) / duration, 1);
+        const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress); // easeOutExpo
+        const currentVal = rawNum * ease;
+
+        let formatted = isDecimal ? currentVal.toFixed(1) : Math.floor(currentVal).toString();
+        if (hasComma) {
+          formatted = formatted.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+        el.textContent = `${prefix}${formatted}${suffix}`;
+
+        if (progress < 1) {
+          requestAnimationFrame(updateCount);
+        } else {
+          el.textContent = text;
+        }
+      };
+
+      requestAnimationFrame(updateCount);
+    });
+  }, { threshold: 0.25 });
+
+  counterEls.forEach(el => countUpObserver.observe(el));
+};
+initCounterAnimations();
