@@ -2401,6 +2401,358 @@ function stopGestureLab() {
   }
 }
 
+// ==========================================================================
+// Productivity SaaS & POS Sprint Analytics / Cash Ledger Simulator
+// ==========================================================================
+let saasLabRaf = null;
+let saasLabInitialized = false;
+let saasMode = "velocity";
+let saasTargetScope = 50;
+let saasCompletedPts = 48;
+let saasGrossRevenue = 19450;
+let saasPosOrders = 1428;
+let saasInventoryUnits = 342;
+let saasSparkParticles = [];
+let saasFlashAlpha = 0;
+const saasHistoricalSprints = [28, 34, 38, 44, 46];
+
+function initSaasLab() {
+  const canvas = $("#saasCanvas");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  const scopeSlider = $("#saasScopeSlider");
+  const scopeVal = $("#saasScopeVal");
+  const modeVelocityBtn = $("#saasModeVelocityBtn");
+  const modePosBtn = $("#saasModePosBtn");
+  const completeTaskBtn = $("#saasCompleteTaskBtn");
+  const processSaleBtn = $("#saasProcessSaleBtn");
+  const restockBtn = $("#saasRestockBtn");
+
+  if (!saasLabInitialized) {
+    saasLabInitialized = true;
+
+    scopeSlider?.addEventListener("input", e => {
+      saasTargetScope = parseInt(e.target.value, 10) || 50;
+      if (scopeVal) scopeVal.textContent = `${saasTargetScope} pts`;
+      updateSaasTelemetry();
+    });
+
+    modeVelocityBtn?.addEventListener("click", () => {
+      saasMode = "velocity";
+      modeVelocityBtn.classList.add("active");
+      modePosBtn?.classList.remove("active");
+    });
+
+    modePosBtn?.addEventListener("click", () => {
+      saasMode = "pos";
+      modePosBtn.classList.add("active");
+      modeVelocityBtn?.classList.remove("active");
+    });
+
+    completeTaskBtn?.addEventListener("click", () => {
+      saasCompletedPts += 5;
+      saasFlashAlpha = 1.0;
+      for (let i = 0; i < 16; i++) {
+        saasSparkParticles.push({
+          x: 290,
+          y: 80,
+          vx: (Math.random() - 0.5) * 6,
+          vy: (Math.random() - 0.7) * 5,
+          alpha: 1.0,
+          color: Math.random() > 0.5 ? "#e7f26d" : "#38bdf8",
+          radius: Math.random() * 2.5 + 1.5
+        });
+      }
+      updateSaasTelemetry();
+    });
+
+    processSaleBtn?.addEventListener("click", () => {
+      saasGrossRevenue += 45;
+      saasPosOrders += 1;
+      saasInventoryUnits = Math.max(0, saasInventoryUnits - 1);
+      saasFlashAlpha = 1.0;
+      for (let i = 0; i < 18; i++) {
+        saasSparkParticles.push({
+          x: 170,
+          y: 110,
+          vx: (Math.random() - 0.5) * 5,
+          vy: (Math.random() - 0.7) * 4,
+          alpha: 1.0,
+          color: "#34d399",
+          radius: Math.random() * 3 + 1
+        });
+      }
+      updateSaasTelemetry();
+    });
+
+    restockBtn?.addEventListener("click", () => {
+      saasInventoryUnits = 400;
+      saasFlashAlpha = 0.8;
+      updateSaasTelemetry();
+    });
+  }
+
+  function updateSaasTelemetry() {
+    const ptsEl = $("#saasPtsVal");
+    if (ptsEl) ptsEl.textContent = `${saasCompletedPts} pts`;
+
+    const ptsSt = $("#saasPtsStatus");
+    if (ptsSt) {
+      const pct = Math.round((saasCompletedPts / saasTargetScope) * 100);
+      ptsSt.textContent = `${pct}% Target Achieved (${saasCompletedPts >= saasTargetScope ? 'Sprint Goal Met' : 'In Flight'})`;
+    }
+
+    const salesEl = $("#saasSalesVal");
+    if (salesEl) salesEl.textContent = `$${saasGrossRevenue.toLocaleString()}`;
+
+    const salesSt = $("#saasSalesStatus");
+    if (salesSt) salesSt.textContent = `${saasPosOrders.toLocaleString()} Orders Logged`;
+
+    const stockEl = $("#saasStockVal");
+    if (stockEl) stockEl.textContent = `${saasInventoryUnits} Units`;
+
+    const stockSt = $("#saasStockStatus");
+    if (stockSt) {
+      stockSt.textContent = saasInventoryUnits < 50 ? "Restock Urgently Required" : "Optimal Stock Level";
+      stockSt.className = `aq-metric-status ${saasInventoryUnits < 50 ? 'danger' : 'safe'}`;
+    }
+
+    const hudPill = $("#saasHudPill");
+    if (hudPill) {
+      hudPill.textContent = saasMode === "velocity"
+        ? `Sprint 06: ${saasCompletedPts} pts · Target: ${saasTargetScope} pts`
+        : `Gross: $${saasGrossRevenue.toLocaleString()} · ${saasInventoryUnits} SKUs in Stock`;
+    }
+  }
+
+  function renderSaas() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "#080f1a";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    if (saasMode === "velocity") {
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
+      ctx.lineWidth = 1;
+      for (let y = 40; y <= 160; y += 40) {
+        ctx.beginPath();
+        ctx.moveTo(35, y);
+        ctx.lineTo(320, y);
+        ctx.stroke();
+      }
+
+      const targetY = 180 - (saasTargetScope / 80) * 140;
+      ctx.save();
+      ctx.setLineDash([4, 4]);
+      ctx.strokeStyle = "rgba(239, 131, 84, 0.85)";
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(35, targetY);
+      ctx.lineTo(320, targetY);
+      ctx.stroke();
+      ctx.restore();
+
+      ctx.fillStyle = "#ef8354";
+      ctx.font = "8px ui-monospace, monospace";
+      ctx.fillText(`TARGET: ${saasTargetScope} PTS`, 40, targetY - 4);
+
+      const allSprints = [...saasHistoricalSprints, saasCompletedPts];
+      const barWidth = 28;
+      const startX = 52;
+      const gap = 44;
+      const barTops = [];
+
+      allSprints.forEach((pts, idx) => {
+        const x = startX + idx * gap;
+        const barHeight = Math.min(150, (pts / 80) * 140);
+        const y = 180 - barHeight;
+        barTops.push({ x: x + barWidth / 2, y });
+
+        const isCurrent = idx === 5;
+        const grad = ctx.createLinearGradient(0, y, 0, 180);
+        if (isCurrent) {
+          grad.addColorStop(0, "#e7f26d");
+          grad.addColorStop(1, "rgba(231, 242, 109, 0.35)");
+        } else {
+          grad.addColorStop(0, "#38bdf8");
+          grad.addColorStop(1, "rgba(56, 189, 248, 0.2)");
+        }
+
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.roundRect(x, y, barWidth, barHeight, [4, 4, 0, 0]);
+        ctx.fill();
+
+        ctx.strokeStyle = isCurrent ? "var(--lime, #e7f26d)" : "rgba(56, 189, 248, 0.6)";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        ctx.fillStyle = isCurrent ? "#e7f26d" : "#cbd5e1";
+        ctx.font = "8.5px ui-monospace, monospace";
+        ctx.textAlign = "center";
+        ctx.fillText(`${pts}`, x + barWidth / 2, y - 5);
+
+        ctx.fillStyle = isCurrent ? "#e7f26d" : "#64748b";
+        ctx.font = "8px ui-monospace, monospace";
+        ctx.fillText(`S0${idx + 1}`, x + barWidth / 2, 195);
+      });
+
+      if (barTops.length > 1) {
+        ctx.beginPath();
+        ctx.moveTo(barTops[0].x, barTops[0].y);
+        for (let i = 1; i < barTops.length; i++) {
+          ctx.lineTo(barTops[i].x, barTops[i].y);
+        }
+        ctx.strokeStyle = "#ffffff";
+        ctx.lineWidth = 1.8;
+        ctx.stroke();
+
+        barTops.forEach((pt, i) => {
+          ctx.fillStyle = i === 5 ? "#e7f26d" : "#ffffff";
+          ctx.beginPath();
+          ctx.arc(pt.x, pt.y, i === 5 ? 3.5 : 2.5, 0, Math.PI * 2);
+          ctx.fill();
+        });
+      }
+
+      ctx.textAlign = "start";
+      ctx.fillStyle = "#94a3b8";
+      ctx.font = "8px ui-monospace, monospace";
+      ctx.fillText("DAILY HABIT STREAK:", 38, 218);
+      for (let d = 0; d < 7; d++) {
+        ctx.fillStyle = "#4ade80";
+        ctx.beginPath();
+        ctx.arc(145 + d * 14, 215, 3.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.fillStyle = "#4ade80";
+      ctx.fillText("7/7 ACTIVE 🔥", 248, 218);
+
+    } else {
+      ctx.textAlign = "start";
+      ctx.fillStyle = "#38bdf8";
+      ctx.font = "9px ui-monospace, monospace";
+      ctx.fillText("POINT-OF-SALE (POS) LIVE CASH REGISTER", 20, 25);
+
+      ctx.fillStyle = "rgba(15, 23, 42, 0.75)";
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.12)";
+      ctx.beginPath();
+      ctx.roundRect(20, 36, 140, 175, 6);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = "#e2e8f0";
+      ctx.font = "8px ui-monospace, monospace";
+      ctx.fillText("ORDER RECEIPT #", 28, 52);
+      ctx.fillStyle = "#e7f26d";
+      ctx.fillText(`${saasPosOrders}`, 110, 52);
+
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
+      ctx.beginPath();
+      ctx.moveTo(28, 60);
+      ctx.lineTo(150, 60);
+      ctx.stroke();
+
+      ctx.fillStyle = "#94a3b8";
+      ctx.font = "7.5px ui-monospace, monospace";
+      ctx.fillText("1x SaaS Pro Seat   $35.00", 28, 76);
+      ctx.fillText("1x POS Thermal Roll $10.00", 28, 92);
+      ctx.fillText("Subtotal:          $45.00", 28, 115);
+      ctx.fillText("Tax (0%):           $0.00", 28, 130);
+
+      ctx.fillStyle = "#34d399";
+      ctx.font = "9px ui-monospace, monospace";
+      ctx.fillText("TOTAL:             $45.00", 28, 150);
+
+      ctx.fillStyle = "rgba(52, 211, 153, 0.18)";
+      ctx.strokeStyle = "#34d399";
+      ctx.beginPath();
+      ctx.roundRect(28, 165, 124, 24, 4);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = "#34d399";
+      ctx.font = "8px ui-monospace, monospace";
+      ctx.fillText("✓ ACID COMMIT OK", 40, 180);
+
+      ctx.fillStyle = "#cbd5e1";
+      ctx.font = "8.5px ui-monospace, monospace";
+      ctx.fillText("SKU REAL-TIME INVENTORY", 175, 48);
+
+      const skus = [
+        { label: "SaaS Enterprise Seat", stock: Math.min(100, Math.round((saasInventoryUnits / 400) * 100)), col: "#38bdf8" },
+        { label: "POS Terminal Engine", stock: Math.min(100, Math.round((saasInventoryUnits / 450) * 92)), col: "#e7f26d" },
+        { label: "RFID Scanner Module", stock: Math.min(100, Math.round((saasInventoryUnits / 380) * 85)), col: "#34d399" },
+        { label: "Double-Entry Ledger", stock: 99, col: "#a78bfa" }
+      ];
+
+      skus.forEach((sku, idx) => {
+        const y = 68 + idx * 36;
+        ctx.fillStyle = "#94a3b8";
+        ctx.font = "7.5px ui-monospace, monospace";
+        ctx.fillText(sku.label, 175, y);
+
+        ctx.fillStyle = "rgba(255, 255, 255, 0.08)";
+        ctx.beginPath();
+        ctx.roundRect(175, y + 5, 140, 9, 3);
+        ctx.fill();
+
+        ctx.fillStyle = sku.col;
+        ctx.beginPath();
+        ctx.roundRect(175, y + 5, (sku.stock / 100) * 140, 9, 3);
+        ctx.fill();
+
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "7px ui-monospace, monospace";
+        ctx.fillText(`${sku.stock}%`, 295, y + 12);
+      });
+    }
+
+    if (saasSparkParticles.length > 0) {
+      for (let i = saasSparkParticles.length - 1; i >= 0; i--) {
+        const p = saasSparkParticles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.alpha -= 0.025;
+        if (p.alpha <= 0) {
+          saasSparkParticles.splice(i, 1);
+        } else {
+          ctx.save();
+          ctx.globalAlpha = p.alpha;
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+    }
+
+    if (saasFlashAlpha > 0.01) {
+      ctx.save();
+      ctx.strokeStyle = `rgba(231, 242, 109, ${saasFlashAlpha})`;
+      ctx.lineWidth = 3;
+      ctx.strokeRect(0, 0, canvas.width, canvas.height);
+      ctx.restore();
+      saasFlashAlpha = Math.max(0, saasFlashAlpha - 0.04);
+    }
+
+    saasLabRaf = requestAnimationFrame(renderSaas);
+  }
+
+  stopSaasLab();
+  updateSaasTelemetry();
+  saasLabRaf = requestAnimationFrame(renderSaas);
+}
+
+function stopSaasLab() {
+  if (saasLabRaf) {
+    cancelAnimationFrame(saasLabRaf);
+    saasLabRaf = null;
+  }
+}
+
 function openModal(projectKey) {
   const data = projectData[projectKey];
   if (!data) return;
@@ -2477,6 +2829,17 @@ function openModal(projectKey) {
     }
   }
 
+  const saasSandbox = $("#saasSandbox");
+  if (saasSandbox) {
+    if (projectKey === "saas") {
+      saasSandbox.hidden = false;
+      initSaasLab();
+    } else {
+      saasSandbox.hidden = true;
+      stopSaasLab();
+    }
+  }
+
   modal.showModal();
   $("#modalClose")?.focus();
 }
@@ -2485,6 +2848,7 @@ function closeModal() {
   stopMiniworldLab();
   stopAquariumLab();
   stopGestureLab();
+  stopSaasLab();
   if (modal?.open) {
     modal.close();
     if (previousActiveElement && typeof previousActiveElement.focus === "function") {
@@ -2519,6 +2883,10 @@ $("#openAquariumLabBtn")?.addEventListener("click", () => {
 
 $("#openGestureLabBtn")?.addEventListener("click", () => {
   openModal("gesture");
+});
+
+$("#consoleSaasDemo")?.addEventListener("click", () => {
+  openModal("saas");
 });
 
 $("#modalClose")?.addEventListener("click", closeModal);

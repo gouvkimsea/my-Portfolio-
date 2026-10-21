@@ -1536,7 +1536,10 @@
                     </div>
                   </div>
                   <div class="pane-actions">
-                    <a class="console-action-btn primary magnetic" href="https://github.com/gouvkimsea/progress-tracking-and-productivitysaas" target="_blank" rel="noreferrer">
+                    <button type="button" class="console-action-btn primary magnetic" id="consoleSaasDemo">
+                      <span class="btn-text">Explore SaaS &amp; POS Lab</span> <span class="btn-icon" aria-hidden="true">⚡</span>
+                    </button>
+                    <a class="console-action-btn secondary magnetic" href="https://github.com/gouvkimsea/progress-tracking-and-productivitysaas" target="_blank" rel="noreferrer">
                       <span class="btn-text">Productivity SaaS Repo</span> <span class="btn-icon" aria-hidden="true">↗</span>
                     </a>
                     <a class="console-action-btn secondary magnetic" href="https://github.com/gouvkimsea/Pos_systemphp" target="_blank" rel="noreferrer">
@@ -2880,6 +2883,81 @@
             <div class="aq-metric-label">Detected Pose</div>
             <div class="aq-metric-val" id="gestDetectedVal" style="font-size:13px;">Open Palm</div>
             <div class="aq-metric-status safe" id="gestGestureStatus">Ready for Input</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Productivity SaaS & POS Simulator Sandbox (Active for SaaS) -->
+      <div class="project-sandbox saas-sandbox" id="saasSandbox" hidden>
+        <div class="sandbox-header">
+          <div class="clp-sandbox-badge">
+            <span class="clp-live-pulse" aria-hidden="true"></span>
+            <span class="clp-badge-text">SPRINT VELOCITY &amp; POS INVENTORY LAB</span>
+          </div>
+          <span class="pinit-latency-stat">PHP 8.x / MySQL ACID · Dual Enterprise Systems</span>
+        </div>
+
+        <p class="clp-sandbox-desc">
+          Live operational simulator combining sprint velocity analytics with Point-of-Sale (POS) cash ledger workflows. Tracks sprint burnup points, habit momentum streaks, real-time stock decrements, and ACID transaction reconciliations.
+        </p>
+
+        <div class="saas-lab-container">
+          <!-- Animated Sprint Velocity & POS Canvas -->
+          <div class="saas-canvas-box">
+            <canvas id="saasCanvas" class="saas-canvas" width="340" height="230" aria-label="Sprint Velocity & POS Cash Flow Live Analytics"></canvas>
+            <div class="saas-hud-pill" id="saasHudPill">Sprint 06: 48 pts · $19,450 Gross</div>
+          </div>
+
+          <!-- Controls & Workflows -->
+          <div class="saas-controls">
+            <!-- Mode Switcher Chips -->
+            <div class="mw-control-group">
+              <span class="mw-slider-title">Business Engine Mode:</span>
+              <div class="mw-biome-chips" role="group" aria-label="Business Engine Mode">
+                <button type="button" class="mw-chip active" id="saasModeVelocityBtn" data-mode="velocity">📊 Sprint Velocity</button>
+                <button type="button" class="mw-chip" id="saasModePosBtn" data-mode="pos">🧾 POS Ledger</button>
+              </div>
+            </div>
+
+            <!-- Interactive Velocity / Sales Sliders -->
+            <div class="mw-control-group" id="saasVelocityControlGroup">
+              <div class="mw-slider-header">
+                <span class="mw-slider-title">🎯 Sprint Scope Commitment</span>
+                <span class="mw-val-badge" id="saasScopeVal">50 pts</span>
+              </div>
+              <input type="range" id="saasScopeSlider" class="mw-range-slider" min="20" max="80" step="5" value="50" aria-label="Sprint Scope Story Points">
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="aq-action-bar">
+              <button type="button" class="aq-btn primary" id="saasCompleteTaskBtn">⚡ Ship Story Point (+5 pts)</button>
+              <button type="button" class="aq-btn active" id="saasProcessSaleBtn">💳 Process POS Sale (+$45.00)</button>
+              <button type="button" class="aq-btn" id="saasRestockBtn">📦 Restock SKU Inventory</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Telemetry Cards -->
+        <div class="aq-metrics-grid">
+          <div class="aq-metric-card" id="cardSprintPts">
+            <div class="aq-metric-label">Completed Velocity</div>
+            <div class="aq-metric-val" id="saasPtsVal">48 pts</div>
+            <div class="aq-metric-status optimal" id="saasPtsStatus">96% Target Achieved</div>
+          </div>
+          <div class="aq-metric-card" id="cardHabitStreak">
+            <div class="aq-metric-label">Daily Focus Streak</div>
+            <div class="aq-metric-val" id="saasStreakVal">14 Days 🔥</div>
+            <div class="aq-metric-status safe">Momentum Active</div>
+          </div>
+          <div class="aq-metric-card" id="cardPosSales">
+            <div class="aq-metric-label">ACID Reconciled Sales</div>
+            <div class="aq-metric-val" id="saasSalesVal">$19,450</div>
+            <div class="aq-metric-status safe" id="saasSalesStatus">1,428 Orders Logged</div>
+          </div>
+          <div class="aq-metric-card" id="cardPosStock">
+            <div class="aq-metric-label">SKU Inventory Level</div>
+            <div class="aq-metric-val" id="saasStockVal">342 Units</div>
+            <div class="aq-metric-status safe" id="saasStockStatus">Optimal Stock Level</div>
           </div>
         </div>
       </div>
