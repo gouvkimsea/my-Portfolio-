@@ -2893,6 +2893,10 @@ $("#consoleSaasDemo")?.addEventListener("click", () => {
   openModal("saas");
 });
 
+$("#consoleClpDemo")?.addEventListener("click", () => {
+  openModal("clp");
+});
+
 $("#modalClose")?.addEventListener("click", closeModal);
 modal?.addEventListener("click", event => { if (event.target === modal) closeModal(); });
 
@@ -3925,6 +3929,13 @@ const initJourneySection = () => {
     consoleGestureBtn?.addEventListener("click", () => {
       if (typeof openModal === "function") {
         openModal("gesture");
+      }
+    });
+
+    const consoleClpBtn = $("#consoleClpDemo", consoleEl);
+    consoleClpBtn?.addEventListener("click", () => {
+      if (typeof openModal === "function") {
+        openModal("clp");
       }
     });
   }

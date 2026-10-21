@@ -9179,7 +9179,8 @@ dialog.resume-modal::backdrop {
 .anim-hud-rental,
 .anim-hud-gesture,
 .anim-hud-miniworld,
-.anim-hud-saas {
+.anim-hud-saas,
+.anim-hud-clp {
   position: relative;
   width: 100%;
 }
@@ -9189,10 +9190,22 @@ dialog.resume-modal::backdrop {
 .rental-svg,
 .gesture-svg,
 .miniworld-svg,
-.saas-svg {
+.saas-svg,
+.clp-svg {
   width: 100%;
   height: auto;
   display: block;
+}
+
+.clp-retention-path {
+  stroke-dasharray: 220;
+  stroke-dashoffset: 0;
+  animation: clpPulsePath 4s ease-in-out infinite alternate;
+}
+
+@keyframes clpPulsePath {
+  0% { stroke-dashoffset: 40; opacity: 0.8; }
+  100% { stroke-dashoffset: 0; opacity: 1; filter: drop-shadow(0 0 6px rgba(231, 242, 109, 0.4)); }
 }
 
 /* Radar Sweep Keyframe */

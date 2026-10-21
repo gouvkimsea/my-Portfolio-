@@ -1059,6 +1059,11 @@
                   <span class="tab-label">Productivity SaaS</span>
                   <span class="tab-lang php">PHP</span>
                 </button>
+                <button type="button" class="console-tab" data-repo="clp" role="tab" aria-selected="false" id="tab-clp" aria-controls="pane-clp">
+                  <span class="tab-icon">🀄</span>
+                  <span class="tab-label">CLP Monorepo</span>
+                  <span class="tab-lang ts">TS</span>
+                </button>
               </div>
             </div>
 
@@ -1587,6 +1592,88 @@
                     </a>
                     <a class="console-action-btn secondary magnetic" href="https://github.com/gouvkimsea/Pos_systemphp" target="_blank" rel="noreferrer">
                       <span class="btn-text">POS System Repo</span> <span class="btn-icon" aria-hidden="true">↗</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Pane 7: Chinese Learning Platform (CLP) Monorepo -->
+              <div class="console-pane" id="pane-clp" role="tabpanel" aria-labelledby="tab-clp" hidden>
+                <div class="pane-visual">
+                  <div class="anim-hud-clp" aria-label="Interactive Chinese Learning Platform SM-2 flashcard and retention curve telemetry">
+                    <svg class="clp-svg" viewBox="0 0 280 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <!-- Grid Lines -->
+                      <line x1="30" y1="160" x2="250" y2="160" stroke="currentColor" stroke-width="1.2" opacity="0.3" />
+                      <line x1="30" y1="30" x2="30" y2="160" stroke="currentColor" stroke-width="1.2" opacity="0.3" />
+                      <line x1="30" y1="125" x2="250" y2="125" stroke="currentColor" stroke-width="0.8" opacity="0.1" stroke-dasharray="3 3" />
+                      <line x1="30" y1="90" x2="250" y2="90" stroke="currentColor" stroke-width="0.8" opacity="0.1" stroke-dasharray="3 3" />
+                      <line x1="30" y1="55" x2="250" y2="55" stroke="currentColor" stroke-width="0.8" opacity="0.1" stroke-dasharray="3 3" />
+                      
+                      <!-- Hanzi Flashcard Visual -->
+                      <rect x="40" y="40" width="76" height="96" rx="8" fill="rgba(139, 92, 246, 0.12)" stroke="#a855f7" stroke-width="1.5" />
+                      <text x="78" y="94" font-family="'Noto Serif SC', serif, sans-serif" font-size="34" font-weight="700" fill="#a855f7" text-anchor="middle">学</text>
+                      <text x="78" y="116" font-family="DM Mono, monospace" font-size="8.5" fill="#a855f7" text-anchor="middle">xué · learn</text>
+                      
+                      <!-- SM-2 Memory Retention Exponential Curve -->
+                      <path class="clp-retention-path" d="M125 145 C 145 130, 160 85, 185 70 S 220 50, 245 42" stroke="var(--lime)" stroke-width="2.5" stroke-linecap="round" fill="none" />
+                      
+                      <!-- Retention Milestone Nodes -->
+                      <circle cx="125" cy="145" r="4" fill="var(--orange)" stroke="#ffffff" stroke-width="1.5" />
+                      <circle cx="155" cy="100" r="4" fill="var(--lime)" stroke="#ffffff" stroke-width="1.5" />
+                      <circle cx="195" cy="65" r="4" fill="var(--lime)" stroke="#ffffff" stroke-width="1.5" />
+                      <circle cx="245" cy="42" r="5" fill="#38bdf8" stroke="#ffffff" stroke-width="2" />
+                      
+                      <!-- Interval Labels -->
+                      <text x="125" y="157" font-family="DM Mono, monospace" font-size="7" fill="var(--muted)" text-anchor="middle">Day 1</text>
+                      <text x="155" y="112" font-family="DM Mono, monospace" font-size="7" fill="var(--muted)" text-anchor="middle">Day 6</text>
+                      <text x="195" y="77" font-family="DM Mono, monospace" font-size="7" fill="var(--muted)" text-anchor="middle">Day 15</text>
+                      <text x="245" y="54" font-family="DM Mono, monospace" font-size="7" fill="#38bdf8" text-anchor="middle">Day 36</text>
+                      
+                      <!-- SuperMemo-2 Math Formula Tag -->
+                      <g transform="translate(40, 175)">
+                        <rect x="0" y="-10" width="200" height="18" rx="4" fill="rgba(168, 85, 247, 0.15)" stroke="rgba(168, 85, 247, 0.3)" stroke-width="0.8" />
+                        <text x="8" y="2" font-family="DM Mono, monospace" font-size="7.5" fill="#c084fc">SM-2: EF′ = EF + (0.1 - (5-q)*(0.08 + (5-q)*0.02))</text>
+                      </g>
+                    </svg>
+                    <div class="hud-scan-telemetry">
+                      <div class="telemetry-row"><span class="t-label">ALGORITHM:</span> <span class="t-val success">SuperMemo-2 (SM-2)</span></div>
+                      <div class="telemetry-row"><span class="t-label">BACKEND ARCH:</span> <span class="t-val">NestJS + Prisma + Turbo</span></div>
+                      <div class="telemetry-row"><span class="t-label">AI CONVERSATION:</span> <span class="t-val success">Gemini 1.5 Pro Grammar</span></div>
+                      <div class="telemetry-row"><span class="t-label">PORTALS:</span> <span class="t-val">Dual Next.js Portals</span></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="pane-info">
+                  <div class="pane-meta-top">
+                    <span class="repo-badge"><i class="repo-badge-star" aria-hidden="true">★</i> REPOSITORY</span>
+                    <a class="repo-link" href="https://github.com/gouvkimsea" target="_blank" rel="noreferrer">gouvkimsea/chinese-learning-platform ↗</a>
+                    <span class="repo-status-pill live">● EdTech Monorepo</span>
+                  </div>
+                  <h3 class="pane-title">Chinese Learning Platform — Full-Stack Monorepo</h3>
+                  <p class="pane-desc">
+                    Enterprise-scale Mandarin education platform powered by NestJS API gateway, dual Next.js portals (Student &amp; Admin), SuperMemo-2 (SM-2) spaced repetition interval scheduling, and Google Gemini AI conversational grammar mentoring.
+                  </p>
+                  <div class="pane-metrics-grid">
+                    <div class="metric-card">
+                      <span class="m-val">SM-2 Math</span>
+                      <span class="m-lbl">Spaced Repetition</span>
+                    </div>
+                    <div class="metric-card">
+                      <span class="m-val">2 Portals</span>
+                      <span class="m-lbl">Next.js Monorepo</span>
+                    </div>
+                    <div class="metric-card">
+                      <span class="m-val">Gemini AI</span>
+                      <span class="m-lbl">Conversational Tutor</span>
+                    </div>
+                  </div>
+                  <div class="pane-actions">
+                    <button type="button" class="console-action-btn primary magnetic" id="consoleClpDemo">
+                      <span class="btn-text">Explore SM-2 SRS Lab</span> <span class="btn-icon" aria-hidden="true">⚡</span>
+                    </button>
+                    <a class="console-action-btn secondary magnetic" href="https://github.com/gouvkimsea" target="_blank" rel="noreferrer">
+                      <span class="btn-text">Monorepo GitHub</span> <span class="btn-icon" aria-hidden="true">↗</span>
                     </a>
                   </div>
                 </div>
