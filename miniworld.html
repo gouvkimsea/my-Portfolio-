@@ -462,6 +462,38 @@
       cursor: pointer;
     }
 
+    .time-chips {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: 4px;
+      border-left: 1px solid rgba(255, 255, 255, 0.15);
+      padding-left: 8px;
+    }
+    .time-chip {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: var(--text);
+      border-radius: 999px;
+      width: 26px;
+      height: 26px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 0;
+    }
+    .time-chip:hover {
+      background: rgba(56, 189, 248, 0.25);
+      border-color: var(--accent);
+      transform: scale(1.12);
+    }
+    .time-chip:active {
+      transform: scale(0.92);
+    }
+
     /* Click Hint Toast */
     .toast {
       position: fixed;
@@ -745,6 +777,12 @@
       <span class="time-icon" id="timeIcon">☼</span>
       <span class="time-label" id="timeLabel" style="font-weight:600;min-width:55px;">Day</span>
       <input type="range" id="timeSlider" class="time-slider" min="0" max="1" step="0.002" value="0.25">
+      <div class="time-chips">
+        <button class="time-chip" data-time="0.22" title="Sunrise (06:00)">🌅</button>
+        <button class="time-chip" data-time="0.38" title="Midday Sun (12:00)">☀️</button>
+        <button class="time-chip" data-time="0.72" title="Sunset / Golden Hour (18:00)">🌇</button>
+        <button class="time-chip" data-time="0.95" title="Starry Midnight &amp; Auroras (00:00)">🌌</button>
+      </div>
     </div>
 
     <div class="camera-presets">
@@ -2567,6 +2605,17 @@
     btnCycle.addEventListener('click', () => {
       autoCycle = !autoCycle;
       btnCycle.classList.toggle('active', autoCycle);
+    });
+
+    document.querySelectorAll('.time-chip').forEach(btn => {
+      btn.addEventListener('click', () => {
+        initAudio();
+        timeOfDay = parseFloat(btn.dataset.time);
+        autoCycle = false;
+        btnCycle.classList.remove('active');
+        updateTimeDisplay();
+        showToast(`${btn.textContent} Celestial Preset: ${timeLabel.textContent}`);
+      });
     });
 
     const AUDIO_MODES = [
