@@ -3452,6 +3452,291 @@ dialog.project-modal[open]::backdrop {
 }
 
 /* ==========================================================================
+   Aquarium Filter Sim — Project Preview Showcase
+   ========================================================================== */
+.aquarium-preview {
+  background: #0d1e28;
+  position: relative;
+  overflow: hidden;
+  height: 280px;
+  display: grid;
+  place-items: center;
+}
+
+[data-theme="light"] .aquarium-preview {
+  background: #d4e8f0;
+}
+
+.aqua-preview-grid {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 49.8%, rgba(56, 189, 248, 0.08) 50%),
+              linear-gradient(rgba(56, 189, 248, 0.08) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 46px;
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+[data-theme="light"] .aqua-preview-grid {
+  background: linear-gradient(90deg, transparent 49.8%, rgba(2, 132, 199, 0.12) 50%),
+              linear-gradient(rgba(2, 132, 199, 0.12) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 46px;
+}
+
+.aqua-stat-pill {
+  position: absolute;
+  top: 14px;
+  left: 18px;
+  font: 10px var(--mono);
+  font-weight: 700;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  padding: 4px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+  z-index: 2;
+  user-select: none;
+}
+
+[data-theme="light"] .aqua-stat-pill {
+  color: #0369a1;
+  background: rgba(56, 189, 248, 0.18);
+  border-color: rgba(3, 105, 161, 0.35);
+}
+
+.aqua-tank-system {
+  position: absolute;
+  bottom: 18px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  z-index: 2;
+  pointer-events: none;
+  flex-wrap: wrap;
+}
+
+.aqua-filter-cartridge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.65);
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(4px);
+  font: 9.5px var(--mono);
+}
+
+[data-theme="light"] .aqua-filter-cartridge {
+  background: rgba(255, 255, 255, 0.88);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.aqua-layer-sponge {
+  color: #60a5fa;
+  font-weight: 700;
+}
+
+.aqua-layer-bio {
+  color: var(--lime);
+  font-weight: 700;
+}
+
+.aqua-layer-carbon {
+  color: #cbd5e1;
+  font-weight: 700;
+}
+
+.aqua-nitrogen-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.65);
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font: 10px var(--mono);
+  color: var(--lime);
+  backdrop-filter: blur(4px);
+}
+
+[data-theme="light"] .aqua-nitrogen-badge {
+  background: rgba(255, 255, 255, 0.88);
+  border-color: rgba(0, 0, 0, 0.08);
+  color: #15803d;
+}
+
+.aqua-nitrogen-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 6px currentColor;
+}
+
+.aqua-demo-btn {
+  background: #0284c7;
+  border-color: #0284c7;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.aqua-demo-btn:hover {
+  background: var(--lime);
+  border-color: var(--lime);
+  color: #121310;
+}
+
+.aqua-bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(56, 189, 248, 0.6);
+  pointer-events: none;
+  animation: bubbleRise 3s linear infinite;
+}
+
+.aqua-bubble.b1 { width: 6px; height: 6px; left: 15%; bottom: 10px; animation-delay: 0s; }
+.aqua-bubble.b2 { width: 8px; height: 8px; left: 35%; bottom: 10px; animation-delay: 1.1s; }
+.aqua-bubble.b3 { width: 5px; height: 5px; left: 65%; bottom: 10px; animation-delay: 2.2s; }
+.aqua-bubble.b4 { width: 7px; height: 7px; left: 82%; bottom: 10px; animation-delay: 0.7s; }
+
+/* ==========================================================================
+   Gesture App — Project Preview Showcase
+   ========================================================================= */
+.gesture-preview {
+  background: #0e1e17;
+  position: relative;
+  overflow: hidden;
+  height: 280px;
+  display: grid;
+  place-items: center;
+}
+
+[data-theme="light"] .gesture-preview {
+  background: #d4ebd9;
+}
+
+.gest-preview-grid {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 49.8%, rgba(16, 185, 129, 0.08) 50%),
+              linear-gradient(rgba(16, 185, 129, 0.08) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 46px;
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+[data-theme="light"] .gest-preview-grid {
+  background: linear-gradient(90deg, transparent 49.8%, rgba(16, 185, 129, 0.12) 50%),
+              linear-gradient(rgba(16, 185, 129, 0.12) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 46px;
+}
+
+.gest-stat-pill {
+  position: absolute;
+  top: 14px;
+  left: 18px;
+  font: 10px var(--mono);
+  font-weight: 700;
+  color: #34d399;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  padding: 4px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+  z-index: 2;
+  user-select: none;
+}
+
+[data-theme="light"] .gest-stat-pill {
+  color: #047857;
+  background: rgba(16, 185, 129, 0.18);
+  border-color: rgba(4, 120, 87, 0.35);
+}
+
+.gest-skeleton-system {
+  position: absolute;
+  bottom: 18px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  z-index: 2;
+  pointer-events: none;
+  flex-wrap: wrap;
+}
+
+.gest-card-bbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.65);
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px dashed rgba(52, 211, 153, 0.5);
+  backdrop-filter: blur(4px);
+  font: 9.5px var(--mono);
+  color: #34d399;
+}
+
+[data-theme="light"] .gest-card-bbox {
+  background: rgba(255, 255, 255, 0.88);
+  border-color: rgba(4, 120, 87, 0.4);
+  color: #047857;
+}
+
+.gest-card-tag {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.gest-pinch-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.65);
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font: 10px var(--mono);
+  color: var(--orange);
+  backdrop-filter: blur(4px);
+}
+
+[data-theme="light"] .gest-pinch-badge {
+  background: rgba(255, 255, 255, 0.88);
+  border-color: rgba(0, 0, 0, 0.08);
+  color: #c2410c;
+}
+
+.gest-pinch-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 6px currentColor;
+}
+
+.gest-demo-btn {
+  background: #059669;
+  border-color: #059669;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.gest-demo-btn:hover {
+  background: var(--lime);
+  border-color: var(--lime);
+  color: #121310;
+}
+
+/* ==========================================================================
    Interactive CLP SM-2 Spaced Repetition Sandbox
    ========================================================================== */
 .clp-sandbox {

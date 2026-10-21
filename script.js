@@ -2513,6 +2513,14 @@ $("#openClpSimulatorBtn")?.addEventListener("click", () => {
   openModal("clp");
 });
 
+$("#openAquariumLabBtn")?.addEventListener("click", () => {
+  openModal("aquarium");
+});
+
+$("#openGestureLabBtn")?.addEventListener("click", () => {
+  openModal("gesture");
+});
+
 $("#modalClose")?.addEventListener("click", closeModal);
 modal?.addEventListener("click", event => { if (event.target === modal) closeModal(); });
 
