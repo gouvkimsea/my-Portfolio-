@@ -387,7 +387,7 @@ cmdKResults?.addEventListener("click", e => {
   } else if (action === "github") {
     window.open("https://github.com/gouvkimsea", "_blank", "noopener,noreferrer");
   } else if (action === "linkedin") {
-    window.open("https://linkedin.com/in/gouvkimsea", "_blank", "noopener,noreferrer");
+    window.open("https://www.linkedin.com/in/gouv-kimsea-16795143a", "_blank", "noopener,noreferrer");
   }
 });
 
@@ -3200,7 +3200,7 @@ Engineering Stats (2026):
   contact: () => {
     const el = document.getElementById("contact");
     el?.scrollIntoView({ behavior: "smooth", block: "start" });
-    return "LET'S WORK. Direct channels:\n• Email: <a href='mailto:gouvkimsea@gmail.com' style='color:var(--lime)'>gouvkimsea@gmail.com</a>\n• GitHub: <a href='https://github.com/gouvkimsea' target='_blank' style='color:var(--lime)'>github.com/gouvkimsea</a>\n• LinkedIn: <a href='https://linkedin.com/in/gouvkimsea' target='_blank' style='color:var(--lime)'>linkedin.com/in/gouvkimsea</a>";
+    return "LET'S WORK. Direct channels:\n• Email: <a href='mailto:gouvkimsea@gmail.com' style='color:var(--lime)'>gouvkimsea@gmail.com</a>\n• GitHub: <a href='https://github.com/gouvkimsea' target='_blank' style='color:var(--lime)'>github.com/gouvkimsea</a>\n• LinkedIn: <a href='https://www.linkedin.com/in/gouv-kimsea-16795143a' target='_blank' style='color:var(--lime)'>linkedin.com/in/gouv-kimsea</a>";
   },
   work: () => terminalCommands.contact(),
   whoami: "guest — welcome to Gouv Kimsea's portfolio.",
@@ -3208,8 +3208,8 @@ Engineering Stats (2026):
   linkedin: "Opening LinkedIn profile in a new tab...",
   date: () => new Date().toLocaleString(),
   sudo: "No administrative privileges needed. All public projects and documentation are open to explore.",
-  "cat developer.ts": "const developer = {\n  name: 'Gouv Kimsea',\n  degrees: ['B.Sc. Computer Science', 'B.B.A. Business Admin'],\n  stack: ['TypeScript', 'C++', 'Python', 'WebGL', 'React'],\n  location: 'Phnom Penh, Cambodia',\n  status: 'Building & Available'\n};",
-  "cat about-me.js": "const developer = {\n  name: 'Gouv Kimsea',\n  degrees: ['B.Sc. Computer Science', 'B.B.A. Business Admin'],\n  stack: ['TypeScript', 'C++', 'Python', 'WebGL', 'React'],\n  location: 'Phnom Penh, Cambodia',\n  status: 'Building & Available'\n};"
+  "cat developer.ts": "const developer = {\n  name: 'Gouv Kimsea',\n  degrees: ['B.Sc. Computer Science', 'B.B.A. Business Admin'],\n  stack: ['TypeScript', 'NestJS', 'Next.js', 'PHP', 'Python', 'C++', 'WebGL'],\n  location: 'Phnom Penh, Cambodia',\n  status: 'Building & Available'\n};",
+  "cat about-me.js": "const developer = {\n  name: 'Gouv Kimsea',\n  degrees: ['B.Sc. Computer Science', 'B.B.A. Business Admin'],\n  stack: ['TypeScript', 'NestJS', 'Next.js', 'PHP', 'Python', 'C++', 'WebGL'],\n  location: 'Phnom Penh, Cambodia',\n  status: 'Building & Available'\n};"
 };
 
 const escapeHtml = str => {
@@ -3236,7 +3236,7 @@ const executeCommand = rawCommand => {
   if (lower === "github") {
     window.open("https://github.com/gouvkimsea", "_blank", "noreferrer");
   } else if (lower === "linkedin") {
-    window.open("https://linkedin.com/in/gouvkimsea", "_blank", "noreferrer");
+    window.open("https://www.linkedin.com/in/gouv-kimsea-16795143a", "_blank", "noreferrer");
   }
 
   let response;
