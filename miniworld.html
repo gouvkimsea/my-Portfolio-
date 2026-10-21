@@ -493,6 +493,12 @@
     .time-chip:active {
       transform: scale(0.92);
     }
+    .time-chip.active {
+      background: rgba(56, 189, 248, 0.35);
+      border-color: var(--accent);
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.45);
+      transform: scale(1.08);
+    }
 
     /* Click Hint Toast */
     .toast {
@@ -736,6 +742,7 @@
           <div class="shortcut-row"><kbd>S</kbd> <span>Cycle Four Seasons</span></div>
           <div class="shortcut-row"><kbd>W</kbd> <span>Clear / Storm / Aurora</span></div>
           <div class="shortcut-row"><kbd>[</kbd> / <kbd>]</kbd> <span>Adjust Time of Day</span></div>
+          <div class="shortcut-row"><kbd>Shift</kbd>+<kbd>1-4</kbd> <span>Celestial Presets (🌅☀️🌇🌌)</span></div>
           <div class="shortcut-row"><kbd>0-9</kbd> <span>Camera Angles & Tour</span></div>
           <div class="shortcut-row"><kbd>M</kbd> <span>Ambient Synth & SFX Cycle</span></div>
           <div class="shortcut-row"><kbd>C</kbd> / <kbd>R</kbd> <span>Cataclysm / Rebuild</span></div>
@@ -2808,6 +2815,11 @@
         timeLabel.textContent = "Night";
         timeIcon.textContent = "☾";
       }
+      document.querySelectorAll('.time-chip').forEach(btn => {
+        const t = parseFloat(btn.dataset.time);
+        const isActive = Math.abs(t - timeOfDay) < 0.04;
+        btn.classList.toggle('active', isActive);
+      });
     }
 
     // =========================================================================
@@ -3015,9 +3027,25 @@
       initAudio();
       const k = e.key.toLowerCase();
       const code = e.code;
-      if (e.key >= '0' && e.key <= '9') {
+      if (!e.shiftKey && e.key >= '0' && e.key <= '9') {
         const pIdx = (e.key === '0') ? 9 : (parseInt(e.key) - 1);
         applyPreset(pIdx);
+      } else if (e.shiftKey && (e.code === 'Digit1' || e.code === 'Digit2' || e.code === 'Digit3' || e.code === 'Digit4')) {
+        const celestialTimes = {
+          Digit1: { time: 0.22, name: '🌅 Sunrise (06:00)' },
+          Digit2: { time: 0.38, name: '☀️ Midday Sun (12:00)' },
+          Digit3: { time: 0.72, name: '🌇 Sunset / Golden Hour (18:00)' },
+          Digit4: { time: 0.95, name: '🌌 Starry Midnight & Auroras (00:00)' }
+        };
+        const preset = celestialTimes[e.code];
+        if (preset) {
+          timeOfDay = preset.time;
+          autoCycle = false;
+          btnCycle.classList.remove('active');
+          updateTimeDisplay();
+          showToast(`Celestial Preset: ${preset.name}`);
+          e.preventDefault();
+        }
       }
       if (code === 'KeyW' || code === 'ArrowUp') {
         if (rover.active) { roverKeys.forward = true; e.preventDefault(); }
