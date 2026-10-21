@@ -50,7 +50,7 @@ A modern, fast, and highly responsive personal portfolio for a student developer
   - *Procedural Celestial Audio Engine*: Web Audio API generative ambient synth with detuned sub-bass drone oscillators, harmonic fifths, and randomized celestial wind chime arpeggios. 3-state cycle (`♫ Music` / `SFX Only` / `Mute`).
 - **Engineering Milestones & Illustrated Achievements**: Interactive 7-tab console (PinitAI, Aquarium Sim, JOUL Fleet, Gesture Vision, Mini World 3D, Productivity SaaS & POS, and CLP Monorepo) showing shipped architectures, GitHub commit rhythm, and illustrated craft badges.
 - **Interactive Resume / CV Modal**: Quick-access modal detailing dual-degree academic background, toolkit, status, and direct print/PDF export support.
-- **In-Browser Terminal CLI**: Built-in interactive CLI supporting `help`, `about`, `journey`, `education`, `skills`, `projects`, `pinit`, `aquarium`, `nitrogen`, `filter`, `gesture`, `cv`, `mediapipe`, `joul`, `clp`, `miniworld`, `shader`, `glsl`, `devpulse`, `portfolio`, `achievements`, `stats`, `resume`, `neofetch`, `theme`, and `clear`.
+- **In-Browser Terminal CLI**: Built-in interactive CLI supporting `help`, `about`, `journey`, `education`, `skills`, `projects`, `pinit`, `aquarium`, `nitrogen`, `filter`, `gesture`, `vision`, `mediapipe`, `joul`, `rental`, `clp`, `chinese`, `srs`, `sm2`, `miniworld`, `shader`, `glsl`, `saas`, `pos`, `devpulse`, `portfolio`, `achievements`, `stats`, `resume`, `cv`, `neofetch`, `theme`, `cmdk`, and `clear`.
 - **Accessible & Responsive**: Fast, lightweight performance with zero external runtime dependencies, full mobile drawer navigation, 100% semantic class architecture, and `prefers-reduced-motion` compliance.
 
 ---

@@ -272,11 +272,20 @@ const filterCmdK = query => {
   const items = $$(".cmdk-item", cmdKResults);
   const groups = $$(".cmdk-group-title", cmdKResults);
 
+  let firstVisible = null;
   items.forEach(item => {
+    item.classList.remove("selected");
     const text = item.textContent.toLowerCase();
     const match = !q || text.includes(q);
     item.style.display = match ? "flex" : "none";
+    if (match && !firstVisible) {
+      firstVisible = item;
+    }
   });
+
+  if (firstVisible) {
+    firstVisible.classList.add("selected");
+  }
 
   groups.forEach(group => {
     let next = group.nextElementSibling;
@@ -291,6 +300,41 @@ const filterCmdK = query => {
 
 cmdKInput?.addEventListener("input", e => {
   filterCmdK(e.target.value);
+});
+
+cmdKInput?.addEventListener("keydown", e => {
+  const visibleItems = Array.from($$(".cmdk-item", cmdKResults)).filter(
+    el => el.style.display !== "none"
+  );
+  if (!visibleItems.length) return;
+
+  const currentIndex = visibleItems.findIndex(el => el.classList.contains("selected"));
+
+  if (e.key === "ArrowDown") {
+    e.preventDefault();
+    const nextIndex = (currentIndex + 1) % visibleItems.length;
+    visibleItems.forEach(el => el.classList.remove("selected"));
+    visibleItems[nextIndex].classList.add("selected");
+    visibleItems[nextIndex].scrollIntoView({ block: "nearest" });
+  } else if (e.key === "ArrowUp") {
+    e.preventDefault();
+    const prevIndex = (currentIndex - 1 + visibleItems.length) % visibleItems.length;
+    visibleItems.forEach(el => el.classList.remove("selected"));
+    visibleItems[prevIndex].classList.add("selected");
+    visibleItems[prevIndex].scrollIntoView({ block: "nearest" });
+  } else if (e.key === "Enter") {
+    e.preventDefault();
+    const targetItem = (currentIndex >= 0) ? visibleItems[currentIndex] : visibleItems[0];
+    if (targetItem) targetItem.click();
+  }
+});
+
+cmdKResults?.addEventListener("mouseover", e => {
+  const item = e.target.closest(".cmdk-item");
+  if (item && item.style.display !== "none") {
+    $$(".cmdk-item", cmdKResults).forEach(el => el.classList.remove("selected"));
+    item.classList.add("selected");
+  }
 });
 
 // Action Execution
@@ -320,6 +364,18 @@ cmdKResults?.addEventListener("click", e => {
     setTimeout(() => {
       $("#pinitInput")?.focus();
     }, 180);
+  } else if (action === "open-aquarium-demo") {
+    openModal("aquarium");
+  } else if (action === "open-gesture-demo") {
+    openModal("gesture");
+  } else if (action === "open-saas-demo") {
+    openModal("saas");
+  } else if (action === "open-miniworld-shader") {
+    openModal("miniworld");
+    setTimeout(() => {
+      const lab = document.getElementById("miniworldSandbox");
+      if (lab) lab.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 250);
   } else if (action === "copy-email") {
     $("#copyEmailBtn")?.click();
   } else if (action === "view-education") {
@@ -2951,7 +3007,7 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>journey</b>, <b>education</b>, <b>skills</b>, <b>projects</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>cv</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>devpulse</b>, <b>portfolio</b>, <b>achievements</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>journey</b>, <b>education</b>, <b>skills</b>, <b>projects</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>achievements</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>cv</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
   about: "Gouv Kimsea — Dual degree undergraduate in Computer Science (Paragon.U) & Business Administration (Bonamary.U) building tangible products.",
   journey: () => {
     const el = document.getElementById("journey");
@@ -2963,7 +3019,7 @@ Stage 01: Dual Academic Foundations (Paragon CS & Bonamary BBA)
 Stage 02: Procedural 3D & Physical Engines (Mini World 3D & Aquarium Sim)
 Stage 03: Production Systems & Security (PinitAI Threat Scanner & JOUL Fleet)
 Stage 04: Computer Vision & SaaS Tools (Gesture App Python CV & Productivity SaaS)
-Stage 05: Open Source Architecture (13+ Public Repositories @gouvkimsea)
+Stage 05: Open Source Architecture (15+ Public Repositories @gouvkimsea)
 ================================================================
 Scrolled to Section 04: Developer Journal & Roadmap!</pre>`;
   },
@@ -2988,17 +3044,17 @@ The Intersection: Algorithmic rigor paired with market insight.</pre>`;
   university: () => terminalCommands.education(),
   school: () => terminalCommands.education(),
   skills: "JavaScript · TypeScript · NestJS · Next.js · Prisma · C++ · Python · WebGL / Shaders · HTML5 / CSS3 · React · REST APIs · Node.js · SQL · MySQL · PHP",
-  projects: "1. <b>PinitAI</b> — Heuristic scam and suspicious link detector (TypeScript)\n2. <b>Aquarium Filter Sim</b> — Fluid dynamics & nitrogen cycle physics (TypeScript)\n3. <b>JOUL Rental Service</b> — Enterprise vehicle fleet & escrow ledger platform (PHP 8 / MySQL)\n4. <b>Gesture App</b> — 21-joint real-time hand tracking & computer vision (Python / MediaPipe)\n5. <b>Mini World 3D</b> — Procedural planet simulation & pure WebGL engine\n6. <b>Productivity SaaS & POS</b> — Task velocity & retail inventory management (PHP)\nClick any project card to view interactive breakdown.",
+  projects: "1. <b>PinitAI</b> — Heuristic scam & threat detector (TypeScript)\n2. <b>Aquarium Filter Sim</b> — Fluid dynamics & nitrogen cycle physics (TypeScript)\n3. <b>JOUL Rental Service</b> — Enterprise vehicle fleet & escrow platform (PHP 8 / MySQL)\n4. <b>Chinese Learning Platform</b> — Full-stack monorepo, SuperMemo-2 SRS & Gemini AI (NestJS/Next.js)\n5. <b>Gesture App</b> — 21-joint real-time hand tracking & computer vision (Python / MediaPipe)\n6. <b>Mini World 3D</b> — Procedural planet simulation & WebGL shader lab\n7. <b>Productivity SaaS & POS</b> — Sprint velocity burndown & retail cash ledger (PHP)\n8. <b>DevPulse</b> — Real-time telemetry dashboard & metrics (TypeScript)\n9. <b>This Portfolio</b> — Ultra-performant Vanilla ES2026 platform\nType any project name or click any card to launch its interactive breakdown.",
   achievements: () => {
     const el = document.getElementById("achievements");
     el?.scrollIntoView({ behavior: "smooth", block: "start" });
     return `<pre style="color:var(--lime);font-size:11px;line-height:1.4;">
 Engineering Milestones & GitHub Accolades:
 ----------------------------------------
-1. Multi-Product Velocity (13+ GitHub Repos: PinitAI, Rental Service, Aquarium Sim, Gesture App, Mini World, SaaS)
+1. Multi-Product Velocity (15+ GitHub Repos: PinitAI, Rental Service, Aquarium Sim, Gesture App, Mini World, SaaS)
 2. Procedural WebGL 3D & Physical Engines (Mini World 3D & Aquarium Filter Simulation in TypeScript)
 3. Pinit Threat Intelligence (AI Phishing & Scam Indicator Heuristics)
-4. 13+ Public Repositories on GitHub (Continuous Shipping Velocity @gouvkimsea)
+4. 15+ Public Repositories on GitHub (Continuous Shipping Velocity @gouvkimsea)
 5. Computer Science Foundations (Algorithms, Data Structures, C++, SQL, Dual Degree)
 6. Computer Vision & Applied Systems (Gesture App 21-point tracking & Vanilla CSS UI)
 
@@ -3021,6 +3077,10 @@ Scrolled to Section 05: Engineering Milestones!</pre>`;
   },
   joul: () => {
     openModal("joul");
+    setTimeout(() => {
+      const lab = document.getElementById("joulSandbox");
+      if (lab) lab.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 250);
     return "Opening JOUL Rental Service (Enterprise Fleet & Escrow Platform) project modal & fleet simulator...";
   },
   rental: () => terminalCommands.joul(),
@@ -3042,19 +3102,24 @@ Scrolled to Section 05: Engineering Milestones!</pre>`;
     }, 250);
     return "Opening Gesture App (Python 21-Joint Computer Vision & MediaPipe Engine) project modal & spatial skeletal vision lab...";
   },
-  cv: () => terminalCommands.gesture(),
+  vision: () => terminalCommands.gesture(),
   mediapipe: () => terminalCommands.gesture(),
   hand: () => terminalCommands.gesture(),
   saas: () => {
     openModal("saas");
-    return "Opening Productivity SaaS & POS Systems (PHP & MySQL Engines) project modal...";
+    setTimeout(() => {
+      const lab = document.getElementById("saasSandbox");
+      if (lab) lab.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 250);
+    return "Opening Productivity SaaS & POS Systems modal & interactive sprint burndown and cash register ledger lab...";
   },
-  pos: () => {
-    openModal("saas");
-    return "Opening POS System (PHP Retail Ledger & Stock Engine) project modal...";
-  },
+  pos: () => terminalCommands.saas(),
   clp: () => {
     openModal("clp");
+    setTimeout(() => {
+      const lab = document.getElementById("clpSandbox");
+      if (lab) lab.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 250);
     return "Opening Chinese Learning Platform (Monorepo, SuperMemo-2 SRS & Gemini AI) project modal & flashcard simulator...";
   },
   chinese: () => terminalCommands.clp(),
@@ -3076,7 +3141,11 @@ Scrolled to Section 05: Engineering Milestones!</pre>`;
   biome: () => terminalCommands.shader(),
   pinit: () => {
     openModal("pinit");
-    return "Opening Pinit (AI Threat & Scam Detector) project modal...";
+    setTimeout(() => {
+      const lab = document.getElementById("pinitSandbox");
+      if (lab) lab.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 250);
+    return "Opening Pinit (AI Threat & Scam Detector) project modal & heuristic radar scanner...";
   },
   devpulse: () => {
     openModal("devpulse");
@@ -3091,7 +3160,8 @@ Scrolled to Section 05: Engineering Milestones!</pre>`;
 Engineering Stats (2026):
 ----------------------------------------
 • GitHub Repositories: 15+ Active
-• Featured Live Projects: 6 (JOUL Rental, Chinese Learning Platform, Pinit, Mini World, DevPulse, Portfolio)
+• Featured Systems: 9 (PinitAI, Aquarium Sim, JOUL Fleet, CLP Monorepo, Gesture App, Mini World 3D, Productivity SaaS, POS Systems, Portfolio)
+• Interactive Sandboxes: 7 In-Modal Live Simulation Labs
 • Primary Stack: TypeScript, NestJS, Next.js, Prisma, PHP 8 / MySQL, C++, Python, WebGL/GLSL
 • Status: Active Development & Open to Opportunities</pre>`;
   },
