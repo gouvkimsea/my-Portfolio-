@@ -242,7 +242,7 @@ const closeCmdK = () => {
 
 $("#footerCmdKBtn")?.addEventListener("click", openCmdK);
 
-// Global Keyboard Shortcut: ⌘K, Ctrl+K, or ?
+// Global Keyboard Shortcuts: ⌘K, ?, Shift+S, T, R, C, M, 1-5
 document.addEventListener("keydown", e => {
   if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
     e.preventDefault();
@@ -251,19 +251,59 @@ document.addEventListener("keydown", e => {
     } else {
       openCmdK();
     }
-  } else if (e.key === "?" && !["INPUT", "TEXTAREA"].includes(document.activeElement?.tagName)) {
+    return;
+  }
+
+  // Skip single key shortcuts if user is currently typing in an input or textarea
+  if (["INPUT", "TEXTAREA"].includes(document.activeElement?.tagName)) return;
+
+  if (e.key === "?") {
     e.preventDefault();
-    if (cmdKModal?.open) {
-      closeCmdK();
+    if (shortcutsModal?.open) {
+      closeShortcutsModal();
     } else {
-      openCmdK();
+      openShortcutsModal();
     }
-  } else if ((e.key === "S" || e.key === "s") && e.shiftKey && !["INPUT", "TEXTAREA"].includes(document.activeElement?.tagName)) {
+  } else if ((e.key === "S" || e.key === "s") && e.shiftKey) {
     e.preventDefault();
     if (shareModal?.open) {
       closeShareModal();
     } else {
       openShareModal();
+    }
+  } else if (e.key.toLowerCase() === "t" && !e.ctrlKey && !e.metaKey && !e.altKey) {
+    e.preventDefault();
+    const nextTheme = toggleTheme();
+    showPortfolioToast(`Theme: ${nextTheme === "dark" ? "Dark Mode 🌙" : "Light Mode ☀️"}`);
+  } else if (e.key.toLowerCase() === "r" && !e.ctrlKey && !e.metaKey && !e.altKey) {
+    e.preventDefault();
+    if (resumeModal?.open) {
+      closeResumeModal();
+    } else {
+      openResumeModal();
+      showPortfolioToast("Opened Curriculum Vitae (CV)");
+    }
+  } else if (e.key.toLowerCase() === "c" && !e.ctrlKey && !e.metaKey && !e.altKey) {
+    e.preventDefault();
+    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+    showPortfolioToast("Navigated to Contact Channels");
+  } else if (e.key.toLowerCase() === "m" && !e.ctrlKey && !e.metaKey && !e.altKey) {
+    e.preventDefault();
+    showPortfolioToast("🚀 Launching Mini World 3D Planet...");
+    setTimeout(() => { window.location.href = "miniworld.html"; }, 320);
+  } else if (!e.ctrlKey && !e.metaKey && !e.altKey && ["1", "2", "3", "4", "5"].includes(e.key)) {
+    const secMap = {
+      "1": { id: "home", label: "01 · Home" },
+      "2": { id: "about", label: "02 · About & Bento" },
+      "3": { id: "skills", label: "03 · Skills & Toolkit" },
+      "4": { id: "projects", label: "04 · Selected Projects" },
+      "5": { id: "journey", label: "05 · The Journey" }
+    };
+    const target = secMap[e.key];
+    if (target) {
+      e.preventDefault();
+      document.getElementById(target.id)?.scrollIntoView({ behavior: "smooth" });
+      showPortfolioToast(`Jumped to Section ${target.label}`);
     }
   }
 });
@@ -383,6 +423,8 @@ cmdKResults?.addEventListener("click", e => {
       const lab = document.getElementById("miniworldSandbox");
       if (lab) lab.scrollIntoView({ behavior: "smooth", block: "center" });
     }, 250);
+  } else if (action === "view-shortcuts") {
+    openShortcutsModal();
   } else if (action === "share-portfolio") {
     openShareModal();
   } else if (action === "copy-email") {
@@ -3242,6 +3284,12 @@ Engineering Stats (2026):
     openShareModal();
     return "Opening Quick Share &amp; Recruiter Brief modal (Shift+S)...";
   },
+  shortcuts: () => {
+    openShortcutsModal();
+    return "Opening Keyboard Shortcuts &amp; Pro Navigation Guide (?)...";
+  },
+  keys: () => terminalCommands.shortcuts(),
+  cheatsheet: () => terminalCommands.shortcuts(),
   "cat developer.ts": "const developer = {\n  name: 'Gouv Kimsea',\n  degrees: ['B.Sc. Computer Science', 'B.B.A. Business Admin'],\n  stack: ['TypeScript', 'NestJS', 'Next.js', 'PHP', 'Python', 'C++', 'WebGL'],\n  location: 'Phnom Penh, Cambodia',\n  status: 'Building & Available'\n};",
   "cat about-me.js": "const developer = {\n  name: 'Gouv Kimsea',\n  degrees: ['B.Sc. Computer Science', 'B.B.A. Business Admin'],\n  stack: ['TypeScript', 'NestJS', 'Next.js', 'PHP', 'Python', 'C++', 'WebGL'],\n  location: 'Phnom Penh, Cambodia',\n  status: 'Building & Available'\n};"
 };
@@ -4397,5 +4445,35 @@ const initShareModal = () => {
 };
 
 initShareModal();
+
+// ==========================================================================
+// 15. Keyboard Shortcuts Cheatsheet Modal Controller
+// ==========================================================================
+const shortcutsModal = $("#shortcutsModal");
+const shortcutsModalClose = $("#shortcutsModalClose");
+const footerShortcutsBtn = $("#footerShortcutsBtn");
+
+const openShortcutsModal = () => {
+  if (!shortcutsModal) return;
+  shortcutsModal.showModal();
+};
+
+const closeShortcutsModal = () => {
+  if (shortcutsModal && shortcutsModal.open) {
+    shortcutsModal.close();
+  }
+};
+
+const initShortcutsModal = () => {
+  footerShortcutsBtn?.addEventListener("click", openShortcutsModal);
+  shortcutsModalClose?.addEventListener("click", closeShortcutsModal);
+
+  shortcutsModal?.addEventListener("click", (e) => {
+    if (e.target === shortcutsModal) closeShortcutsModal();
+  });
+};
+
+initShortcutsModal();
+
 
 

@@ -2466,6 +2466,10 @@
           title="Search commands (⌘K or Ctrl+K)">
           <span class="cmd-kbd">⌘K</span> Palette
         </button>
+        <button class="footer-cmd-btn magnetic" id="footerShortcutsBtn" type="button" aria-label="Open keyboard shortcuts cheatsheet"
+          title="Keyboard shortcuts guide (?)">
+          <span class="cmd-kbd">?</span> Keys
+        </button>
         <a class="footer-top-link" href="#home">Back to top ↑</a>
       </div>
     </div>
@@ -3421,6 +3425,8 @@
             class="cmdk-icon">⚡</span> Try WebGL Shader Lab <small class="cmdk-desc">Cel-shading fragment controls &amp; biome presets</small></button>
 
         <div class="cmdk-group-title">Quick Actions</div>
+        <button type="button" class="cmdk-item" data-action="view-shortcuts"><span class="cmdk-icon">⌨</span> Keyboard
+          Shortcuts Guide <small class="cmdk-desc">Hotkeys &amp; pro navigation cheatsheet</small></button>
         <button type="button" class="cmdk-item" data-action="share-portfolio"><span class="cmdk-icon">↗</span> Share
           Portfolio &amp; Recruiter Brief <small class="cmdk-desc">Web share, links &amp; executive pitch</small></button>
         <button type="button" class="cmdk-item" data-action="view-education"><span class="cmdk-icon">✦</span> Education
@@ -3497,6 +3503,92 @@ Email: gouvkimsea@gmail.com</pre>
             <span class="pill-icon" aria-hidden="true">in</span> Copy LinkedIn URL
           </button>
         </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Keyboard Shortcuts & Pro Navigation Modal -->
+  <dialog class="shortcuts-modal" id="shortcutsModal" aria-label="Keyboard Shortcuts Guide" aria-modal="true">
+    <div class="shortcuts-shell">
+      <div class="shortcuts-header">
+        <div class="shortcuts-title-wrap">
+          <span class="shortcuts-badge">PRO NAVIGATION</span>
+          <h2 class="shortcuts-title">Keyboard Shortcuts &amp; Hotkeys</h2>
+          <p class="shortcuts-subtitle">Navigate the entire portfolio instantly without lifting your fingers from the keys.</p>
+        </div>
+        <button class="shortcuts-close-btn" id="shortcutsModalClose" type="button" aria-label="Close shortcuts guide">✕</button>
+      </div>
+
+      <div class="shortcuts-body">
+        <!-- Section 1: Navigation Hotkeys -->
+        <div class="shortcuts-section">
+          <h3 class="shortcuts-section-title">Jump to Sections</h3>
+          <div class="shortcuts-grid">
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Home / Hero section</span>
+              <kbd class="shortcut-kbd">1</kbd>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">About &amp; Engineering Bento</span>
+              <kbd class="shortcut-kbd">2</kbd>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Skills &amp; Dual Toolkit</span>
+              <kbd class="shortcut-kbd">3</kbd>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Selected Work &amp; Live Labs</span>
+              <kbd class="shortcut-kbd">4</kbd>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">The Journey &amp; Milestones</span>
+              <kbd class="shortcut-kbd">5</kbd>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Direct Contact &amp; Channels</span>
+              <kbd class="shortcut-kbd">C</kbd>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2: Pro Tools & Modals -->
+        <div class="shortcuts-section">
+          <h3 class="shortcuts-section-title">Tools &amp; Modals</h3>
+          <div class="shortcuts-grid">
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Open ⌘K Command Palette</span>
+              <div class="shortcut-kbd-group">
+                <kbd class="shortcut-kbd">⌘</kbd><kbd class="shortcut-kbd">K</kbd>
+              </div>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Quick Share &amp; Recruiter Brief</span>
+              <div class="shortcut-kbd-group">
+                <kbd class="shortcut-kbd">⇧</kbd><kbd class="shortcut-kbd">S</kbd>
+              </div>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Toggle Dark / Light Theme</span>
+              <kbd class="shortcut-kbd">T</kbd>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Open Interactive Resume / CV</span>
+              <kbd class="shortcut-kbd">R</kbd>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Launch Mini World 3D Planet</span>
+              <kbd class="shortcut-kbd">M</kbd>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Close Active Dialog / Modal</span>
+              <kbd class="shortcut-kbd">ESC</kbd>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="shortcuts-footer">
+        <small class="shortcuts-hint">Tip: Press <kbd class="shortcut-kbd-mini">?</kbd> at any time to toggle this cheatsheet.</small>
       </div>
     </div>
   </dialog>
