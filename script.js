@@ -258,6 +258,13 @@ document.addEventListener("keydown", e => {
     } else {
       openCmdK();
     }
+  } else if ((e.key === "S" || e.key === "s") && e.shiftKey && !["INPUT", "TEXTAREA"].includes(document.activeElement?.tagName)) {
+    e.preventDefault();
+    if (shareModal?.open) {
+      closeShareModal();
+    } else {
+      openShareModal();
+    }
   }
 });
 
@@ -376,6 +383,8 @@ cmdKResults?.addEventListener("click", e => {
       const lab = document.getElementById("miniworldSandbox");
       if (lab) lab.scrollIntoView({ behavior: "smooth", block: "center" });
     }, 250);
+  } else if (action === "share-portfolio") {
+    openShareModal();
   } else if (action === "copy-email") {
     $("#copyEmailBtn")?.click();
   } else if (action === "view-education") {
@@ -3021,7 +3030,7 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>journey</b>, <b>education</b>, <b>skills</b>, <b>projects</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>achievements</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>cv</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>journey</b>, <b>education</b>, <b>skills</b>, <b>projects</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>achievements</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
   about: "Gouv Kimsea — Dual degree undergraduate in Computer Science (Paragon.U) & Business Administration (Bonamary.U) building tangible products.",
   journey: () => {
     const el = document.getElementById("journey");
@@ -3221,7 +3230,18 @@ Engineering Stats (2026):
   github: "Opening GitHub profile in a new tab...",
   linkedin: "Opening LinkedIn profile in a new tab...",
   date: () => new Date().toLocaleString(),
-  sudo: "No administrative privileges needed. All public projects and documentation are open to explore.",
+  share: () => {
+    openShareModal();
+    return "Opening Quick Share &amp; Recruiter Brief modal (Shift+S)...";
+  },
+  recruiter: () => {
+    openShareModal();
+    return "Opening Quick Share &amp; Recruiter Brief modal (Shift+S)...";
+  },
+  pitch: () => {
+    openShareModal();
+    return "Opening Quick Share &amp; Recruiter Brief modal (Shift+S)...";
+  },
   "cat developer.ts": "const developer = {\n  name: 'Gouv Kimsea',\n  degrees: ['B.Sc. Computer Science', 'B.B.A. Business Admin'],\n  stack: ['TypeScript', 'NestJS', 'Next.js', 'PHP', 'Python', 'C++', 'WebGL'],\n  location: 'Phnom Penh, Cambodia',\n  status: 'Building & Available'\n};",
   "cat about-me.js": "const developer = {\n  name: 'Gouv Kimsea',\n  degrees: ['B.Sc. Computer Science', 'B.B.A. Business Admin'],\n  stack: ['TypeScript', 'NestJS', 'Next.js', 'PHP', 'Python', 'C++', 'WebGL'],\n  location: 'Phnom Penh, Cambodia',\n  status: 'Building & Available'\n};"
 };
@@ -4250,4 +4270,132 @@ const initServiceWorker = () => {
   }
 };
 initServiceWorker();
+
+// ==========================================================================
+// 13. Global Toast Notification System
+// ==========================================================================
+const showPortfolioToast = (message, type = "success") => {
+  const container = $("#portfolioToastContainer");
+  if (!container) return;
+
+  const toast = document.createElement("div");
+  toast.className = `portfolio-toast ${type}`;
+  const icon = type === "success" ? "✓" : "ℹ";
+  toast.innerHTML = `<span class="portfolio-toast-icon" aria-hidden="true">${icon}</span><span>${message}</span>`;
+  container.appendChild(toast);
+
+  requestAnimationFrame(() => toast.classList.add("show"));
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => toast.remove(), 320);
+  }, 2600);
+};
+
+// ==========================================================================
+// 14. Quick Share & Recruiter Brief Modal Controller
+// ==========================================================================
+const shareModal = $("#shareModal");
+const shareModalClose = $("#shareModalClose");
+const navShareBtn = $("#navShareBtn");
+const mobileShareBtn = $("#mobileShareBtn");
+const footerShareBtn = $("#footerShareBtn");
+const shareCopyUrlBtn = $("#shareCopyUrlBtn");
+const shareNativeBtn = $("#shareNativeBtn");
+const shareCopyPitchBtn = $("#shareCopyPitchBtn");
+const shareCopyMdBtn = $("#shareCopyMdBtn");
+const shareCopyEmailBtn = $("#shareCopyEmailBtn");
+const shareCopyLinkedInBtn = $("#shareCopyLinkedInBtn");
+const sharePitchText = $("#sharePitchText");
+
+const openShareModal = () => {
+  if (!shareModal) return;
+  shareModal.showModal();
+};
+
+const closeShareModal = () => {
+  if (shareModal && shareModal.open) {
+    shareModal.close();
+  }
+};
+
+const initShareModal = () => {
+  navShareBtn?.addEventListener("click", openShareModal);
+  mobileShareBtn?.addEventListener("click", () => {
+    closeMobileDrawer();
+    openShareModal();
+  });
+  footerShareBtn?.addEventListener("click", openShareModal);
+  shareModalClose?.addEventListener("click", closeShareModal);
+
+  shareModal?.addEventListener("click", (e) => {
+    if (e.target === shareModal) closeShareModal();
+  });
+
+  // Copy Portfolio URL
+  shareCopyUrlBtn?.addEventListener("click", () => {
+    const url = "https://gouvkimsea.github.io/my-Portfolio-/";
+    navigator.clipboard.writeText(url).then(() => {
+      showPortfolioToast("Portfolio link copied to clipboard!");
+    }).catch(() => {
+      showPortfolioToast("Link: " + url);
+    });
+  });
+
+  // Web Share API with clipboard fallback
+  shareNativeBtn?.addEventListener("click", async () => {
+    const shareData = {
+      title: "Gouv Kimsea — Student Developer & Product Builder",
+      text: "Explore Gouv Kimsea's software engineering portfolio, 3D WebGL simulations, and interactive labs.",
+      url: "https://gouvkimsea.github.io/my-Portfolio-/"
+    };
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+        showPortfolioToast("Shared successfully!");
+      } catch (err) {
+        if (err.name !== "AbortError") {
+          showPortfolioToast("Web share opened.");
+        }
+      }
+    } else {
+      navigator.clipboard.writeText(shareData.url).then(() => {
+        showPortfolioToast("Portfolio link copied to clipboard!");
+      });
+    }
+  });
+
+  // Copy Recruiter Executive Brief
+  shareCopyPitchBtn?.addEventListener("click", () => {
+    const text = sharePitchText?.textContent || "";
+    navigator.clipboard.writeText(text).then(() => {
+      showPortfolioToast("Recruiter brief copied to clipboard!");
+    });
+  });
+
+  // Copy Markdown Link Citation
+  shareCopyMdBtn?.addEventListener("click", () => {
+    const md = "[Gouv Kimsea — Portfolio](https://gouvkimsea.github.io/my-Portfolio-/)";
+    navigator.clipboard.writeText(md).then(() => {
+      showPortfolioToast("Markdown link copied!");
+    });
+  });
+
+  // Copy Email Address
+  shareCopyEmailBtn?.addEventListener("click", () => {
+    navigator.clipboard.writeText("gouvkimsea@gmail.com").then(() => {
+      showPortfolioToast("Email copied to clipboard!");
+    });
+  });
+
+  // Copy LinkedIn Profile Link
+  shareCopyLinkedInBtn?.addEventListener("click", () => {
+    navigator.clipboard.writeText("https://linkedin.com/in/gouvkimsea").then(() => {
+      showPortfolioToast("LinkedIn URL copied!");
+    });
+  });
+};
+
+initShareModal();
+
 

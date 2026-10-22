@@ -148,6 +148,17 @@
     <div class="mobile-drawer-header">
       <a class="brand" href="#home">GOUV KIMSEA</a>
       <div class="mobile-drawer-actions">
+        <button class="mobile-drawer-theme-toggle" id="mobileShareBtn" type="button"
+          aria-label="Share portfolio &amp; recruiter brief" title="Share portfolio">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="18" cy="5" r="3"></circle>
+            <circle cx="6" cy="12" r="3"></circle>
+            <circle cx="18" cy="19" r="3"></circle>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+          </svg>
+        </button>
         <button class="mobile-drawer-theme-toggle" id="mobileThemeToggle" type="button"
           aria-label="Toggle dark or light theme">
           <svg class="theme-icon sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
@@ -204,6 +215,18 @@
         <a class="nav-link" href="#achievements">Achievements</a>
       </div>
       <div class="nav-right">
+        <button class="nav-share-btn magnetic" id="navShareBtn" type="button" aria-label="Share portfolio &amp; recruiter brief"
+          title="Share portfolio (Shift+S)">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="18" cy="5" r="3"></circle>
+            <circle cx="6" cy="12" r="3"></circle>
+            <circle cx="18" cy="19" r="3"></circle>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+          </svg>
+          <span class="sr-only">Share</span>
+        </button>
         <button class="theme-toggle magnetic" id="themeToggle" aria-label="Toggle dark or light theme"
           title="Toggle theme">
           <svg class="theme-icon sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
@@ -2435,6 +2458,10 @@
             target="_blank" rel="noreferrer">Open Source on GitHub ↗</a></span>
       </div>
       <div class="footer-links">
+        <button class="footer-cmd-btn magnetic" id="footerShareBtn" type="button" aria-label="Share portfolio &amp; recruiter brief"
+          title="Share portfolio &amp; recruiter brief (Shift+S)">
+          <span class="cmd-kbd">⇧S</span> Share
+        </button>
         <button class="footer-cmd-btn magnetic" id="footerCmdKBtn" type="button" aria-label="Open command palette"
           title="Search commands (⌘K or Ctrl+K)">
           <span class="cmd-kbd">⌘K</span> Palette
@@ -3394,6 +3421,8 @@
             class="cmdk-icon">⚡</span> Try WebGL Shader Lab <small class="cmdk-desc">Cel-shading fragment controls &amp; biome presets</small></button>
 
         <div class="cmdk-group-title">Quick Actions</div>
+        <button type="button" class="cmdk-item" data-action="share-portfolio"><span class="cmdk-icon">↗</span> Share
+          Portfolio &amp; Recruiter Brief <small class="cmdk-desc">Web share, links &amp; executive pitch</small></button>
         <button type="button" class="cmdk-item" data-action="view-education"><span class="cmdk-icon">✦</span> Education
           Profile
           <small class="cmdk-desc">Paragon.U CS &amp; Bonamary.U Business Admin</small></button>
@@ -3408,6 +3437,66 @@
         <button type="button" class="cmdk-item" data-action="linkedin"><span class="cmdk-icon">in</span> LinkedIn
           Profile
           <small class="cmdk-desc">linkedin.com/in/gouvkimsea</small></button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Global Floating Toast Notification Container -->
+  <div class="portfolio-toast-container" id="portfolioToastContainer" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Quick Share & Recruiter Brief Modal Dialog -->
+  <dialog class="share-modal" id="shareModal" aria-label="Share Portfolio &amp; Recruiter Brief" aria-modal="true">
+    <div class="share-shell">
+      <div class="share-header">
+        <div class="share-title-wrap">
+          <span class="share-badge">CONNECT &amp; SHARE</span>
+          <h2 class="share-title">Share Portfolio &amp; Recruiter Brief</h2>
+          <p class="share-subtitle">One-click links, formatted pitch for recruiters, and quick citations.</p>
+        </div>
+        <button class="share-close-btn" id="shareModalClose" type="button" aria-label="Close share modal">✕</button>
+      </div>
+
+      <div class="share-content">
+        <!-- Direct Quick Share Bar -->
+        <div class="share-quick-row">
+          <div class="share-url-box">
+            <span class="share-url-icon" aria-hidden="true">🔗</span>
+            <input type="text" class="share-url-input" id="shareUrlInput" value="https://gouvkimsea.github.io/my-Portfolio-/" readonly aria-label="Portfolio URL" />
+          </div>
+          <button class="button button-primary share-action-btn magnetic" id="shareCopyUrlBtn" type="button">
+            <span>Copy Link</span>
+          </button>
+          <button class="button button-secondary share-action-btn magnetic" id="shareNativeBtn" type="button">
+            <span>Share...</span>
+          </button>
+        </div>
+
+        <!-- Recruiter Pitch Card -->
+        <div class="share-card-block">
+          <div class="share-card-head">
+            <span class="share-card-tag">💼 RECRUITER / EXECUTIVE BRIEF</span>
+            <button class="share-card-copy-btn magnetic" id="shareCopyPitchBtn" type="button">Copy Pitch</button>
+          </div>
+          <pre class="share-card-preview" id="sharePitchText">Gouv Kimsea — Student Developer &amp; Product Builder
+Dual-Degree: Computer Science (Paragon.U) &amp; Business Admin (Bonamary.U)
+Core Stack: WebGL, TypeScript, Next.js, Python, PHP &amp; AI Systems
+Flagship Projects: Mini World 3D, CLP Spaced Repetition, JOUL Fleet Concurrency
+Portfolio: https://gouvkimsea.github.io/my-Portfolio-/
+Email: gouvkimsea@gmail.com</pre>
+        </div>
+
+        <!-- Markdown & Formatted Citations -->
+        <div class="share-pills-row">
+          <button class="share-pill-btn magnetic" id="shareCopyMdBtn" type="button">
+            <span class="pill-icon" aria-hidden="true">M↓</span> Copy Markdown Link
+          </button>
+          <button class="share-pill-btn magnetic" id="shareCopyEmailBtn" type="button">
+            <span class="pill-icon" aria-hidden="true">@</span> Copy Email
+          </button>
+          <button class="share-pill-btn magnetic" id="shareCopyLinkedInBtn" type="button">
+            <span class="pill-icon" aria-hidden="true">in</span> Copy LinkedIn URL
+          </button>
+        </div>
       </div>
     </div>
   </dialog>

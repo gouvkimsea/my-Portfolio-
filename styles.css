@@ -12111,3 +12111,388 @@ textarea:focus-visible,
     outline-offset: 3px !important;
   }
 }
+
+/* ==========================================================================
+   NAV SHARE BUTTON & QUICK ACTION STYLING
+   ========================================================================== */
+.nav-share-btn {
+  position: relative;
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: #0b1120;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, color 0.2s ease;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+[data-theme="dark"] .nav-share-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.16);
+  color: #f8fafc;
+}
+
+.nav-share-btn:hover {
+  background: rgba(0, 0, 0, 0.09) !important;
+  transform: translateY(-1px) scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] .nav-share-btn:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff;
+  border-color: var(--lime);
+}
+
+/* ==========================================================================
+   FLOATING TOAST NOTIFICATION CONTAINER & PILLS
+   ========================================================================== */
+.portfolio-toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+  max-width: calc(100vw - 32px);
+}
+
+.portfolio-toast {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  border-radius: 9999px;
+  background: rgba(15, 23, 42, 0.92);
+  color: #f8fafc;
+  font-family: var(--sans-nav);
+  font-size: 13.5px;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  opacity: 0;
+  transform: translateY(16px) scale(0.95);
+  transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1), transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="light"] .portfolio-toast {
+  background: rgba(255, 255, 255, 0.94);
+  color: #0f172a;
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.portfolio-toast.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.portfolio-toast-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(56, 189, 248, 0.18);
+  color: #38bdf8;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+[data-theme="light"] .portfolio-toast-icon {
+  background: rgba(14, 165, 233, 0.15);
+  color: #0284c7;
+}
+
+.portfolio-toast.success .portfolio-toast-icon {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+}
+
+/* ==========================================================================
+   QUICK SHARE & RECRUITER BRIEF MODAL DIALOG
+   ========================================================================== */
+dialog.share-modal {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  width: min(580px, calc(100% - 32px));
+  box-shadow: none;
+}
+
+dialog.share-modal::backdrop {
+  background: rgba(8, 9, 7, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.share-shell {
+  background: #12141a;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  animation: cmdkPop 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  color: #f8fafc;
+}
+
+[data-theme="light"] .share-shell {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.04);
+  color: #0f172a;
+}
+
+.share-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 24px 28px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="light"] .share-header {
+  border-bottom-color: #e2e8f0;
+}
+
+.share-badge {
+  display: inline-block;
+  font: 10px var(--mono);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #38bdf8;
+  margin-bottom: 6px;
+}
+
+.share-title {
+  font-family: var(--sans-nav);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 4px;
+}
+
+.share-subtitle {
+  font-size: 13px;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.4;
+}
+
+[data-theme="light"] .share-subtitle {
+  color: #64748b;
+}
+
+.share-close-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #94a3b8;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+[data-theme="light"] .share-close-btn {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #64748b;
+}
+
+.share-close-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+.share-content {
+  padding: 22px 28px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.share-quick-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+@media (max-width: 520px) {
+  .share-quick-row {
+    flex-wrap: wrap;
+  }
+  .share-url-box {
+    width: 100%;
+    flex: none;
+  }
+}
+
+.share-url-box {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 0 14px;
+  height: 42px;
+}
+
+[data-theme="light"] .share-url-box {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.share-url-icon {
+  font-size: 15px;
+}
+
+.share-url-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: inherit;
+  font: 12.5px var(--mono);
+  outline: none;
+  width: 100%;
+}
+
+.share-action-btn {
+  height: 42px;
+  padding: 0 16px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.share-card-block {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+
+[data-theme="light"] .share-card-block {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+.share-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.share-card-tag {
+  font: 10.5px var(--mono);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #38bdf8;
+}
+
+[data-theme="light"] .share-card-tag {
+  color: #0284c7;
+}
+
+.share-card-copy-btn {
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  color: #38bdf8;
+  font: 11px var(--mono);
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.share-card-copy-btn:hover {
+  background: #38bdf8;
+  color: #0f172a;
+}
+
+.share-card-preview {
+  margin: 0;
+  font: 12px/1.55 var(--mono);
+  color: #cbd5e1;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+[data-theme="light"] .share-card-preview {
+  color: #334155;
+}
+
+.share-pills-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.share-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  padding: 7px 14px;
+  font-family: var(--sans-nav);
+  font-size: 12px;
+  font-weight: 500;
+  color: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+[data-theme="light"] .share-pill-btn {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #1e293b;
+}
+
+.share-pill-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--lime);
+  transform: translateY(-1px);
+}
+
+[data-theme="light"] .share-pill-btn:hover {
+  background: #e2e8f0;
+  border-color: #94a3b8;
+}
+
+.share-pill-btn .pill-icon {
+  font: 11px var(--mono);
+  font-weight: 700;
+  color: #38bdf8;
+}

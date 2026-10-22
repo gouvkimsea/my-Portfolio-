@@ -60,6 +60,7 @@ A modern, fast, and highly responsive personal portfolio for a student developer
   - *Shimmer Sheens & Radar Pulses*: Featured project light sweep sheen, radar pulse cores, and micro-floating badges.
 - **Accessible & Responsive**: Fast, lightweight performance with zero external runtime dependencies, full mobile drawer navigation, 100% semantic class architecture, and complete `prefers-reduced-motion` compliance.
 - **Progressive Web App (PWA) & Offline Readiness**: Full Web App Manifest (`manifest.json`), custom responsive vector and raster icons (192px/512px/Apple touch), and resilient background Service Worker (`sw.js`) providing network-first document delivery and stale-while-revalidate asset caching for instant loading even without an internet connection.
+- **Quick Share & Recruiter Brief Card**: Floating glassmorphic modal (`Shift + S`, navbar, mobile drawer, footer & ⌘K palette) offering one-click Web Share API integration, formatted markdown link citations, direct recruiter executive summaries, and non-intrusive floating toast notifications.
 
 ---
 
