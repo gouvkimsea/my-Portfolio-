@@ -4223,3 +4223,31 @@ const initCounterAnimations = () => {
   counterEls.forEach(el => countUpObserver.observe(el));
 };
 initCounterAnimations();
+
+// ==========================================================================
+// 12. PWA Service Worker Registration & Offline Readiness
+// ==========================================================================
+const initServiceWorker = () => {
+  if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then((registration) => {
+          registration.addEventListener('updatefound', () => {
+            const installingWorker = registration.installing;
+            if (installingWorker) {
+              installingWorker.addEventListener('statechange', () => {
+                if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  console.info('⚡ New portfolio version available. Background updated.');
+                }
+              });
+            }
+          });
+        })
+        .catch((err) => {
+          console.warn('ServiceWorker registration skipped:', err);
+        });
+    });
+  }
+};
+initServiceWorker();
+

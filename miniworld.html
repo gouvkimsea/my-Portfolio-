@@ -26,8 +26,15 @@
   <meta name="twitter:description"
     content="Interactive procedural 3D cartoon planet simulation built with pure WebGL, custom GLSL shaders, and vertex deformation physics." />
   <meta name="twitter:image" content="https://gouvkimsea.github.io/my-Portfolio-/og-image.jpg" />
-  <link rel="icon"
-    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23191a18'/%3E%3Ctext x='50' y='64' font-size='46' text-anchor='middle' fill='%23e7f26d' font-family='Arial'%3E%5B%5D%3C/text%3E%3C/svg%3E" />
+  
+  <!-- PWA & Application Meta -->
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="alternate icon" type="image/png" sizes="192x192" href="icon-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Mini World 3D" />
 
   <style>
     *, *::before, *::after {
@@ -4102,6 +4109,15 @@
 
     resize();
     render(performance.now());
+
+    // PWA Service Worker Registration
+    if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch((err) => {
+          console.warn('[MiniWorld] Service worker registration skipped:', err);
+        });
+      });
+    }
   </script>
 </body>
 </html>

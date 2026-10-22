@@ -59,6 +59,7 @@ A modern, fast, and highly responsive personal portfolio for a student developer
   - *Smooth Numeric Counter Rollups*: `easeOutExpo` telemetry and metric rollups on scroll visibility.
   - *Shimmer Sheens & Radar Pulses*: Featured project light sweep sheen, radar pulse cores, and micro-floating badges.
 - **Accessible & Responsive**: Fast, lightweight performance with zero external runtime dependencies, full mobile drawer navigation, 100% semantic class architecture, and complete `prefers-reduced-motion` compliance.
+- **Progressive Web App (PWA) & Offline Readiness**: Full Web App Manifest (`manifest.json`), custom responsive vector and raster icons (192px/512px/Apple touch), and resilient background Service Worker (`sw.js`) providing network-first document delivery and stale-while-revalidate asset caching for instant loading even without an internet connection.
 
 ---
 
@@ -66,7 +67,8 @@ A modern, fast, and highly responsive personal portfolio for a student developer
 
 - **HTML5** — Semantic layout and native `<dialog>` modals
 - **CSS3** — Custom properties, CSS grid, backdrop filters, and responsive design
-- **JavaScript (ES6+)** — IntersectionObserver, custom cursor, and interactive terminal
+- **JavaScript (ES6+)** — IntersectionObserver, custom cursor, interactive terminal & Service Worker
+- **PWA & Web Manifest** — Offline caching, app-like standalone installation & quick launcher shortcuts
 - **WebGL / GLSL** — Procedural 3D math and shader rendering
 - **Node.js** — Zero-dependency local static development server
 
