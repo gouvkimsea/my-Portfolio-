@@ -3086,7 +3086,7 @@ Stage 03: Production Systems & Security (PinitAI Threat Scanner & JOUL Fleet)
 Stage 04: Computer Vision & SaaS Tools (Gesture App Python CV & Productivity SaaS)
 Stage 05: Open Source Architecture (15+ Public Repositories @gouvkimsea)
 ================================================================
-Scrolled to Section 04: Developer Journal & Roadmap!</pre>`;
+Scrolled to Section: The Journey &amp; Milestones!</pre>`;
   },
   roadmap: () => terminalCommands.journey(),
   education: () => {
