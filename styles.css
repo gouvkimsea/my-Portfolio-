@@ -7433,6 +7433,24 @@ dialog.resume-modal::backdrop {
   margin-right: 6px;
 }
 
+.resume-info-list a,
+.resume-link {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease;
+}
+
+.resume-info-list a:hover,
+.resume-link:hover {
+  color: var(--orange);
+}
+
+[data-theme="dark"] .resume-info-list a:hover,
+[data-theme="dark"] .resume-link:hover {
+  color: var(--lime);
+}
+
 .resume-footer {
   display: flex;
   align-items: center;
