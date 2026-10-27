@@ -807,8 +807,8 @@ const projectData = {
     learned: "Engineered mathematical interval overlap detection algorithms with mandatory turnaround cleaning/inspection buffers, segregated deposit escrow accounting, granular server-side RBAC with session hardening, and built 5 automated test suites with 197 passing assertions.",
     tech: ["PHP 8.x", "MySQL / InnoDB", "Double-Entry Ledger", "Turnaround Buffers", "RBAC Security", "CSRF Hardening", "Automated Testing"],
     actions: [
-      { label: "Rental Service Repository ↗", url: "https://github.com/gouvkimsea/rental-service", primary: true },
-      { label: "Architecture & Test Suite ↗", url: "https://github.com/gouvkimsea/rental-service#key-features", primary: false }
+      { label: "Rental Service Repository ↗", url: "https://github.com/gouvkimsea/JOUL_Rental_Service", primary: true },
+      { label: "Architecture & Test Suite ↗", url: "https://github.com/gouvkimsea/JOUL_Rental_Service#key-features", primary: false }
     ]
   },
   clp: {
@@ -818,7 +818,7 @@ const projectData = {
     learned: "Engineered pure SuperMemo-2 (SM-2) mathematical interval algorithms, integrated Gemini 1.5 Pro with structured grammar correction prompts, orchestrated a high-performance Turbo monorepo (NestJS API, Next.js student and admin portals, CLI tool), and modeled complex flashcard review ledgers with Prisma ORM.",
     tech: ["TypeScript", "NestJS", "Next.js", "Prisma ORM", "Gemini AI", "SuperMemo-2 (SM-2)", "Monorepo"],
     actions: [
-      { label: "Monorepo GitHub ↗", url: "https://github.com/gouvkimsea", primary: true },
+      { label: "Monorepo GitHub ↗", url: "https://github.com/gouvkimsea/chinese-learning-platform", primary: true },
       { label: "Explore Architecture & SRS Engine ↗", url: "https://github.com/gouvkimsea/my-Portfolio-", primary: false }
     ]
   },
@@ -846,7 +846,7 @@ const projectData = {
   },
   portfolio: {
     title: "This Portfolio",
-    overview: "A personal corner of the internet built to document the journey, experiments, and technical evolution.",
+    overview: "A personal corner of the internet built to document projects, experiments, and technical evolution.",
     problem: "Developer portfolios often feel cookie-cutter. This site was designed to make learning tangible with rich tactile micro-interactions.",
     learned: "Mastering fluid vanilla JavaScript physics, accessible dialog modals, and high-performance CSS animations.",
     tech: ["HTML5", "CSS3", "JavaScript", "GitHub Pages"],
