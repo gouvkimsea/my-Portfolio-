@@ -566,7 +566,7 @@ if (window.matchMedia("(pointer: fine)").matches) {
   document.addEventListener("pointerup", () => document.body.classList.remove("cursor-press"));
 
   // Dynamic interactive element hover delegation
-  const interactiveSelector = "a, button, input[type='button'], input[type='submit'], summary, select, label, [role='button'], [role='tab'], [role='link'], .magnetic, .nav-link, .project-card, .terminal-chip, .topic-chip, .achieve-filter-btn, .hud-item, .hud-contact-item, .hud-copy-btn, .work-drawer-toggle, .theme-toggle, .menu-toggle, .cmdk-btn, .cmdk-item, .code-tab, .code-run-btn, .console-reset-btn, .chrome-sfx-btn, .resume-action-btn, .resume-modal-close, .mobile-drawer-close, .edu-view-btn, .btn, .button, .clickable, [data-filter], [data-topic]";
+  const interactiveSelector = "a, button, input[type='button'], input[type='submit'], summary, select, label, [role='button'], [role='tab'], [role='link'], .magnetic, .nav-link, .project-card, .terminal-chip, .topic-chip, .achieve-filter-btn, .hud-item, .hud-contact-item, .hud-copy-btn, .footer-cmd-btn, .work-drawer-toggle, .theme-toggle, .menu-toggle, .cmdk-btn, .cmdk-item, .code-tab, .code-run-btn, .chrome-sfx-btn, .resume-action-btn, .resume-modal-close, .mobile-drawer-close, .edu-view-btn, .btn, .button, .clickable, [data-filter], [data-topic]";
 
   document.addEventListener("pointerover", event => {
     if (event.target && event.target.closest && event.target.closest(interactiveSelector)) {
@@ -3621,7 +3621,7 @@ const initClickRipples = () => {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
   document.addEventListener("click", e => {
-    const target = e.target.closest(".button, .launch-btn, .nav-contact-btn, .console-action-btn, .theme-toggle, .hud-copy-btn");
+    const target = e.target.closest(".button, .launch-btn, .nav-contact-btn, .footer-cmd-btn, .theme-toggle, .hud-copy-btn, .magnetic");
     if (!target) return;
 
     const rect = target.getBoundingClientRect();
