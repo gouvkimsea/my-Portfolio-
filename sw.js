@@ -3,7 +3,7 @@
  * Provides offline caching, resilient asset delivery, and instant load speeds.
  */
 
-const CACHE_NAME = 'kimsea-pwa-v2';
+const CACHE_NAME = 'kimsea-pwa-v3';
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -102,7 +102,14 @@ self.addEventListener('fetch', (event) => {
             }
             return networkResponse;
           })
-          .catch(() => cachedResponse);
+          .catch(() => {
+            if (cachedResponse) return cachedResponse;
+            return new Response('Resource unavailable offline', {
+              status: 503,
+              statusText: 'Service Unavailable',
+              headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+            });
+          });
 
         return cachedResponse || fetchPromise;
       })
