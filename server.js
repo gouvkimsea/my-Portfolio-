@@ -31,11 +31,19 @@ const server = http.createServer((req, res) => {
     console.error('Response error:', err.message);
   });
 
-  let reqPath = decodeURIComponent(req.url.split('?')[0]);
+  let reqPath;
+  try {
+    reqPath = decodeURIComponent(req.url.split('?')[0]);
+  } catch (err) {
+    res.writeHead(400, { 'Content-Type': 'text/plain; charset=utf-8' });
+    res.end('400 Bad Request');
+    return;
+  }
   if (reqPath === '/' || reqPath === '') reqPath = '/index.html';
   
+  const safeRoot = path.resolve(__dirname) + path.sep;
   const filePath = path.resolve(__dirname, '.' + reqPath);
-  if (!filePath.startsWith(__dirname)) {
+  if (filePath !== __dirname && !filePath.startsWith(safeRoot)) {
     res.writeHead(403, { 'Content-Type': 'text/plain; charset=utf-8' });
     res.end('403 Forbidden');
     return;
