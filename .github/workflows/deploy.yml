@@ -30,7 +30,7 @@ jobs:
           node-version: 20
 
       - name: Validate syntax and integrity
-        run: node -c script.js server.js
+        run: npm test
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
