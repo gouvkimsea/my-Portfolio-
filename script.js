@@ -584,42 +584,44 @@ if (window.matchMedia("(pointer: fine)").matches) {
   }, { passive: true });
 }
 
-// 2. Magnetic Elements Interaction
-const magneticElements = $$(".magnetic");
-magneticElements.forEach(el => {
-  el.addEventListener("pointermove", event => {
-    const rect = el.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const deltaX = (event.clientX - centerX) * 0.35;
-    const deltaY = (event.clientY - centerY) * 0.35;
-    el.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
-  }, { passive: true });
-  el.addEventListener("pointerleave", () => {
-    el.style.transform = "translate(0px, 0px)";
+// 2. Magnetic Elements Interaction & 3. Hero Card Tilt (Fine pointer & motion safe)
+if (window.matchMedia("(pointer: fine)").matches && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  const magneticElements = $$(".magnetic");
+  magneticElements.forEach(el => {
+    el.addEventListener("pointermove", event => {
+      const rect = el.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const deltaX = (event.clientX - centerX) * 0.35;
+      const deltaY = (event.clientY - centerY) * 0.35;
+      el.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+    }, { passive: true });
+    el.addEventListener("pointerleave", () => {
+      el.style.transform = "translate(0px, 0px)";
+    });
   });
-});
 
-// 3. Hero Code Card 3D Perspective Tilt & Parallax Glare
-const heroVisual = $("#heroVisual");
-const codeCard = $("#heroCodeCard") || $(".code-card");
+  // 3. Hero Code Card 3D Perspective Tilt & Parallax Glare
+  const heroVisual = $("#heroVisual");
+  const codeCard = $("#heroCodeCard") || $(".code-card");
 
-if (heroVisual && codeCard) {
-  heroVisual.addEventListener("pointermove", event => {
-    const rect = heroVisual.getBoundingClientRect();
-    const x = (event.clientX - rect.left) / rect.width - 0.5;
-    const y = (event.clientY - rect.top) / rect.height - 0.5;
-    const rotateX = -y * 16;
-    const rotateY = x * 20;
+  if (heroVisual && codeCard) {
+    heroVisual.addEventListener("pointermove", event => {
+      const rect = heroVisual.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width - 0.5;
+      const y = (event.clientY - rect.top) / rect.height - 0.5;
+      const rotateX = -y * 16;
+      const rotateY = x * 20;
 
-    codeCard.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateZ(8px)`;
-    codeCard.style.setProperty("--glare-x", `${((x + 0.5) * 100).toFixed(1)}%`);
-    codeCard.style.setProperty("--glare-y", `${((y + 0.5) * 100).toFixed(1)}%`);
-  }, { passive: true });
+      codeCard.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateZ(8px)`;
+      codeCard.style.setProperty("--glare-x", `${((x + 0.5) * 100).toFixed(1)}%`);
+      codeCard.style.setProperty("--glare-y", `${((y + 0.5) * 100).toFixed(1)}%`);
+    }, { passive: true });
 
-  heroVisual.addEventListener("pointerleave", () => {
-    codeCard.style.transform = "perspective(1000px) rotate(3deg)";
-  });
+    heroVisual.addEventListener("pointerleave", () => {
+      codeCard.style.transform = "perspective(1000px) rotate(3deg)";
+    });
+  }
 }
 
 // 4. Interactive IDE Code Tabs & Execution Simulation
