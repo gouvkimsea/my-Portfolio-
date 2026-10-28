@@ -3059,7 +3059,7 @@ $("#resumeContactBtn")?.addEventListener("click", () => openResumeModal());
 $("#resumeCloseBtn")?.addEventListener("click", closeResumeModal);
 $("#resumeFooterClose")?.addEventListener("click", closeResumeModal);
 $("#resumePrintBtn")?.addEventListener("click", () => window.print());
-$$(".resume-view-btn").forEach(btn => {
+$$(".resume-view-btn, .edu-view-btn").forEach(btn => {
   btn.addEventListener("click", () => openResumeModal("#resumeEduSection"));
 });
 resumeModal?.addEventListener("click", event => {
