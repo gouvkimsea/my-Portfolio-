@@ -292,8 +292,12 @@
                     class="tab-badge badge-sh">&gt;_</span><span class="tab-label-full">status.sh</span><span
                     class="tab-label-short">status</span></button>
               </div>
-              <button class="code-run-btn" id="runCodeBtn" type="button" title="Execute script"><span
-                  class="run-icon">▶</span> <span class="run-label">Run</span></button>
+              <div class="code-actions">
+                <button class="code-copy-btn" id="copyCodeBtn" type="button" title="Copy active code snippet to clipboard" aria-label="Copy active code snippet to clipboard"><span
+                    class="copy-icon" aria-hidden="true">📋</span> <span class="copy-label">Copy</span></button>
+                <button class="code-run-btn" id="runCodeBtn" type="button" title="Execute script"><span
+                    class="run-icon">▶</span> <span class="run-label">Run</span></button>
+              </div>
             </div>
             <div class="code-body">
               <!-- Tab 1: developer.ts -->
@@ -2491,7 +2495,13 @@ Email: gouvkimsea@gmail.com</pre>
             </div>
             <div class="shortcut-row">
               <span class="shortcut-desc">Direct Contact &amp; Channels</span>
-              <kbd class="shortcut-kbd">C</kbd>
+              <div class="shortcut-kbd-group">
+                <kbd class="shortcut-kbd">6</kbd><span class="shortcut-or">or</span><kbd class="shortcut-kbd">C</kbd>
+              </div>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Execute Hero Code Card</span>
+              <kbd class="shortcut-kbd">X</kbd>
             </div>
           </div>
         </div>

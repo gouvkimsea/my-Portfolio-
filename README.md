@@ -27,7 +27,7 @@ A modern, fast, and highly responsive personal portfolio for a student developer
 
 ## Key Features
 
-- **Hero & Interactive Code Card**: Editorial hero layout with mouse-tracking tilt on the `developer.ts` card, live status badge, and clean academic highlights.
+- **Hero & Interactive Code Card**: Editorial hero layout with mouse-tracking tilt on the `developer.ts` card, multi-file code tabs (`developer.ts`, `skills.json`, `status.sh`), live script execution runner (`Run`), one-click snippet copy with toast feedback, live status badge, and clean academic highlights.
 - **Floating Island Navigation**: Magnetic sliding pill indicator with glassmorphism blur, automatic scroll morphing, and streamlined mobile navigation drawer.
 - **⌘K Command Palette & Quick Search**: Fast keyboard navigation modal (`⌘K`, `Ctrl+K`, or `?`) for jumping between sections and triggering quick actions.
 - **About Bento Grid & Engineering Focus**: Multi-card layout featuring engineering principles, dual-degree tracks, location, active exploration, and collaboration availability.
@@ -61,7 +61,7 @@ A modern, fast, and highly responsive personal portfolio for a student developer
 - **Accessible & Responsive**: Fast, lightweight performance with zero external runtime dependencies, full mobile drawer navigation, 100% semantic class architecture, and complete `prefers-reduced-motion` compliance.
 - **Progressive Web App (PWA) & Offline Readiness**: Full Web App Manifest (`manifest.json`), custom responsive vector and raster icons (192px/512px/Apple touch), and resilient background Service Worker (`sw.js`) providing network-first document delivery and stale-while-revalidate asset caching for instant loading even without an internet connection.
 - **Quick Share & Recruiter Brief Card**: Floating glassmorphic modal (`Shift + S`, navbar, mobile drawer, footer & ⌘K palette) offering one-click Web Share API integration, formatted markdown link citations, direct recruiter executive summaries, and non-intrusive floating toast notifications.
-- **Pro Keyboard Navigation Suite & Hotkeys Guide**: Full tactile keyboard-driven UX featuring instant numeric section jumping (`1`–`5`), quick theme flipping (`T`), rapid CV inspection (`R`), Mini World launching (`M`), contact jump (`C`), and an interactive glassmorphic Hotkeys Cheatsheet modal (`?` key or footer badge).
+- **Pro Keyboard Navigation Suite & Hotkeys Guide**: Full tactile keyboard-driven UX featuring instant numeric section jumping (`1`–`6`), quick theme flipping (`T`), rapid CV inspection (`R`), Mini World launching (`M`), contact jump (`C` or `6`), hero code card execution (`X`), and an interactive glassmorphic Hotkeys Cheatsheet modal (`?` key or footer badge).
 
 ---
 

@@ -291,13 +291,22 @@ document.addEventListener("keydown", e => {
     e.preventDefault();
     showPortfolioToast("🚀 Launching Mini World 3D Planet...");
     setTimeout(() => { window.location.href = "miniworld.html"; }, 320);
-  } else if (!e.ctrlKey && !e.metaKey && !e.altKey && ["1", "2", "3", "4", "5"].includes(e.key)) {
+  } else if (e.key.toLowerCase() === "x" && !e.ctrlKey && !e.metaKey && !e.altKey) {
+    e.preventDefault();
+    const runBtn = $("#runCodeBtn");
+    if (runBtn) {
+      document.getElementById("home")?.scrollIntoView({ behavior: "smooth" });
+      runBtn.click();
+      showPortfolioToast("Executed active script in Code Card ⚡");
+    }
+  } else if (!e.ctrlKey && !e.metaKey && !e.altKey && ["1", "2", "3", "4", "5", "6"].includes(e.key)) {
     const secMap = {
       "1": { id: "home", label: "01 · Home" },
       "2": { id: "about", label: "02 · About & Bento" },
       "3": { id: "skills", label: "03 · Skills & Toolkit" },
       "4": { id: "projects", label: "04 · Selected Projects" },
-      "5": { id: "achievements", label: "05 · Milestones & Achievements" }
+      "5": { id: "achievements", label: "05 · Milestones & Achievements" },
+      "6": { id: "contact", label: "06 · Direct Contact" }
     };
     const target = secMap[e.key];
     if (target) {
@@ -566,7 +575,7 @@ if (window.matchMedia("(pointer: fine)").matches) {
   document.addEventListener("pointerup", () => document.body.classList.remove("cursor-press"));
 
   // Dynamic interactive element hover delegation
-  const interactiveSelector = "a, button, input[type='button'], input[type='submit'], summary, select, label, [role='button'], [role='tab'], [role='link'], .magnetic, .nav-link, .project-card, .terminal-chip, .topic-chip, .achieve-filter-btn, .hud-item, .hud-contact-item, .hud-copy-btn, .footer-cmd-btn, .work-drawer-toggle, .theme-toggle, .menu-toggle, .cmdk-btn, .cmdk-item, .code-tab, .code-run-btn, .chrome-sfx-btn, .resume-action-btn, .resume-modal-close, .mobile-drawer-close, .edu-view-btn, .btn, .button, .clickable, [data-filter], [data-topic]";
+  const interactiveSelector = "a, button, input[type='button'], input[type='submit'], summary, select, label, [role='button'], [role='tab'], [role='link'], .magnetic, .nav-link, .project-card, .terminal-chip, .topic-chip, .achieve-filter-btn, .hud-item, .hud-contact-item, .hud-copy-btn, .footer-cmd-btn, .work-drawer-toggle, .theme-toggle, .menu-toggle, .cmdk-btn, .cmdk-item, .code-tab, .code-copy-btn, .code-run-btn, .chrome-sfx-btn, .resume-action-btn, .resume-modal-close, .mobile-drawer-close, .edu-view-btn, .btn, .button, .clickable, [data-filter], [data-topic]";
 
   document.addEventListener("pointerover", event => {
     if (event.target && event.target.closest && event.target.closest(interactiveSelector)) {
@@ -727,6 +736,67 @@ consoleResetBtn?.addEventListener("click", (e) => {
   if (runCodeBtn) runCodeBtn.innerHTML = '<span class="run-icon">▶</span> <span class="run-label">Run</span>';
   if (consoleText) consoleText.textContent = "ready to execute · click ▶ Run";
   isRunningCode = false;
+});
+
+// One-click Code Snippet Copy Interaction
+const copyCodeBtn = $("#copyCodeBtn");
+const codeSnippets = {
+  profile: `const developer: Developer = {
+  name: 'Gouv Kimsea',
+  location: 'Phnom Penh, KH',
+  degree: 'CS & Business Admin',
+  focus: 'Web, 3D & Products',
+  available: true
+};`,
+  stack: `{
+  "core": ["TypeScript", "JS", "C++"],
+  "creative": ["Three.js", "WebGL", "Blender"],
+  "frameworks": ["Next.js", "React", "Node"],
+  "passion": "Crafting seamless UI"
+}`,
+  status: `$ pnpm dev --turbo
+✓ Paragon.U (CS) + Bonamary.U (BBA)
+✓ 30+ interactive experiences deployed
+✓ MiniWorld 3D experiment online
+➜ ready for collaborative engineering`
+};
+
+copyCodeBtn?.addEventListener("click", () => {
+  const currentSnippet = codeSnippets[activeTabId] || codeSnippets.profile;
+  const tabNames = {
+    profile: "developer.ts",
+    stack: "skills.json",
+    status: "status.sh"
+  };
+  const fileName = tabNames[activeTabId] || "code snippet";
+
+  const onCopySuccess = () => {
+    copyCodeBtn.classList.add("copied");
+    const copyLabel = $(".copy-label", copyCodeBtn);
+    const copyIcon = $(".copy-icon", copyCodeBtn);
+    if (copyLabel) copyLabel.textContent = "Copied!";
+    if (copyIcon) copyIcon.textContent = "✓";
+
+    showPortfolioToast(`Copied ${fileName} to clipboard! 📋`);
+
+    setTimeout(() => {
+      copyCodeBtn.classList.remove("copied");
+      if (copyLabel) copyLabel.textContent = "Copy";
+      if (copyIcon) copyIcon.textContent = "📋";
+    }, 2200);
+  };
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(currentSnippet)
+      .then(onCopySuccess)
+      .catch(() => {
+        fallbackCopy(currentSnippet);
+        onCopySuccess();
+      });
+  } else {
+    fallbackCopy(currentSnippet);
+    onCopySuccess();
+  }
 });
 
 // 5. Spotlight Card Effect (Linear / Vercel cursor border glow + subtle 3D tilt)
@@ -3598,7 +3668,7 @@ copyEmailBtn?.addEventListener("click", () => {
   }
 });
 
-const fallbackCopy = text => {
+function fallbackCopy(text) {
   const ta = document.createElement("textarea");
   ta.value = text;
   ta.style.position = "fixed";
