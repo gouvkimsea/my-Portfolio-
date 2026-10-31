@@ -575,7 +575,7 @@ if (window.matchMedia("(pointer: fine)").matches) {
   document.addEventListener("pointerup", () => document.body.classList.remove("cursor-press"));
 
   // Dynamic interactive element hover delegation
-  const interactiveSelector = "a, button, input[type='button'], input[type='submit'], summary, select, label, [role='button'], [role='tab'], [role='link'], .magnetic, .nav-link, .project-card, .terminal-chip, .topic-chip, .achieve-filter-btn, .hud-item, .hud-contact-item, .hud-copy-btn, .footer-cmd-btn, .work-drawer-toggle, .theme-toggle, .menu-toggle, .cmdk-btn, .cmdk-item, .code-tab, .code-copy-btn, .code-run-btn, .chrome-sfx-btn, .resume-action-btn, .resume-modal-close, .mobile-drawer-close, .edu-view-btn, .btn, .button, .clickable, [data-filter], [data-topic]";
+  const interactiveSelector = "a, button, input[type='button'], input[type='submit'], summary, select, label, [role='button'], [role='tab'], [role='link'], .magnetic, .nav-link, .project-card, .terminal-chip, .topic-chip, .achieve-filter-btn, .hud-item, .hud-contact-item, .hud-copy-btn, .footer-cmd-btn, .work-drawer-toggle, .theme-toggle, .menu-toggle, .cmdk-btn, .cmdk-item, .code-tab, .code-copy-btn, .projects-search-clear, .empty-reset-btn, .code-run-btn, .chrome-sfx-btn, .resume-action-btn, .resume-modal-close, .mobile-drawer-close, .edu-view-btn, .btn, .button, .clickable, [data-filter], [data-topic]";
 
   document.addEventListener("pointerover", event => {
     if (event.target && event.target.closest && event.target.closest(interactiveSelector)) {
@@ -824,26 +824,101 @@ $$(".spotlight-card").forEach(card => {
   });
 });
 
-// 6. Project Filters with Smooth Transition
-$$(".filter").forEach(filter => filter.addEventListener("click", () => {
-  $$(".filter").forEach(item => item.classList.remove("active"));
-  filter.classList.add("active");
-  const selected = filter.dataset.filter;
-  const cards = $$(".project-card");
+// 6. Reactive Project Filters & Quick Search Controller
+const projectCards = $(".project-card");
+const projectFilterBtns = $(".filter");
+const projectSearchInput = $("#projectSearchInput");
+const projectSearchClear = $("#projectSearchClear");
+const projectEmptyState = $("#projectEmptyState");
+const projectsStatusText = $("#projectsStatusText");
+const resetProjectFiltersBtn = $("#resetProjectFiltersBtn");
 
-  cards.forEach(card => {
-    const matches = selected === "all" || card.dataset.category.includes(selected);
-    if (!matches) {
+let currentCategory = "all";
+let currentSearchQuery = "";
+
+const updateProjectFilterState = () => {
+  let visibleCount = 0;
+  const q = currentSearchQuery.trim().toLowerCase();
+
+  projectCards.forEach(card => {
+    const categoryMatch = currentCategory === "all" || (card.dataset.category && card.dataset.category.includes(currentCategory));
+
+    let textMatch = true;
+    if (q) {
+      const title = $(".project-title", card)?.textContent?.toLowerCase() || "";
+      const desc = $(".project-desc", card)?.textContent?.toLowerCase() || "";
+      const tags = $(".project-tag", card).map(t => t.textContent.toLowerCase()).join(" ");
+      const projName = card.dataset.project || "";
+      textMatch = title.includes(q) || desc.includes(q) || tags.includes(q) || projName.includes(q);
+    }
+
+    const isVisible = categoryMatch && textMatch;
+    if (isVisible) {
+      visibleCount++;
+      card.classList.remove("hidden");
+      requestAnimationFrame(() => card.classList.remove("fade-out"));
+    } else {
       card.classList.add("fade-out");
       setTimeout(() => {
         if (card.classList.contains("fade-out")) card.classList.add("hidden");
       }, 250);
-    } else {
-      card.classList.remove("hidden");
-      requestAnimationFrame(() => card.classList.remove("fade-out"));
     }
   });
-}));
+
+  // Update clear button visibility
+  if (projectSearchClear) {
+    projectSearchClear.classList.toggle("visible", q.length > 0);
+  }
+
+  // Update empty state
+  if (projectEmptyState) {
+    projectEmptyState.style.display = visibleCount === 0 ? "block" : "none";
+  }
+
+  // Update status indicator text
+  if (projectsStatusText) {
+    if (q && currentCategory !== "all") {
+      projectsStatusText.textContent = `Showing ${visibleCount} of ${projectCards.length} projects for "${q}" in ${currentCategory}`;
+    } else if (q) {
+      projectsStatusText.textContent = `Showing ${visibleCount} of ${projectCards.length} projects matching "${q}"`;
+    } else if (currentCategory !== "all") {
+      projectsStatusText.textContent = `Showing ${visibleCount} of ${projectCards.length} ${currentCategory} projects`;
+    } else {
+      projectsStatusText.textContent = `Showing all ${projectCards.length} projects`;
+    }
+  }
+};
+
+projectFilterBtns.forEach(filter => {
+  filter.addEventListener("click", () => {
+    projectFilterBtns.forEach(item => item.classList.remove("active"));
+    filter.classList.add("active");
+    currentCategory = filter.dataset.filter || "all";
+    updateProjectFilterState();
+  });
+});
+
+projectSearchInput?.addEventListener("input", (e) => {
+  currentSearchQuery = e.target.value;
+  updateProjectFilterState();
+});
+
+projectSearchClear?.addEventListener("click", () => {
+  if (projectSearchInput) {
+    projectSearchInput.value = "";
+    currentSearchQuery = "";
+    projectSearchInput.focus();
+    updateProjectFilterState();
+  }
+});
+
+resetProjectFiltersBtn?.addEventListener("click", () => {
+  if (projectSearchInput) projectSearchInput.value = "";
+  currentSearchQuery = "";
+  currentCategory = "all";
+  projectFilterBtns.forEach(b => b.classList.toggle("active", b.dataset.filter === "all"));
+  updateProjectFilterState();
+});
 
 // 6b. Achievements Filter with Smooth Transition
 const achieveFilters = $$(".achieve-filter-btn");

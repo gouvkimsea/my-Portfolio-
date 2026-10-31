@@ -637,11 +637,32 @@
           </div>
           <p class="heading-note">A few experiments, class projects,<br />and ideas made tangible.</p>
         </div>
-        <div class="filter-bar" role="group" aria-label="Filter projects">
-          <button class="filter active" data-filter="all">All <sup class="filter-count">09</sup></button><button class="filter"
-            data-filter="web">Web <sup class="filter-count">09</sup></button><button class="filter" data-filter="ai">AI
-            <sup class="filter-count">04</sup></button><button class="filter" data-filter="3d">3D &amp; WebGL <sup class="filter-count">02</sup></button><button
-            class="filter" data-filter="security">Security <sup class="filter-count">03</sup></button>
+        <div class="projects-toolbar reveal">
+          <div class="filter-bar" role="group" aria-label="Filter projects">
+            <button class="filter active" data-filter="all">All <sup class="filter-count">09</sup></button><button class="filter"
+              data-filter="web">Web <sup class="filter-count">09</sup></button><button class="filter" data-filter="ai">AI
+              <sup class="filter-count">04</sup></button><button class="filter" data-filter="3d">3D &amp; WebGL <sup class="filter-count">02</sup></button><button
+              class="filter" data-filter="security">Security <sup class="filter-count">03</sup></button>
+          </div>
+          <div class="projects-search-box">
+            <span class="projects-search-icon" aria-hidden="true">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </span>
+            <input type="text" id="projectSearchInput" class="projects-search-input" placeholder="Search tech, title or keyword..." aria-label="Search projects by technology, title, or keyword" autocomplete="off" />
+            <button type="button" id="projectSearchClear" class="projects-search-clear" aria-label="Clear project search" title="Clear search">✕</button>
+          </div>
+        </div>
+        <div class="projects-status-bar" id="projectsStatusBar" aria-live="polite">
+          <span class="projects-status-text" id="projectsStatusText">Showing all 9 projects</span>
+        </div>
+        <div class="project-empty-state" id="projectEmptyState" style="display: none;" aria-live="polite">
+          <div class="empty-icon" aria-hidden="true">⚡</div>
+          <h3 class="empty-title">No matching projects found</h3>
+          <p class="empty-desc">We couldn't find any projects matching your filter and search criteria.</p>
+          <button type="button" class="button button-sm empty-reset-btn" id="resetProjectFiltersBtn">Reset filters</button>
         </div>
         <div class="project-grid">
           <article class="project-card featured reveal spotlight-card" data-category="ai security web"
