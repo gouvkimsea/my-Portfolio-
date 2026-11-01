@@ -777,6 +777,7 @@ copyCodeBtn?.addEventListener("click", () => {
     if (copyLabel) copyLabel.textContent = "Copied!";
     if (copyIcon) copyIcon.textContent = "✓";
 
+    if (typeof playSound === "function") playSound("chime");
     showPortfolioToast(`Copied ${fileName} to clipboard! 📋`);
 
     setTimeout(() => {
@@ -3725,6 +3726,7 @@ copyEmailBtn?.addEventListener("click", () => {
   const performCopy = () => {
     copyEmailBtn.textContent = "✓ Copied!";
     copyEmailBtn.classList.add("copied");
+    if (typeof playSound === "function") playSound("chime");
     setTimeout(() => {
       copyEmailBtn.textContent = "Copy";
       copyEmailBtn.classList.remove("copied");
@@ -3768,8 +3770,9 @@ const initClickRipples = () => {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
   document.addEventListener("click", e => {
-    const target = e.target.closest(".button, .launch-btn, .nav-contact-btn, .footer-cmd-btn, .theme-toggle, .hud-copy-btn, .magnetic");
+    const target = e.target.closest(".button, .launch-btn, .nav-contact-btn, .footer-cmd-btn, .theme-toggle, .chrome-sfx-btn, .hud-copy-btn, .magnetic");
     if (!target) return;
+    if (typeof playSound === "function") playSound("click");
 
     const rect = target.getBoundingClientRect();
     const ripple = document.createElement("span");
@@ -4031,3 +4034,92 @@ initShortcutsModal();
 
 
 
+
+// ==========================================================================
+// Procedural Web Audio Sound FX Engine (Zero External Audio Assets)
+// ==========================================================================
+let audioCtx = null;
+let sfxEnabled = localStorage.getItem("kimsea_sfx_enabled") === "true";
+
+const getAudioContext = () => {
+  if (!audioCtx && (window.AudioContext || window.webkitAudioContext)) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if (audioCtx && audioCtx.state === "suspended") {
+    audioCtx.resume();
+  }
+  return audioCtx;
+};
+
+const playSound = (type = "click") => {
+  if (!sfxEnabled) return;
+  try {
+    const ctx = getAudioContext();
+    if (!ctx) return;
+    const t = ctx.currentTime;
+
+    if (type === "click") {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(800, t);
+      osc.frequency.exponentialRampToValueAtTime(400, t + 0.035);
+      gain.gain.setValueAtTime(0.04, t);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.04);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(t);
+      osc.stop(t + 0.045);
+    } else if (type === "chime") {
+      [587.33, 880].forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(freq, t + idx * 0.05);
+        gain.gain.setValueAtTime(0.035, t + idx * 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t + idx * 0.05 + 0.22);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(t + idx * 0.05);
+        osc.stop(t + idx * 0.05 + 0.25);
+      });
+    } else if (type === "sweep") {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(320, t);
+      osc.frequency.exponentialRampToValueAtTime(640, t + 0.12);
+      gain.gain.setValueAtTime(0.03, t);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.14);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(t);
+      osc.stop(t + 0.15);
+    }
+  } catch (_) {}
+};
+
+const updateSfxUI = () => {
+  const btns = $$(".chrome-sfx-btn");
+  btns.forEach(btn => {
+    btn.classList.toggle("muted", !sfxEnabled);
+    btn.setAttribute("title", `Sound Effects: ${sfxEnabled ? "Enabled (click to mute)" : "Muted (click to enable)"}`);
+  });
+};
+
+const toggleSfx = () => {
+  sfxEnabled = !sfxEnabled;
+  localStorage.setItem("kimsea_sfx_enabled", sfxEnabled ? "true" : "false");
+  updateSfxUI();
+  if (sfxEnabled) {
+    getAudioContext();
+    playSound("chime");
+    showPortfolioToast("Sound Effects: Enabled 🔊");
+  } else {
+    showPortfolioToast("Sound Effects: Muted 🔇");
+  }
+  return sfxEnabled;
+};
+
+updateSfxUI();
+$$(".chrome-sfx-btn").forEach(btn => btn.addEventListener("click", toggleSfx));

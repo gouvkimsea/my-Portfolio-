@@ -10600,4 +10600,97 @@ dialog.shortcuts-modal::backdrop {
   padding: 1px 5px;
   color: inherit;
 }
-
+
+/* Chrome SFX Toggle Button */
+.chrome-sfx-btn {
+  position: relative;
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: #0b1120;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, color 0.2s ease;
+}
+
+.chrome-sfx-btn:hover {
+  background: rgba(0, 0, 0, 0.09) !important;
+  transform: translateY(-1px) scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.chrome-sfx-btn .sfx-icon {
+  width: 17px;
+  height: 17px;
+  display: block;
+  flex-shrink: 0;
+}
+
+.chrome-sfx-btn.muted .sfx-on {
+  display: none !important;
+}
+
+.chrome-sfx-btn.muted .sfx-off {
+  display: block !important;
+  opacity: 0.55;
+}
+
+.chrome-sfx-btn:not(.muted) .sfx-on {
+  display: block !important;
+  color: var(--lime);
+}
+
+.chrome-sfx-btn:not(.muted) .sfx-off {
+  display: none !important;
+}
+
+[data-theme="light"] .chrome-sfx-btn:not(.muted) .sfx-on {
+  color: var(--orange);
+}
+
+[data-theme="dark"] .chrome-sfx-btn {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+}
+
+[data-theme="dark"] .chrome-sfx-btn:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-color: rgba(255, 255, 255, 0.35) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+
+.site-header.scrolled .chrome-sfx-btn {
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.95) !important;
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.08);
+}
+
+[data-theme="dark"] .site-header.scrolled .chrome-sfx-btn {
+  background: rgba(175, 192, 218, 0.44) !important;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.42) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .site-header.scrolled .chrome-sfx-btn:hover {
+  background: rgba(185, 202, 226, 0.54) !important;
+}
+
+@media (max-width: 900px) {
+  .site-header .chrome-sfx-btn {
+    display: none !important;
+  }
+}
