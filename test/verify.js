@@ -91,7 +91,7 @@ console.log('\n[3/4] Security Standards:');
 });
 
 // 4. Accessibility & Markup Quality
-console.log('\n[4/4] Accessibility & Markup Quality:');
+console.log('\n[4/5] Accessibility & Markup Quality:');
 const indexHtml = fs.readFileSync('index.html', 'utf8');
 
 // Check Form Inputs have labels or aria-label
@@ -114,6 +114,14 @@ idMatches.forEach(id => {
   else seenIds.add(id);
 });
 assert(duplicateIds.length === 0, `index.html: All ${seenIds.size} element IDs are unique (duplicates: ${duplicateIds.join(', ') || 'none'})`);
+
+// 5. Functional & Runtime Contract Integrity
+console.log('\n[5/5] Functional & Feature Integrity:');
+const scriptJs = fs.readFileSync('script.js', 'utf8');
+assert(scriptJs.includes('playSound') && scriptJs.includes('toggleSfx'), 'script.js: Web Audio procedural sound engine is implemented');
+assert(scriptJs.includes('updateProjectFilterState'), 'script.js: Reactive project search and filter engine is implemented');
+assert(scriptJs.includes('codeSnippets') && scriptJs.includes('copyCodeBtn'), 'script.js: Hero code snippet copy interaction is implemented');
+assert(scriptJs.includes('sound:') && scriptJs.includes('copy:'), 'script.js: In-browser terminal CLI command suite expanded');
 
 // Summary
 console.log('\n----------------------------------------');
