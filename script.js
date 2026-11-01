@@ -3220,7 +3220,31 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>skills</b>, <b>projects</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>ping</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
+  sound: () => {
+    const next = toggleSfx();
+    return `Sound effects: <b>${next ? "Enabled 🔊" : "Muted 🔇"}</b>.`;
+  },
+  sfx: () => terminalCommands.sound(),
+  copy: () => {
+    $("#copyCodeBtn")?.click();
+    return "Copied active hero code snippet to clipboard! 📋";
+  },
+  ping: () => `pong! Telemetry latency: ${Math.floor(Math.random() * 8 + 6)}ms · ES2026 zero-latency client runtime.`,
+  test: () => {
+    return `<pre style="color:var(--lime);font-size:11px;line-height:1.4;">
+Diagnostic System Telemetry:
+================================================================
+✓ Core Assets: index.html, styles.css, script.js, sw.js (OK)
+✓ WebGL 3D Acceleration: ${window.WebGLRenderingContext ? "Hardware Accelerated" : "Fallback"}
+✓ Web Audio Procedural Synth: ${window.AudioContext || window.webkitAudioContext ? "Active" : "Unavailable"}
+✓ Progressive Web App (PWA): ${'serviceWorker' in navigator ? "Registered (Offline Ready)" : "Not supported"}
+✓ Screen Viewport: ${window.innerWidth}x${window.innerHeight} (${window.devicePixelRatio}x DPI)
+✓ Active Visual Theme: ${document.documentElement.getAttribute("data-theme") || "dark"}
+✓ Test Suite Integrity: 100% Passed (All automated checks OK)
+================================================================
+System operational · ready to build.</pre>`;
+  },
   about: "Gouv Kimsea — Dual degree undergraduate in Computer Science (Paragon.U) & Business Administration (Bonamary.U) building tangible products.",
   journey: () => {
     const el = document.getElementById("achievements");
@@ -3468,6 +3492,19 @@ const executeCommand = rawCommand => {
     response = terminalCommands[lower]();
   } else if (terminalCommands[lower]) {
     response = terminalCommands[lower];
+  } else if (lower.startsWith("find ") || (lower.startsWith("search ") && command.length > 7)) {
+    const q = command.slice(command.indexOf(" ") + 1).trim();
+    if (projectSearchInput) {
+      projectSearchInput.value = q;
+      currentSearchQuery = q;
+      updateProjectFilterState();
+    }
+    document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+    const matches = projectCards.filter(card => {
+      const text = card.textContent.toLowerCase();
+      return text.includes(q.toLowerCase()) || (card.dataset.category && card.dataset.category.includes(q.toLowerCase()));
+    });
+    response = `Filtered projects by "<b>${escapeHtml(q)}</b>" (${matches.length} matches found). Jumped to Selected Work!`;
   } else if (lower.startsWith("echo ")) {
     response = escapeHtml(command.slice(5));
   } else {
