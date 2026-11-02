@@ -1,5 +1,5 @@
-const $ = (selector, root = document) => root.querySelector(selector);
-const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+const $ = (selector, root = document) => (root || document).querySelector?.(selector);
+const $$ = (selector, root = document) => (root || document).querySelectorAll ? [...(root || document).querySelectorAll(selector)] : [];
 
 // Page loader
 window.addEventListener("load", () => setTimeout(() => $("#loader")?.classList.add("done"), 400));
@@ -575,7 +575,7 @@ if (window.matchMedia("(pointer: fine)").matches) {
   document.addEventListener("pointerup", () => document.body.classList.remove("cursor-press"));
 
   // Dynamic interactive element hover delegation
-  const interactiveSelector = "a, button, input[type='button'], input[type='submit'], summary, select, label, [role='button'], [role='tab'], [role='link'], .magnetic, .nav-link, .project-card, .terminal-chip, .topic-chip, .achieve-filter-btn, .hud-item, .hud-contact-item, .hud-copy-btn, .footer-cmd-btn, .work-drawer-toggle, .theme-toggle, .menu-toggle, .cmdk-btn, .cmdk-item, .code-tab, .code-copy-btn, .projects-search-clear, .empty-reset-btn, .code-run-btn, .chrome-sfx-btn, .resume-action-btn, .resume-modal-close, .mobile-drawer-close, .edu-view-btn, .btn, .button, .clickable, [data-filter], [data-topic]";
+  const interactiveSelector = "a, button, input[type='button'], input[type='submit'], summary, select, label, [role='button'], [role='tab'], [role='link'], .magnetic, .nav-link, .project-card, .terminal-chip, .topic-chip, .achieve-filter-btn, .hud-item, .hud-contact-item, .hud-copy-btn, .footer-cmd-btn, .work-drawer-toggle, .theme-toggle, .menu-toggle, .cmdk-btn, .cmdk-item, .code-tab, .code-copy-btn, .projects-search-clear, .empty-reset-btn, .copy-filter-link-btn, .code-run-btn, .chrome-sfx-btn, .resume-action-btn, .resume-modal-close, .mobile-drawer-close, .edu-view-btn, .btn, .button, .clickable, [data-filter], [data-topic]";
 
   document.addEventListener("pointerover", event => {
     if (event.target && event.target.closest && event.target.closest(interactiveSelector)) {
@@ -826,8 +826,8 @@ $$(".spotlight-card").forEach(card => {
 });
 
 // 6. Reactive Project Filters & Quick Search Controller
-const projectCards = $(".project-card");
-const projectFilterBtns = $(".filter");
+const projectCards = $$(".project-card");
+const projectFilterBtns = $$(".filter");
 const projectSearchInput = $("#projectSearchInput");
 const projectSearchClear = $("#projectSearchClear");
 const projectEmptyState = $("#projectEmptyState");
@@ -888,7 +888,88 @@ const updateProjectFilterState = () => {
       projectsStatusText.textContent = `Showing all ${projectCards.length} projects`;
     }
   }
+
+  // Synchronize state to URL parameters
+  try {
+    const url = new URL(window.location.href);
+    if (currentCategory && currentCategory !== "all") {
+      url.searchParams.set("filter", currentCategory);
+    } else {
+      url.searchParams.delete("filter");
+    }
+
+    const trimmedQ = currentSearchQuery.trim();
+    if (trimmedQ) {
+      url.searchParams.set("q", trimmedQ);
+    } else {
+      url.searchParams.delete("q");
+    }
+
+    window.history.replaceState({}, "", url.toString());
+  } catch (_) {}
 };
+
+// Copy Shareable Filter/Search View Link
+const copyFilterLinkBtn = $("#copyFilterLinkBtn");
+copyFilterLinkBtn?.addEventListener("click", () => {
+  const url = window.location.href;
+  const onCopied = () => {
+    copyFilterLinkBtn.classList.add("copied");
+    const label = $(".link-label", copyFilterLinkBtn);
+    if (label) label.textContent = "Link Copied!";
+    if (typeof playSound === "function") playSound("chime");
+    showPortfolioToast("Shareable project view link copied! 🔗");
+    setTimeout(() => {
+      copyFilterLinkBtn.classList.remove("copied");
+      if (label) label.textContent = "Share View";
+    }, 2000);
+  };
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(onCopied).catch(() => {
+      fallbackCopy(url);
+      onCopied();
+    });
+  } else {
+    fallbackCopy(url);
+    onCopied();
+  }
+});
+
+// Deep-link query parameters hydration on load
+const initDeepLinks = () => {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const filterParam = params.get("filter");
+    const qParam = params.get("q");
+    const projectParam = params.get("project");
+
+    if (filterParam && ["web", "ai", "3d", "security"].includes(filterParam.toLowerCase())) {
+      currentCategory = filterParam.toLowerCase();
+      projectFilterBtns.forEach(b => b.classList.toggle("active", b.dataset.filter === currentCategory));
+    }
+
+    if (qParam) {
+      currentSearchQuery = qParam;
+      if (projectSearchInput) projectSearchInput.value = qParam;
+    }
+
+    if (filterParam || qParam) {
+      updateProjectFilterState();
+      setTimeout(() => {
+        document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+      }, 350);
+    }
+
+    if (projectParam && typeof openModal === "function") {
+      setTimeout(() => {
+        openModal(projectParam.toLowerCase());
+      }, 450);
+    }
+  } catch (_) {}
+};
+
+initDeepLinks();
 
 projectFilterBtns.forEach(filter => {
   filter.addEventListener("click", () => {
@@ -3025,6 +3106,11 @@ function stopSaasLab() {
 function openModal(projectKey) {
   const data = projectData[projectKey];
   if (!data) return;
+  try {
+    const url = new URL(window.location.href);
+    url.searchParams.set("project", projectKey);
+    window.history.replaceState({}, "", url.toString());
+  } catch (_) {}
   previousActiveElement = document.activeElement;
   $("#modalTitle").textContent = data.title;
   $("#modalOverview").textContent = data.overview;
@@ -3118,6 +3204,11 @@ function closeModal() {
   stopAquariumLab();
   stopGestureLab();
   stopSaasLab();
+  try {
+    const url = new URL(window.location.href);
+    url.searchParams.delete("project");
+    window.history.replaceState({}, "", url.toString());
+  } catch (_) {}
   if (modal?.open) {
     modal.close();
     if (previousActiveElement && typeof previousActiveElement.focus === "function") {
@@ -4133,7 +4224,7 @@ const playSound = (type = "click") => {
       osc.start(t);
       osc.stop(t + 0.15);
     }
-  } catch (_) {}
+  } catch (_) { }
 };
 
 const updateSfxUI = () => {

@@ -122,6 +122,41 @@ assert(scriptJs.includes('playSound') && scriptJs.includes('toggleSfx'), 'script
 assert(scriptJs.includes('updateProjectFilterState'), 'script.js: Reactive project search and filter engine is implemented');
 assert(scriptJs.includes('codeSnippets') && scriptJs.includes('copyCodeBtn'), 'script.js: Hero code snippet copy interaction is implemented');
 assert(scriptJs.includes('sound:') && scriptJs.includes('copy:'), 'script.js: In-browser terminal CLI command suite expanded');
+assert(scriptJs.includes('initDeepLinks') && scriptJs.includes('copyFilterLinkBtn'), 'script.js: URL query synchronization and shareable deep-links implemented');
+
+// Test global script evaluation with mock DOM globals
+try {
+  const domMock = {
+    window: { addEventListener: () => {}, location: { href: 'http://localhost/', search: '' }, innerWidth: 1200, innerHeight: 800, matchMedia: () => ({ matches: false, addEventListener: () => {}, removeEventListener: () => {} }) },
+    document: {
+      addEventListener: () => {},
+      querySelector: () => null,
+      querySelectorAll: () => [],
+      getElementById: () => null,
+      createElement: () => ({ style: {}, classList: { add: () => {}, remove: () => {} }, appendChild: () => {} }),
+      body: { classList: { add: () => {}, remove: () => {} }, appendChild: () => {}, removeChild: () => {} },
+      documentElement: { style: {}, scrollHeight: 2000, getAttribute: () => 'dark', setAttribute: () => {} }
+    },
+    navigator: { clipboard: {}, serviceWorker: {}, userAgent: 'Node-Test' },
+    localStorage: { getItem: () => null, setItem: () => {} },
+    location: { href: 'http://localhost/', search: '' },
+    URL: URL,
+    URLSearchParams: URLSearchParams,
+    IntersectionObserver: class { observe() {} unobserve() {} disconnect() {} },
+    performance: globalThis.performance || { now: () => Date.now() },
+    console: console,
+    setTimeout: () => {},
+    clearTimeout: () => {},
+    setInterval: () => {},
+    clearInterval: () => {},
+    requestAnimationFrame: () => {}
+  };
+  domMock.window.document = domMock.document;
+  new vm.Script(fs.readFileSync('script.js', 'utf8')).runInNewContext(domMock);
+  assert(true, 'script.js evaluates without top-level runtime exceptions');
+} catch (err) {
+  assert(false, `script.js evaluation error: ${err.message}`);
+}
 
 // Summary
 console.log('\n----------------------------------------');

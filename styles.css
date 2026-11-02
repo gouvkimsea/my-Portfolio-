@@ -723,6 +723,46 @@ h2 em {
   align-items: center;
   font: 11px var(--mono);
   color: var(--muted);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.copy-filter-link-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font: 10px/1 var(--mono);
+  padding: 4.5px 9px;
+  border-radius: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.copy-filter-link-btn:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: var(--lime);
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+
+[data-theme="light"] .copy-filter-link-btn {
+  background: #ffffff;
+  border-color: #cbd5e1;
+}
+
+[data-theme="light"] .copy-filter-link-btn:hover {
+  background: #f8fafc;
+  border-color: var(--orange);
+}
+
+.copy-filter-link-btn.copied {
+  background: rgba(74, 222, 128, 0.16) !important;
+  border-color: rgba(74, 222, 128, 0.5) !important;
+  color: #4ade80 !important;
 }
 
 .project-empty-state {
@@ -1610,6 +1650,7 @@ dialog::backdrop {
   .code-copy-btn,
   .projects-search-clear,
   .empty-reset-btn,
+  .copy-filter-link-btn,
   .code-run-btn,
   .console-reset-btn,
   .chrome-sfx-btn,
