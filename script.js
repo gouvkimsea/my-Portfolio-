@@ -271,6 +271,9 @@ document.addEventListener("keydown", e => {
     } else {
       openShareModal();
     }
+  } else if (e.key.toLowerCase() === "u" && !e.ctrlKey && !e.metaKey && !e.altKey) {
+    e.preventDefault();
+    if (typeof toggleSfx === "function") toggleSfx();
   } else if (e.key.toLowerCase() === "t" && !e.ctrlKey && !e.metaKey && !e.altKey) {
     e.preventDefault();
     const nextTheme = toggleTheme();
@@ -444,6 +447,15 @@ cmdKResults?.addEventListener("click", e => {
     openResumeModal();
   } else if (action === "toggle-theme") {
     toggleTheme();
+  } else if (action === "toggle-sfx") {
+    if (typeof toggleSfx === "function") toggleSfx();
+  } else if (action === "copy-code") {
+    $("#copyCodeBtn")?.click();
+  } else if (action === "filter-projects") {
+    const cat = item.dataset.category || "all";
+    const filterBtn = $(`button.filter[data-filter='${cat}']`);
+    if (filterBtn) filterBtn.click();
+    document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
   } else if (action === "github") {
     window.open("https://github.com/gouvkimsea", "_blank", "noopener,noreferrer");
   } else if (action === "linkedin") {
@@ -3583,6 +3595,16 @@ const executeCommand = rawCommand => {
     response = terminalCommands[lower]();
   } else if (terminalCommands[lower]) {
     response = terminalCommands[lower];
+  } else if (lower.startsWith("filter ")) {
+    const cat = lower.slice(7).trim();
+    if (["web", "ai", "3d", "security", "all"].includes(cat)) {
+      const btn = $(`button.filter[data-filter='${cat}']`);
+      if (btn) btn.click();
+      document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+      response = `Applied project filter: <b>${cat.toUpperCase()}</b>. Scrolled to Selected Work!`;
+    } else {
+      response = `Unknown category: <b>${escapeHtml(cat)}</b>. Available categories: <b>all</b>, <b>web</b>, <b>ai</b>, <b>3d</b>, <b>security</b>.`;
+    }
   } else if (lower.startsWith("find ") || (lower.startsWith("search ") && command.length > 7)) {
     const q = command.slice(command.indexOf(" ") + 1).trim();
     if (projectSearchInput) {
