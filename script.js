@@ -1137,7 +1137,7 @@ const projectData = {
     tech: ["PHP 8.x", "MySQL", "Relational Database", "Business Analytics", "POS Inventory", "SaaS Architecture"],
     actions: [
       { label: "Productivity SaaS Repo ↗", url: "https://github.com/gouvkimsea/progress-tracking-and-productivitysaas", primary: true },
-      { label: "POS System Repo ↗", url: "https://github.com/gouvkimsea/Pos_systemphp", primary: false }
+      { label: "POS System (ABA Payway) Repo ↗", url: "https://github.com/gouvkimsea/POS-system-ABA-payway", primary: false }
     ]
   }
 };
