@@ -3,7 +3,7 @@
  * Provides offline caching, resilient asset delivery, and instant load speeds.
  */
 
-const CACHE_NAME = 'kimsea-pwa-v9';
+const CACHE_NAME = 'kimsea-pwa-v10';
 const CORE_ASSETS = [
   './',
   './index.html',

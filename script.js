@@ -1048,8 +1048,8 @@ const projectData = {
     learned: "Engineered mathematical interval overlap detection algorithms with mandatory turnaround cleaning/inspection buffers, segregated deposit escrow accounting, granular server-side RBAC with session hardening, and built 5 automated test suites with 197 passing assertions.",
     tech: ["PHP 8.x", "MySQL / InnoDB", "Double-Entry Ledger", "Turnaround Buffers", "RBAC Security", "CSRF Hardening", "Automated Testing"],
     actions: [
-      { label: "Rental Service Repository ↗", url: "https://github.com/gouvkimsea/JOUL_Rental_Service", primary: true },
-      { label: "Architecture & Test Suite ↗", url: "https://github.com/gouvkimsea/JOUL_Rental_Service#key-features", primary: false }
+      { label: "Rental Service Repository ↗", url: "https://github.com/gouvkimsea/rental-service", primary: true },
+      { label: "Architecture & Test Suite ↗", url: "https://github.com/gouvkimsea/rental-service#key-features", primary: false }
     ]
   },
   clp: {
