@@ -3323,7 +3323,7 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>ping</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>ping</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
   sound: () => {
     const next = toggleSfx();
     return `Sound effects: <b>${next ? "Enabled 🔊" : "Muted 🔇"}</b>.`;
@@ -3377,6 +3377,44 @@ The Intersection: Algorithmic rigor paired with market insight.</pre>`;
   degree: () => terminalCommands.education(),
   university: () => terminalCommands.education(),
   school: () => terminalCommands.education(),
+  coursework: () => {
+    return `<pre style="color:var(--lime);font-size:11px;line-height:1.5;">
+Paragon International University (PIU) — Year 2 Semester 1 Coursework:
+================================================================
+1. Data Structures &amp; Algorithms (C++)
+   • Custom OOP student information &amp; evaluation system
+   • Array structures, robust numeric stream validation &amp; memory safety
+2. CS 223: Web Applications &amp; OOP (PHP 8 / Composer)
+   • Modular PSR-4 architecture, EnrollmentManager &amp; Student models
+3. Computer Networking (Cisco ITN Module 3)
+   • Network protocols, OSI 7-layer stack, packet encapsulation &amp; routing
+4. Linear Algebra (MATH 241)
+   • Matrix operations, vector spaces, eigenvalues &amp; linear transformations
+5. System Analysis &amp; Design
+   • System development lifecycle (SDLC), requirement modeling &amp; UML
+6. Accounting for Technical Use
+   • Balance sheets, double-entry ledgers, financial flow &amp; asset depreciation
+================================================================
+Type 'grading' or 'cpp' to inspect the C++ data structures project.</pre>`;
+  },
+  piu: () => terminalCommands.coursework(),
+  cpp: () => {
+    return `<pre style="color:var(--lime);font-size:11px;line-height:1.5;">
+C++ Student Grading &amp; Evaluation System (OOP &amp; Data Structures):
+================================================================
+Architecture Overview:
+• Paradigm: Object-Oriented Programming (OOP) in C++ (MSYS2 GCC 15.2.0)
+• Class Definition: 'student' encapsulating subject ledgers &amp; grade calculators
+• Features:
+  - Input stream validation preventing buffer injection &amp; non-numeric loops
+  - Dynamic subject registration (1-6 subjects per student profile)
+  - Numeric boundary normalization ensuring scores &gt;= 80 evaluate to 'A'
+  - High-performance, clean standard output CLI formatting
+• Source: D:/EVERYTHING/YEAR2/semester 1/PIU/data structure and al/coding value/
+================================================================
+All compiler checks passed: g++ -Wall -Wextra (0 errors, 0 warnings).</pre>`;
+  },
+  grading: () => terminalCommands.cpp(),
   skills: "JavaScript · TypeScript · NestJS · Next.js · Prisma · C++ · Python · WebGL / Shaders · HTML5 / CSS3 · React · REST APIs · Node.js · SQL · MySQL · PHP",
   projects: "1. <b>PinitAI</b> — Heuristic scam & threat detector (TypeScript)\n2. <b>Aquarium Filter Sim</b> — Fluid dynamics & nitrogen cycle physics (TypeScript)\n3. <b>JOUL Rental Service</b> — Enterprise vehicle fleet & escrow platform (PHP 8 / MySQL)\n4. <b>Chinese Learning Platform</b> — Full-stack monorepo, SuperMemo-2 SRS & Gemini AI (NestJS/Next.js)\n5. <b>Gesture App</b> — 21-joint real-time hand tracking & computer vision (Python / MediaPipe)\n6. <b>Mini World 3D</b> — Procedural planet simulation & WebGL shader lab\n7. <b>Productivity SaaS & POS</b> — Sprint velocity burndown & retail cash ledger (PHP)\n8. <b>DevPulse</b> — Real-time telemetry dashboard & metrics (TypeScript)\n9. <b>This Portfolio</b> — Ultra-performant Vanilla ES2026 platform\nType any project name or click any card to launch its interactive breakdown.",
   achievements: () => {
