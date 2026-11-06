@@ -443,6 +443,16 @@ cmdKResults?.addEventListener("click", e => {
     $("#copyEmailBtn")?.click();
   } else if (action === "view-education") {
     openResumeModal("#resumeEduSection");
+  } else if (action === "view-coursework") {
+    const termSec = document.getElementById("terminal-section");
+    if (termSec) {
+      termSec.scrollIntoView({ behavior: "smooth", block: "start" });
+      const termInput = document.getElementById("terminalInput");
+      if (termInput) {
+        termInput.value = "coursework";
+        document.getElementById("terminalForm")?.dispatchEvent(new Event("submit"));
+      }
+    }
   } else if (action === "view-resume") {
     openResumeModal();
   } else if (action === "toggle-theme") {

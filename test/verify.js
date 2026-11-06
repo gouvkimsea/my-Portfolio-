@@ -123,7 +123,7 @@ assert(scriptJs.includes('updateProjectFilterState'), 'script.js: Reactive proje
 assert(scriptJs.includes('codeSnippets') && scriptJs.includes('copyCodeBtn'), 'script.js: Hero code snippet copy interaction is implemented');
 assert(scriptJs.includes('sound:') && scriptJs.includes('copy:') && scriptJs.includes('coursework:') && scriptJs.includes('cpp:'), 'script.js: In-browser terminal CLI command suite expanded with academic coursework and C++ OOP modules');
 assert(scriptJs.includes('initDeepLinks') && scriptJs.includes('copyFilterLinkBtn'), 'script.js: URL query synchronization and shareable deep-links implemented');
-assert(scriptJs.includes('action === "toggle-sfx"') && scriptJs.includes('action === "copy-code"'), 'script.js: Command palette quick actions expanded with SFX and snippet copying');
+assert(scriptJs.includes('action === "toggle-sfx"') && scriptJs.includes('action === "copy-code"') && scriptJs.includes('action === "view-coursework"'), 'script.js: Command palette quick actions expanded with SFX, snippet copying, and coursework navigation');
 
 // Test global script evaluation with mock DOM globals
 try {
