@@ -160,6 +160,14 @@ const setActiveSection = (sectionId) => {
     drawerLink.classList.toggle("active", Boolean(isDrawerMatch));
   });
 
+  // 3b. Synchronize Desktop Floating Mini-Dots HUD
+  const sectionDots = $$(".section-dot");
+  sectionDots.forEach(dot => {
+    const isMatch = dot.getAttribute("data-section") === sectionId;
+    dot.classList.toggle("active", isMatch);
+    dot.setAttribute("aria-current", isMatch ? "true" : "false");
+  });
+
   // 4. Update URL without causing page jump or polluting history
   if (typeof window !== "undefined" && window.history?.replaceState) {
     const hash = sectionId === "home" ? (window.location.pathname + window.location.search) : `#${sectionId}`;
@@ -191,7 +199,7 @@ const navigateToSection = (targetId, options = {}) => {
   setActiveSection(cleanId);
 
   if (playSfx && typeof playSound === "function") {
-    playSound("click");
+    playSound("whoosh");
   }
 
   scrollLockTimer = setTimeout(() => {
@@ -365,7 +373,17 @@ window.addEventListener("keydown", (e) => {
   }
 });
 
-// Wire Brand and Contact Buttons to Section Navigation
+// Wire Desktop Floating Mini-Dots HUD & Brand/Contact to Section Navigation
+const sectionDots = $$(".section-dot");
+sectionDots.forEach(dot => {
+  dot.addEventListener("click", () => {
+    const targetSection = dot.getAttribute("data-section");
+    if (targetSection) {
+      navigateToSection(targetSection);
+    }
+  });
+});
+
 brandLink?.addEventListener("click", (e) => {
   const href = brandLink.getAttribute("href");
   if (href && href.startsWith("#")) {
@@ -3596,7 +3614,69 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>ping</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>ping</b>, <b>matrix</b>, <b>git</b>, <b>nav [section]</b>, <b>shortcuts</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
+  matrix: () => {
+    const terminalBody = $(".terminal-body");
+    if (!terminalBody) return "Terminal stream window not accessible.";
+    const existing = $("#terminalMatrixCanvas");
+    if (existing) {
+      existing.remove();
+      return "Matrix digital rain sequence terminated.";
+    }
+    const canvas = document.createElement("canvas");
+    canvas.id = "terminalMatrixCanvas";
+    canvas.style.cssText = "width:100%;height:160px;border-radius:6px;margin:8px 0;display:block;background:#050d08;border:1px solid rgba(16,185,129,0.3);";
+    terminalBody.appendChild(canvas);
+    canvas.width = canvas.offsetWidth || 500;
+    canvas.height = canvas.offsetHeight || 160;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return "Streaming Matrix stream...";
+    const chars = "0123456789ABCDEFアイウエオカキクケコサシスセソタチツテト";
+    const fontSize = 11;
+    const cols = Math.floor(canvas.width / fontSize);
+    const drops = Array.from({ length: cols }, () => Math.floor(Math.random() * -15));
+    let frames = 0;
+    const timer = setInterval(() => {
+      ctx.fillStyle = "rgba(5, 13, 8, 0.16)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#10b981";
+      ctx.font = `${fontSize}px monospace`;
+      drops.forEach((y, i) => {
+        const text = chars.charAt(Math.floor(Math.random() * chars.length));
+        ctx.fillText(text, i * fontSize, y * fontSize);
+        if (y * fontSize > canvas.height && Math.random() > 0.97) drops[i] = 0;
+        drops[i]++;
+      });
+      frames++;
+      if (frames > 300) clearInterval(timer);
+    }, 35);
+    return "Streaming Matrix telemetry stream... Run <b>matrix</b> again to dismiss or wait for auto-timeout.";
+  },
+  git: () => {
+    return `<pre style="color:var(--lime);font-size:11px;line-height:1.45;margin:4px 0;">
+* <b>0131eba</b> (HEAD -> main, origin/main) docs(navigation): document scroll-triggered section transitions
+* <b>af288df</b> feat(navigation): implement scroll-triggered section transitions and dynamic navigation observer
+* <b>d84a95a</b> feat(cmdk): integrate Year 2 coursework terminal jump in command palette
+* <b>29aa660</b> docs(features): document academic terminal commands and minimalist audio controls
+* <b>e6ee2fe</b> feat(miniworld): redesign procedural audio toggle button with vector waves
+* <b>85bfdc3</b> style(audio): refine sound toggle button to sleek minimalist glass design
+* <b>c2c1448</b> feat(coursework): update networking lecture notes and harden student grading system</pre>`;
+  },
+  nav: (arg) => {
+    const target = (arg || "").trim().toLowerCase();
+    const valid = ["home", "about", "terminal-section", "terminal", "skills", "projects", "achievements", "contact"];
+    if (!target) return "Usage: <b>nav [section]</b> · Options: <i>home</i>, <i>about</i>, <i>terminal</i>, <i>skills</i>, <i>projects</i>, <i>achievements</i>, <i>contact</i>";
+    const mapped = target === "terminal" ? "terminal-section" : target;
+    if (valid.includes(mapped)) {
+      navigateToSection(mapped);
+      return `Navigating smoothly to section <b>#${mapped}</b>...`;
+    }
+    return `Unknown section "${target}". Available: ${valid.join(", ")}`;
+  },
+  shortcuts: () => {
+    $("#shortcutsModal")?.showModal();
+    return "Opened keyboard shortcuts cheatsheet modal! ⌨️";
+  },
   sound: () => {
     const next = toggleSfx();
     return `Sound effects: <b>${next ? "Enabled 🔊" : "Muted 🔇"}</b>.`;
@@ -4556,6 +4636,51 @@ const playSound = (type = "click") => {
       gain.connect(ctx.destination);
       osc.start(t);
       osc.stop(t + 0.15);
+    } else if (type === "whoosh") {
+      const osc = ctx.createOscillator();
+      const filter = ctx.createBiquadFilter();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(240, t);
+      osc.frequency.exponentialRampToValueAtTime(110, t + 0.22);
+      filter.type = "lowpass";
+      filter.frequency.setValueAtTime(700, t);
+      filter.frequency.exponentialRampToValueAtTime(180, t + 0.22);
+      gain.gain.setValueAtTime(0.001, t);
+      gain.gain.linearRampToValueAtTime(0.045, t + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.22);
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(t);
+      osc.stop(t + 0.24);
+    } else if (type === "keypress") {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(420, t);
+      osc.frequency.exponentialRampToValueAtTime(140, t + 0.025);
+      gain.gain.setValueAtTime(0.015, t);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.025);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(t);
+      osc.stop(t + 0.03);
+    } else if (type === "success") {
+      [523.25, 659.25, 783.99].forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const startTime = t + idx * 0.05;
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(freq, startTime);
+        gain.gain.setValueAtTime(0.001, startTime);
+        gain.gain.linearRampToValueAtTime(0.035, startTime + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.18);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(startTime);
+        osc.stop(startTime + 0.2);
+      });
     }
   } catch (_) { }
 };
@@ -4584,3 +4709,19 @@ const toggleSfx = () => {
 
 updateSfxUI();
 $$(".chrome-sfx-btn").forEach(btn => btn.addEventListener("click", toggleSfx));
+
+// ==========================================================================
+// 10. CLIENT TELEMETRY & WEB VITALS PERFORMANCE LOGGER
+// ==========================================================================
+if (typeof window !== "undefined" && "PerformanceObserver" in window) {
+  try {
+    const vitalsObserver = new PerformanceObserver((list) => {
+      list.getEntries().forEach((entry) => {
+        if (entry.name === "first-contentful-paint") {
+          console.log(`%c⚡ [Web Vitals] FCP: ${Math.round(entry.startTime)}ms · Optimal UX Ready`, "color:#10b981;font-weight:bold;font-family:monospace;");
+        }
+      });
+    });
+    vitalsObserver.observe({ type: "paint", buffered: true });
+  } catch (_) { }
+}
