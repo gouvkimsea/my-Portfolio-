@@ -241,6 +241,42 @@
       box-shadow: 0 0 16px rgba(234, 179, 8, 0.55);
     }
 
+    /* Minimalist Sound Toggle Button */
+    .glass-btn.audio-minimal-btn {
+      padding: 6px 12px;
+      gap: 6px;
+      font-size: 11.5px;
+      letter-spacing: 0.02em;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .glass-btn.audio-minimal-btn svg {
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    .glass-btn.audio-minimal-btn:hover svg {
+      transform: scale(1.08);
+    }
+    .glass-btn.audio-minimal-btn.audio-music {
+      background: rgba(56, 189, 248, 0.16);
+      border-color: rgba(56, 189, 248, 0.45);
+      color: #38bdf8;
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.22);
+    }
+    .glass-btn.audio-minimal-btn.audio-sfx {
+      background: rgba(168, 85, 247, 0.16);
+      border-color: rgba(168, 85, 247, 0.45);
+      color: #c084fc;
+      box-shadow: 0 0 14px rgba(168, 85, 247, 0.2);
+    }
+    .glass-btn.audio-minimal-btn.audio-off {
+      background: rgba(15, 23, 42, 0.5);
+      border-color: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.4);
+      box-shadow: none;
+    }
+
     /* UFO Flight HUD */
     .ufo-hud {
       position: fixed;
@@ -719,8 +755,15 @@
       <button id="btnPhoto" class="glass-btn" title="Capture High-Res Photo Snapshot (K)">
         <span class="btn-icon">📸</span> <span class="btn-text">Photo</span>
       </button>
-      <button id="btnAudio" class="glass-btn" title="Toggle Sound (M)">
-        <span class="btn-icon" id="audioIcon">SFX</span> Sound
+      <button id="btnAudio" class="glass-btn audio-minimal-btn audio-music active" title="Toggle Celestial Sound Mode (M)" aria-label="Toggle Sound Mode">
+        <svg id="audioSvgIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <path id="audioWave1" d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          <path id="audioWave2" d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+          <line id="audioMute1" x1="23" y1="9" x2="17" y2="15" style="display:none;"></line>
+          <line id="audioMute2" x1="17" y1="9" x2="23" y2="15" style="display:none;"></line>
+        </svg>
+        <span id="audioModeText">Music</span>
       </button>
       <button id="btnCycle" class="glass-btn active" title="Auto Day/Night Cycle (Space)">
         <span class="btn-icon">☼</span> Auto Cycle
@@ -2659,17 +2702,55 @@
     });
 
     const AUDIO_MODES = [
-      { id: 'all', label: '♫ Music', toast: '♫ Audio: Celestial Soundscape & SFX Online' },
+      { id: 'all', label: 'Music', toast: '♫ Audio: Celestial Soundscape & SFX Online' },
       { id: 'sfx', label: 'SFX', toast: 'SFX Audio: Sound Effects Only' },
-      { id: 'off', label: 'OFF', toast: 'Audio: All Sound Muted' }
+      { id: 'off', label: 'Muted', toast: 'Audio: All Sound Muted' }
     ];
+
+    function updateAudioVisuals(mode) {
+      const audioModeText = document.getElementById('audioModeText');
+      const wave1 = document.getElementById('audioWave1');
+      const wave2 = document.getElementById('audioWave2');
+      const mute1 = document.getElementById('audioMute1');
+      const mute2 = document.getElementById('audioMute2');
+
+      if (audioModeText) audioModeText.textContent = mode.label;
+      if (btnAudio) {
+        btnAudio.classList.remove('audio-music', 'audio-sfx', 'audio-off', 'active');
+        if (mode.id === 'all') {
+          btnAudio.classList.add('audio-music', 'active');
+        } else if (mode.id === 'sfx') {
+          btnAudio.classList.add('audio-sfx', 'active');
+        } else {
+          btnAudio.classList.add('audio-off');
+        }
+      }
+
+      if (wave1 && wave2 && mute1 && mute2) {
+        if (mode.id === 'all') {
+          wave1.style.display = 'block';
+          wave2.style.display = 'block';
+          mute1.style.display = 'none';
+          mute2.style.display = 'none';
+        } else if (mode.id === 'sfx') {
+          wave1.style.display = 'block';
+          wave2.style.display = 'none';
+          mute1.style.display = 'none';
+          mute2.style.display = 'none';
+        } else {
+          wave1.style.display = 'none';
+          wave2.style.display = 'none';
+          mute1.style.display = 'block';
+          mute2.style.display = 'block';
+        }
+      }
+    }
 
     function cycleAudioMode() {
       initAudio();
       audioModeIndex = (audioModeIndex + 1) % AUDIO_MODES.length;
       const mode = AUDIO_MODES[audioModeIndex];
-      if (audioIcon) audioIcon.textContent = mode.label;
-      if (btnAudio) btnAudio.classList.toggle('active', mode.id !== 'off');
+      updateAudioVisuals(mode);
 
       if (mode.id === 'all') {
         audioEnabled = true;
