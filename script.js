@@ -60,11 +60,12 @@ navLinks.forEach(link => {
   link.addEventListener("focus", () => {
     updateNavIndicator(link, false);
   });
-  link.addEventListener("click", () => {
-    navLinks.forEach(l => l.classList.remove("active"));
-    link.classList.add("active");
-    activeLink = link;
-    updateNavIndicator(activeLink, false);
+  link.addEventListener("click", (e) => {
+    const href = link.getAttribute("href");
+    if (href && href.startsWith("#")) {
+      e.preventDefault();
+      navigateToSection(href.substring(1));
+    }
   });
 });
 
@@ -79,37 +80,322 @@ navLinksContainer?.addEventListener("mouseleave", () => {
 window.addEventListener("resize", () => updateNavIndicator(activeLink, false));
 window.addEventListener("load", () => setTimeout(() => updateNavIndicator(activeLink, false), 200));
 
-// Section Scrollspy for Center Pill Active State
-const sectionIds = ["about", "skills", "projects", "achievements"];
-const observedSections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+// ============================================================================
+// 9. SCROLL-TRIGGERED NAVIGATION & SECTION TRANSITIONS CONTROLLER
+// ============================================================================
 
-const updateScrollspy = () => {
-  if (window.scrollY < 120) {
+const SECTION_IDS = [
+  "home",
+  "about",
+  "terminal-section",
+  "skills",
+  "projects",
+  "achievements",
+  "contact"
+];
+
+// Map sections to their primary desktop nav link targets
+const SECTION_NAV_TARGETS = {
+  home: null,
+  about: "about",
+  "terminal-section": "about",
+  skills: "skills",
+  projects: "projects",
+  achievements: "achievements",
+  contact: "contact"
+};
+
+const sectionElements = SECTION_IDS.map(id => document.getElementById(id)).filter(Boolean);
+const navContactBtn = $(".nav-contact-btn");
+const brandLink = $(".brand");
+let activeSectionId = "home";
+let isProgrammaticScrolling = false;
+let scrollLockTimer = null;
+let wheelCooldownTimer = null;
+let isWheelLocked = false;
+let accumulatedWheelDelta = 0;
+
+// Updates active UI state across desktop nav, sliding indicator, mobile drawer, and URL
+const setActiveSection = (sectionId) => {
+  if (!sectionId) return;
+  activeSectionId = sectionId;
+
+  // 1. Mark active class on the section for entrance and focus transitions
+  sectionElements.forEach(el => {
+    const isActive = el.id === sectionId;
+    el.classList.toggle("section-active", isActive);
+    if (isActive) {
+      el.classList.add("section-in-view");
+    }
+  });
+
+  // 2. Synchronize Desktop Navigation Bar
+  const navTarget = SECTION_NAV_TARGETS[sectionId];
+  if (navTarget === "contact") {
     navLinks.forEach(l => l.classList.remove("active"));
     activeLink = null;
     navLinksContainer?.removeAttribute("data-ind");
-    return;
-  }
-  const scrollPos = window.scrollY + 200;
-  let currentSection = null;
-  for (const sec of observedSections) {
-    if (sec.offsetTop <= scrollPos && sec.offsetTop + sec.offsetHeight > scrollPos) {
-      currentSection = sec.id;
-      break;
-    }
-  }
-  if (currentSection) {
-    const targetLink = $(`.nav-link[href="#${currentSection}"]`, navLinksContainer);
-    if (targetLink && targetLink !== activeLink) {
+    navContactBtn?.classList.add("active");
+  } else if (navTarget) {
+    navContactBtn?.classList.remove("active");
+    const targetLink = $(`.nav-link[href="#${navTarget}"]`, navLinksContainer);
+    if (targetLink) {
       navLinks.forEach(l => l.classList.remove("active"));
       targetLink.classList.add("active");
       activeLink = targetLink;
-      updateNavIndicator(activeLink, false);
+      updateNavIndicator(activeLink);
+    }
+  } else {
+    // "home" or top of page
+    navLinks.forEach(l => l.classList.remove("active"));
+    activeLink = null;
+    navLinksContainer?.removeAttribute("data-ind");
+    navContactBtn?.classList.remove("active");
+  }
+
+  // 3. Synchronize Mobile Drawer Links
+  mobileDrawerLinks.forEach(drawerLink => {
+    const href = drawerLink.getAttribute("href");
+    const isDrawerMatch = (navTarget && href === `#${navTarget}`) || (sectionId === "contact" && href === "#contact");
+    drawerLink.classList.toggle("active", Boolean(isDrawerMatch));
+  });
+
+  // 4. Update URL without causing page jump or polluting history
+  if (typeof window !== "undefined" && window.history?.replaceState) {
+    const hash = sectionId === "home" ? (window.location.pathname + window.location.search) : `#${sectionId}`;
+    if (window.location.hash !== (sectionId === "home" ? "" : `#${sectionId}`)) {
+      window.history.replaceState(null, "", hash);
     }
   }
 };
 
-window.addEventListener("scroll", updateScrollspy, { passive: true });
+// Smooth navigation to target section with navbar offset calculation
+const navigateToSection = (targetId, options = {}) => {
+  const cleanId = String(targetId).replace("#", "");
+  const targetEl = document.getElementById(cleanId);
+  if (!targetEl) return false;
+
+  const { playSfx = true, smooth = true } = options;
+  const isReducedMotion = typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+  const headerHeight = header ? (header.offsetHeight || 76) : 76;
+  const targetTop = targetEl.getBoundingClientRect().top + window.scrollY - headerHeight;
+
+  isProgrammaticScrolling = true;
+  clearTimeout(scrollLockTimer);
+
+  window.scrollTo({
+    top: Math.max(0, targetTop),
+    behavior: (smooth && !isReducedMotion) ? "smooth" : "auto"
+  });
+
+  setActiveSection(cleanId);
+
+  if (playSfx && typeof playSound === "function") {
+    playSound("click");
+  }
+
+  scrollLockTimer = setTimeout(() => {
+    isProgrammaticScrolling = false;
+  }, 850);
+
+  return true;
+};
+
+// High-efficiency IntersectionObserver for Section Identification
+const sectionVisibility = new Map();
+
+const scrollspyObserver = typeof IntersectionObserver !== "undefined" ? new IntersectionObserver((entries) => {
+  if (isProgrammaticScrolling) return;
+
+  entries.forEach(entry => {
+    sectionVisibility.set(entry.target.id, entry.isIntersecting ? entry.intersectionRatio : 0);
+  });
+
+  // Find the section with the largest visible portion
+  let dominantSection = null;
+  let maxRatio = 0.12; // Minimum ratio threshold
+
+  for (const [id, ratio] of sectionVisibility.entries()) {
+    if (ratio > maxRatio) {
+      maxRatio = ratio;
+      dominantSection = id;
+    }
+  }
+
+  // Edge check for top and bottom of page
+  if (window.scrollY < 80) {
+    dominantSection = "home";
+  } else if (window.innerHeight + window.scrollY >= (document.documentElement?.scrollHeight || 2000) - 70) {
+    dominantSection = "contact";
+  }
+
+  if (dominantSection && dominantSection !== activeSectionId) {
+    setActiveSection(dominantSection);
+  }
+}, {
+  threshold: [0, 0.15, 0.3, 0.5, 0.7, 0.9],
+  rootMargin: "-12% 0px -25% 0px"
+}) : null;
+
+if (scrollspyObserver) {
+  sectionElements.forEach(sec => scrollspyObserver.observe(sec));
+}
+
+// Fallback scroll listener for top and bottom edges
+window.addEventListener("scroll", () => {
+  if (isProgrammaticScrolling) return;
+  if (window.scrollY < 80 && activeSectionId !== "home") {
+    setActiveSection("home");
+  } else if (window.innerHeight + window.scrollY >= (document.documentElement?.scrollHeight || 2000) - 60 && activeSectionId !== "contact") {
+    setActiveSection("contact");
+  }
+}, { passive: true });
+
+// Controlled section-to-section wheel transition on desktop
+const handleWheelNavigation = (e) => {
+  // 1. Only run on desktop with fine pointer
+  if (window.innerWidth <= 992 || (window.matchMedia && window.matchMedia("(pointer: coarse)").matches)) {
+    return; // Allow normal native touch scrolling on mobile/tablets
+  }
+
+  // 2. Check accessibility preferences
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    return;
+  }
+
+  // 3. Do not hijack if typing or interacting with modals/dialogs/terminal
+  const activeTag = document.activeElement?.tagName?.toLowerCase();
+  if (["input", "textarea", "select"].includes(activeTag) ||
+      document.querySelector("dialog[open], .cmdk-dialog[open], .terminal-window:focus-within")) {
+    return;
+  }
+
+  // 4. Do not hijack if already mid-transition or locked by previous gesture
+  if (isWheelLocked || isProgrammaticScrolling) {
+    e.preventDefault();
+    return;
+  }
+
+  const currentSecEl = document.getElementById(activeSectionId);
+  const delta = e.deltaY;
+
+  // 5. If currently in a tall section (e.g. projects with many cards),
+  // NEVER trap the user! Allow free scrolling inside the section until its boundary is reached.
+  if (currentSecEl) {
+    const rect = currentSecEl.getBoundingClientRect();
+    const headerHeight = header ? (header.offsetHeight || 76) : 76;
+
+    if (delta > 0) {
+      // Scrolling down: If the bottom of current section is still below viewport, allow native scroll inside
+      if (rect.bottom > window.innerHeight + 80) {
+        return;
+      }
+    } else if (delta < 0) {
+      // Scrolling up: If the top of current section is still above navbar, allow native scroll inside
+      if (rect.top < headerHeight - 80) {
+        return;
+      }
+    }
+  }
+
+  // 6. Accumulate delta to prevent micro-jitters
+  accumulatedWheelDelta += delta;
+  const THRESHOLD = 55; // Deliberate gesture threshold
+
+  if (Math.abs(accumulatedWheelDelta) < THRESHOLD) {
+    return;
+  }
+
+  // Determine direction
+  const currentIndex = SECTION_IDS.indexOf(activeSectionId);
+  let targetIndex = -1;
+
+  if (accumulatedWheelDelta > 0 && currentIndex < SECTION_IDS.length - 1) {
+    targetIndex = currentIndex + 1;
+  } else if (accumulatedWheelDelta < 0 && currentIndex > 0) {
+    targetIndex = currentIndex - 1;
+  }
+
+  if (targetIndex >= 0 && targetIndex !== currentIndex) {
+    e.preventDefault();
+    const targetSectionId = SECTION_IDS[targetIndex];
+    navigateToSection(targetSectionId);
+
+    // Lock to absorb trackpad momentum / wheel inertia
+    isWheelLocked = true;
+    accumulatedWheelDelta = 0;
+    clearTimeout(wheelCooldownTimer);
+    wheelCooldownTimer = setTimeout(() => {
+      isWheelLocked = false;
+      accumulatedWheelDelta = 0;
+    }, 800);
+  } else {
+    accumulatedWheelDelta = 0;
+  }
+};
+
+window.addEventListener("wheel", handleWheelNavigation, { passive: false });
+
+// Keyboard section-to-section navigation
+window.addEventListener("keydown", (e) => {
+  const activeTag = document.activeElement?.tagName?.toLowerCase();
+  if (["input", "textarea", "select"].includes(activeTag) ||
+      document.querySelector("dialog[open], .cmdk-dialog[open], .terminal-window:focus-within")) {
+    return;
+  }
+
+  if (e.key === "PageDown" || (e.key === "ArrowDown" && (e.altKey || e.ctrlKey))) {
+    const currentIndex = SECTION_IDS.indexOf(activeSectionId);
+    if (currentIndex < SECTION_IDS.length - 1) {
+      e.preventDefault();
+      navigateToSection(SECTION_IDS[currentIndex + 1]);
+    }
+  } else if (e.key === "PageUp" || (e.key === "ArrowUp" && (e.altKey || e.ctrlKey))) {
+    const currentIndex = SECTION_IDS.indexOf(activeSectionId);
+    if (currentIndex > 0) {
+      e.preventDefault();
+      navigateToSection(SECTION_IDS[currentIndex - 1]);
+    }
+  } else if (e.key === "Home" && (e.ctrlKey || e.metaKey)) {
+    e.preventDefault();
+    navigateToSection("home");
+  } else if (e.key === "End" && (e.ctrlKey || e.metaKey)) {
+    e.preventDefault();
+    navigateToSection("contact");
+  }
+});
+
+// Wire Brand and Contact Buttons to Section Navigation
+brandLink?.addEventListener("click", (e) => {
+  const href = brandLink.getAttribute("href");
+  if (href && href.startsWith("#")) {
+    e.preventDefault();
+    navigateToSection(href.substring(1));
+  }
+});
+
+navContactBtn?.addEventListener("click", (e) => {
+  const href = navContactBtn.getAttribute("href");
+  if (href && href.startsWith("#")) {
+    e.preventDefault();
+    navigateToSection(href.substring(1));
+  }
+});
+
+// Handle initial deep-linked hash on load
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    if (typeof window !== "undefined" && window.location?.hash) {
+      const initialId = window.location.hash.replace("#", "");
+      if (document.getElementById(initialId)) {
+        navigateToSection(initialId, { playSfx: false, smooth: false });
+      }
+    } else {
+      setActiveSection("home");
+    }
+    updateNavIndicator(activeLink, false);
+  }, 220);
+});
 
 // Mobile Navigation Drawer (Independent Right-Side Drawer)
 const menuToggle = $("#menuToggle");
@@ -151,16 +437,11 @@ mobileDrawerClose?.addEventListener("click", () => {
 mobileDrawerBackdrop?.addEventListener("click", closeMobileDrawer);
 
 mobileDrawerLinks.forEach(link => {
-  link.addEventListener("click", () => {
-    mobileDrawerLinks.forEach(l => l.classList.remove("active"));
-    link.classList.add("active");
-    // Also sync desktop active link if applicable
+  link.addEventListener("click", (e) => {
     const targetHref = link.getAttribute("href");
-    const matchingDesktopLink = $(`.nav-link[href="${targetHref}"]`);
-    if (matchingDesktopLink) {
-      navLinks.forEach(l => l.classList.remove("active"));
-      matchingDesktopLink.classList.add("active");
-      activeLink = matchingDesktopLink;
+    if (targetHref && targetHref.startsWith("#")) {
+      e.preventDefault();
+      navigateToSection(targetHref.substring(1));
     }
     closeMobileDrawer();
   });
@@ -511,25 +792,7 @@ if (typewriterEl) {
   setTimeout(typeLoop, 3500);
 }
 
-// Scroll spy & reveal animations
-const sections = $$("main section[id]");
-const sectionObserver = new IntersectionObserver(entries => entries.forEach(entry => {
-  if (entry.isIntersecting) {
-    navLinks.forEach(link => {
-      const isMatch = link.getAttribute("href") === `#${entry.target.id}`;
-      link.classList.toggle("active", isMatch);
-      if (isMatch) {
-        activeLink = link;
-        updateNavIndicator(activeLink, false);
-      }
-    });
-    if (entry.target.id === "home") {
-      activeLink = null;
-      navLinksContainer?.removeAttribute("data-ind");
-    }
-  }
-}), { rootMargin: "-25% 0px -45% 0px" });
-sections.forEach(section => sectionObserver.observe(section));
+// Scroll reveal animations (Section spy is handled by unified section controller above)
 
 const revealObserver = new IntersectionObserver(entries => entries.forEach(entry => {
   if (entry.isIntersecting) {
