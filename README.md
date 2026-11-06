@@ -28,7 +28,8 @@ A modern, fast, and highly responsive personal portfolio for a student developer
 ## Key Features
 
 - **Hero & Interactive Code Card**: Editorial hero layout with mouse-tracking tilt on the `developer.ts` card, multi-file code tabs (`developer.ts`, `skills.json`, `status.sh`), live script execution runner (`Run`), one-click snippet copy with toast feedback, live status badge, and clean academic highlights.
-- **Floating Island Navigation**: Magnetic sliding pill indicator with glassmorphism blur, automatic scroll morphing, and streamlined mobile navigation drawer.
+- **Floating Island Navigation & Dynamic Indicator**: Three standalone glassmorphism capsules (Brand, Center Nav Pill, and Contact CTA) with dynamic scroll morphing, sliding active pill indicator, and streamlined right-side mobile drawer.
+- **Scroll-Triggered Navigation & Controlled Section Transitions**: Full-viewport section framing (`min-height: 100vh`) with fixed glass navbar clearance (`scroll-margin-top: 86px`), multi-threshold `IntersectionObserver` scrollspy, dynamic sliding pill capsule indicator (`--ind-x`, `--ind-w`), controlled desktop wheel gesture transit with trackpad momentum dampening (zero accidental section skips and zero scroll-trapping in tall content galleries), keyboard navigation (`PageDown`, `PageUp`, `Home`, `End`), staggered grid cascade entrances, and strict `prefers-reduced-motion` accessibility support.
 - **⌘K Command Palette & Quick Search**: Fast keyboard navigation modal (`⌘K`, `Ctrl+K`, or `?`) for jumping between sections and triggering quick actions.
 - **About Bento Grid & Engineering Focus**: Multi-card layout featuring engineering principles, dual-degree tracks, location, active exploration, and collaboration availability.
 - **Dual-Degree 6-Card Toolkit Grid**: Comprehensive toolkit covering Programming, Web Development, Backend & Data, 3D & Graphics, Business & Strategy, and Systems & DevOps.
