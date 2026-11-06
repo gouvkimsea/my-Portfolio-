@@ -706,10 +706,7 @@ cmdKResults?.addEventListener("click", e => {
   closeCmdK();
 
   if (action === "goto" && target) {
-    const targetEl = $(target);
-    if (targetEl) {
-      targetEl.scrollIntoView({ behavior: "smooth" });
-    }
+    navigateToSection(target.replace("#", ""));
   } else if (action === "open-project") {
     const proj = item.getAttribute("data-project");
     if (proj) openModal(proj);
@@ -743,14 +740,25 @@ cmdKResults?.addEventListener("click", e => {
   } else if (action === "view-education") {
     openResumeModal("#resumeEduSection");
   } else if (action === "view-coursework") {
-    const termSec = document.getElementById("terminal-section");
-    if (termSec) {
-      termSec.scrollIntoView({ behavior: "smooth", block: "start" });
-      const termInput = document.getElementById("terminalInput");
-      if (termInput) {
-        termInput.value = "coursework";
-        document.getElementById("terminalForm")?.dispatchEvent(new Event("submit"));
-      }
+    navigateToSection("terminal-section");
+    const termInput = document.getElementById("terminalInput");
+    if (termInput) {
+      termInput.value = "coursework";
+      document.getElementById("terminalForm")?.dispatchEvent(new Event("submit"));
+    }
+  } else if (action === "run-matrix") {
+    navigateToSection("terminal-section");
+    const termInput = document.getElementById("terminalInput");
+    if (termInput) {
+      termInput.value = "matrix";
+      document.getElementById("terminalForm")?.dispatchEvent(new Event("submit"));
+    }
+  } else if (action === "view-git-log") {
+    navigateToSection("terminal-section");
+    const termInput = document.getElementById("terminalInput");
+    if (termInput) {
+      termInput.value = "git";
+      document.getElementById("terminalForm")?.dispatchEvent(new Event("submit"));
     }
   } else if (action === "view-resume") {
     openResumeModal();
@@ -4220,6 +4228,7 @@ contactForm?.addEventListener("submit", async event => {
           body: formData.toString()
         });
         resetUI("✓ Note delivered successfully! Thank you for reaching out.");
+        if (typeof playSound === "function") playSound("success");
       } catch (err) {
         console.warn("Google Form submission error, falling back to mailto:", err);
         dispatchMailtoFallback();
@@ -4725,3 +4734,45 @@ if (typeof window !== "undefined" && "PerformanceObserver" in window) {
     vitalsObserver.observe({ type: "paint", buffered: true });
   } catch (_) { }
 }
+
+// ==========================================================================
+// 11. BACK TO TOP QUICK ACTION & MOBILE EDGE SWIPE GESTURES
+// ==========================================================================
+const backToTopBtn = $("#backToTopBtn");
+window.addEventListener("scroll", () => {
+  const isScrolled = window.scrollY > 400;
+  backToTopBtn?.classList.toggle("visible", isScrolled);
+}, { passive: true });
+
+backToTopBtn?.addEventListener("click", () => {
+  navigateToSection("home");
+});
+
+// Mobile edge swipe gestures for drawer navigation
+let touchStartX = 0;
+let touchStartY = 0;
+
+window.addEventListener("touchstart", (e) => {
+  if (e.touches && e.touches.length === 1) {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }
+}, { passive: true });
+
+window.addEventListener("touchend", (e) => {
+  if (e.changedTouches && e.changedTouches.length === 1) {
+    const diffX = e.changedTouches[0].clientX - touchStartX;
+    const diffY = e.changedTouches[0].clientY - touchStartY;
+
+    if (Math.abs(diffX) > Math.abs(diffY) * 1.5 && Math.abs(diffX) > 60) {
+      // Swiped right while drawer open -> close drawer
+      if (diffX > 0 && mobileDrawer?.classList.contains("open")) {
+        closeMobileDrawer();
+      }
+      // Swiped left from right edge while drawer closed -> open drawer
+      else if (diffX < 0 && touchStartX > window.innerWidth - 50 && !mobileDrawer?.classList.contains("open")) {
+        openMobileDrawer();
+      }
+    }
+  }
+}, { passive: true });

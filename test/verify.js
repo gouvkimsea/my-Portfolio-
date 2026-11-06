@@ -128,6 +128,7 @@ assert(scriptJs.includes('SECTION_IDS') && scriptJs.includes('navigateToSection'
 assert(fs.readFileSync('styles.css', 'utf8').includes('scroll-margin-top: 86px') && fs.readFileSync('styles.css', 'utf8').includes('.nav-indicator'), 'styles.css: Section 100vh layout, scroll-margin offsets, and animated nav indicator implemented');
 assert(indexHtml.includes('id="sectionNavDots"') && fs.readFileSync('styles.css', 'utf8').includes('.section-nav-dots'), 'index.html & styles.css: Desktop floating section mini-dots pagination HUD implemented');
 assert(scriptJs.includes('whoosh') && scriptJs.includes('matrix:') && scriptJs.includes('git:'), 'script.js: Synthesizer whoosh tone and terminal matrix digital rain implemented');
+assert(indexHtml.includes('id="backToTopBtn"') && scriptJs.includes('touchStartX') && scriptJs.includes('action === "run-matrix"'), 'index.html & script.js: Floating back-to-top quick action and mobile edge swipe drawer gestures implemented');
 
 // Test global script evaluation with mock DOM globals
 try {
