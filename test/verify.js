@@ -129,6 +129,7 @@ assert(fs.readFileSync('styles.css', 'utf8').includes('scroll-margin-top: 86px')
 assert(indexHtml.includes('id="sectionNavDots"') && fs.readFileSync('styles.css', 'utf8').includes('.section-nav-dots'), 'index.html & styles.css: Desktop floating section mini-dots pagination HUD implemented');
 assert(scriptJs.includes('whoosh') && scriptJs.includes('matrix:') && scriptJs.includes('git:'), 'script.js: Synthesizer whoosh tone and terminal matrix digital rain implemented');
 assert(indexHtml.includes('id="backToTopBtn"') && scriptJs.includes('touchStartX') && scriptJs.includes('action === "run-matrix"'), 'index.html & script.js: Floating back-to-top quick action and mobile edge swipe drawer gestures implemented');
+assert(indexHtml.includes('projects-curator-hud') && fs.readFileSync('styles.css', 'utf8').includes('.projects-curator-hud') && scriptJs.includes('viewModeExhibition'), 'index.html, styles.css & script.js: Chapter 02 project illustration, curator HUD, and exhibition view switcher implemented');
 
 // Test global script evaluation with mock DOM globals
 try {
