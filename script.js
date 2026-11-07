@@ -746,6 +746,20 @@ cmdKResults?.addEventListener("click", e => {
       termInput.value = "coursework";
       document.getElementById("terminalForm")?.dispatchEvent(new Event("submit"));
     }
+  } else if (action === "toggle-timeline") {
+    const btn = $("#achieveViewTimelineBtn");
+    if (btn) btn.click();
+    navigateToSection("achievements");
+  } else if (action === "open-skills-dossier") {
+    const chip = $(".chips .chip-item[data-skill='cpp']");
+    if (chip) chip.click();
+  } else if (action === "run-benchmark") {
+    navigateToSection("terminal-section");
+    const termInput = document.getElementById("terminalInput");
+    if (termInput) {
+      termInput.value = "bench";
+      document.getElementById("terminalForm")?.dispatchEvent(new Event("submit"));
+    }
   } else if (action === "run-matrix") {
     navigateToSection("terminal-section");
     const termInput = document.getElementById("terminalInput");
