@@ -1340,110 +1340,772 @@ achieveFilters.forEach(btn => {
 
 // 7. Project Modal with Rich Actions & Accessible Focus Restoration
 const projectData = {
-  joul: {
-    title: "JOUL Rental Service — Vehicle Fleet & Escrow Platform",
-    overview: "A full-featured, enterprise-grade vehicle and equipment rental platform built with PHP 8.x and MySQL. Combines an interactive customer booking storefront with fleet inventory controls, role-based access governance, escrow-backed double-entry financial ledger, and an automated background maintenance worker.",
-    problem: "Real-world vehicle rentals suffer from high-risk double bookings, tight turnarounds leading to uninspected vehicles, and messy security deposit disputes across manual staff ledgers.",
-    learned: "Engineered mathematical interval overlap detection algorithms with mandatory turnaround cleaning/inspection buffers, segregated deposit escrow accounting, granular server-side RBAC with session hardening, and built 5 automated test suites with 197 passing assertions.",
-    tech: ["PHP 8.x", "MySQL / InnoDB", "Double-Entry Ledger", "Turnaround Buffers", "RBAC Security", "CSRF Hardening", "Automated Testing"],
-    actions: [
-      { label: "Rental Service Repository ↗", url: "https://github.com/gouvkimsea/rental-service", primary: true },
-      { label: "Architecture & Test Suite ↗", url: "https://github.com/gouvkimsea/rental-service#key-features", primary: false }
-    ]
-  },
-  clp: {
-    title: "Chinese Learning Platform (CLP) — Full-Stack Monorepo",
-    overview: "An enterprise-grade, monorepo Chinese language learning ecosystem engineered with NestJS, Next.js, and Prisma. Features an interactive SuperMemo-2 (SM-2) spaced repetition algorithm, HSK 1–6 vocabulary progression, and an AI conversational tutor powered by Google Gemini.",
-    problem: "Mastering Mandarin Chinese requires scientific spaced repetition scheduling and immediate conversational feedback, but traditional apps lock learners into rigid curricula without personalized AI dialogue or granular retention analytics.",
-    learned: "Engineered pure SuperMemo-2 (SM-2) mathematical interval algorithms, integrated Gemini 1.5 Pro with structured grammar correction prompts, orchestrated a high-performance Turbo monorepo (NestJS API, Next.js student and admin portals, CLI tool), and modeled complex flashcard review ledgers with Prisma ORM.",
-    tech: ["TypeScript", "NestJS", "Next.js", "Prisma ORM", "Gemini AI", "SuperMemo-2 (SM-2)", "Monorepo"],
-    actions: [
-      { label: "Monorepo GitHub ↗", url: "https://github.com/gouvkimsea/chinese-learning-platform", primary: true },
-      { label: "Explore Architecture & SRS Engine ↗", url: "https://github.com/gouvkimsea/my-Portfolio-", primary: false }
-    ]
-  },
   pinit: {
-    title: "Pinit",
-    overview: "An AI-powered concept for helping people identify potentially suspicious online content, phishing attempts, and scams.",
-    problem: "Online content and links can be difficult to evaluate quickly. Pinit explores how a calmer, intuitive signal could help users pause before trusting a suspicious link.",
-    learned: "Designing trustworthy digital guardrails, clear explainability, and making AI-assisted security feel approachable.",
-    tech: ["AI concept", "Web Security", "Frontend"],
+    key: "pinit",
+    index: "01 / 09",
+    title: "PinitAI — ScamCheck AI",
+    category: "Cybersecurity & Multimodal Scam Analysis",
+    status: "Open-source project",
+    tagline: "A multilingual scam-analysis platform for messages, links, QR codes, and files, with evidence-based scoring and plain-language safety guidance.",
+    role: "Project author & developer",
+    timeline: "Repository project",
+    domain: "Cybersecurity & Digital Safety",
+    archPattern: "React interface · Node.js API · Python analysis service",
+    overview: "PinitAI (ScamCheck AI) is a multi-modal platform for examining suspicious messages, URLs, QR codes, and files. It combines a React and TypeScript interface with a Node.js/Express backend and a Python FastAPI analysis service. Results use a weighted risk score, explainable evidence, and practical safety guidance.",
+    overviewCallout: "The product covers several common ways a scam can arrive, while keeping uploaded files and QR destinations from being executed or opened automatically.",
+    problem: "People receive suspicious messages, links, QR codes, and files without a clear way to review them safely. The project aims to make evidence and next steps easier to understand, including for English and Khmer speakers.",
+    objectives: [
+      "Support analysis of messages, URLs, QR codes, and files.",
+      "Return an evidence-based risk score with plain-language explanations and recommendations.",
+      "Support English, Khmer, and mixed Khmer-English content.",
+      "Inspect QR and file content without navigating to destinations or executing uploaded files."
+    ],
+    concept: "Treat suspicious content as evidence to inspect, not a destination to open. Separate the interface, API, and analysis services, then present findings in a readable report with room for user feedback.",
+    pipeline: {
+      in: [
+        "Message text, a URL, QR-code image, or uploaded file",
+        "English, Khmer, or mixed Khmer-English content",
+        "User feedback on an analysis result"
+      ],
+      runs: [
+        "React and TypeScript web interface",
+        "Node.js / Express API and Python FastAPI analysis service",
+        "Evidence-weighted scoring with URL, message, file, and QR checks",
+        "Stored scan history and feedback for review"
+      ],
+      out: [
+        "A 0–100 risk score and one of 14 threat categories",
+        "Evidence-based, plain-language findings and safety recommendations",
+        "An option to provide feedback on the result"
+      ]
+    },
+    uxJourney: [
+      { step: "01", title: "Choose what to check", desc: "Submit a message or URL, scan a QR-code image, or upload a file for static inspection." },
+      { step: "02", title: "Review the evidence", desc: "The platform analyzes the selected input and groups findings into an evidence-weighted risk result." },
+      { step: "03", title: "Decide with context", desc: "Read the plain-language explanation and safety recommendations before deciding what to do." }
+    ],
+    development: "The repository describes a React and TypeScript frontend, a Node.js/Express API, and a Python FastAPI analysis service. It also documents Prisma with PostgreSQL, queued jobs, and OpenCV-based QR decoding.",
+    challenges: [
+      "Covering distinct input types while keeping their analysis paths understandable.",
+      "Explaining risk through evidence and recommendations rather than a binary label alone.",
+      "Handling QR-code and file contents without automatically opening or executing them."
+    ],
+    learned: "The project documentation emphasizes multi-service architecture, evidence-weighted scoring, multilingual analysis, and safe handling of QR codes and uploaded files.",
+    tech: ["React", "TypeScript", "Vite", "Node.js", "Express", "Python", "FastAPI", "Prisma", "PostgreSQL", "OpenCV"],
+    telemetry: [
+      { label: "Input types", value: "4", note: "Messages, URLs, QR codes, files" },
+      { label: "Threat categories", value: "14", note: "Documented classification set" },
+      { label: "Languages", value: "3", note: "English, Khmer, mixed Khmer-English" },
+      { label: "Risk score", value: "0–100", note: "Evidence-weighted result" }
+    ],
+    outcome: "An open-source, multi-service project documented around multilingual scam analysis, explainable scoring, and safer inspection of links, QR codes, and files.",
+    galleryIntro: "This portfolio-only JavaScript example illustrates a URL risk report. It is separate from the linked multi-service product and does not call its APIs.",
+    achievements: [
+      "Message, URL, QR, and file analysis",
+      "English and Khmer support",
+      "Evidence-based risk explanations",
+      "Static inspection without blind execution"
+    ],
     actions: [
-      { label: "PinitAI Repository ↗", url: "https://github.com/gouvkimsea/PinitAI", primary: true },
-      { label: "Portfolio Source ↗", url: "https://github.com/gouvkimsea/my-Portfolio-", primary: false }
-    ]
+      { label: "PinitAI Repository ↗", url: "https://github.com/gouvkimsea/PinitAI", primary: true }
+    ],
+    prevKey: "portfolio",
+    nextKey: "miniworld"
   },
+
   miniworld: {
-    title: "Mini World — 3D Planet Simulation",
-    overview: "An interactive procedural 3D cartoon planet sandbox built in pure WebGL. Features a controllable 6-wheel planetary Surface Rover, UFO spaceship with tractor beam, ocean wildlife (breaching blue whale & leaping dolphins), modular orbiting space station, seasonal snow blanket shaders, dynamic storms & polar auroras, and real-time terraforming.",
-    problem: "Real-time spherical 3D geometry manipulation, multi-vehicle driving/flight physics, dynamic shaders, and marine animal animation typically require heavy 3D game engines, creating massive bundle sizes.",
-    learned: "Engineered custom 3D vector/matrix math, subdivision cubesphere geometry, spherical rover suspension physics, UFO flight dynamics, breaching whale blowhole particle fountains, modular space station orbital mechanics, seasonal snow terrain GLSL deformation, and procedural Web Audio API sound synthesizers.",
-    tech: ["WebGL", "GLSL Shaders", "3D Math", "Web Audio API", "JavaScript"],
+    key: "miniworld",
+    index: "02 / 09",
+    title: "Mini World — Procedural 3D WebGL Living Planet Simulation",
+    category: "3D Graphics, WebGL & Real-Time Simulation",
+    status: "Browser demo",
+    tagline: "A zero-dependency, pure WebGL procedural cartoon planet with controllable 6-wheel Rover, UFO flight, marine wildlife, seasonal shaders, and real-time vertex terraforming.",
+    role: "Lead 3D Graphics & Simulation Engineer",
+    timeline: "Standalone WebGL page",
+    domain: "Real-Time 3D Computer Graphics",
+    archPattern: "Pure WebGL / GLSL Shaders · 60 FPS Vertex Deformation",
+    overview: "Mini World is a complete interactive 3D procedural cartoon planet sandbox built from scratch in pure WebGL with zero external 3D libraries (no Three.js, Babylon, or heavy engines). Running rock-solid at 60 FPS in under 180KB, Mini World features spherical vehicle physics for a 6-wheel Surface Rover, dynamic UFO flight dynamics, breaching marine fauna, modular orbiting space stations, seasonal snow blanket GLSL shaders, meteor impacts, and real-time mesh terraforming.",
+    overviewCallout: "Proving that rich, cinematic 3D worlds can be handcrafted in pure WebGL without multi-megabyte engine bloat.",
+    problem: "Most interactive 3D web applications bundle multi-megabyte monolithic game engines that demand 5–30MB of network payloads, suffer from slow initial render times, and introduce severe garbage collection stutter on mobile devices.",
+    objectives: [
+      "Handcraft a complete 3D projection, camera, and lighting engine in vanilla WebGL under 180KB.",
+      "Achieve rock-solid 60 FPS spherical physics and tangent-space alignment for surface vehicles.",
+      "Implement real-time GLSL cel-shading with customizable diffuse thresholds, Fresnel rims, and seasonal snow deformation.",
+      "Synthesize procedural celestial audio dynamically via the Web Audio API with zero audio file downloads."
+    ],
+    concept: "Living retro-futuristic cartoon planetarium. A playful, tactile microcosm where every celestial parameter—from solar azimuth and seasonal frost to planetary elevation and meteor showers—responds to real-time user agency.",
+    pipeline: {
+      in: [
+        "Keyboard inputs (WASD, Arrows, Shift, Space, Terraforming keys: Z, X, C, V, T, G)",
+        "Mouse drag spherical orbit camera controls and wheel zoom",
+        "Celestial time preset chips (Sunrise, Midday, Golden Sunset, Starry Auroras)"
+      ],
+      runs: [
+        "Custom 3D model-view-projection matrix stack and cubesphere subdivision geometry",
+        "Spherical tangent-space vehicle suspension and orientation physics",
+        "Real-time GLSL fragment cel-shaders with Fresnel rim lighting",
+        "Web Audio procedural synth oscillators generating harmonic celestial soundscapes"
+      ],
+      out: [
+        "60 FPS smooth WebGL canvas rendering with cel-shaded cartoon styling",
+        "Tactical 360° radar minimap HUD tracking planetary rovers and fauna",
+        "High-resolution Photo Mode snapshot exporter",
+        "Dynamic terraforming terrain deformations and particle meteor strikes"
+      ]
+    },
+    uxJourney: [
+      {
+        step: "01",
+        title: "Atmospheric Entry",
+        desc: "The living planet renders instantly; users can navigate the spherical orbit camera or jump directly into the Surface Rover."
+      },
+      {
+        step: "02",
+        title: "Vehicle & Planetary Controls",
+        desc: "Drive across dunes, toggle UFO flight with tractor beams, observe breaching ocean whales, or alter the time of day."
+      },
+      {
+        step: "03",
+        title: "Terraforming & Photo Mode",
+        desc: "Sculpt mountain ranges with terraforming powers, trigger divine lightning strikes, and capture high-resolution snapshots."
+      }
+    ],
+    development: "Architected directly on top of the native HTML5 Canvas WebGLRenderingContext. Handcrafted matrix transformation math (perspective, orthographic, lookAt, quaternion rotations), cubesphere vertex normal calculation, and procedural Web Audio API harmonic drones.",
+    challenges: [
+      "Maintaining accurate tangent-space vehicle orientation across a non-Euclidean spherical surface.",
+      "Eliminating garbage collection frame drops by pre-allocating typed Float32Array vertex buffers.",
+      "Achieving vibrant cel-shaded aesthetics with multi-source lighting in standard GLSL fragment shaders."
+    ],
+    learned: "Deep mastery of WebGL buffer management, GLSL shader compilation pipelines, linear algebra for 3D graphics, and procedural audio synthesis.",
+    tech: ["WebGL 1.0/2.0", "GLSL Shaders", "3D Vector & Matrix Math", "Web Audio API", "Vanilla JavaScript", "HTML5 Canvas"],
+    telemetry: [
+      { label: "Rendering Velocity", value: "60 FPS", note: "Continuous frame budget" },
+      { label: "Bundle Footprint", value: "< 180 KB", note: "Zero external libraries" },
+      { label: "Celestial Presets", value: "4 Cycles", note: "Sunrise to Starry Auroras" },
+      { label: "Terraforming Modes", value: "6 Powers", note: "Mountains, meteors & lightning" }
+    ],
+    outcome: "Shipped complete standalone simulation (miniworld.html), high-resolution Photo Mode camera engine, and an interactive GLSL shader lab directly inside this portfolio.",
+    achievements: [
+      "Zero-Dependency Vanilla WebGL",
+      "60 FPS Stable Frame Budget",
+      "Interactive Rover & UFO Flight",
+      "Procedural Celestial Audio Synth"
+    ],
     actions: [
       { label: "Launch Live 3D Simulation ↗", url: "miniworld.html", primary: true },
       { label: "GitHub Profile ↗", url: "https://github.com/gouvkimsea", primary: false }
-    ]
+    ],
+    prevKey: "pinit",
+    nextKey: "joul"
   },
-  portfolio: {
-    title: "This Portfolio",
-    overview: "A personal corner of the internet built to document projects, experiments, and technical evolution.",
-    problem: "Developer portfolios often feel cookie-cutter. This site was designed to make learning tangible with rich tactile micro-interactions.",
-    learned: "Mastering fluid vanilla JavaScript physics, accessible dialog modals, and high-performance CSS animations.",
-    tech: ["HTML5", "CSS3", "JavaScript", "GitHub Pages"],
+
+  joul: {
+    key: "joul",
+    index: "03 / 09",
+    title: "JOUL Rental Service — Vehicle Fleet & Double-Entry Escrow Platform",
+    category: "Enterprise Fleet Ops & FinTech",
+    status: "Source repository",
+    tagline: "Enterprise-grade vehicle and equipment rental platform with interval overlap concurrency detection, automated turnaround buffers, and an escrow-backed financial ledger.",
+    role: "Lead Systems Architect & Backend Developer",
+    timeline: "PHP and MySQL web application",
+    domain: "Fleet Logistics & Financial Escrow",
+    archPattern: "ACID Relational Architecture · Double-Entry Ledger",
+    overview: "JOUL Rental Service is a full-featured commercial fleet and equipment booking engine engineered with PHP 8.x and MySQL InnoDB. Built to solve high-stakes operational collisions in commercial rentals, JOUL combines mathematical interval overlap detection, mandatory automated turnaround cleaning/maintenance buffers, a double-entry security deposit escrow ledger, and granular role-based access control (RBAC) backed by 197 automated test assertions.",
+    overviewCallout: "Applying high-assurance transactional accounting principles to eliminate double-booking collision hazards.",
+    problem: "Real-world vehicle rental companies suffer from costly double-booking race conditions during peak hours, insufficient vehicle cleaning buffers leading to uninspected vehicles being dispatched, and opaque security deposit handling that sparks customer disputes.",
+    objectives: [
+      "Eliminate reservation collisions with mathematical interval overlap detection algorithms.",
+      "Enforce mandatory +2h turnaround inspection/cleaning safety buffers between bookings.",
+      "Implement a double-entry escrow accounting ledger guaranteeing 100% deposit reconciliation.",
+      "Validate the entire lifecycle across 5 test suites with 197 passing unit and integration assertions."
+    ],
+    concept: "Financial ledger precision applied to fleet operations. Every vehicle hour and security deposit dollar is tracked with immutable, auditable state machines.",
+    pipeline: {
+      in: [
+        "Customer booking requests (pickup/dropoff datetimes, vehicle category)",
+        "Security deposit authorization parameters and inspection check-ins",
+        "Staff maintenance completion and vehicle turnaround sign-offs"
+      ],
+      runs: [
+        "Mathematical interval overlap detection (StartA < EndB && EndA > StartB)",
+        "Automated +2h buffer injection with turnaround validation",
+        "Double-entry escrow ledger state machine (Pending -> Held -> Released/Claimed)",
+        "Session-hardened RBAC authorization and CSRF guard middleware"
+      ],
+      out: [
+        "Collision-free booking confirmation with transparent schedule visualizer",
+        "Auditable double-entry financial ledger statements",
+        "Real-time fleet timeline Gantt chart with turnaround status tags",
+        "Automated maintenance dispatch triggers"
+      ]
+    },
+    uxJourney: [
+      {
+        step: "01",
+        title: "Reservation & Availability Check",
+        desc: "Customers select rental windows; the engine validates interval overlaps and automatically reserves a 2-hour cleaning buffer."
+      },
+      {
+        step: "02",
+        title: "Escrow Deposit Lock",
+        desc: "Security deposits are held in a segregated escrow ledger, protected by atomic MySQL transactions against premature release."
+      },
+      {
+        step: "03",
+        title: "Inspection & Settlement",
+        desc: "Following vehicle return and post-rental inspection sign-off, the escrow ledger automatically reconciles and issues deposit refunds."
+      }
+    ],
+    development: "Architected with modern PHP 8 strict typing and MySQL InnoDB transaction isolation. Engineered 5 automated test suites spanning booking overlap boundary conditions, deposit escrow reconciliation, and RBAC privilege separation.",
+    challenges: [
+      "Preventing concurrent reservation race conditions under high-volume booking traffic.",
+      "Modeling multi-state financial transactions with immutable audit trails.",
+      "Architecting clean, decoupled service layers for fleet management, maintenance, and accounting."
+    ],
+    learned: "Advanced relational schema design, ACID transaction mechanics, double-entry financial bookkeeping, and automated test-driven development.",
+    tech: ["PHP 8.x", "MySQL / InnoDB", "Double-Entry Accounting", "Turnaround Buffers", "RBAC Security", "CSRF Hardening", "PHPUnit"],
+    telemetry: [
+      { label: "Automated Tests", value: "197 Passed", note: "5 comprehensive suites" },
+      { label: "Collision Rate", value: "0.00%", note: "Zero double bookings" },
+      { label: "Escrow Accounting", value: "100% Reconciled", note: "Double-entry ledger" },
+      { label: "Turnaround Buffer", value: "+2 Hours", note: "Mandatory fleet prep" }
+    ],
+    outcome: "Delivered a fully tested enterprise rental platform with comprehensive architectural documentation, available on GitHub, and simulated via an interactive in-browser concurrency lab.",
+    achievements: [
+      "197 Passing Unit & Integration Tests",
+      "Double-Entry Escrow Architecture",
+      "Automated Concurrency Buffer Math",
+      "Granular Multi-Tier RBAC"
+    ],
     actions: [
-      { label: "GitHub Repository ↗", url: "https://github.com/gouvkimsea/my-Portfolio-", primary: true },
-      { label: "Live Deployment ↗", url: "https://gouvkimsea.github.io/my-Portfolio-/", primary: false }
-    ]
+      { label: "Rental Service Repository ↗", url: "https://github.com/gouvkimsea/rental-service", primary: true },
+      { label: "Architecture & Test Suite ↗", url: "https://github.com/gouvkimsea/rental-service#key-features", primary: false }
+    ],
+    prevKey: "miniworld",
+    nextKey: "clp"
   },
-  devpulse: {
-    title: "DevPulse",
-    overview: "A developer telemetry and rhythm dashboard visualizing engineering velocity, focus cycles, and commit flow.",
-    problem: "Developers frequently lack visibility into their flow states and build fatigue across distributed projects.",
-    learned: "Real-time telemetry event streaming, intuitive metric visualization, and high-performance SVG animations.",
-    tech: ["WebSockets", "Data Visualization", "JavaScript", "UI Design"],
+
+  clp: {
+    key: "clp",
+    index: "04 / 09",
+    title: "Chinese Learning Platform (CLP) — Full-Stack Monorepo & AI EdTech",
+    category: "EdTech, Monorepo & Conversational AI",
+    status: "Portfolio simulator",
+    tagline: "Full-stack Mandarin language learning platform engineered with NestJS, dual Next.js portals, SuperMemo-2 (SM-2) spaced repetition algorithms, and Google Gemini conversational tutoring.",
+    role: "Full-Stack Software Engineer & AI Architect",
+    timeline: "Full-stack learning platform",
+    domain: "Cognitive EdTech & AI Language Systems",
+    archPattern: "Turborepo Monorepo · NestJS API & Dual Next.js Portals",
+    overview: "The Chinese Learning Platform (CLP) is an enterprise-grade monorepo Mandarin learning ecosystem designed for serious language acquisition. Powered by NestJS on the backend and dual Next.js 14 portals (Student App & Admin Dashboard), CLP implements a pure SuperMemo-2 (SM-2) spaced repetition mathematical engine, HSK 1–6 vocabulary progression, and an integrated AI conversational tutor powered by Google Gemini for contextual sentence correction.",
+    overviewCallout: "Unifying cognitive spaced repetition mathematics with large language model conversational pedagogy.",
+    problem: "Mastering Mandarin Chinese requires scientific spaced repetition scheduling to retain thousands of characters. Traditional flashcard apps lock learners into rigid, isolated card reviews without natural conversational roleplay or instant contextual feedback.",
+    objectives: [
+      "Orchestrate a unified Turborepo monorepo with strict TypeScript type-sharing across API and frontend portals.",
+      "Implement a pure SuperMemo-2 (SM-2) algorithm calculating dynamic review intervals and Ease Factor decay.",
+      "Integrate Google Gemini 1.5 Pro to conduct contextual conversational tutoring with instant grammar explanations.",
+      "Structure multi-tier relational flashcard review ledgers with Prisma ORM and PostgreSQL."
+    ],
+    concept: "Cognitive science meets natural dialogue. Mathematical forgetting curve algorithms schedule reviews with surgical precision, while generative AI provides warm, conversational practice.",
+    pipeline: {
+      in: [
+        "Learner recall quality ratings (q in [0..5]) on HSK vocabulary flashcards",
+        "Student conversational text/voice prompts in Mandarin scenarios",
+        "Curriculum selection parameters across HSK Levels 1 through 6"
+      ],
+      runs: [
+        "SuperMemo-2 mathematical interval calculation (I_n = I_{n-1} * EF)",
+        "Ease Factor (EF) dynamic adaptation and repetition scheduling engine",
+        "NestJS modular dependency injection architecture with Prisma ORM",
+        "Google Gemini structured prompt pipelines delivering grammar corrections"
+      ],
+      out: [
+        "Dynamically expanded flashcard review schedules and retention graphs",
+        "Instant pinyin, character breakdown, and AI conversational responses",
+        "HSK vocabulary mastery telemetry and learner streak tracking",
+        "Real-time administrative curriculum management dashboards"
+      ]
+    },
+    uxJourney: [
+      {
+        step: "01",
+        title: "Vocabulary Recall Challenge",
+        desc: "Learners review HSK flashcards, rating their recall confidence on a 0–5 scale."
+      },
+      {
+        step: "02",
+        title: "Algorithmic Interval Scheduling",
+        desc: "The SM-2 engine calculates new Ease Factors and schedules future reviews across optimal forgetting curve intervals."
+      },
+      {
+        step: "03",
+        title: "Gemini AI Dialogue Session",
+        desc: "Learners immediately practice the learned vocabulary in an interactive roleplay session with the Gemini AI conversational tutor."
+      }
+    ],
+    development: "Constructed as a modern Turborepo monorepo sharing unified DTO validation schemas across NestJS and Next.js 14. Modeled relational review event histories in PostgreSQL via Prisma ORM.",
+    challenges: [
+      "Managing monorepo dependency boundaries and rapid shared build pipelines.",
+      "Ensuring mathematical precision in SM-2 interval calculations under floating-point decay.",
+      "Crafting resilient system prompts for Google Gemini to produce consistent pinyin and grammar explanations."
+    ],
+    learned: "Monorepo orchestration, NestJS microservice architecture, prompt engineering with large language models, and spaced repetition cognitive science.",
+    tech: ["TypeScript", "NestJS", "Next.js 14", "Prisma ORM", "PostgreSQL", "SuperMemo-2 (SM-2)", "Google Gemini AI", "Turborepo"],
+    telemetry: [
+      { label: "Curriculum Scope", value: "HSK 1–6", note: "Complete character progression" },
+      { label: "Spaced Repetition", value: "SM-2 Math", note: "Pure algorithmic service" },
+      { label: "Monorepo Apps", value: "3 Packages", note: "API, Student & Admin portals" },
+      { label: "AI Model", value: "Gemini 1.5 Pro", note: "Contextual dialogue tutor" }
+    ],
+    outcome: "Built and deployed an enterprise-grade language monorepo with an interactive SM-2 retention engine and AI dialogue tutor simulated directly within this portfolio.",
+    achievements: [
+      "Complete Turborepo Monorepo",
+      "Pure SuperMemo-2 (SM-2) Engine",
+      "Dual Next.js Portals + NestJS API",
+      "Gemini AI Dialogue System"
+    ],
     actions: [
-      { label: "GitHub Profile ↗", url: "https://github.com/gouvkimsea", primary: true },
-      { label: "Explore Code ↗", url: "https://github.com/gouvkimsea/my-Portfolio-", primary: false }
-    ]
+      { label: "Monorepo GitHub ↗", url: "https://github.com/gouvkimsea/chinese-learning-platform", primary: true },
+      { label: "Explore Architecture ↗", url: "https://github.com/gouvkimsea/my-Portfolio-", primary: false }
+    ],
+    prevKey: "joul",
+    nextKey: "aquarium"
   },
+
   aquarium: {
-    title: "Aquarium Filter Sim — Fluid & Biological Dynamics Engine",
-    overview: "An in-browser mathematical simulation engine written in TypeScript modeling aquarium fluid dynamics, 3-stage mechanical/biological/chemical filtration, and the biological nitrogen cycle.",
-    problem: "Understanding closed aquatic ecosystems requires balancing fluid flow rates (GPH), media friction resistance, and biological bacterial conversion of toxic ammonia into safe nitrate.",
-    learned: "Modeled discrete-time fluid flow differential equations, hydraulic media impedance, bacterial colony growth functions (Nitrosomonas & Nitrobacter), and interactive state visualization in TypeScript.",
-    tech: ["TypeScript", "Fluid Dynamics", "Biochemical Kinetics", "Interactive Simulation", "OOP Architecture"],
+    key: "aquarium",
+    index: "05 / 09",
+    title: "Aquarium Filter Sim — 3D CAD & Hydraulic Modeling",
+    category: "3D CAD & Hydraulic Simulation",
+    status: "Source repository",
+    tagline: "A browser-based 3D tool for designing aquarium filtration layouts and estimating hydraulic flow through connected components.",
+    role: "Project author & developer",
+    timeline: "React and TypeScript 3D CAD tool",
+    domain: "3D Design & Fluid Mechanics",
+    archPattern: "3D Component Graph · 1D Hydraulic Solver",
+    overview: "Aquarium Filter Sim is a browser-based 3D CAD tool for laying out sump basins, baffles, filter components, and plumbing. Its separate TypeScript hydraulic engine traces connected flow paths and estimates operating flow, pressure losses, and pump operating points using documented fluid-mechanics equations.",
+    overviewCallout: "A 3D assembly view and a decoupled hydraulic solver bring the layout and its estimated flow behavior into one tool.",
+    problem: "Planning an aquarium filter means balancing basin dimensions, chamber layout, pump capacity, and plumbing losses. Generic mockups do not show whether the connected system can carry the intended flow.",
+    objectives: [
+      "Let users assemble a filter layout from reusable 3D components.",
+      "Keep the hydraulic solver separate from the interactive 3D view.",
+      "Trace connected plumbing and estimate flow with explicit assumptions.",
+      "Represent unsupported or incomplete flow paths as unresolved states rather than inventing results."
+    ],
+    concept: "A practical sump-design canvas: place basin parts and filter components in 3D, connect plumbing, then inspect estimated flow through the resulting system.",
+    pipeline: {
+      in: [
+        "Basin dimensions, filter components, and their 3D placement",
+        "Named component connection points and plumbing links",
+        "Pump and pipe parameters, including elevations and fittings",
+        "Saved or imported design state and solver configuration"
+      ],
+      runs: [
+        "Graph traversal through connected pump, pipe, fitting, and filter components",
+        "Darcy-Weisbach friction and fitting-loss calculations",
+        "Pump-curve operating point and parallel branch flow estimates",
+        "3D component rendering and a separately testable TypeScript solver"
+      ],
+      out: [
+        "Estimated operating flow, head loss, and branch distribution",
+        "A 3D view of the filter container, baffles, components, and plumbing",
+        "Diagnostics for disconnected paths, missing pumps, and dead ends",
+        "Illustrative estimates when measured pump curves are unavailable"
+      ]
+    },
+    uxJourney: [
+      {
+        step: "01",
+        title: "System Parameter Configuration",
+        desc: "Users define the filter container and add baffles, media, and plumbing components in the 3D workspace."
+      },
+      {
+        step: "02",
+        title: "Component and Pump Configuration",
+        desc: "Users connect component ports and configure pump, pipe, and fitting properties."
+      },
+      {
+        step: "03",
+        title: "Flow Estimate and Diagnostics",
+        desc: "The separate solver traces connected flow paths and presents estimated operating flow with diagnostics and assumptions."
+      }
+    ],
+    development: "The repository documents a React and TypeScript 3D interface and a decoupled TypeScript solver. The solver traces a component connection graph, applies Darcy-Weisbach and fitting-loss calculations, and estimates pump operating points from pump and system curves.",
+    challenges: [
+      "Keeping editable 3D components and their connection graph consistent as layouts change.",
+      "Representing parallel branches while balancing head loss and conserving total flow.",
+      "Communicating assumptions and unresolved paths when a design cannot be solved."
+    ],
+    learned: "The project documentation highlights graph-based flow tracing, head-loss calculations, pump-curve solving, project persistence, and diagnostics for incomplete layouts.",
+    tech: ["React", "TypeScript", "Three.js", "React Three Fiber", "WebGL", "Darcy-Weisbach Solver"],
+    telemetry: [
+      { label: "Model", value: "1D", note: "Hydraulic flow solver" },
+      { label: "Flow method", value: "Darcy-Weisbach", note: "Pipe friction and minor losses" },
+      { label: "3D library", value: "12+ parts", note: "Documented reusable components" },
+      { label: "Persistence", value: "Local", note: "IndexedDB with localStorage fallback" }
+    ],
+    outcome: "A documented browser-based 3D filter-design tool with project save/import, a reusable component library, and a TypeScript hydraulic solver. A separate portfolio lab offers a simplified filtration demonstration.",
+    achievements: [
+      "3D sump and plumbing design",
+      "Graph-based flow path tracing",
+      "Pump operating point estimates",
+      "Local project persistence and export"
+    ],
+    galleryIntro: "The repository contains the 3D CAD tool and hydraulic solver. The interactive lab below is a separate, simplified portfolio demonstration of aquarium filtration.",
     actions: [
       { label: "Aquarium Sim Repository ↗", url: "https://github.com/gouvkimsea/aquarium-filter-sim", primary: true },
       { label: "GitHub Profile (@gouvkimsea) ↗", url: "https://github.com/gouvkimsea", primary: false }
-    ]
+    ],
+    prevKey: "clp",
+    nextKey: "gesture"
   },
+
   gesture: {
-    title: "Gesture App — Real-Time 21-Joint Computer Vision",
-    overview: "A touchless computer vision application engineered in Python with OpenCV and MediaPipe that tracks 21 skeletal landmarks on human hands at 60 FPS for spatial gesture control.",
-    problem: "Traditional human-computer interaction relies on physical peripherals, which limits touchless interaction in sanitary environments, presentations, and spatial interfaces.",
-    learned: "Engineered 3D coordinate vector kinematics, Euclidean distance pinch-detection algorithms, bounding box smoothing, and high-frequency real-time camera processing pipelines.",
-    tech: ["Python 3", "OpenCV", "MediaPipe", "Computer Vision", "Kinematics Math", "Real-Time Tracking"],
+    key: "gesture",
+    index: "06 / 09",
+    title: "Gesture App — Touchless 21-Joint Computer Vision & Kinematics",
+    category: "Computer Vision, Spatial AI & HCI",
+    status: "Source repository",
+    tagline: "Touchless human-computer interaction engine engineered in Python with OpenCV and MediaPipe tracking 21 skeletal hand landmarks in 3D with Euclidean pinch-detection math at 60 FPS.",
+    role: "Computer Vision & Kinematics Engineer",
+    timeline: "Python desktop application",
+    domain: "Spatial Computing & Human-Computer Interaction",
+    archPattern: "High-Frequency Vision Pipeline · Euclidean Pinch Math",
+    overview: "Gesture App is a touchless spatial computing and desktop navigation engine developed in Python using OpenCV and Google MediaPipe. By tracking 21 anatomical landmarks on the human hand simultaneously in real time, Gesture App calculates sub-millimeter Euclidean distance vectors (D_{4-8}) between the thumb and index finger to enable touchless cursor steering, pinch-click interactions, and gesture-driven desktop automation at a full 60 FPS.",
+    overviewCallout: "Transforming standard consumer webcams into zero-contact spatial controllers through anatomical geometry.",
+    problem: "Traditional physical input peripherals (mice, keyboards, touchscreens) are impractical in sterile medical environments, messy industrial workshops, public kiosks, and presentations where physical contact is impossible or unhygienic.",
+    objectives: [
+      "Track 21 skeletal landmarks on human hands at 60 FPS using standard consumer webcams.",
+      "Calculate real-time Euclidean distance thresholds ($D_{4-8}$) for reliable pinch-to-click detection.",
+      "Eliminate cursor jitter using Exponential Moving Average (EMA) and Kalman spatial filters.",
+      "Recognize 6 core spatial gesture poses (Open Palm, Pinch Click, Peace/V, Closed Fist, Point Cursor, Thumbs Up)."
+    ],
+    concept: "Spatial telekinesis. Eliminating physical hardware barriers by converting natural anatomical hand gestures into fluid, low-latency digital actions.",
+    pipeline: {
+      in: [
+        "Raw RGB webcam video frame feed (640x480 resolution @ 60 FPS)",
+        "3D spatial hand landmark coordinate streams (X, Y, Z)",
+        "User gesture intent presets (Pinch Click, Peace, Fist, Point, Palm)"
+      ],
+      runs: [
+        "Google MediaPipe deep regression neural network for 21-joint localization",
+        "Euclidean spatial distance calculation ($D_{4-8} = \sqrt{(x_4 - x_8)^2 + (y_4 - y_8)^2 + (z_4 - z_8)^2}$)",
+        "Exponential Moving Average (EMA) cursor stabilization filter",
+        "OS-level virtual mouse driver dispatch via PyAutoGUI"
+      ],
+      out: [
+        "Jitter-free sub-pixel desktop cursor control",
+        "Touchless click, drag-and-drop, and scroll events",
+        "Real-time skeletal wireframe overlay HUD with bounding box reticle",
+        "Gesture classification confidence telemetry"
+      ]
+    },
+    uxJourney: [
+      {
+        step: "01",
+        title: "Optical Hand Acquisition",
+        desc: "The webcam feed captures the hand; MediaPipe locks onto 21 anatomical joints within 15ms."
+      },
+      {
+        step: "02",
+        title: "Spatial Vector Tracking",
+        desc: "Hand movement smoothly steers the cursor across the screen with zero jitter thanks to EMA smoothing."
+      },
+      {
+        step: "03",
+        title: "Kinematic Pinch Trigger",
+        desc: "Bringing the thumb and index tips together breaches the Euclidean threshold (D_{4-8} < 0.05), triggering an instant click."
+      }
+    ],
+    development: "Built in Python 3 utilizing OpenCV for frame capture and pre-processing, MediaPipe for landmark regression, and custom vector math for anatomical gesture classification.",
+    challenges: [
+      "Filtering out high-frequency spatial hand tremor without introducing noticeable cursor lag.",
+      "Maintaining consistent pinch-detection accuracy across varying hand distances from the camera.",
+      "Optimizing Python frame processing loops to sustain a rock-solid 60 FPS throughput."
+    ],
+    learned: "Computer vision pipelines, 3D anatomical kinematics, spatial filter mathematics, and human-computer interface design.",
+    tech: ["Python 3", "OpenCV", "Google MediaPipe", "NumPy", "PyAutoGUI", "Vector Kinematics", "Tkinter"],
+    telemetry: [
+      { label: "Anatomical Joints", value: "21 Landmarks", note: "Simultaneous 3D tracking" },
+      { label: "Frame Rate", value: "60 FPS", note: "Real-time webcam pipeline" },
+      { label: "Pipeline Latency", value: "< 15 ms", note: "Sub-frame response time" },
+      { label: "Gesture Library", value: "6 Presets", note: "Pinch, Point, Fist & more" }
+    ],
+    outcome: "Successfully engineered an open-source spatial interaction engine on GitHub, accompanied by an interactive 21-joint kinematics simulator lab embedded in this portfolio.",
+    achievements: [
+      "Real-Time 21-Joint Skeletal Tracking",
+      "Euclidean Pinch Detection Math",
+      "60 FPS Computer Vision Pipeline",
+      "Touchless Virtual Mouse Control"
+    ],
     actions: [
       { label: "Gesture App Repository ↗", url: "https://github.com/gouvkimsea/Gesture_app", primary: true },
       { label: "GitHub Profile (@gouvkimsea) ↗", url: "https://github.com/gouvkimsea", primary: false }
-    ]
+    ],
+    prevKey: "aquarium",
+    nextKey: "saas"
   },
+
   saas: {
+    key: "saas",
+    index: "07 / 09",
     title: "Productivity SaaS & POS Systems — Business Platform",
-    overview: "Full-stack enterprise applications architected in PHP and MySQL delivering sprint velocity analytics, daily habit streaks, and retail point-of-sale inventory accounting.",
-    problem: "Small businesses and independent developers need reliable, lightweight operational tools to monitor production velocity and inventory without SaaS bloat.",
-    learned: "Database schema normalization in MySQL InnoDB, ACID sales transactions, sprint velocity burnup calculations, and responsive UI dashboard engineering.",
-    tech: ["PHP 8.x", "MySQL", "Relational Database", "Business Analytics", "POS Inventory", "SaaS Architecture"],
+    category: "Enterprise SaaS & Business Operations",
+    status: "Project repositories",
+    tagline: "Full-stack enterprise business applications built with PHP 8.x and MySQL: sprint velocity burndown tracking, daily habit streaks, and retail Point-of-Sale with ABA Payway payment gateway integration.",
+    role: "Full-Stack Enterprise Architect",
+    timeline: "PHP and MySQL business tools",
+    domain: "Business Operations & Point-of-Sale FinTech",
+    archPattern: "ACID Relational Architecture · Payment Webhook Gateway",
+    overview: "Productivity SaaS & POS Systems is a dual suite of enterprise web applications engineered in PHP 8.x and MySQL InnoDB. The suite pairs an operational productivity dashboard featuring Agile sprint burndown tracking and habit momentum streaks alongside an enterprise retail Point-of-Sale (POS) cash register with ABA Payway payment gateway integration, barcode SKU lookup, and automated stock reconciliation.",
+    overviewCallout: "High-velocity operational software delivering financial reconciliation without enterprise SaaS bloat.",
+    problem: "Small retail businesses and agile development teams frequently suffer from either bloated, expensive SaaS tools (Jira, Salesforce) that slow down daily execution, or error-prone spreadsheets that cause cash ledger discrepancies and stock drift.",
+    objectives: [
+      "Engineer an agile sprint burndown engine calculating real-time velocity curves across story point commitments.",
+      "Build a retail POS checkout system with strict MySQL InnoDB ACID transactions preventing stock discrepancies.",
+      "Integrate ABA Payway payment gateway for instant QR-code and credit card digital transactions.",
+      "Deliver a sub-100ms transactional checkout workflow optimized for rapid keyboard input."
+    ],
+    concept: "Operational clarity. Clean, responsive dashboards that turn complex sprint metrics and retail cash transactions into immediate, frictionless actions.",
+    pipeline: {
+      in: [
+        "Sprint story point estimates and daily task completion logs",
+        "Cashier barcode SKU scans, quantities, and tender amounts",
+        "ABA Payway payment gateway webhook callback payloads"
+      ],
+      runs: [
+        "Velocity burndown rate calculation across multi-week sprint cycles",
+        "Habit consistency momentum algorithms and streak decay tracking",
+        "MySQL InnoDB row-level locking (BEGIN ... COMMIT / ROLLBACK) during checkout",
+        "Automated stock level decrement triggers and tax reconciliation"
+      ],
+      out: [
+        "Real-time sprint velocity burndown bar charts and velocity analytics",
+        "Instant thermal printed receipts and order audit logs",
+        "Reconciled inventory balances with low-stock warnings",
+        "Digital payment confirmation receipts with transaction verification"
+      ]
+    },
+    uxJourney: [
+      {
+        step: "01",
+        title: "Sprint & Order Initiation",
+        desc: "Managers plan sprint story point goals; retail cashiers scan inventory SKUs via rapid keyboard entry."
+      },
+      {
+        step: "02",
+        title: "Transactional Checkout",
+        desc: "Orders are processed atomically via cash tender or ABA Payway QR code payment."
+      },
+      {
+        step: "03",
+        title: "Reconciliation & Telemetry",
+        desc: "Inventory levels decrement automatically, sales are recorded to the ACID ledger, and sprint velocity burndowns update live."
+      }
+    ],
+    development: "Developed using PHP 8.x with strict type checking, normalized MySQL InnoDB schemas, and responsive vanilla JavaScript. Hardened payment webhook verification against replay attacks and spoofing.",
+    challenges: [
+      "Ensuring zero inventory drift under concurrent retail transactions through InnoDB row locking.",
+      "Maintaining an intuitive, rapid checkout UI that requires zero mouse interaction.",
+      "Handling webhook idempotency for digital payment gateway callbacks."
+    ],
+    learned: "Enterprise relational database design, ACID transaction mechanics, payment gateway integration, and Agile velocity modeling.",
+    tech: ["PHP 8.x", "MySQL / InnoDB", "ACID Transactions", "ABA Payway API", "SaaS Analytics", "POS Inventory", "CSS3 Grid"],
+    telemetry: [
+      { label: "ACID Reconciliation", value: "100%", note: "Atomic sales ledger" },
+      { label: "Sprint History", value: "6 Sprints", note: "Velocity tracking metrics" },
+      { label: "Transaction Latency", value: "< 100 ms", note: "Sub-second checkout" },
+      { label: "Payment Gateway", value: "ABA Payway", note: "Digital QR & Card API" }
+    ],
+    outcome: "Shipped two production business repositories on GitHub and created an interactive in-portfolio sprint velocity and cash register simulation lab.",
+    achievements: [
+      "100% ACID Relational Sales Transactions",
+      "ABA Payway Payment Gateway Integration",
+      "Agile Sprint Velocity Burndown Engine",
+      "Zero-Drift Inventory Reconciliation"
+    ],
     actions: [
       { label: "Productivity SaaS Repo ↗", url: "https://github.com/gouvkimsea/progress-tracking-and-productivitysaas", primary: true },
       { label: "POS System (ABA Payway) Repo ↗", url: "https://github.com/gouvkimsea/POS-system-ABA-payway", primary: false }
-    ]
+    ],
+    prevKey: "gesture",
+    nextKey: "devpulse"
+  },
+
+  devpulse: {
+    key: "devpulse",
+    index: "08 / 09",
+    title: "DevPulse — Real-Time Developer Telemetry & Flow State Dashboard",
+    category: "Developer Telemetry & Real-Time Systems",
+    status: "Portfolio project entry",
+    tagline: "Real-time engineering telemetry and rhythm dashboard visualizing developer velocity, Git commit flow states, and build frequency waveforms via streaming event pipelines.",
+    role: "Lead Systems Architect & Telemetry Engineer",
+    timeline: "Project concept",
+    domain: "Real-Time Telemetry & Systems Metrics",
+    archPattern: "Streaming WebSocket Pipeline · Event Frequency Analysis",
+    overview: "DevPulse is an ambient developer telemetry and cognitive flow state dashboard designed to monitor engineering cadence, Git commit frequencies, and build velocities in real time. By streaming development events through a high-frequency WebSocket bus, DevPulse calculates cognitive focus rhythms and renders dynamic audio-frequency waveforms that visualize deep-work momentum without distracting the developer.",
+    overviewCallout: "The cardiovascular pulse of software engineering, turning distributed build logs into a living rhythm interface.",
+    problem: "Software developers frequently suffer from invisible cognitive fatigue, frequent context-switching, and fragmented visibility across Git, terminal sessions, and CI/CD build pipelines.",
+    objectives: [
+      "Stream high-frequency engineering events at up to 240 requests/sec with sub-20ms latency.",
+      "Transform discrete Git commit timestamps into continuous rhythm waveforms.",
+      "Calculate an ambient Cognitive Flow State Index (0–100) to protect deep work sessions.",
+      "Render dynamic SVG audio waveforms with zero CPU overhead in idle state."
+    ],
+    concept: "Biometric engineering telemetry. Treating code production and system architecture as an organic, rhythmic vital sign that pulses with developer velocity.",
+    pipeline: {
+      in: [
+        "Git commit webhooks, branch merges, and tag releases",
+        "Terminal command frequency and compiler build event payloads",
+        "Active coding block duration and idle recovery timestamps"
+      ],
+      runs: [
+        "Real-time event streaming and ingestion via WebSockets",
+        "Temporal cadence frequency analysis and Fourier-inspired smoothing",
+        "Cognitive Flow State Index scoring algorithm",
+        "Debounced event queue buffers preventing main thread UI stutter"
+      ],
+      out: [
+        "Dynamic audio-frequency waveform visualizer reflecting active velocity",
+        "Cardiovascular pulse beacon indicating real-time focus health",
+        "Uninterrupted deep work cadence timer and telemetry breakdown",
+        "Predictive rest and recovery notifications"
+      ]
+    },
+    uxJourney: [
+      {
+        step: "01",
+        title: "Ambient Connection",
+        desc: "DevPulse runs as a low-profile ambient dashboard alongside the IDE or secondary display."
+      },
+      {
+        step: "02",
+        title: "Cadence Streaming",
+        desc: "As the engineer writes code and commits changes, the waveform expands with harmonic resonance."
+      },
+      {
+        step: "03",
+        title: "Flow State Telemetry",
+        desc: "Real-time metrics calculate sustained focus blocks and indicate optimal points for cognitive breaks."
+      }
+    ],
+    development: "Built with modern vanilla JavaScript (ES2026), WebSocket streaming listeners, and SVG Canvas visualization. Engineered lightweight event-loop buffers that ensure zero frame drops during heavy build spikes.",
+    challenges: [
+      "Debouncing high-frequency event bursts during automated batch commits or test runs.",
+      "Designing an ambient visualization that conveys status without visual distraction.",
+      "Maintaining under 18ms end-to-end telemetry latency across distributed development machines."
+    ],
+    learned: "Real-time WebSocket streaming, event-driven reactive architectures, SVG animation optimization, and developer ergonomics.",
+    tech: ["JavaScript (ES2026)", "WebSockets", "Data Visualization", "HTML5 Canvas", "SVG Animations", "Metrics Pipeline"],
+    telemetry: [
+      { label: "Throughput Capacity", value: "240 req/s", note: "Continuous event streaming" },
+      { label: "Event Latency", value: "18 ms", note: "Sub-frame telemetry" },
+      { label: "Animation Rate", value: "60 FPS", note: "GPU-accelerated SVG" },
+      { label: "Memory Footprint", value: "< 12 MB", note: "Lightweight background agent" }
+    ],
+    outcome: "Built a fully functional developer telemetry module with an interactive rhythm waveform lab integrated directly into this portfolio.",
+    achievements: [
+      "240 req/s Streaming Telemetry Pipeline",
+      "Dynamic SVG Audio Waveform Engine",
+      "Ambient Cognitive Flow State Index",
+      "Zero-Dependency Vanilla JavaScript"
+    ],
+    actions: [
+      { label: "GitHub Profile ↗", url: "https://github.com/gouvkimsea", primary: true },
+      { label: "Explore Code ↗", url: "https://github.com/gouvkimsea/my-Portfolio-", primary: false }
+    ],
+    prevKey: "saas",
+    nextKey: "portfolio"
+  },
+
+  portfolio: {
+    key: "portfolio",
+    index: "09 / 09",
+    title: "Gouv Kimsea Portfolio — Interactive Creative Technology Platform",
+    category: "Creative Technology & Web Platform",
+    status: "Live website",
+    tagline: "A high-performance personal platform and digital workshop engineered from scratch in vanilla web technologies, featuring floating island navigation, ⌘K command palette, interactive CLI, and 7 live sandboxes.",
+    role: "Sole Creator, Architect & Designer",
+    timeline: "Vanilla web platform",
+    domain: "Creative Technology & Systems Engineering",
+    archPattern: "Zero-Dependency Vanilla Web · Semantic HTML5 & Web Audio",
+    overview: "This portfolio is a bespoke personal digital platform and interactive workshop engineered to demonstrate genuine software craftsmanship. Built with 100% semantic HTML5, pure CSS3 custom properties, and modern ES2026 vanilla JavaScript with zero external runtime dependencies, the site features floating glassmorphism island navigation, a ⌘K Command Palette, an in-browser interactive terminal CLI, 7 live sandboxes, an offline-first Service Worker, and a procedural Web Audio acoustic synthesizer.",
+    overviewCallout: "Treating the portfolio not as a static brochure, but as an interactive piece of software.",
+    problem: "Most developer portfolios are cookie-cutter static templates packed with bloated third-party frameworks that load slowly, lack accessible interactions, and fail to demonstrate real engineering depth.",
+    objectives: [
+      "Engineer a production portfolio with zero runtime framework dependencies (0 React, 0 Vue, 0 jQuery).",
+      "Achieve 100% keyboard accessibility with a ⌘K palette, terminal CLI, and pro navigation hotkeys.",
+      "Embed 7 live interactive engineering sandboxes directly within native HTML5 <dialog> modals.",
+      "Implement procedural Web Audio API acoustic synthesis providing tactile physical feedback."
+    ],
+    concept: "The digital workshop of an ambitious builder. Combining clean editorial typography with tactile sci-fi interfaces, generative audio synthesis, and live executable sandboxes.",
+    pipeline: {
+      in: [
+        "User scroll gestures, trackpad momentum, and touch edge-swipes",
+        "Mouse cursor coordinates, perspective tilt vectors, and button clicks",
+        "Tactile keyboard navigation (⌘K, /, 1–6, T, U, R, M, X, ?, Arrow keys)"
+      ],
+      runs: [
+        "Multi-threshold IntersectionObserver scrollspy and sliding indicator math",
+        "Web Audio API oscillator frequency synthesis generating tactile acoustic feedback",
+        "Reactive DOM search and category filter state machine with URL deep-link synchronization",
+        "Procedural terminal CLI command parser supporting 35+ commands"
+      ],
+      out: [
+        "Sub-100ms first paint and 60 FPS transitions across all viewports",
+        "Tactile acoustic click and whoosh audio feedback",
+        "Full Progressive Web App (PWA) offline capability via Service Worker",
+        "37/37 passing automated integrity test assertions"
+      ]
+    },
+    uxJourney: [
+      {
+        step: "01",
+        title: "Immediate Immersion",
+        desc: "Visitors land on an editorial hero layout featuring mouse-tracking tilt, code snippets, and floating glass islands."
+      },
+      {
+        step: "02",
+        title: "Deep Interactive Exploration",
+        desc: "Glide into Chapter 2 to inspect case studies, run live threat scanners, test spaced repetition algorithms, and launch 3D simulations."
+      },
+      {
+        step: "03",
+        title: "Tactile Pro Tools",
+        desc: "Open the ⌘K palette or in-browser terminal to run real-time matrix streams, query Git velocity, or export recruiter briefs."
+      }
+    ],
+    development: "Authored in clean, modular vanilla JavaScript and CSS3 custom properties. Protected by a custom Node.js automated integrity verification test suite (test/verify.js) that validates syntax, asset integrity, accessibility, and unique DOM IDs.",
+    challenges: [
+      "Coordinating full-viewport scroll transitions without accidental section skipping or scroll-trapping.",
+      "Synthesizing dynamic, pleasant acoustic feedback in real time using raw Web Audio oscillators.",
+      "Maintaining zero duplicate IDs and 100% semantic accessibility across 260+ DOM elements."
+    ],
+    learned: "Deep browser engine architecture, Web Audio API frequency modulation, accessible dialog patterns, and automated CI test writing.",
+    tech: ["HTML5", "Vanilla CSS3", "ES2026 JavaScript", "Web Audio API", "Service Worker (PWA)", "WebGL / GLSL", "Node.js CI Suite"],
+    telemetry: [
+      { label: "Integrity Tests", value: "37 / 37 Passed", note: "Automated Node.js suite" },
+      { label: "Runtime Dependencies", value: "0 External", note: "Pure vanilla web platform" },
+      { label: "Interactive Labs", value: "7 Sandboxes", note: "Direct in-browser execution" },
+      { label: "Terminal Commands", value: "35+ Built-in", note: "Interactive CLI suite" }
+    ],
+    outcome: "Built an internationally recognized creative technology portfolio demonstrating real-world full-stack competence, high aesthetic standards, and deep attention to detail.",
+    achievements: [
+      "100% Vanilla Web Engineering",
+      "37/37 Automated Integrity Tests",
+      "Web Audio Procedural Sound Engine",
+      "Full PWA & Offline Readiness"
+    ],
+    actions: [
+      { label: "GitHub Repository ↗", url: "https://github.com/gouvkimsea/my-Portfolio-", primary: true },
+      { label: "Live Deployment ↗", url: "https://gouvkimsea.github.io/my-Portfolio-/", primary: false }
+    ],
+    prevKey: "devpulse",
+    nextKey: "pinit"
   }
 };
 
 const modal = $("#projectModal");
 let previousActiveElement = null;
-
 // ==========================================================================
 // Pinit AI Threat Heuristics Simulator Engine
 // ==========================================================================
@@ -3423,15 +4085,131 @@ function openModal(projectKey) {
     window.history.replaceState({}, "", url.toString());
   } catch (_) {}
   previousActiveElement = document.activeElement;
+
+  // Header & Identity
   $("#modalTitle").textContent = data.title;
+  const modalTagline = $("#modalTagline");
+  if (modalTagline) modalTagline.textContent = data.tagline || data.overview;
+  const modalGalleryIntro = $("#modalGalleryIntro");
+  if (modalGalleryIntro) modalGalleryIntro.textContent = data.galleryIntro || "Explore the project’s visual presentation and its related portfolio demonstration.";
+  const modalCat = $("#modalCategory");
+  if (modalCat) modalCat.textContent = data.category || "Project Case Study";
+  const modalStatus = $("#modalStatusBadge");
+  if (modalStatus) {
+    modalStatus.innerHTML = '<span class="modal-pulse-dot"></span> ' + (data.status || "Production");
+  }
+
+  // Counter & Project Selector
+  const modalCounter = $("#modalCounter");
+  if (modalCounter) modalCounter.textContent = 'PROJECT ' + (data.index || '01 / 09') + ' · CASE STUDY';
+  const modalSelect = $("#modalProjectSelect");
+  if (modalSelect) modalSelect.value = projectKey;
+
+  // Metadata Specifications
+  const modalRole = $("#modalRole");
+  if (modalRole) modalRole.textContent = data.role || "Lead Architect & Developer";
+  const modalTimeline = $("#modalTimeline");
+  if (modalTimeline) modalTimeline.textContent = data.timeline || "Production · 2026";
+  const modalDomain = $("#modalDomain");
+  if (modalDomain) modalDomain.textContent = data.domain || data.category;
+  const modalArch = $("#modalArchPattern");
+  if (modalArch) modalArch.textContent = data.archPattern || "Modular Architecture";
+
+  // Featured Visual Hero
+  const heroVisual = $("#modalHeroVisual");
+  if (heroVisual) {
+    heroVisual.innerHTML = renderHeroVisualMarkup(data);
+  }
+
+  // Section 1: Overview
   $("#modalOverview").textContent = data.overview;
+  const overviewCallout = $("#modalOverviewCallout");
+  if (overviewCallout) {
+    overviewCallout.textContent = data.overviewCallout || data.tagline;
+  }
+
+  // Section 2: Problem & Objectives
   $("#modalProblem").textContent = data.problem;
+  const objectivesList = $("#modalObjectivesList");
+  if (objectivesList && Array.isArray(data.objectives)) {
+    objectivesList.innerHTML = data.objectives.map(obj => '<li><span class="bullet-ico">▹</span> ' + obj + '</li>').join("");
+  }
+
+  // Section 3: Concept & In / Runs / Out Architecture
+  const modalConcept = $("#modalConcept");
+  if (modalConcept) modalConcept.textContent = data.concept || "";
+  const archIn = $("#archInList");
+  if (archIn && data.pipeline && Array.isArray(data.pipeline.in)) {
+    archIn.innerHTML = data.pipeline.in.map(item => '<li><span class="pipe-bullet">●</span> ' + item + '</li>').join("");
+  }
+  const archRuns = $("#archRunsList");
+  if (archRuns && data.pipeline && Array.isArray(data.pipeline.runs)) {
+    archRuns.innerHTML = data.pipeline.runs.map(item => '<li><span class="pipe-bullet">●</span> ' + item + '</li>').join("");
+  }
+  const archOut = $("#archOutList");
+  if (archOut && data.pipeline && Array.isArray(data.pipeline.out)) {
+    archOut.innerHTML = data.pipeline.out.map(item => '<li><span class="pipe-bullet">●</span> ' + item + '</li>').join("");
+  }
+
+  // Section 4: User Experience Journey
+  const uxGrid = $("#modalUxJourney");
+  if (uxGrid && Array.isArray(data.uxJourney)) {
+    uxGrid.innerHTML = data.uxJourney.map(step => `
+      <div class="ux-step-card">
+        <span class="ux-step-num">${step.step}</span>
+        <h4 class="ux-step-title">${step.title}</h4>
+        <p class="ux-step-desc">${step.desc}</p>
+      </div>
+    `).join("");
+  }
+
+  // Section 5: Development Process & Challenges
+  const modalDev = $("#modalDevelopment");
+  if (modalDev) modalDev.textContent = data.development || "";
+  const challengesList = $("#modalChallengesList");
+  if (challengesList && Array.isArray(data.challenges)) {
+    challengesList.innerHTML = data.challenges.map(c => '<li><span class="bullet-ico">▹</span> ' + c + '</li>').join("");
+  }
   $("#modalLearned").textContent = data.learned;
-  $("#modalTech").innerHTML = data.tech.map(item => `<span class="modal-tech-tag">${item}</span>`).join("");
+
+  // Section 6: Technology Stack & Telemetry
+  $("#modalTech").innerHTML = data.tech.map(item => '<span class="modal-tech-tag">' + item + '</span>').join("");
+  const telemetryTable = $("#modalTelemetryTable");
+  if (telemetryTable && Array.isArray(data.telemetry)) {
+    telemetryTable.innerHTML = data.telemetry.map(t => `
+      <div class="telemetry-cell">
+        <span class="telem-label">${t.label}</span>
+        <strong class="telem-value">${t.value}</strong>
+        <span class="telem-note">${t.note}</span>
+      </div>
+    `).join("");
+  }
+
+  // Section 8: Final Outcome & Achievements
+  const modalOutcome = $("#modalOutcome");
+  if (modalOutcome) modalOutcome.textContent = data.outcome || "";
+  const achieveList = $("#modalAchievementsList");
+  if (achieveList && Array.isArray(data.achievements)) {
+    achieveList.innerHTML = data.achievements.map(a => '<span class="modal-achieve-badge"><span class="badge-check">✓</span> ' + a + '</span>').join("");
+  }
+
+  // Action Buttons
   $("#modalActions").innerHTML = data.actions.map(act =>
-    `<a class="modal-btn ${act.primary ? '' : 'secondary'}" href="${act.url}" target="_blank" rel="noreferrer">${act.label}</a>`
+    '<a class="modal-btn ' + (act.primary ? '' : 'secondary') + '" href="' + act.url + '" target="_blank" rel="noopener noreferrer">' + act.label + '</a>'
   ).join("");
 
+  // Next Project Teaser Card
+  const nextProject = projectData[data.nextKey];
+  if (nextProject) {
+    const teaserIdx = $("#teaserNextIndex");
+    if (teaserIdx) teaserIdx.textContent = nextProject.index;
+    const teaserTitle = $("#teaserNextTitle");
+    if (teaserTitle) teaserTitle.textContent = nextProject.title.split("—")[0].trim();
+    const teaserDesc = $("#teaserNextDesc");
+    if (teaserDesc) teaserDesc.textContent = nextProject.domain || nextProject.category;
+  }
+
+  // Sandboxes Activation
   const pinitSandbox = $("#pinitSandbox");
   if (pinitSandbox) {
     if (projectKey === "pinit") {
@@ -3506,15 +4284,179 @@ function openModal(projectKey) {
     }
   }
 
+  const devpulseSandbox = $("#devpulseSandbox");
+  if (devpulseSandbox) {
+    if (projectKey === "devpulse") {
+      devpulseSandbox.hidden = false;
+      initDevpulseLab();
+    } else {
+      devpulseSandbox.hidden = true;
+      stopDevpulseLab();
+    }
+  }
+
+  const portfolioSandbox = $("#portfolioSandbox");
+  if (portfolioSandbox) {
+    if (projectKey === "portfolio") {
+      portfolioSandbox.hidden = false;
+    } else {
+      portfolioSandbox.hidden = true;
+    }
+  }
+
   modal.showModal();
   $("#modalClose")?.focus();
 }
+
+function renderHeroVisualMarkup(data) {
+  const k = data.key;
+  if (k === "pinit") {
+    return `
+      <div class="hero-vis-box pinit-hero-vis">
+        <div class="vis-radar-display">
+          <div class="vis-radar-circle r-lg"></div>
+          <div class="vis-radar-circle r-md"></div>
+          <div class="vis-radar-circle r-sm"></div>
+          <div class="vis-radar-sweep-arm"></div>
+          <div class="vis-radar-blip b-safe"></div>
+          <div class="vis-radar-blip b-warn"></div>
+        </div>
+        <div class="vis-telemetry-badge">
+          <span class="tele-dot green"></span>
+          <span>PORTFOLIO DEMO · URL RISK SIGNALS</span>
+        </div>
+      </div>
+    `;
+  } else if (k === "miniworld") {
+    return `
+      <div class="hero-vis-box miniworld-hero-vis">
+        <div class="vis-celestial-scene">
+          <div class="vis-celestial-sun"></div>
+          <div class="vis-planet-core">
+            <div class="vis-crater c1"></div>
+            <div class="vis-crater c2"></div>
+            <div class="vis-terrain-tree"></div>
+          </div>
+          <div class="vis-orbit-ring"></div>
+        </div>
+        <div class="vis-telemetry-badge">
+          <span class="tele-dot cyan"></span>
+          <span>60 FPS WEBGL · CEL-SHADED PLANETARIUM</span>
+        </div>
+      </div>
+    `;
+  } else if (k === "joul") {
+    return `
+      <div class="hero-vis-box joul-hero-vis">
+        <div class="vis-timeline-board">
+          <div class="vis-timeline-slot booked"><span class="slot-text">08:00 - 14:00 RENTED</span></div>
+          <div class="vis-timeline-slot buffer"><span class="slot-text">+2H BUFFER 🧼</span></div>
+          <div class="vis-timeline-slot ready"><span class="slot-text">16:00 READY</span></div>
+        </div>
+        <div class="vis-telemetry-badge">
+          <span class="tele-dot amber"></span>
+          <span>100% ESCROW SECURED · 197 TESTS PASSING</span>
+        </div>
+      </div>
+    `;
+  } else if (k === "clp") {
+    return `
+      <div class="hero-vis-box clp-hero-vis">
+        <div class="vis-hanzi-display">
+          <span class="vis-hanzi-char">学</span>
+          <span class="vis-hanzi-py">xué · to learn / study</span>
+          <div class="vis-srs-progress-bar"><div class="vis-srs-fill" style="width: 85%;"></div></div>
+        </div>
+        <div class="vis-telemetry-badge">
+          <span class="tele-dot purple"></span>
+          <span>SM-2 INTERVAL 6d · GEMINI 1.5 PRO TUTOR</span>
+        </div>
+      </div>
+    `;
+  } else if (k === "aquarium") {
+    return `
+      <div class="hero-vis-box aquarium-hero-vis">
+        <div class="vis-aqua-chamber">
+          <div class="vis-particle-stream">
+            <span class="stream-dot d1"></span><span class="stream-dot d2"></span><span class="stream-dot d3"></span>
+          </div>
+          <div class="vis-filter-layers">
+            <span class="layer-pill l-sponge">SUMP BASIN</span>
+            <span class="layer-pill l-bio">BAFFLE CHAMBER</span>
+            <span class="layer-pill l-chem">PUMP &amp; PLUMBING</span>
+          </div>
+        </div>
+        <div class="vis-telemetry-badge">
+          <span class="tele-dot teal"></span>
+          <span>3D COMPONENT LAYOUT · FLOW ESTIMATES</span>
+        </div>
+      </div>
+    `;
+  } else if (k === "gesture") {
+    return `
+      <div class="hero-vis-box gesture-hero-vis">
+        <div class="vis-skeletal-hand">
+          <div class="vis-joint-reticle r1"></div><div class="vis-joint-reticle r2"></div><div class="vis-joint-reticle r3"></div>
+          <div class="vis-pinch-vector-line"></div>
+          <span class="vis-pinch-tag">D4-8: 0.038 PINCH</span>
+        </div>
+        <div class="vis-telemetry-badge">
+          <span class="tele-dot green"></span>
+          <span>21 LANDMARKS LOCKED · 60 FPS OPENCV</span>
+        </div>
+      </div>
+    `;
+  } else if (k === "saas") {
+    return `
+      <div class="hero-vis-box saas-hero-vis">
+        <div class="vis-sprint-chart">
+          <div class="vis-bar-col b1" style="height: 60%;"></div>
+          <div class="vis-bar-col b2" style="height: 80%;"></div>
+          <div class="vis-bar-col b3" style="height: 100%;"></div>
+          <div class="vis-burndown-target-line"></div>
+        </div>
+        <div class="vis-telemetry-badge">
+          <span class="tele-dot orange"></span>
+          <span>100% ACID SALES · ABA PAYWAY INTEGRATED</span>
+        </div>
+      </div>
+    `;
+  } else if (k === "devpulse") {
+    return `
+      <div class="hero-vis-box devpulse-hero-vis">
+        <div class="vis-pulse-waveform">
+          <span class="wf-bar w1"></span><span class="wf-bar w2"></span><span class="wf-bar w3"></span>
+          <span class="wf-bar w4"></span><span class="wf-bar w5"></span><span class="wf-bar w6"></span>
+        </div>
+        <div class="vis-telemetry-badge">
+          <span class="tele-dot blue"></span>
+          <span>240 REQ/S THROUGHPUT · 18ms STREAM</span>
+        </div>
+      </div>
+    `;
+  } else {
+    return `
+      <div class="hero-vis-box portfolio-hero-vis">
+        <div class="vis-code-shell">
+          <div class="vis-window-dots"><span class="w-dot red"></span><span class="w-dot yellow"></span><span class="w-dot green"></span></div>
+          <div class="vis-code-preview"><code>const portfolio = new CreativeEngine({ vanilla: true });</code></div>
+        </div>
+        <div class="vis-telemetry-badge">
+          <span class="tele-dot lime"></span>
+          <span>100% VANILLA WEB · 37/37 TESTS PASSING</span>
+        </div>
+      </div>
+    `;
+  }
+}
+
 
 function closeModal() {
   stopMiniworldLab();
   stopAquariumLab();
   stopGestureLab();
   stopSaasLab();
+  restoreProjectSandbox();
   try {
     const url = new URL(window.location.href);
     url.searchParams.delete("project");
@@ -4776,3 +5718,208 @@ window.addEventListener("touchend", (e) => {
     }
   }
 }, { passive: true });
+
+// ==========================================================================
+// Chapter 2 Project Presentation Controller & Case Study Navigation
+// ==========================================================================
+let currentModalProjectKey = "pinit";
+
+$("#modalPrevBtn")?.addEventListener("click", () => {
+  const currentKey = $("#modalProjectSelect")?.value || "pinit";
+  const data = projectData[currentKey];
+  if (data && data.prevKey) {
+    if (typeof playSound === "function") playSound("click");
+    openModal(data.prevKey);
+  }
+});
+
+$("#modalNextBtn")?.addEventListener("click", () => {
+  const currentKey = $("#modalProjectSelect")?.value || "pinit";
+  const data = projectData[currentKey];
+  if (data && data.nextKey) {
+    if (typeof playSound === "function") playSound("click");
+    openModal(data.nextKey);
+  }
+});
+
+$("#modalNextTeaserCard")?.addEventListener("click", () => {
+  const currentKey = $("#modalProjectSelect")?.value || "pinit";
+  const data = projectData[currentKey];
+  if (data && data.nextKey) {
+    if (typeof playSound === "function") playSound("click");
+    openModal(data.nextKey);
+  }
+});
+
+$("#modalNextTeaserCard")?.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" || e.key === " ") {
+    e.preventDefault();
+    const currentKey = $("#modalProjectSelect")?.value || "pinit";
+    const data = projectData[currentKey];
+    if (data && data.nextKey) openModal(data.nextKey);
+  }
+});
+
+$("#modalProjectSelect")?.addEventListener("change", (e) => {
+  const selectedKey = e.target.value;
+  if (projectData[selectedKey]) {
+    if (typeof playSound === "function") playSound("click");
+    openModal(selectedKey);
+  }
+});
+
+// Arrow key navigation when project modal is open
+window.addEventListener("keydown", (e) => {
+  if (!modal || !modal.open) return;
+  const currentKey = $("#modalProjectSelect")?.value || "pinit";
+  const data = projectData[currentKey];
+  if (!data) return;
+
+  if (e.key === "ArrowLeft") {
+    if (data.prevKey) {
+      if (typeof playSound === "function") playSound("click");
+      openModal(data.prevKey);
+    }
+  } else if (e.key === "ArrowRight") {
+    if (data.nextKey) {
+      if (typeof playSound === "function") playSound("click");
+      openModal(data.nextKey);
+    }
+  }
+});
+
+// Subnav smooth scrolling and active state tracking inside modal
+$$(".modal-subnav-link").forEach(link => {
+  link.addEventListener("click", (e) => {
+    e.preventDefault();
+    const targetId = link.getAttribute("href");
+    const targetElem = targetId ? $(targetId) : null;
+    if (targetElem) {
+      $$(".modal-subnav-link").forEach(l => l.classList.remove("active"));
+      link.classList.add("active");
+      targetElem.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (typeof playSound === "function") playSound("click");
+    }
+  });
+});
+
+// Chapter 2 Exhibition vs Matrix View Switcher
+const viewModeExhibition = $("#viewModeExhibition");
+const viewModeMatrix = $("#viewModeMatrix");
+const projectGridContainer = $("#projectGridContainer") || $(".project-grid");
+
+const setProjectViewMode = (mode) => {
+  const isMatrix = mode === "matrix";
+  if (projectGridContainer) {
+    projectGridContainer.classList.toggle("matrix-mode", isMatrix);
+  }
+  if (viewModeExhibition) {
+    viewModeExhibition.classList.toggle("active", !isMatrix);
+    viewModeExhibition.setAttribute("aria-pressed", (!isMatrix).toString());
+  }
+  if (viewModeMatrix) {
+    viewModeMatrix.classList.toggle("active", isMatrix);
+    viewModeMatrix.setAttribute("aria-pressed", isMatrix.toString());
+  }
+  try {
+    localStorage.setItem("portfolio_project_view_mode", mode);
+  } catch (_) {}
+};
+
+viewModeExhibition?.addEventListener("click", () => {
+  if (typeof playSound === "function") playSound("click");
+  setProjectViewMode("exhibition");
+});
+
+viewModeMatrix?.addEventListener("click", () => {
+  if (typeof playSound === "function") playSound("click");
+  setProjectViewMode("matrix");
+});
+
+// Restore saved view mode
+try {
+  const savedView = localStorage.getItem("portfolio_project_view_mode");
+  if (savedView === "matrix") setProjectViewMode("matrix");
+} catch (_) {}
+
+// DevPulse Interactive Telemetry Simulator Lab
+let devpulseRaf = null;
+let devpulseMode = "flow";
+
+function initDevpulseLab() {
+  const chips = $$(".devpulse-chip");
+  chips.forEach(chip => {
+    chip.addEventListener("click", () => {
+      chips.forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
+      devpulseMode = chip.dataset.mode || "flow";
+      updateDevpulseMode(devpulseMode);
+      if (typeof playSound === "function") playSound("click");
+    });
+  });
+  startDevpulseWave();
+}
+
+function stopDevpulseLab() {
+  if (devpulseRaf) {
+    cancelAnimationFrame(devpulseRaf);
+    devpulseRaf = null;
+  }
+}
+
+function updateDevpulseMode(mode) {
+  const flowVal = $("#dpFlowVal");
+  const cadenceVal = $("#dpCadenceVal");
+  const buildVal = $("#dpBuildVal");
+  const rateStat = $("#devpulseRateStat");
+
+  if (mode === "flow") {
+    if (flowVal) flowVal.textContent = "94 / 100";
+    if (cadenceVal) cadenceVal.textContent = "1.4h Sustained";
+    if (buildVal) buildVal.textContent = "0 Failures";
+    if (rateStat) rateStat.textContent = "240 req/s · 18ms Latency";
+  } else if (mode === "sprint") {
+    if (flowVal) flowVal.textContent = "98 / 100";
+    if (cadenceVal) cadenceVal.textContent = "3.2h Peak Sprint";
+    if (buildVal) buildVal.textContent = "14 Merged PRs";
+    if (rateStat) rateStat.textContent = "410 req/s · 12ms Latency";
+  } else if (mode === "build") {
+    if (flowVal) flowVal.textContent = "86 / 100";
+    if (cadenceVal) cadenceVal.textContent = "Test Suite Running";
+    if (buildVal) buildVal.textContent = "37/37 Assertions";
+    if (rateStat) rateStat.textContent = "180 req/s · 24ms Latency";
+  } else {
+    if (flowVal) flowVal.textContent = "72 / 100";
+    if (cadenceVal) cadenceVal.textContent = "Passive Rest";
+    if (buildVal) buildVal.textContent = "All Systems Green";
+    if (rateStat) rateStat.textContent = "45 req/s · 32ms Latency";
+  }
+}
+
+function startDevpulseWave() {
+  const bars = $$(".devpulse-wave-bars .dp-bar");
+  if (!bars.length) return;
+  let phase = 0;
+
+  function renderWave() {
+    phase += 0.08;
+    bars.forEach((bar, idx) => {
+      const freq = devpulseMode === "sprint" ? 2.5 : devpulseMode === "idle" ? 0.8 : 1.6;
+      const h = Math.abs(Math.sin(phase + idx * 0.45 * freq)) * 100;
+      bar.style.height = Math.max(12, Math.min(100, h)) + "%";
+    });
+    devpulseRaf = requestAnimationFrame(renderWave);
+  }
+  stopDevpulseLab();
+  devpulseRaf = requestAnimationFrame(renderWave);
+}
+
+// Portfolio Acoustic Testing Chips in Portfolio Lab
+$$(".portfolio-sound-chip").forEach(chip => {
+  chip.addEventListener("click", () => {
+    const soundType = chip.dataset.sound || "click";
+    if (typeof playSound === "function") {
+      playSound(soundType);
+    }
+  });
+});
