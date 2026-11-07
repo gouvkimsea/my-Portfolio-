@@ -130,6 +130,10 @@ assert(indexHtml.includes('id="sectionNavDots"') && fs.readFileSync('styles.css'
 assert(scriptJs.includes('whoosh') && scriptJs.includes('matrix:') && scriptJs.includes('git:'), 'script.js: Synthesizer whoosh tone and terminal matrix digital rain implemented');
 assert(indexHtml.includes('id="backToTopBtn"') && scriptJs.includes('touchStartX') && scriptJs.includes('action === "run-matrix"'), 'index.html & script.js: Floating back-to-top quick action and mobile edge swipe drawer gestures implemented');
 assert(indexHtml.includes('projects-curator-hud') && fs.readFileSync('styles.css', 'utf8').includes('.projects-curator-hud') && scriptJs.includes('viewModeExhibition'), 'index.html, styles.css & script.js: Chapter 02 project illustration, curator HUD, and exhibition view switcher implemented');
+assert(indexHtml.includes('skills-filter-bar') && indexHtml.includes('id="skillDossierModal"') && scriptJs.includes('initSkillsFilterAndDossier'), 'index.html & script.js: Interactive skill capabilities filter and skill dossier inspector modal implemented');
+assert(indexHtml.includes('achieve-view-switcher') && indexHtml.includes('id="achievementsTimeline"') && scriptJs.includes('initAchievementsTimeline'), 'index.html & script.js: Milestones view switcher and chronological journey timeline mode implemented');
+assert(scriptJs.includes('bench:') && scriptJs.includes('primary === "nav"') && scriptJs.includes('architecture:'), 'script.js: Parameterized terminal navigation and performance benchmark diagnostics implemented');
+assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v21'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v21');
 
 // Test global script evaluation with mock DOM globals
 try {
