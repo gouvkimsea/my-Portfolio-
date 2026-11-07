@@ -116,7 +116,7 @@
   }
   </script>
 
-  <link rel="stylesheet" href="styles.css?v=chapter2" />
+  <link rel="stylesheet" href="styles.css?v=v21" />
   <script>
     (function () {
       try {
@@ -132,7 +132,7 @@
       }
     })();
   </script>
-  <script defer src="script.js?v=chapter2"></script>
+  <script defer src="script.js?v=v21"></script>
 </head>
 
 <body>
@@ -629,65 +629,71 @@
           </div>
           <p class="heading-note">A growing toolkit, not a finished list.<br />The best skill is staying curious.</p>
         </div>
+        <div class="skills-filter-bar reveal" role="tablist" aria-label="Filter toolkit capabilities">
+          <button type="button" class="skill-filter-btn active" data-filter="all" role="tab" aria-selected="true">All Capabilities <sup class="filter-count">06</sup></button>
+          <button type="button" class="skill-filter-btn" data-filter="systems" role="tab" aria-selected="false">Systems &amp; CS <sup class="filter-count">03</sup></button>
+          <button type="button" class="skill-filter-btn" data-filter="graphics" role="tab" aria-selected="false">Graphics &amp; Web <sup class="filter-count">02</sup></button>
+          <button type="button" class="skill-filter-btn" data-filter="business" role="tab" aria-selected="false">Business &amp; Strategy <sup class="filter-count">01</sup></button>
+        </div>
         <div class="skill-grid">
-          <article class="skill-card reveal spotlight-card"><span class="skill-number">01</span>
+          <article class="skill-card reveal spotlight-card" data-category="systems"><span class="skill-number">01</span>
             <div class="skill-icon">&lt;/&gt;</div>
             <h3 class="skill-title">Programming</h3>
             <p class="skill-desc">Learning to think clearly and solve problems with code.</p>
             <div class="chips">
-              <span class="chip-item">JavaScript</span>
-              <span class="chip-item">C++</span>
-              <span class="chip-item">Python</span>
+              <span class="chip-item" role="button" tabindex="0" data-skill="javascript" title="Click to inspect JavaScript dossier &amp; projects">JavaScript</span>
+              <span class="chip-item" role="button" tabindex="0" data-skill="cpp" title="Click to inspect C++ dossier &amp; projects">C++</span>
+              <span class="chip-item" role="button" tabindex="0" data-skill="python" title="Click to inspect Python dossier &amp; projects">Python</span>
             </div><small class="learning-state"><i class="state-dot" aria-hidden="true"></i> Growing</small>
           </article>
-          <article class="skill-card reveal spotlight-card"><span class="skill-number">02</span>
+          <article class="skill-card reveal spotlight-card" data-category="graphics"><span class="skill-number">02</span>
             <div class="skill-icon">◈</div>
             <h3 class="skill-title">Web development</h3>
             <p class="skill-desc">Building responsive, accessible interfaces with intention.</p>
             <div class="chips">
-              <span class="chip-item">HTML / CSS</span>
-              <span class="chip-item">React</span>
-              <span class="chip-item">REST APIs</span>
+              <span class="chip-item" role="button" tabindex="0" data-skill="html-css" title="Click to inspect HTML / CSS dossier &amp; projects">HTML / CSS</span>
+              <span class="chip-item" role="button" tabindex="0" data-skill="react" title="Click to inspect React dossier &amp; projects">React</span>
+              <span class="chip-item" role="button" tabindex="0" data-skill="rest-apis" title="Click to inspect REST APIs dossier &amp; projects">REST APIs</span>
             </div><small class="learning-state"><i class="state-dot" aria-hidden="true"></i> Practicing</small>
           </article>
-          <article class="skill-card reveal spotlight-card"><span class="skill-number">03</span>
+          <article class="skill-card reveal spotlight-card" data-category="systems"><span class="skill-number">03</span>
             <div class="skill-icon">⌁</div>
             <h3 class="skill-title">Backend &amp; data</h3>
             <p class="skill-desc">Exploring how products work behind the interface.</p>
             <div class="chips">
-              <span class="chip-item">Node.js</span>
-              <span class="chip-item">SQL</span>
-              <span class="chip-item">Databases</span>
+              <span class="chip-item" role="button" tabindex="0" data-skill="nodejs" title="Click to inspect Node.js dossier &amp; projects">Node.js</span>
+              <span class="chip-item" role="button" tabindex="0" data-skill="sql" title="Click to inspect SQL dossier &amp; projects">SQL</span>
+              <span class="chip-item" role="button" tabindex="0" data-skill="databases" title="Click to inspect Databases dossier &amp; projects">Databases</span>
             </div><small class="learning-state"><i class="state-dot" aria-hidden="true"></i> Exploring</small>
           </article>
-          <article class="skill-card reveal spotlight-card"><span class="skill-number">04</span>
+          <article class="skill-card reveal spotlight-card" data-category="graphics"><span class="skill-number">04</span>
             <div class="skill-icon">✦</div>
             <h3 class="skill-title">3D &amp; Graphics</h3>
             <p class="skill-desc">Procedural simulation, geometry math, and interactive shaders.</p>
             <div class="chips">
-              <span class="chip-item">WebGL</span>
-              <span class="chip-item">GLSL</span>
-              <span class="chip-item">3D Math</span>
+              <span class="chip-item" role="button" tabindex="0" data-skill="webgl" title="Click to inspect WebGL dossier &amp; projects">WebGL</span>
+              <span class="chip-item" role="button" tabindex="0" data-skill="glsl" title="Click to inspect GLSL dossier &amp; projects">GLSL</span>
+              <span class="chip-item" role="button" tabindex="0" data-skill="3d-math" title="Click to inspect 3D Math dossier &amp; projects">3D Math</span>
             </div><small class="learning-state"><i class="state-dot" aria-hidden="true"></i> Experimenting</small>
           </article>
-          <article class="skill-card reveal spotlight-card"><span class="skill-number">05</span>
+          <article class="skill-card reveal spotlight-card" data-category="business"><span class="skill-number">05</span>
             <div class="skill-icon">💼</div>
             <h3 class="skill-title">Business &amp; Strategy</h3>
             <p class="skill-desc">Bridging software architecture with product viability, unit economics, and market fit.</p>
             <div class="chips">
-              <span class="chip-item">Product Strategy</span>
-              <span class="chip-item">Market Economics</span>
-              <span class="chip-item">Operations</span>
+              <span class="chip-item" role="button" tabindex="0" data-skill="product-strategy" title="Click to inspect Product Strategy dossier &amp; projects">Product Strategy</span>
+              <span class="chip-item" role="button" tabindex="0" data-skill="market-economics" title="Click to inspect Market Economics dossier &amp; projects">Market Economics</span>
+              <span class="chip-item" role="button" tabindex="0" data-skill="operations" title="Click to inspect Operations dossier &amp; projects">Operations</span>
             </div><small class="learning-state"><i class="state-dot" aria-hidden="true"></i> Bridging</small>
           </article>
-          <article class="skill-card reveal spotlight-card"><span class="skill-number">06</span>
+          <article class="skill-card reveal spotlight-card" data-category="systems"><span class="skill-number">06</span>
             <div class="skill-icon">⚙</div>
             <h3 class="skill-title">Systems &amp; DevOps</h3>
             <p class="skill-desc">Automated deployment pipelines, source control discipline, and shell tooling.</p>
             <div class="chips">
-              <span class="chip-item">Git &amp; GitHub</span>
-              <span class="chip-item">Linux / Shell</span>
-              <span class="chip-item">CI/CD Actions</span>
+              <span class="chip-item" role="button" tabindex="0" data-skill="git-github" title="Click to inspect Git &amp; GitHub dossier &amp; projects">Git &amp; GitHub</span>
+              <span class="chip-item" role="button" tabindex="0" data-skill="linux-shell" title="Click to inspect Linux / Shell dossier &amp; projects">Linux / Shell</span>
+              <span class="chip-item" role="button" tabindex="0" data-skill="cicd-actions" title="Click to inspect CI/CD Actions dossier &amp; projects">CI/CD Actions</span>
             </div><small class="learning-state"><i class="state-dot" aria-hidden="true"></i> Automating</small>
           </article>
         </div>
@@ -1206,15 +1212,25 @@
           </div>
         </div>
 
-        <div class="achievement-filter-bar reveal" role="tablist" aria-label="Filter achievements">
-          <button type="button" class="achieve-filter-btn active" data-filter="all" role="tab" aria-selected="true">All
-            Milestones <sup class="filter-count">06</sup></button>
-          <button type="button" class="achieve-filter-btn" data-filter="shipped" role="tab"
-            aria-selected="false">Shipped Apps <sup class="filter-count">02</sup></button>
-          <button type="button" class="achieve-filter-btn" data-filter="graphics" role="tab"
-            aria-selected="false">Graphics &amp; 3D <sup class="filter-count">02</sup></button>
-          <button type="button" class="achieve-filter-btn" data-filter="foundations" role="tab"
-            aria-selected="false">Systems &amp; Open Source <sup class="filter-count">02</sup></button>
+        <div class="achieve-toolbar-wrap reveal">
+          <div class="achievement-filter-bar" role="tablist" aria-label="Filter achievements">
+            <button type="button" class="achieve-filter-btn active" data-filter="all" role="tab" aria-selected="true">All
+              Milestones <sup class="filter-count">06</sup></button>
+            <button type="button" class="achieve-filter-btn" data-filter="shipped" role="tab"
+              aria-selected="false">Shipped Apps <sup class="filter-count">02</sup></button>
+            <button type="button" class="achieve-filter-btn" data-filter="graphics" role="tab"
+              aria-selected="false">Graphics &amp; 3D <sup class="filter-count">02</sup></button>
+            <button type="button" class="achieve-filter-btn" data-filter="foundations" role="tab"
+              aria-selected="false">Systems &amp; Open Source <sup class="filter-count">02</sup></button>
+          </div>
+          <div class="achieve-view-switcher" role="group" aria-label="Milestones presentation mode">
+            <button type="button" class="achieve-view-btn active" id="achieveViewGridBtn" data-view="grid" aria-pressed="true" title="Grid Presentation">
+              <span class="view-icon" aria-hidden="true">⊞</span> Grid
+            </button>
+            <button type="button" class="achieve-view-btn" id="achieveViewTimelineBtn" data-view="timeline" aria-pressed="false" title="Chronological Journey Timeline">
+              <span class="view-icon" aria-hidden="true">⎇</span> Timeline
+            </button>
+          </div>
         </div>
 
         <div class="achievements-grid reveal">
@@ -1443,6 +1459,119 @@
             <div class="achieve-footer">
               <span class="achieve-metric">✦ Clean Standards</span>
               <a class="achieve-link" href="#projects">View Works ↗</a>
+            </div>
+          </article>
+        </div>
+
+        <!-- Chronological Engineering Journey Timeline Mode -->
+        <div class="achievements-timeline reveal" id="achievementsTimeline" hidden aria-label="Chronological Engineering Journey Timeline">
+          <div class="timeline-spine" aria-hidden="true"></div>
+
+          <!-- Epoch 1: 2023 -->
+          <article class="timeline-item spotlight-card" data-category="foundations">
+            <div class="timeline-node">
+              <span class="timeline-year">2023</span>
+              <span class="timeline-dot" aria-hidden="true"></span>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-badge-row">
+                <span class="timeline-tag">ACADEMIC DUAL TRACK</span>
+                <span class="timeline-status-pill"><span class="achieve-dot"></span> FOUNDATIONS</span>
+              </div>
+              <h3 class="timeline-title">Paragon International &amp; Bonamary University Inception</h3>
+              <p class="timeline-desc">Matriculated concurrently into Bachelor of Computer Science (B.Sc.) at Paragon International University and Bachelor of Business Administration (B.B.A.) at Bonamary University. Established rigorous grounding in discrete mathematics, computer architecture, formal logic, and micro/macro market economics.</p>
+              <div class="achieve-meta-pills">
+                <span class="achieve-pill-item">B.Sc. Computer Science</span>
+                <span class="achieve-pill-item">B.B.A. Business Admin</span>
+                <span class="achieve-pill-item">Discrete Mathematics</span>
+                <span class="achieve-pill-item">Logic &amp; Proofs</span>
+                <span class="achieve-pill-item">Market Economics</span>
+              </div>
+              <div class="timeline-footer">
+                <span class="achieve-metric">Dual-Degree Rigor</span>
+                <a class="achieve-link" href="#about">About Studies ↗</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Epoch 2: 2024 -->
+          <article class="timeline-item spotlight-card" data-category="foundations">
+            <div class="timeline-node">
+              <span class="timeline-year">2024</span>
+              <span class="timeline-dot" aria-hidden="true"></span>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-badge-row">
+                <span class="timeline-tag">SYSTEMS &amp; ALGORITHMS</span>
+                <span class="timeline-status-pill"><span class="achieve-dot"></span> CORE SYSTEMS</span>
+              </div>
+              <h3 class="timeline-title">C++ OOP Architecture, Data Structures &amp; Relational SQL</h3>
+              <p class="timeline-desc">Engineered C++ Object-Oriented console systems with robust validation and transactional persistence (C++ OOP Student Grading System). Implemented core data structures (Binary Search Trees, Heaps, Graph traversals, Hash tables) with asymptotic Big-O runtime optimization, paired with third normal form relational SQL database design.</p>
+              <div class="achieve-meta-pills">
+                <span class="achieve-pill-item">C++ OOP</span>
+                <span class="achieve-pill-item">Data Structures</span>
+                <span class="achieve-pill-item">Memory Control</span>
+                <span class="achieve-pill-item">Big-O Optimization</span>
+                <span class="achieve-pill-item">SQL &amp; ACID</span>
+              </div>
+              <div class="timeline-footer">
+                <span class="achieve-metric">CS Core Foundations</span>
+                <a class="achieve-link" href="#projects">Explore Works ↗</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Epoch 3: 2025 -->
+          <article class="timeline-item spotlight-card" data-category="graphics">
+            <div class="timeline-node">
+              <span class="timeline-year">2025</span>
+              <span class="timeline-dot" aria-hidden="true"></span>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-badge-row">
+                <span class="timeline-tag">GRAPHICS &amp; COMPUTER VISION</span>
+                <span class="timeline-status-pill"><span class="achieve-dot"></span> 3D &amp; SIMULATION</span>
+              </div>
+              <h3 class="timeline-title">Pure WebGL 2.0 Procedural Planet &amp; 21-Joint Computer Vision</h3>
+              <p class="timeline-desc">Engineered Mini World 3D, an interactive cartoon planet procedural sandbox built in pure WebGL 2.0 with custom GLSL lighting shaders running at steady 60 FPS without external game engines. Concurrently developed Gesture App (Python 21-joint 3D hand tracking with OpenCV &amp; MediaPipe) and Aquarium Filter Sim (React/TypeScript 3D CAD modeling with physical hydraulic solver).</p>
+              <div class="achieve-meta-pills">
+                <span class="achieve-pill-item">Pure WebGL 2.0</span>
+                <span class="achieve-pill-item">GLSL Shaders</span>
+                <span class="achieve-pill-item">Python MediaPipe</span>
+                <span class="achieve-pill-item">60 FPS Physics</span>
+                <span class="achieve-pill-item">TypeScript CAD</span>
+              </div>
+              <div class="timeline-footer">
+                <span class="achieve-metric">Zero Heavy 3D Engines</span>
+                <a class="achieve-link" href="miniworld.html" target="_blank" rel="noopener noreferrer">Launch 3D Planet ↗</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Epoch 4: 2026 -->
+          <article class="timeline-item spotlight-card" data-category="shipped">
+            <div class="timeline-node">
+              <span class="timeline-year">2026</span>
+              <span class="timeline-dot" aria-hidden="true"></span>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-badge-row">
+                <span class="timeline-tag">PRODUCTION SAAS &amp; OPEN SOURCE</span>
+                <span class="timeline-status-pill"><span class="achieve-dot"></span> PRODUCTION</span>
+              </div>
+              <h3 class="timeline-title">15+ Public Repositories, PinitAI Threat Detection &amp; Chapter 02</h3>
+              <p class="timeline-desc">Maintained a continuous shipping rhythm across 15+ GitHub repositories. Architected PinitAI (heuristic scam &amp; phishing threat detector), JOUL Rental Service (fleet management &amp; escrow ledger), Chinese Learning Platform (enterprise monorepo with SM-2 algorithm &amp; Gemini AI), Point of Sale (offline-first cash ledger), and Chapter 02 Curated Works with interactive sandboxes.</p>
+              <div class="achieve-meta-pills">
+                <span class="achieve-pill-item">15+ Repositories</span>
+                <span class="achieve-pill-item">PinitAI</span>
+                <span class="achieve-pill-item">JOUL Rental</span>
+                <span class="achieve-pill-item">Chinese Learning Monorepo</span>
+                <span class="achieve-pill-item">Chapter 02 Works</span>
+              </div>
+              <div class="timeline-footer">
+                <span class="achieve-metric">15+ Repos Shipped</span>
+                <a class="achieve-link" href="https://github.com/gouvkimsea" target="_blank" rel="noopener noreferrer">GitHub Profile ↗</a>
+              </div>
             </div>
           </article>
         </div>
@@ -3112,6 +3241,34 @@ Email: gouvkimsea@gmail.com</pre>
       </div>
     </div>
   </dialog>
+
+  <!-- Interactive Skill Competency & Project Dossier Modal -->
+  <dialog class="skill-dossier-modal" id="skillDossierModal" aria-label="Skill Competency &amp; Project Dossier" aria-modal="true">
+    <div class="skill-dossier-shell">
+      <div class="skill-dossier-header">
+        <div class="skill-dossier-title-wrap">
+          <div class="skill-dossier-badge-row">
+            <span class="skill-dossier-badge" id="skillDossierCategory">COMPUTER SCIENCE</span>
+            <span class="skill-dossier-status" id="skillDossierStatus"><span class="achieve-dot" aria-hidden="true"></span> Active Production</span>
+          </div>
+          <h2 class="skill-dossier-title" id="skillDossierTitle">Skill Dossier</h2>
+        </div>
+        <button class="modal-close skill-dossier-close" id="skillDossierCloseBtn" type="button" aria-label="Close skill dossier">×</button>
+      </div>
+      <div class="skill-dossier-body">
+        <p class="skill-dossier-desc" id="skillDossierDesc"></p>
+        <div class="skill-dossier-section">
+          <h3 class="skill-dossier-heading">Applied Implementations &amp; Evidence</h3>
+          <ul class="skill-dossier-list" id="skillDossierProjects"></ul>
+        </div>
+        <div class="skill-dossier-actions">
+          <button type="button" class="button button-primary magnetic" id="skillDossierFilterBtn">Filter Projects by this Skill ↗</button>
+          <button type="button" class="button button-secondary magnetic" id="skillDossierTerminalBtn">Explore in Terminal &gt;_</button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
   <!-- Floating Back to Top Quick Action Button -->
   <button class="back-to-top-btn" id="backToTopBtn" type="button" aria-label="Scroll back to top" title="Back to top (Home)">
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">

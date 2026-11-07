@@ -12539,3 +12539,422 @@ dialog.project-modal[open]::backdrop {
   background: #ffffff;
   border-color: rgba(0, 0, 0, 0.08);
 }
+
+/* ==========================================================================
+   Toolkit Skills Filter Bar & Interactive Skill Chips
+   ========================================================================== */
+.skills-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 36px;
+  margin-bottom: 24px;
+}
+
+.skill-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--muted, #9b9d91);
+  padding: 8px 14px;
+  border-radius: 9999px;
+  font: 11px/1 var(--mono);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.skill-filter-btn:hover {
+  color: var(--paper, #f4f4f0);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.skill-filter-btn.active {
+  background: rgba(184, 230, 0, 0.12);
+  border-color: var(--lime);
+  color: var(--lime);
+  box-shadow: 0 0 12px rgba(184, 230, 0, 0.15);
+}
+
+.skill-filter-btn .filter-count {
+  font-size: 9px;
+  opacity: 0.75;
+}
+
+.skill-card {
+  transition: opacity 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+}
+
+.skill-card.filtered-out {
+  display: none !important;
+}
+
+/* Interactive Skill Chips */
+.chips .chip-item[data-skill] {
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.chips .chip-item[data-skill]:hover,
+.chips .chip-item[data-skill]:focus-visible {
+  color: var(--paper, #ffffff);
+  border-color: var(--lime);
+  background: rgba(184, 230, 0, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(184, 230, 0, 0.2);
+  outline: none;
+}
+
+.chips .chip-item[data-skill]:active {
+  transform: scale(0.96);
+}
+
+/* ==========================================================================
+   Skill Dossier Modal
+   ========================================================================== */
+dialog.skill-dossier-modal {
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: #0f1412;
+  color: #f4f4f0;
+  border-radius: 14px;
+  padding: 0;
+  max-width: 620px;
+  width: 92vw;
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.6), 0 0 40px rgba(184, 230, 0, 0.1);
+}
+
+dialog.skill-dossier-modal::backdrop {
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+}
+
+.skill-dossier-shell {
+  padding: 28px;
+}
+
+.skill-dossier-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 20px;
+}
+
+.skill-dossier-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.skill-dossier-badge {
+  font: 10px/1 var(--mono);
+  color: var(--lime);
+  background: rgba(184, 230, 0, 0.12);
+  border: 1px solid rgba(184, 230, 0, 0.3);
+  padding: 4px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+}
+
+.skill-dossier-status {
+  font: 11px/1 var(--mono);
+  color: #9ca3af;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.skill-dossier-title {
+  font-size: 24px;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+  margin: 0;
+}
+
+.skill-dossier-close {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #9ca3af;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.skill-dossier-close:hover {
+  color: #ffffff;
+  border-color: var(--lime);
+  background: rgba(184, 230, 0, 0.1);
+}
+
+.skill-dossier-body {
+  padding-top: 20px;
+}
+
+.skill-dossier-desc {
+  font-size: 14px;
+  line-height: 1.65;
+  color: #d1d5db;
+  margin-bottom: 20px;
+}
+
+.skill-dossier-heading {
+  font: 11px/1.4 var(--mono);
+  color: var(--lime);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.skill-dossier-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.skill-dossier-list li {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #e5e7eb;
+}
+
+.skill-dossier-list li strong {
+  color: var(--paper, #f4f4f0);
+}
+
+.skill-dossier-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* ==========================================================================
+   Milestones Achievements View Switcher & Timeline Layout
+   ========================================================================== */
+.achieve-toolbar-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.achieve-view-switcher {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 3px;
+  gap: 3px;
+}
+
+.achieve-view-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--muted, #9b9d91);
+  font: 11px/1 var(--mono);
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.achieve-view-btn:hover {
+  color: var(--paper, #f4f4f0);
+}
+
+.achieve-view-btn.active {
+  background: #1e2420;
+  color: var(--lime);
+  border-color: rgba(184, 230, 0, 0.35);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Chronological Timeline Mode */
+.achievements-timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+.timeline-spine {
+  position: absolute;
+  left: 36px;
+  top: 10px;
+  bottom: 20px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--lime) 0%, rgba(184, 230, 0, 0.3) 70%, transparent 100%);
+  pointer-events: none;
+}
+
+.timeline-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 24px;
+  align-items: flex-start;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.timeline-node {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+}
+
+.timeline-year {
+  font: 13px/1.2 var(--mono);
+  font-weight: 700;
+  color: var(--lime);
+  background: #121915;
+  border: 1px solid rgba(184, 230, 0, 0.35);
+  padding: 6px 10px;
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgba(184, 230, 0, 0.2);
+}
+
+.timeline-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 8px var(--lime);
+  margin-top: 10px;
+}
+
+.timeline-content {
+  background: #141a17;
+  border: 1px solid #2e3530;
+  border-radius: 12px;
+  padding: 24px;
+  transition: all 0.3s ease;
+}
+
+.timeline-content:hover {
+  border-color: var(--lime);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+.timeline-badge-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.timeline-tag {
+  font: 10px/1.2 var(--mono);
+  color: var(--lime);
+  letter-spacing: 0.05em;
+}
+
+.timeline-title {
+  font-size: 19px;
+  letter-spacing: -0.02em;
+  margin: 0 0 10px 0;
+  color: var(--paper, #f4f4f0);
+}
+
+.timeline-desc {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #aeb0a5;
+  margin-bottom: 16px;
+}
+
+.timeline-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 14px;
+  margin-top: 16px;
+}
+
+/* Light Theme Overrides for New Components */
+[data-theme="light"] .skill-filter-btn {
+  background: #f1f3f5;
+  border-color: rgba(0, 0, 0, 0.08);
+  color: #4b5563;
+}
+
+[data-theme="light"] .skill-filter-btn.active {
+  background: rgba(101, 163, 13, 0.12);
+  border-color: #65a30d;
+  color: #4d7c0f;
+}
+
+[data-theme="light"] dialog.skill-dossier-modal {
+  background: #ffffff;
+  color: #111827;
+  border-color: rgba(0, 0, 0, 0.12);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="light"] .skill-dossier-desc {
+  color: #374151;
+}
+
+[data-theme="light"] .skill-dossier-list li {
+  background: #f9fafb;
+  border-color: rgba(0, 0, 0, 0.08);
+  color: #1f2937;
+}
+
+[data-theme="light"] .achieve-view-switcher {
+  background: #f1f3f5;
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .achieve-view-btn.active {
+  background: #ffffff;
+  border-color: rgba(0, 0, 0, 0.12);
+  color: #15803d;
+}
+
+[data-theme="light"] .timeline-year {
+  background: #ffffff;
+  border-color: #15803d;
+  color: #15803d;
+}
+
+[data-theme="light"] .timeline-content {
+  background: #ffffff;
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .timeline-title {
+  color: #111827;
+}
+
+[data-theme="light"] .timeline-desc {
+  color: #4b5563;
+}
