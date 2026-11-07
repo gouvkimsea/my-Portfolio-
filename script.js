@@ -352,13 +352,13 @@ window.addEventListener("keydown", (e) => {
     return;
   }
 
-  if (e.key === "PageDown" || (e.key === "ArrowDown" && (e.altKey || e.ctrlKey))) {
+  if (e.key === "PageDown" || (e.key === "ArrowDown" && (e.altKey || e.ctrlKey)) || (e.key.toLowerCase() === "j" && !e.ctrlKey && !e.metaKey && !e.altKey)) {
     const currentIndex = SECTION_IDS.indexOf(activeSectionId);
     if (currentIndex < SECTION_IDS.length - 1) {
       e.preventDefault();
       navigateToSection(SECTION_IDS[currentIndex + 1]);
     }
-  } else if (e.key === "PageUp" || (e.key === "ArrowUp" && (e.altKey || e.ctrlKey))) {
+  } else if (e.key === "PageUp" || (e.key === "ArrowUp" && (e.altKey || e.ctrlKey)) || (e.key.toLowerCase() === "k" && !e.ctrlKey && !e.metaKey && !e.altKey)) {
     const currentIndex = SECTION_IDS.indexOf(activeSectionId);
     if (currentIndex > 0) {
       e.preventDefault();
@@ -504,6 +504,7 @@ const toggleTheme = () => {
   const current = document.documentElement.getAttribute("data-theme") || "light";
   const next = current === "dark" ? "light" : "dark";
   setTheme(next, true);
+  if (typeof playSound === "function") playSound("chime");
   return next;
 };
 
