@@ -138,6 +138,10 @@ assert(scriptJs.includes('bench:') && scriptJs.includes('primary === "nav"') && 
 assert(indexHtml.includes('project-stack-tray') && scriptJs.includes('initProjectStackTrayAndTagFilters') && fs.readFileSync('styles.css', 'utf8').includes('.stack-pill'), 'index.html, styles.css & script.js: Tech stack quick filter tray and interactive card tag filtering implemented');
 assert(indexHtml.includes('timeline-epoch-nav') && indexHtml.includes('id="timelineEpoch2023"') && fs.readFileSync('styles.css', 'utf8').includes('.timeline-epoch-nav'), 'index.html, styles.css & script.js: Timeline epoch quick navigation jumpers implemented');
 assert(indexHtml.includes('sfx-equalizer') && fs.readFileSync('styles.css', 'utf8').includes('eqBounce'), 'index.html & styles.css: Web Audio procedural equalizer wave visualizer implemented');
+assert(scriptJs.includes('highlightSearchMatch') && fs.readFileSync('styles.css', 'utf8').includes('project-search-match'), 'script.js & styles.css: Live project search keyword highlighting implemented');
+assert(scriptJs.includes('cat:') && scriptJs.includes('curl:') && scriptJs.includes('history:'), 'script.js: Terminal cat virtual file viewer, curl telemetry, and history commands implemented');
+assert(scriptJs.includes('termDotRed') && scriptJs.includes('tabMatchIndex') && fs.readFileSync('styles.css', 'utf8').includes('.terminal-bar .wb-dot'), 'script.js & styles.css: Terminal macOS window dots actions and cycling Tab autocompletion implemented');
+assert(indexHtml.includes('data-cmd="cat developer.ts"') && indexHtml.includes('data-cmd="matrix"') && indexHtml.includes('data-cmd="bench"'), 'index.html: Terminal hint bar expanded with developer files, benchmarks, and matrix chips');
 assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v22'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v22');
 
 // Test global script evaluation with mock DOM globals

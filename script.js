@@ -1163,6 +1163,17 @@ const resetProjectFiltersBtn = $("#resetProjectFiltersBtn");
 let currentCategory = "all";
 let currentSearchQuery = "";
 
+const highlightSearchMatch = (elem, origText, query) => {
+  if (!elem || !origText) return;
+  if (!query || query.length < 2) {
+    elem.textContent = origText;
+    return;
+  }
+  const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const regex = new RegExp(`(${escaped})`, "gi");
+  elem.innerHTML = origText.replace(regex, '<mark class="project-search-match">$1</mark>');
+};
+
 const updateProjectFilterState = () => {
   let visibleCount = 0;
   const q = currentSearchQuery.trim().toLowerCase();
@@ -1189,6 +1200,18 @@ const updateProjectFilterState = () => {
       setTimeout(() => {
         if (card.classList.contains("fade-out")) card.classList.add("hidden");
       }, 250);
+    }
+
+    // Live Search Match Highlighting
+    const titleElem = $(".project-title", card);
+    const descElem = $(".project-desc", card);
+    if (titleElem) {
+      if (!titleElem.dataset.origText) titleElem.dataset.origText = titleElem.textContent;
+      highlightSearchMatch(titleElem, titleElem.dataset.origText, q);
+    }
+    if (descElem) {
+      if (!descElem.dataset.origText) descElem.dataset.origText = descElem.textContent;
+      highlightSearchMatch(descElem, descElem.dataset.origText, q);
     }
   });
 
@@ -4641,7 +4664,7 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>bench</b>, <b>timeline</b>, <b>architecture</b>, <b>ping</b>, <b>matrix</b>, <b>git</b>, <b>nav [section]</b>, <b>shortcuts</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>cat [file]</b>, <b>curl</b>, <b>history</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>bench</b>, <b>timeline</b>, <b>architecture</b>, <b>ping</b>, <b>matrix</b>, <b>git</b>, <b>nav [section]</b>, <b>shortcuts</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
   matrix: () => {
     const terminalBody = $(".terminal-body");
     if (!terminalBody) return "Terminal stream window not accessible.";
@@ -5001,7 +5024,7 @@ Technical Competency Matrix &amp; Dual-Degree Tracks:
     const elCount = typeof document !== "undefined" && document.querySelectorAll ? document.querySelectorAll("*").length : 280;
     const theme = (typeof document !== "undefined" && document.documentElement) ? (document.documentElement.getAttribute("data-theme") || "dark") : "dark";
     const sfx = sfxEnabled ? "Enabled 🔊" : "Muted 🔇";
-    const sw = (typeof navigator !== "undefined" && "serviceWorker" in navigator) ? "Active (v21 PWA)" : "Unsupported";
+    const sw = (typeof navigator !== "undefined" && "serviceWorker" in navigator) ? "Active (v22 PWA)" : "Unsupported";
     const dpr = typeof window !== "undefined" ? (window.devicePixelRatio || 1) : 1;
     const res = typeof window !== "undefined" ? `${window.innerWidth}x${window.innerHeight} (${dpr}x DPI)` : "Headless";
     const navDots = (typeof document !== "undefined" && document.getElementById("sectionNavDots")) ? "Active" : "Inactive";
@@ -5032,10 +5055,63 @@ Layer 1: Semantic Core  · Zero-dependency ES2026 &amp; HTML5 dialogs
 Layer 2: Style Tokens   · Modular Vanilla CSS &amp; WCAG AAA contrast
 Layer 3: 3D Graphics    · Hardware-accelerated WebGL 2.0 MiniWorld
 Layer 4: Procedural SFX · Pure Web Audio synthesizers (0 audio files)
-Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v21</pre>`;
+Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v22</pre>`;
   },
-  "cat developer.ts": "const developer = {\n  name: 'Gouv Kimsea',\n  degrees: ['B.Sc. Computer Science', 'B.B.A. Business Admin'],\n  stack: ['TypeScript', 'NestJS', 'Next.js', 'PHP', 'Python', 'C++', 'WebGL'],\n  location: 'Phnom Penh, Cambodia',\n  status: 'Building & Available'\n};",
-  "cat about-me.js": "const developer = {\n  name: 'Gouv Kimsea',\n  degrees: ['B.Sc. Computer Science', 'B.B.A. Business Admin'],\n  stack: ['TypeScript', 'NestJS', 'Next.js', 'PHP', 'Python', 'C++', 'WebGL'],\n  location: 'Phnom Penh, Cambodia',\n  status: 'Building & Available'\n};"
+  cat: (arg) => {
+    const file = (arg || "").trim().toLowerCase();
+    const files = {
+      "developer.ts": `// Developer Persona & Systems Profile
+export const developer = {
+  name: "Gouv Kimsea",
+  title: "Software Engineer & 3D Web Architect",
+  institutions: [
+    "Paragon International University (B.Sc. Computer Science)",
+    "Bonamary University (B.B.A. Business Administration)"
+  ],
+  stack: ["TypeScript", "WebGL", "C++", "Python", "NestJS", "PHP 8"],
+  focus: "Procedural simulation, enterprise systems & low-latency graphics"
+};`,
+      "skills.json": `{
+  "core": ["Data Structures", "Algorithms", "Memory Control", "ACID Persistence"],
+  "graphics": ["WebGL 2.0", "GLSL Shaders", "Matrix Math", "Fluid Dynamics"],
+  "cloud": ["Docker", "Linux Shell", "CI/CD Actions", "Nginx", "Git Hygiene"]
+}`,
+      "status.sh": `#!/bin/bash
+echo "System Status: Online ✦ 60 FPS Steady"
+echo "Shipping: 15+ Repositories Active"
+echo "Location: Phnom Penh, Cambodia"
+echo "Open for: Engineering opportunities & collaborative projects"`
+    };
+    if (!file) {
+      return "Usage: <b>cat [filename]</b> · Available files: <i>developer.ts</i>, <i>skills.json</i>, <i>status.sh</i>";
+    }
+    if (files[file]) {
+      return `<pre style="color:var(--lime);font-size:11px;line-height:1.45;margin:4px 0;white-space:pre-wrap;">${escapeHtml(files[file])}</pre>`;
+    }
+    return `File not found: <b>${escapeHtml(file)}</b>. Available files: <i>developer.ts</i>, <i>skills.json</i>, <i>status.sh</i>`;
+  },
+  curl: () => {
+    return `<pre style="color:var(--lime);font-size:11px;line-height:1.45;margin:4px 0;">
+HTTP/2 200 OK
+content-type: application/json; charset=utf-8
+server: GitHub-Pages / Cloudflare
+cache-control: max-age=600
+
+{
+  "engineer": "Gouv Kimsea",
+  "status": "Available for High-Impact Roles",
+  "degrees": ["B.Sc. Computer Science", "B.B.A. Business Administration"],
+  "location": "Phnom Penh, Cambodia",
+  "portfolio": "https://gouvkimsea.github.io/my-Portfolio-/",
+  "github": "https://github.com/gouvkimsea"
+}</pre>`;
+  },
+  history: () => {
+    if (commandHistory.length === 0) return "No commands executed in this session yet.";
+    return `<div style="font-size:11px;line-height:1.45;margin:4px 0;">${commandHistory.map((cmd, idx) => `<b>${idx + 1}</b>  ${escapeHtml(cmd)}`).join("<br>")}</div>`;
+  },
+  "cat developer.ts": () => terminalCommands.cat("developer.ts"),
+  "cat about-me.js": () => terminalCommands.cat("developer.ts")
 };
 
 const escapeHtml = str => {
@@ -5072,6 +5148,12 @@ const executeCommand = rawCommand => {
   let response;
   if (primary === "nav" && typeof terminalCommands.nav === "function") {
     response = terminalCommands.nav(rest);
+  } else if (primary === "cat" && typeof terminalCommands.cat === "function") {
+    response = terminalCommands.cat(rest);
+  } else if (primary === "curl" && typeof terminalCommands.curl === "function") {
+    response = terminalCommands.curl();
+  } else if (primary === "history" && typeof terminalCommands.history === "function") {
+    response = terminalCommands.history();
   } else if ((primary === "sound" || primary === "sfx") && rest) {
     const sub = rest.toLowerCase();
     if (sub === "on") {
@@ -5166,6 +5248,9 @@ $$(".terminal-chip").forEach(chip => {
   });
 });
 
+let tabMatchIndex = 0;
+let lastTabPrefix = "";
+
 terminalInput?.addEventListener("keydown", event => {
   if (event.key === "ArrowUp") {
     event.preventDefault();
@@ -5186,10 +5271,58 @@ terminalInput?.addEventListener("keydown", event => {
     event.preventDefault();
     const current = terminalInput.value.trim().toLowerCase();
     if (current) {
-      const match = Object.keys(terminalCommands).find(k => k.startsWith(current));
-      if (match) terminalInput.value = match;
+      const allCmds = Array.from(new Set([
+        ...Object.keys(terminalCommands),
+        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history"
+      ]));
+      const prefix = lastTabPrefix || current;
+      const matches = allCmds.filter(k => k.startsWith(prefix));
+      if (matches.length > 0) {
+        if (current === (matches[tabMatchIndex] || "").toLowerCase() && matches.length > 1) {
+          tabMatchIndex = (tabMatchIndex + 1) % matches.length;
+        } else {
+          lastTabPrefix = current;
+          tabMatchIndex = 0;
+        }
+        terminalInput.value = matches[tabMatchIndex];
+        if (typeof playSound === "function") playSound("click");
+      }
     }
+  } else {
+    lastTabPrefix = "";
+    tabMatchIndex = 0;
   }
+});
+
+// Terminal macOS Window Action Dots
+const termDotRed = $(".terminal-bar .wb-red");
+const termDotYellow = $(".terminal-bar .wb-yellow");
+const termDotGreen = $(".terminal-bar .wb-green");
+
+termDotRed?.addEventListener("click", () => {
+  terminalOutput.innerHTML = "";
+  if (typeof playSound === "function") playSound("click");
+  showPortfolioToast("Terminal screen cleared 🧹");
+});
+
+termDotYellow?.addEventListener("click", () => {
+  terminalOutput.innerHTML = '<p class="term-msg">Welcome. Type <strong class="term-bold">help</strong> to see what I can do.</p>';
+  if (typeof playSound === "function") playSound("click");
+  showPortfolioToast("Terminal reset to initial state ↺");
+});
+
+termDotGreen?.addEventListener("click", () => {
+  if (typeof playSound === "function") playSound("whoosh");
+  executeCommand("matrix");
+});
+
+[termDotRed, termDotYellow, termDotGreen].forEach(dot => {
+  dot?.addEventListener("keydown", e => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      dot.click();
+    }
+  });
 });
 
 // 9. Contact Form Real-time Validation & Interactive Feedback
