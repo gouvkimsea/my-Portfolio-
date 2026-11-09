@@ -13228,3 +13228,69 @@ mark.project-search-match {
 .terminal-bar .wb-dot:active {
   transform: scale(0.92);
 }
+
+/* ==========================================================================
+   Phase 15: Shortcuts Modal Acoustic Synthesizer Soundboard
+   ========================================================================== */
+.shortcuts-audio-section {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+}
+
+.shortcuts-audio-sub {
+  font-size: 0.78rem;
+  color: var(--text-muted, #94a3b8);
+  margin: 0.25rem 0 0.85rem 0;
+}
+
+.shortcuts-audio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 0.6rem;
+}
+
+.audio-bench-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0.55rem 0.85rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+  color: var(--text-primary, #ffffff);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.audio-bench-btn:hover {
+  background: rgba(184, 255, 0, 0.1);
+  border-color: var(--lime, #b8ff00);
+  color: var(--lime, #b8ff00);
+  transform: translateY(-1.5px);
+  box-shadow: 0 4px 12px rgba(184, 255, 0, 0.15);
+}
+
+.audio-bench-btn:active {
+  transform: scale(0.96);
+}
+
+[data-theme="light"] .shortcuts-audio-section {
+  border-top-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .audio-bench-btn {
+  background: #f1f3f5;
+  border-color: rgba(0, 0, 0, 0.08);
+  color: #1f2937;
+}
+
+[data-theme="light"] .audio-bench-btn:hover {
+  background: rgba(21, 128, 61, 0.08);
+  border-color: #15803d;
+  color: #15803d;
+  box-shadow: 0 4px 12px rgba(21, 128, 61, 0.12);
+}

@@ -142,6 +142,9 @@ assert(scriptJs.includes('highlightSearchMatch') && fs.readFileSync('styles.css'
 assert(scriptJs.includes('cat:') && scriptJs.includes('curl:') && scriptJs.includes('history:'), 'script.js: Terminal cat virtual file viewer, curl telemetry, and history commands implemented');
 assert(scriptJs.includes('termDotRed') && scriptJs.includes('tabMatchIndex') && fs.readFileSync('styles.css', 'utf8').includes('.terminal-bar .wb-dot'), 'script.js & styles.css: Terminal macOS window dots actions and cycling Tab autocompletion implemented');
 assert(indexHtml.includes('data-cmd="cat developer.ts"') && indexHtml.includes('data-cmd="matrix"') && indexHtml.includes('data-cmd="bench"'), 'index.html: Terminal hint bar expanded with developer files, benchmarks, and matrix chips');
+assert(indexHtml.includes('id="downloadContactCardBtn"') && scriptJs.includes('downloadVCard') && scriptJs.includes('BEGIN:VCARD'), 'index.html & script.js: RFC 6350 vCard (.vcf) Contact Card generation and 1-click download implemented');
+assert(indexHtml.includes('shortcuts-audio-section') && scriptJs.includes('audio-bench-btn') && fs.readFileSync('styles.css', 'utf8').includes('.audio-bench-btn'), 'index.html, styles.css & script.js: Keyboard Shortcuts cheatsheet acoustic soundboard audition panel implemented');
+assert(scriptJs.includes('vcard:') && scriptJs.includes('action === "download-vcard"'), 'script.js: Command palette and Terminal CLI vcard digital contact card export action implemented');
 assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v22'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v22');
 
 // Test global script evaluation with mock DOM globals

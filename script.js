@@ -783,6 +783,8 @@ cmdKResults?.addEventListener("click", e => {
     if (typeof toggleSfx === "function") toggleSfx();
   } else if (action === "copy-code") {
     $("#copyCodeBtn")?.click();
+  } else if (action === "download-vcard") {
+    downloadVCard();
   } else if (action === "filter-projects") {
     const cat = item.dataset.category || "all";
     const filterBtn = $(`button.filter[data-filter='${cat}']`);
@@ -4664,7 +4666,7 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>cat [file]</b>, <b>curl</b>, <b>history</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>bench</b>, <b>timeline</b>, <b>architecture</b>, <b>ping</b>, <b>matrix</b>, <b>git</b>, <b>nav [section]</b>, <b>shortcuts</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>cat [file]</b>, <b>curl</b>, <b>history</b>, <b>vcard</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>bench</b>, <b>timeline</b>, <b>architecture</b>, <b>ping</b>, <b>matrix</b>, <b>git</b>, <b>nav [section]</b>, <b>shortcuts</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
   matrix: () => {
     const terminalBody = $(".terminal-body");
     if (!terminalBody) return "Terminal stream window not accessible.";
@@ -5110,6 +5112,11 @@ cache-control: max-age=600
     if (commandHistory.length === 0) return "No commands executed in this session yet.";
     return `<div style="font-size:11px;line-height:1.45;margin:4px 0;">${commandHistory.map((cmd, idx) => `<b>${idx + 1}</b>  ${escapeHtml(cmd)}`).join("<br>")}</div>`;
   },
+  vcard: () => {
+    if (typeof downloadVCard === "function") downloadVCard();
+    return "Generated and downloaded Gouv Kimsea digital Contact Card (.vcf) 📇";
+  },
+  contactcard: () => terminalCommands.vcard(),
   "cat developer.ts": () => terminalCommands.cat("developer.ts"),
   "cat about-me.js": () => terminalCommands.cat("developer.ts")
 };
@@ -5796,6 +5803,41 @@ const initShareModal = () => {
       showPortfolioToast("LinkedIn URL copied!");
     });
   });
+
+  // Download vCard (.vcf) Contact Card
+  $("#shareDownloadVCardBtn")?.addEventListener("click", downloadVCard);
+  $("#downloadContactCardBtn")?.addEventListener("click", downloadVCard);
+};
+
+const downloadVCard = () => {
+  const vcardData = [
+    "BEGIN:VCARD",
+    "VERSION:3.0",
+    "FN:Gouv Kimsea",
+    "N:Kimsea;Gouv;;;",
+    "TITLE:Software Engineer & 3D Web Architect",
+    "EMAIL;TYPE=INTERNET;TYPE=WORK:gouvkimsea@gmail.com",
+    "URL;TYPE=WORK:https://gouvkimsea.github.io/my-Portfolio-/",
+    "URL;TYPE=GITHUB:https://github.com/gouvkimsea",
+    "URL;TYPE=LINKEDIN:https://www.linkedin.com/in/gouv-kimsea-16795143a",
+    "NOTE:Dual-Degree Candidate: B.Sc. Computer Science (Paragon International University) & B.B.A. Business Administration (Bonamary University)",
+    "ADR;TYPE=WORK:;;Phnom Penh;;;Cambodia",
+    "END:VCARD"
+  ].join("\r\n");
+
+  if (typeof Blob !== "undefined" && typeof URL !== "undefined" && typeof URL.createObjectURL === "function") {
+    const blob = new Blob([vcardData], { type: "text/vcard;charset=utf-8" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "gouv-kimsea-contact.vcf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setTimeout(() => URL.revokeObjectURL(link.href), 1500);
+  }
+
+  if (typeof playSound === "function") playSound("chime");
+  showPortfolioToast("Downloaded Gouv Kimsea Contact Card (.vcf) 📇");
 };
 
 initShareModal();
@@ -5824,6 +5866,19 @@ const initShortcutsModal = () => {
 
   shortcutsModal?.addEventListener("click", (e) => {
     if (e.target === shortcutsModal) closeShortcutsModal();
+  });
+
+  // Acoustic Synthesizer Soundboard
+  $$(".audio-bench-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const snd = btn.dataset.sound || "click";
+      if (!sfxEnabled) {
+        toggleSfx();
+      } else {
+        if (typeof getAudioContext === "function") getAudioContext();
+        playSound(snd);
+      }
+    });
   });
 };
 

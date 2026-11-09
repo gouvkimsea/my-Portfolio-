@@ -1740,6 +1740,20 @@
                   <span class="hud-arrow" aria-hidden="true">↗</span>
                 </button>
               </div>
+
+              <!-- VCARD Item -->
+              <div class="hud-item-wrapper" role="listitem">
+                <button class="hud-contact-item hud-btn-trigger" id="downloadContactCardBtn" type="button"
+                  title="Download vCard (.vcf) Contact Card">
+                  <span class="hud-corner hud-corner-tl" aria-hidden="true"></span>
+                  <span class="hud-corner hud-corner-tr" aria-hidden="true"></span>
+                  <span class="hud-corner hud-corner-bl" aria-hidden="true"></span>
+                  <span class="hud-corner hud-corner-br" aria-hidden="true"></span>
+                  <span class="hud-label">VCARD</span>
+                  <span class="hud-val">Save Contact Card (.vcf)</span>
+                  <span class="hud-arrow" aria-hidden="true">↓</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -3091,6 +3105,8 @@
           Theme <small class="cmdk-desc">Dark / Light mode</small></button>
         <button type="button" class="cmdk-item" data-action="toggle-sfx"><span class="cmdk-icon">🔊</span> Toggle
           Sound FX <small class="cmdk-desc">Procedural Web Audio synthesis</small></button>
+        <button type="button" class="cmdk-item" data-action="download-vcard"><span class="cmdk-icon">📇</span> Save Contact Card (.vcf)
+          <small class="cmdk-desc">Download digital vCard for iOS / Android / macOS</small></button>
         <button type="button" class="cmdk-item" data-action="copy-code"><span class="cmdk-icon">📋</span> Copy
           Active Code <small class="cmdk-desc">Hero snippet to clipboard</small></button>
         <button type="button" class="cmdk-item" data-action="filter-projects" data-category="ai"><span class="cmdk-icon">🤖</span> Filter:
@@ -3160,6 +3176,9 @@ Email: gouvkimsea@gmail.com</pre>
           </button>
           <button class="share-pill-btn magnetic" id="shareCopyLinkedInBtn" type="button">
             <span class="pill-icon" aria-hidden="true">in</span> Copy LinkedIn URL
+          </button>
+          <button class="share-pill-btn magnetic" id="shareDownloadVCardBtn" type="button">
+            <span class="pill-icon" aria-hidden="true">📇</span> Save Contact (.vcf)
           </button>
         </div>
       </div>
@@ -3264,6 +3283,26 @@ Email: gouvkimsea@gmail.com</pre>
               <span class="shortcut-desc">Close Active Dialog / Modal</span>
               <kbd class="shortcut-kbd">ESC</kbd>
             </div>
+          </div>
+        </div>
+
+        <!-- Section 3: Procedural Audio Synthesizer Soundboard -->
+        <div class="shortcuts-section shortcuts-audio-section">
+          <h3 class="shortcuts-section-title">Acoustic Soundboard (Web Audio Synthesis)</h3>
+          <p class="shortcuts-audio-sub">Zero audio files · 100% real-time mathematical oscillator waves</p>
+          <div class="shortcuts-audio-grid" role="group" aria-label="Audition synthesizer sound effects">
+            <button type="button" class="audio-bench-btn" data-sound="click">
+              <span class="bench-icon">🔊</span> Tactile Click
+            </button>
+            <button type="button" class="audio-bench-btn" data-sound="chime">
+              <span class="bench-icon">✨</span> Harmonic Chime
+            </button>
+            <button type="button" class="audio-bench-btn" data-sound="whoosh">
+              <span class="bench-icon">💨</span> Section Whoosh
+            </button>
+            <button type="button" class="audio-bench-btn" data-sound="keypress">
+              <span class="bench-icon">⌨️</span> Keypress Click
+            </button>
           </div>
         </div>
       </div>
