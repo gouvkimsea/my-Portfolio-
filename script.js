@@ -1215,6 +1215,16 @@ const updateProjectFilterState = () => {
     }
   }
 
+  // Synchronize tech stack pills and card tags active state
+  $$(".stack-pill").forEach(pill => {
+    const stack = (pill.dataset.stack || "").toLowerCase();
+    pill.classList.toggle("active", q === stack);
+  });
+  $$(".project-tags .project-tag").forEach(tag => {
+    const text = tag.textContent.trim().toLowerCase();
+    tag.classList.toggle("active", q === text);
+  });
+
   // Synchronize state to URL parameters
   try {
     const url = new URL(window.location.href);
@@ -1327,6 +1337,58 @@ resetProjectFiltersBtn?.addEventListener("click", () => {
   projectFilterBtns.forEach(b => b.classList.toggle("active", b.dataset.filter === "all"));
   updateProjectFilterState();
 });
+
+// 6a-2. Tech Stack Tray & Interactive Card Tag Filter Controller
+const initProjectStackTrayAndTagFilters = () => {
+  const stackPills = $$(".stack-pill");
+  stackPills.forEach(pill => {
+    pill.addEventListener("click", () => {
+      const stack = pill.dataset.stack || "";
+      if (currentSearchQuery.toLowerCase() === stack.toLowerCase()) {
+        if (projectSearchInput) projectSearchInput.value = "";
+        currentSearchQuery = "";
+      } else {
+        if (projectSearchInput) projectSearchInput.value = stack;
+        currentSearchQuery = stack;
+        if (typeof playSound === "function") playSound("click");
+        showPortfolioToast(`Filtered by ${stack} ⚡`);
+      }
+      updateProjectFilterState();
+    });
+  });
+
+  $$(".project-tags .project-tag").forEach(tag => {
+    tag.setAttribute("role", "button");
+    tag.setAttribute("tabindex", "0");
+    const tagName = tag.textContent.trim();
+    tag.setAttribute("title", `Filter projects by ${tagName}`);
+
+    const activateTag = (e) => {
+      e.stopPropagation();
+      if (currentSearchQuery.toLowerCase() === tagName.toLowerCase()) {
+        if (projectSearchInput) projectSearchInput.value = "";
+        currentSearchQuery = "";
+      } else {
+        if (projectSearchInput) projectSearchInput.value = tagName;
+        currentSearchQuery = tagName;
+        if (typeof playSound === "function") playSound("click");
+        showPortfolioToast(`Filtered by ${tagName} 🏷️`);
+      }
+      updateProjectFilterState();
+      document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+    };
+
+    tag.addEventListener("click", activateTag);
+    tag.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        activateTag(e);
+      }
+    });
+  });
+};
+
+initProjectStackTrayAndTagFilters();
 
 // 6b. Achievements Filter with Smooth Transition
 const achieveFilters = $$(".achieve-filter-btn");
@@ -6407,6 +6469,24 @@ function initAchievementsTimeline() {
           item.style.display = "none";
         }
       });
+    });
+  });
+
+  // Timeline Epoch Navigation Jumpers
+  const epochBtns = $$(".epoch-nav-btn");
+  epochBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const targetId = btn.dataset.target;
+      const targetElem = document.getElementById(targetId);
+      if (targetElem) {
+        epochBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        targetElem.scrollIntoView({ behavior: "smooth", block: "center" });
+        targetElem.classList.remove("epoch-highlight");
+        void targetElem.offsetWidth;
+        targetElem.classList.add("epoch-highlight");
+        if (typeof playSound === "function") playSound("click");
+      }
     });
   });
 }

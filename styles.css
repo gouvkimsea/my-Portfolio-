@@ -10739,13 +10739,15 @@ dialog.shortcuts-modal::backdrop {
 .chrome-sfx-btn {
   position: relative;
   z-index: 2;
-  width: 38px;
+  width: auto;
+  min-width: 38px;
   height: 38px;
-  padding: 0;
-  border-radius: 50%;
+  padding: 0 10px;
+  border-radius: 9999px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 6px;
   background: rgba(0, 0, 0, 0.03);
   border: 1px solid rgba(0, 0, 0, 0.08);
   color: #0f172a;
@@ -10794,6 +10796,47 @@ dialog.shortcuts-modal::backdrop {
   display: none !important;
 }
 
+/* SFX Animated Wave Equalizer */
+.sfx-equalizer {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+}
+
+.eq-bar {
+  display: block;
+  width: 2px;
+  height: 4px;
+  background: var(--lime);
+  border-radius: 1px;
+  transition: height 0.2s ease, opacity 0.2s ease;
+  animation: eqBounce 1.2s ease-in-out infinite alternate;
+}
+
+.eq-bar:nth-child(1) { animation-delay: 0s; height: 5px; }
+.eq-bar:nth-child(2) { animation-delay: 0.25s; height: 11px; }
+.eq-bar:nth-child(3) { animation-delay: 0.45s; height: 7px; }
+
+[data-theme="light"] .eq-bar {
+  background: var(--orange);
+}
+
+.chrome-sfx-btn.muted .sfx-equalizer {
+  opacity: 0.3;
+}
+
+.chrome-sfx-btn.muted .eq-bar {
+  animation: none;
+  height: 2px;
+}
+
+@keyframes eqBounce {
+  0% { height: 3px; }
+  50% { height: 12px; }
+  100% { height: 5px; }
+}
+
 [data-theme="light"] .chrome-sfx-btn:not(.muted) .sfx-on {
   color: var(--orange);
 }
@@ -10812,7 +10855,8 @@ dialog.shortcuts-modal::backdrop {
 
 /* Scrolled Nav Minimalist SFX Button */
 .site-header.scrolled .chrome-sfx-btn {
-  width: 38px;
+  width: auto;
+  min-width: 38px;
   height: 38px;
   background: rgba(255, 255, 255, 0.85) !important;
   backdrop-filter: blur(16px);
@@ -12957,4 +13001,200 @@ dialog.skill-dossier-modal::backdrop {
 
 [data-theme="light"] .timeline-desc {
   color: #4b5563;
+}
+
+/* ==========================================================================
+   Phase 13: Project Stack Tray & Interactive Tag System
+   ========================================================================== */
+.project-stack-tray {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.75rem;
+  padding: 0.35rem 0.75rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+  border-radius: 9999px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.stack-tray-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted, #94a3b8);
+  padding-right: 0.25rem;
+}
+
+.stack-pill {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.22rem 0.65rem;
+  border-radius: 9999px;
+  background: transparent;
+  color: var(--text-secondary, #94a3b8);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stack-pill:hover {
+  color: var(--text-primary, #ffffff);
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateY(-1px);
+}
+
+.stack-pill.active {
+  background: var(--lime, #b8ff00);
+  color: #0c0d0e;
+  border-color: var(--lime, #b8ff00);
+  box-shadow: 0 0 12px rgba(184, 255, 0, 0.3);
+}
+
+/* Interactive Project Card Tags */
+.project-tags .project-tag {
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.project-tags .project-tag:hover {
+  transform: translateY(-1.5px);
+  border-color: var(--lime, #b8ff00);
+  color: var(--lime, #b8ff00);
+  background: rgba(184, 255, 0, 0.1);
+}
+
+.project-tags .project-tag.active {
+  background: var(--lime, #b8ff00);
+  color: #0c0d0e;
+  border-color: var(--lime, #b8ff00);
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   Phase 13: Timeline Epoch Jumpers & Navigation
+   ========================================================================== */
+.timeline-epoch-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  padding: 0.45rem 0.85rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+  border-radius: 9999px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.epoch-nav-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted, #94a3b8);
+  padding-right: 0.25rem;
+}
+
+.epoch-nav-btn {
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 0.3rem 0.75rem;
+  border-radius: 9999px;
+  background: transparent;
+  color: var(--text-secondary, #94a3b8);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.epoch-nav-btn:hover {
+  color: var(--text-primary, #ffffff);
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.epoch-nav-btn.active {
+  background: rgba(184, 255, 0, 0.12);
+  color: var(--lime, #b8ff00);
+  border-color: rgba(184, 255, 0, 0.35);
+}
+
+.timeline-item.epoch-highlight {
+  animation: epochPulse 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes epochPulse {
+  0% { box-shadow: 0 0 0 0 rgba(184, 255, 0, 0.6); }
+  50% { box-shadow: 0 0 25px 4px rgba(184, 255, 0, 0.4); border-color: var(--lime, #b8ff00); }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+/* Light Mode Overrides for Phase 13 Features */
+[data-theme="light"] .project-stack-tray {
+  background: #f1f3f5;
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .stack-pill:hover {
+  color: #111827;
+  border-color: rgba(0, 0, 0, 0.15);
+  background: #ffffff;
+}
+
+[data-theme="light"] .stack-pill.active {
+  background: #15803d;
+  color: #ffffff;
+  border-color: #15803d;
+  box-shadow: 0 0 10px rgba(21, 128, 61, 0.25);
+}
+
+[data-theme="light"] .project-tags .project-tag:hover {
+  border-color: #15803d;
+  color: #15803d;
+  background: rgba(21, 128, 61, 0.08);
+}
+
+[data-theme="light"] .project-tags .project-tag.active {
+  background: #15803d;
+  color: #ffffff;
+  border-color: #15803d;
+}
+
+[data-theme="light"] .timeline-epoch-nav {
+  background: #f1f3f5;
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .epoch-nav-btn:hover {
+  color: #111827;
+  border-color: rgba(0, 0, 0, 0.15);
+  background: #ffffff;
+}
+
+[data-theme="light"] .epoch-nav-btn.active {
+  background: #ffffff;
+  color: #15803d;
+  border-color: rgba(21, 128, 61, 0.35);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .timeline-item.epoch-highlight {
+  animation: epochPulseLight 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes epochPulseLight {
+  0% { box-shadow: 0 0 0 0 rgba(21, 128, 61, 0.6); }
+  50% { box-shadow: 0 0 25px 4px rgba(21, 128, 61, 0.35); border-color: #15803d; }
+  100% { box-shadow: 0 0 0 0 transparent; }
 }

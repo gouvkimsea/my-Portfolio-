@@ -116,7 +116,7 @@
   }
   </script>
 
-  <link rel="stylesheet" href="styles.css?v=v21" />
+  <link rel="stylesheet" href="styles.css?v=v22" />
   <script>
     (function () {
       try {
@@ -132,7 +132,7 @@
       }
     })();
   </script>
-  <script defer src="script.js?v=v21"></script>
+  <script defer src="script.js?v=v22"></script>
 </head>
 
 <body>
@@ -185,6 +185,7 @@
             <line x1="23" y1="9" x2="17" y2="15"></line>
             <line x1="17" y1="9" x2="23" y2="15"></line>
           </svg>
+          <span class="sfx-equalizer" aria-hidden="true"><i class="eq-bar"></i><i class="eq-bar"></i><i class="eq-bar"></i></span>
           <span class="sr-only">Toggle sound effects</span>
         </button>
         <button class="mobile-drawer-close" id="mobileDrawerClose" type="button"
@@ -268,6 +269,7 @@
             <line x1="23" y1="9" x2="17" y2="15"></line>
             <line x1="17" y1="9" x2="23" y2="15"></line>
           </svg>
+          <span class="sfx-equalizer" aria-hidden="true"><i class="eq-bar"></i><i class="eq-bar"></i><i class="eq-bar"></i></span>
           <span class="sr-only">Toggle sound effects</span>
         </button>
         <a class="nav-contact-btn magnetic" href="#contact">Contact <span class="nav-contact-arrow"
@@ -741,6 +743,17 @@
               data-filter="web">Web <sup class="filter-count">09</sup></button><button class="filter" data-filter="ai">AI &amp; Vision
               <sup class="filter-count">04</sup></button><button class="filter" data-filter="3d">3D &amp; WebGL <sup class="filter-count">02</sup></button><button
               class="filter" data-filter="security">Security &amp; FinTech <sup class="filter-count">03</sup></button>
+          </div>
+          <div class="project-stack-tray" role="group" aria-label="Quick filter by technology stack">
+            <span class="stack-tray-label">Tech Stack:</span>
+            <button type="button" class="stack-pill" data-stack="TypeScript">TypeScript</button>
+            <button type="button" class="stack-pill" data-stack="WebGL">WebGL</button>
+            <button type="button" class="stack-pill" data-stack="Python">Python</button>
+            <button type="button" class="stack-pill" data-stack="PHP">PHP</button>
+            <button type="button" class="stack-pill" data-stack="React">React</button>
+            <button type="button" class="stack-pill" data-stack="NestJS">NestJS</button>
+            <button type="button" class="stack-pill" data-stack="GLSL">GLSL</button>
+            <button type="button" class="stack-pill" data-stack="OpenCV">OpenCV</button>
           </div>
           <div class="projects-search-box">
             <span class="projects-search-icon" aria-hidden="true">
@@ -1465,10 +1478,18 @@
 
         <!-- Chronological Engineering Journey Timeline Mode -->
         <div class="achievements-timeline reveal" id="achievementsTimeline" hidden aria-label="Chronological Engineering Journey Timeline">
+          <div class="timeline-epoch-nav" role="navigation" aria-label="Jump to timeline epoch">
+            <span class="epoch-nav-label">Epoch Jump:</span>
+            <button type="button" class="epoch-nav-btn active" data-target="timelineEpoch2023">2023 Foundations</button>
+            <button type="button" class="epoch-nav-btn" data-target="timelineEpoch2024">2024 Systems</button>
+            <button type="button" class="epoch-nav-btn" data-target="timelineEpoch2025">2025 Graphics</button>
+            <button type="button" class="epoch-nav-btn" data-target="timelineEpoch2026">2026 Shipped</button>
+          </div>
+
           <div class="timeline-spine" aria-hidden="true"></div>
 
           <!-- Epoch 1: 2023 -->
-          <article class="timeline-item spotlight-card" data-category="foundations">
+          <article class="timeline-item spotlight-card" id="timelineEpoch2023" data-category="foundations">
             <div class="timeline-node">
               <span class="timeline-year">2023</span>
               <span class="timeline-dot" aria-hidden="true"></span>
@@ -1495,7 +1516,7 @@
           </article>
 
           <!-- Epoch 2: 2024 -->
-          <article class="timeline-item spotlight-card" data-category="foundations">
+          <article class="timeline-item spotlight-card" id="timelineEpoch2024" data-category="foundations">
             <div class="timeline-node">
               <span class="timeline-year">2024</span>
               <span class="timeline-dot" aria-hidden="true"></span>
@@ -1522,7 +1543,7 @@
           </article>
 
           <!-- Epoch 3: 2025 -->
-          <article class="timeline-item spotlight-card" data-category="graphics">
+          <article class="timeline-item spotlight-card" id="timelineEpoch2025" data-category="graphics">
             <div class="timeline-node">
               <span class="timeline-year">2025</span>
               <span class="timeline-dot" aria-hidden="true"></span>
@@ -1549,7 +1570,7 @@
           </article>
 
           <!-- Epoch 4: 2026 -->
-          <article class="timeline-item spotlight-card" data-category="shipped">
+          <article class="timeline-item spotlight-card" id="timelineEpoch2026" data-category="shipped">
             <div class="timeline-node">
               <span class="timeline-year">2026</span>
               <span class="timeline-dot" aria-hidden="true"></span>
