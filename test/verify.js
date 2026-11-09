@@ -135,7 +135,10 @@ assert(indexHtml.includes('projects-curator-hud') && fs.readFileSync('styles.css
 assert(indexHtml.includes('skills-filter-bar') && indexHtml.includes('id="skillDossierModal"') && scriptJs.includes('initSkillsFilterAndDossier'), 'index.html & script.js: Interactive skill capabilities filter and skill dossier inspector modal implemented');
 assert(indexHtml.includes('achieve-view-switcher') && indexHtml.includes('id="achievementsTimeline"') && scriptJs.includes('initAchievementsTimeline'), 'index.html & script.js: Milestones view switcher and chronological journey timeline mode implemented');
 assert(scriptJs.includes('bench:') && scriptJs.includes('primary === "nav"') && scriptJs.includes('architecture:'), 'script.js: Parameterized terminal navigation and performance benchmark diagnostics implemented');
-assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v21'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v21');
+assert(indexHtml.includes('project-stack-tray') && scriptJs.includes('initProjectStackTrayAndTagFilters') && fs.readFileSync('styles.css', 'utf8').includes('.stack-pill'), 'index.html, styles.css & script.js: Tech stack quick filter tray and interactive card tag filtering implemented');
+assert(indexHtml.includes('timeline-epoch-nav') && indexHtml.includes('id="timelineEpoch2023"') && fs.readFileSync('styles.css', 'utf8').includes('.timeline-epoch-nav'), 'index.html, styles.css & script.js: Timeline epoch quick navigation jumpers implemented');
+assert(indexHtml.includes('sfx-equalizer') && fs.readFileSync('styles.css', 'utf8').includes('eqBounce'), 'index.html & styles.css: Web Audio procedural equalizer wave visualizer implemented');
+assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v22'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v22');
 
 // Test global script evaluation with mock DOM globals
 try {
