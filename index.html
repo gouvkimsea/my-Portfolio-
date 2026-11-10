@@ -1903,6 +1903,9 @@
           <button type="button" class="modal-nav-step-btn modal-share-btn" id="modalShareLinkBtn" title="Copy direct link to this project" aria-label="Copy direct link to this project">
             <span class="modal-share-icon" aria-hidden="true">🔗</span> Share Link
           </button>
+          <button type="button" class="modal-nav-step-btn modal-cite-btn" id="modalCiteBtn" title="Copy formatted project citation" aria-label="Copy formatted project citation">
+            <span class="modal-cite-icon" aria-hidden="true">📄</span> Cite
+          </button>
           <button type="button" class="modal-nav-step-btn" id="modalNextBtn" aria-label="Next project case study">
             Next Project <span class="nav-arrow" aria-hidden="true">→</span>
           </button>
@@ -3151,6 +3154,8 @@
           Theme <small class="cmdk-desc">Dark / Light mode</small></button>
         <button type="button" class="cmdk-item" data-action="toggle-sfx"><span class="cmdk-icon">🔊</span> Toggle
           Sound FX <small class="cmdk-desc">Procedural Web Audio synthesis</small></button>
+        <button type="button" class="cmdk-item" data-action="adjust-volume"><span class="cmdk-icon">🎚</span> Adjust Audio Master Volume
+          <small class="cmdk-desc">Tune procedural synthesizer gain slider</small></button>
         <button type="button" class="cmdk-item" data-action="download-vcard"><span class="cmdk-icon">📇</span> Save Contact Card (.vcf)
           <small class="cmdk-desc">Download digital vCard for iOS / Android / macOS</small></button>
         <button type="button" class="cmdk-item" data-action="export-terminal"><span class="cmdk-icon">📥</span> Export Terminal Session Log
@@ -3338,6 +3343,15 @@ Email: gouvkimsea@gmail.com</pre>
         <div class="shortcuts-section shortcuts-audio-section">
           <h3 class="shortcuts-section-title">Acoustic Soundboard (Web Audio Synthesis)</h3>
           <p class="shortcuts-audio-sub">Zero audio files · 100% real-time mathematical oscillator waves</p>
+          <div class="audio-volume-panel">
+            <div class="volume-header-row">
+              <label for="sfxVolumeSlider" class="volume-slider-label">
+                <span class="vol-icon" aria-hidden="true">🔊</span> Master Gain: <span id="sfxVolumeValue">80%</span>
+              </label>
+              <button type="button" class="volume-reset-btn" id="sfxVolumeResetBtn" title="Reset volume to default">Reset (80%)</button>
+            </div>
+            <input type="range" id="sfxVolumeSlider" min="0" max="100" value="80" step="5" class="audio-volume-range" aria-label="Synthesizer master volume" />
+          </div>
           <div class="shortcuts-audio-grid" role="group" aria-label="Audition synthesizer sound effects">
             <button type="button" class="audio-bench-btn" data-sound="click">
               <span class="bench-icon">🔊</span> Tactile Click

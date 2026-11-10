@@ -787,6 +787,11 @@ cmdKResults?.addEventListener("click", e => {
     downloadVCard();
   } else if (action === "export-terminal") {
     if (typeof exportTerminalSession === "function") exportTerminalSession();
+  } else if (action === "adjust-volume") {
+    openShortcutsModal();
+    setTimeout(() => {
+      document.getElementById("sfxVolumeSlider")?.focus();
+    }, 200);
   } else if (action === "filter-projects") {
     const cat = item.dataset.category || "all";
     const filterBtn = $(`button.filter[data-filter='${cat}']`);
@@ -4702,7 +4707,7 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>cat [file]</b>, <b>curl</b>, <b>history</b>, <b>export</b>, <b>vcard</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>bench</b>, <b>timeline</b>, <b>architecture</b>, <b>ping</b>, <b>matrix</b>, <b>git</b>, <b>nav [section]</b>, <b>shortcuts</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>cat [file]</b>, <b>curl</b>, <b>history</b>, <b>export</b>, <b>vcard</b>, <b>time</b>, <b>volume [0-100]</b>, <b>demo [project]</b>, <b>cite [project]</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>bench</b>, <b>timeline</b>, <b>architecture</b>, <b>ping</b>, <b>matrix</b>, <b>git</b>, <b>nav [section]</b>, <b>shortcuts</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
   matrix: () => {
     const terminalBody = $(".terminal-body");
     if (!terminalBody) return "Terminal stream window not accessible.";
@@ -5159,6 +5164,68 @@ cache-control: max-age=600
   },
   dump: () => terminalCommands.export(),
   log: () => terminalCommands.export(),
+  time: () => {
+    const now = new Date();
+    const options = { timeZone: "Asia/Phnom_Penh", hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit", weekday: "short", year: "numeric", month: "short", day: "numeric" };
+    const formatted = new Intl.DateTimeFormat("en-GB", options).format(now);
+    return `<pre class="term-pre" style="margin:4px 0;font-size:11px;line-height:1.45;">🕒 <b>Workstation Timezone Telemetry</b>
+--------------------------------------------------------
+Local Time (Cambodia): <b>${formatted} ICT (UTC+7)</b>
+Coordinates:           <b>11.5564° N, 104.9282° E</b>
+Timezone:              <b>Asia/Phnom_Penh (Indochina Time)</b>
+System Status:         <b>Workstation Active · Dual-Degree Engineering Track</b></pre>`;
+  },
+  clock: () => terminalCommands.time(),
+  volume: (arg) => {
+    if (!arg) return `Current Master SFX Volume: <b>${Math.round(sfxVolume * 100)}%</b>. Use <b>volume [0-100]</b> or <b>volume mute</b>.`;
+    const clean = arg.trim().toLowerCase();
+    if (clean === "mute" || clean === "0") {
+      setSfxVolume(0);
+      return "Master SFX volume muted (0%) 🔇";
+    }
+    const val = parseInt(clean, 10);
+    if (isNaN(val) || val < 0 || val > 100) {
+      return `Invalid volume level: <b>${escapeHtml(arg)}</b>. Please provide a percentage between 0 and 100.`;
+    }
+    const pct = setSfxVolume(val / 100);
+    if (typeof playSound === "function") playSound("click");
+    return `Master SFX Volume set to <b>${pct}%</b> 🔊`;
+  },
+  vol: (arg) => terminalCommands.volume(arg),
+  demo: (arg) => {
+    const target = (arg || "").trim().toLowerCase();
+    const demoMap = {
+      pinit: () => { openModal("pinit"); setTimeout(() => $("#pinitInput")?.focus(), 180); },
+      joul: () => openModal("joul"),
+      clp: () => openModal("clp"),
+      aquarium: () => openModal("aquarium"),
+      gesture: () => openModal("gesture"),
+      saas: () => openModal("saas"),
+      miniworld: () => openModal("miniworld"),
+      shader: () => {
+        openModal("miniworld");
+        setTimeout(() => document.getElementById("miniworldSandbox")?.scrollIntoView({ behavior: "smooth", block: "center" }), 250);
+      }
+    };
+    if (demoMap[target]) {
+      demoMap[target]();
+      return `Launched interactive sandbox for <b>${target.toUpperCase()}</b>! ⚡`;
+    }
+    return `Available interactive sandboxes: <b>demo pinit</b>, <b>demo joul</b>, <b>demo clp</b>, <b>demo aquarium</b>, <b>demo gesture</b>, <b>demo saas</b>, <b>demo shader</b>.`;
+  },
+  cite: (arg) => {
+    const key = (arg || "").trim().toLowerCase() || "pinit";
+    const data = projectData[key];
+    if (!data) {
+      return `Unknown project <b>${escapeHtml(arg)}</b>. Available projects: <b>${Object.keys(projectData).join(", ")}</b>.`;
+    }
+    const url = `https://gouvkimsea.github.io/my-Portfolio-/?project=${key}`;
+    const citation = `[${data.title}](${url}) — Gouv Kimsea (2026)`;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(citation);
+    }
+    return `<div style="font-size:11px;margin:4px 0;"><b>Copied citation to clipboard! 📄</b><br><code style="color:var(--lime);">${escapeHtml(citation)}</code></div>`;
+  },
   "cat developer.ts": () => terminalCommands.cat("developer.ts"),
   "cat about-me.js": () => terminalCommands.cat("developer.ts")
 };
@@ -5203,6 +5270,12 @@ const executeCommand = rawCommand => {
     response = terminalCommands.curl();
   } else if (primary === "history" && typeof terminalCommands.history === "function") {
     response = terminalCommands.history();
+  } else if ((primary === "volume" || primary === "vol") && typeof terminalCommands.volume === "function") {
+    response = terminalCommands.volume(rest);
+  } else if (primary === "demo" && typeof terminalCommands.demo === "function") {
+    response = terminalCommands.demo(rest);
+  } else if (primary === "cite" && typeof terminalCommands.cite === "function") {
+    response = terminalCommands.cite(rest);
   } else if ((primary === "sound" || primary === "sfx") && rest) {
     const sub = rest.toLowerCase();
     if (sub === "on") {
@@ -5322,7 +5395,7 @@ terminalInput?.addEventListener("keydown", event => {
     if (current) {
       const allCmds = Array.from(new Set([
         ...Object.keys(terminalCommands),
-        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export"
+        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite"
       ]));
       const prefix = lastTabPrefix || current;
       const matches = allCmds.filter(k => k.startsWith(prefix));
@@ -5965,6 +6038,45 @@ initShortcutsModal();
 let audioCtx = null;
 let sfxEnabled = localStorage.getItem("kimsea_sfx_enabled") === "true";
 
+let masterGainNode = null;
+let sfxVolume = 0.8;
+try {
+  const savedVol = localStorage.getItem("portfolio-sfx-volume");
+  if (savedVol !== null) {
+    const parsed = parseFloat(savedVol);
+    if (!isNaN(parsed) && parsed >= 0 && parsed <= 1) sfxVolume = parsed;
+  }
+} catch (_) {}
+
+const getMasterGainNode = (ctx) => {
+  if (!ctx) return null;
+  if (!masterGainNode || masterGainNode.context !== ctx) {
+    masterGainNode = ctx.createGain();
+    masterGainNode.gain.setValueAtTime(sfxVolume, ctx.currentTime);
+    masterGainNode.connect(ctx.destination);
+  }
+  return masterGainNode;
+};
+
+const setSfxVolume = (val) => {
+  const clamped = Math.max(0, Math.min(1, parseFloat(val)));
+  sfxVolume = clamped;
+  try {
+    localStorage.setItem("portfolio-sfx-volume", clamped.toString());
+  } catch (_) {}
+  const ctx = getAudioContext();
+  if (ctx) {
+    const node = getMasterGainNode(ctx);
+    if (node) node.gain.setValueAtTime(clamped, ctx.currentTime);
+  }
+  const slider = document.getElementById("sfxVolumeSlider");
+  const label = document.getElementById("sfxVolumeValue");
+  const pct = Math.round(clamped * 100);
+  if (slider) slider.value = pct;
+  if (label) label.textContent = `${pct}%`;
+  return pct;
+};
+
 const getAudioContext = () => {
   if (!audioCtx && (window.AudioContext || window.webkitAudioContext)) {
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -5981,6 +6093,7 @@ const playSound = (type = "click") => {
     const ctx = getAudioContext();
     if (!ctx) return;
     const t = ctx.currentTime;
+    const dest = getMasterGainNode(ctx) || ctx.destination;
 
     if (type === "click") {
       const osc = ctx.createOscillator();
@@ -5991,7 +6104,7 @@ const playSound = (type = "click") => {
       gain.gain.setValueAtTime(0.04, t);
       gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.04);
       osc.connect(gain);
-      gain.connect(ctx.destination);
+      gain.connect(dest);
       osc.start(t);
       osc.stop(t + 0.045);
     } else if (type === "chime") {
@@ -6003,7 +6116,7 @@ const playSound = (type = "click") => {
         gain.gain.setValueAtTime(0.035, t + idx * 0.05);
         gain.gain.exponentialRampToValueAtTime(0.0001, t + idx * 0.05 + 0.22);
         osc.connect(gain);
-        gain.connect(ctx.destination);
+        gain.connect(dest);
         osc.start(t + idx * 0.05);
         osc.stop(t + idx * 0.05 + 0.25);
       });
@@ -6016,7 +6129,7 @@ const playSound = (type = "click") => {
       gain.gain.setValueAtTime(0.03, t);
       gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.14);
       osc.connect(gain);
-      gain.connect(ctx.destination);
+      gain.connect(dest);
       osc.start(t);
       osc.stop(t + 0.15);
     } else if (type === "whoosh") {
@@ -6034,7 +6147,7 @@ const playSound = (type = "click") => {
       gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.22);
       osc.connect(filter);
       filter.connect(gain);
-      gain.connect(ctx.destination);
+      gain.connect(dest);
       osc.start(t);
       osc.stop(t + 0.24);
     } else if (type === "keypress") {
@@ -6046,7 +6159,7 @@ const playSound = (type = "click") => {
       gain.gain.setValueAtTime(0.015, t);
       gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.025);
       osc.connect(gain);
-      gain.connect(ctx.destination);
+      gain.connect(dest);
       osc.start(t);
       osc.stop(t + 0.03);
     } else if (type === "success") {
@@ -6060,7 +6173,7 @@ const playSound = (type = "click") => {
         gain.gain.linearRampToValueAtTime(0.035, startTime + 0.02);
         gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.18);
         osc.connect(gain);
-        gain.connect(ctx.destination);
+        gain.connect(dest);
         osc.start(startTime);
         osc.stop(startTime + 0.2);
       });
@@ -6092,6 +6205,31 @@ const toggleSfx = () => {
 
 updateSfxUI();
 $$(".chrome-sfx-btn").forEach(btn => btn.addEventListener("click", toggleSfx));
+
+// Synthesizer Master Volume Range Controller
+const sfxVolumeSlider = document.getElementById("sfxVolumeSlider");
+const sfxVolumeResetBtn = document.getElementById("sfxVolumeResetBtn");
+const sfxVolumeLabel = document.getElementById("sfxVolumeValue");
+
+if (sfxVolumeSlider) {
+  sfxVolumeSlider.value = Math.round(sfxVolume * 100);
+  if (sfxVolumeLabel) sfxVolumeLabel.textContent = `${Math.round(sfxVolume * 100)}%`;
+  sfxVolumeSlider.addEventListener("input", (e) => {
+    const pct = parseInt(e.target.value, 10);
+    setSfxVolume(pct / 100);
+  });
+  sfxVolumeSlider.addEventListener("change", () => {
+    if (typeof playSound === "function") playSound("click");
+  });
+}
+
+sfxVolumeResetBtn?.addEventListener("click", () => {
+  setSfxVolume(0.8);
+  if (typeof playSound === "function") playSound("chime");
+  if (typeof showPortfolioToast === "function") {
+    showPortfolioToast("Volume reset to default 80% 🔊");
+  }
+});
 
 // ==========================================================================
 // 10. CLIENT TELEMETRY & WEB VITALS PERFORMANCE LOGGER
@@ -6224,6 +6362,35 @@ $("#modalShareLinkBtn")?.addEventListener("click", () => {
     });
   } else {
     fallbackCopy(url);
+    onCopied();
+  }
+});
+
+$("#modalCiteBtn")?.addEventListener("click", () => {
+  const currentKey = $("#modalProjectSelect")?.value || "pinit";
+  const data = projectData[currentKey];
+  const title = data?.title || "Project";
+  const url = `${window.location.origin}${window.location.pathname}?project=${currentKey}`;
+  const citation = `[${title}](${url}) — Gouv Kimsea (2026)`;
+  const btn = $("#modalCiteBtn");
+  const onCopied = () => {
+    btn?.classList.add("copied");
+    if (typeof playSound === "function") playSound("chime");
+    if (typeof showPortfolioToast === "function") {
+      showPortfolioToast(`Copied citation for ${title}! 📄`);
+    }
+    setTimeout(() => {
+      btn?.classList.remove("copied");
+    }, 2000);
+  };
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(citation).then(onCopied).catch(() => {
+      fallbackCopy(citation);
+      onCopied();
+    });
+  } else {
+    fallbackCopy(citation);
     onCopied();
   }
 });

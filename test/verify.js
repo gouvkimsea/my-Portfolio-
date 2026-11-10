@@ -151,7 +151,10 @@ assert(scriptJs.includes('project-card-share-btn') && (indexHtml.match(/class="p
 assert(indexHtml.includes('id="modalShareLinkBtn"') && scriptJs.includes('modalShareLinkBtn') && fs.readFileSync('styles.css', 'utf8').includes('.modal-share-btn'), 'index.html, script.js & styles.css: In-modal direct project link share button implemented');
 assert(indexHtml.includes('data-action="export-terminal"') && scriptJs.includes('action === "export-terminal"'), 'index.html & script.js: Command palette export terminal session log quick action implemented');
 assert(indexHtml.includes('id="hudClockItem"') && indexHtml.includes('id="footerClockTime"') && scriptJs.includes('updateLocalClock'), 'index.html & script.js: Real-time Phnom Penh (UTC+7 / ICT) live ticking clock implemented');
-assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v23'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v23');
+assert(indexHtml.includes('id="sfxVolumeSlider"') && scriptJs.includes('setSfxVolume') && scriptJs.includes('getMasterGainNode') && fs.readFileSync('styles.css', 'utf8').includes('.audio-volume-panel'), 'index.html, script.js & styles.css: Web Audio procedural synthesizer master volume gain controller implemented');
+assert(indexHtml.includes('id="modalCiteBtn"') && scriptJs.includes('modalCiteBtn') && fs.readFileSync('styles.css', 'utf8').includes('.modal-cite-btn'), 'index.html, script.js & styles.css: In-modal project citation generator & 1-click clipboard copy implemented');
+assert(scriptJs.includes('demo:') && scriptJs.includes('cite:') && scriptJs.includes('volume:') && scriptJs.includes('time:'), 'script.js: In-browser terminal CLI expanded with demo, cite, volume, and time telemetry commands');
+assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v24'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v24');
 
 // Test global script evaluation with mock DOM globals
 try {
