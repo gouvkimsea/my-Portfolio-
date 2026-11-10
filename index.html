@@ -1778,6 +1778,19 @@
                   <span class="hud-arrow" aria-hidden="true">↓</span>
                 </button>
               </div>
+
+              <!-- Timezone & Local Time Item -->
+              <div class="hud-item-wrapper" role="listitem">
+                <div class="hud-contact-item hud-clock-item" id="hudClockItem" title="Local time in Phnom Penh, Cambodia (ICT / UTC+7)">
+                  <span class="hud-corner hud-corner-tl" aria-hidden="true"></span>
+                  <span class="hud-corner hud-corner-tr" aria-hidden="true"></span>
+                  <span class="hud-corner hud-corner-bl" aria-hidden="true"></span>
+                  <span class="hud-corner hud-corner-br" aria-hidden="true"></span>
+                  <span class="hud-label">TIMEZONE</span>
+                  <span class="hud-val" id="contactClockVal"><span class="clock-live-dot"></span> Phnom Penh · <span id="contactClockDigits">--:--:-- ICT</span></span>
+                  <span class="hud-arrow" aria-hidden="true">🇰🇭</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1834,8 +1847,14 @@
       <a class="brand" href="#top" aria-label="Go to top of page"><span class="brand-brackets">[ ]</span> GK</a>
       <div class="footer-center">
         <p class="footer-copy">© 2026 Gouv Kimsea. Built with curiosity and code.</p>
-        <span class="footer-meta">Active Development · <a class="footer-repo-link" href="https://github.com/gouvkimsea/my-Portfolio-"
-            target="_blank" rel="noopener noreferrer">Open Source on GitHub ↗</a></span>
+        <div class="footer-telemetry-row">
+          <span class="footer-meta">Active Development · <a class="footer-repo-link" href="https://github.com/gouvkimsea/my-Portfolio-"
+              target="_blank" rel="noopener noreferrer">Open Source on GitHub ↗</a></span>
+          <span class="footer-telemetry-sep" aria-hidden="true">·</span>
+          <span class="footer-local-clock" id="footerLocalClock" title="Local Time in Phnom Penh, Cambodia (UTC+7)">
+            <span class="clock-icon" aria-hidden="true">🕒</span> <span id="footerClockTime">--:--:-- ICT</span>
+          </span>
+        </div>
       </div>
       <div class="footer-links">
         <button class="footer-cmd-btn magnetic" id="footerShareBtn" type="button" aria-label="Share portfolio &amp; recruiter brief"
@@ -1881,6 +1900,9 @@
           </div>
         </div>
         <div class="modal-nav-right">
+          <button type="button" class="modal-nav-step-btn modal-share-btn" id="modalShareLinkBtn" title="Copy direct link to this project" aria-label="Copy direct link to this project">
+            <span class="modal-share-icon" aria-hidden="true">🔗</span> Share Link
+          </button>
           <button type="button" class="modal-nav-step-btn" id="modalNextBtn" aria-label="Next project case study">
             Next Project <span class="nav-arrow" aria-hidden="true">→</span>
           </button>
@@ -3131,6 +3153,8 @@
           Sound FX <small class="cmdk-desc">Procedural Web Audio synthesis</small></button>
         <button type="button" class="cmdk-item" data-action="download-vcard"><span class="cmdk-icon">📇</span> Save Contact Card (.vcf)
           <small class="cmdk-desc">Download digital vCard for iOS / Android / macOS</small></button>
+        <button type="button" class="cmdk-item" data-action="export-terminal"><span class="cmdk-icon">📥</span> Export Terminal Session Log
+          <small class="cmdk-desc">Download interactive CLI output as .txt</small></button>
         <button type="button" class="cmdk-item" data-action="copy-code"><span class="cmdk-icon">📋</span> Copy
           Active Code <small class="cmdk-desc">Hero snippet to clipboard</small></button>
         <button type="button" class="cmdk-item" data-action="filter-projects" data-category="ai"><span class="cmdk-icon">🤖</span> Filter:

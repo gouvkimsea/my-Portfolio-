@@ -785,6 +785,8 @@ cmdKResults?.addEventListener("click", e => {
     $("#copyCodeBtn")?.click();
   } else if (action === "download-vcard") {
     downloadVCard();
+  } else if (action === "export-terminal") {
+    if (typeof exportTerminalSession === "function") exportTerminalSession();
   } else if (action === "filter-projects") {
     const cat = item.dataset.category || "all";
     const filterBtn = $(`button.filter[data-filter='${cat}']`);
@@ -6198,6 +6200,34 @@ $("#modalProjectSelect")?.addEventListener("change", (e) => {
   }
 });
 
+$("#modalShareLinkBtn")?.addEventListener("click", () => {
+  const currentKey = $("#modalProjectSelect")?.value || "pinit";
+  const data = projectData[currentKey];
+  const title = data?.title || "Project";
+  const url = `${window.location.origin}${window.location.pathname}?project=${currentKey}`;
+  const btn = $("#modalShareLinkBtn");
+  const onCopied = () => {
+    btn?.classList.add("copied");
+    if (typeof playSound === "function") playSound("chime");
+    if (typeof showPortfolioToast === "function") {
+      showPortfolioToast(`Copied direct link for ${title}! 🔗`);
+    }
+    setTimeout(() => {
+      btn?.classList.remove("copied");
+    }, 2000);
+  };
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(onCopied).catch(() => {
+      fallbackCopy(url);
+      onCopied();
+    });
+  } else {
+    fallbackCopy(url);
+    onCopied();
+  }
+});
+
 // Arrow key navigation when project modal is open
 window.addEventListener("keydown", (e) => {
   if (!modal || !modal.open) return;
@@ -6751,3 +6781,22 @@ function initAchievementsTimeline() {
 
 initSkillsFilterAndDossier();
 initAchievementsTimeline();
+
+// ==========================================================================
+// 12. Local Timezone Clock (Asia/Phnom_Penh, UTC+7)
+// ==========================================================================
+const updateLocalClock = () => {
+  const clockDigits = $("#contactClockDigits");
+  const footerClock = $("#footerClockTime");
+  if (!clockDigits && !footerClock) return;
+  try {
+    const now = new Date();
+    const options = { timeZone: "Asia/Phnom_Penh", hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit" };
+    const timeStr = new Intl.DateTimeFormat("en-GB", options).format(now);
+    const formatted = `${timeStr} ICT`;
+    if (clockDigits) clockDigits.textContent = formatted;
+    if (footerClock) footerClock.textContent = formatted;
+  } catch (_) {}
+};
+setInterval(updateLocalClock, 1000);
+updateLocalClock();

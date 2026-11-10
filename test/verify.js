@@ -148,7 +148,10 @@ assert(scriptJs.includes('vcard:') && scriptJs.includes('action === "download-vc
 assert(indexHtml.includes('hero-telemetry-badge') && fs.readFileSync('styles.css', 'utf8').includes('.hero-telemetry-badge'), 'index.html & styles.css: Hero telemetry overview badge implemented');
 assert(indexHtml.includes('id="terminalExportBtn"') && scriptJs.includes('exportTerminalSession') && fs.readFileSync('styles.css', 'utf8').includes('.terminal-action-btn'), 'index.html, script.js & styles.css: Terminal session log export system implemented');
 assert(scriptJs.includes('project-card-share-btn') && (indexHtml.match(/class="project-card-share-btn"/g) || []).length === 9, 'index.html & script.js: 1-click deep-link share buttons implemented on all 9 project cards');
-assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v22'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v22');
+assert(indexHtml.includes('id="modalShareLinkBtn"') && scriptJs.includes('modalShareLinkBtn') && fs.readFileSync('styles.css', 'utf8').includes('.modal-share-btn'), 'index.html, script.js & styles.css: In-modal direct project link share button implemented');
+assert(indexHtml.includes('data-action="export-terminal"') && scriptJs.includes('action === "export-terminal"'), 'index.html & script.js: Command palette export terminal session log quick action implemented');
+assert(indexHtml.includes('id="hudClockItem"') && indexHtml.includes('id="footerClockTime"') && scriptJs.includes('updateLocalClock'), 'index.html & script.js: Real-time Phnom Penh (UTC+7 / ICT) live ticking clock implemented');
+assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v23'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v23');
 
 // Test global script evaluation with mock DOM globals
 try {
