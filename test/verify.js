@@ -154,7 +154,10 @@ assert(indexHtml.includes('id="hudClockItem"') && indexHtml.includes('id="footer
 assert(indexHtml.includes('id="sfxVolumeSlider"') && scriptJs.includes('setSfxVolume') && scriptJs.includes('getMasterGainNode') && fs.readFileSync('styles.css', 'utf8').includes('.audio-volume-panel'), 'index.html, script.js & styles.css: Web Audio procedural synthesizer master volume gain controller implemented');
 assert(indexHtml.includes('id="modalCiteBtn"') && scriptJs.includes('modalCiteBtn') && fs.readFileSync('styles.css', 'utf8').includes('.modal-cite-btn'), 'index.html, script.js & styles.css: In-modal project citation generator & 1-click clipboard copy implemented');
 assert(scriptJs.includes('demo:') && scriptJs.includes('cite:') && scriptJs.includes('volume:') && scriptJs.includes('time:'), 'script.js: In-browser terminal CLI expanded with demo, cite, volume, and time telemetry commands');
-assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v24'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v24');
+assert(indexHtml.includes('id="gameModal"') && indexHtml.includes('id="bigHackBtn"') && fs.readFileSync('styles.css', 'utf8').includes('.game-modal'), 'index.html & styles.css: DevLoop indie game modal and retro CRT viewport implemented');
+assert(scriptJs.includes('initDevLoopGame') && scriptJs.includes('openGameModal') && scriptJs.includes('spawnBug'), 'script.js: DevLoop idle developer tycoon & bug smasher arcade game engines implemented');
+assert(scriptJs.includes('game:') && scriptJs.includes('arcade:') && indexHtml.includes('data-action="open-game"'), 'index.html & script.js: DevLoop game launchers wired to Command Palette, Terminal CLI, and hotkeys');
+assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v25'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v25');
 
 // Test global script evaluation with mock DOM globals
 try {

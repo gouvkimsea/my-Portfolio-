@@ -333,6 +333,8 @@
                 class="hero-btn-arrow">↓</span></a>
             <button class="button button-secondary magnetic" id="resumeHeroBtn" type="button"
               aria-haspopup="dialog">Resume / CV <span class="hero-btn-icon">↗</span></button>
+            <button class="button button-secondary magnetic hero-game-btn" id="openGameHeroBtn" type="button"
+              aria-haspopup="dialog" title="Launch DevLoop indie game sandbox (Press G)"><span>🎮</span> Play Game</button>
             <a class="text-link magnetic" href="#contact">Contact me <span class="hero-link-arrow">↗</span></a>
           </div>
           <div class="hero-telemetry-badge" role="status" aria-label="Portfolio overview telemetry">
@@ -634,6 +636,7 @@
               <button type="button" class="terminal-chip" data-cmd="resume">resume</button>
               <button type="button" class="terminal-chip" data-cmd="contact">contact</button>
               <button type="button" class="terminal-chip" data-cmd="theme">theme</button>
+              <button type="button" class="terminal-chip" data-cmd="game">game 🎮</button>
               <button type="button" class="terminal-chip" data-cmd="export">export</button>
               <button type="button" class="terminal-chip" data-cmd="clear">clear</button>
             </div>
@@ -1857,6 +1860,10 @@
         </div>
       </div>
       <div class="footer-links">
+        <button class="footer-cmd-btn magnetic" id="footerGameBtn" type="button" aria-label="Play DevLoop indie idle game"
+          title="Play DevLoop indie idle game (G)">
+          <span class="cmd-kbd">G</span> Game 🎮
+        </button>
         <button class="footer-cmd-btn magnetic" id="footerShareBtn" type="button" aria-label="Share portfolio &amp; recruiter brief"
           title="Share portfolio &amp; recruiter brief (Shift+S)">
           <span class="cmd-kbd">⇧S</span> Share
@@ -3154,6 +3161,8 @@
           Theme <small class="cmdk-desc">Dark / Light mode</small></button>
         <button type="button" class="cmdk-item" data-action="toggle-sfx"><span class="cmdk-icon">🔊</span> Toggle
           Sound FX <small class="cmdk-desc">Procedural Web Audio synthesis</small></button>
+        <button type="button" class="cmdk-item" data-action="open-game"><span class="cmdk-icon">🎮</span> Play DevLoop Indie Game
+          <small class="cmdk-desc">Developer idle tycoon &amp; bug arcade</small></button>
         <button type="button" class="cmdk-item" data-action="adjust-volume"><span class="cmdk-icon">🎚</span> Adjust Audio Master Volume
           <small class="cmdk-desc">Tune procedural synthesizer gain slider</small></button>
         <button type="button" class="cmdk-item" data-action="download-vcard"><span class="cmdk-icon">📇</span> Save Contact Card (.vcf)
@@ -3329,6 +3338,10 @@ Email: gouvkimsea@gmail.com</pre>
               <kbd class="shortcut-kbd">R</kbd>
             </div>
             <div class="shortcut-row">
+              <span class="shortcut-desc">Play DevLoop Indie Game</span>
+              <kbd class="shortcut-kbd">G</kbd>
+            </div>
+            <div class="shortcut-row">
               <span class="shortcut-desc">Launch Mini World 3D Planet</span>
               <kbd class="shortcut-kbd">M</kbd>
             </div>
@@ -3397,6 +3410,133 @@ Email: gouvkimsea@gmail.com</pre>
         <div class="skill-dossier-actions">
           <button type="button" class="button button-primary magnetic" id="skillDossierFilterBtn">Filter Projects by this Skill ↗</button>
           <button type="button" class="button button-secondary magnetic" id="skillDossierTerminalBtn">Explore in Terminal &gt;_</button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Interactive DevLoop Indie Idle Game Modal -->
+  <dialog class="game-modal" id="gameModal" aria-label="DevLoop Indie Idle Game" aria-modal="true">
+    <div class="game-shell">
+      <div class="game-header">
+        <div class="game-header-brand">
+          <span class="game-icon" aria-hidden="true">🎮</span>
+          <div class="game-title-group">
+            <h2 class="game-title">DEVLOOP // <span class="game-title-accent">INDIE GAME STUDIO</span></h2>
+            <span class="game-sub">Developer Idle Simulator &amp; Bug Smasher Arcade</span>
+          </div>
+        </div>
+        <div class="game-header-actions">
+          <button type="button" class="game-hdr-btn" id="gameSoundToggleBtn" title="Toggle Game Audio">🔊 Audio</button>
+          <button type="button" class="game-hdr-btn" id="gameCrtToggleBtn" title="Toggle CRT Scanlines">📺 CRT: ON</button>
+          <button type="button" class="game-hdr-btn game-reset-btn" id="gameResetProgressBtn" title="Reset Game Progress">↺ Reset</button>
+          <button class="modal-close game-modal-close" id="gameModalCloseBtn" type="button" aria-label="Close DevLoop Game">✕</button>
+        </div>
+      </div>
+
+      <!-- Live Telemetry / Score HUD -->
+      <div class="game-telemetry-bar">
+        <div class="game-stat-card">
+          <span class="game-stat-label">LINES OF CODE (LOC)</span>
+          <span class="game-stat-val loc-val" id="gameLocDisplay">0</span>
+        </div>
+        <div class="game-stat-card">
+          <span class="game-stat-label">PASSIVE VELOCITY</span>
+          <span class="game-stat-val rate-val" id="gameRateDisplay">+0 LOC/s</span>
+        </div>
+        <div class="game-stat-card">
+          <span class="game-stat-label">GITHUB STARS</span>
+          <span class="game-stat-val stars-val" id="gameStarsDisplay">⭐ 0</span>
+        </div>
+        <div class="game-stat-card">
+          <span class="game-stat-label">DEV LEVEL</span>
+          <span class="game-stat-val rank-val" id="gameRankDisplay">Intern</span>
+        </div>
+      </div>
+
+      <!-- Mode Selector Tabs -->
+      <div class="game-tabs" role="tablist" aria-label="Game Modes">
+        <button type="button" class="game-tab-btn active" id="gameTabIdleBtn" role="tab" aria-selected="true" data-tab="idle">
+          ⚡ Idle Dev Tycoon
+        </button>
+        <button type="button" class="game-tab-btn" id="gameTabArcadeBtn" role="tab" aria-selected="false" data-tab="arcade">
+          👾 Bug Smasher Arcade
+        </button>
+      </div>
+
+      <!-- Main Game Viewport -->
+      <div class="game-viewport crt-scanlines" id="gameViewport">
+        <!-- View A: Idle Developer Clicker & Upgrade Marketplace -->
+        <div class="game-view-panel game-idle-view active" id="gameIdleView">
+          <div class="idle-studio-grid">
+            <!-- Left: Terminal Clicker Stage -->
+            <div class="idle-clicker-stage">
+              <div class="terminal-stage-screen" id="clickerTerminalScreen">
+                <div class="stage-screen-bar">
+                  <span class="screen-dot red"></span><span class="screen-dot yellow"></span><span class="screen-dot green"></span>
+                  <span class="screen-title">hack://workstation/main.ts</span>
+                </div>
+                <div class="stage-code-output" id="stageCodeOutput">
+                  <p class="stage-code-line">// Welcome to DevLoop Engine.</p>
+                  <p class="stage-code-line">// Tap Hack to write code &amp; earn LOC!</p>
+                </div>
+              </div>
+
+              <!-- Main Big Tap / Hack Button -->
+              <button type="button" class="big-hack-btn" id="bigHackBtn" aria-label="Write Code and generate Lines of Code">
+                <span class="hack-btn-icon" aria-hidden="true">⌨️</span>
+                <span class="hack-btn-text">HACK &amp; SHIP CODE</span>
+                <span class="hack-btn-sub" id="hackClickPowerText">+1 LOC per tap</span>
+              </button>
+
+              <div class="stage-event-ticker" id="stageEventTicker" aria-live="polite">
+                <span class="ticker-prefix">[SYSTEM]</span> Ready to build next-gen software.
+              </div>
+
+              <!-- Release / Ship Milestone Card -->
+              <div class="ship-milestone-card">
+                <div class="milestone-info">
+                  <span class="milestone-title" id="milestoneTitle">Release: v1.0.0 Alpha</span>
+                  <span class="milestone-desc" id="milestoneDesc">Ship to production to earn +1 GitHub Star ⭐ (+20% global boost)</span>
+                </div>
+                <button type="button" class="ship-btn" id="gameShipBtn" disabled>
+                  Ship to Production (Requires 100 LOC)
+                </button>
+              </div>
+            </div>
+
+            <!-- Right: Upgrades Marketplace -->
+            <div class="idle-market-stage">
+              <div class="market-header">
+                <span class="market-title">DEV UPGRADES &amp; AUTOMATION</span>
+                <span class="market-hint">Purchased with LOC</span>
+              </div>
+              <div class="upgrade-list" id="upgradeList" role="group" aria-label="Developer automation upgrades">
+                <!-- Upgrade items rendered dynamically -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- View B: Bug Smasher Arcade Mini-Game -->
+        <div class="game-view-panel game-arcade-view" id="gameArcadeView">
+          <div class="arcade-container">
+            <div class="arcade-hud-row">
+              <span class="arcade-stat">Score: <b id="arcadeScore">0</b></span>
+              <span class="arcade-stat">Time: <b id="arcadeTimer">45s</b></span>
+              <span class="arcade-stat">Firewall: <b id="arcadeHealth">100%</b></span>
+              <button type="button" class="arcade-action-btn" id="arcadeStartBtn">Start Bug Run ⚡</button>
+            </div>
+            <div class="arcade-canvas-wrap">
+              <canvas id="arcadeCanvas" width="600" height="340" aria-label="Bug Smasher Arcade Surface"></canvas>
+              <div class="arcade-overlay" id="arcadeOverlay">
+                <h3 class="arcade-ovl-title" id="arcadeOvlTitle">CYBER BUG SMASHER</h3>
+                <p class="arcade-ovl-desc" id="arcadeOvlDesc">Squash incoming bugs and security exploits before they breach the server firewall!</p>
+                <button type="button" class="arcade-play-btn" id="arcadeOverlayPlayBtn">LAUNCH BUG RUN (45s)</button>
+              </div>
+            </div>
+            <p class="arcade-controls-tip">Click or tap bugs on screen to squash them. Gold bugs yield bonus LOC transferred to your idle bank!</p>
+          </div>
         </div>
       </div>
     </div>

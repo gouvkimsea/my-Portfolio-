@@ -792,6 +792,8 @@ cmdKResults?.addEventListener("click", e => {
     setTimeout(() => {
       document.getElementById("sfxVolumeSlider")?.focus();
     }, 200);
+  } else if (action === "open-game") {
+    if (typeof openGameModal === "function") openGameModal();
   } else if (action === "filter-projects") {
     const cat = item.dataset.category || "all";
     const filterBtn = $(`button.filter[data-filter='${cat}']`);
@@ -4707,7 +4709,7 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>cat [file]</b>, <b>curl</b>, <b>history</b>, <b>export</b>, <b>vcard</b>, <b>time</b>, <b>volume [0-100]</b>, <b>demo [project]</b>, <b>cite [project]</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>bench</b>, <b>timeline</b>, <b>architecture</b>, <b>ping</b>, <b>matrix</b>, <b>git</b>, <b>nav [section]</b>, <b>shortcuts</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>cat [file]</b>, <b>curl</b>, <b>history</b>, <b>export</b>, <b>vcard</b>, <b>game</b>, <b>arcade</b>, <b>time</b>, <b>volume [0-100]</b>, <b>demo [project]</b>, <b>cite [project]</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>bench</b>, <b>timeline</b>, <b>architecture</b>, <b>ping</b>, <b>matrix</b>, <b>git</b>, <b>nav [section]</b>, <b>shortcuts</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
   matrix: () => {
     const terminalBody = $(".terminal-body");
     if (!terminalBody) return "Terminal stream window not accessible.";
@@ -5164,6 +5166,19 @@ cache-control: max-age=600
   },
   dump: () => terminalCommands.export(),
   log: () => terminalCommands.export(),
+  game: () => {
+    if (typeof openGameModal === "function") openGameModal();
+    return "Launched DevLoop Cyber Indie Game Studio 🎮";
+  },
+  play: () => terminalCommands.game(),
+  idle: () => terminalCommands.game(),
+  arcade: () => {
+    if (typeof openGameModal === "function") {
+      openGameModal();
+      document.getElementById("gameTabArcadeBtn")?.click();
+    }
+    return "Launched Cyber Bug Smasher Arcade 👾";
+  },
   time: () => {
     const now = new Date();
     const options = { timeZone: "Asia/Phnom_Penh", hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit", weekday: "short", year: "numeric", month: "short", day: "numeric" };
@@ -5395,7 +5410,7 @@ terminalInput?.addEventListener("keydown", event => {
     if (current) {
       const allCmds = Array.from(new Set([
         ...Object.keys(terminalCommands),
-        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite"
+        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade"
       ]));
       const prefix = lastTabPrefix || current;
       const matches = allCmds.filter(k => k.startsWith(prefix));
@@ -6967,3 +6982,684 @@ const updateLocalClock = () => {
 };
 setInterval(updateLocalClock, 1000);
 updateLocalClock();
+
+// ==========================================================================
+// 13. DEVLOOP // CYBER INDIE GAME & IDLE DEVELOPER STUDIO
+// ==========================================================================
+let openGameModal = null;
+let closeGameModal = null;
+
+const initDevLoopGame = () => {
+  const gameModal = document.getElementById("gameModal");
+  if (!gameModal) return;
+
+  // Sound effects helper using web audio
+  let gameAudioEnabled = true;
+  const playRetroGameSfx = (type) => {
+    if (!gameAudioEnabled || (typeof sfxEnabled !== "undefined" && !sfxEnabled)) return;
+    try {
+      const ctx = typeof getAudioContext === "function" ? getAudioContext() : null;
+      if (!ctx) return;
+      const t = ctx.currentTime;
+      const dest = typeof getMasterGainNode === "function" ? getMasterGainNode(ctx) : ctx.destination;
+
+      if (type === "tap") {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "square";
+        osc.frequency.setValueAtTime(520, t);
+        osc.frequency.exponentialRampToValueAtTime(880, t + 0.04);
+        gain.gain.setValueAtTime(0.02, t);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.045);
+        osc.connect(gain);
+        gain.connect(dest);
+        osc.start(t);
+        osc.stop(t + 0.05);
+      } else if (type === "coin") {
+        [987.77, 1318.51].forEach((freq, idx) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(freq, t + idx * 0.06);
+          gain.gain.setValueAtTime(0.03, t + idx * 0.06);
+          gain.gain.exponentialRampToValueAtTime(0.0001, t + idx * 0.06 + 0.15);
+          osc.connect(gain);
+          gain.connect(dest);
+          osc.start(t + idx * 0.06);
+          osc.stop(t + idx * 0.06 + 0.18);
+        });
+      } else if (type === "laser") {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sawtooth";
+        osc.frequency.setValueAtTime(1200, t);
+        osc.frequency.exponentialRampToValueAtTime(180, t + 0.08);
+        gain.gain.setValueAtTime(0.035, t);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.09);
+        osc.connect(gain);
+        gain.connect(dest);
+        osc.start(t);
+        osc.stop(t + 0.1);
+      } else if (type === "ship") {
+        [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "triangle";
+          osc.frequency.setValueAtTime(freq, t + idx * 0.08);
+          gain.gain.setValueAtTime(0.04, t + idx * 0.08);
+          gain.gain.exponentialRampToValueAtTime(0.0001, t + idx * 0.08 + 0.25);
+          osc.connect(gain);
+          gain.connect(dest);
+          osc.start(t + idx * 0.08);
+          osc.stop(t + idx * 0.08 + 0.28);
+        });
+      } else if (type === "hit") {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sawtooth";
+        osc.frequency.setValueAtTime(140, t);
+        osc.frequency.linearRampToValueAtTime(60, t + 0.12);
+        gain.gain.setValueAtTime(0.04, t);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.14);
+        osc.connect(gain);
+        gain.connect(dest);
+        osc.start(t);
+        osc.stop(t + 0.15);
+      }
+    } catch (_) {}
+  };
+
+  // Upgrades Specification
+  const DEFAULT_UPGRADES = [
+    { id: "coffee", name: "Double Espresso", icon: "☕", baseCost: 15, cost: 15, count: 0, rate: 1, power: 0, desc: "+1 LOC/sec passive" },
+    { id: "keyboard", name: "Mechanical Switches", icon: "⌨️", baseCost: 60, cost: 60, count: 0, rate: 0, power: 3, desc: "+3 LOC/click power" },
+    { id: "duck", name: "Rubber Duck AI", icon: "🦆", baseCost: 200, cost: 200, count: 0, rate: 8, power: 0, desc: "+8 LOC/sec passive" },
+    { id: "cicd", name: "Automated CI/CD", icon: "🧪", baseCost: 800, cost: 800, count: 0, rate: 35, power: 0, desc: "+35 LOC/sec passive" },
+    { id: "gpu", name: "GPU Shader Cluster", icon: "⚡", baseCost: 3500, cost: 3500, count: 0, rate: 150, power: 0, desc: "+150 LOC/sec passive" },
+    { id: "copilot", name: "Autonomous AI Agent", icon: "🚀", baseCost: 15000, cost: 15000, count: 0, rate: 800, power: 0, desc: "+800 LOC/sec passive" }
+  ];
+
+  const MILESTONES = [
+    { title: "Release: v1.0.0 Alpha", req: 100, rank: "Intern", stars: 1 },
+    { title: "Release: v1.2.0 Beta", req: 600, rank: "Junior Dev", stars: 2 },
+    { title: "Release: v2.0.0 Stable", req: 3000, rank: "Mid-Level Engineer", stars: 3 },
+    { title: "Release: v3.0.0 Production", req: 15000, rank: "Senior Architect", stars: 5 },
+    { title: "Release: v4.0.0 Enterprise SaaS", req: 80000, rank: "Staff Engineer / VP", stars: 10 },
+    { title: "Release: v5.0.0 Tech Unicorn", req: 400000, rank: "Tech Titan / Founder", stars: 25 }
+  ];
+
+  // Game State
+  const state = {
+    loc: 0,
+    totalLocEarned: 0,
+    stars: 0,
+    milestoneIdx: 0,
+    upgrades: JSON.parse(JSON.stringify(DEFAULT_UPGRADES)),
+    lastSaveTime: Date.now()
+  };
+
+  // Load saved state
+  try {
+    const raw = localStorage.getItem("devloop_game_save_v1");
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (typeof parsed.loc === "number") state.loc = parsed.loc;
+      if (typeof parsed.totalLocEarned === "number") state.totalLocEarned = parsed.totalLocEarned;
+      if (typeof parsed.stars === "number") state.stars = parsed.stars;
+      if (typeof parsed.milestoneIdx === "number") state.milestoneIdx = parsed.milestoneIdx;
+      if (Array.isArray(parsed.upgrades)) {
+        parsed.upgrades.forEach(u => {
+          const match = state.upgrades.find(x => x.id === u.id);
+          if (match) {
+            match.count = u.count || 0;
+            match.cost = Math.round(match.baseCost * Math.pow(1.15, match.count));
+          }
+        });
+      }
+      // Calculate offline earnings (max 4 hours = 14400s)
+      if (parsed.lastSaveTime) {
+        const elapsedSec = Math.min(14400, Math.floor((Date.now() - parsed.lastSaveTime) / 1000));
+        if (elapsedSec > 5) {
+          const passiveRate = calcPassiveRate();
+          const offlineEarned = passiveRate * elapsedSec;
+          if (offlineEarned > 0) {
+            state.loc += offlineEarned;
+            state.totalLocEarned += offlineEarned;
+            setTimeout(() => {
+              if (typeof showPortfolioToast === "function") {
+                showPortfolioToast(`Welcome back! Earned +${Math.round(offlineEarned)} LOC while away 🚀`);
+              }
+            }, 1000);
+          }
+        }
+      }
+    }
+  } catch (_) {}
+
+  const saveGameState = () => {
+    try {
+      state.lastSaveTime = Date.now();
+      localStorage.setItem("devloop_game_save_v1", JSON.stringify(state));
+    } catch (_) {}
+  };
+
+  function calcClickPower() {
+    let power = 1;
+    state.upgrades.forEach(u => {
+      if (u.power) power += u.power * u.count;
+    });
+    const starMult = 1 + (state.stars * 0.2);
+    return Math.max(1, Math.round(power * starMult));
+  }
+
+  function calcPassiveRate() {
+    let rate = 0;
+    state.upgrades.forEach(u => {
+      if (u.rate) rate += u.rate * u.count;
+    });
+    const starMult = 1 + (state.stars * 0.2);
+    return Math.round(rate * starMult);
+  }
+
+  // UI Elements
+  const locDisplay = document.getElementById("gameLocDisplay");
+  const rateDisplay = document.getElementById("gameRateDisplay");
+  const starsDisplay = document.getElementById("gameStarsDisplay");
+  const rankDisplay = document.getElementById("gameRankDisplay");
+  const upgradeListEl = document.getElementById("upgradeList");
+  const bigHackBtn = document.getElementById("bigHackBtn");
+  const hackClickPowerText = document.getElementById("hackClickPowerText");
+  const stageCodeOutput = document.getElementById("stageCodeOutput");
+  const stageEventTicker = document.getElementById("stageEventTicker");
+  const milestoneTitle = document.getElementById("milestoneTitle");
+  const milestoneDesc = document.getElementById("milestoneDesc");
+  const gameShipBtn = document.getElementById("gameShipBtn");
+  const gameSoundToggleBtn = document.getElementById("gameSoundToggleBtn");
+  const gameCrtToggleBtn = document.getElementById("gameCrtToggleBtn");
+  const gameResetProgressBtn = document.getElementById("gameResetProgressBtn");
+  const gameModalCloseBtn = document.getElementById("gameModalCloseBtn");
+  const gameViewport = document.getElementById("gameViewport");
+
+  const updateHUD = () => {
+    if (locDisplay) locDisplay.textContent = Math.floor(state.loc).toLocaleString();
+    if (rateDisplay) rateDisplay.textContent = `+${calcPassiveRate().toLocaleString()} LOC/s`;
+    if (starsDisplay) starsDisplay.textContent = `⭐ ${state.stars}`;
+    
+    const curMilestone = MILESTONES[Math.min(state.milestoneIdx, MILESTONES.length - 1)];
+    if (rankDisplay) rankDisplay.textContent = curMilestone.rank;
+    if (hackClickPowerText) hackClickPowerText.textContent = `+${calcClickPower()} LOC per tap`;
+
+    // Milestone Card
+    if (milestoneTitle) milestoneTitle.textContent = curMilestone.title;
+    if (milestoneDesc) {
+      milestoneDesc.textContent = `Ship to production to earn +${curMilestone.stars} GitHub Stars ⭐ (+20% global boost each)`;
+    }
+    if (gameShipBtn) {
+      const ready = state.loc >= curMilestone.req;
+      gameShipBtn.disabled = !ready;
+      gameShipBtn.textContent = ready
+        ? `Ship to Production (+${curMilestone.stars} ⭐)`
+        : `Ship to Production (Requires ${curMilestone.req.toLocaleString()} LOC)`;
+    }
+
+    // Update upgrade buttons state
+    document.querySelectorAll(".upgrade-card").forEach(card => {
+      const id = card.dataset.id;
+      const u = state.upgrades.find(x => x.id === id);
+      if (u) {
+        const btn = card.querySelector(".upgrade-btn");
+        if (btn) btn.disabled = state.loc < u.cost;
+      }
+    });
+  };
+
+  const renderUpgrades = () => {
+    if (!upgradeListEl) return;
+    upgradeListEl.innerHTML = "";
+    state.upgrades.forEach(u => {
+      const card = document.createElement("div");
+      card.className = "upgrade-card";
+      card.dataset.id = u.id;
+      card.innerHTML = `
+        <div class="upgrade-info">
+          <span class="upgrade-icon">${u.icon}</span>
+          <div>
+            <span class="upgrade-name">${u.name} <span class="upgrade-owned">(${u.count} owned)</span></span>
+            <span class="upgrade-benefit">${u.desc}</span>
+          </div>
+        </div>
+        <button type="button" class="upgrade-btn" ${state.loc < u.cost ? "disabled" : ""}>
+          Buy (${u.cost.toLocaleString()} LOC)
+        </button>
+      `;
+      card.querySelector(".upgrade-btn")?.addEventListener("click", () => {
+        if (state.loc >= u.cost) {
+          state.loc -= u.cost;
+          u.count++;
+          u.cost = Math.round(u.baseCost * Math.pow(1.15, u.count));
+          playRetroGameSfx("coin");
+          renderUpgrades();
+          updateHUD();
+          saveGameState();
+          if (stageEventTicker) {
+            stageEventTicker.innerHTML = `<span class="ticker-prefix">[UPGRADE]</span> Acquired <b>${u.name}</b> (Tier ${u.count})!`;
+          }
+        }
+      });
+      upgradeListEl.appendChild(card);
+    });
+  };
+
+  // Hack Tap Button
+  const CODE_SNIPPETS = [
+    "function optimizePipeline(): boolean { return true; }",
+    "const cluster = new DistributedWorkerPool({ threads: 8 });",
+    "await db.transaction().commit(); // ACID guaranteed",
+    "gl.drawElements(gl.TRIANGLES, vertexCount, gl.UNSIGNED_SHORT, 0);",
+    "export const model = new ScamDetectorNeuralGraph();",
+    "res.status(200).json({ success: true, latency: '12ms' });",
+    "pub fn calculate_kinematics(joint: &Joint) -> Vector3 { ... }"
+  ];
+
+  bigHackBtn?.addEventListener("click", (e) => {
+    const power = calcClickPower();
+    state.loc += power;
+    state.totalLocEarned += power;
+    playRetroGameSfx("tap");
+
+    // Floating particle
+    const rect = bigHackBtn.getBoundingClientRect();
+    const particle = document.createElement("span");
+    particle.className = "floating-loc-particle";
+    particle.textContent = `+${power} LOC`;
+    const offsetX = (e.clientX || rect.left + rect.width / 2) - rect.left;
+    const offsetY = (e.clientY || rect.top + rect.height / 2) - rect.top;
+    particle.style.left = `${Math.max(10, Math.min(rect.width - 60, offsetX))}px`;
+    particle.style.top = `${offsetY}px`;
+    bigHackBtn.appendChild(particle);
+    setTimeout(() => particle.remove(), 800);
+
+    // Terminal line
+    if (stageCodeOutput) {
+      const line = document.createElement("p");
+      line.className = "stage-code-line";
+      line.textContent = `> ${CODE_SNIPPETS[Math.floor(Math.random() * CODE_SNIPPETS.length)]}`;
+      stageCodeOutput.appendChild(line);
+      if (stageCodeOutput.children.length > 5) {
+        stageCodeOutput.removeChild(stageCodeOutput.children[0]);
+      }
+    }
+
+    updateHUD();
+  });
+
+  // Ship Milestone Release
+  gameShipBtn?.addEventListener("click", () => {
+    const cur = MILESTONES[Math.min(state.milestoneIdx, MILESTONES.length - 1)];
+    if (state.loc >= cur.req) {
+      state.stars += cur.stars;
+      state.loc = 0; // Prestiged
+      if (state.milestoneIdx < MILESTONES.length - 1) {
+        state.milestoneIdx++;
+      }
+      playRetroGameSfx("ship");
+      if (typeof showPortfolioToast === "function") {
+        showPortfolioToast(`Shipped ${cur.title}! Earned +${cur.stars} Stars ⭐`);
+      }
+      if (stageEventTicker) {
+        stageEventTicker.innerHTML = `<span class="ticker-prefix">[RELEASE]</span> Successfully deployed <b>${cur.title}</b> to Production! ⭐`;
+      }
+      renderUpgrades();
+      updateHUD();
+      saveGameState();
+    }
+  });
+
+  // Header Actions
+  gameSoundToggleBtn?.addEventListener("click", () => {
+    gameAudioEnabled = !gameAudioEnabled;
+    gameSoundToggleBtn.textContent = gameAudioEnabled ? "🔊 Audio" : "🔇 Muted";
+    if (gameAudioEnabled) playRetroGameSfx("tap");
+  });
+
+  gameCrtToggleBtn?.addEventListener("click", () => {
+    if (gameViewport) {
+      gameViewport.classList.toggle("crt-scanlines");
+      const active = gameViewport.classList.contains("crt-scanlines");
+      gameCrtToggleBtn.textContent = active ? "📺 CRT: ON" : "📺 CRT: OFF";
+    }
+  });
+
+  gameResetProgressBtn?.addEventListener("click", () => {
+    if (confirm("Reset all DevLoop game progress and start fresh as an Intern?")) {
+      state.loc = 0;
+      state.totalLocEarned = 0;
+      state.stars = 0;
+      state.milestoneIdx = 0;
+      state.upgrades = JSON.parse(JSON.stringify(DEFAULT_UPGRADES));
+      localStorage.removeItem("devloop_game_save_v1");
+      renderUpgrades();
+      updateHUD();
+      if (typeof showPortfolioToast === "function") {
+        showPortfolioToast("Game reset to fresh clean workstation ↺");
+      }
+    }
+  });
+
+  // Mode Tabs Switching
+  const tabIdleBtn = document.getElementById("gameTabIdleBtn");
+  const tabArcadeBtn = document.getElementById("gameTabArcadeBtn");
+  const idleView = document.getElementById("gameIdleView");
+  const arcadeView = document.getElementById("gameArcadeView");
+
+  tabIdleBtn?.addEventListener("click", () => {
+    tabIdleBtn.classList.add("active");
+    tabArcadeBtn?.classList.remove("active");
+    idleView?.classList.add("active");
+    arcadeView?.classList.remove("active");
+    playRetroGameSfx("tap");
+  });
+
+  tabArcadeBtn?.addEventListener("click", () => {
+    tabArcadeBtn.classList.add("active");
+    tabIdleBtn?.classList.remove("active");
+    arcadeView?.classList.add("active");
+    idleView?.classList.remove("active");
+    playRetroGameSfx("tap");
+    resizeArcadeCanvas();
+  });
+
+  // ========================================================================
+  // Bug Smasher Arcade Game Engine
+  // ========================================================================
+  const arcadeCanvas = document.getElementById("arcadeCanvas");
+  const arcadeScoreEl = document.getElementById("arcadeScore");
+  const arcadeTimerEl = document.getElementById("arcadeTimer");
+  const arcadeHealthEl = document.getElementById("arcadeHealth");
+  const arcadeStartBtn = document.getElementById("arcadeStartBtn");
+  const arcadeOverlay = document.getElementById("arcadeOverlay");
+  const arcadeOverlayPlayBtn = document.getElementById("arcadeOverlayPlayBtn");
+  const arcadeOvlTitle = document.getElementById("arcadeOvlTitle");
+  const arcadeOvlDesc = document.getElementById("arcadeOvlDesc");
+
+  let arcadeRunning = false;
+  let arcadeAnimFrame = null;
+  let arcadeScore = 0;
+  let arcadeHealth = 100;
+  let arcadeTimeLeft = 45;
+  let arcadeInterval = null;
+  let bugs = [];
+  let particles = [];
+
+  const resizeArcadeCanvas = () => {
+    if (!arcadeCanvas) return;
+    const parentWidth = arcadeCanvas.parentElement?.clientWidth || 600;
+    arcadeCanvas.width = parentWidth;
+    arcadeCanvas.height = Math.min(360, Math.round(parentWidth * 0.58));
+  };
+  window.addEventListener("resize", resizeArcadeCanvas);
+
+  const BUG_TYPES = [
+    { label: "🐛", color: "#ef4444", radius: 16, speed: 1.6, pts: 10, loc: 5 },
+    { label: "👾", color: "#a855f7", radius: 18, speed: 2.2, pts: 25, loc: 15 },
+    { label: "⚡", color: "#f97316", radius: 15, speed: 2.8, pts: 50, loc: 35 },
+    { label: "🏆", color: "#eab308", radius: 20, speed: 3.5, pts: 100, loc: 150 }
+  ];
+
+  function spawnBug() {
+    if (!arcadeCanvas) return;
+    const type = Math.random() < 0.1 ? BUG_TYPES[3] : Math.random() < 0.25 ? BUG_TYPES[2] : Math.random() < 0.55 ? BUG_TYPES[1] : BUG_TYPES[0];
+    const x = Math.random() * (arcadeCanvas.width - 60) + 30;
+    bugs.push({
+      x,
+      y: -20,
+      radius: type.radius,
+      speed: type.speed + Math.random() * 0.6,
+      color: type.color,
+      label: type.label,
+      pts: type.pts,
+      loc: type.loc
+    });
+  }
+
+  function startArcadeGame() {
+    resizeArcadeCanvas();
+    arcadeRunning = true;
+    arcadeScore = 0;
+    arcadeHealth = 100;
+    arcadeTimeLeft = 45;
+    bugs = [];
+    particles = [];
+    if (arcadeOverlay) arcadeOverlay.classList.add("hidden");
+    if (arcadeScoreEl) arcadeScoreEl.textContent = "0";
+    if (arcadeHealthEl) arcadeHealthEl.textContent = "100%";
+    if (arcadeTimerEl) arcadeTimerEl.textContent = "45s";
+
+    playRetroGameSfx("ship");
+
+    clearInterval(arcadeInterval);
+    arcadeInterval = setInterval(() => {
+      arcadeTimeLeft--;
+      if (arcadeTimerEl) arcadeTimerEl.textContent = `${arcadeTimeLeft}s`;
+      if (arcadeTimeLeft <= 0) {
+        endArcadeGame(true);
+      }
+    }, 1000);
+
+    arcadeLoop();
+  }
+
+  function endArcadeGame(survived) {
+    arcadeRunning = false;
+    clearInterval(arcadeInterval);
+    cancelAnimationFrame(arcadeAnimFrame);
+
+    // Transfer scored LOC into idle bank!
+    const bonusLoc = Math.round(arcadeScore * 1.5);
+    state.loc += bonusLoc;
+    state.totalLocEarned += bonusLoc;
+    updateHUD();
+    saveGameState();
+
+    if (arcadeOverlay) {
+      arcadeOverlay.classList.remove("hidden");
+      if (arcadeOvlTitle) {
+        arcadeOvlTitle.textContent = survived ? "BUG RUN CLEARED! 🏆" : "FIREWALL BREACHED! 💥";
+      }
+      if (arcadeOvlDesc) {
+        arcadeOvlDesc.innerHTML = `Final Score: <b>${arcadeScore} pts</b><br>Bonus Transferred: <b style="color:var(--lime,#b8ff00);">+${bonusLoc} LOC</b> to your Idle Bank!`;
+      }
+      if (arcadeOverlayPlayBtn) arcadeOverlayPlayBtn.textContent = "PLAY AGAIN (45s)";
+    }
+  }
+
+  function arcadeLoop() {
+    if (!arcadeRunning || !arcadeCanvas) return;
+    const ctx = arcadeCanvas.getContext("2d");
+    if (!ctx) return;
+
+    // Clear
+    ctx.fillStyle = "#03060a";
+    ctx.fillRect(0, 0, arcadeCanvas.width, arcadeCanvas.height);
+
+    // Grid lines
+    ctx.strokeStyle = "rgba(184, 255, 0, 0.05)";
+    ctx.lineWidth = 1;
+    for (let x = 0; x < arcadeCanvas.width; x += 40) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, arcadeCanvas.height);
+      ctx.stroke();
+    }
+    for (let y = 0; y < arcadeCanvas.height; y += 40) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(arcadeCanvas.width, y);
+      ctx.stroke();
+    }
+
+    // Firewall line at bottom
+    ctx.strokeStyle = "rgba(184, 255, 0, 0.4)";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(0, arcadeCanvas.height - 10);
+    ctx.lineTo(arcadeCanvas.width, arcadeCanvas.height - 10);
+    ctx.stroke();
+
+    // Spawn bugs
+    if (Math.random() < 0.045 && bugs.length < 12) {
+      spawnBug();
+    }
+
+    // Update & draw bugs
+    for (let i = bugs.length - 1; i >= 0; i--) {
+      const b = bugs[i];
+      b.y += b.speed;
+
+      // Draw bug
+      ctx.font = `${b.radius * 1.5}px monospace`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(b.label, b.x, b.y);
+
+      // Hit firewall
+      if (b.y > arcadeCanvas.height - 15) {
+        bugs.splice(i, 1);
+        arcadeHealth = Math.max(0, arcadeHealth - 12);
+        if (arcadeHealthEl) arcadeHealthEl.textContent = `${arcadeHealth}%`;
+        playRetroGameSfx("hit");
+        if (arcadeHealth <= 0) {
+          endArcadeGame(false);
+          return;
+        }
+      }
+    }
+
+    // Update particles
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.life -= 0.04;
+      if (p.life <= 0) {
+        particles.splice(i, 1);
+      } else {
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = p.life;
+        ctx.fillRect(p.x, p.y, p.size, p.size);
+        ctx.globalAlpha = 1;
+      }
+    }
+
+    arcadeAnimFrame = requestAnimationFrame(arcadeLoop);
+  }
+
+  // Canvas click interaction to squash bugs
+  arcadeCanvas?.addEventListener("pointerdown", (e) => {
+    if (!arcadeRunning) return;
+    const rect = arcadeCanvas.getBoundingClientRect();
+    const clickX = (e.clientX - rect.left) * (arcadeCanvas.width / rect.width);
+    const clickY = (e.clientY - rect.top) * (arcadeCanvas.height / rect.height);
+
+    let hit = false;
+    for (let i = bugs.length - 1; i >= 0; i--) {
+      const b = bugs[i];
+      const dist = Math.hypot(clickX - b.x, clickY - b.y);
+      if (dist < b.radius * 1.6) {
+        hit = true;
+        arcadeScore += b.pts;
+        if (arcadeScoreEl) arcadeScoreEl.textContent = arcadeScore;
+        playRetroGameSfx("laser");
+
+        // Spawn particles
+        for (let p = 0; p < 12; p++) {
+          particles.push({
+            x: b.x,
+            y: b.y,
+            vx: (Math.random() - 0.5) * 6,
+            vy: (Math.random() - 0.5) * 6,
+            size: Math.random() * 4 + 2,
+            color: b.color,
+            life: 1.0
+          });
+        }
+
+        bugs.splice(i, 1);
+        break;
+      }
+    }
+
+    if (!hit) {
+      playRetroGameSfx("tap");
+    }
+  });
+
+  arcadeStartBtn?.addEventListener("click", startArcadeGame);
+  arcadeOverlayPlayBtn?.addEventListener("click", startArcadeGame);
+
+  // Periodic passive tick (every 1s)
+  setInterval(() => {
+    const rate = calcPassiveRate();
+    if (rate > 0) {
+      state.loc += rate;
+      state.totalLocEarned += rate;
+      updateHUD();
+    }
+  }, 1000);
+
+  // Background auto-save every 5s
+  setInterval(saveGameState, 5000);
+
+  // Initial render
+  renderUpgrades();
+  updateHUD();
+
+  // Modal Open & Close logic
+  openGameModal = () => {
+    if (!gameModal) return;
+    if (typeof playSound === "function") playSound("whoosh");
+    if (!gameModal.open) gameModal.showModal();
+    updateHUD();
+    renderUpgrades();
+  };
+
+  closeGameModal = () => {
+    if (!gameModal) return;
+    if (arcadeRunning) endArcadeGame(false);
+    saveGameState();
+    if (gameModal.open) gameModal.close();
+  };
+
+  gameModalCloseBtn?.addEventListener("click", closeGameModal);
+  gameModal.addEventListener("click", (e) => {
+    if (e.target === gameModal) closeGameModal();
+  });
+  gameModal.addEventListener("cancel", closeGameModal);
+
+  // Hook up Launchers
+  document.getElementById("openGameHeroBtn")?.addEventListener("click", openGameModal);
+  document.getElementById("footerGameBtn")?.addEventListener("click", openGameModal);
+  document.getElementById("navGameBtn")?.addEventListener("click", openGameModal);
+  document.getElementById("mobileDrawerGameBtn")?.addEventListener("click", () => {
+    if (typeof closeMobileDrawer === "function") closeMobileDrawer();
+    openGameModal();
+  });
+};
+
+// Global Hotkey 'G'
+window.addEventListener("keydown", (e) => {
+  if (e.key === "g" || e.key === "G") {
+    const active = document.activeElement;
+    const isInput = active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA" || active.isContentEditable);
+    if (!isInput && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      const gModal = document.getElementById("gameModal");
+      if (gModal && gModal.open) {
+        if (typeof closeGameModal === "function") closeGameModal();
+      } else {
+        if (typeof openGameModal === "function") openGameModal();
+      }
+    }
+  }
+});
+
+initDevLoopGame();
