@@ -145,6 +145,9 @@ assert(indexHtml.includes('data-cmd="cat developer.ts"') && indexHtml.includes('
 assert(indexHtml.includes('id="downloadContactCardBtn"') && scriptJs.includes('downloadVCard') && scriptJs.includes('BEGIN:VCARD'), 'index.html & script.js: RFC 6350 vCard (.vcf) Contact Card generation and 1-click download implemented');
 assert(indexHtml.includes('shortcuts-audio-section') && scriptJs.includes('audio-bench-btn') && fs.readFileSync('styles.css', 'utf8').includes('.audio-bench-btn'), 'index.html, styles.css & script.js: Keyboard Shortcuts cheatsheet acoustic soundboard audition panel implemented');
 assert(scriptJs.includes('vcard:') && scriptJs.includes('action === "download-vcard"'), 'script.js: Command palette and Terminal CLI vcard digital contact card export action implemented');
+assert(indexHtml.includes('hero-telemetry-badge') && fs.readFileSync('styles.css', 'utf8').includes('.hero-telemetry-badge'), 'index.html & styles.css: Hero telemetry overview badge implemented');
+assert(indexHtml.includes('id="terminalExportBtn"') && scriptJs.includes('exportTerminalSession') && fs.readFileSync('styles.css', 'utf8').includes('.terminal-action-btn'), 'index.html, script.js & styles.css: Terminal session log export system implemented');
+assert(scriptJs.includes('project-card-share-btn') && (indexHtml.match(/class="project-card-share-btn"/g) || []).length === 9, 'index.html & script.js: 1-click deep-link share buttons implemented on all 9 project cards');
 assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v22'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v22');
 
 // Test global script evaluation with mock DOM globals

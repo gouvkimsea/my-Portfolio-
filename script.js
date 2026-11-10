@@ -4577,6 +4577,40 @@ $$(".project-open").forEach(button => button.addEventListener("click", () => {
   if (card) openModal(card.dataset.project);
 }));
 
+$$(".project-card-share-btn").forEach(btn => {
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const card = btn.closest(".project-card");
+    const projId = card?.dataset?.project || "";
+    const projTitle = $(".project-title", card)?.textContent?.trim() || "Project";
+    const shareUrl = `${window.location.origin}${window.location.pathname}?project=${projId}`;
+
+    const onCopied = () => {
+      btn.classList.add("copied");
+      const icon = $(".share-icon", btn);
+      if (icon) icon.textContent = "✓";
+      if (typeof playSound === "function") playSound("chime");
+      if (typeof showPortfolioToast === "function") {
+        showPortfolioToast(`Copied direct link for ${projTitle}! 🔗`);
+      }
+      setTimeout(() => {
+        btn.classList.remove("copied");
+        if (icon) icon.textContent = "🔗";
+      }, 2000);
+    };
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(shareUrl).then(onCopied).catch(() => {
+        fallbackCopy(shareUrl);
+        onCopied();
+      });
+    } else {
+      fallbackCopy(shareUrl);
+      onCopied();
+    }
+  });
+});
+
 $("#openPinitScannerBtn")?.addEventListener("click", () => {
   openModal("pinit");
   setTimeout(() => {
@@ -4666,7 +4700,7 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>cat [file]</b>, <b>curl</b>, <b>history</b>, <b>vcard</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>bench</b>, <b>timeline</b>, <b>architecture</b>, <b>ping</b>, <b>matrix</b>, <b>git</b>, <b>nav [section]</b>, <b>shortcuts</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>cat [file]</b>, <b>curl</b>, <b>history</b>, <b>export</b>, <b>vcard</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>bench</b>, <b>timeline</b>, <b>architecture</b>, <b>ping</b>, <b>matrix</b>, <b>git</b>, <b>nav [section]</b>, <b>shortcuts</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
   matrix: () => {
     const terminalBody = $(".terminal-body");
     if (!terminalBody) return "Terminal stream window not accessible.";
@@ -5117,6 +5151,12 @@ cache-control: max-age=600
     return "Generated and downloaded Gouv Kimsea digital Contact Card (.vcf) 📇";
   },
   contactcard: () => terminalCommands.vcard(),
+  export: () => {
+    if (typeof exportTerminalSession === "function") exportTerminalSession();
+    return "Exported interactive terminal session log (gouv-terminal-session.txt) 📥";
+  },
+  dump: () => terminalCommands.export(),
+  log: () => terminalCommands.export(),
   "cat developer.ts": () => terminalCommands.cat("developer.ts"),
   "cat about-me.js": () => terminalCommands.cat("developer.ts")
 };
@@ -5280,7 +5320,7 @@ terminalInput?.addEventListener("keydown", event => {
     if (current) {
       const allCmds = Array.from(new Set([
         ...Object.keys(terminalCommands),
-        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history"
+        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export"
       ]));
       const prefix = lastTabPrefix || current;
       const matches = allCmds.filter(k => k.startsWith(prefix));
@@ -5330,6 +5370,36 @@ termDotGreen?.addEventListener("click", () => {
       dot.click();
     }
   });
+});
+
+// Terminal Session Log Exporter
+const exportTerminalSession = () => {
+  const termOutput = document.getElementById("terminalOutput");
+  const rawText = termOutput ? termOutput.innerText : "";
+  const header = [
+    "================================================================",
+    "GOUV KIMSEA — INTERACTIVE TERMINAL SESSION LOG",
+    `Timestamp: ${new Date().toISOString()}`,
+    "Portfolio: https://gouvkimsea.github.io/my-Portfolio-/",
+    "Command History: " + (commandHistory.length > 0 ? commandHistory.join(" | ") : "none"),
+    "================================================================\n"
+  ].join("\n");
+  const blob = new Blob([header + "\n" + rawText], { type: "text/plain;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "gouv-terminal-session.txt";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+  if (typeof playSound === "function") playSound("chime");
+  if (typeof showPortfolioToast === "function") {
+    showPortfolioToast("Exported terminal session log! 📥");
+  }
+};
+
+$("#terminalExportBtn")?.addEventListener("click", () => {
+  exportTerminalSession();
 });
 
 // 9. Contact Form Real-time Validation & Interactive Feedback

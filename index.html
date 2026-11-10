@@ -335,6 +335,15 @@
               aria-haspopup="dialog">Resume / CV <span class="hero-btn-icon">↗</span></button>
             <a class="text-link magnetic" href="#contact">Contact me <span class="hero-link-arrow">↗</span></a>
           </div>
+          <div class="hero-telemetry-badge" role="status" aria-label="Portfolio overview telemetry">
+            <span class="telemetry-chip"><span class="telemetry-dot"></span> Available for Roles</span>
+            <span class="telemetry-divider" aria-hidden="true">·</span>
+            <span class="telemetry-metric">9 Interactive Works</span>
+            <span class="telemetry-divider" aria-hidden="true">·</span>
+            <span class="telemetry-metric">Pure WebGL 2.0</span>
+            <span class="telemetry-divider" aria-hidden="true">·</span>
+            <span class="telemetry-metric">Dual Degree CS + BBA</span>
+          </div>
           <div class="scroll-cue"><span class="scroll-line"></span> Scroll to explore</div>
         </div>
         <div class="hero-visual reveal" id="heroVisual" aria-label="Interactive developer workspace illustration">
@@ -593,6 +602,11 @@
             <div class="terminal-bar">
               <span class="wb-dot wb-red" role="button" tabindex="0" title="Clear terminal" aria-label="Clear terminal"></span><span class="wb-dot wb-yellow" role="button" tabindex="0" title="Reset terminal" aria-label="Reset terminal"></span><span class="wb-dot wb-green" role="button" tabindex="0" title="Launch Matrix stream" aria-label="Launch Matrix stream"></span>
               <span class="terminal-title">gouv@macbook:~</span>
+              <div class="terminal-bar-actions">
+                <button type="button" class="terminal-action-btn" id="terminalExportBtn" title="Export session log" aria-label="Export terminal session log">
+                  <span class="term-action-icon" aria-hidden="true">📥</span> <span class="term-action-label">Export</span>
+                </button>
+              </div>
             </div>
             <div class="terminal-output" id="terminalOutput">
               <p class="term-msg">Welcome. Type <strong class="term-bold">help</strong> to see what I can do.</p>
@@ -620,6 +634,7 @@
               <button type="button" class="terminal-chip" data-cmd="resume">resume</button>
               <button type="button" class="terminal-chip" data-cmd="contact">contact</button>
               <button type="button" class="terminal-chip" data-cmd="theme">theme</button>
+              <button type="button" class="terminal-chip" data-cmd="export">export</button>
               <button type="button" class="terminal-chip" data-cmd="clear">clear</button>
             </div>
           </div>
@@ -791,6 +806,7 @@
               <span class="project-card-num">01 / 09</span>
               <span class="project-card-domain">AI &amp; CYBER SECURITY</span>
               <span class="project-card-badge"><span class="badge-dot"></span> OPEN SOURCE</span>
+              <button type="button" class="project-card-share-btn" title="Copy direct link to PinitAI" aria-label="Copy direct link to PinitAI"><span class="share-icon" aria-hidden="true">🔗</span></button>
             </div>
             <div class="project-preview pinit-preview">
               <div class="preview-browser-bar"><span class="pdot"></span><span class="pdot"></span><span
@@ -835,6 +851,7 @@
               <span class="project-card-num">02 / 09</span>
               <span class="project-card-domain">3D GRAPHICS &amp; WEBGL</span>
               <span class="project-card-badge"><span class="badge-dot"></span> LIVE 3D DEMO</span>
+              <button type="button" class="project-card-share-btn" title="Copy direct link to Mini World" aria-label="Copy direct link to Mini World"><span class="share-icon" aria-hidden="true">🔗</span></button>
             </div>
             <div class="project-preview miniworld-preview">
               <div class="preview-browser-bar"><span class="pdot"></span><span class="pdot"></span><span
@@ -878,6 +895,7 @@
               <span class="project-card-num">03 / 09</span>
               <span class="project-card-domain">FLEET OPS &amp; FINTECH</span>
               <span class="project-card-badge"><span class="badge-dot"></span> 197 TESTS PASSING</span>
+              <button type="button" class="project-card-share-btn" title="Copy direct link to JOUL Rental Service" aria-label="Copy direct link to JOUL Rental Service"><span class="share-icon" aria-hidden="true">🔗</span></button>
             </div>
             <div class="project-preview joul-preview">
               <div class="preview-browser-bar"><span class="pdot"></span><span class="pdot"></span><span
@@ -930,6 +948,7 @@
               <span class="project-card-num">04 / 09</span>
               <span class="project-card-domain">EDTECH &amp; AI MONOREPO</span>
               <span class="project-card-badge"><span class="badge-dot"></span> LEARNING PLATFORM</span>
+              <button type="button" class="project-card-share-btn" title="Copy direct link to Chinese Learning Platform" aria-label="Copy direct link to Chinese Learning Platform"><span class="share-icon" aria-hidden="true">🔗</span></button>
             </div>
             <div class="project-preview clp-preview">
               <div class="preview-browser-bar"><span class="pdot"></span><span class="pdot"></span><span
@@ -980,6 +999,7 @@
               <span class="project-card-num">05 / 09</span>
               <span class="project-card-domain">SCIENTIFIC SIMULATION &amp; 3D</span>
               <span class="project-card-badge"><span class="badge-dot"></span> 3D CAD &amp; HYDRAULICS</span>
+              <button type="button" class="project-card-share-btn" title="Copy direct link to Aquarium Filter Sim" aria-label="Copy direct link to Aquarium Filter Sim"><span class="share-icon" aria-hidden="true">🔗</span></button>
             </div>
             <div class="project-preview aquarium-preview">
               <div class="preview-browser-bar"><span class="pdot"></span><span class="pdot"></span><span
@@ -1035,6 +1055,7 @@
               <span class="project-card-num">06 / 09</span>
               <span class="project-card-domain">COMPUTER VISION &amp; SPATIAL AI</span>
               <span class="project-card-badge"><span class="badge-dot"></span> PYTHON APP</span>
+              <button type="button" class="project-card-share-btn" title="Copy direct link to Gesture App" aria-label="Copy direct link to Gesture App"><span class="share-icon" aria-hidden="true">🔗</span></button>
             </div>
             <div class="project-preview gesture-preview">
               <div class="preview-browser-bar"><span class="pdot"></span><span class="pdot"></span><span
@@ -1084,6 +1105,7 @@
               <span class="project-card-num">07 / 09</span>
               <span class="project-card-domain">ENTERPRISE SAAS &amp; POS</span>
               <span class="project-card-badge"><span class="badge-dot"></span> BUSINESS SYSTEMS</span>
+              <button type="button" class="project-card-share-btn" title="Copy direct link to Productivity SaaS &amp; POS Systems" aria-label="Copy direct link to Productivity SaaS &amp; POS Systems"><span class="share-icon" aria-hidden="true">🔗</span></button>
             </div>
             <div class="project-preview saas-preview">
               <div class="preview-browser-bar"><span class="pdot"></span><span class="pdot"></span><span
@@ -1135,6 +1157,7 @@
               <span class="project-card-num">08 / 09</span>
               <span class="project-card-domain">DEV TELEMETRY &amp; METRICS</span>
               <span class="project-card-badge"><span class="badge-dot"></span> CONCEPT</span>
+              <button type="button" class="project-card-share-btn" title="Copy direct link to DevPulse" aria-label="Copy direct link to DevPulse"><span class="share-icon" aria-hidden="true">🔗</span></button>
             </div>
             <div class="project-preview devpulse-preview">
               <div class="preview-browser-bar"><span class="pdot"></span><span class="pdot"></span><span
@@ -1177,6 +1200,7 @@
               <span class="project-card-num">09 / 09</span>
               <span class="project-card-domain">CREATIVE TECH &amp; PLATFORM</span>
               <span class="project-card-badge"><span class="badge-dot"></span> LIVE WEBSITE</span>
+              <button type="button" class="project-card-share-btn" title="Copy direct link to This portfolio" aria-label="Copy direct link to This portfolio"><span class="share-icon" aria-hidden="true">🔗</span></button>
             </div>
             <div class="project-preview portfolio-preview">
               <div class="preview-browser-bar"><span class="pdot"></span><span class="pdot"></span><span
@@ -1323,7 +1347,7 @@
             </div>
             <div class="achieve-footer">
               <span class="achieve-metric">Zero Heavy 3D Engines</span>
-              <a class="achieve-link" href="miniworld.html" target="_blank" rel="noopener">Launch 3D ↗</a>
+              <a class="achieve-link" href="miniworld.html" target="_blank" rel="noopener noreferrer">Launch 3D ↗</a>
             </div>
           </article>
 

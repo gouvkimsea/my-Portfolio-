@@ -13294,3 +13294,179 @@ mark.project-search-match {
   color: #15803d;
   box-shadow: 0 4px 12px rgba(21, 128, 61, 0.12);
 }
+
+/* ==========================================================================
+   Phase 16: Hero Telemetry Badge, Terminal Export, and Card Deep-Link Share
+   ========================================================================== */
+.hero-telemetry-badge {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 6px 14px;
+  margin-top: 1.25rem;
+  background: rgba(15, 17, 19, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  color: var(--text-muted, #94a3b8);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  width: fit-content;
+}
+
+.hero-telemetry-badge .telemetry-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--lime, #b8ff00);
+  font-weight: 600;
+}
+
+.hero-telemetry-badge .telemetry-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--lime, #b8ff00);
+  box-shadow: 0 0 8px var(--lime, #b8ff00);
+  animation: pulse-telemetry 2s infinite ease-in-out;
+}
+
+@keyframes pulse-telemetry {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.6;
+  }
+}
+
+.hero-telemetry-badge .telemetry-divider {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.hero-telemetry-badge .telemetry-metric {
+  color: #e2e8f0;
+}
+
+[data-theme="light"] .hero-telemetry-badge {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .hero-telemetry-badge .telemetry-chip {
+  color: #15803d;
+}
+
+[data-theme="light"] .hero-telemetry-badge .telemetry-dot {
+  background: #16a34a;
+  box-shadow: 0 0 6px rgba(22, 163, 74, 0.6);
+}
+
+[data-theme="light"] .hero-telemetry-badge .telemetry-divider {
+  color: rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="light"] .hero-telemetry-badge .telemetry-metric {
+  color: #334155;
+}
+
+.terminal-bar-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.terminal-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #a1a1aa;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.terminal-action-btn:hover {
+  background: rgba(184, 255, 0, 0.12);
+  border-color: var(--lime, #b8ff00);
+  color: var(--lime, #b8ff00);
+  transform: translateY(-1px);
+}
+
+.terminal-action-btn:active {
+  transform: scale(0.95);
+}
+
+[data-theme="light"] .terminal-action-btn {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.12);
+  color: #4b5563;
+}
+
+[data-theme="light"] .terminal-action-btn:hover {
+  background: rgba(21, 128, 61, 0.08);
+  border-color: #15803d;
+  color: #15803d;
+}
+
+.project-card-share-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--muted, #94a3b8);
+  font-size: 11px;
+  cursor: pointer;
+  padding: 0;
+  margin-left: auto;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.project-card-share-btn:hover {
+  background: rgba(184, 255, 0, 0.15);
+  border-color: var(--lime, #b8ff00);
+  color: var(--lime, #b8ff00);
+  transform: scale(1.12);
+}
+
+.project-card-share-btn.copied {
+  background: var(--lime, #b8ff00);
+  color: #0c0d0e;
+  border-color: var(--lime, #b8ff00);
+}
+
+[data-theme="light"] .project-card-share-btn {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: #64748b;
+}
+
+[data-theme="light"] .project-card-share-btn:hover {
+  background: rgba(21, 128, 61, 0.12);
+  border-color: #15803d;
+  color: #15803d;
+}
+
+[data-theme="light"] .project-card-share-btn.copied {
+  background: #15803d;
+  color: #ffffff;
+  border-color: #15803d;
+}
