@@ -794,6 +794,12 @@ cmdKResults?.addEventListener("click", e => {
     }, 200);
   } else if (action === "open-game") {
     if (typeof openGameModal === "function") openGameModal();
+  } else if (action === "open-telemetry") {
+    if (typeof openTelemetryModal === "function") openTelemetryModal();
+  } else if (action === "download-resume-md") {
+    if (typeof downloadMarkdownResume === "function") downloadMarkdownResume();
+  } else if (action === "copy-resume-text") {
+    if (typeof copyPlaintextResume === "function") copyPlaintextResume();
   } else if (action === "open-synth") {
     const sModal = document.getElementById("shortcutsModal");
     if (sModal && !sModal.open) {
@@ -4706,6 +4712,70 @@ $("#resumeContactBtn")?.addEventListener("click", () => openResumeModal());
 $("#resumeCloseBtn")?.addEventListener("click", closeResumeModal);
 $("#resumeFooterClose")?.addEventListener("click", closeResumeModal);
 $("#resumePrintBtn")?.addEventListener("click", () => window.print());
+
+const getMarkdownResume = () => {
+  return `# Gouv Kimsea
+**Student Developer & Product Builder**
+Phnom Penh, Cambodia | gouvkimsea@gmail.com | [GitHub](https://github.com/gouvkimsea) | [LinkedIn](https://www.linkedin.com/in/gouv-kimsea-16795143a)
+
+---
+
+## Profile & Focus
+Passionate university student and developer focused on modern web applications, AI-assisted tools, and thoughtful digital interfaces. Dedicated to rapid prototyping, writing clean code, and shipping real products.
+
+## Education
+- **Bachelor of Science in Computer Science**
+  *Paragon International University* (2024 – Present)
+  Coursework: Object-Oriented Programming (C++), Data Structures & Algorithms, Computer Networks, Systems Engineering.
+- **Bachelor of Business Administration (BBA)**
+  *Bonamary University* (2024 – Present)
+  Focus: Business Strategy, Finance, Entrepreneurship, Project Operations.
+
+## Core Technical Skills
+- **Languages:** TypeScript, JavaScript (ES6+), C++, HTML5, CSS3, SQL, Python
+- **Frameworks & Libraries:** NestJS, Next.js, React, Node.js, Express, Tailwind CSS, Three.js / WebGL
+- **Databases & Tools:** PostgreSQL, MongoDB, Redis, Docker, Git / GitHub, Postman, Linux / Bash
+- **Specializations:** Spaced Repetition (SM-2 SRS), Real-Time WebGL Graphics, Procedural Audio Synthesis, REST APIs
+
+## Selected Projects
+1. **PinIt** — Modern Pinterest-style visual discovery and curation platform built with TypeScript, NestJS, and PostgreSQL.
+2. **JOUL Rental** — Full-stack electric vehicle and fleet rental platform with booking workflows and dynamic pricing.
+3. **Chinese Learning Platform (CLP)** — Spaced repetition vocabulary learning engine implementing the SM-2 algorithm with interactive flashcard drills.
+4. **Mini World 3D** — Real-time interactive procedural planet visualizer rendered in pure WebGL and GLSL shaders.
+5. **Interactive Audio Visualizer** — Real-time Web Audio procedural frequency visualizer and acoustic synthesizer.
+
+---
+*Generated via [Gouv Kimsea Portfolio](https://gouvkimsea.github.io/my-Portfolio-/)*
+`;
+};
+
+const downloadMarkdownResume = () => {
+  const content = getMarkdownResume();
+  const blob = new Blob([content], { type: "text/markdown;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "gouv-kimsea-resume.md";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  if (typeof playSound === "function") playSound("chime");
+  if (typeof showToast === "function") showToast("Downloaded Markdown CV (gouv-kimsea-resume.md) 📥", "success");
+};
+
+const copyPlaintextResume = () => {
+  const content = getMarkdownResume();
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(content).then(() => {
+      if (typeof playSound === "function") playSound("chime");
+      if (typeof showToast === "function") showToast("Copied Markdown resume to clipboard! 📋", "success");
+    });
+  }
+};
+
+$("#resumeDownloadMdBtn")?.addEventListener("click", downloadMarkdownResume);
+$("#resumeCopyTextBtn")?.addEventListener("click", copyPlaintextResume);
 $$(".resume-view-btn, .edu-view-btn").forEach(btn => {
   btn.addEventListener("click", () => openResumeModal("#resumeEduSection"));
 });
@@ -4721,7 +4791,7 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>cat [file]</b>, <b>curl</b>, <b>history</b>, <b>export</b>, <b>vcard</b>, <b>game</b>, <b>arcade</b>, <b>accent [theme]</b>, <b>synth [demo]</b>, <b>piano</b>, <b>time</b>, <b>volume [0-100]</b>, <b>demo [project]</b>, <b>cite [project]</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>bench</b>, <b>timeline</b>, <b>architecture</b>, <b>ping</b>, <b>matrix</b>, <b>git</b>, <b>nav [section]</b>, <b>shortcuts</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>cat [file]</b>, <b>curl</b>, <b>history</b>, <b>export</b>, <b>vcard</b>, <b>game</b>, <b>arcade</b>, <b>accent [theme]</b>, <b>synth [demo]</b>, <b>piano</b>, <b>telemetry</b>, <b>diag</b>, <b>perf</b>, <b>sysinfo</b>, <b>time</b>, <b>volume [0-100]</b>, <b>demo [project]</b>, <b>cite [project]</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>bench</b>, <b>timeline</b>, <b>architecture</b>, <b>ping</b>, <b>matrix</b>, <b>git</b>, <b>nav [section]</b>, <b>shortcuts</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume [md|text]</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
   matrix: () => {
     const terminalBody = $(".terminal-body");
     if (!terminalBody) return "Terminal stream window not accessible.";
@@ -4997,14 +5067,20 @@ Engineering Stats (2026):
 • Primary Stack: TypeScript, NestJS, Next.js, Prisma, PHP 8 / MySQL, C++, Python, WebGL/GLSL
 • Status: Active Development & Open to Opportunities</pre>`;
   },
-  resume: () => {
+  resume: (arg) => {
+    const clean = (arg || "").trim().toLowerCase();
+    if (clean === "md" || clean === "--md" || clean === "download") {
+      if (typeof downloadMarkdownResume === "function") downloadMarkdownResume();
+      return "Downloaded Markdown CV (gouv-kimsea-resume.md) 📥";
+    }
+    if (clean === "text" || clean === "copy" || clean === "plain") {
+      if (typeof copyPlaintextResume === "function") copyPlaintextResume();
+      return "Copied plaintext Markdown CV to clipboard! 📋";
+    }
     openResumeModal();
-    return "Opening Curriculum Vitae (CV) modal...";
+    return "Opening Curriculum Vitae (CV) modal... (Tip: try 'resume md' or 'resume text')";
   },
-  cv: () => {
-    openResumeModal();
-    return "Opening Curriculum Vitae (CV) modal...";
-  },
+  cv: (arg) => terminalCommands.resume(arg),
   theme: () => {
     const next = toggleTheme();
     return `Theme switched to <b>${next}</b> mode.`;
@@ -5230,6 +5306,23 @@ Available:      <b>accent lime</b> (Signature Neon Lime & Orange)
     return "Opened Cyber Piano Synthesizer in Acoustic Lab 🎹 (Use keys A–K to play)";
   },
   piano: (arg) => terminalCommands.synth(arg),
+  telemetry: () => {
+    if (typeof openTelemetryModal === "function") openTelemetryModal();
+    const domCount = document.getElementsByTagName("*").length;
+    const cores = navigator.hardwareConcurrency || 4;
+    return `<pre class="term-pre" style="margin:4px 0;font-size:11px;line-height:1.45;">⚡ <b>Live Cyber Engine Telemetry &amp; Hardware Diagnostics</b>
+--------------------------------------------------------
+Rendering:        HTML5 2D Canvas / WebGL 2.0 / Web Audio
+DOM Tree:         <b>${domCount}</b> semantic nodes
+Logical Cores:    <b>${cores}</b> Threads (hardwareConcurrency)
+Display:          <b>${window.innerWidth}x${window.innerHeight}</b> (${window.devicePixelRatio || 1}x DPR)
+Audio Engine:     Active (${Math.round((typeof sfxVolume !== "undefined" ? sfxVolume : 0.8) * 100)}% Gain)
+PWA Cache:        <b>kimsea-pwa-v27</b> (Stale-While-Revalidate)
+Status:           Modal HUD Launched ⚡</pre>`;
+  },
+  diag: () => terminalCommands.telemetry(),
+  perf: () => terminalCommands.telemetry(),
+  sysinfo: () => terminalCommands.telemetry(),
   time: () => {
     const now = new Date();
     const options = { timeZone: "Asia/Phnom_Penh", hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit", weekday: "short", year: "numeric", month: "short", day: "numeric" };
@@ -5346,6 +5439,10 @@ const executeCommand = rawCommand => {
     response = terminalCommands.accent(rest);
   } else if ((primary === "synth" || primary === "piano") && typeof terminalCommands.synth === "function") {
     response = terminalCommands.synth(rest);
+  } else if ((primary === "telemetry" || primary === "diag" || primary === "perf" || primary === "sysinfo") && typeof terminalCommands.telemetry === "function") {
+    response = terminalCommands.telemetry();
+  } else if (primary === "resume" && typeof terminalCommands.resume === "function") {
+    response = terminalCommands.resume(rest);
   } else if ((primary === "sound" || primary === "sfx") && rest) {
     const sub = rest.toLowerCase();
     if (sub === "on") {
@@ -5465,7 +5562,7 @@ terminalInput?.addEventListener("keydown", event => {
     if (current) {
       const allCmds = Array.from(new Set([
         ...Object.keys(terminalCommands),
-        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade", "accent", "synth", "piano"
+        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade", "accent", "synth", "piano", "telemetry", "diag", "perf", "sysinfo"
       ]));
       const prefix = lastTabPrefix || current;
       const matches = allCmds.filter(k => k.startsWith(prefix));
@@ -7885,3 +7982,197 @@ const initCyberSynthesizer = () => {
 
 initAccentThemes();
 initCyberSynthesizer();
+
+// ==========================================================================
+// Phase 21: Real-Time Cyber Telemetry & Engine Diagnostics Monitor
+// ==========================================================================
+
+let openTelemetryModal = null;
+let closeTelemetryModal = null;
+
+const initCyberTelemetry = () => {
+  const modal = document.getElementById("telemetryModal");
+  if (!modal) return;
+
+  const fpsValue = document.getElementById("telemetryFpsValue");
+  const fpsCanvas = document.getElementById("telemetryFpsCanvas");
+  const hudVal = document.getElementById("hudTelemetryVal");
+  const domCountEl = document.getElementById("telemetryDomCount");
+  const coresEl = document.getElementById("telemetryCoresValue");
+  const screenEl = document.getElementById("telemetryScreenValue");
+  const networkEl = document.getElementById("telemetryNetworkValue");
+  const pingEl = document.getElementById("telemetryPingValue");
+  const audioEl = document.getElementById("telemetryAudioValue");
+  const audioSubEl = document.getElementById("telemetryAudioSub");
+  const pwaEl = document.getElementById("telemetryPwaValue");
+  const benchmarkBtn = document.getElementById("telemetryRunBenchmarkBtn");
+  const benchmarkResult = document.getElementById("telemetryBenchmarkResult");
+
+  let fpsFrames = [];
+  let lastFrameTime = performance.now();
+  let rafId = null;
+  const fpsHistory = new Array(40).fill(60);
+
+  const renderFpsGraph = () => {
+    if (!fpsCanvas) return;
+    const ctx = fpsCanvas.getContext("2d");
+    if (!ctx) return;
+    const w = fpsCanvas.width;
+    const h = fpsCanvas.height;
+    ctx.clearRect(0, 0, w, h);
+
+    // Draw baseline grid lines
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(0, h * 0.5);
+    ctx.lineTo(w, h * 0.5);
+    ctx.stroke();
+
+    // Draw sparkline
+    ctx.strokeStyle = "#e7f26d";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    const step = w / (fpsHistory.length - 1);
+    fpsHistory.forEach((val, i) => {
+      const y = h - (val / 80) * h;
+      if (i === 0) ctx.moveTo(0, y);
+      else ctx.lineTo(i * step, y);
+    });
+    ctx.stroke();
+
+    // Glow line
+    ctx.strokeStyle = "rgba(231, 242, 109, 0.3)";
+    ctx.lineWidth = 4;
+    ctx.stroke();
+  };
+
+  const updateTelemetryMetrics = () => {
+    if (domCountEl) {
+      domCountEl.textContent = `${document.getElementsByTagName("*").length} nodes`;
+    }
+    if (coresEl) {
+      coresEl.textContent = `${navigator.hardwareConcurrency || 4} Threads`;
+    }
+    if (screenEl) {
+      screenEl.textContent = `${window.innerWidth}×${window.innerHeight} (${(window.devicePixelRatio || 1).toFixed(1)}x DPR)`;
+    }
+    if (networkEl) {
+      const isOnline = navigator.onLine;
+      networkEl.textContent = isOnline ? "Online" : "Offline";
+      networkEl.style.color = isOnline ? "var(--lime)" : "#ef4444";
+    }
+    if (pingEl) {
+      const conn = navigator.connection;
+      const type = conn && conn.effectiveType ? conn.effectiveType.toUpperCase() : "LAN/WIFI";
+      const rtt = conn && conn.rtt ? `${conn.rtt}ms RTT` : "Low Latency (<15ms)";
+      pingEl.textContent = `${type} · ${rtt}`;
+    }
+    if (audioEl) {
+      audioEl.textContent = "Web Audio API";
+    }
+    if (audioSubEl) {
+      const vol = typeof sfxVolume !== "undefined" ? Math.round(sfxVolume * 100) : 80;
+      audioSubEl.textContent = `48000 Hz · Master Gain ${vol}%`;
+    }
+    if (pwaEl) {
+      pwaEl.textContent = "kimsea-pwa-v27";
+    }
+  };
+
+  const measureFpsLoop = (now) => {
+    const delta = now - lastFrameTime;
+    lastFrameTime = now;
+    if (delta > 0) {
+      const currentFps = Math.min(60, Math.round(1000 / delta));
+      fpsFrames.push(currentFps);
+      if (fpsFrames.length > 5) {
+        const avg = Math.round(fpsFrames.reduce((a, b) => a + b, 0) / fpsFrames.length);
+        fpsFrames = [];
+        if (fpsValue) fpsValue.textContent = avg.toString();
+        if (hudVal) hudVal.innerHTML = `<span class="clock-live-dot"></span> ${avg} FPS · Pure WebGL 2.0`;
+        fpsHistory.push(avg);
+        if (fpsHistory.length > 40) fpsHistory.shift();
+        renderFpsGraph();
+      }
+    }
+    if (modal.open) {
+      rafId = requestAnimationFrame(measureFpsLoop);
+    }
+  };
+
+  openTelemetryModal = () => {
+    if (typeof playSound === "function") playSound("whoosh");
+    if (!modal.open) modal.showModal();
+    updateTelemetryMetrics();
+    lastFrameTime = performance.now();
+    fpsFrames = [];
+    cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(measureFpsLoop);
+  };
+
+  closeTelemetryModal = () => {
+    cancelAnimationFrame(rafId);
+    if (modal.open) modal.close();
+  };
+
+  document.getElementById("telemetryModalCloseBtn")?.addEventListener("click", closeTelemetryModal);
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeTelemetryModal();
+  });
+  modal.addEventListener("cancel", closeTelemetryModal);
+
+  // Hook up Launchers
+  document.getElementById("heroTelemetryBtn")?.addEventListener("click", openTelemetryModal);
+  document.getElementById("heroTelemetryBtn")?.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      openTelemetryModal();
+    }
+  });
+  document.getElementById("hudTelemetryBtn")?.addEventListener("click", openTelemetryModal);
+  document.getElementById("footerTelemetryBtn")?.addEventListener("click", openTelemetryModal);
+
+  // In-Browser Benchmark Stress Test
+  benchmarkBtn?.addEventListener("click", () => {
+    if (benchmarkResult) {
+      benchmarkResult.textContent = "Benchmarking 100K iterations...";
+      benchmarkResult.style.color = "var(--orange)";
+    }
+    if (typeof playSound === "function") playSound("click");
+
+    setTimeout(() => {
+      const start = performance.now();
+      let acc = 0;
+      for (let i = 0; i < 100000; i++) {
+        acc += Math.hypot(Math.sin(i), Math.cos(i));
+      }
+      const dummyArr = Array.from({ length: 5000 }, (_, i) => ({ id: i, name: `dev_${i}` }));
+      const jsonStr = JSON.stringify(dummyArr);
+      JSON.parse(jsonStr);
+      const elapsed = (performance.now() - start).toFixed(2);
+      const score = Math.max(100, Math.round(100000 / (parseFloat(elapsed) + 1)));
+
+      if (benchmarkResult) {
+        benchmarkResult.textContent = `Score: ${score.toLocaleString()} · ${elapsed}ms (Optimal)`;
+        benchmarkResult.style.color = "var(--lime)";
+      }
+      if (typeof playSound === "function") playSound("chime");
+      if (typeof showToast === "function") showToast(`Cyber Benchmark Score: ${score.toLocaleString()} pts (${elapsed}ms)`, "success");
+    }, 50);
+  });
+
+  // Global hotkey 'D' / 'd'
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "d" || e.key === "D") {
+      const active = document.activeElement;
+      const isInput = active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA" || active.tagName === "SELECT" || active.isContentEditable);
+      if (!isInput && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        if (modal.open) closeTelemetryModal();
+        else openTelemetryModal();
+      }
+    }
+  });
+};
+
+initCyberTelemetry();

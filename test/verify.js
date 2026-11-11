@@ -160,7 +160,10 @@ assert(scriptJs.includes('game:') && scriptJs.includes('arcade:') && indexHtml.i
 assert(indexHtml.includes('id="accentPicker"') && scriptJs.includes('setAccentTheme') && fs.readFileSync('styles.css', 'utf8').includes('.accent-picker'), 'index.html, styles.css & script.js: Cyber accent palette switcher implemented');
 assert(indexHtml.includes('id="cyberPianoKeyboard"') && scriptJs.includes('playPianoNote') && fs.readFileSync('styles.css', 'utf8').includes('.cyber-piano-keys'), 'index.html, styles.css & script.js: Interactive cyber synthesizer piano keyboard implemented');
 assert(scriptJs.includes('accent:') && scriptJs.includes('synth:') && indexHtml.includes('data-action="open-synth"'), 'index.html & script.js: Accent themes & synthesizer wired to Command Palette, Terminal CLI, and hotkeys');
-assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v26'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v26');
+assert(indexHtml.includes('id="resumeDownloadMdBtn"') && scriptJs.includes('downloadMarkdownResume') && scriptJs.includes('copyPlaintextResume'), 'index.html & script.js: Markdown resume export and plaintext clipboard copy implemented');
+assert(indexHtml.includes('id="telemetryModal"') && scriptJs.includes('initCyberTelemetry') && fs.readFileSync('styles.css', 'utf8').includes('.telemetry-modal'), 'index.html, styles.css & script.js: Real-time Cyber Telemetry & Engine Diagnostics modal implemented');
+assert(scriptJs.includes('telemetry:') && scriptJs.includes('openTelemetryModal') && indexHtml.includes('data-action="open-telemetry"'), 'index.html & script.js: Telemetry HUD launchers wired to Command Palette, Terminal CLI, and hotkeys');
+assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v27'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v27');
 
 // Test global script evaluation with mock DOM globals
 try {

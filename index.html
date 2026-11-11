@@ -355,7 +355,7 @@
               aria-haspopup="dialog" title="Launch DevLoop indie game sandbox (Press G)"><span>🎮</span> Play Game</button>
             <a class="text-link magnetic" href="#contact">Contact me <span class="hero-link-arrow">↗</span></a>
           </div>
-          <div class="hero-telemetry-badge" role="status" aria-label="Portfolio overview telemetry">
+          <div class="hero-telemetry-badge" id="heroTelemetryBtn" role="button" tabindex="0" aria-label="Portfolio overview telemetry · Click to open live diagnostics" title="Click to open Live Engine Telemetry &amp; Diagnostics (Press D)">
             <span class="telemetry-chip"><span class="telemetry-dot"></span> Available for Roles</span>
             <span class="telemetry-divider" aria-hidden="true">·</span>
             <span class="telemetry-metric">9 Interactive Works</span>
@@ -657,6 +657,7 @@
               <button type="button" class="terminal-chip" data-cmd="accent">accent 🎨</button>
               <button type="button" class="terminal-chip" data-cmd="synth">synth 🎹</button>
               <button type="button" class="terminal-chip" data-cmd="game">game 🎮</button>
+              <button type="button" class="terminal-chip" data-cmd="telemetry">telemetry ⚡</button>
               <button type="button" class="terminal-chip" data-cmd="export">export</button>
               <button type="button" class="terminal-chip" data-cmd="clear">clear</button>
             </div>
@@ -1814,6 +1815,19 @@
                   <span class="hud-arrow" aria-hidden="true">🇰🇭</span>
                 </div>
               </div>
+
+              <!-- Engine Telemetry & System Diagnostics Item -->
+              <div class="hud-item-wrapper" role="listitem">
+                <button type="button" class="hud-contact-item hud-telemetry-item" id="hudTelemetryBtn" title="Open Real-Time Cyber Telemetry HUD &amp; Diagnostics (Press D)">
+                  <span class="hud-corner hud-corner-tl" aria-hidden="true"></span>
+                  <span class="hud-corner hud-corner-tr" aria-hidden="true"></span>
+                  <span class="hud-corner hud-corner-bl" aria-hidden="true"></span>
+                  <span class="hud-corner hud-corner-br" aria-hidden="true"></span>
+                  <span class="hud-label">ENGINE TELEMETRY</span>
+                  <span class="hud-val" id="hudTelemetryVal"><span class="clock-live-dot"></span> 60 FPS · Pure WebGL 2.0</span>
+                  <span class="hud-arrow" aria-hidden="true">⚡</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -1883,6 +1897,10 @@
         <button class="footer-cmd-btn magnetic" id="footerGameBtn" type="button" aria-label="Play DevLoop indie idle game"
           title="Play DevLoop indie idle game (G)">
           <span class="cmd-kbd">G</span> Game 🎮
+        </button>
+        <button class="footer-cmd-btn magnetic" id="footerTelemetryBtn" type="button" aria-label="Open Cyber Telemetry &amp; System Diagnostics"
+          title="Open Cyber Telemetry &amp; System Diagnostics (D)">
+          <span class="cmd-kbd">D</span> Telemetry ⚡
         </button>
         <button class="footer-cmd-btn magnetic" id="footerShareBtn" type="button" aria-label="Share portfolio &amp; recruiter brief"
           title="Share portfolio &amp; recruiter brief (Shift+S)">
@@ -2879,8 +2897,14 @@
           <p class="resume-subtitle">Student Developer &amp; Product Builder · Phnom Penh, Cambodia</p>
         </div>
         <div class="resume-header-actions">
+          <button class="resume-action-btn" id="resumeDownloadMdBtn" type="button" title="Download Markdown CV (.md)">
+            📥 Markdown
+          </button>
+          <button class="resume-action-btn" id="resumeCopyTextBtn" type="button" title="Copy clean plaintext resume to clipboard">
+            📋 Copy Text
+          </button>
           <button class="resume-action-btn" id="resumePrintBtn" type="button" title="Print or save as PDF">
-            Print / PDF
+            🖨️ Print / PDF
           </button>
           <button class="modal-close resume-modal-close" id="resumeCloseBtn"
             aria-label="Close resume details">×</button>
@@ -3181,6 +3205,12 @@
           Theme <small class="cmdk-desc">Dark / Light mode</small></button>
         <button type="button" class="cmdk-item" data-action="toggle-sfx"><span class="cmdk-icon">🔊</span> Toggle
           Sound FX <small class="cmdk-desc">Procedural Web Audio synthesis</small></button>
+        <button type="button" class="cmdk-item" data-action="open-telemetry"><span class="cmdk-icon">⚡</span> Engine Telemetry &amp; Diagnostics
+          <small class="cmdk-desc">Real-time FPS, DOM, hardware cores &amp; benchmark</small></button>
+        <button type="button" class="cmdk-item" data-action="download-resume-md"><span class="cmdk-icon">📥</span> Download Markdown Resume (.md)
+          <small class="cmdk-desc">Export Gouv Kimsea's complete CV as Markdown</small></button>
+        <button type="button" class="cmdk-item" data-action="copy-resume-text"><span class="cmdk-icon">📋</span> Copy Plaintext Resume
+          <small class="cmdk-desc">Instant clipboard copy for recruiters &amp; ATS</small></button>
         <button type="button" class="cmdk-item" data-action="open-game"><span class="cmdk-icon">🎮</span> Play DevLoop Indie Game
           <small class="cmdk-desc">Developer idle tycoon &amp; bug arcade</small></button>
         <button type="button" class="cmdk-item" data-action="open-synth"><span class="cmdk-icon">🎹</span> Cyber Piano Synthesizer
@@ -3372,6 +3402,10 @@ Email: gouvkimsea@gmail.com</pre>
             <div class="shortcut-row">
               <span class="shortcut-desc">Play DevLoop Indie Game</span>
               <kbd class="shortcut-kbd">G</kbd>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Engine Telemetry &amp; Diagnostics</span>
+              <kbd class="shortcut-kbd">D</kbd>
             </div>
             <div class="shortcut-row">
               <span class="shortcut-desc">Launch Mini World 3D Planet</span>
@@ -3610,6 +3644,88 @@ Email: gouvkimsea@gmail.com</pre>
               </div>
             </div>
             <p class="arcade-controls-tip">Click or tap bugs on screen to squash them. Gold bugs yield bonus LOC transferred to your idle bank!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Interactive Cyber Telemetry & Hardware Diagnostics Modal -->
+  <dialog class="telemetry-modal" id="telemetryModal" aria-label="Engine Telemetry &amp; System Diagnostics" aria-modal="true">
+    <div class="telemetry-shell">
+      <div class="telemetry-header">
+        <div class="telemetry-header-left">
+          <div class="telemetry-badge-row">
+            <span class="telemetry-badge">DIAGNOSTICS &amp; TELEMETRY</span>
+            <span class="telemetry-live-status"><span class="radar-ping-dot" aria-hidden="true"></span> Live Engine Stream</span>
+          </div>
+          <h2 class="telemetry-title" id="telemetryModalTitle">Hardware &amp; Runtime Telemetry</h2>
+          <p class="telemetry-subtitle">Real-time performance profiling · WebGL, DOM, Network &amp; Audio metrics</p>
+        </div>
+        <button class="modal-close telemetry-modal-close" id="telemetryModalCloseBtn" type="button" aria-label="Close telemetry modal">×</button>
+      </div>
+
+      <div class="telemetry-body">
+        <!-- Live FPS & Rendering Meter -->
+        <div class="telemetry-card telemetry-card-fps">
+          <div class="card-fps-header">
+            <span class="fps-title">Rendering Performance (requestAnimationFrame)</span>
+            <span class="fps-readout"><strong id="telemetryFpsValue">60</strong> <small>FPS</small></span>
+          </div>
+          <canvas id="telemetryFpsCanvas" width="400" height="60" class="fps-graph-canvas"></canvas>
+        </div>
+
+        <!-- Telemetry Grid -->
+        <div class="telemetry-grid">
+          <div class="telemetry-stat-card">
+            <span class="stat-icon">🌳</span>
+            <span class="stat-label">DOM Tree Footprint</span>
+            <strong class="stat-value" id="telemetryDomCount">-- nodes</strong>
+            <small class="stat-sub">Semantic elements rendered</small>
+          </div>
+          <div class="telemetry-stat-card">
+            <span class="stat-icon">💻</span>
+            <span class="stat-label">Logical Hardware Cores</span>
+            <strong class="stat-value" id="telemetryCoresValue">-- Threads</strong>
+            <small class="stat-sub">navigator.hardwareConcurrency</small>
+          </div>
+          <div class="telemetry-stat-card">
+            <span class="stat-icon">📺</span>
+            <span class="stat-label">Display &amp; Viewport</span>
+            <strong class="stat-value" id="telemetryScreenValue">--</strong>
+            <small class="stat-sub">Window resolution &amp; DPR</small>
+          </div>
+          <div class="telemetry-stat-card">
+            <span class="stat-icon">📡</span>
+            <span class="stat-label">Network &amp; Latency</span>
+            <strong class="stat-value" id="telemetryNetworkValue">Online</strong>
+            <small class="stat-sub" id="telemetryPingValue">Measuring RTT...</small>
+          </div>
+          <div class="telemetry-stat-card">
+            <span class="stat-icon">🔊</span>
+            <span class="stat-label">Web Audio Subsystem</span>
+            <strong class="stat-value" id="telemetryAudioValue">Active</strong>
+            <small class="stat-sub" id="telemetryAudioSub">48000 Hz · Master Gain 80%</small>
+          </div>
+          <div class="telemetry-stat-card">
+            <span class="stat-icon">⚡</span>
+            <span class="stat-label">Service Worker &amp; PWA</span>
+            <strong class="stat-value" id="telemetryPwaValue">Active</strong>
+            <small class="stat-sub">kimsea-pwa-v27 · Stale-while-revalidate</small>
+          </div>
+        </div>
+
+        <!-- In-Browser Stress Benchmark Controller -->
+        <div class="telemetry-benchmark-box">
+          <div class="benchmark-info">
+            <h4 class="benchmark-title">In-Browser Cyber Engine Benchmark</h4>
+            <p class="benchmark-desc">Execute 100,000 mathematical iterations and JSON transformations to stress-test your browser engine.</p>
+          </div>
+          <div class="benchmark-action-wrap">
+            <button type="button" class="telemetry-run-btn" id="telemetryRunBenchmarkBtn">
+              ▶ Run Engine Stress Test
+            </button>
+            <span class="benchmark-result-badge" id="telemetryBenchmarkResult">Status: Ready</span>
           </div>
         </div>
       </div>
