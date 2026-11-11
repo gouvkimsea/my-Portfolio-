@@ -165,7 +165,10 @@ assert(indexHtml.includes('id="telemetryModal"') && scriptJs.includes('initCyber
 assert(scriptJs.includes('telemetry:') && scriptJs.includes('openTelemetryModal') && indexHtml.includes('data-action="open-telemetry"'), 'index.html & script.js: Telemetry HUD launchers wired to Command Palette, Terminal CLI, and hotkeys');
 assert(indexHtml.includes('id="playgroundModal"') && scriptJs.includes('initCodePlayground') && fs.readFileSync('styles.css', 'utf8').includes('.playground-modal'), 'index.html, styles.css & script.js: Interactive Cyber Code Playground & Algorithm Sandbox modal implemented');
 assert(scriptJs.includes('playground:') && scriptJs.includes('openPlaygroundModal') && indexHtml.includes('data-action="open-playground"'), 'index.html & script.js: Code Playground launchers wired to Command Palette, Terminal CLI, and hotkeys');
-assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v28'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v28');
+assert(indexHtml.includes('id="ambientParticlesCanvas"') && scriptJs.includes('initAmbientParticles') && fs.readFileSync('styles.css', 'utf8').includes('.ambient-particles-canvas'), 'index.html, styles.css & script.js: Ambient Cyber Particle Constellation Mesh implemented');
+assert(indexHtml.includes('id="modalExportCaseStudyBtn"') && scriptJs.includes('exportProjectCaseStudy') && fs.readFileSync('styles.css', 'utf8').includes('.modal-dossier-btn'), 'index.html, styles.css & script.js: In-modal Markdown project case study dossier export implemented');
+assert(scriptJs.includes('particles:') && scriptJs.includes('casestudy:') && indexHtml.includes('data-action="toggle-particles"'), 'index.html & script.js: Particle mesh & case study launchers wired to Command Palette, Terminal CLI, and hotkeys');
+assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v29'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v29');
 
 // Test global script evaluation with mock DOM globals
 try {

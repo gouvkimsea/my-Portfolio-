@@ -571,6 +571,9 @@ document.addEventListener("keydown", e => {
     } else {
       openShareModal();
     }
+  } else if ((e.key === "P" || e.key === "p") && e.shiftKey) {
+    e.preventDefault();
+    if (typeof toggleAmbientParticles === "function") toggleAmbientParticles();
   } else if (e.key.toLowerCase() === "u" && !e.ctrlKey && !e.metaKey && !e.altKey) {
     e.preventDefault();
     if (typeof toggleSfx === "function") toggleSfx();
@@ -796,6 +799,10 @@ cmdKResults?.addEventListener("click", e => {
     if (typeof openGameModal === "function") openGameModal();
   } else if (action === "open-playground") {
     if (typeof openPlaygroundModal === "function") openPlaygroundModal();
+  } else if (action === "toggle-particles") {
+    if (typeof toggleAmbientParticles === "function") toggleAmbientParticles();
+  } else if (action === "export-case-study") {
+    if (typeof exportProjectCaseStudy === "function") exportProjectCaseStudy();
   } else if (action === "open-telemetry") {
     if (typeof openTelemetryModal === "function") openTelemetryModal();
   } else if (action === "download-resume-md") {
@@ -4793,7 +4800,7 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>cat [file]</b>, <b>curl</b>, <b>history</b>, <b>export</b>, <b>vcard</b>, <b>game</b>, <b>arcade</b>, <b>accent [theme]</b>, <b>synth [demo]</b>, <b>piano</b>, <b>telemetry</b>, <b>diag</b>, <b>perf</b>, <b>sysinfo</b>, <b>playground</b>, <b>sandbox</b>, <b>eval [code]</b>, <b>time</b>, <b>volume [0-100]</b>, <b>demo [project]</b>, <b>cite [project]</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>bench</b>, <b>timeline</b>, <b>architecture</b>, <b>ping</b>, <b>matrix</b>, <b>git</b>, <b>nav [section]</b>, <b>shortcuts</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume [md|text]</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>cat [file]</b>, <b>curl</b>, <b>history</b>, <b>export</b>, <b>vcard</b>, <b>game</b>, <b>arcade</b>, <b>accent [theme]</b>, <b>synth [demo]</b>, <b>piano</b>, <b>telemetry</b>, <b>diag</b>, <b>perf</b>, <b>sysinfo</b>, <b>playground</b>, <b>sandbox</b>, <b>eval [code]</b>, <b>particles [on|off|toggle]</b>, <b>casestudy [project]</b>, <b>time</b>, <b>volume [0-100]</b>, <b>demo [project]</b>, <b>cite [project]</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>bench</b>, <b>timeline</b>, <b>architecture</b>, <b>ping</b>, <b>matrix</b>, <b>git</b>, <b>nav [section]</b>, <b>shortcuts</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume [md|text]</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
   matrix: () => {
     const terminalBody = $(".terminal-body");
     if (!terminalBody) return "Terminal stream window not accessible.";
@@ -5190,7 +5197,7 @@ Layer 1: Semantic Core  · Zero-dependency ES2026 &amp; HTML5 dialogs
 Layer 2: Style Tokens   · Modular Vanilla CSS &amp; WCAG AAA contrast
 Layer 3: 3D Graphics    · Hardware-accelerated WebGL 2.0 MiniWorld
 Layer 4: Procedural SFX · Pure Web Audio synthesizers (0 audio files)
-Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v22</pre>`;
+Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v29</pre>`;
   },
   cat: (arg) => {
     const file = (arg || "").trim().toLowerCase();
@@ -5319,7 +5326,7 @@ DOM Tree:         <b>${domCount}</b> semantic nodes
 Logical Cores:    <b>${cores}</b> Threads (hardwareConcurrency)
 Display:          <b>${window.innerWidth}x${window.innerHeight}</b> (${window.devicePixelRatio || 1}x DPR)
 Audio Engine:     Active (${Math.round((typeof sfxVolume !== "undefined" ? sfxVolume : 0.8) * 100)}% Gain)
-PWA Cache:        <b>kimsea-pwa-v27</b> (Stale-While-Revalidate)
+PWA Cache:        <b>kimsea-pwa-v29</b> (Stale-While-Revalidate)
 Status:           Modal HUD Launched ⚡</pre>`;
   },
   diag: () => terminalCommands.telemetry(),
@@ -5341,6 +5348,26 @@ Status:           Modal HUD Launched ⚡</pre>`;
       return `<pre class="term-pre" style="margin:4px 0;font-size:11px;color:#f87171;"><b>Evaluation Error:</b> ${escapeHtml(err.message)}</pre>`;
     }
   },
+  particles: (arg) => {
+    const val = (arg || "").trim().toLowerCase();
+    let next;
+    if (val === "on") next = true;
+    else if (val === "off") next = false;
+    else next = undefined;
+    const res = typeof toggleAmbientParticles === "function" ? toggleAmbientParticles(next) : false;
+    return `Ambient Cyber Particle Mesh: <b>${res ? "Enabled ✨" : "Paused ⏸️"}</b>.`;
+  },
+  casestudy: (arg) => {
+    const key = (arg || "").trim().toLowerCase();
+    if (typeof exportProjectCaseStudy === "function") {
+      exportProjectCaseStudy(key);
+      const data = (typeof projectData !== "undefined" && projectData[key]) || (typeof projectData !== "undefined" ? projectData.pinit : null);
+      const title = data ? data.title : (key || "Active Project");
+      return `Generated and downloaded <b>${escapeHtml(title)}</b> Markdown Case Study Dossier (.md) 📥`;
+    }
+    return "Case study exporter unavailable.";
+  },
+  dossier: (arg) => terminalCommands.casestudy(arg),
   time: () => {
     const now = new Date();
     const options = { timeZone: "Asia/Phnom_Penh", hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit", weekday: "short", year: "numeric", month: "short", day: "numeric" };
@@ -5584,7 +5611,7 @@ terminalInput?.addEventListener("keydown", event => {
     if (current) {
       const allCmds = Array.from(new Set([
         ...Object.keys(terminalCommands),
-        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade", "accent", "synth", "piano", "telemetry", "diag", "perf", "sysinfo", "playground", "sandbox", "eval"
+        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade", "accent", "synth", "piano", "telemetry", "diag", "perf", "sysinfo", "playground", "sandbox", "eval", "particles", "casestudy", "dossier"
       ]));
       const prefix = lastTabPrefix || current;
       const matches = allCmds.filter(k => k.startsWith(prefix));
@@ -8098,7 +8125,7 @@ const initCyberTelemetry = () => {
       audioSubEl.textContent = `48000 Hz · Master Gain ${vol}%`;
     }
     if (pwaEl) {
-      pwaEl.textContent = "kimsea-pwa-v27";
+      pwaEl.textContent = "kimsea-pwa-v29";
     }
   };
 
@@ -8454,7 +8481,7 @@ const initCodePlayground = () => {
     if (e.key === "p" || e.key === "P") {
       const active = document.activeElement;
       const isInput = active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA" || active.tagName === "SELECT" || active.isContentEditable);
-      if (!isInput && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      if (!isInput && !e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey) {
         if (modal.open) closePlaygroundModal();
         else openPlaygroundModal();
       }
@@ -8466,3 +8493,332 @@ const initCodePlayground = () => {
 };
 
 initCodePlayground();
+
+// ==========================================================================
+// Phase 23: Ambient Cyber Particle Mesh & In-Modal Case Study Dossier
+// ==========================================================================
+
+let particlesEnabled = true;
+try {
+  const savedState = localStorage.getItem("portfolio-particles-enabled");
+  if (savedState !== null) particlesEnabled = savedState !== "false";
+} catch (_) {}
+
+function exportProjectCaseStudy(projectKey) {
+  const key = projectKey || $("#modalProjectSelect")?.value || "pinit";
+  const data = (typeof projectData !== "undefined" && projectData[key]) ? projectData[key] : (typeof projectData !== "undefined" ? projectData.pinit : null);
+  if (!data) return "";
+
+  const title = data.title || "Project Case Study";
+  const category = data.category || "Full-Stack Software Engineering";
+  const role = data.role || "Lead Architect & Developer";
+  const timeline = data.timeline || "2024–2026";
+  const status = data.status || "Production";
+  const domain = data.domain || data.category || "Software Development";
+  const arch = data.archPattern || "Modular Architecture";
+  const overview = data.overview || data.tagline || "";
+  const problem = data.problem || "";
+  const concept = data.concept || "";
+
+  const objectives = Array.isArray(data.objectives)
+    ? data.objectives.map(o => `- ${o}`).join("\n")
+    : "- Deliver reliable, user-centric software platform.";
+
+  let pipeline = "";
+  if (data.pipeline) {
+    if (data.pipeline.in && data.pipeline.in.length) {
+      pipeline += `### In (Inputs & Data Sources)\n${data.pipeline.in.map(i => `- ${i}`).join("\n")}\n\n`;
+    }
+    if (data.pipeline.runs && data.pipeline.runs.length) {
+      pipeline += `### Runs (Processing & Transformations)\n${data.pipeline.runs.map(r => `- ${r}`).join("\n")}\n\n`;
+    }
+    if (data.pipeline.out && data.pipeline.out.length) {
+      pipeline += `### Out (Outputs & UX Outcomes)\n${data.pipeline.out.map(o => `- ${o}`).join("\n")}\n\n`;
+    }
+  }
+
+  let techStack = "";
+  if (Array.isArray(data.stack)) {
+    techStack = data.stack.map(s => `- **${s.name || s.tech || s}**: ${s.role || s.desc || "Core component"}`).join("\n");
+  }
+
+  let metrics = "";
+  if (Array.isArray(data.metrics)) {
+    metrics = data.metrics.map(m => `- **${m.val || m.value || ""}** — ${m.label || m.metric || ""}: ${m.note || m.desc || ""}`).join("\n");
+  }
+
+  let uxSteps = "";
+  if (Array.isArray(data.uxJourney)) {
+    uxSteps = data.uxJourney.map(u => `#### Step ${u.step}: ${u.title}\n${u.desc || ""}`).join("\n\n");
+  }
+
+  const liveUrl = data.liveDemo || `${window.location.origin}${window.location.pathname}?project=${key}`;
+  const repoUrl = data.github || "https://github.com/gouvkimsea";
+
+  const md = `# Case Study Dossier: ${title}
+
+> **Lead Architect & Developer:** Gouv Kimsea  
+> **Category:** ${category} | **Status:** ${status}  
+> **Timeline:** ${timeline} | **Domain:** ${domain}  
+> **Architecture Pattern:** ${arch}
+
+---
+
+## 1. Executive Summary & Overview
+${overview}
+
+${data.tagline ? `> *${data.tagline}*` : ""}
+
+---
+
+## 2. Problem Statement & Engineering Objectives
+${problem}
+
+### Objectives:
+${objectives}
+
+---
+
+## 3. System Architecture & Data Flow
+${concept ? `${concept}\n\n` : ""}${pipeline}
+---
+
+## 4. Technical Stack & Engineering Specifications
+${techStack || "- Full-Stack Modern Web & Systems Architecture"}
+
+---
+
+## 5. User Journey & Core Interactions
+${uxSteps || "Detailed user journey and workflow documented in live portfolio."}
+
+---
+
+## 6. Key Metrics & Validated Outcomes
+${metrics || "- Production-grade reliability and high test coverage."}
+
+---
+
+## 7. Links & Verification
+- **Portfolio Case Study:** ${liveUrl}
+- **Source Repository:** ${repoUrl}
+
+---
+*Exported on ${new Date().toISOString().split("T")[0]} from Gouv Kimsea Portfolio Platform (https://gouvkimsea.github.io/my-Portfolio-/)*
+`;
+
+  if (typeof document !== "undefined") {
+    const blob = new Blob([md], { type: "text/markdown;charset=utf-8" });
+    const downloadUrl = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = downloadUrl;
+    a.download = `${key}-case-study.md`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(downloadUrl);
+
+    const btn = $("#modalExportCaseStudyBtn");
+    if (btn) {
+      btn.classList.add("downloaded");
+      setTimeout(() => btn.classList.remove("downloaded"), 2000);
+    }
+
+    if (typeof playSound === "function") playSound("chime");
+    if (typeof showPortfolioToast === "function") {
+      showPortfolioToast(`Exported ${title} Case Study Dossier (.md) 📥`);
+    }
+  }
+
+  return md;
+}
+
+const initAmbientParticles = () => {
+  const canvas = document.getElementById("ambientParticlesCanvas");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  const navToggleBtn = document.getElementById("particlesToggleBtn");
+  const mobileToggleBtn = document.getElementById("mobileParticlesToggleBtn");
+
+  const ACCENT_COLORS = {
+    lime: { r: 231, g: 242, b: 109, hex: "#e7f26d" },
+    cyan: { r: 0, g: 240, b: 255, hex: "#00f0ff" },
+    emerald: { r: 0, g: 255, b: 102, hex: "#00ff66" },
+    magenta: { r: 255, g: 0, b: 127, hex: "#ff007f" },
+    amber: { r: 255, g: 183, b: 3, hex: "#ffb703" }
+  };
+
+  const getCurrentAccent = () => {
+    const acc = document.documentElement.getAttribute("data-accent") || "lime";
+    return ACCENT_COLORS[acc] || ACCENT_COLORS.lime;
+  };
+
+  let width = 0;
+  let height = 0;
+  let particles = [];
+  let rafId = null;
+  let isRunning = false;
+  const mouse = { x: -2000, y: -2000, radius: 95 };
+
+  const resize = () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+    createParticles();
+  };
+
+  const createParticles = () => {
+    const count = Math.min(65, Math.max(25, Math.floor(width / 24)));
+    particles = [];
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.65,
+        vy: (Math.random() - 0.5) * 0.65,
+        radius: Math.random() * 1.4 + 1.1,
+        alpha: Math.random() * 0.45 + 0.3
+      });
+    }
+  };
+
+  const renderFrame = () => {
+    if (!isRunning) return;
+    ctx.clearRect(0, 0, width, height);
+    const color = getCurrentAccent();
+    const len = particles.length;
+
+    // Update and draw particles
+    for (let i = 0; i < len; i++) {
+      const p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+
+      // Wrap around edges
+      if (p.x < -10) p.x = width + 10;
+      else if (p.x > width + 10) p.x = -10;
+      if (p.y < -10) p.y = height + 10;
+      else if (p.y > height + 10) p.y = -10;
+
+      // Mouse repulsion
+      const dx = p.x - mouse.x;
+      const dy = p.y - mouse.y;
+      const dist = Math.hypot(dx, dy);
+      if (dist < mouse.radius && dist > 0) {
+        const force = (mouse.radius - dist) / mouse.radius;
+        p.x += (dx / dist) * force * 3;
+        p.y += (dy / dist) * force * 3;
+      }
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${p.alpha})`;
+      ctx.fill();
+
+      // Constellation lines
+      for (let j = i + 1; j < len; j++) {
+        const p2 = particles[j];
+        const cdx = p.x - p2.x;
+        const cdy = p.y - p2.y;
+        const cdist = Math.hypot(cdx, cdy);
+        if (cdist < 110) {
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${(1 - cdist / 110) * 0.2})`;
+          ctx.lineWidth = 0.75;
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    rafId = requestAnimationFrame(renderFrame);
+  };
+
+  const startLoop = () => {
+    if (isRunning) return;
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+    isRunning = true;
+    rafId = requestAnimationFrame(renderFrame);
+  };
+
+  const stopLoop = () => {
+    isRunning = false;
+    if (rafId) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+  };
+
+  const updateUI = () => {
+    if (navToggleBtn) {
+      navToggleBtn.classList.toggle("active", particlesEnabled);
+      navToggleBtn.setAttribute("aria-pressed", particlesEnabled ? "true" : "false");
+    }
+    if (mobileToggleBtn) {
+      mobileToggleBtn.classList.toggle("active", particlesEnabled);
+      mobileToggleBtn.setAttribute("aria-pressed", particlesEnabled ? "true" : "false");
+    }
+    if (particlesEnabled) {
+      canvas.classList.remove("disabled");
+    } else {
+      canvas.classList.add("disabled");
+    }
+  };
+
+  window.toggleAmbientParticles = (forceState) => {
+    particlesEnabled = typeof forceState === "boolean" ? forceState : !particlesEnabled;
+    try {
+      localStorage.setItem("portfolio-particles-enabled", particlesEnabled ? "true" : "false");
+    } catch (_) {}
+    updateUI();
+    if (particlesEnabled) {
+      startLoop();
+      if (typeof showPortfolioToast === "function") showPortfolioToast("Cyber Particle Mesh: Enabled ✨");
+    } else {
+      stopLoop();
+      ctx.clearRect(0, 0, width, height);
+      if (typeof showPortfolioToast === "function") showPortfolioToast("Cyber Particle Mesh: Paused ⏸️");
+    }
+    if (typeof playSound === "function") playSound("click");
+    return particlesEnabled;
+  };
+
+  window.exportProjectCaseStudy = exportProjectCaseStudy;
+
+  navToggleBtn?.addEventListener("click", () => window.toggleAmbientParticles());
+  mobileToggleBtn?.addEventListener("click", () => window.toggleAmbientParticles());
+
+  window.addEventListener("resize", resize, { passive: true });
+  window.addEventListener("mousemove", e => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+  }, { passive: true });
+  window.addEventListener("mouseleave", () => {
+    mouse.x = -2000;
+    mouse.y = -2000;
+  });
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) stopLoop();
+    else if (particlesEnabled) startLoop();
+  });
+
+  // Modal export case study button
+  document.getElementById("modalExportCaseStudyBtn")?.addEventListener("click", () => {
+    const currentKey = $("#modalProjectSelect")?.value || "pinit";
+    exportProjectCaseStudy(currentKey);
+  });
+
+  resize();
+  updateUI();
+  if (particlesEnabled) {
+    startLoop();
+  } else {
+    canvas.classList.add("disabled");
+  }
+};
+
+initAmbientParticles();

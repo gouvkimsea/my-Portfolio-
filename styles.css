@@ -15559,3 +15559,126 @@ mark.project-search-match {
   border-top: 1px solid var(--line);
   display: block;
 }
+
+/* ==========================================================================
+   Phase 23: Ambient Cyber Particle Mesh & In-Modal Case Study Dossier
+   ========================================================================== */
+
+/* Ambient 2D Particle Constellation Canvas */
+.ambient-particles-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.65;
+  transition: opacity 0.4s ease;
+}
+
+[data-theme="light"] .ambient-particles-canvas {
+  opacity: 0.45;
+}
+
+.ambient-particles-canvas.disabled {
+  opacity: 0;
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-particles-canvas {
+    display: none;
+  }
+}
+
+/* Nav & Mobile Drawer Particles Toggle Button */
+.nav-particles-btn {
+  position: relative;
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  flex-shrink: 0;
+  font-size: 15px;
+}
+
+[data-theme="dark"] .nav-particles-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.16);
+  color: #f8fafc;
+}
+
+.nav-particles-btn:hover {
+  background: rgba(0, 0, 0, 0.09) !important;
+  transform: translateY(-1px) scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] .nav-particles-btn:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff;
+  border-color: var(--lime);
+}
+
+.nav-particles-btn.active {
+  border-color: var(--lime);
+  color: var(--lime);
+  box-shadow: 0 0 10px rgba(231, 242, 109, 0.3);
+}
+
+.mobile-particles-btn {
+  font-size: 14px;
+}
+
+.mobile-particles-btn.active {
+  border-color: var(--lime);
+  color: var(--lime);
+}
+
+/* In-Modal Case Study Exporter Button */
+.modal-dossier-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: var(--ink);
+}
+
+.modal-dossier-btn:hover {
+  background: rgba(184, 255, 0, 0.12);
+  border-color: var(--lime, #b8ff00);
+  color: var(--lime, #b8ff00);
+  transform: translateY(-1px);
+}
+
+.modal-dossier-btn.downloaded {
+  background: var(--lime, #b8ff00);
+  color: #0c0d0e;
+  border-color: var(--lime, #b8ff00);
+}
+
+[data-theme="light"] .modal-dossier-btn {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.12);
+  color: #374151;
+}
+
+[data-theme="light"] .modal-dossier-btn:hover {
+  background: rgba(21, 128, 61, 0.1);
+  border-color: #15803d;
+  color: #15803d;
+}
+
+[data-theme="light"] .modal-dossier-btn.downloaded {
+  background: #15803d;
+  color: #ffffff;
+  border-color: #15803d;
+}

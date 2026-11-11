@@ -141,6 +141,7 @@
 
 <body>
   <a href="#main" class="skip-link">Skip to main content</a>
+  <canvas id="ambientParticlesCanvas" class="ambient-particles-canvas" aria-hidden="true"></canvas>
   <div class="loader" id="loader" aria-hidden="true"><span class="loader-brackets">[ ]</span><i class="loader-bar"></i></div>
   <div class="scroll-progress" id="scrollProgress"></div>
   <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
@@ -157,6 +158,10 @@
           <button type="button" class="accent-btn" data-accent-color="magenta" title="Synthwave Magenta Accent" aria-label="Synthwave Magenta Accent"></button>
           <button type="button" class="accent-btn" data-accent-color="amber" title="Amber CRT Accent" aria-label="Amber CRT Accent"></button>
         </div>
+        <button class="mobile-drawer-theme-toggle mobile-particles-btn" id="mobileParticlesToggleBtn" type="button"
+          aria-label="Toggle ambient cyber particle field" title="Toggle cyber particles">
+          <span class="particles-icon" aria-hidden="true">✨</span>
+        </button>
         <button class="mobile-drawer-theme-toggle" id="mobileShareBtn" type="button"
           aria-label="Share portfolio &amp; recruiter brief" title="Share portfolio">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
@@ -246,6 +251,10 @@
           <button type="button" class="accent-btn" data-accent-color="magenta" title="Synthwave Magenta Accent" aria-label="Synthwave Magenta Accent"></button>
           <button type="button" class="accent-btn" data-accent-color="amber" title="Amber CRT Accent" aria-label="Amber CRT Accent"></button>
         </div>
+        <button class="nav-particles-btn magnetic active" id="particlesToggleBtn" type="button" aria-label="Toggle ambient cyber particle field" title="Toggle cyber particle mesh (Shift+P)">
+          <span class="particles-icon" aria-hidden="true">✨</span>
+          <span class="sr-only">Toggle particles</span>
+        </button>
         <button class="nav-share-btn magnetic" id="navShareBtn" type="button" aria-label="Share portfolio &amp; recruiter brief"
           title="Share portfolio (Shift+S)">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
@@ -661,6 +670,7 @@
               <button type="button" class="terminal-chip" data-cmd="game">game 🎮</button>
               <button type="button" class="terminal-chip" data-cmd="telemetry">telemetry ⚡</button>
               <button type="button" class="terminal-chip" data-cmd="playground">playground 🧪</button>
+              <button type="button" class="terminal-chip" data-cmd="particles">particles ✨</button>
               <button type="button" class="terminal-chip" data-cmd="export">export</button>
               <button type="button" class="terminal-chip" data-cmd="clear">clear</button>
             </div>
@@ -1958,6 +1968,9 @@
           <button type="button" class="modal-nav-step-btn modal-cite-btn" id="modalCiteBtn" title="Copy formatted project citation" aria-label="Copy formatted project citation">
             <span class="modal-cite-icon" aria-hidden="true">📄</span> Cite
           </button>
+          <button type="button" class="modal-nav-step-btn modal-dossier-btn" id="modalExportCaseStudyBtn" title="Download complete markdown case study dossier (.md)" aria-label="Download complete markdown case study dossier">
+            <span class="modal-dossier-icon" aria-hidden="true">📥</span> Case Study
+          </button>
           <button type="button" class="modal-nav-step-btn" id="modalNextBtn" aria-label="Next project case study">
             Next Project <span class="nav-arrow" aria-hidden="true">→</span>
           </button>
@@ -3220,6 +3233,10 @@
           <small class="cmdk-desc">Instant clipboard copy for recruiters &amp; ATS</small></button>
         <button type="button" class="cmdk-item" data-action="open-playground"><span class="cmdk-icon">🧪</span> Live Code Playground
           <small class="cmdk-desc">Evaluate JavaScript algorithms &amp; SM-2 SRS in real time</small></button>
+        <button type="button" class="cmdk-item" data-action="toggle-particles"><span class="cmdk-icon">✨</span> Toggle Ambient Cyber Particles
+          <small class="cmdk-desc">Interactive GPU-accelerated constellation mesh</small></button>
+        <button type="button" class="cmdk-item" data-action="export-case-study"><span class="cmdk-icon">📥</span> Export Active Project Case Study
+          <small class="cmdk-desc">Download complete markdown case study dossier (.md)</small></button>
         <button type="button" class="cmdk-item" data-action="open-game"><span class="cmdk-icon">🎮</span> Play DevLoop Indie Game
           <small class="cmdk-desc">Developer idle tycoon &amp; bug arcade</small></button>
         <button type="button" class="cmdk-item" data-action="open-synth"><span class="cmdk-icon">🎹</span> Cyber Piano Synthesizer
@@ -3419,6 +3436,12 @@ Email: gouvkimsea@gmail.com</pre>
             <div class="shortcut-row">
               <span class="shortcut-desc">Launch Live Code Playground</span>
               <kbd class="shortcut-kbd">P</kbd>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Toggle Ambient Cyber Particles</span>
+              <div class="shortcut-kbd-group">
+                <kbd class="shortcut-kbd">⇧</kbd><kbd class="shortcut-kbd">P</kbd>
+              </div>
             </div>
             <div class="shortcut-row">
               <span class="shortcut-desc">Launch Mini World 3D Planet</span>
