@@ -794,6 +794,8 @@ cmdKResults?.addEventListener("click", e => {
     }, 200);
   } else if (action === "open-game") {
     if (typeof openGameModal === "function") openGameModal();
+  } else if (action === "open-playground") {
+    if (typeof openPlaygroundModal === "function") openPlaygroundModal();
   } else if (action === "open-telemetry") {
     if (typeof openTelemetryModal === "function") openTelemetryModal();
   } else if (action === "download-resume-md") {
@@ -4791,7 +4793,7 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>cat [file]</b>, <b>curl</b>, <b>history</b>, <b>export</b>, <b>vcard</b>, <b>game</b>, <b>arcade</b>, <b>accent [theme]</b>, <b>synth [demo]</b>, <b>piano</b>, <b>telemetry</b>, <b>diag</b>, <b>perf</b>, <b>sysinfo</b>, <b>time</b>, <b>volume [0-100]</b>, <b>demo [project]</b>, <b>cite [project]</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>bench</b>, <b>timeline</b>, <b>architecture</b>, <b>ping</b>, <b>matrix</b>, <b>git</b>, <b>nav [section]</b>, <b>shortcuts</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume [md|text]</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>cat [file]</b>, <b>curl</b>, <b>history</b>, <b>export</b>, <b>vcard</b>, <b>game</b>, <b>arcade</b>, <b>accent [theme]</b>, <b>synth [demo]</b>, <b>piano</b>, <b>telemetry</b>, <b>diag</b>, <b>perf</b>, <b>sysinfo</b>, <b>playground</b>, <b>sandbox</b>, <b>eval [code]</b>, <b>time</b>, <b>volume [0-100]</b>, <b>demo [project]</b>, <b>cite [project]</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>bench</b>, <b>timeline</b>, <b>architecture</b>, <b>ping</b>, <b>matrix</b>, <b>git</b>, <b>nav [section]</b>, <b>shortcuts</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume [md|text]</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
   matrix: () => {
     const terminalBody = $(".terminal-body");
     if (!terminalBody) return "Terminal stream window not accessible.";
@@ -5323,6 +5325,22 @@ Status:           Modal HUD Launched ⚡</pre>`;
   diag: () => terminalCommands.telemetry(),
   perf: () => terminalCommands.telemetry(),
   sysinfo: () => terminalCommands.telemetry(),
+  playground: (arg) => {
+    if (typeof openPlaygroundModal === "function") openPlaygroundModal();
+    return "Launched Cyber Code Playground & Algorithm Sandbox 🧪 (Press Ctrl+Enter to execute)";
+  },
+  sandbox: (arg) => terminalCommands.playground(arg),
+  eval: (code) => {
+    if (!code || !code.trim()) {
+      return "Usage: <b>eval [javascript expression]</b> or type <b>playground</b> to open IDE.";
+    }
+    try {
+      const res = eval(code);
+      return `<pre class="term-pre" style="margin:4px 0;font-size:11px;color:var(--lime);"><b>Result:</b> ${escapeHtml(String(res))}</pre>`;
+    } catch (err) {
+      return `<pre class="term-pre" style="margin:4px 0;font-size:11px;color:#f87171;"><b>Evaluation Error:</b> ${escapeHtml(err.message)}</pre>`;
+    }
+  },
   time: () => {
     const now = new Date();
     const options = { timeZone: "Asia/Phnom_Penh", hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit", weekday: "short", year: "numeric", month: "short", day: "numeric" };
@@ -5443,6 +5461,10 @@ const executeCommand = rawCommand => {
     response = terminalCommands.telemetry();
   } else if (primary === "resume" && typeof terminalCommands.resume === "function") {
     response = terminalCommands.resume(rest);
+  } else if ((primary === "playground" || primary === "sandbox") && typeof terminalCommands.playground === "function") {
+    response = terminalCommands.playground(rest);
+  } else if (primary === "eval" && typeof terminalCommands.eval === "function") {
+    response = terminalCommands.eval(rest);
   } else if ((primary === "sound" || primary === "sfx") && rest) {
     const sub = rest.toLowerCase();
     if (sub === "on") {
@@ -5562,7 +5584,7 @@ terminalInput?.addEventListener("keydown", event => {
     if (current) {
       const allCmds = Array.from(new Set([
         ...Object.keys(terminalCommands),
-        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade", "accent", "synth", "piano", "telemetry", "diag", "perf", "sysinfo"
+        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade", "accent", "synth", "piano", "telemetry", "diag", "perf", "sysinfo", "playground", "sandbox", "eval"
       ]));
       const prefix = lastTabPrefix || current;
       const matches = allCmds.filter(k => k.startsWith(prefix));
@@ -8176,3 +8198,271 @@ const initCyberTelemetry = () => {
 };
 
 initCyberTelemetry();
+
+// ==========================================================================
+// Phase 22: Interactive Cyber Code Playground & Algorithm Sandbox
+// ==========================================================================
+
+let openPlaygroundModal = null;
+let closePlaygroundModal = null;
+
+const PLAYGROUND_PRESETS = {
+  profile: `// 01 · Query Developer Dossier
+const profile = {
+  name: "Gouv Kimsea",
+  degree: "BS Computer Science & BBA",
+  universities: ["Paragon International Univ", "Bonamary Univ"],
+  skills: ["TypeScript", "NestJS", "Next.js", "C++", "WebGL", "PostgreSQL"],
+  status: "Building software & open to roles"
+};
+
+console.log("👋 Developer Profile Loaded:");
+console.table(profile);
+return profile.skills.length + " Core Technologies Ready.";`,
+
+  sm2: `// 02 · SuperMemo SM-2 SRS Spaced Repetition Algorithm
+function calcSM2(grade, repetitions, prevInterval, prevEase) {
+  let ease = prevEase + (0.1 - (5 - grade) * (0.08 + (5 - grade) * 0.02));
+  ease = Math.max(1.3, ease);
+  let interval;
+  if (grade < 3) {
+    repetitions = 0;
+    interval = 1;
+  } else {
+    if (repetitions === 0) interval = 1;
+    else if (repetitions === 1) interval = 6;
+    else interval = Math.round(prevInterval * ease);
+    repetitions++;
+  }
+  return { repetitions, interval, ease: parseFloat(ease.toFixed(2)) };
+}
+
+console.log("🧠 Simulating SM-2 Recall History:");
+let item = { repetitions: 0, interval: 0, ease: 2.5 };
+const grades = [4, 5, 4, 3, 5];
+grades.forEach((g, day) => {
+  item = calcSM2(g, item.repetitions, item.interval, item.ease);
+  console.log(\`Review #\${day + 1} (Grade \${g}/5): Next Interval = \${item.interval} days, EF = \${item.ease}\`);
+});
+
+return \`Optimal memory retention interval: \${item.interval} days.\`;`,
+
+  benchmark: `// 03 · Benchmark: Memoized DP vs Recursive Fibonacci
+function fibRecursive(n) {
+  if (n <= 1) return n;
+  return fibRecursive(n - 1) + fibRecursive(n - 2);
+}
+
+function fibDP(n, memo = {}) {
+  if (n in memo) return memo[n];
+  if (n <= 1) return n;
+  return memo[n] = fibDP(n - 1, memo) + fibDP(n - 2, memo);
+}
+
+console.log("⚡ Benchmarking Fibonacci (N = 30):");
+const t1 = performance.now();
+const r1 = fibRecursive(30);
+const d1 = (performance.now() - t1).toFixed(2);
+console.log(\`Recursive: fib(30) = \${r1} in \${d1}ms\`);
+
+const t2 = performance.now();
+const r2 = fibDP(30);
+const d2 = (performance.now() - t2).toFixed(3);
+console.log(\`Memoized DP: fib(30) = \${r2} in \${d2}ms\`);
+
+const speedup = (parseFloat(d1) / (parseFloat(d2) || 0.001)).toFixed(1);
+return \`Dynamic Programming is ~\${speedup}x faster!\`;`,
+
+  canvas: `// 04 · Procedural Cyber Sine Wave Visualizer
+const canvas = document.getElementById("playgroundCanvasPreview");
+if (canvas) {
+  canvas.style.display = "block";
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.strokeStyle = "#e7f26d";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  for (let x = 0; x < canvas.width; x++) {
+    const y = (canvas.height / 2) + Math.sin(x * 0.05) * 28 + Math.cos(x * 0.02) * 12;
+    if (x === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+  console.log("🌊 Rendered procedural wave on canvas (" + canvas.width + "x" + canvas.height + ")");
+}
+return "Procedural harmonic wave computed.";`
+};
+
+const initCodePlayground = () => {
+  const modal = document.getElementById("playgroundModal");
+  if (!modal) return;
+
+  const codeInput = document.getElementById("playgroundCodeInput");
+  const consoleOutput = document.getElementById("playgroundConsoleOutput");
+  const presetSelect = document.getElementById("playgroundPresetSelect");
+  const runBtn = document.getElementById("playgroundRunBtn");
+  const resetBtn = document.getElementById("playgroundResetBtn");
+  const copyBtn = document.getElementById("playgroundCopyBtn");
+  const closeBtn = document.getElementById("playgroundCloseBtn");
+  const metaTime = document.getElementById("playgroundExecutionTime");
+  const canvasPreview = document.getElementById("playgroundCanvasPreview");
+
+  const loadPreset = (presetKey) => {
+    const code = PLAYGROUND_PRESETS[presetKey] || PLAYGROUND_PRESETS.sm2;
+    if (codeInput) codeInput.value = code;
+    if (canvasPreview && presetKey !== "canvas") {
+      canvasPreview.style.display = "none";
+    }
+    if (consoleOutput) {
+      consoleOutput.innerHTML = `<p class="console-line console-init">// Loaded preset: <b>${escapeHtml(presetKey)}</b><br>// Press "▶ Run Code" or Ctrl+Enter to execute</p>`;
+    }
+    if (metaTime) metaTime.textContent = "Ready · 0.00ms";
+  };
+
+  presetSelect?.addEventListener("change", (e) => {
+    loadPreset(e.target.value);
+    if (typeof playSound === "function") playSound("click");
+  });
+
+  resetBtn?.addEventListener("click", () => {
+    const curr = presetSelect?.value || "sm2";
+    loadPreset(curr);
+    if (typeof playSound === "function") playSound("click");
+    if (typeof showToast === "function") showToast("Reset code to preset defaults ↺", "info");
+  });
+
+  copyBtn?.addEventListener("click", () => {
+    if (codeInput && navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(codeInput.value).then(() => {
+        if (typeof playSound === "function") playSound("chime");
+        if (typeof showToast === "function") showToast("Copied code to clipboard 📋", "success");
+      });
+    }
+  });
+
+  const executePlaygroundCode = () => {
+    if (!codeInput || !consoleOutput) return;
+    const rawCode = codeInput.value;
+    consoleOutput.innerHTML = "";
+    if (typeof playSound === "function") playSound("click");
+
+    const logs = [];
+    const customConsole = {
+      log: (...args) => {
+        logs.push({ type: "log", text: args.map(a => typeof a === "object" ? JSON.stringify(a, null, 2) : String(a)).join(" ") });
+      },
+      table: (obj) => {
+        logs.push({ type: "info", text: typeof obj === "object" ? JSON.stringify(obj, null, 2) : String(obj) });
+      },
+      info: (...args) => {
+        logs.push({ type: "info", text: args.map(a => typeof a === "object" ? JSON.stringify(a) : String(a)).join(" ") });
+      },
+      warn: (...args) => {
+        logs.push({ type: "warn", text: args.map(a => typeof a === "object" ? JSON.stringify(a) : String(a)).join(" ") });
+      },
+      error: (...args) => {
+        logs.push({ type: "error", text: args.map(a => typeof a === "object" ? JSON.stringify(a) : String(a)).join(" ") });
+      }
+    };
+
+    const startTime = performance.now();
+    let returnValue;
+    let hasError = false;
+
+    try {
+      const runner = new Function("console", "performance", "document", "window", `
+        "use strict";
+        ${rawCode}
+      `);
+      returnValue = runner(customConsole, performance, document, window);
+    } catch (err) {
+      hasError = true;
+      logs.push({ type: "error", text: `[Uncaught ${err.name}]: ${err.message}` });
+    }
+
+    const elapsed = (performance.now() - startTime).toFixed(2);
+
+    if (logs.length === 0 && !hasError && returnValue === undefined) {
+      logs.push({ type: "info", text: "Executed with zero console output." });
+    }
+
+    logs.forEach(item => {
+      const p = document.createElement("p");
+      p.className = `console-line console-log-${item.type}`;
+      p.innerHTML = escapeHtml(item.text).replace(/\n/g, "<br/>");
+      consoleOutput.appendChild(p);
+    });
+
+    if (returnValue !== undefined) {
+      const retP = document.createElement("p");
+      retP.className = "console-line console-log-return";
+      retP.innerHTML = `<strong>Return Value:</strong> ${escapeHtml(typeof returnValue === "object" ? JSON.stringify(returnValue, null, 2) : String(returnValue))}`;
+      consoleOutput.appendChild(retP);
+    }
+
+    consoleOutput.scrollTop = consoleOutput.scrollHeight;
+
+    if (metaTime) {
+      metaTime.textContent = hasError ? `Error · ${elapsed}ms` : `Success · ${elapsed}ms`;
+      metaTime.style.color = hasError ? "#f87171" : "var(--lime)";
+    }
+
+    if (!hasError && typeof playSound === "function") {
+      playSound("chime");
+    }
+  };
+
+  runBtn?.addEventListener("click", executePlaygroundCode);
+
+  // Tab key & Ctrl+Enter in Textarea
+  codeInput?.addEventListener("keydown", (e) => {
+    if (e.key === "Tab") {
+      e.preventDefault();
+      const start = codeInput.selectionStart;
+      const end = codeInput.selectionEnd;
+      codeInput.value = codeInput.value.substring(0, start) + "  " + codeInput.value.substring(end);
+      codeInput.selectionStart = codeInput.selectionEnd = start + 2;
+    } else if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+      e.preventDefault();
+      executePlaygroundCode();
+    }
+  });
+
+  openPlaygroundModal = () => {
+    if (typeof playSound === "function") playSound("whoosh");
+    if (!modal.open) modal.showModal();
+    if (!codeInput.value) loadPreset("sm2");
+    setTimeout(() => codeInput?.focus(), 150);
+  };
+
+  closePlaygroundModal = () => {
+    if (modal.open) modal.close();
+  };
+
+  closeBtn?.addEventListener("click", closePlaygroundModal);
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closePlaygroundModal();
+  });
+  modal.addEventListener("cancel", closePlaygroundModal);
+
+  // Hook Launchers
+  document.getElementById("openPlaygroundHeroBtn")?.addEventListener("click", openPlaygroundModal);
+  document.getElementById("footerPlaygroundBtn")?.addEventListener("click", openPlaygroundModal);
+
+  // Global hotkey 'P' / 'p'
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "p" || e.key === "P") {
+      const active = document.activeElement;
+      const isInput = active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA" || active.tagName === "SELECT" || active.isContentEditable);
+      if (!isInput && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        if (modal.open) closePlaygroundModal();
+        else openPlaygroundModal();
+      }
+    }
+  });
+
+  // Load initial preset
+  loadPreset("sm2");
+};
+
+initCodePlayground();

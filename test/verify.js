@@ -163,7 +163,9 @@ assert(scriptJs.includes('accent:') && scriptJs.includes('synth:') && indexHtml.
 assert(indexHtml.includes('id="resumeDownloadMdBtn"') && scriptJs.includes('downloadMarkdownResume') && scriptJs.includes('copyPlaintextResume'), 'index.html & script.js: Markdown resume export and plaintext clipboard copy implemented');
 assert(indexHtml.includes('id="telemetryModal"') && scriptJs.includes('initCyberTelemetry') && fs.readFileSync('styles.css', 'utf8').includes('.telemetry-modal'), 'index.html, styles.css & script.js: Real-time Cyber Telemetry & Engine Diagnostics modal implemented');
 assert(scriptJs.includes('telemetry:') && scriptJs.includes('openTelemetryModal') && indexHtml.includes('data-action="open-telemetry"'), 'index.html & script.js: Telemetry HUD launchers wired to Command Palette, Terminal CLI, and hotkeys');
-assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v27'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v27');
+assert(indexHtml.includes('id="playgroundModal"') && scriptJs.includes('initCodePlayground') && fs.readFileSync('styles.css', 'utf8').includes('.playground-modal'), 'index.html, styles.css & script.js: Interactive Cyber Code Playground & Algorithm Sandbox modal implemented');
+assert(scriptJs.includes('playground:') && scriptJs.includes('openPlaygroundModal') && indexHtml.includes('data-action="open-playground"'), 'index.html & script.js: Code Playground launchers wired to Command Palette, Terminal CLI, and hotkeys');
+assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v28'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v28');
 
 // Test global script evaluation with mock DOM globals
 try {

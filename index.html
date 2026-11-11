@@ -392,6 +392,8 @@
                     class="copy-icon" aria-hidden="true">📋</span> <span class="copy-label">Copy</span></button>
                 <button class="code-run-btn" id="runCodeBtn" type="button" title="Execute script"><span
                     class="run-icon">▶</span> <span class="run-label">Run</span></button>
+                <button class="code-sandbox-btn" id="openPlaygroundHeroBtn" type="button" title="Launch Interactive Code Playground (Press P)" aria-label="Launch Interactive Code Playground"><span
+                    class="sandbox-icon" aria-hidden="true">⚡</span> <span class="sandbox-label">Playground</span></button>
               </div>
             </div>
             <div class="code-body">
@@ -658,6 +660,7 @@
               <button type="button" class="terminal-chip" data-cmd="synth">synth 🎹</button>
               <button type="button" class="terminal-chip" data-cmd="game">game 🎮</button>
               <button type="button" class="terminal-chip" data-cmd="telemetry">telemetry ⚡</button>
+              <button type="button" class="terminal-chip" data-cmd="playground">playground 🧪</button>
               <button type="button" class="terminal-chip" data-cmd="export">export</button>
               <button type="button" class="terminal-chip" data-cmd="clear">clear</button>
             </div>
@@ -1901,6 +1904,10 @@
         <button class="footer-cmd-btn magnetic" id="footerTelemetryBtn" type="button" aria-label="Open Cyber Telemetry &amp; System Diagnostics"
           title="Open Cyber Telemetry &amp; System Diagnostics (D)">
           <span class="cmd-kbd">D</span> Telemetry ⚡
+        </button>
+        <button class="footer-cmd-btn magnetic" id="footerPlaygroundBtn" type="button" aria-label="Launch Interactive Code Playground"
+          title="Launch Interactive Code Playground (P)">
+          <span class="cmd-kbd">P</span> Playground 🧪
         </button>
         <button class="footer-cmd-btn magnetic" id="footerShareBtn" type="button" aria-label="Share portfolio &amp; recruiter brief"
           title="Share portfolio &amp; recruiter brief (Shift+S)">
@@ -3211,6 +3218,8 @@
           <small class="cmdk-desc">Export Gouv Kimsea's complete CV as Markdown</small></button>
         <button type="button" class="cmdk-item" data-action="copy-resume-text"><span class="cmdk-icon">📋</span> Copy Plaintext Resume
           <small class="cmdk-desc">Instant clipboard copy for recruiters &amp; ATS</small></button>
+        <button type="button" class="cmdk-item" data-action="open-playground"><span class="cmdk-icon">🧪</span> Live Code Playground
+          <small class="cmdk-desc">Evaluate JavaScript algorithms &amp; SM-2 SRS in real time</small></button>
         <button type="button" class="cmdk-item" data-action="open-game"><span class="cmdk-icon">🎮</span> Play DevLoop Indie Game
           <small class="cmdk-desc">Developer idle tycoon &amp; bug arcade</small></button>
         <button type="button" class="cmdk-item" data-action="open-synth"><span class="cmdk-icon">🎹</span> Cyber Piano Synthesizer
@@ -3406,6 +3415,10 @@ Email: gouvkimsea@gmail.com</pre>
             <div class="shortcut-row">
               <span class="shortcut-desc">Engine Telemetry &amp; Diagnostics</span>
               <kbd class="shortcut-kbd">D</kbd>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Launch Live Code Playground</span>
+              <kbd class="shortcut-kbd">P</kbd>
             </div>
             <div class="shortcut-row">
               <span class="shortcut-desc">Launch Mini World 3D Planet</span>
@@ -3726,6 +3739,70 @@ Email: gouvkimsea@gmail.com</pre>
               ▶ Run Engine Stress Test
             </button>
             <span class="benchmark-result-badge" id="telemetryBenchmarkResult">Status: Ready</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Interactive Cyber Code Playground & Algorithm Sandbox Modal -->
+  <dialog class="playground-modal" id="playgroundModal" aria-label="Interactive Cyber Code Playground" aria-modal="true">
+    <div class="playground-shell">
+      <div class="playground-header">
+        <div class="playground-header-left">
+          <div class="playground-badge-row">
+            <span class="playground-badge">JS / TS EVALUATION SANDBOX</span>
+            <span class="playground-runtime-status"><span class="radar-ping-dot" aria-hidden="true"></span> Engine Ready</span>
+          </div>
+          <h2 class="playground-title" id="playgroundModalTitle">Cyber Code Playground</h2>
+          <p class="playground-subtitle">Execute real-time JavaScript algorithms, SM-2 spaced repetition math, and benchmarks</p>
+        </div>
+        <div class="playground-header-actions">
+          <div class="playground-preset-wrap">
+            <label for="playgroundPresetSelect" class="sr-only">Choose Code Preset</label>
+            <select id="playgroundPresetSelect" class="playground-select" aria-label="Choose Code Preset">
+              <option value="profile">01 · Fetch Developer Dossier</option>
+              <option value="sm2" selected>02 · SM-2 SRS Spaced Repetition Math</option>
+              <option value="benchmark">03 · Fibonacci DP vs Recursion Benchmark</option>
+              <option value="canvas">04 · Canvas Procedural Wave Sim</option>
+            </select>
+          </div>
+          <button type="button" class="playground-action-btn playground-run-action" id="playgroundRunBtn" title="Execute Code (Ctrl+Enter)">
+            ▶ Run Code
+          </button>
+          <button type="button" class="playground-action-btn" id="playgroundResetBtn" title="Reset current preset code">
+            ↺ Reset
+          </button>
+          <button type="button" class="playground-action-btn" id="playgroundCopyBtn" title="Copy code to clipboard">
+            📋 Copy
+          </button>
+          <button class="modal-close playground-modal-close" id="playgroundCloseBtn" type="button" aria-label="Close playground modal">×</button>
+        </div>
+      </div>
+
+      <div class="playground-body">
+        <div class="playground-split-view">
+          <!-- Left: Code Editor Pane -->
+          <div class="playground-pane playground-editor-pane">
+            <div class="pane-header">
+              <span class="pane-title"><span class="pane-dot dot-yellow"></span> editor.js</span>
+              <span class="pane-hint">Tip: Press Ctrl+Enter to execute</span>
+            </div>
+            <div class="editor-input-wrap">
+              <textarea id="playgroundCodeInput" class="playground-textarea" spellcheck="false" autocomplete="off" aria-label="JavaScript Code Editor"></textarea>
+            </div>
+          </div>
+
+          <!-- Right: Console Output Pane -->
+          <div class="playground-pane playground-console-pane">
+            <div class="pane-header">
+              <span class="pane-title"><span class="pane-dot dot-green"></span> console.output</span>
+              <span class="pane-meta" id="playgroundExecutionTime">Ready · 0.00ms</span>
+            </div>
+            <div id="playgroundConsoleOutput" class="playground-console-stream" role="region" aria-label="Playground Console Output">
+              <p class="console-line console-init">// Output will stream here upon execution...<br>// Click "▶ Run Code" or press Ctrl+Enter</p>
+            </div>
+            <canvas id="playgroundCanvasPreview" class="playground-canvas-preview" width="360" height="100" style="display:none;"></canvas>
           </div>
         </div>
       </div>
