@@ -127,6 +127,10 @@
           theme = "light";
         }
         document.documentElement.setAttribute("data-theme", theme);
+        var savedAccent = localStorage.getItem("portfolio-accent");
+        if (savedAccent) {
+          document.documentElement.setAttribute("data-accent", savedAccent);
+        }
       } catch (e) {
         document.documentElement.setAttribute("data-theme", "light");
       }
@@ -146,6 +150,13 @@
     <div class="mobile-drawer-header">
       <a class="brand" href="#home">GOUV KIMSEA</a>
       <div class="mobile-drawer-actions">
+        <div class="accent-picker mobile-accent-picker" id="mobileAccentPicker" role="group" aria-label="Cyber Accent Color">
+          <button type="button" class="accent-btn active" data-accent-color="lime" title="Cyber Lime Accent" aria-label="Cyber Lime Accent"></button>
+          <button type="button" class="accent-btn" data-accent-color="cyan" title="Cyber Cyan Accent" aria-label="Cyber Cyan Accent"></button>
+          <button type="button" class="accent-btn" data-accent-color="emerald" title="Matrix Emerald Accent" aria-label="Matrix Emerald Accent"></button>
+          <button type="button" class="accent-btn" data-accent-color="magenta" title="Synthwave Magenta Accent" aria-label="Synthwave Magenta Accent"></button>
+          <button type="button" class="accent-btn" data-accent-color="amber" title="Amber CRT Accent" aria-label="Amber CRT Accent"></button>
+        </div>
         <button class="mobile-drawer-theme-toggle" id="mobileShareBtn" type="button"
           aria-label="Share portfolio &amp; recruiter brief" title="Share portfolio">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
@@ -228,6 +239,13 @@
         <a class="nav-link" href="#achievements">Achievements</a>
       </div>
       <div class="nav-right">
+        <div class="accent-picker" id="accentPicker" role="group" aria-label="Cyber Accent Color">
+          <button type="button" class="accent-btn active" data-accent-color="lime" title="Cyber Lime Accent" aria-label="Cyber Lime Accent"></button>
+          <button type="button" class="accent-btn" data-accent-color="cyan" title="Cyber Cyan Accent" aria-label="Cyber Cyan Accent"></button>
+          <button type="button" class="accent-btn" data-accent-color="emerald" title="Matrix Emerald Accent" aria-label="Matrix Emerald Accent"></button>
+          <button type="button" class="accent-btn" data-accent-color="magenta" title="Synthwave Magenta Accent" aria-label="Synthwave Magenta Accent"></button>
+          <button type="button" class="accent-btn" data-accent-color="amber" title="Amber CRT Accent" aria-label="Amber CRT Accent"></button>
+        </div>
         <button class="nav-share-btn magnetic" id="navShareBtn" type="button" aria-label="Share portfolio &amp; recruiter brief"
           title="Share portfolio (Shift+S)">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
@@ -636,6 +654,8 @@
               <button type="button" class="terminal-chip" data-cmd="resume">resume</button>
               <button type="button" class="terminal-chip" data-cmd="contact">contact</button>
               <button type="button" class="terminal-chip" data-cmd="theme">theme</button>
+              <button type="button" class="terminal-chip" data-cmd="accent">accent 🎨</button>
+              <button type="button" class="terminal-chip" data-cmd="synth">synth 🎹</button>
               <button type="button" class="terminal-chip" data-cmd="game">game 🎮</button>
               <button type="button" class="terminal-chip" data-cmd="export">export</button>
               <button type="button" class="terminal-chip" data-cmd="clear">clear</button>
@@ -3163,6 +3183,18 @@
           Sound FX <small class="cmdk-desc">Procedural Web Audio synthesis</small></button>
         <button type="button" class="cmdk-item" data-action="open-game"><span class="cmdk-icon">🎮</span> Play DevLoop Indie Game
           <small class="cmdk-desc">Developer idle tycoon &amp; bug arcade</small></button>
+        <button type="button" class="cmdk-item" data-action="open-synth"><span class="cmdk-icon">🎹</span> Cyber Piano Synthesizer
+          <small class="cmdk-desc">Playable 1-octave chromatic instrument &amp; soundboard</small></button>
+        <button type="button" class="cmdk-item" data-action="accent-lime"><span class="cmdk-icon">🟢</span> Accent: Cyber Lime
+          <small class="cmdk-desc">Signature neon lime &amp; orange scheme</small></button>
+        <button type="button" class="cmdk-item" data-action="accent-cyan"><span class="cmdk-icon">🔵</span> Accent: Cyber Cyan
+          <small class="cmdk-desc">High-voltage neon cyan &amp; purple palette</small></button>
+        <button type="button" class="cmdk-item" data-action="accent-emerald"><span class="cmdk-icon">❇️</span> Accent: Matrix Emerald
+          <small class="cmdk-desc">Authentic terminal phosphor green palette</small></button>
+        <button type="button" class="cmdk-item" data-action="accent-magenta"><span class="cmdk-icon">🟣</span> Accent: Synthwave Magenta
+          <small class="cmdk-desc">Retro synthwave hot pink &amp; amber palette</small></button>
+        <button type="button" class="cmdk-item" data-action="accent-amber"><span class="cmdk-icon">🟠</span> Accent: Amber CRT
+          <small class="cmdk-desc">Vintage monochrome warm amber phosphor</small></button>
         <button type="button" class="cmdk-item" data-action="adjust-volume"><span class="cmdk-icon">🎚</span> Adjust Audio Master Volume
           <small class="cmdk-desc">Tune procedural synthesizer gain slider</small></button>
         <button type="button" class="cmdk-item" data-action="download-vcard"><span class="cmdk-icon">📇</span> Save Contact Card (.vcf)
@@ -3378,6 +3410,48 @@ Email: gouvkimsea@gmail.com</pre>
             <button type="button" class="audio-bench-btn" data-sound="keypress">
               <span class="bench-icon">⌨️</span> Keypress Click
             </button>
+          </div>
+
+          <!-- Section 4: Interactive Cyber Synthesizer Keyboard -->
+          <div class="shortcuts-synth-section" id="shortcutsSynthSection">
+            <div class="synth-header-row">
+              <div class="synth-header-left">
+                <h4 class="synth-title">Cyber Piano Synthesizer</h4>
+                <p class="synth-subtitle">Playable 1-octave chromatic instrument · Computer keys A–K</p>
+              </div>
+              <div class="synth-controls">
+                <div class="synth-wave-selector">
+                  <label for="synthWaveSelect" class="sr-only">Oscillator Waveform</label>
+                  <select id="synthWaveSelect" class="synth-select">
+                    <option value="sawtooth" selected>Sawtooth (Retro Synth)</option>
+                    <option value="square">Square (8-Bit NES)</option>
+                    <option value="sine">Sine (Clean Chime)</option>
+                    <option value="triangle">Triangle (Lo-Fi)</option>
+                  </select>
+                </div>
+                <button type="button" class="synth-demo-btn" id="synthDemoTuneBtn" title="Play an 8-bit cyber demo arpeggio">
+                  ▶ Play Demo Tune
+                </button>
+              </div>
+            </div>
+            <div class="synth-status-bar">
+              <span class="synth-note-badge" id="synthNoteDisplay">Active Note: Ready · A-K to play</span>
+            </div>
+            <div class="cyber-piano-keys" id="cyberPianoKeyboard" role="group" aria-label="Cyber Piano Keyboard">
+              <button type="button" class="piano-key white" data-note="C4" data-freq="261.63" data-key="a"><span class="key-note">C4</span><kbd class="key-bind">A</kbd></button>
+              <button type="button" class="piano-key black" data-note="C#4" data-freq="277.18" data-key="w"><span class="key-note">C#</span><kbd class="key-bind">W</kbd></button>
+              <button type="button" class="piano-key white" data-note="D4" data-freq="293.66" data-key="s"><span class="key-note">D4</span><kbd class="key-bind">S</kbd></button>
+              <button type="button" class="piano-key black" data-note="D#4" data-freq="311.13" data-key="e"><span class="key-note">D#</span><kbd class="key-bind">E</kbd></button>
+              <button type="button" class="piano-key white" data-note="E4" data-freq="329.63" data-key="d"><span class="key-note">E4</span><kbd class="key-bind">D</kbd></button>
+              <button type="button" class="piano-key white" data-note="F4" data-freq="349.23" data-key="f"><span class="key-note">F4</span><kbd class="key-bind">F</kbd></button>
+              <button type="button" class="piano-key black" data-note="F#4" data-freq="369.99" data-key="t"><span class="key-note">F#</span><kbd class="key-bind">T</kbd></button>
+              <button type="button" class="piano-key white" data-note="G4" data-freq="392.00" data-key="g"><span class="key-note">G4</span><kbd class="key-bind">G</kbd></button>
+              <button type="button" class="piano-key black" data-note="G#4" data-freq="415.30" data-key="y"><span class="key-note">G#</span><kbd class="key-bind">Y</kbd></button>
+              <button type="button" class="piano-key white" data-note="A4" data-freq="440.00" data-key="h"><span class="key-note">A4</span><kbd class="key-bind">H</kbd></button>
+              <button type="button" class="piano-key black" data-note="A#4" data-freq="466.16" data-key="u"><span class="key-note">A#</span><kbd class="key-bind">U</kbd></button>
+              <button type="button" class="piano-key white" data-note="B4" data-freq="493.88" data-key="j"><span class="key-note">B4</span><kbd class="key-bind">J</kbd></button>
+              <button type="button" class="piano-key white" data-note="C5" data-freq="523.25" data-key="k"><span class="key-note">C5</span><kbd class="key-bind">K</kbd></button>
+            </div>
           </div>
         </div>
       </div>

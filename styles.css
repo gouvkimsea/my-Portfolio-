@@ -14434,3 +14434,411 @@ mark.project-search-match {
   background: #15803d;
   color: #ffffff;
 }
+
+/* ==========================================================================
+   Phase 20: Cyber Accent System & Synthesizer Piano
+   ========================================================================== */
+
+/* Accent Palettes */
+[data-accent="lime"] {
+  --lime: #e7f26d;
+  --orange: #ef8354;
+}
+
+[data-theme="dark"][data-accent="lime"],
+[data-theme="dark"]:not([data-accent]) {
+  --lime: #e7f26d;
+  --orange: #ff8e5e;
+}
+
+/* Cyber Cyan */
+[data-accent="cyan"] {
+  --lime: #00f0ff;
+  --orange: #c084fc;
+}
+[data-theme="light"][data-accent="cyan"] {
+  --lime: #0891b2;
+  --orange: #9333ea;
+}
+
+/* Matrix Emerald */
+[data-accent="emerald"] {
+  --lime: #00ff66;
+  --orange: #34d399;
+}
+[data-theme="light"][data-accent="emerald"] {
+  --lime: #16a34a;
+  --orange: #059669;
+}
+
+/* Synthwave Magenta */
+[data-accent="magenta"] {
+  --lime: #ff007f;
+  --orange: #fbbf24;
+}
+[data-theme="light"][data-accent="magenta"] {
+  --lime: #db2777;
+  --orange: #d97706;
+}
+
+/* Amber CRT */
+[data-accent="amber"] {
+  --lime: #ffb703;
+  --orange: #fb8500;
+}
+[data-theme="light"][data-accent="amber"] {
+  --lime: #d97706;
+  --orange: #ea580c;
+}
+
+/* Navigation Accent Picker */
+.accent-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  margin-right: 4px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+[data-theme="light"] .accent-picker {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.mobile-accent-picker {
+  margin: 0;
+  padding: 4px 8px;
+}
+
+.accent-btn {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+  position: relative;
+  outline: none;
+}
+
+.accent-btn:hover {
+  transform: scale(1.3);
+}
+
+.accent-btn:focus-visible {
+  outline: 2px solid var(--lime);
+  outline-offset: 2px;
+}
+
+.accent-btn.active {
+  border-color: #ffffff;
+  transform: scale(1.2);
+  box-shadow: 0 0 10px currentColor;
+}
+
+[data-theme="light"] .accent-btn.active {
+  border-color: #0f172a;
+}
+
+.accent-btn[data-accent-color="lime"] { background: #e7f26d; color: #e7f26d; }
+.accent-btn[data-accent-color="cyan"] { background: #00f0ff; color: #00f0ff; }
+.accent-btn[data-accent-color="emerald"] { background: #00ff66; color: #00ff66; }
+.accent-btn[data-accent-color="magenta"] { background: #ff007f; color: #ff007f; }
+.accent-btn[data-accent-color="amber"] { background: #ffb703; color: #ffb703; }
+
+/* Interactive Cyber Synthesizer Section */
+.shortcuts-synth-section {
+  margin-top: 24px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+[data-theme="light"] .shortcuts-synth-section {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.synth-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.synth-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+}
+
+.synth-subtitle {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+  font-family: var(--mono);
+}
+
+.synth-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.synth-select {
+  padding: 6px 12px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 12px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.synth-select:focus-visible {
+  border-color: var(--lime);
+  box-shadow: 0 0 8px rgba(231, 242, 109, 0.3);
+}
+
+.synth-demo-btn {
+  padding: 6px 14px;
+  background: rgba(231, 242, 109, 0.12);
+  border: 1px solid var(--lime);
+  border-radius: 6px;
+  color: var(--lime);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.synth-demo-btn:hover {
+  background: var(--lime);
+  color: #121310;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(231, 242, 109, 0.25);
+}
+
+[data-theme="light"] .synth-demo-btn {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: var(--lime);
+  color: var(--lime);
+}
+
+[data-theme="light"] .synth-demo-btn:hover {
+  background: var(--lime);
+  color: #ffffff;
+}
+
+.synth-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.synth-note-badge {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: rgba(231, 242, 109, 0.08);
+  color: var(--lime);
+  border: 1px dashed rgba(231, 242, 109, 0.3);
+  letter-spacing: 0.05em;
+  transition: all 0.15s ease;
+}
+
+/* Piano Keyboard */
+.cyber-piano-keys {
+  display: flex;
+  position: relative;
+  height: 140px;
+  user-select: none;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0 4px 4px;
+  overflow-x: auto;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="light"] .cyber-piano-keys {
+  background: #cbd5e1;
+  border-color: #94a3b8;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.piano-key {
+  position: relative;
+  cursor: pointer;
+  border-radius: 0 0 6px 6px;
+  transition: background 0.1s ease, transform 0.08s ease, box-shadow 0.1s ease;
+  outline: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding-bottom: 8px;
+  box-sizing: border-box;
+}
+
+.piano-key:focus-visible {
+  outline: 2px solid var(--lime);
+  outline-offset: 1px;
+}
+
+/* White Piano Keys */
+.piano-key.white {
+  flex: 1 1 0;
+  min-width: 38px;
+  height: 100%;
+  background: #1e221b;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: none;
+  z-index: 1;
+  color: var(--muted);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="light"] .piano-key.white {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-top: none;
+  color: #64748b;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.08);
+}
+
+.piano-key.white:hover {
+  background: #282d23;
+  color: var(--ink);
+}
+
+[data-theme="light"] .piano-key.white:hover {
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+.piano-key.white.active,
+.piano-key.white:active {
+  background: var(--lime) !important;
+  color: #121310 !important;
+  transform: translateY(3px);
+  box-shadow: 0 0 16px var(--lime), inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="light"] .piano-key.white.active,
+[data-theme="light"] .piano-key.white:active {
+  background: var(--lime) !important;
+  color: #ffffff !important;
+}
+
+/* Black Piano Keys */
+.piano-key.black {
+  width: 26px;
+  height: 60%;
+  background: #0a0b09;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-top: none;
+  margin-left: -13px;
+  margin-right: -13px;
+  z-index: 3;
+  color: #71717a;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.7);
+}
+
+[data-theme="light"] .piano-key.black {
+  background: #1e293b;
+  border: 1px solid #0f172a;
+  color: #94a3b8;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+}
+
+.piano-key.black:hover {
+  background: #181a15;
+  color: #e4e4e7;
+}
+
+[data-theme="light"] .piano-key.black:hover {
+  background: #334155;
+  color: #ffffff;
+}
+
+.piano-key.black.active,
+.piano-key.black:active {
+  background: var(--orange) !important;
+  color: #121310 !important;
+  transform: translateY(3px);
+  box-shadow: 0 0 16px var(--orange), inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="light"] .piano-key.black.active,
+[data-theme="light"] .piano-key.black:active {
+  background: var(--orange) !important;
+  color: #ffffff !important;
+}
+
+.key-note {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.key-bind {
+  font-family: var(--mono);
+  font-size: 9px;
+  padding: 1px 3px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  margin-top: 3px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+[data-theme="light"] .key-bind {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+@media (max-width: 600px) {
+  .cyber-piano-keys {
+    height: 120px;
+  }
+  .piano-key.white {
+    min-width: 30px;
+  }
+  .piano-key.black {
+    width: 22px;
+    height: 58%;
+    margin-left: -11px;
+    margin-right: -11px;
+  }
+  .accent-picker {
+    gap: 4px;
+    padding: 2px 4px;
+  }
+  .accent-btn {
+    width: 12px;
+    height: 12px;
+  }
+}

@@ -794,6 +794,18 @@ cmdKResults?.addEventListener("click", e => {
     }, 200);
   } else if (action === "open-game") {
     if (typeof openGameModal === "function") openGameModal();
+  } else if (action === "open-synth") {
+    const sModal = document.getElementById("shortcutsModal");
+    if (sModal && !sModal.open) {
+      if (typeof openShortcutsModal === "function") openShortcutsModal();
+      else sModal.showModal();
+    }
+    setTimeout(() => {
+      document.getElementById("shortcutsSynthSection")?.scrollIntoView({ behavior: "smooth" });
+    }, 200);
+  } else if (action && action.startsWith("accent-")) {
+    const color = action.replace("accent-", "");
+    if (typeof setAccentTheme === "function") setAccentTheme(color);
   } else if (action === "filter-projects") {
     const cat = item.dataset.category || "all";
     const filterBtn = $(`button.filter[data-filter='${cat}']`);
@@ -4709,7 +4721,7 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>cat [file]</b>, <b>curl</b>, <b>history</b>, <b>export</b>, <b>vcard</b>, <b>game</b>, <b>arcade</b>, <b>time</b>, <b>volume [0-100]</b>, <b>demo [project]</b>, <b>cite [project]</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>bench</b>, <b>timeline</b>, <b>architecture</b>, <b>ping</b>, <b>matrix</b>, <b>git</b>, <b>nav [section]</b>, <b>shortcuts</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>cat [file]</b>, <b>curl</b>, <b>history</b>, <b>export</b>, <b>vcard</b>, <b>game</b>, <b>arcade</b>, <b>accent [theme]</b>, <b>synth [demo]</b>, <b>piano</b>, <b>time</b>, <b>volume [0-100]</b>, <b>demo [project]</b>, <b>cite [project]</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>bench</b>, <b>timeline</b>, <b>architecture</b>, <b>ping</b>, <b>matrix</b>, <b>git</b>, <b>nav [section]</b>, <b>shortcuts</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
   matrix: () => {
     const terminalBody = $(".terminal-body");
     if (!terminalBody) return "Terminal stream window not accessible.";
@@ -5179,6 +5191,45 @@ cache-control: max-age=600
     }
     return "Launched Cyber Bug Smasher Arcade 👾";
   },
+  accent: (arg) => {
+    const valid = ["lime", "cyan", "emerald", "magenta", "amber"];
+    const target = (arg || "").trim().toLowerCase();
+    if (!target) {
+      const current = document.documentElement.getAttribute("data-accent") || "lime";
+      return `<pre class="term-pre" style="margin:4px 0;font-size:11px;line-height:1.45;">🎨 <b>Cyber Accent Theme Palette System</b>
+--------------------------------------------------------
+Current Accent: <b>${current.toUpperCase()}</b>
+Available:      <b>accent lime</b> (Signature Neon Lime & Orange)
+                <b>accent cyan</b> (Cyberpunk Cyan & Violet)
+                <b>accent emerald</b> (Matrix Phosphor Green & Mint)
+                <b>accent magenta</b> (Synthwave Hot Pink & Amber)
+                <b>accent amber</b> (Vintage Amber Phosphor CRT)</pre>`;
+    }
+    if (valid.includes(target)) {
+      if (typeof setAccentTheme === "function") setAccentTheme(target);
+      return `Switched Cyber Accent theme to <b>${target.toUpperCase()}</b>! 🎨`;
+    }
+    return `Invalid accent theme <b>${escapeHtml(arg)}</b>. Available: <b>lime, cyan, emerald, magenta, amber</b>.`;
+  },
+  synth: (arg) => {
+    const clean = (arg || "").trim().toLowerCase();
+    if (clean === "demo" || clean === "tune" || clean === "play") {
+      if (typeof playSynthDemoTune === "function") {
+        playSynthDemoTune();
+        return "🎶 Playing 8-bit cyber demo arpeggio riff via Web Audio Synthesizer...";
+      }
+    }
+    const sModal = document.getElementById("shortcutsModal");
+    if (sModal && !sModal.open) {
+      if (typeof openShortcutsModal === "function") openShortcutsModal();
+      else sModal.showModal();
+    }
+    setTimeout(() => {
+      document.getElementById("shortcutsSynthSection")?.scrollIntoView({ behavior: "smooth" });
+    }, 200);
+    return "Opened Cyber Piano Synthesizer in Acoustic Lab 🎹 (Use keys A–K to play)";
+  },
+  piano: (arg) => terminalCommands.synth(arg),
   time: () => {
     const now = new Date();
     const options = { timeZone: "Asia/Phnom_Penh", hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit", weekday: "short", year: "numeric", month: "short", day: "numeric" };
@@ -5291,6 +5342,10 @@ const executeCommand = rawCommand => {
     response = terminalCommands.demo(rest);
   } else if (primary === "cite" && typeof terminalCommands.cite === "function") {
     response = terminalCommands.cite(rest);
+  } else if (primary === "accent" && typeof terminalCommands.accent === "function") {
+    response = terminalCommands.accent(rest);
+  } else if ((primary === "synth" || primary === "piano") && typeof terminalCommands.synth === "function") {
+    response = terminalCommands.synth(rest);
   } else if ((primary === "sound" || primary === "sfx") && rest) {
     const sub = rest.toLowerCase();
     if (sub === "on") {
@@ -5410,7 +5465,7 @@ terminalInput?.addEventListener("keydown", event => {
     if (current) {
       const allCmds = Array.from(new Set([
         ...Object.keys(terminalCommands),
-        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade"
+        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade", "accent", "synth", "piano"
       ]));
       const prefix = lastTabPrefix || current;
       const matches = allCmds.filter(k => k.startsWith(prefix));
@@ -7663,3 +7718,170 @@ window.addEventListener("keydown", (e) => {
 });
 
 initDevLoopGame();
+
+// ==========================================================================
+// Phase 20: Cyber Accent Theme Engine & Playable Synthesizer Piano
+// ==========================================================================
+
+const ACCENT_THEMES = ["lime", "cyan", "emerald", "magenta", "amber"];
+
+const setAccentTheme = (accent, persist = true) => {
+  if (!ACCENT_THEMES.includes(accent)) accent = "lime";
+  document.documentElement.setAttribute("data-accent", accent);
+  if (persist) {
+    try {
+      localStorage.setItem("portfolio-accent", accent);
+    } catch (_) {}
+  }
+  document.querySelectorAll(".accent-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.accentColor === accent);
+  });
+  if (typeof playSound === "function") playSound("chime");
+  if (typeof showToast === "function") {
+    showToast(`Accent theme: ${accent.toUpperCase()} activated`, "info");
+  }
+};
+
+const initAccentThemes = () => {
+  let stored = "lime";
+  try {
+    stored = localStorage.getItem("portfolio-accent") || "lime";
+  } catch (_) {}
+  if (!ACCENT_THEMES.includes(stored)) stored = "lime";
+  document.documentElement.setAttribute("data-accent", stored);
+  document.querySelectorAll(".accent-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.accentColor === stored);
+    btn.addEventListener("click", () => {
+      const color = btn.dataset.accentColor || "lime";
+      setAccentTheme(color);
+    });
+  });
+};
+
+// Playable Cyber Synthesizer Engine
+const KEY_TO_NOTE = {
+  a: { note: "C4", freq: 261.63 },
+  w: { note: "C#4", freq: 277.18 },
+  s: { note: "D4", freq: 293.66 },
+  e: { note: "D#4", freq: 311.13 },
+  d: { note: "E4", freq: 329.63 },
+  f: { note: "F4", freq: 349.23 },
+  t: { note: "F#4", freq: 369.99 },
+  g: { note: "G4", freq: 392.00 },
+  y: { note: "G#4", freq: 415.30 },
+  h: { note: "A4", freq: 440.00 },
+  u: { note: "A#4", freq: 466.16 },
+  j: { note: "B4", freq: 493.88 },
+  k: { note: "C5", freq: 523.25 }
+};
+
+const playPianoNote = (freq, noteName = "", duration = 0.32, customWave = null) => {
+  if (typeof sfxEnabled !== "undefined" && !sfxEnabled) return;
+  const ctx = typeof getAudioContext === "function" ? getAudioContext() : null;
+  if (!ctx) return;
+  const wave = customWave || document.getElementById("synthWaveSelect")?.value || "sawtooth";
+  const t = ctx.currentTime;
+  const dest = typeof getMasterGainNode === "function" ? getMasterGainNode(ctx) : ctx.destination;
+
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = wave;
+  osc.frequency.setValueAtTime(freq, t);
+
+  gain.gain.setValueAtTime(0.0001, t);
+  gain.gain.linearRampToValueAtTime(0.06, t + 0.015);
+  gain.gain.exponentialRampToValueAtTime(0.025, t + 0.12);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t + duration);
+
+  osc.connect(gain);
+  gain.connect(dest);
+
+  osc.start(t);
+  osc.stop(t + duration + 0.02);
+
+  const display = document.getElementById("synthNoteDisplay");
+  if (display && noteName) {
+    display.textContent = `Active Note: ${noteName} (${Math.round(freq)} Hz) · [${wave}]`;
+  }
+};
+
+let synthDemoRunning = false;
+const playSynthDemoTune = () => {
+  if (synthDemoRunning) return;
+  synthDemoRunning = true;
+  const riff = [
+    { note: "C4", freq: 261.63, delay: 0 },
+    { note: "E4", freq: 329.63, delay: 130 },
+    { note: "G4", freq: 392.00, delay: 260 },
+    { note: "B4", freq: 493.88, delay: 390 },
+    { note: "C5", freq: 523.25, delay: 520 },
+    { note: "B4", freq: 493.88, delay: 680 },
+    { note: "G4", freq: 392.00, delay: 820 },
+    { note: "E4", freq: 329.63, delay: 960 },
+    { note: "C4", freq: 261.63, delay: 1100 },
+    { note: "G4", freq: 392.00, delay: 1260 },
+    { note: "C5", freq: 523.25, delay: 1420 }
+  ];
+
+  riff.forEach((item, index) => {
+    setTimeout(() => {
+      playPianoNote(item.freq, item.note, 0.22, "square");
+      const keyEl = document.querySelector(`.piano-key[data-note="${item.note}"]`);
+      if (keyEl) {
+        keyEl.classList.add("active");
+        setTimeout(() => keyEl.classList.remove("active"), 160);
+      }
+      if (index === riff.length - 1) {
+        setTimeout(() => {
+          synthDemoRunning = false;
+          const display = document.getElementById("synthNoteDisplay");
+          if (display) display.textContent = "Active Note: Ready · A-K to play";
+        }, 300);
+      }
+    }, item.delay);
+  });
+};
+
+const initCyberSynthesizer = () => {
+  const keyboard = document.getElementById("cyberPianoKeyboard");
+  if (!keyboard) return;
+
+  keyboard.addEventListener("click", (e) => {
+    const key = e.target.closest(".piano-key");
+    if (!key) return;
+    const freq = parseFloat(key.dataset.freq);
+    const note = key.dataset.note || "";
+    if (freq) {
+      playPianoNote(freq, note);
+      key.classList.add("active");
+      setTimeout(() => key.classList.remove("active"), 180);
+    }
+  });
+
+  document.getElementById("synthDemoTuneBtn")?.addEventListener("click", () => {
+    playSynthDemoTune();
+  });
+
+  window.addEventListener("keydown", (e) => {
+    const shortcutsModal = document.getElementById("shortcutsModal");
+    if (!shortcutsModal || !shortcutsModal.open) return;
+    const active = document.activeElement;
+    const isInput = active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA" || active.tagName === "SELECT" || active.isContentEditable);
+    if (isInput || e.ctrlKey || e.metaKey || e.altKey) return;
+
+    const char = e.key.toLowerCase();
+    if (KEY_TO_NOTE[char]) {
+      e.preventDefault();
+      const info = KEY_TO_NOTE[char];
+      playPianoNote(info.freq, info.note);
+      const keyEl = document.querySelector(`.piano-key[data-key="${char}"]`);
+      if (keyEl) {
+        keyEl.classList.add("active");
+        setTimeout(() => keyEl.classList.remove("active"), 180);
+      }
+    }
+  });
+};
+
+initAccentThemes();
+initCyberSynthesizer();
