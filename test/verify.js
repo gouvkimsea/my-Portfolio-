@@ -168,7 +168,9 @@ assert(scriptJs.includes('playground:') && scriptJs.includes('openPlaygroundModa
 assert(indexHtml.includes('id="ambientParticlesCanvas"') && scriptJs.includes('initAmbientParticles') && fs.readFileSync('styles.css', 'utf8').includes('.ambient-particles-canvas'), 'index.html, styles.css & script.js: Ambient Cyber Particle Constellation Mesh implemented');
 assert(indexHtml.includes('id="modalExportCaseStudyBtn"') && scriptJs.includes('exportProjectCaseStudy') && fs.readFileSync('styles.css', 'utf8').includes('.modal-dossier-btn'), 'index.html, styles.css & script.js: In-modal Markdown project case study dossier export implemented');
 assert(scriptJs.includes('particles:') && scriptJs.includes('casestudy:') && indexHtml.includes('data-action="toggle-particles"'), 'index.html & script.js: Particle mesh & case study launchers wired to Command Palette, Terminal CLI, and hotkeys');
-assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v29'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v29');
+assert(indexHtml.includes('id="gitGraphModal"') && scriptJs.includes('initGitGraphModal') && fs.readFileSync('styles.css', 'utf8').includes('.gitgraph-modal'), 'index.html, styles.css & script.js: Interactive Git Graph & Contribution Heatmap HUD implemented');
+assert(scriptJs.includes('gitgraph:') && indexHtml.includes('data-action="view-git-graph"') && indexHtml.includes('id="achieveViewGitGraphBtn"'), 'index.html & script.js: Git graph & heatmap launchers wired to Milestones toolbar, Command Palette, Terminal CLI, and hotkeys');
+assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v30'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v30');
 
 // Test global script evaluation with mock DOM globals
 try {

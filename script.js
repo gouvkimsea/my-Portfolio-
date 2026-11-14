@@ -574,6 +574,16 @@ document.addEventListener("keydown", e => {
   } else if ((e.key === "P" || e.key === "p") && e.shiftKey) {
     e.preventDefault();
     if (typeof toggleAmbientParticles === "function") toggleAmbientParticles();
+  } else if ((e.key === "G" || e.key === "g") && e.shiftKey) {
+    e.preventDefault();
+    if (typeof openGitGraphModal === "function") {
+      const gModal = document.getElementById("gitGraphModal");
+      if (gModal?.open) {
+        if (typeof closeGitGraphModal === "function") closeGitGraphModal();
+      } else {
+        openGitGraphModal();
+      }
+    }
   } else if (e.key.toLowerCase() === "u" && !e.ctrlKey && !e.metaKey && !e.altKey) {
     e.preventDefault();
     if (typeof toggleSfx === "function") toggleSfx();
@@ -803,6 +813,8 @@ cmdKResults?.addEventListener("click", e => {
     if (typeof toggleAmbientParticles === "function") toggleAmbientParticles();
   } else if (action === "export-case-study") {
     if (typeof exportProjectCaseStudy === "function") exportProjectCaseStudy();
+  } else if (action === "view-git-graph") {
+    if (typeof openGitGraphModal === "function") openGitGraphModal();
   } else if (action === "open-telemetry") {
     if (typeof openTelemetryModal === "function") openTelemetryModal();
   } else if (action === "download-resume-md") {
@@ -4800,7 +4812,7 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>cat [file]</b>, <b>curl</b>, <b>history</b>, <b>export</b>, <b>vcard</b>, <b>game</b>, <b>arcade</b>, <b>accent [theme]</b>, <b>synth [demo]</b>, <b>piano</b>, <b>telemetry</b>, <b>diag</b>, <b>perf</b>, <b>sysinfo</b>, <b>playground</b>, <b>sandbox</b>, <b>eval [code]</b>, <b>particles [on|off|toggle]</b>, <b>casestudy [project]</b>, <b>time</b>, <b>volume [0-100]</b>, <b>demo [project]</b>, <b>cite [project]</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>bench</b>, <b>timeline</b>, <b>architecture</b>, <b>ping</b>, <b>matrix</b>, <b>git</b>, <b>nav [section]</b>, <b>shortcuts</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume [md|text]</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>cat [file]</b>, <b>curl</b>, <b>history</b>, <b>export</b>, <b>vcard</b>, <b>game</b>, <b>arcade</b>, <b>accent [theme]</b>, <b>synth [demo]</b>, <b>piano</b>, <b>telemetry</b>, <b>diag</b>, <b>perf</b>, <b>sysinfo</b>, <b>playground</b>, <b>sandbox</b>, <b>eval [code]</b>, <b>particles [on|off|toggle]</b>, <b>casestudy [project]</b>, <b>gitgraph [project]</b>, <b>heatmap</b>, <b>time</b>, <b>volume [0-100]</b>, <b>demo [project]</b>, <b>cite [project]</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>bench</b>, <b>timeline</b>, <b>architecture</b>, <b>ping</b>, <b>matrix</b>, <b>git</b>, <b>nav [section]</b>, <b>shortcuts</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume [md|text]</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
   matrix: () => {
     const terminalBody = $(".terminal-body");
     if (!terminalBody) return "Terminal stream window not accessible.";
@@ -5197,7 +5209,7 @@ Layer 1: Semantic Core  · Zero-dependency ES2026 &amp; HTML5 dialogs
 Layer 2: Style Tokens   · Modular Vanilla CSS &amp; WCAG AAA contrast
 Layer 3: 3D Graphics    · Hardware-accelerated WebGL 2.0 MiniWorld
 Layer 4: Procedural SFX · Pure Web Audio synthesizers (0 audio files)
-Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v29</pre>`;
+Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v30</pre>`;
   },
   cat: (arg) => {
     const file = (arg || "").trim().toLowerCase();
@@ -5326,7 +5338,7 @@ DOM Tree:         <b>${domCount}</b> semantic nodes
 Logical Cores:    <b>${cores}</b> Threads (hardwareConcurrency)
 Display:          <b>${window.innerWidth}x${window.innerHeight}</b> (${window.devicePixelRatio || 1}x DPR)
 Audio Engine:     Active (${Math.round((typeof sfxVolume !== "undefined" ? sfxVolume : 0.8) * 100)}% Gain)
-PWA Cache:        <b>kimsea-pwa-v29</b> (Stale-While-Revalidate)
+PWA Cache:        <b>kimsea-pwa-v30</b> (Stale-While-Revalidate)
 Status:           Modal HUD Launched ⚡</pre>`;
   },
   diag: () => terminalCommands.telemetry(),
@@ -5368,6 +5380,12 @@ Status:           Modal HUD Launched ⚡</pre>`;
     return "Case study exporter unavailable.";
   },
   dossier: (arg) => terminalCommands.casestudy(arg),
+  gitgraph: (arg) => {
+    if (typeof openGitGraphModal === "function") openGitGraphModal(arg);
+    return "Launched Git Graph & Shipping Rhythm Heatmap HUD 📊 (52-week activity matrix & DAG topology)";
+  },
+  heatmap: (arg) => terminalCommands.gitgraph(arg),
+  graph: (arg) => terminalCommands.gitgraph(arg),
   time: () => {
     const now = new Date();
     const options = { timeZone: "Asia/Phnom_Penh", hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit", weekday: "short", year: "numeric", month: "short", day: "numeric" };
@@ -5611,7 +5629,7 @@ terminalInput?.addEventListener("keydown", event => {
     if (current) {
       const allCmds = Array.from(new Set([
         ...Object.keys(terminalCommands),
-        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade", "accent", "synth", "piano", "telemetry", "diag", "perf", "sysinfo", "playground", "sandbox", "eval", "particles", "casestudy", "dossier"
+        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade", "accent", "synth", "piano", "telemetry", "diag", "perf", "sysinfo", "playground", "sandbox", "eval", "particles", "casestudy", "dossier", "gitgraph", "heatmap", "graph"
       ]));
       const prefix = lastTabPrefix || current;
       const matches = allCmds.filter(k => k.startsWith(prefix));
@@ -7852,7 +7870,7 @@ window.addEventListener("keydown", (e) => {
   if (e.key === "g" || e.key === "G") {
     const active = document.activeElement;
     const isInput = active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA" || active.isContentEditable);
-    if (!isInput && !e.ctrlKey && !e.metaKey && !e.altKey) {
+    if (!isInput && !e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey) {
       const gModal = document.getElementById("gameModal");
       if (gModal && gModal.open) {
         if (typeof closeGameModal === "function") closeGameModal();
@@ -8125,7 +8143,7 @@ const initCyberTelemetry = () => {
       audioSubEl.textContent = `48000 Hz · Master Gain ${vol}%`;
     }
     if (pwaEl) {
-      pwaEl.textContent = "kimsea-pwa-v29";
+      pwaEl.textContent = "kimsea-pwa-v30";
     }
   };
 
@@ -8822,3 +8840,174 @@ const initAmbientParticles = () => {
 };
 
 initAmbientParticles();
+
+// ==========================================================================
+// Phase 24: Interactive Git Graph & Contribution Heatmap HUD
+// ==========================================================================
+
+let openGitGraphModal = null;
+let closeGitGraphModal = null;
+
+const initGitGraphModal = () => {
+  const modal = document.getElementById("gitGraphModal");
+  if (!modal) return;
+
+  const closeBtn = document.getElementById("gitGraphCloseBtn");
+  const copyLogBtn = document.getElementById("gitGraphCopyLogBtn");
+  const heatmapGrid = document.getElementById("gitHeatmapGrid");
+  const commitStream = document.getElementById("gitCommitStream");
+  const repoPills = document.querySelectorAll(".gitgraph-pill");
+  const launcherBtns = [
+    document.getElementById("achieveViewGitGraphBtn"),
+    document.getElementById("terminalGitGraphBtn")
+  ];
+
+  let activeRepo = "all";
+
+  const GIT_COMMITS = [
+    { hash: "eeabe4a", branch: "main", repo: "portfolio", time: "Just now", msg: "docs(features): document ambient particle mesh and case study dossier export" },
+    { hash: "9a6f849", branch: "main", repo: "portfolio", time: "1 hour ago", msg: "feat(portfolio): add ambient cyber particle constellation mesh and case study exporter" },
+    { hash: "ef009f2", branch: "main", repo: "portfolio", time: "Yesterday", msg: "docs(features): document code playground, algorithm presets, and eval CLI" },
+    { hash: "68f351b", branch: "main", repo: "portfolio", time: "2 days ago", msg: "feat(portfolio): add interactive cyber code playground and algorithm sandbox" },
+    { hash: "94f5fa4", branch: "main", repo: "portfolio", time: "3 days ago", msg: "docs(features): document telemetry HUD, performance benchmarking, and markdown CV export" },
+    { hash: "2c05320", branch: "main", repo: "portfolio", time: "4 days ago", msg: "feat(portfolio): add real-time cyber telemetry and recruiter markdown CV suite" },
+    { hash: "c18a42b", branch: "feat/pinit-scanner", repo: "pinit", time: "1 week ago", msg: "feat(detector): optimize multimodal phishing heuristics & URL entropy scoring" },
+    { hash: "b893f10", branch: "feat/cel-shader", repo: "miniworld", time: "2 weeks ago", msg: "feat(webgl): implement dynamic Fresnel rim-lighting and atmospheric scatter" },
+    { hash: "a44f1fe", branch: "main", repo: "portfolio", time: "2 weeks ago", msg: "feat(portfolio): add cyber accent themes and chromatic synthesizer piano" },
+    { hash: "5ce46ca", branch: "feat/devloop", repo: "portfolio", time: "3 weeks ago", msg: "feat(game): add DevLoop cyber indie studio and bug smasher arcade" },
+    { hash: "d7182ec", branch: "feat/srs-spaced-repetition", repo: "clp", time: "1 month ago", msg: "feat(engine): fine-tune SM-2 retention curves and review interval scheduling" },
+    { hash: "f42091a", branch: "feat/acid-escrow", repo: "joul", time: "1 month ago", msg: "feat(fleet): implement mathematical overlap interval check and ACID escrow log" }
+  ];
+
+  // Render 52-week activity heatmap (52 weeks x 7 days)
+  const renderHeatmap = (repoFilter = "all") => {
+    if (!heatmapGrid) return;
+    heatmapGrid.innerHTML = "";
+
+    // Deterministic pseudo-random distribution based on cell index and repo
+    for (let col = 0; col < 52; col++) {
+      for (let row = 0; row < 7; row++) {
+        const cell = document.createElement("div");
+        cell.className = "heatmap-cell";
+
+        const seed = (col * 7 + row + (repoFilter.length * 13)) % 100;
+        let lvl = 0;
+        if (row === 0 || row === 6) {
+          if (seed > 85) lvl = 2;
+          else if (seed > 65) lvl = 1;
+        } else {
+          if (seed > 88) lvl = 4;
+          else if (seed > 65) lvl = 3;
+          else if (seed > 40) lvl = 2;
+          else if (seed > 15) lvl = 1;
+        }
+
+        cell.classList.add(`lvl-${lvl}`);
+        const count = lvl === 0 ? 0 : (lvl === 4 ? 6 + (seed % 4) : lvl * 2);
+        cell.title = `Week ${col + 1}, Day ${row + 1}: ${count} commits (${repoFilter.toUpperCase()})`;
+        cell.setAttribute("role", "gridcell");
+        cell.setAttribute("aria-label", `${count} commits`);
+
+        cell.addEventListener("click", () => {
+          if (typeof playSound === "function") playSound("click");
+          if (typeof showPortfolioToast === "function") {
+            showPortfolioToast(`Activity: ${count} commits on Week ${col + 1}`);
+          }
+        });
+
+        heatmapGrid.appendChild(cell);
+      }
+    }
+  };
+
+  // Render commit stream feed
+  const renderCommitStream = (repoFilter = "all") => {
+    if (!commitStream) return;
+    const filtered = repoFilter === "all" ? GIT_COMMITS : GIT_COMMITS.filter(c => c.repo === repoFilter);
+    const countEl = document.getElementById("gitCommitsCount");
+    if (countEl) countEl.textContent = `${filtered.length} Commits (${repoFilter.toUpperCase()})`;
+
+    commitStream.innerHTML = filtered.map(c => `
+      <div class="commit-row" data-hash="${c.hash}">
+        <div class="commit-left">
+          <div class="commit-meta">
+            <span class="commit-hash" title="Click to copy commit hash">${c.hash}</span>
+            <span class="commit-branch">(${c.branch})</span>
+          </div>
+          <div class="commit-msg">${escapeHtml(c.msg)}</div>
+        </div>
+        <span class="commit-time">${c.time}</span>
+      </div>
+    `).join("");
+
+    // Wire click to copy hash
+    commitStream.querySelectorAll(".commit-row").forEach(row => {
+      row.addEventListener("click", () => {
+        const hash = row.dataset.hash;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(hash).catch(() => {});
+        }
+        if (typeof playSound === "function") playSound("chime");
+        if (typeof showPortfolioToast === "function") {
+          showPortfolioToast(`Copied commit hash ${hash}! 📋`);
+        }
+      });
+    });
+  };
+
+  openGitGraphModal = (filter = "all") => {
+    if (typeof playSound === "function") playSound("whoosh");
+    if (!modal.open) modal.showModal();
+    activeRepo = filter || "all";
+    repoPills.forEach(p => p.classList.toggle("active", p.dataset.repo === activeRepo));
+    renderHeatmap(activeRepo);
+    renderCommitStream(activeRepo);
+  };
+
+  closeGitGraphModal = () => {
+    if (modal.open) modal.close();
+  };
+
+  closeBtn?.addEventListener("click", closeGitGraphModal);
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeGitGraphModal();
+  });
+  modal.addEventListener("cancel", closeGitGraphModal);
+
+  // Filter pills
+  repoPills.forEach(pill => {
+    pill.addEventListener("click", () => {
+      const repo = pill.dataset.repo || "all";
+      activeRepo = repo;
+      repoPills.forEach(p => p.classList.toggle("active", p === pill));
+      renderHeatmap(activeRepo);
+      renderCommitStream(activeRepo);
+      if (typeof playSound === "function") playSound("click");
+    });
+  });
+
+  // Copy Log Button
+  copyLogBtn?.addEventListener("click", () => {
+    const text = GIT_COMMITS.map(c => `commit ${c.hash} (${c.branch})\nDate:   ${c.time}\n\n    ${c.msg}\n`).join("\n");
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).catch(() => {});
+    }
+    copyLogBtn.textContent = "Copied! ✓";
+    setTimeout(() => { copyLogBtn.textContent = "📋 Copy Log"; }, 2000);
+    if (typeof playSound === "function") playSound("chime");
+    if (typeof showPortfolioToast === "function") {
+      showPortfolioToast("Copied Git commit log to clipboard! 📋");
+    }
+  });
+
+  // Wire Launchers
+  launcherBtns.forEach(btn => {
+    btn?.addEventListener("click", () => openGitGraphModal("all"));
+  });
+
+  // Initial render
+  renderHeatmap("all");
+  renderCommitStream("all");
+};
+
+initGitGraphModal();

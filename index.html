@@ -634,6 +634,9 @@
               <span class="wb-dot wb-red" role="button" tabindex="0" title="Clear terminal" aria-label="Clear terminal"></span><span class="wb-dot wb-yellow" role="button" tabindex="0" title="Reset terminal" aria-label="Reset terminal"></span><span class="wb-dot wb-green" role="button" tabindex="0" title="Launch Matrix stream" aria-label="Launch Matrix stream"></span>
               <span class="terminal-title">gouv@macbook:~</span>
               <div class="terminal-bar-actions">
+                <button type="button" class="terminal-action-btn" id="terminalGitGraphBtn" title="Inspect interactive Git Graph &amp; Heatmap (Shift+G)" aria-label="Open Git Graph modal">
+                  <span class="term-action-icon" aria-hidden="true">📊</span> <span class="term-action-label">Git Graph</span>
+                </button>
                 <button type="button" class="terminal-action-btn" id="terminalExportBtn" title="Export session log" aria-label="Export terminal session log">
                   <span class="term-action-icon" aria-hidden="true">📥</span> <span class="term-action-label">Export</span>
                 </button>
@@ -671,6 +674,7 @@
               <button type="button" class="terminal-chip" data-cmd="telemetry">telemetry ⚡</button>
               <button type="button" class="terminal-chip" data-cmd="playground">playground 🧪</button>
               <button type="button" class="terminal-chip" data-cmd="particles">particles ✨</button>
+              <button type="button" class="terminal-chip" data-cmd="gitgraph">gitgraph 📊</button>
               <button type="button" class="terminal-chip" data-cmd="export">export</button>
               <button type="button" class="terminal-chip" data-cmd="clear">clear</button>
             </div>
@@ -1308,6 +1312,9 @@
             </button>
             <button type="button" class="achieve-view-btn" id="achieveViewTimelineBtn" data-view="timeline" aria-pressed="false" title="Chronological Journey Timeline">
               <span class="view-icon" aria-hidden="true">⎇</span> Timeline
+            </button>
+            <button type="button" class="achieve-view-btn achieve-gitgraph-btn" id="achieveViewGitGraphBtn" data-view="gitgraph" aria-pressed="false" title="Interactive Git Graph &amp; Shipping Heatmap (Shift+G)">
+              <span class="view-icon" aria-hidden="true">📊</span> Git Graph
             </button>
           </div>
         </div>
@@ -3237,6 +3244,8 @@
           <small class="cmdk-desc">Interactive GPU-accelerated constellation mesh</small></button>
         <button type="button" class="cmdk-item" data-action="export-case-study"><span class="cmdk-icon">📥</span> Export Active Project Case Study
           <small class="cmdk-desc">Download complete markdown case study dossier (.md)</small></button>
+        <button type="button" class="cmdk-item" data-action="view-git-graph"><span class="cmdk-icon">📊</span> Git Graph &amp; Contribution Heatmap
+          <small class="cmdk-desc">52-week activity calendar, metrics &amp; branch DAG topology</small></button>
         <button type="button" class="cmdk-item" data-action="open-game"><span class="cmdk-icon">🎮</span> Play DevLoop Indie Game
           <small class="cmdk-desc">Developer idle tycoon &amp; bug arcade</small></button>
         <button type="button" class="cmdk-item" data-action="open-synth"><span class="cmdk-icon">🎹</span> Cyber Piano Synthesizer
@@ -3441,6 +3450,12 @@ Email: gouvkimsea@gmail.com</pre>
               <span class="shortcut-desc">Toggle Ambient Cyber Particles</span>
               <div class="shortcut-kbd-group">
                 <kbd class="shortcut-kbd">⇧</kbd><kbd class="shortcut-kbd">P</kbd>
+              </div>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Open Git Graph &amp; Heatmap</span>
+              <div class="shortcut-kbd-group">
+                <kbd class="shortcut-kbd">⇧</kbd><kbd class="shortcut-kbd">G</kbd>
               </div>
             </div>
             <div class="shortcut-row">
@@ -3826,6 +3841,145 @@ Email: gouvkimsea@gmail.com</pre>
               <p class="console-line console-init">// Output will stream here upon execution...<br>// Click "▶ Run Code" or press Ctrl+Enter</p>
             </div>
             <canvas id="playgroundCanvasPreview" class="playground-canvas-preview" width="360" height="100" style="display:none;"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Interactive Git Graph & Contribution Heatmap Modal Dialog -->
+  <dialog class="gitgraph-modal" id="gitGraphModal" aria-label="Interactive Git Graph &amp; Shipping Rhythm Heatmap" aria-modal="true">
+    <div class="gitgraph-shell">
+      <div class="gitgraph-header">
+        <div class="gitgraph-title-wrap">
+          <div class="gitgraph-badge-row">
+            <span class="gitgraph-badge">CONTINUOUS SHIPPING RHYTHM</span>
+            <span class="gitgraph-live-indicator"><span class="gitgraph-pulse-dot"></span> 1,420+ Commits · 2024–2026</span>
+          </div>
+          <h2 class="gitgraph-title" id="gitGraphModalTitle">Git Graph &amp; Contribution Heatmap</h2>
+          <p class="gitgraph-subtitle">Full architectural commit graph, branch topology, and 52-week activity calendar</p>
+        </div>
+        <div class="gitgraph-header-actions">
+          <button type="button" class="gitgraph-action-btn" id="gitGraphCopyLogBtn" title="Copy latest Git commit history">
+            📋 Copy Log
+          </button>
+          <a href="https://github.com/gouvkimsea" target="_blank" rel="noopener noreferrer" class="gitgraph-action-btn gitgraph-link-action" title="View live profile on GitHub">
+            ↗ GitHub
+          </a>
+          <button class="modal-close gitgraph-modal-close" id="gitGraphCloseBtn" type="button" aria-label="Close Git Graph modal">×</button>
+        </div>
+      </div>
+
+      <div class="gitgraph-body">
+        <!-- Telemetry Summary Cards -->
+        <div class="gitgraph-metrics-row">
+          <div class="gitgraph-metric-card">
+            <span class="metric-num" id="gitMetricTotalCommits">1,428</span>
+            <span class="metric-label">Total Verified Commits</span>
+          </div>
+          <div class="gitgraph-metric-card">
+            <span class="metric-num" id="gitMetricLongestStreak">48 Days</span>
+            <span class="metric-label">Longest Shipping Streak</span>
+          </div>
+          <div class="gitgraph-metric-card">
+            <span class="metric-num" id="gitMetricCurrentStreak">18 Days</span>
+            <span class="metric-label">Current Active Streak</span>
+          </div>
+          <div class="gitgraph-metric-card">
+            <span class="metric-num" id="gitMetricVelocity">96.4%</span>
+            <span class="metric-label">Sprint Velocity Accuracy</span>
+          </div>
+        </div>
+
+        <!-- Heatmap Calendar Filter & Matrix Section -->
+        <div class="gitgraph-section">
+          <div class="gitgraph-section-header">
+            <div class="gitgraph-section-title-wrap">
+              <h3 class="gitgraph-section-title">52-Week Contribution Matrix</h3>
+              <p class="gitgraph-section-desc">Color intensity synchronizes with active Cyber Accent theme</p>
+            </div>
+            <div class="gitgraph-filter-pills" role="tablist" aria-label="Filter heatmap repository">
+              <button type="button" class="gitgraph-pill active" data-repo="all">All Projects</button>
+              <button type="button" class="gitgraph-pill" data-repo="pinit">PinitAI</button>
+              <button type="button" class="gitgraph-pill" data-repo="miniworld">MiniWorld</button>
+              <button type="button" class="gitgraph-pill" data-repo="clp">CLP</button>
+              <button type="button" class="gitgraph-pill" data-repo="joul">JOUL</button>
+              <button type="button" class="gitgraph-pill" data-repo="portfolio">Portfolio</button>
+            </div>
+          </div>
+          <div class="gitgraph-heatmap-container">
+            <div class="heatmap-months-labels">
+              <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span>
+            </div>
+            <div class="heatmap-grid-wrap" id="gitHeatmapGrid" role="grid" aria-label="Contribution Activity Heatmap">
+              <!-- Dynamically populated with 52x7 activity cells -->
+            </div>
+            <div class="heatmap-legend">
+              <span class="legend-text">Less</span>
+              <span class="legend-cell lvl-0"></span>
+              <span class="legend-cell lvl-1"></span>
+              <span class="legend-cell lvl-2"></span>
+              <span class="legend-cell lvl-3"></span>
+              <span class="legend-cell lvl-4"></span>
+              <span class="legend-text">More</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Branch Topology DAG & Live Commit Feed -->
+        <div class="gitgraph-split-view">
+          <!-- Left: Branch DAG Topology -->
+          <div class="gitgraph-pane gitgraph-dag-pane">
+            <div class="pane-header">
+              <span class="pane-title"><span class="pane-dot dot-yellow"></span> branch.topology (DAG)</span>
+              <span class="pane-hint">Git Directed Acyclic Graph</span>
+            </div>
+            <div class="gitgraph-dag-canvas-wrap">
+              <svg id="gitDagSvg" class="git-dag-svg" viewBox="0 0 440 220" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Branch Topology SVG">
+                <!-- main line -->
+                <line x1="30" y1="45" x2="410" y2="45" stroke="var(--line)" stroke-width="2" stroke-dasharray="2 2" />
+                <line x1="30" y1="45" x2="410" y2="45" stroke="var(--lime)" stroke-width="3" />
+                <!-- feature branch: feat/srs-spaced-repetition -->
+                <path d="M 80 45 C 110 45, 110 110, 140 110 L 260 110 C 290 110, 290 45, 320 45" stroke="var(--orange)" stroke-width="2.5" fill="none" />
+                <!-- feature branch: feat/webgl-cel-shaders -->
+                <path d="M 180 45 C 205 45, 205 170, 230 170 L 330 170 C 355 170, 355 45, 380 45" stroke="#38bdf8" stroke-width="2" fill="none" />
+                <!-- nodes -->
+                <circle cx="45" cy="45" r="6.5" fill="var(--lime)" stroke="#121310" stroke-width="2" />
+                <circle cx="80" cy="45" r="6.5" fill="var(--lime)" stroke="#121310" stroke-width="2" />
+                <circle cx="140" cy="110" r="5.5" fill="var(--orange)" stroke="#121310" stroke-width="2" />
+                <circle cx="200" cy="110" r="5.5" fill="var(--orange)" stroke="#121310" stroke-width="2" />
+                <circle cx="260" cy="110" r="5.5" fill="var(--orange)" stroke="#121310" stroke-width="2" />
+                <circle cx="180" cy="45" r="6.5" fill="var(--lime)" stroke="#121310" stroke-width="2" />
+                <circle cx="230" cy="170" r="5" fill="#38bdf8" stroke="#121310" stroke-width="2" />
+                <circle cx="280" cy="170" r="5" fill="#38bdf8" stroke="#121310" stroke-width="2" />
+                <circle cx="330" cy="170" r="5" fill="#38bdf8" stroke="#121310" stroke-width="2" />
+                <circle cx="320" cy="45" r="6.5" fill="var(--lime)" stroke="#121310" stroke-width="2" />
+                <circle cx="380" cy="45" r="6.5" fill="var(--lime)" stroke="#121310" stroke-width="2" />
+                <circle cx="405" cy="45" r="8" fill="var(--lime)" stroke="#ffffff" stroke-width="2" />
+                <!-- labels -->
+                <text x="40" y="28" fill="var(--muted)" font-family="monospace" font-size="9">init</text>
+                <text x="140" y="96" fill="var(--orange)" font-family="monospace" font-size="9">feat/srs</text>
+                <text x="230" y="156" fill="#38bdf8" font-family="monospace" font-size="9">feat/glsl</text>
+                <text x="320" y="28" fill="var(--muted)" font-family="monospace" font-size="9">merge</text>
+                <text x="365" y="28" fill="var(--lime)" font-family="monospace" font-size="9" font-weight="700">HEAD (main)</text>
+              </svg>
+            </div>
+            <div class="gitgraph-branch-tags">
+              <span class="branch-tag tag-main">● main (production)</span>
+              <span class="branch-tag tag-feature">● feat/srs-spaced-repetition</span>
+              <span class="branch-tag tag-shader">● feat/webgl-cel-shaders</span>
+            </div>
+          </div>
+
+          <!-- Right: Commit Feed -->
+          <div class="gitgraph-pane gitgraph-feed-pane">
+            <div class="pane-header">
+              <span class="pane-title"><span class="pane-dot dot-green"></span> commits.log</span>
+              <span class="pane-meta" id="gitCommitsCount">Recent 12 Commits</span>
+            </div>
+            <div class="gitgraph-commit-stream" id="gitCommitStream" role="feed" aria-label="Recent Commits Feed">
+              <!-- Dynamically populated -->
+            </div>
           </div>
         </div>
       </div>
