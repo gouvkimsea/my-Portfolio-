@@ -180,7 +180,9 @@ assert(indexHtml.includes('id="securityLabModal"') && scriptJs.includes('initSec
 assert(scriptJs.includes('firewall:') && indexHtml.includes('data-action="open-security-lab"') && indexHtml.includes('id="modalSecurityLabBtn"'), 'index.html & script.js: Security lab launchers wired to Project modal, Command Palette, Terminal CLI, and hotkeys');
 assert(indexHtml.includes('id="shaderLabModal"') && scriptJs.includes('initShaderLabModal') && fs.readFileSync('styles.css', 'utf8').includes('.shader-modal'), 'index.html, styles.css & script.js: Interactive WebGL Shader Material Studio & Live GLSL Fragment Sandbox implemented');
 assert(scriptJs.includes('shader:') && indexHtml.includes('data-action="open-shader-lab"') && indexHtml.includes('id="modalShaderLabBtn"'), 'index.html & script.js: Shader studio launchers wired to Project modal, Command Palette, Terminal CLI, and hotkeys');
-assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v35'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v35');
+assert(indexHtml.includes('id="fintechLedgerModal"') && scriptJs.includes('initFinTechLedgerModal') && fs.readFileSync('styles.css', 'utf8').includes('.ledger-modal'), 'index.html, styles.css & script.js: Interactive FinTech Transaction Simulator & Double-Entry Escrow Ledger implemented');
+assert(scriptJs.includes('ledger:') && indexHtml.includes('data-action="open-fintech-ledger"') && indexHtml.includes('id="modalLedgerBtn"'), 'index.html & script.js: FinTech ledger launchers wired to Project modal, Command Palette, Terminal CLI, and hotkeys');
+assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v36'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v36');
 
 // Test global script evaluation with mock DOM globals
 try {

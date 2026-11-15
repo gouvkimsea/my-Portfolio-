@@ -680,6 +680,7 @@
               <button type="button" class="terminal-chip" data-cmd="arena">arena ⚔️</button>
               <button type="button" class="terminal-chip" data-cmd="firewall">firewall 🛡️</button>
               <button type="button" class="terminal-chip" data-cmd="shader">shader ⚡</button>
+              <button type="button" class="terminal-chip" data-cmd="fintech">fintech 💳</button>
               <button type="button" class="terminal-chip" data-cmd="export">export</button>
               <button type="button" class="terminal-chip" data-cmd="clear">clear</button>
             </div>
@@ -2006,6 +2007,9 @@
           <button type="button" class="modal-nav-step-btn modal-shader-btn" id="modalShaderLabBtn" title="Launch WebGL Shader Material Studio (Shift+W)" aria-label="Launch WebGL shader material studio">
             <span class="modal-shader-icon" aria-hidden="true">⚡</span> Shader Studio
           </button>
+          <button type="button" class="modal-nav-step-btn modal-ledger-btn" id="modalLedgerBtn" title="Launch FinTech Escrow &amp; Double-Entry Ledger Lab (Shift+E)" aria-label="Launch FinTech escrow and double-entry ledger lab">
+            <span class="modal-ledger-icon" aria-hidden="true">💳</span> FinTech Ledger
+          </button>
           <button type="button" class="modal-nav-step-btn" id="modalNextBtn" aria-label="Next project case study">
             Next Project <span class="nav-arrow" aria-hidden="true">→</span>
           </button>
@@ -3284,6 +3288,8 @@
           <small class="cmdk-desc">Multi-layer prompt sanitization, zero-width steganography &amp; injection firewall</small></button>
         <button type="button" class="cmdk-item" data-action="open-shader-lab"><span class="cmdk-icon">⚡</span> WebGL Shader Material Studio
           <small class="cmdk-desc">Real-time GPU GLSL fragment shaders, cel-shading &amp; procedural noise</small></button>
+        <button type="button" class="cmdk-item" data-action="open-fintech-ledger"><span class="cmdk-icon">💳</span> FinTech Ledger &amp; Escrow Simulator
+          <small class="cmdk-desc">Multi-party escrow holds, ABA Payway KHQR routing &amp; double-entry journal balance</small></button>
         <button type="button" class="cmdk-item" data-action="open-game"><span class="cmdk-icon">🎮</span> Play DevLoop Indie Game
           <small class="cmdk-desc">Developer idle tycoon &amp; bug arcade</small></button>
         <button type="button" class="cmdk-item" data-action="open-synth"><span class="cmdk-icon">🎹</span> Cyber Piano Synthesizer
@@ -3524,6 +3530,12 @@ Email: gouvkimsea@gmail.com</pre>
               <span class="shortcut-desc">WebGL Shader Material Studio</span>
               <div class="shortcut-kbd-group">
                 <kbd class="shortcut-kbd">⇧</kbd><kbd class="shortcut-kbd">W</kbd>
+              </div>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">FinTech Ledger &amp; Escrow Simulator</span>
+              <div class="shortcut-kbd-group">
+                <kbd class="shortcut-kbd">⇧</kbd><kbd class="shortcut-kbd">E</kbd>
               </div>
             </div>
             <div class="shortcut-row">
@@ -4561,6 +4573,169 @@ void main() {
     vec2 st = (gl_FragCoord.xy * 2.0 - u_resolution) / min(u_resolution.x, u_resolution.y);
     gl_FragColor = vec4(st, sin(u_time * u_speed), 1.0);
 }</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Interactive FinTech Transaction Simulator & Double-Entry Escrow Ledger Modal Dialog -->
+  <dialog class="ledger-modal" id="fintechLedgerModal" aria-label="FinTech Transaction Simulator &amp; Double-Entry Escrow Ledger" aria-modal="true">
+    <div class="ledger-shell">
+      <div class="ledger-header">
+        <div class="ledger-title-wrap">
+          <div class="ledger-badge-row">
+            <span class="ledger-badge">FINTECH &amp; ESCROW LEDGER</span>
+            <span class="ledger-live-indicator"><span class="ledger-pulse-dot"></span> Double-Entry Validated · Merkle Chained</span>
+          </div>
+          <h2 class="ledger-title" id="ledgerModalTitle">FinTech Transaction Simulator &amp; Double-Entry Escrow Ledger</h2>
+          <p class="ledger-subtitle">Multi-party escrow holds, ABA Payway KHQR payment routing &amp; ACID concurrency double-entry ledger</p>
+        </div>
+        <div class="ledger-header-actions">
+          <button type="button" class="ledger-action-btn" id="ledgerExportBtn" title="Export Financial Audit Memorandum (.md)">
+            📥 Export Audit Memo
+          </button>
+          <button class="modal-close ledger-modal-close" id="ledgerModalCloseBtn" type="button" aria-label="Close FinTech ledger modal">×</button>
+        </div>
+      </div>
+
+      <div class="ledger-controls-bar">
+        <div class="ledger-scenario-pills" role="tablist" aria-label="FinTech simulation scenario">
+          <button type="button" class="ledger-scenario-btn active" data-scenario="escrow" role="tab" aria-selected="true">
+            🚗 JOUL Escrow &amp; Deposit
+          </button>
+          <button type="button" class="ledger-scenario-btn" data-scenario="payway" role="tab" aria-selected="false">
+            ⚡ ABA Payway KHQR
+          </button>
+          <button type="button" class="ledger-scenario-btn" data-scenario="saas" role="tab" aria-selected="false">
+            📈 SaaS MRR Recognition
+          </button>
+          <button type="button" class="ledger-scenario-btn" data-scenario="concurrency" role="tab" aria-selected="false">
+            🔒 Double-Spend Defense
+          </button>
+        </div>
+
+        <div class="ledger-quick-actions">
+          <div class="ledger-amount-wrap">
+            <label for="sliderLedgerAmount" class="ledger-amount-label">Principal: <span class="ledger-amount-val" id="valLedgerAmount">$850.00</span></label>
+            <input type="range" class="ledger-range" id="sliderLedgerAmount" min="50" max="3000" step="50" value="850" aria-label="Simulation transaction principal amount">
+          </div>
+          <button type="button" class="ledger-btn-step" id="ledgerStepBtn" title="Execute next transaction stage">
+            ▶ Step Forward
+          </button>
+          <button type="button" class="ledger-btn-sec" id="ledgerAutoBtn" title="Simulate all stages">
+            ⚡ Auto-Simulate
+          </button>
+          <button type="button" class="ledger-btn-sec" id="ledgerResetBtn" title="Reset ledger state">
+            ↺ Reset
+          </button>
+        </div>
+      </div>
+
+      <div class="ledger-body">
+        <div class="ledger-split-view">
+          <!-- Left: State Machine & Balance Sheet Invariant -->
+          <div class="ledger-state-pane">
+            <div class="pane-header">
+              <span class="pane-title"><span class="pane-dot dot-emerald"></span> transaction_pipeline.state</span>
+              <span class="pane-meta" id="ledgerStageBadge">Stage 1 of 4: Authorization</span>
+            </div>
+
+            <!-- Visual Flow Stages -->
+            <div class="ledger-stages-track" id="ledgerStagesTrack">
+              <!-- Dynamically populated by scenario -->
+            </div>
+
+            <!-- Balance Sheet Invariant Equation Card: Assets = Liabilities + Equity -->
+            <div class="balance-sheet-card">
+              <div class="balance-card-header">
+                <span class="balance-title">Accounting Equation Invariant</span>
+                <span class="balance-badge-ok" id="ledgerInvariantBadge">✓ BALANCED (Δ = $0.00)</span>
+              </div>
+              <div class="balance-grid">
+                <div class="balance-col">
+                  <span class="col-name">TOTAL ASSETS</span>
+                  <span class="col-val text-cyan" id="statAssetsVal">$850.00</span>
+                  <small class="col-sub" id="statAssetsBreakdown">Cash / Escrow Vault</small>
+                </div>
+                <div class="balance-equal">=</div>
+                <div class="balance-col">
+                  <span class="col-name">LIABILITIES</span>
+                  <span class="col-val text-amber" id="statLiabilitiesVal">$850.00</span>
+                  <small class="col-sub" id="statLiabilitiesBreakdown">Escrow Payable / Deferred</small>
+                </div>
+                <div class="balance-plus">+</div>
+                <div class="balance-col">
+                  <span class="col-name">EQUITY</span>
+                  <span class="col-val text-emerald" id="statEquityVal">$0.00</span>
+                  <small class="col-sub" id="statEquityBreakdown">Earned Retained Capital</small>
+                </div>
+              </div>
+            </div>
+
+            <!-- Merkle Block Chaining Card -->
+            <div class="merkle-block-card">
+              <div class="merkle-header">
+                <span class="merkle-title">🔗 Cryptographic Block Hash Chaining</span>
+                <span class="merkle-block-num" id="ledgerBlockNum">Block #142</span>
+              </div>
+              <div class="merkle-body">
+                <div class="merkle-row">
+                  <span class="merkle-lbl">PREV HASH:</span>
+                  <code class="merkle-val text-muted" id="ledgerPrevHash">0x7c9a4e21...d83f</code>
+                </div>
+                <div class="merkle-row">
+                  <span class="merkle-lbl">MERKLE ROOT:</span>
+                  <code class="merkle-val text-lime" id="ledgerMerkleRoot">0x3b8d14c2e5...9fa0</code>
+                </div>
+                <div class="merkle-row">
+                  <span class="merkle-lbl">ACID STATUS:</span>
+                  <span class="acid-status-badge" id="ledgerAcidBadge">ISOLATION: SERIALIZABLE · 2PC READY</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Double-Entry Journal Table & Audit Log -->
+          <div class="ledger-journal-pane">
+            <div class="pane-header">
+              <span class="pane-title"><span class="pane-dot dot-yellow"></span> general_ledger.journal</span>
+              <span class="pane-meta" id="ledgerEntryCountMeta">4 Journal Entries Active</span>
+            </div>
+
+            <div class="ledger-table-wrap">
+              <table class="ledger-table" id="ledgerTable" aria-label="Double-entry journal records">
+                <thead>
+                  <tr>
+                    <th scope="col" class="th-tx">TxID</th>
+                    <th scope="col" class="th-acc">Account / Ledger Line</th>
+                    <th scope="col" class="th-debit">Debit ($)</th>
+                    <th scope="col" class="th-credit">Credit ($)</th>
+                    <th scope="col" class="th-status">Status</th>
+                  </tr>
+                </thead>
+                <tbody id="ledgerTableBody">
+                  <!-- Dynamically populated rows -->
+                </tbody>
+                <tfoot>
+                  <tr class="ledger-foot-row">
+                    <td colspan="2" class="foot-title">T-ACCOUNT RUNNING BALANCE TOTALS:</td>
+                    <td class="foot-val text-cyan" id="footTotalDebit">$850.00</td>
+                    <td class="foot-val text-amber" id="footTotalCredit">$850.00</td>
+                    <td class="foot-status" id="footDiffStatus"><span class="tag-balanced">Balanced</span></td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+
+            <div class="ledger-audit-box">
+              <div class="audit-header">
+                <span class="audit-title">ACID Journal Trace Console</span>
+                <span class="audit-status-pill text-lime" id="ledgerAuditStatus">ACID Strict · 0 Anomalies</span>
+              </div>
+              <pre class="ledger-audit-pre" id="ledgerAuditConsole"><code>[00:00.00] LEDGER INIT: Double-entry audit engine loaded.
+[00:00.01] INVARIANT CHECK: Assets == Liabilities + Equity. Check passed.</code></pre>
             </div>
           </div>
         </div>

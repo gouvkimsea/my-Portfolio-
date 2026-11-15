@@ -634,6 +634,16 @@ document.addEventListener("keydown", e => {
         openShaderLabModal();
       }
     }
+  } else if ((e.key === "E" || e.key === "e") && e.shiftKey) {
+    e.preventDefault();
+    if (typeof openFinTechLedgerModal === "function") {
+      const eModal = document.getElementById("fintechLedgerModal");
+      if (eModal?.open) {
+        if (typeof closeFinTechLedgerModal === "function") closeFinTechLedgerModal();
+      } else {
+        openFinTechLedgerModal();
+      }
+    }
   } else if (e.key.toLowerCase() === "u" && !e.ctrlKey && !e.metaKey && !e.altKey) {
     e.preventDefault();
     if (typeof toggleSfx === "function") toggleSfx();
@@ -875,6 +885,8 @@ cmdKResults?.addEventListener("click", e => {
     if (typeof openSecurityLabModal === "function") openSecurityLabModal();
   } else if (action === "open-shader-lab") {
     if (typeof openShaderLabModal === "function") openShaderLabModal();
+  } else if (action === "open-fintech-ledger") {
+    if (typeof openFinTechLedgerModal === "function") openFinTechLedgerModal();
   } else if (action === "open-telemetry") {
     if (typeof openTelemetryModal === "function") openTelemetryModal();
   } else if (action === "download-resume-md") {
@@ -5132,6 +5144,23 @@ Live Render:      60.0 FPS · GLSL ES 3.0 Real-time Evaluation</pre>`;
   },
   glsl: (arg) => terminalCommands.shader(arg),
   materials: (arg) => terminalCommands.shader(arg),
+  ledger: (arg) => {
+    const scenario = (arg || "").trim().toLowerCase();
+    if (typeof openFinTechLedgerModal === "function") {
+      openFinTechLedgerModal(scenario);
+      return `<pre class="term-pre" style="margin:4px 0;font-size:11px;line-height:1.45;">💳 <b>FinTech Transaction Simulator &amp; Double-Entry Escrow Ledger Launched</b>
+--------------------------------------------------------
+Scenario:         <b>${escapeHtml(scenario || "escrow").toUpperCase()}</b>
+Accounting Model: Double-Entry Balancing (Assets == Liabilities + Equity)
+Audit Guarantee:  ACID Serializable Isolation &amp; Merkle Root Hash Chaining
+Status:           Ledger Online · 0 Invariant Violations</pre>`;
+    }
+    openModal("joul");
+    return "Opening JOUL Rental Service project modal & escrow accounting simulator...";
+  },
+  fintech: (arg) => terminalCommands.ledger(arg),
+  escrow: (arg) => terminalCommands.ledger(arg),
+  payway: (arg) => terminalCommands.ledger(arg),
   biome: () => terminalCommands.shader(),
   pinit: () => {
     openModal("pinit");
@@ -5284,7 +5313,7 @@ Layer 1: Semantic Core  · Zero-dependency ES2026 &amp; HTML5 dialogs
 Layer 2: Style Tokens   · Modular Vanilla CSS &amp; WCAG AAA contrast
 Layer 3: 3D Graphics    · Hardware-accelerated WebGL 2.0 MiniWorld
 Layer 4: Procedural SFX · Pure Web Audio synthesizers (0 audio files)
-Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v35</pre>`;
+Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v36</pre>`;
   },
   cat: (arg) => {
     const file = (arg || "").trim().toLowerCase();
@@ -5413,7 +5442,7 @@ DOM Tree:         <b>${domCount}</b> semantic nodes
 Logical Cores:    <b>${cores}</b> Threads (hardwareConcurrency)
 Display:          <b>${window.innerWidth}x${window.innerHeight}</b> (${window.devicePixelRatio || 1}x DPR)
 Audio Engine:     Active (${Math.round((typeof sfxVolume !== "undefined" ? sfxVolume : 0.8) * 100)}% Gain)
-PWA Cache:        <b>kimsea-pwa-v35</b> (Stale-While-Revalidate)
+PWA Cache:        <b>kimsea-pwa-v36</b> (Stale-While-Revalidate)
 Status:           Modal HUD Launched ⚡</pre>`;
   },
   diag: () => terminalCommands.telemetry(),
@@ -5749,7 +5778,7 @@ terminalInput?.addEventListener("keydown", event => {
     if (current) {
       const allCmds = Array.from(new Set([
         ...Object.keys(terminalCommands),
-        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade", "accent", "synth", "piano", "telemetry", "diag", "perf", "sysinfo", "playground", "sandbox", "eval", "particles", "casestudy", "dossier", "gitgraph", "heatmap", "graph", "archflow", "flow", "radar", "spider", "competencies", "arena", "race", "benchmarks", "firewall", "security", "sanitize", "shader", "glsl", "materials"
+        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade", "accent", "synth", "piano", "telemetry", "diag", "perf", "sysinfo", "playground", "sandbox", "eval", "particles", "casestudy", "dossier", "gitgraph", "heatmap", "graph", "archflow", "flow", "radar", "spider", "competencies", "arena", "race", "benchmarks", "firewall", "security", "sanitize", "shader", "glsl", "materials", "ledger", "fintech", "escrow", "payway"
       ]));
       const prefix = lastTabPrefix || current;
       const matches = allCmds.filter(k => k.startsWith(prefix));
@@ -8263,7 +8292,7 @@ const initCyberTelemetry = () => {
       audioSubEl.textContent = `48000 Hz · Master Gain ${vol}%`;
     }
     if (pwaEl) {
-      pwaEl.textContent = "kimsea-pwa-v35";
+      pwaEl.textContent = "kimsea-pwa-v36";
     }
   };
 
@@ -11665,5 +11694,549 @@ void main() {
 };
 
 initShaderLabModal();
+
+// ==========================================================================
+// Phase 30: FinTech Transaction Simulator & Double-Entry Escrow Ledger Lab
+// ==========================================================================
+
+let openFinTechLedgerModal = null;
+let closeFinTechLedgerModal = null;
+
+const initFinTechLedgerModal = () => {
+  const modal = document.getElementById("fintechLedgerModal");
+  if (!modal) return;
+
+  const closeBtn = document.getElementById("ledgerModalCloseBtn");
+  const exportBtn = document.getElementById("ledgerExportBtn");
+  const stepBtn = document.getElementById("ledgerStepBtn");
+  const autoBtn = document.getElementById("ledgerAutoBtn");
+  const resetBtn = document.getElementById("ledgerResetBtn");
+  const scenarioBtns = modal.querySelectorAll(".ledger-scenario-btn");
+  const sliderAmount = document.getElementById("sliderLedgerAmount");
+  const valAmount = document.getElementById("valLedgerAmount");
+
+  const stagesTrack = document.getElementById("ledgerStagesTrack");
+  const stageBadge = document.getElementById("ledgerStageBadge");
+  const invariantBadge = document.getElementById("ledgerInvariantBadge");
+
+  const statAssetsVal = document.getElementById("statAssetsVal");
+  const statAssetsBreakdown = document.getElementById("statAssetsBreakdown");
+  const statLiabilitiesVal = document.getElementById("statLiabilitiesVal");
+  const statLiabilitiesBreakdown = document.getElementById("statLiabilitiesBreakdown");
+  const statEquityVal = document.getElementById("statEquityVal");
+  const statEquityBreakdown = document.getElementById("statEquityBreakdown");
+
+  const blockNum = document.getElementById("ledgerBlockNum");
+  const prevHash = document.getElementById("ledgerPrevHash");
+  const merkleRoot = document.getElementById("ledgerMerkleRoot");
+  const acidBadge = document.getElementById("ledgerAcidBadge");
+  const entryCountMeta = document.getElementById("ledgerEntryCountMeta");
+
+  const tableBody = document.getElementById("ledgerTableBody");
+  const footTotalDebit = document.getElementById("footTotalDebit");
+  const footTotalCredit = document.getElementById("footTotalCredit");
+  const footDiffStatus = document.getElementById("footDiffStatus");
+
+  const auditStatus = document.getElementById("ledgerAuditStatus");
+  const auditConsole = document.getElementById("ledgerAuditConsole");
+
+  // FinTech Scenario Models
+  const scenarios = {
+    escrow: {
+      name: "JOUL Rental Multi-Party Escrow & Deposit Hold",
+      defaultAmount: 850,
+      stages: [
+        {
+          title: "Pre-Authorization & Security Hold",
+          desc: "Customer pre-authorizes vehicle rental fee + $300 refundable deposit hold via payment token.",
+          debitAcc: "1010 Cash In-Transit (Custody)",
+          creditAcc: "2010 Customer Pre-Auth Hold",
+          calc: (amt) => ({ debit: amt, credit: amt, status: "COMMITTED" })
+        },
+        {
+          title: "Escrow Vault Allocation",
+          desc: "Funds routed to isolated smart contract escrow vault pending vehicle turnaround inspection.",
+          debitAcc: "1050 JOUL Escrow Vault Reserve",
+          creditAcc: "2050 Escrow Payable Trust Liability",
+          calc: (amt) => ({ debit: amt, credit: amt, status: "COMMITTED" })
+        },
+        {
+          title: "Turnaround Inspection & Deposit Release",
+          desc: "IoT fleet telemetry confirms 0 vehicle body damage and full fuel tank; $300 security deposit unlocked.",
+          debitAcc: "2010 Customer Pre-Auth Hold",
+          creditAcc: "1010 Cash Disbursed (Deposit Refund)",
+          calc: (amt) => ({ debit: Math.min(300, amt * 0.35), credit: Math.min(300, amt * 0.35), status: "COMMITTED" })
+        },
+        {
+          title: "Host Payout & Platform Fee Settlement",
+          desc: "Final settlement: Host payout disbursed (90%), JOUL platform commission recognized as earned income.",
+          debitAcc: "2050 Escrow Payable Trust Liability",
+          creditAcc: "4010 Platform Fee Revenue (Earned)",
+          calc: (amt) => ({ debit: Math.round(amt * 0.1), credit: Math.round(amt * 0.1), status: "COMMITTED" })
+        }
+      ],
+      balanceSheet: (amt, step) => {
+        const deposit = Math.min(300, Math.round(amt * 0.35));
+        const fee = Math.round(amt * 0.1);
+        if (step === 0) return { a: amt, l: amt, e: 0, aSub: "Cash In-Transit", lSub: "Pre-Auth Hold", eSub: "Unrecognized" };
+        if (step === 1) return { a: amt * 2, l: amt * 2, e: 0, aSub: "Vault + Cash", lSub: "Escrow + Pre-Auth", eSub: "Unrecognized" };
+        if (step === 2) return { a: (amt * 2) - deposit, l: (amt * 2) - deposit, e: 0, aSub: "Escrow Reserve", lSub: "Escrow Payable", eSub: "Deposit Refunded" };
+        return { a: amt, l: amt - fee, e: fee, aSub: "Settled Cash", lSub: "Host Payable", eSub: "Platform Fee Profit" };
+      }
+    },
+    payway: {
+      name: "ABA Payway KHQR Dynamic Payment & Webhook Settlement",
+      defaultAmount: 420,
+      stages: [
+        {
+          title: "Dynamic KHQR Invoice Generation",
+          desc: "Point-of-Sale issues signed dynamic KHQR payload with cryptographically sealed CRC16 checksum.",
+          debitAcc: "1020 Accounts Receivable (KHQR Invoice)",
+          creditAcc: "2020 Customer Pending KHQR Receipt",
+          calc: (amt) => ({ debit: amt, credit: amt, status: "COMMITTED" })
+        },
+        {
+          title: "Bank Webhook Verification (HMAC-SHA512)",
+          desc: "ABA Bank clears customer payment; webhook gateway validates cryptographic signature header.",
+          debitAcc: "1030 ABA Payway Clearing Vault",
+          creditAcc: "1020 Accounts Receivable (KHQR Invoice)",
+          calc: (amt) => ({ debit: amt, credit: amt, status: "COMMITTED" })
+        },
+        {
+          title: "Interchange & Merchant Processing Fee",
+          desc: "Payway automatically withholds 1.25% MDR processing fee per gateway service agreement.",
+          debitAcc: "5020 Payment Processing Expense",
+          creditAcc: "1030 ABA Payway Clearing Vault",
+          calc: (amt) => ({ debit: Math.round(amt * 0.0125 * 100) / 100, credit: Math.round(amt * 0.0125 * 100) / 100, status: "COMMITTED" })
+        },
+        {
+          title: "Merchant Commercial Settlement",
+          desc: "Net proceeds deposited to merchant commercial operating account with ACID 2PC transaction.",
+          debitAcc: "1000 Commercial Operating Cash",
+          creditAcc: "4000 Sales Revenue (Gross)",
+          calc: (amt) => {
+            const mdr = Math.round(amt * 0.0125 * 100) / 100;
+            return { debit: amt - mdr, credit: amt - mdr, status: "COMMITTED" };
+          }
+        }
+      ],
+      balanceSheet: (amt, step) => {
+        const mdr = Math.round(amt * 0.0125 * 100) / 100;
+        if (step === 0) return { a: amt, l: amt, e: 0, aSub: "Receivables", lSub: "Pending Invoice", eSub: "0.00" };
+        if (step === 1) return { a: amt, l: 0, e: amt, aSub: "Clearing Vault", lSub: "Settled", eSub: "Gross Value" };
+        if (step === 2) return { a: amt - mdr, l: 0, e: amt - mdr, aSub: "Net Cash Vault", lSub: "Settled", eSub: "Net after MDR" };
+        return { a: amt - mdr, l: 0, e: amt - mdr, aSub: "Operating Cash", lSub: "Zero Debt", eSub: "Earned Equity" };
+      }
+    },
+    saas: {
+      name: "Productivity SaaS Annual Contract & Revenue Recognition",
+      defaultAmount: 1200,
+      stages: [
+        {
+          title: "Upfront Annual Subscription Billed",
+          desc: "Enterprise client subscribes to 12-month tier; full cash amount collected upfront ($1,200).",
+          debitAcc: "1000 Operating Cash (Customer Inflow)",
+          creditAcc: "2100 Unearned Deferred Revenue (ASC 606)",
+          calc: (amt) => ({ debit: amt, credit: amt, status: "COMMITTED" })
+        },
+        {
+          title: "Deferred Revenue Liability Inception",
+          desc: "ASC 606 requires 100% of collected funds to be held as a liability until service is delivered.",
+          debitAcc: "1005 Escrow Cash Restricted",
+          creditAcc: "1000 Operating Cash (Customer Inflow)",
+          calc: (amt) => ({ debit: amt, credit: amt, status: "COMMITTED" })
+        },
+        {
+          title: "Month 1 Straight-Line MRR Recognition",
+          desc: "Month 1 performance obligation satisfied; exactly 1/12th of total contract value amortized to revenue.",
+          debitAcc: "2100 Unearned Deferred Revenue (ASC 606)",
+          creditAcc: "4100 SaaS Subscription Revenue (MRR)",
+          calc: (amt) => ({ debit: Math.round(amt / 12), credit: Math.round(amt / 12), status: "COMMITTED" })
+        },
+        {
+          title: "Q1 Milestone & Retained Earnings Close",
+          desc: "Three consecutive months of successful delivery recognized into retained corporate equity.",
+          debitAcc: "2100 Unearned Deferred Revenue (ASC 606)",
+          creditAcc: "4100 SaaS Subscription Revenue (MRR)",
+          calc: (amt) => ({ debit: Math.round((amt / 12) * 2), credit: Math.round((amt / 12) * 2), status: "COMMITTED" })
+        }
+      ],
+      balanceSheet: (amt, step) => {
+        const mrr = Math.round(amt / 12);
+        if (step === 0) return { a: amt, l: amt, e: 0, aSub: "Cash Inflow", lSub: "Deferred Revenue", eSub: "0.00" };
+        if (step === 1) return { a: amt, l: amt, e: 0, aSub: "Restricted Cash", lSub: "Deferred Revenue", eSub: "0.00" };
+        if (step === 2) return { a: amt, l: amt - mrr, e: mrr, aSub: "Cash Retained", lSub: "Deferred Bal", eSub: "1 Mo MRR Profit" };
+        return { a: amt, l: amt - (mrr * 3), e: mrr * 3, aSub: "Cash Retained", lSub: "9 Mo Remaining", eSub: "Q1 Recognized" };
+      }
+    },
+    concurrency: {
+      name: "ACID Concurrency Isolation & Double-Spend Defense",
+      defaultAmount: 500,
+      stages: [
+        {
+          title: "Simultaneous Withdrawal Inception",
+          desc: "Thread A and Thread B simultaneously issue $400 withdrawal requests on a $500 checking balance.",
+          debitAcc: "1000 Checking Account #8402",
+          creditAcc: "2030 Inbound Withdrawal Requests (A & B)",
+          calc: (amt) => ({ debit: amt, credit: amt, status: "PENDING" })
+        },
+        {
+          title: "Pessimistic Row Lock (SELECT FOR UPDATE)",
+          desc: "Thread A acquires exclusive row mutex lease; Thread B queued waiting for transaction commit/abort.",
+          debitAcc: "1002 Mutex Lock Hold (Thread A)",
+          creditAcc: "1000 Checking Account #8402",
+          calc: (amt) => ({ debit: 400, credit: 400, status: "COMMITTED" })
+        },
+        {
+          title: "Thread A Debit Commitment",
+          desc: "Thread A successfully commits $400 debit; account balance decrements from $500 to $100.",
+          debitAcc: "2030 Inbound Withdrawal Requests (A & B)",
+          creditAcc: "1002 Mutex Lock Hold (Thread A)",
+          calc: (amt) => ({ debit: 400, credit: 400, status: "COMMITTED" })
+        },
+        {
+          title: "Thread B Insufficient Funds & Rollback",
+          desc: "Thread B unblocks, discovers balance ($100) < requested ($400); transaction aborts with 409 Conflict.",
+          debitAcc: "2030 Inbound Withdrawal Requests (A & B)",
+          creditAcc: "9999 Compensating Rollback (Reversal)",
+          calc: () => ({ debit: 400, credit: 400, status: "REVERTED" })
+        }
+      ],
+      balanceSheet: (amt, step) => {
+        if (step === 0) return { a: amt, l: amt, e: 0, aSub: "Initial $500", lSub: "Dual Inbound", eSub: "0.00" };
+        if (step === 1) return { a: amt, l: amt, e: 0, aSub: "Row Locked", lSub: "Mutex Acquired", eSub: "0.00" };
+        if (step === 2) return { a: amt - 400, l: amt - 400, e: 0, aSub: "Remaining $100", lSub: "Thread A Out", eSub: "0.00" };
+        return { a: amt - 400, l: amt - 400, e: 0, aSub: "Safe Balance $100", lSub: "Thread B Aborted", eSub: "Double-Spend Prevented" };
+      }
+    }
+  };
+
+  let activeScenarioKey = "escrow";
+  let currentStep = 0;
+  let autoTimer = null;
+  let blockCounter = 142;
+
+  // Cryptographic Hash Simulation
+  const computeMerkleHash = (scenarioKey, step, amt) => {
+    let hash = 0x811c9dc5;
+    const str = `${scenarioKey}:${step}:${amt}:${blockCounter}`;
+    for (let i = 0; i < str.length; i++) {
+      hash ^= str.charCodeAt(i);
+      hash += (hash << 1) + (hash << 4) + (hash << 7) + (hash << 8) + (hash << 24);
+    }
+    const hex = (hash >>> 0).toString(16).padStart(8, "0");
+    const suffix = ((hash * 31) >>> 0).toString(16).padStart(8, "0");
+    return `0x${hex}${suffix}`;
+  };
+
+  // Render Stages Visual Track
+  const renderStagesTrack = () => {
+    if (!stagesTrack) return;
+    const scenario = scenarios[activeScenarioKey];
+    stagesTrack.innerHTML = scenario.stages.map((st, idx) => {
+      const isCompleted = idx < currentStep;
+      const isActive = idx === currentStep;
+      const cls = `stage-card ${isActive ? "active" : ""} ${isCompleted ? "completed" : ""}`.trim();
+      const badgeIcon = isCompleted ? "✓" : (idx + 1);
+      return `
+        <div class="${cls}">
+          <span class="stage-num-badge">${badgeIcon}</span>
+          <div class="stage-info">
+            <span class="stage-title">${escapeHtml(st.title)}</span>
+            <span class="stage-desc">${escapeHtml(st.desc)}</span>
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    if (stageBadge) {
+      const cur = Math.min(currentStep + 1, 4);
+      stageBadge.textContent = `Stage ${cur} of 4: ${scenario.stages[Math.min(currentStep, 3)].title}`;
+    }
+  };
+
+  // Render Ledger Table & Invariants
+  const renderLedger = () => {
+    const scenario = scenarios[activeScenarioKey];
+    const amt = sliderAmount ? parseFloat(sliderAmount.value) : scenario.defaultAmount;
+
+    // Balance Sheet calculation
+    const bs = scenario.balanceSheet(amt, currentStep);
+    if (statAssetsVal) statAssetsVal.textContent = `$${bs.a.toFixed(2)}`;
+    if (statAssetsBreakdown) statAssetsBreakdown.textContent = bs.aSub;
+    if (statLiabilitiesVal) statLiabilitiesVal.textContent = `$${bs.l.toFixed(2)}`;
+    if (statLiabilitiesBreakdown) statLiabilitiesBreakdown.textContent = bs.lSub;
+    if (statEquityVal) statEquityVal.textContent = `$${bs.e.toFixed(2)}`;
+    if (statEquityBreakdown) statEquityBreakdown.textContent = bs.eSub;
+
+    // Check Invariant: Assets == Liabilities + Equity
+    const diff = Math.abs(bs.a - (bs.l + bs.e));
+    const isBalanced = diff < 0.05;
+    if (invariantBadge) {
+      invariantBadge.className = isBalanced ? "balance-badge-ok" : "balance-badge-err";
+      invariantBadge.textContent = isBalanced ? `✓ BALANCED (Δ = $0.00)` : `✕ DISCREPANCY (Δ = $${diff.toFixed(2)})`;
+    }
+
+    // Cryptographic Block Info
+    if (blockNum) blockNum.textContent = `Block #${blockCounter}`;
+    if (prevHash) prevHash.textContent = `0x${((blockCounter * 16807) >>> 0).toString(16).padStart(8, "0")}...${(blockCounter * 31).toString(16)}`;
+    if (merkleRoot) merkleRoot.textContent = computeMerkleHash(activeScenarioKey, currentStep, amt);
+
+    // Populate Table Rows up to currentStep
+    let totalDebit = 0;
+    let totalCredit = 0;
+    const rows = [];
+
+    for (let i = 0; i <= currentStep; i++) {
+      const stage = scenario.stages[i];
+      const entry = stage.calc(amt);
+      totalDebit += entry.debit;
+      totalCredit += entry.credit;
+
+      const txId = `TX-${(blockCounter * 10 + i).toString(16).toUpperCase()}`;
+      const statusCls = entry.status === "COMMITTED" ? "status-committed" : (entry.status === "REVERTED" ? "status-reverted" : "status-pending");
+
+      // Row 1: Debit Line
+      rows.push(`
+        <tr>
+          <td class="td-tx"><code>${txId}.1</code></td>
+          <td class="td-acc"><b>${escapeHtml(stage.debitAcc)}</b></td>
+          <td class="td-debit text-cyan">$${entry.debit.toFixed(2)}</td>
+          <td class="td-credit text-muted">-</td>
+          <td class="td-status"><span class="${statusCls}">${entry.status}</span></td>
+        </tr>
+      `);
+
+      // Row 2: Credit Line
+      rows.push(`
+        <tr>
+          <td class="td-tx"><code>${txId}.2</code></td>
+          <td class="td-acc" style="padding-left: 20px;">↳ ${escapeHtml(stage.creditAcc)}</td>
+          <td class="td-debit text-muted">-</td>
+          <td class="td-credit text-amber">$${entry.credit.toFixed(2)}</td>
+          <td class="td-status"><span class="${statusCls}">${entry.status}</span></td>
+        </tr>
+      `);
+    }
+
+    if (tableBody) tableBody.innerHTML = rows.join("");
+    if (footTotalDebit) footTotalDebit.textContent = `$${totalDebit.toFixed(2)}`;
+    if (footTotalCredit) footTotalCredit.textContent = `$${totalCredit.toFixed(2)}`;
+    if (entryCountMeta) entryCountMeta.textContent = `${rows.length} Journal Entries Active`;
+
+    if (footDiffStatus) {
+      const footDiff = Math.abs(totalDebit - totalCredit);
+      footDiffStatus.innerHTML = footDiff < 0.05
+        ? `<span class="tag-balanced">Balanced</span>`
+        : `<span class="tag-reverted">Δ $${footDiff.toFixed(2)}</span>`;
+    }
+
+    // Append Audit Console Trace
+    if (auditConsole) {
+      const stage = scenario.stages[currentStep];
+      const now = new Date().toISOString().substring(11, 19);
+      auditConsole.textContent = `[${now}] STAGE ${currentStep + 1}: ${stage.title}
+[${now}] INVARIANT CHECK: Assets ($${bs.a.toFixed(2)}) == Liabilities ($${bs.l.toFixed(2)}) + Equity ($${bs.e.toFixed(2)}).
+[${now}] GENERAL LEDGER: Verified Total Debits ($${totalDebit.toFixed(2)}) == Total Credits ($${totalCredit.toFixed(2)}).
+[${now}] MERKLE PROOF: Root ${computeMerkleHash(activeScenarioKey, currentStep, amt)} chained to block #${blockCounter}.`;
+    }
+  };
+
+  const setScenario = (key) => {
+    if (!scenarios[key]) return;
+    activeScenarioKey = key;
+    currentStep = 0;
+    blockCounter++;
+
+    if (sliderAmount) {
+      sliderAmount.value = scenarios[key].defaultAmount;
+      if (valAmount) valAmount.textContent = `$${scenarios[key].defaultAmount.toFixed(2)}`;
+    }
+
+    scenarioBtns.forEach(btn => {
+      const isActive = btn.dataset.scenario === key;
+      btn.classList.toggle("active", isActive);
+      btn.setAttribute("aria-selected", isActive ? "true" : "false");
+    });
+
+    renderStagesTrack();
+    renderLedger();
+  };
+
+  // Step Forward
+  stepBtn?.addEventListener("click", () => {
+    if (currentStep < 3) {
+      currentStep++;
+      blockCounter++;
+      renderStagesTrack();
+      renderLedger();
+      if (typeof playSound === "function") playSound("click");
+    } else {
+      if (typeof showPortfolioToast === "function") showPortfolioToast("All transaction stages finalized");
+    }
+  });
+
+  // Auto-Simulate
+  autoBtn?.addEventListener("click", () => {
+    if (autoTimer) {
+      clearInterval(autoTimer);
+      autoTimer = null;
+      autoBtn.textContent = "⚡ Auto-Simulate";
+      return;
+    }
+
+    autoBtn.textContent = "⏸️ Stop";
+    if (currentStep >= 3) currentStep = 0;
+    renderStagesTrack();
+    renderLedger();
+
+    autoTimer = setInterval(() => {
+      if (currentStep < 3) {
+        currentStep++;
+        blockCounter++;
+        renderStagesTrack();
+        renderLedger();
+        if (typeof playSound === "function") playSound("click");
+      } else {
+        clearInterval(autoTimer);
+        autoTimer = null;
+        autoBtn.textContent = "⚡ Auto-Simulate";
+        if (typeof showPortfolioToast === "function") showPortfolioToast("Simulation run completed");
+      }
+    }, 550);
+  });
+
+  // Reset
+  resetBtn?.addEventListener("click", () => {
+    if (autoTimer) {
+      clearInterval(autoTimer);
+      autoTimer = null;
+      if (autoBtn) autoBtn.textContent = "⚡ Auto-Simulate";
+    }
+    currentStep = 0;
+    blockCounter++;
+    renderStagesTrack();
+    renderLedger();
+    if (typeof playSound === "function") playSound("click");
+    if (typeof showPortfolioToast === "function") showPortfolioToast("Ledger reset to Stage 1");
+  });
+
+  // Scenario Buttons
+  scenarioBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const sc = btn.dataset.scenario;
+      if (sc) {
+        setScenario(sc);
+        if (typeof playSound === "function") playSound("click");
+      }
+    });
+  });
+
+  // Slider Amount Listener
+  sliderAmount?.addEventListener("input", () => {
+    const v = parseFloat(sliderAmount.value);
+    if (valAmount) valAmount.textContent = `$${v.toFixed(2)}`;
+    renderLedger();
+  });
+
+  // Export Audit Memorandum (.md)
+  exportBtn?.addEventListener("click", () => {
+    const scenario = scenarios[activeScenarioKey];
+    const amt = sliderAmount ? parseFloat(sliderAmount.value) : scenario.defaultAmount;
+    const bs = scenario.balanceSheet(amt, currentStep);
+    const dateStr = new Date().toISOString().split("T")[0];
+    const rootHash = computeMerkleHash(activeScenarioKey, currentStep, amt);
+
+    const markdownDoc = `# Financial Audit & Double-Entry Ledger Memorandum
+**Organization:** Gouv Kimsea — Engineering & FinTech Lab
+**Date:** ${dateStr}
+**Scenario:** ${scenario.name}
+**Block Reference:** Block #${blockCounter}
+**Cryptographic Merkle Root:** \`${rootHash}\`
+**ACID Invariant Status:** Serializable Isolation · Verified Zero Invariant Drift
+
+---
+
+## 1. Accounting Invariant Equation Proof
+$$\\text{Total Assets} \\equiv \\text{Total Liabilities} + \\text{Total Equity}$$
+
+- **Total Assets:** \$${bs.a.toFixed(2)} (${bs.aSub})
+- **Total Liabilities:** \$${bs.l.toFixed(2)} (${bs.lSub})
+- **Total Equity:** \$${bs.e.toFixed(2)} (${bs.eSub})
+- **Invariant Delta:** \$0.00 (Balanced ✓)
+
+---
+
+## 2. General Ledger Journal Entries
+| Transaction ID | Account Line | Debit ($) | Credit ($) | ACID Status |
+| :--- | :--- | :--- | :--- | :--- |
+${scenario.stages.slice(0, currentStep + 1).map((st, i) => {
+  const e = st.calc(amt);
+  return `| TX-${(blockCounter * 10 + i).toString(16).toUpperCase()}.1 | ${st.debitAcc} | $${e.debit.toFixed(2)} | - | ${e.status} |
+| TX-${(blockCounter * 10 + i).toString(16).toUpperCase()}.2 | ↳ ${st.creditAcc} | - | $${e.credit.toFixed(2)} | ${e.status} |`;
+}).join("\n")}
+
+---
+
+## 3. Distributed Systems & Security Guarantees
+1. **Double-Entry Symmetry:** Every debit strictly equals an offsetting credit across multi-party escrow accounts.
+2. **Optimistic & Pessimistic Concurrency:** Row-level locks (\`SELECT ... FOR UPDATE\`) prevent concurrent double-spend race conditions.
+3. **ASC 606 Revenue Recognition:** Unearned deferred revenue liabilities amortize on a straight-line schedule matching performance delivery.
+4. **Cryptographic Chaining:** Sequential block hashes guarantee tamper-evident auditability across distributed ledgers.
+
+*Document generated autonomously by Gouv Kimsea's FinTech Simulation Engine.*
+`;
+
+    const blob = new Blob([markdownDoc], { type: "text/markdown;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `kimsea-fintech-audit-${activeScenarioKey}-${dateStr}.md`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    if (typeof playSound === "function") playSound("click");
+    if (typeof showPortfolioToast === "function") showPortfolioToast("Exported Financial Audit Memorandum (.md)");
+  });
+
+  // Modal Open & Close Controller
+  openFinTechLedgerModal = (scenarioKey) => {
+    if (typeof playSound === "function") playSound("whoosh");
+    if (!modal.open) modal.showModal();
+
+    if (scenarioKey && scenarios[scenarioKey]) {
+      setScenario(scenarioKey);
+    } else {
+      setScenario(activeScenarioKey);
+    }
+  };
+
+  closeFinTechLedgerModal = () => {
+    if (modal.open) modal.close();
+    if (autoTimer) {
+      clearInterval(autoTimer);
+      autoTimer = null;
+      if (autoBtn) autoBtn.textContent = "⚡ Auto-Simulate";
+    }
+  };
+
+  closeBtn?.addEventListener("click", closeFinTechLedgerModal);
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeFinTechLedgerModal();
+  });
+  modal.addEventListener("cancel", closeFinTechLedgerModal);
+
+  // Wire Modal Nav Launcher
+  document.getElementById("modalLedgerBtn")?.addEventListener("click", () => {
+    openFinTechLedgerModal("escrow");
+  });
+
+  // Initial render
+  setScenario("escrow");
+};
+
+initFinTechLedgerModal();
+
 
 
