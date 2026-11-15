@@ -3,13 +3,13 @@
  * Provides offline caching, resilient asset delivery, and instant load speeds.
  */
 
-const CACHE_NAME = 'kimsea-pwa-v32';
+const CACHE_NAME = 'kimsea-pwa-v33';
 const CORE_ASSETS = [
   './',
   './index.html',
   './miniworld.html',
-  './styles.css?v=v32',
-  './script.js?v=v32',
+  './styles.css?v=v33',
+  './script.js?v=v33',
   './manifest.json',
   './favicon.svg',
   './icon-192.png',

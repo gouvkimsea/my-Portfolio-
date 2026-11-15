@@ -174,7 +174,9 @@ assert(indexHtml.includes('id="archVisualizerModal"') && scriptJs.includes('init
 assert(scriptJs.includes('archflow:') && indexHtml.includes('data-action="view-arch-flow"') && indexHtml.includes('id="modalArchFlowBtn"'), 'index.html & script.js: Architecture flow launchers wired to Project modal, Command Palette, Terminal CLI, and hotkeys');
 assert(indexHtml.includes('id="skillsRadarModal"') && scriptJs.includes('initSkillsRadarModal') && fs.readFileSync('styles.css', 'utf8').includes('.radar-modal'), 'index.html, styles.css & script.js: Interactive Dual-Degree Competency Radar implemented');
 assert(scriptJs.includes('radar:') && indexHtml.includes('data-action="view-skills-radar"') && indexHtml.includes('id="skillsRadarLauncherBtn"'), 'index.html & script.js: Competency radar launchers wired to Skills toolbar, Command Palette, Terminal CLI, and hotkeys');
-assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v32'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v32');
+assert(indexHtml.includes('id="algoArenaModal"') && scriptJs.includes('initAlgoArenaModal') && fs.readFileSync('styles.css', 'utf8').includes('.arena-modal'), 'index.html, styles.css & script.js: Interactive Algorithm Benchmark & Race Arena implemented');
+assert(scriptJs.includes('arena:') && indexHtml.includes('data-action="open-algo-arena"') && indexHtml.includes('id="viewModeAlgoArena"'), 'index.html & script.js: Algorithm arena launchers wired to Projects view switcher, Command Palette, Terminal CLI, and hotkeys');
+assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v33'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v33');
 
 // Test global script evaluation with mock DOM globals
 try {

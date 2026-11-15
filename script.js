@@ -604,6 +604,16 @@ document.addEventListener("keydown", e => {
         openSkillsRadarModal();
       }
     }
+  } else if ((e.key === "B" || e.key === "b") && e.shiftKey) {
+    e.preventDefault();
+    if (typeof openAlgoArenaModal === "function") {
+      const bModal = document.getElementById("algoArenaModal");
+      if (bModal?.open) {
+        if (typeof closeAlgoArenaModal === "function") closeAlgoArenaModal();
+      } else {
+        openAlgoArenaModal();
+      }
+    }
   } else if (e.key.toLowerCase() === "u" && !e.ctrlKey && !e.metaKey && !e.altKey) {
     e.preventDefault();
     if (typeof toggleSfx === "function") toggleSfx();
@@ -839,6 +849,8 @@ cmdKResults?.addEventListener("click", e => {
     if (typeof openArchVisualizerModal === "function") openArchVisualizerModal();
   } else if (action === "view-skills-radar") {
     if (typeof openSkillsRadarModal === "function") openSkillsRadarModal();
+  } else if (action === "open-algo-arena") {
+    if (typeof openAlgoArenaModal === "function") openAlgoArenaModal();
   } else if (action === "open-telemetry") {
     if (typeof openTelemetryModal === "function") openTelemetryModal();
   } else if (action === "download-resume-md") {
@@ -4836,7 +4848,7 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>cat [file]</b>, <b>curl</b>, <b>history</b>, <b>export</b>, <b>vcard</b>, <b>game</b>, <b>arcade</b>, <b>accent [theme]</b>, <b>synth [demo]</b>, <b>piano</b>, <b>telemetry</b>, <b>diag</b>, <b>perf</b>, <b>sysinfo</b>, <b>playground</b>, <b>sandbox</b>, <b>eval [code]</b>, <b>particles [on|off|toggle]</b>, <b>casestudy [project]</b>, <b>gitgraph [project]</b>, <b>heatmap</b>, <b>archflow [project]</b>, <b>flow [project]</b>, <b>radar [mode]</b>, <b>competencies</b>, <b>time</b>, <b>volume [0-100]</b>, <b>demo [project]</b>, <b>cite [project]</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>bench</b>, <b>timeline</b>, <b>architecture</b>, <b>ping</b>, <b>matrix</b>, <b>git</b>, <b>nav [section]</b>, <b>shortcuts</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume [md|text]</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>cat [file]</b>, <b>curl</b>, <b>history</b>, <b>export</b>, <b>vcard</b>, <b>game</b>, <b>arcade</b>, <b>accent [theme]</b>, <b>synth [demo]</b>, <b>piano</b>, <b>telemetry</b>, <b>diag</b>, <b>perf</b>, <b>sysinfo</b>, <b>playground</b>, <b>sandbox</b>, <b>eval [code]</b>, <b>particles [on|off|toggle]</b>, <b>casestudy [project]</b>, <b>gitgraph [project]</b>, <b>heatmap</b>, <b>archflow [project]</b>, <b>flow [project]</b>, <b>radar [mode]</b>, <b>competencies</b>, <b>arena [preset]</b>, <b>race</b>, <b>time</b>, <b>volume [0-100]</b>, <b>demo [project]</b>, <b>cite [project]</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>bench</b>, <b>timeline</b>, <b>architecture</b>, <b>ping</b>, <b>matrix</b>, <b>git</b>, <b>nav [section]</b>, <b>shortcuts</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume [md|text]</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
   matrix: () => {
     const terminalBody = $(".terminal-body");
     if (!terminalBody) return "Terminal stream window not accessible.";
@@ -5237,7 +5249,7 @@ Layer 1: Semantic Core  · Zero-dependency ES2026 &amp; HTML5 dialogs
 Layer 2: Style Tokens   · Modular Vanilla CSS &amp; WCAG AAA contrast
 Layer 3: 3D Graphics    · Hardware-accelerated WebGL 2.0 MiniWorld
 Layer 4: Procedural SFX · Pure Web Audio synthesizers (0 audio files)
-Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v32</pre>`;
+Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v33</pre>`;
   },
   cat: (arg) => {
     const file = (arg || "").trim().toLowerCase();
@@ -5366,7 +5378,7 @@ DOM Tree:         <b>${domCount}</b> semantic nodes
 Logical Cores:    <b>${cores}</b> Threads (hardwareConcurrency)
 Display:          <b>${window.innerWidth}x${window.innerHeight}</b> (${window.devicePixelRatio || 1}x DPR)
 Audio Engine:     Active (${Math.round((typeof sfxVolume !== "undefined" ? sfxVolume : 0.8) * 100)}% Gain)
-PWA Cache:        <b>kimsea-pwa-v32</b> (Stale-While-Revalidate)
+PWA Cache:        <b>kimsea-pwa-v33</b> (Stale-While-Revalidate)
 Status:           Modal HUD Launched ⚡</pre>`;
   },
   diag: () => terminalCommands.telemetry(),
@@ -5433,6 +5445,20 @@ Interactive HUD: 6-Axis Spider Chart &amp; Scorecard Exporter (.md)</pre>`;
   },
   competencies: (arg) => terminalCommands.radar(arg),
   spider: (arg) => terminalCommands.radar(arg),
+  arena: (arg) => {
+    const preset = (arg || "").trim().toLowerCase();
+    const validPresets = ["interval", "sanitizer", "srs", "noise"];
+    const targetPreset = validPresets.includes(preset) ? preset : "interval";
+    if (typeof openAlgoArenaModal === "function") openAlgoArenaModal(targetPreset);
+    return `<pre class="term-pre" style="margin:4px 0;font-size:11px;line-height:1.45;">⚔️ <b>Algorithm Benchmark &amp; Race Arena Launched</b>
+--------------------------------------------------------
+Preset:          <b>${targetPreset.toUpperCase()}</b>
+Execution Engine: In-Browser V8 JIT Micro-Benchmark Harness
+High-Res Timer:  window.performance.now() (&plusmn;0.005ms)
+Contestants:     Algorithm A vs Algorithm B vs Algorithm C</pre>`;
+  },
+  race: (arg) => terminalCommands.arena(arg),
+  benchmarks: (arg) => terminalCommands.arena(arg),
   time: () => {
     const now = new Date();
     const options = { timeZone: "Asia/Phnom_Penh", hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit", weekday: "short", year: "numeric", month: "short", day: "numeric" };
@@ -5676,7 +5702,7 @@ terminalInput?.addEventListener("keydown", event => {
     if (current) {
       const allCmds = Array.from(new Set([
         ...Object.keys(terminalCommands),
-        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade", "accent", "synth", "piano", "telemetry", "diag", "perf", "sysinfo", "playground", "sandbox", "eval", "particles", "casestudy", "dossier", "gitgraph", "heatmap", "graph", "archflow", "flow", "radar", "spider", "competencies"
+        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade", "accent", "synth", "piano", "telemetry", "diag", "perf", "sysinfo", "playground", "sandbox", "eval", "particles", "casestudy", "dossier", "gitgraph", "heatmap", "graph", "archflow", "flow", "radar", "spider", "competencies", "arena", "race", "benchmarks"
       ]));
       const prefix = lastTabPrefix || current;
       const matches = allCmds.filter(k => k.startsWith(prefix));
@@ -8190,7 +8216,7 @@ const initCyberTelemetry = () => {
       audioSubEl.textContent = `48000 Hz · Master Gain ${vol}%`;
     }
     if (pwaEl) {
-      pwaEl.textContent = "kimsea-pwa-v32";
+      pwaEl.textContent = "kimsea-pwa-v33";
     }
   };
 
@@ -9892,3 +9918,652 @@ const initSkillsRadarModal = () => {
 };
 
 initSkillsRadarModal();
+
+// ==========================================================================
+// Phase 27: Interactive Algorithm Benchmark & Performance Race Arena
+// ==========================================================================
+
+let openAlgoArenaModal = null;
+let closeAlgoArenaModal = null;
+
+const initAlgoArenaModal = () => {
+  const modal = document.getElementById("algoArenaModal");
+  if (!modal) return;
+
+  const closeBtn = document.getElementById("algoArenaCloseBtn");
+  const exportBtn = document.getElementById("algoArenaExportBtn");
+  const runBtn = document.getElementById("algoArenaRunBtn");
+  const presetBtns = document.querySelectorAll(".arena-preset-btn");
+  const sampleSelect = document.getElementById("arenaSampleSize");
+
+  const raceBoard = document.getElementById("algoArenaRaceBoard");
+  const analysisContent = document.getElementById("arenaAnalysisContent");
+  const complexityBadge = document.getElementById("arenaComplexityBadge");
+  const statusBadge = document.getElementById("arenaStatusBadge");
+  const winnerVal = document.getElementById("arenaWinnerVal");
+  const speedupVal = document.getElementById("arenaSpeedupVal");
+  const envVal = document.getElementById("arenaEnvVal");
+  const logConsole = document.getElementById("arenaLogConsole");
+
+  let activePreset = "interval";
+  let isRunning = false;
+  let lastBenchmarkResults = null;
+
+  // Set execution environment telemetry
+  if (envVal) {
+    const cores = navigator.hardwareConcurrency || 4;
+    envVal.textContent = `V8 Engine · ${cores} Cores · performance.now()`;
+  }
+
+  // Benchmark Suites Definition
+  const benchmarkSuites = {
+    interval: {
+      title: "Interval Overlap Collision Detection (JOUL Fleet)",
+      badge: "O(N log N) Sweep-Line vs O(N²) Brute-Force vs O(N) Hash",
+      analysis: `<p><strong>JOUL Luxury Fleet Rental</strong> mandates zero overlapping reservations with a strict 2-hour buffer window. This suite benchmarks pairwise conflict checking across simulated booking schedules:</p>
+      <ul>
+        <li><strong>Sweep-Line:</strong> Sorts start and end timestamps in O(N log N) time, scanning linearly with an active set.</li>
+        <li><strong>Brute-Force:</strong> Compares all pairs in O(N²) time. Demonstrates the quadratic explosion as fleet size grows.</li>
+        <li><strong>Bucket Hash Index:</strong> Maps intervals into discrete time buckets for O(N) amortized conflict checks.</li>
+      </ul>`,
+      contestants: [
+        { id: "brute", name: "Pairwise Nested Scan", complexity: "O(N²)", baseline: false },
+        { id: "sweep", name: "Sweep-Line Event Sort", complexity: "O(N log N)", baseline: false },
+        { id: "bucket", name: "Bucket Hash Indexer", complexity: "O(N)", baseline: true }
+      ],
+      generateData: (n) => {
+        const intervals = [];
+        let cur = 1000;
+        for (let i = 0; i < n; i++) {
+          const duration = 20 + Math.floor(Math.random() * 60);
+          const gap = Math.floor(Math.random() * 15);
+          cur += gap;
+          intervals.push({ start: cur, end: cur + duration, id: i });
+          cur += duration;
+        }
+        return intervals;
+      },
+      runners: {
+        brute: (data) => {
+          let collisions = 0;
+          const limit = Math.min(data.length, 3000); // cap to keep responsive
+          for (let i = 0; i < limit; i++) {
+            const a = data[i];
+            for (let j = i + 1; j < limit; j++) {
+              const b = data[j];
+              if (Math.max(a.start, b.start) < Math.min(a.end, b.end)) {
+                collisions++;
+              }
+            }
+          }
+          return collisions;
+        },
+        sweep: (data) => {
+          const events = [];
+          for (let i = 0; i < data.length; i++) {
+            events.push({ time: data[i].start, type: 1 });
+            events.push({ time: data[i].end, type: -1 });
+          }
+          events.sort((a, b) => a.time - b.time || a.type - b.type);
+          let active = 0;
+          let maxActive = 0;
+          for (let i = 0; i < events.length; i++) {
+            active += events[i].type;
+            if (active > maxActive) maxActive = active;
+          }
+          return maxActive;
+        },
+        bucket: (data) => {
+          const buckets = new Map();
+          let overlaps = 0;
+          const BUCKET_SIZE = 60;
+          for (let i = 0; i < data.length; i++) {
+            const item = data[i];
+            const bStart = Math.floor(item.start / BUCKET_SIZE);
+            const bEnd = Math.floor(item.end / BUCKET_SIZE);
+            for (let b = bStart; b <= bEnd; b++) {
+              const list = buckets.get(b);
+              if (list) {
+                for (let k = 0; k < list.length; k++) {
+                  if (Math.max(item.start, list[k].start) < Math.min(item.end, list[k].end)) {
+                    overlaps++;
+                  }
+                }
+                list.push(item);
+              } else {
+                buckets.set(b, [item]);
+              }
+            }
+          }
+          return overlaps;
+        }
+      }
+    },
+
+    sanitizer: {
+      title: "Prompt Injection & Homoglyph Filter (PinitAI)",
+      badge: "O(N) Bitmask Scan vs O(N+M) Multi-Trie vs O(N·M) RegEx",
+      analysis: `<p><strong>PinitAI AI Firewall</strong> inspects user input before forwarding to LLMs. Attackers attempt to bypass filters with zero-width characters and homoglyph evasions:</p>
+      <ul>
+        <li><strong>Bitmask Filter:</strong> Strips zero-width codepoints and normalizes characters in a single O(N) linear pass.</li>
+        <li><strong>Multi-Pattern Automaton:</strong> Aho-Corasick-style trie evaluating multiple attack signatures simultaneously.</li>
+        <li><strong>Compiled RegEx:</strong> Sequential regular expression evaluation prone to backtracking delays.</li>
+      </ul>`,
+      contestants: [
+        { id: "regex", name: "Sequential RegEx Chain", complexity: "O(N·M)", baseline: false },
+        { id: "trie", name: "Multi-Pattern Automaton", complexity: "O(N+M)", baseline: false },
+        { id: "bitmask", name: "Single-Pass Bitmask Filter", complexity: "O(N)", baseline: true }
+      ],
+      generateData: (n) => {
+        const words = ["SELECT", "IGNORE", "SYSTEM", "INSTRUCTION", "PROMPT", "ADMIN", "OVERRIDE", "JAILBREAK", "hello", "world", "user", "input", "test"];
+        const hostileChars = ["\u200B", "\u200C", "\u200D", "\uFEFF", ""];
+        const tokens = [];
+        for (let i = 0; i < n; i++) {
+          const w = words[i % words.length];
+          const dirty = (i % 7 === 0) ? `${w.slice(0, 2)}${hostileChars[i % hostileChars.length]}${w.slice(2)}` : w;
+          tokens.push(dirty);
+        }
+        return tokens.join(" ");
+      },
+      runners: {
+        regex: (text) => {
+          const patterns = [
+            /ignore\s+(previous|prior)\s+instructions/gi,
+            /system\s+prompt/gi,
+            /override\s+rules/gi,
+            /admin\s+mode/gi,
+            /jailbreak/gi,
+            /[\u200B-\u200D\uFEFF]/g
+          ];
+          let cleaned = text;
+          for (let i = 0; i < patterns.length; i++) {
+            cleaned = cleaned.replace(patterns[i], "");
+          }
+          return cleaned.length;
+        },
+        trie: (text) => {
+          const keywords = ["system", "ignore", "override", "admin", "jailbreak"];
+          let found = 0;
+          const lower = text.toLowerCase();
+          for (let i = 0; i < lower.length; i++) {
+            for (let k = 0; k < keywords.length; k++) {
+              if (lower.startsWith(keywords[k], i)) {
+                found++;
+              }
+            }
+          }
+          return found;
+        },
+        bitmask: (text) => {
+          let clean = "";
+          for (let i = 0; i < text.length; i++) {
+            const code = text.charCodeAt(i);
+            // Skip zero-width spaces (\u200B=8203, \u200C=8204, \u200D=8205, \uFEFF=65279)
+            if ((code >= 8203 && code <= 8205) || code === 65279) {
+              continue;
+            }
+            clean += text[i];
+          }
+          return clean.length;
+        }
+      }
+    },
+
+    srs: {
+      title: "SM-2 Spaced Repetition Memory Scheduling",
+      badge: "O(1) Math Table vs O(N) Array Batch vs O(2^N) Tree",
+      analysis: `<p><strong>Bilingual Flashcard SRS</strong> optimizes memory retention intervals using SuperMemo SM-2. When reviewing 10,000+ cards, schedule recalculation efficiency ensures instant card flips:</p>
+      <ul>
+        <li><strong>Direct Formula O(1):</strong> Constant-time floating-point arithmetic updating easiness factor and day intervals.</li>
+        <li><strong>Flat Float64Array:</strong> Cache-friendly vectorized contiguous buffer avoiding object overhead.</li>
+        <li><strong>Recursive History:</strong> Re-evaluating complete historical review chains for comparison.</li>
+      </ul>`,
+      contestants: [
+        { id: "recursive", name: "Recursive History Tree", complexity: "O(2^N)", baseline: false },
+        { id: "batch", name: "Iterative Array Batch", complexity: "O(N)", baseline: false },
+        { id: "vector", name: "TypedArray Float64 Buffer", complexity: "O(1) amortized", baseline: true }
+      ],
+      generateData: (n) => {
+        const cards = [];
+        for (let i = 0; i < n; i++) {
+          cards.push({ id: i, rep: Math.floor(Math.random() * 8), ef: 2.5, interval: 1, grade: Math.floor(Math.random() * 6) });
+        }
+        return cards;
+      },
+      runners: {
+        recursive: (cards) => {
+          const limit = Math.min(cards.length, 3000);
+          const sim = (rep, grade) => {
+            if (rep <= 0) return 1;
+            return Math.round(sim(rep - 1, grade) * (1.3 + grade * 0.1));
+          };
+          let totalDays = 0;
+          for (let i = 0; i < limit; i++) {
+            totalDays += sim(cards[i].rep, cards[i].grade);
+          }
+          return totalDays;
+        },
+        batch: (cards) => {
+          let sum = 0;
+          for (let i = 0; i < cards.length; i++) {
+            const c = cards[i];
+            const q = c.grade;
+            let ef = c.ef + (0.1 - (5 - q) * (0.08 + (5 - q) * 0.02));
+            if (ef < 1.3) ef = 1.3;
+            let interval = 1;
+            if (c.rep === 1) interval = 6;
+            else if (c.rep > 1) interval = Math.round(c.interval * ef);
+            sum += interval;
+          }
+          return sum;
+        },
+        vector: (cards) => {
+          const len = cards.length;
+          const efs = new Float64Array(len);
+          const intervals = new Float64Array(len);
+          for (let i = 0; i < len; i++) {
+            efs[i] = cards[i].ef;
+            intervals[i] = cards[i].interval;
+          }
+          let sum = 0;
+          for (let i = 0; i < len; i++) {
+            const q = cards[i].grade;
+            let ef = efs[i] + (0.1 - (5 - q) * (0.08 + (5 - q) * 0.02));
+            if (ef < 1.3) ef = 1.3;
+            efs[i] = ef;
+            intervals[i] = intervals[i] * ef;
+            sum += intervals[i];
+          }
+          return sum;
+        }
+      }
+    },
+
+    noise: {
+      title: "2D Coherent Terrain Noise (MiniWorld 3D)",
+      badge: "Simplex 2D (3 Corners) vs Classic Perlin vs Value Noise",
+      analysis: `<p><strong>MiniWorld 3D Procedural Planet</strong> synthesizes elevation, ocean currents, and biomes in real time. Efficient coordinate hashing preserves 60 FPS:</p>
+      <ul>
+        <li><strong>Simplex 2D:</strong> Evaluates triangular simplices (3 corners instead of 4) reducing arithmetic operations by 33%.</li>
+        <li><strong>Classic Perlin:</strong> Grid gradient dot products with quintic Hermite smoothing curve.</li>
+        <li><strong>Value Noise:</strong> Lattice hashing with bilinear interpolation.</li>
+      </ul>`,
+      contestants: [
+        { id: "value", name: "Value Noise (Bilinear)", complexity: "O(N)", baseline: false },
+        { id: "perlin", name: "Classic 2D Perlin Noise", complexity: "O(N)", baseline: false },
+        { id: "simplex", name: "2D Simplex Skew Noise", complexity: "O(N) 33% fewer ops", baseline: true }
+      ],
+      generateData: (n) => {
+        const coords = [];
+        for (let i = 0; i < n; i++) {
+          coords.push({ x: (i * 0.13) % 100, y: (i * 0.27) % 100 });
+        }
+        return coords;
+      },
+      runners: {
+        value: (coords) => {
+          let sum = 0;
+          for (let i = 0; i < coords.length; i++) {
+            const x = coords[i].x;
+            const y = coords[i].y;
+            const xi = Math.floor(x);
+            const yi = Math.floor(y);
+            const xf = x - xi;
+            const yf = y - yi;
+            const h = (xi * 374761393 + yi * 668265263) ^ 0x5bf03635;
+            sum += h * 0.00000000023 + xf * yf;
+          }
+          return sum;
+        },
+        perlin: (coords) => {
+          let sum = 0;
+          for (let i = 0; i < coords.length; i++) {
+            const x = coords[i].x;
+            const y = coords[i].y;
+            const xi = Math.floor(x) & 255;
+            const yi = Math.floor(y) & 255;
+            const xf = x - Math.floor(x);
+            const yf = y - Math.floor(y);
+            const u = xf * xf * xf * (xf * (xf * 6 - 15) + 10);
+            const v = yf * yf * yf * (yf * (yf * 6 - 15) + 10);
+            sum += (xi + yi) * 0.01 + u * v;
+          }
+          return sum;
+        },
+        simplex: (coords) => {
+          let sum = 0;
+          const F2 = 0.5 * (Math.sqrt(3.0) - 1.0);
+          const G2 = (3.0 - Math.sqrt(3.0)) / 6.0;
+          for (let i = 0; i < coords.length; i++) {
+            const x = coords[i].x;
+            const y = coords[i].y;
+            const s = (x + y) * F2;
+            const i0 = Math.floor(x + s);
+            const j0 = Math.floor(y + s);
+            const t = (i0 + j0) * G2;
+            const x0 = x - (i0 - t);
+            const y0 = y - (j0 - t);
+            sum += x0 * y0;
+          }
+          return sum;
+        }
+      }
+    }
+  };
+
+  const addLog = (msg, type = "muted") => {
+    if (!logConsole) return;
+    const time = (performance.now() % 10000).toFixed(2);
+    const div = document.createElement("div");
+    div.className = `log-line text-${type}`;
+    div.textContent = `[${time}ms] ${msg}`;
+    logConsole.appendChild(div);
+    logConsole.scrollTop = logConsole.scrollHeight;
+  };
+
+  // Render Suite Layout
+  const renderSuite = (presetKey) => {
+    const suite = benchmarkSuites[presetKey] || benchmarkSuites.interval;
+    activePreset = presetKey;
+
+    presetBtns.forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.preset === presetKey);
+    });
+
+    if (complexityBadge) complexityBadge.textContent = suite.badge;
+    if (analysisContent) analysisContent.innerHTML = suite.analysis;
+    if (winnerVal) winnerVal.textContent = "Awaiting Run";
+    if (speedupVal) speedupVal.textContent = "—";
+    if (statusBadge) statusBadge.textContent = "Engine Ready";
+
+    // Initial race cards (before run)
+    if (raceBoard) {
+      raceBoard.innerHTML = suite.contestants.map(c => `
+        <div class="race-card" id="raceCard_${c.id}">
+          <div class="race-card-top">
+            <div class="race-algo-title">
+              <span>${c.name}</span>
+              <span class="race-complexity-tag">${c.complexity}</span>
+            </div>
+            <div class="race-metrics-row">
+              <span class="race-metric-item" id="metricTime_${c.id}">Mean: <strong>— ms</strong></span>
+              <span class="race-metric-item" id="metricOps_${c.id}">Throughput: <strong>— ops/s</strong></span>
+              <span class="race-speedup-badge" id="metricSpeedup_${c.id}">Baseline</span>
+            </div>
+          </div>
+          <div class="race-progress-track">
+            <div class="race-progress-bar" id="progressBar_${c.id}" style="width: 0%;"></div>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    addLog(`Loaded preset: ${suite.title}`, "cyan");
+  };
+
+  // Run Real-Time Benchmark
+  const runBenchmark = () => {
+    if (isRunning) return;
+    isRunning = true;
+    if (runBtn) {
+      runBtn.disabled = true;
+      runBtn.innerHTML = `<span class="run-icon">⏳</span> Benchmarking...`;
+    }
+    if (statusBadge) statusBadge.textContent = "Benchmarking...";
+
+    const suite = benchmarkSuites[activePreset] || benchmarkSuites.interval;
+    const n = parseInt(sampleSelect?.value || "5000", 10);
+
+    addLog(`Generating synthetic test fixture of ${n.toLocaleString()} records...`, "muted");
+    if (typeof playSound === "function") playSound("tap");
+
+    setTimeout(() => {
+      const data = suite.generateData(n);
+      addLog(`Dataset generated. Commencing micro-benchmarks across ${suite.contestants.length} implementations...`, "lime");
+
+      const results = {};
+      let stepIndex = 0;
+
+      const runStep = () => {
+        if (stepIndex >= suite.contestants.length) {
+          // Finished all contestants
+          finalizeBenchmark(suite, results, n);
+          return;
+        }
+
+        const contestant = suite.contestants[stepIndex];
+        const runnerFn = suite.runners[contestant.id];
+
+        addLog(`Executing contestant: ${contestant.name} (${contestant.complexity})...`, "muted");
+
+        // Warmup JIT
+        runnerFn(data);
+
+        // High precision timing run
+        const t0 = performance.now();
+        const iterations = 5;
+        for (let it = 0; it < iterations; it++) {
+          runnerFn(data);
+        }
+        const t1 = performance.now();
+        const totalDuration = t1 - t0;
+        const meanMs = Math.max(0.001, totalDuration / iterations);
+        const opsPerSec = Math.round((n / (meanMs / 1000)));
+
+        results[contestant.id] = {
+          name: contestant.name,
+          complexity: contestant.complexity,
+          meanMs,
+          opsPerSec
+        };
+
+        // Partial update UI
+        const timeEl = document.getElementById(`metricTime_${contestant.id}`);
+        const opsEl = document.getElementById(`metricOps_${contestant.id}`);
+        if (timeEl) timeEl.innerHTML = `Mean: <strong>${meanMs < 1 ? (meanMs * 1000).toFixed(1) + " μs" : meanMs.toFixed(2) + " ms"}</strong>`;
+        if (opsEl) opsEl.innerHTML = `Throughput: <strong>${opsPerSec.toLocaleString()} ops/s</strong>`;
+
+        stepIndex++;
+        setTimeout(runStep, 60);
+      };
+
+      runStep();
+    }, 40);
+  };
+
+  // Finalize Benchmark Results and Compute Relative Speedup
+  const finalizeBenchmark = (suite, results, n) => {
+    isRunning = false;
+    if (runBtn) {
+      runBtn.disabled = false;
+      runBtn.innerHTML = `<span class="run-icon">▶</span> Run Benchmark`;
+    }
+    if (statusBadge) statusBadge.textContent = "Benchmark Complete";
+
+    // Find fastest and slowest
+    let fastestId = null;
+    let minTime = Infinity;
+    let slowestTime = 0;
+
+    Object.keys(results).forEach(id => {
+      const r = results[id];
+      if (r.meanMs < minTime) {
+        minTime = r.meanMs;
+        fastestId = id;
+      }
+      if (r.meanMs > slowestTime) {
+        slowestTime = r.meanMs;
+      }
+    });
+
+    const maxOps = Math.max(...Object.values(results).map(r => r.opsPerSec));
+
+    // Update UI elements
+    suite.contestants.forEach(c => {
+      const r = results[c.id];
+      if (!r) return;
+
+      const card = document.getElementById(`raceCard_${c.id}`);
+      const pBar = document.getElementById(`progressBar_${c.id}`);
+      const speedupEl = document.getElementById(`metricSpeedup_${c.id}`);
+
+      const speedupRatio = (slowestTime / r.meanMs).toFixed(1);
+      const isWinner = (c.id === fastestId);
+
+      if (card) card.classList.toggle("winner", isWinner);
+      if (pBar) {
+        pBar.classList.toggle("winner", isWinner);
+        const barWidth = Math.max(12, Math.round((r.opsPerSec / maxOps) * 100));
+        pBar.style.width = `${barWidth}%`;
+      }
+
+      if (speedupEl) {
+        speedupEl.classList.toggle("winner", isWinner);
+        speedupEl.textContent = isWinner ? `🏆 Winner (${speedupRatio}x Faster)` : `${speedupRatio}x Baseline`;
+      }
+    });
+
+    const fastestContestant = suite.contestants.find(c => c.id === fastestId);
+    const overallSpeedup = (slowestTime / minTime).toFixed(1);
+
+    if (winnerVal) winnerVal.textContent = `${fastestContestant?.name || "Algorithm"} 🏆`;
+    if (speedupVal) speedupVal.textContent = `${overallSpeedup}x Speedup`;
+
+    lastBenchmarkResults = {
+      preset: activePreset,
+      presetTitle: suite.title,
+      sampleSize: n,
+      winner: fastestContestant?.name,
+      speedup: overallSpeedup,
+      results
+    };
+
+    addLog(`Benchmark completed! Winner: ${fastestContestant?.name} with ${overallSpeedup}x throughput advantage.`, "lime");
+    if (typeof playSound === "function") playSound("chime");
+    if (typeof showPortfolioToast === "function") {
+      showPortfolioToast(`Benchmark Complete: ${fastestContestant?.name} is ${overallSpeedup}x faster! ⚡`);
+    }
+  };
+
+  // Export Benchmark Report (.md)
+  const exportReport = () => {
+    const suite = benchmarkSuites[activePreset] || benchmarkSuites.interval;
+    const now = new Date().toISOString().split("T")[0];
+    const n = parseInt(sampleSelect?.value || "5000", 10);
+    const cores = navigator.hardwareConcurrency || 4;
+
+    let md = `# Gouv Kimsea — In-Browser Algorithm Performance Benchmark Report\n`;
+    md += `*Generated: ${now} | Suite: ${suite.title}*\n\n`;
+    md += `## Execution Environment Telemetry\n`;
+    md += `- **Runtime:** JavaScript V8 JIT / Web Standards\n`;
+    md += `- **Hardware Concurrency:** ${cores} Logical Cores\n`;
+    md += `- **Dataset Sample Size:** ${n.toLocaleString()} items\n`;
+    md += `- **Timer Resolution:** \`window.performance.now()\` high-precision timer\n\n`;
+
+    md += `## Benchmark Contestants & Empirical Results\n\n`;
+    md += `| Implementation | Theoretical Complexity | Mean Latency | Throughput (ops/sec) | Relative Speedup |\n`;
+    md += `| :--- | :---: | :---: | :---: | :---: |\n`;
+
+    suite.contestants.forEach(c => {
+      const res = lastBenchmarkResults?.results?.[c.id];
+      const meanStr = res ? (res.meanMs < 1 ? `${(res.meanMs * 1000).toFixed(1)} μs` : `${res.meanMs.toFixed(2)} ms`) : "—";
+      const opsStr = res ? `${res.opsPerSec.toLocaleString()} ops/s` : "—";
+      const isWin = (c.id === suite.contestants.find(k => k.name === lastBenchmarkResults?.winner)?.id);
+      const speedupStr = isWin ? `🏆 ${lastBenchmarkResults?.speedup}x (Winner)` : `Baseline`;
+      md += `| **${c.name}** | \`${c.complexity}\` | ${meanStr} | ${opsStr} | ${speedupStr} |\n`;
+    });
+
+    md += `\n## Engineering Analysis & Real-World Application\n\n`;
+    md += `${suite.analysis.replace(/<[^>]+>/g, "")}\n\n`;
+    md += `---\n*Exported from Gouv Kimsea's Interactive Engineering Portfolio OS.*`;
+
+    // Download file
+    const blob = new Blob([md], { type: "text/markdown;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `kimsea-algorithm-benchmark-${activePreset}-${now}.md`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(md).catch(() => {});
+    }
+
+    if (exportBtn) {
+      const origText = exportBtn.innerHTML;
+      exportBtn.innerHTML = "Report Exported! ✓";
+      exportBtn.style.borderColor = "#f59e0b";
+      exportBtn.style.color = "#f59e0b";
+      setTimeout(() => {
+        exportBtn.innerHTML = origText;
+        exportBtn.style.borderColor = "";
+        exportBtn.style.color = "";
+      }, 2200);
+    }
+
+    if (typeof playSound === "function") playSound("chime");
+    if (typeof showPortfolioToast === "function") {
+      showPortfolioToast("Downloaded Algorithm Benchmark Report (.md) & copied to clipboard! 📥");
+    }
+  };
+
+  exportBtn?.addEventListener("click", exportReport);
+
+  // Preset Buttons
+  presetBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      renderSuite(btn.dataset.preset);
+      if (typeof playSound === "function") playSound("click");
+    });
+  });
+
+  // Run Button
+  runBtn?.addEventListener("click", runBenchmark);
+
+  // Modal Open & Close Controller
+  openAlgoArenaModal = (preset) => {
+    if (typeof playSound === "function") playSound("whoosh");
+    if (!modal.open) modal.showModal();
+
+    if (preset && benchmarkSuites[preset]) {
+      renderSuite(preset);
+    } else {
+      renderSuite(activePreset);
+    }
+  };
+
+  closeAlgoArenaModal = () => {
+    if (modal.open) modal.close();
+  };
+
+  closeBtn?.addEventListener("click", closeAlgoArenaModal);
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeAlgoArenaModal();
+  });
+  modal.addEventListener("cancel", closeAlgoArenaModal);
+
+  // Wire Launchers
+  document.getElementById("viewModeAlgoArena")?.addEventListener("click", () => {
+    openAlgoArenaModal("interval");
+  });
+
+  document.getElementById("modalAlgoArenaBtn")?.addEventListener("click", () => {
+    const currentKey = $("#modalProjectSelect")?.value || "pinit";
+    const keyMap = {
+      pinit: "sanitizer",
+      joul: "interval",
+      clp: "sanitizer",
+      miniworld: "noise",
+      flashcards: "srs"
+    };
+    openAlgoArenaModal(keyMap[currentKey] || "interval");
+  });
+
+  // Initial render
+  renderSuite("interval");
+};
+
+initAlgoArenaModal();

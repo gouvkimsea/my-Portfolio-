@@ -677,6 +677,7 @@
               <button type="button" class="terminal-chip" data-cmd="gitgraph">gitgraph 📊</button>
               <button type="button" class="terminal-chip" data-cmd="archflow">archflow 📐</button>
               <button type="button" class="terminal-chip" data-cmd="radar">radar 🕸️</button>
+              <button type="button" class="terminal-chip" data-cmd="arena">arena ⚔️</button>
               <button type="button" class="terminal-chip" data-cmd="export">export</button>
               <button type="button" class="terminal-chip" data-cmd="clear">clear</button>
             </div>
@@ -804,6 +805,9 @@
             </button>
             <button type="button" class="view-switch-btn view-switch-arch-btn" id="viewModeArchFlow" data-mode="archflow" aria-pressed="false" title="Interactive System Architecture &amp; Data Flow Simulator (Shift+A)">
               <span class="view-icon" aria-hidden="true">📐</span> Arch Flow
+            </button>
+            <button type="button" class="view-switch-btn view-switch-arena-btn" id="viewModeAlgoArena" data-mode="arena" aria-pressed="false" title="Interactive Algorithm Benchmark &amp; Race Arena (Shift+B)">
+              <span class="view-icon" aria-hidden="true">⚔️</span> Algo Arena
             </button>
           </div>
         </div>
@@ -1990,6 +1994,9 @@
           </button>
           <button type="button" class="modal-nav-step-btn modal-arch-btn" id="modalArchFlowBtn" title="Inspect interactive live system architecture &amp; data flow" aria-label="Inspect interactive live system architecture and data flow">
             <span class="modal-arch-icon" aria-hidden="true">📐</span> Arch Flow
+          </button>
+          <button type="button" class="modal-nav-step-btn modal-arena-btn" id="modalAlgoArenaBtn" title="Launch Algorithm Benchmark &amp; Race Arena" aria-label="Launch algorithm benchmark and race arena">
+            <span class="modal-arena-icon" aria-hidden="true">⚔️</span> Algo Arena
           </button>
           <button type="button" class="modal-nav-step-btn" id="modalNextBtn" aria-label="Next project case study">
             Next Project <span class="nav-arrow" aria-hidden="true">→</span>
@@ -3263,6 +3270,8 @@
           <small class="cmdk-desc">Interactive microservice node inspection, packet dynamics &amp; failover tests</small></button>
         <button type="button" class="cmdk-item" data-action="view-skills-radar"><span class="cmdk-icon">🕸️</span> Dual-Degree Competency Radar
           <small class="cmdk-desc">Multidimensional spider chart mapping CS systems &amp; BBA strategy</small></button>
+        <button type="button" class="cmdk-item" data-action="open-algo-arena"><span class="cmdk-icon">⚔️</span> Algorithm Benchmark &amp; Race Arena
+          <small class="cmdk-desc">Real-time browser micro-benchmarks comparing scheduling, heuristics &amp; noise math</small></button>
         <button type="button" class="cmdk-item" data-action="open-game"><span class="cmdk-icon">🎮</span> Play DevLoop Indie Game
           <small class="cmdk-desc">Developer idle tycoon &amp; bug arcade</small></button>
         <button type="button" class="cmdk-item" data-action="open-synth"><span class="cmdk-icon">🎹</span> Cyber Piano Synthesizer
@@ -3485,6 +3494,12 @@ Email: gouvkimsea@gmail.com</pre>
               <span class="shortcut-desc">Dual-Degree Competency Radar</span>
               <div class="shortcut-kbd-group">
                 <kbd class="shortcut-kbd">⇧</kbd><kbd class="shortcut-kbd">C</kbd>
+              </div>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Algorithm Benchmark &amp; Race Arena</span>
+              <div class="shortcut-kbd-group">
+                <kbd class="shortcut-kbd">⇧</kbd><kbd class="shortcut-kbd">B</kbd>
               </div>
             </div>
             <div class="shortcut-row">
@@ -4169,6 +4184,93 @@ Email: gouvkimsea@gmail.com</pre>
               <div class="axis-academic-box">
                 <span class="academic-title">Academic &amp; Coursework Foundation:</span>
                 <p class="academic-desc" id="radarAxisAcademic">Paragon International University: Data Structures &amp; Algorithms, Object-Oriented Programming (C++).</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Interactive Algorithm Benchmark & Race Arena Modal Dialog -->
+  <dialog class="arena-modal" id="algoArenaModal" aria-label="Interactive Algorithm Benchmark &amp; Race Arena" aria-modal="true">
+    <div class="arena-shell">
+      <div class="arena-header">
+        <div class="arena-title-wrap">
+          <div class="arena-badge-row">
+            <span class="arena-badge">ALGORITHM RACE ARENA</span>
+            <span class="arena-live-indicator"><span class="arena-pulse-dot"></span> In-Browser Micro-Benchmark Harness</span>
+          </div>
+          <h2 class="arena-title" id="algoArenaTitle">Algorithm Benchmark &amp; Race Arena</h2>
+          <p class="arena-subtitle">Empirical performance comparisons, ops/sec throughput, and algorithmic complexity</p>
+        </div>
+        <div class="arena-header-actions">
+          <button type="button" class="arena-action-btn" id="algoArenaExportBtn" title="Export Benchmark Report (.md)">
+            📥 Export Report
+          </button>
+          <button class="modal-close arena-modal-close" id="algoArenaCloseBtn" type="button" aria-label="Close algorithm arena modal">×</button>
+        </div>
+      </div>
+
+      <div class="arena-controls-bar">
+        <div class="arena-preset-pills" role="tablist" aria-label="Benchmark algorithm suite">
+          <button type="button" class="arena-preset-btn active" data-preset="interval">Interval Overlaps (JOUL)</button>
+          <button type="button" class="arena-preset-btn" data-preset="sanitizer">Prompt Injection (PinitAI)</button>
+          <button type="button" class="arena-preset-btn" data-preset="srs">SM-2 Spaced Repetition</button>
+          <button type="button" class="arena-preset-btn" data-preset="noise">Simplex vs Perlin (3D Shaders)</button>
+        </div>
+        <div class="arena-config-group">
+          <label for="arenaSampleSize" class="arena-config-label">Dataset Size:</label>
+          <select id="arenaSampleSize" class="arena-select">
+            <option value="1000">1,000 items</option>
+            <option value="5000" selected>5,000 items</option>
+            <option value="25000">25,000 items</option>
+          </select>
+          <button type="button" class="arena-run-btn" id="algoArenaRunBtn">
+            <span class="run-icon">▶</span> Run Benchmark
+          </button>
+        </div>
+      </div>
+
+      <div class="arena-body">
+        <!-- Live Benchmark Race Board -->
+        <div class="arena-race-board" id="algoArenaRaceBoard">
+          <!-- Populated dynamically: Contestant A, B, C with animated progress tracks, ops/sec, mean time, speedup tag -->
+        </div>
+
+        <!-- Algorithmic Deep Dive & Complexity Analysis Card -->
+        <div class="arena-analysis-grid">
+          <div class="arena-analysis-card">
+            <div class="pane-header">
+              <span class="pane-title"><span class="pane-dot dot-cyan"></span> complexity.analysis</span>
+              <span class="pane-meta" id="arenaComplexityBadge">O(N log N) vs O(N²)</span>
+            </div>
+            <div class="arena-analysis-content" id="arenaAnalysisContent">
+              <!-- Content rendered dynamically -->
+            </div>
+          </div>
+          <div class="arena-telemetry-card">
+            <div class="pane-header">
+              <span class="pane-title"><span class="pane-dot dot-green"></span> runtime.telemetry</span>
+              <span class="pane-meta" id="arenaStatusBadge">Engine Ready</span>
+            </div>
+            <div class="arena-telemetry-content">
+              <div class="telemetry-stat-row">
+                <span class="stat-label">Fastest Implementation:</span>
+                <span class="stat-val stat-highlight" id="arenaWinnerVal">Awaiting Run</span>
+              </div>
+              <div class="telemetry-stat-row">
+                <span class="stat-label">Maximum Speedup:</span>
+                <span class="stat-val" id="arenaSpeedupVal">—</span>
+              </div>
+              <div class="telemetry-stat-row">
+                <span class="stat-label">Execution Environment:</span>
+                <span class="stat-val" id="arenaEnvVal">V8 JIT / Web APIs</span>
+              </div>
+              <div class="telemetry-log-console" id="arenaLogConsole" role="log" aria-live="polite">
+                <div class="log-line text-muted">[0.00ms] Micro-benchmark harness initialized.</div>
+                <div class="log-line text-muted">[0.01ms] High-resolution timer window.performance.now ready.</div>
+                <div class="log-line text-lime">[READY] Select preset and press "Run Benchmark".</div>
               </div>
             </div>
           </div>
