@@ -644,6 +644,16 @@ document.addEventListener("keydown", e => {
         openFinTechLedgerModal();
       }
     }
+  } else if ((e.key === "V" || e.key === "v") && e.shiftKey) {
+    e.preventDefault();
+    if (typeof openVisionLabModal === "function") {
+      const vModal = document.getElementById("visionLabModal");
+      if (vModal?.open) {
+        if (typeof closeVisionLabModal === "function") closeVisionLabModal();
+      } else {
+        openVisionLabModal();
+      }
+    }
   } else if (e.key.toLowerCase() === "u" && !e.ctrlKey && !e.metaKey && !e.altKey) {
     e.preventDefault();
     if (typeof toggleSfx === "function") toggleSfx();
@@ -887,6 +897,8 @@ cmdKResults?.addEventListener("click", e => {
     if (typeof openShaderLabModal === "function") openShaderLabModal();
   } else if (action === "open-fintech-ledger") {
     if (typeof openFinTechLedgerModal === "function") openFinTechLedgerModal();
+  } else if (action === "open-vision-lab") {
+    if (typeof openVisionLabModal === "function") openVisionLabModal();
   } else if (action === "open-telemetry") {
     if (typeof openTelemetryModal === "function") openTelemetryModal();
   } else if (action === "download-resume-md") {
@@ -5161,6 +5173,23 @@ Status:           Ledger Online · 0 Invariant Violations</pre>`;
   fintech: (arg) => terminalCommands.ledger(arg),
   escrow: (arg) => terminalCommands.ledger(arg),
   payway: (arg) => terminalCommands.ledger(arg),
+  vision: (arg) => {
+    const pose = (arg || "").trim().toLowerCase();
+    if (typeof openVisionLabModal === "function") {
+      openVisionLabModal(pose);
+      return `<pre class="term-pre" style="margin:4px 0;font-size:11px;line-height:1.45;">👁️ <b>Computer Vision &amp; Spatial Kinematics Lab Launched</b>
+--------------------------------------------------------
+Target Pose:      <b>${escapeHtml(pose || "pinch").toUpperCase()}</b>
+Landmark Model:   MediaPipe 21-Joint 3D Hand Skeleton Topology
+Kinematic Metric: Euclidean Vector Distance D₄₋₈ &amp; Pitch/Yaw Perspective
+Execution Status: Spatial Tracker Online · 60.0 FPS Latency</pre>`;
+    }
+    openModal("gesture");
+    return "Opening Gesture App project modal & 21-joint computer vision tracker...";
+  },
+  gesture: (arg) => terminalCommands.vision(arg),
+  mediapipe: (arg) => terminalCommands.vision(arg),
+  kinematics: (arg) => terminalCommands.vision(arg),
   biome: () => terminalCommands.shader(),
   pinit: () => {
     openModal("pinit");
@@ -5313,7 +5342,7 @@ Layer 1: Semantic Core  · Zero-dependency ES2026 &amp; HTML5 dialogs
 Layer 2: Style Tokens   · Modular Vanilla CSS &amp; WCAG AAA contrast
 Layer 3: 3D Graphics    · Hardware-accelerated WebGL 2.0 MiniWorld
 Layer 4: Procedural SFX · Pure Web Audio synthesizers (0 audio files)
-Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v36</pre>`;
+Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v37</pre>`;
   },
   cat: (arg) => {
     const file = (arg || "").trim().toLowerCase();
@@ -5442,7 +5471,7 @@ DOM Tree:         <b>${domCount}</b> semantic nodes
 Logical Cores:    <b>${cores}</b> Threads (hardwareConcurrency)
 Display:          <b>${window.innerWidth}x${window.innerHeight}</b> (${window.devicePixelRatio || 1}x DPR)
 Audio Engine:     Active (${Math.round((typeof sfxVolume !== "undefined" ? sfxVolume : 0.8) * 100)}% Gain)
-PWA Cache:        <b>kimsea-pwa-v36</b> (Stale-While-Revalidate)
+PWA Cache:        <b>kimsea-pwa-v37</b> (Stale-While-Revalidate)
 Status:           Modal HUD Launched ⚡</pre>`;
   },
   diag: () => terminalCommands.telemetry(),
@@ -5778,7 +5807,7 @@ terminalInput?.addEventListener("keydown", event => {
     if (current) {
       const allCmds = Array.from(new Set([
         ...Object.keys(terminalCommands),
-        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade", "accent", "synth", "piano", "telemetry", "diag", "perf", "sysinfo", "playground", "sandbox", "eval", "particles", "casestudy", "dossier", "gitgraph", "heatmap", "graph", "archflow", "flow", "radar", "spider", "competencies", "arena", "race", "benchmarks", "firewall", "security", "sanitize", "shader", "glsl", "materials", "ledger", "fintech", "escrow", "payway"
+        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade", "accent", "synth", "piano", "telemetry", "diag", "perf", "sysinfo", "playground", "sandbox", "eval", "particles", "casestudy", "dossier", "gitgraph", "heatmap", "graph", "archflow", "flow", "radar", "spider", "competencies", "arena", "race", "benchmarks", "firewall", "security", "sanitize", "shader", "glsl", "materials", "ledger", "fintech", "escrow", "payway", "vision", "gesture", "mediapipe", "kinematics"
       ]));
       const prefix = lastTabPrefix || current;
       const matches = allCmds.filter(k => k.startsWith(prefix));
@@ -8292,7 +8321,7 @@ const initCyberTelemetry = () => {
       audioSubEl.textContent = `48000 Hz · Master Gain ${vol}%`;
     }
     if (pwaEl) {
-      pwaEl.textContent = "kimsea-pwa-v36";
+      pwaEl.textContent = "kimsea-pwa-v37";
     }
   };
 
@@ -12237,6 +12266,514 @@ ${scenario.stages.slice(0, currentStep + 1).map((st, i) => {
 };
 
 initFinTechLedgerModal();
+
+// ==========================================================================
+// Phase 31: 3D Kinematics & Computer Vision Spatial Tracking Lab
+// ==========================================================================
+
+let openVisionLabModal = null;
+let closeVisionLabModal = null;
+
+const initVisionLabModal = () => {
+  const modal = document.getElementById("visionLabModal");
+  if (!modal) return;
+
+  const canvas = document.getElementById("visionLabCanvas");
+  const closeBtn = document.getElementById("visionModalCloseBtn");
+  const exportBtn = document.getElementById("visionExportBtn");
+  const resetPoseBtn = document.getElementById("visionResetPoseBtn");
+  const presetBtns = modal.querySelectorAll(".vision-preset-btn");
+  const sliderThreshold = document.getElementById("sliderVisionThreshold");
+  const valThreshold = document.getElementById("valVisionThreshold");
+
+  const statusPill = document.getElementById("visionStatusPill");
+  const fpsBadge = document.getElementById("visionFpsBadge");
+  const distBadge = document.getElementById("visionDistBadge");
+  const gestureState = document.getElementById("visionGestureState");
+  const euclideanVal = document.getElementById("visionEuclideanVal");
+  const bboxCoords = document.getElementById("visionBBoxCoords");
+  const sensitivityVal = document.getElementById("visionSensitivityVal");
+  const confidenceBadge = document.getElementById("visionConfidenceBadge");
+  const jointsTableBody = document.getElementById("visionJointsTableBody");
+  const consolePre = document.getElementById("visionConsolePre");
+
+  // MediaPipe 21 Landmark Anatomical Reference Names
+  const landmarkNames = [
+    "WRIST",
+    "THUMB_CMC", "THUMB_MCP", "THUMB_IP", "THUMB_TIP",
+    "INDEX_FINGER_MCP", "INDEX_FINGER_PIP", "INDEX_FINGER_DIP", "INDEX_FINGER_TIP",
+    "MIDDLE_FINGER_MCP", "MIDDLE_FINGER_PIP", "MIDDLE_FINGER_DIP", "MIDDLE_FINGER_TIP",
+    "RING_FINGER_MCP", "RING_FINGER_PIP", "RING_FINGER_DIP", "RING_FINGER_TIP",
+    "PINKY_MCP", "PINKY_PIP", "PINKY_DIP", "PINKY_TIP"
+  ];
+
+  // Skeletal Bone Connections
+  const bones = [
+    // Palm base
+    [0, 1], [0, 5], [5, 9], [9, 13], [13, 17], [0, 17],
+    // Thumb
+    [1, 2], [2, 3], [3, 4],
+    // Index
+    [5, 6], [6, 7], [7, 8],
+    // Middle
+    [9, 10], [10, 11], [11, 12],
+    // Ring
+    [13, 14], [14, 15], [15, 16],
+    // Pinky
+    [17, 18], [18, 19], [19, 20]
+  ];
+
+  // 5 Anatomical Gesture 3D Landmark Models (X, Y, Z coordinates centered on palm)
+  const gesturePoses = {
+    pinch: {
+      name: "Pinch Click (D₄₋₈)",
+      stateText: "PINCH_DETECTED (CLICK)",
+      confidence: 0.994,
+      points: [
+        [0, 80, 0], // 0: Wrist
+        [-25, 60, -5], [-45, 38, -10], [-42, 12, -8], [-22, -8, -5], // 1-4: Thumb
+        [-20, 20, 0], [-20, -10, -5], [-22, -18, -6], [-20, -12, -5], // 5-8: Index (curled touching thumb)
+        [0, 15, 0], [0, -25, 0], [0, -55, 0], [0, -85, 0], // 9-12: Middle extended
+        [20, 20, 0], [20, -20, 0], [20, -50, 0], [20, -78, 0], // 13-16: Ring extended
+        [38, 28, 0], [38, -10, 0], [38, -35, 0], [38, -60, 0]  // 17-20: Pinky extended
+      ]
+    },
+    fist: {
+      name: "Closed Fist",
+      stateText: "FIST_ENGAGED (GRAB)",
+      confidence: 0.991,
+      points: [
+        [0, 80, 0],
+        [-20, 55, -10], [-35, 35, -15], [-20, 20, -20], [-5, 18, -25], // Thumb folded over
+        [-22, 25, 0], [-24, 0, -15], [-18, 15, -25], [-12, 28, -20], // Index curled
+        [-2, 20, 0], [-2, -5, -18], [-2, 12, -28], [-2, 25, -22], // Middle curled
+        [18, 22, 0], [18, -2, -16], [18, 14, -26], [18, 26, -20], // Ring curled
+        [36, 28, 0], [36, 8, -12], [36, 20, -22], [34, 30, -18]  // Pinky curled
+      ]
+    },
+    peace: {
+      name: "Peace / Victory Sign",
+      stateText: "VICTORY_POSE (V_SIGN)",
+      confidence: 0.996,
+      points: [
+        [0, 80, 0],
+        [-25, 55, -10], [-40, 35, -15], [-25, 20, -20], [-10, 20, -22], // Thumb folded
+        [-20, 20, 0], [-25, -15, 0], [-32, -52, 0], [-40, -88, 0], // Index extended spread left
+        [0, 15, 0], [5, -20, 0], [12, -55, 0], [18, -90, 0], // Middle extended spread right
+        [20, 22, 0], [20, 0, -15], [18, 15, -25], [16, 26, -20], // Ring curled
+        [38, 28, 0], [38, 8, -12], [36, 20, -22], [34, 30, -18]  // Pinky curled
+      ]
+    },
+    pointer: {
+      name: "Laser Point Cursor",
+      stateText: "AIMING_CURSOR (RAYCAST)",
+      confidence: 0.998,
+      points: [
+        [0, 80, 0],
+        [-25, 58, -5], [-42, 35, -8], [-32, 15, -12], [-18, 12, -18], // Thumb resting
+        [-15, 20, 0], [-15, -20, 0], [-15, -60, 0], [-15, -95, 0], // Index pointing high
+        [5, 18, 0], [5, -2, -16], [5, 14, -26], [5, 25, -20], // Middle curled
+        [24, 22, 0], [24, 0, -15], [22, 15, -25], [20, 26, -20], // Ring curled
+        [40, 28, 0], [40, 8, -12], [38, 20, -22], [36, 30, -18]  // Pinky curled
+      ]
+    },
+    palm: {
+      name: "Open Palm Neutral",
+      stateText: "PALM_CALIBRATED (NEUTRAL)",
+      confidence: 0.992,
+      points: [
+        [0, 80, 0],
+        [-25, 60, -5], [-50, 40, -10], [-65, 18, -12], [-78, -5, -15], // Thumb fanned out
+        [-25, 20, 0], [-30, -18, 0], [-35, -55, 0], [-40, -90, 0], // Index
+        [-2, 15, 0], [-2, -25, 0], [-2, -62, 0], [-2, -98, 0], // Middle
+        [22, 20, 0], [25, -18, 0], [28, -55, 0], [30, -90, 0], // Ring
+        [42, 28, 0], [48, -8, 0], [52, -40, 0], [56, -72, 0]  // Pinky
+      ]
+    }
+  };
+
+  let activePoseKey = "pinch";
+  let pitch = 0.15; // RotX
+  let yaw = -0.1;   // RotY
+  let isDragging = false;
+  let lastMouseX = 0;
+  let lastMouseY = 0;
+  let animId = null;
+
+  // 3D Rotation and Perspective Projection
+  const projectPoint = (x, y, z, width, height) => {
+    // Rotate Y (yaw)
+    const cosY = Math.cos(yaw);
+    const sinY = Math.sin(yaw);
+    const x1 = x * cosY + z * sinY;
+    const z1 = -x * sinY + z * cosY;
+
+    // Rotate X (pitch)
+    const cosX = Math.cos(pitch);
+    const sinX = Math.sin(pitch);
+    const y2 = y * cosX - z1 * sinX;
+    const z2 = y * sinX + z1 * cosX;
+
+    // Perspective Division (camera distance d = 350, focal length f = 340)
+    const d = 350;
+    const f = 340;
+    const factor = f / (z2 + d);
+
+    return {
+      x: (width / 2) + x1 * factor,
+      y: (height / 2) + y2 * factor,
+      z: z2,
+      scale: factor
+    };
+  };
+
+  // Euclidean Distance in 3D: sqrt((x1-x2)^2 + (y1-y2)^2 + (z1-z2)^2)
+  const calcEuclideanDist = (p1, p2) => {
+    const dx = p1[0] - p2[0];
+    const dy = p1[1] - p2[1];
+    const dz = p1[2] - p2[2];
+    return Math.sqrt(dx * dx + dy * dy + dz * dz);
+  };
+
+  // Render Skeleton Canvas Loop
+  const render = () => {
+    if (!modal.open) {
+      animId = null;
+      return;
+    }
+
+    if (!canvas || typeof canvas.getContext !== "function") {
+      animId = requestAnimationFrame(render);
+      return;
+    }
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const width = canvas.width;
+    const height = canvas.height;
+    ctx.clearRect(0, 0, width, height);
+
+    // Subtle background grid
+    ctx.strokeStyle = "rgba(56, 189, 248, 0.06)";
+    ctx.lineWidth = 1;
+    const gridSize = 32;
+    for (let x = 0; x < width; x += gridSize) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, height);
+      ctx.stroke();
+    }
+    for (let y = 0; y < height; y += gridSize) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(width, y);
+      ctx.stroke();
+    }
+
+    const pose = gesturePoses[activePoseKey];
+    const projected = pose.points.map(pt => projectPoint(pt[0], pt[1], pt[2], width, height));
+
+    // Calculate Bounding Box
+    let minX = width;
+    let maxX = 0;
+    let minY = height;
+    let maxY = 0;
+    projected.forEach(p => {
+      if (p.x < minX) minX = p.x;
+      if (p.x > maxX) maxX = p.x;
+      if (p.y < minY) minY = p.y;
+      if (p.y > maxY) maxY = p.y;
+    });
+
+    const pad = 24;
+    minX = Math.max(8, minX - pad);
+    maxX = Math.min(width - 8, maxX + pad);
+    minY = Math.max(8, minY - pad);
+    maxY = Math.min(height - 8, maxY + pad);
+
+    // Draw Optical Bounding Reticle
+    ctx.strokeStyle = "rgba(56, 189, 248, 0.28)";
+    ctx.setLineDash([6, 6]);
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(minX, minY, maxX - minX, maxY - minY);
+    ctx.setLineDash([]);
+
+    // Corner targeting brackets
+    ctx.strokeStyle = "#38bdf8";
+    ctx.lineWidth = 2;
+    const bLen = 12;
+    // Top-Left
+    ctx.beginPath(); ctx.moveTo(minX, minY + bLen); ctx.lineTo(minX, minY); ctx.lineTo(minX + bLen, minY); ctx.stroke();
+    // Top-Right
+    ctx.beginPath(); ctx.moveTo(maxX - bLen, minY); ctx.lineTo(maxX, minY); ctx.lineTo(maxX, minY + bLen); ctx.stroke();
+    // Bottom-Left
+    ctx.beginPath(); ctx.moveTo(minX, maxY - bLen); ctx.lineTo(minX, maxY); ctx.lineTo(minX + bLen, maxY); ctx.stroke();
+    // Bottom-Right
+    ctx.beginPath(); ctx.moveTo(maxX - bLen, maxY); ctx.lineTo(maxX, maxY); ctx.lineTo(maxX, maxY - bLen); ctx.stroke();
+
+    // Draw Bones
+    bones.forEach(([i, j]) => {
+      const p1 = projected[i];
+      const p2 = projected[j];
+
+      // Depth gradient stroke
+      const grad = ctx.createLinearGradient(p1.x, p1.y, p2.x, p2.y);
+      grad.addColorStop(0, "rgba(56, 189, 248, 0.7)");
+      grad.addColorStop(1, "rgba(52, 211, 153, 0.7)");
+
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = Math.max(2, (p1.scale + p2.scale) * 1.8);
+      ctx.beginPath();
+      ctx.moveTo(p1.x, p1.y);
+      ctx.lineTo(p2.x, p2.y);
+      ctx.stroke();
+    });
+
+    // Draw Euclidean Pinch Target Line between Thumb Tip (4) and Index Tip (8)
+    const pThumb = projected[4];
+    const pIndex = projected[8];
+    const rawDist = calcEuclideanDist(pose.points[4], pose.points[8]);
+    const screenDist = Math.hypot(pThumb.x - pIndex.x, pThumb.y - pIndex.y);
+    const threshold = sliderThreshold ? parseFloat(sliderThreshold.value) : 28;
+    const isPinchActive = rawDist < threshold || screenDist < threshold * 1.1;
+
+    ctx.strokeStyle = isPinchActive ? "#34d399" : "rgba(251, 191, 36, 0.8)";
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    ctx.moveTo(pThumb.x, pThumb.y);
+    ctx.lineTo(pIndex.x, pIndex.y);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Draw Distance Label in Midpoint
+    const midX = (pThumb.x + pIndex.x) / 2;
+    const midY = (pThumb.y + pIndex.y) / 2;
+    ctx.fillStyle = isPinchActive ? "#34d399" : "#fbbf24";
+    ctx.font = "bold 10px monospace";
+    ctx.fillText(`${rawDist.toFixed(1)}px`, midX + 6, midY - 4);
+
+    // Draw Joints
+    projected.forEach((p, idx) => {
+      const radius = idx === 4 || idx === 8 ? 5.5 : (idx === 0 ? 6.5 : 4);
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, radius * p.scale, 0, Math.PI * 2);
+
+      if (idx === 4 || idx === 8) {
+        ctx.fillStyle = isPinchActive ? "#34d399" : "#fbbf24";
+      } else if (idx === 0) {
+        ctx.fillStyle = "#38bdf8";
+      } else {
+        ctx.fillStyle = "#60a5fa";
+      }
+      ctx.fill();
+
+      ctx.strokeStyle = "#080d1a";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    });
+
+    animId = requestAnimationFrame(render);
+  };
+
+  // Populate Table and Telemetry
+  const updateTelemetry = () => {
+    const pose = gesturePoses[activePoseKey];
+    const threshold = sliderThreshold ? parseFloat(sliderThreshold.value) : 28;
+    const dist = calcEuclideanDist(pose.points[4], pose.points[8]);
+    const mmDist = (dist * 0.8).toFixed(1);
+    const isPinch = dist < threshold;
+
+    if (distBadge) distBadge.textContent = `D₄₋₈: ${dist.toFixed(1)}px`;
+    if (euclideanVal) euclideanVal.textContent = `${dist.toFixed(1)} px · ${mmDist} mm`;
+    if (gestureState) {
+      gestureState.textContent = pose.stateText;
+      gestureState.className = `gesture-state-pill ${isPinch ? "text-lime" : "text-cyan"}`;
+    }
+    if (sensitivityVal) {
+      sensitivityVal.textContent = isPinch ? `TRIGGERED (< ${threshold}px)` : `IDLE (>= ${threshold}px)`;
+      sensitivityVal.className = `metric-val ${isPinch ? "text-emerald" : "text-muted"}`;
+    }
+    if (confidenceBadge) confidenceBadge.textContent = `Confidence: ${(pose.confidence * 100).toFixed(1)}%`;
+
+    if (jointsTableBody) {
+      jointsTableBody.innerHTML = pose.points.map((pt, idx) => `
+        <tr>
+          <td><code>${idx}</code></td>
+          <td><b>${landmarkNames[idx]}</b></td>
+          <td class="text-cyan">${pt[0].toFixed(1)}</td>
+          <td class="text-amber">${pt[1].toFixed(1)}</td>
+          <td class="text-muted">${pt[2].toFixed(1)}</td>
+        </tr>
+      `).join("");
+    }
+
+    if (consolePre) {
+      const now = new Date().toISOString().substring(11, 19);
+      consolePre.textContent = `[${now}] GESTURE CLASSIFIER: ${pose.name} (Conf: ${(pose.confidence * 100).toFixed(1)}%)
+[${now}] EUCLIDEAN METRIC: D(Thumb_Tip, Index_Tip) = ${dist.toFixed(1)}px
+[${now}] INVERSE KINEMATICS: Hand pitch = ${(pitch * (180 / Math.PI)).toFixed(1)}°, yaw = ${(yaw * (180 / Math.PI)).toFixed(1)}°
+[${now}] THRESHOLD GATE: Active=${isPinch} (Gate = ${threshold}px)`;
+    }
+  };
+
+  const setPose = (key) => {
+    if (!gesturePoses[key]) return;
+    activePoseKey = key;
+
+    presetBtns.forEach(btn => {
+      const isActive = btn.dataset.pose === key;
+      btn.classList.toggle("active", isActive);
+      btn.setAttribute("aria-selected", isActive ? "true" : "false");
+    });
+
+    updateTelemetry();
+  };
+
+  // Mouse / Pointer Dragging Rotation Controller
+  canvas?.addEventListener("pointerdown", (e) => {
+    isDragging = true;
+    canvas.setPointerCapture?.(e.pointerId);
+    lastMouseX = e.clientX;
+    lastMouseY = e.clientY;
+  });
+
+  canvas?.addEventListener("pointermove", (e) => {
+    if (isDragging) {
+      const dx = e.clientX - lastMouseX;
+      const dy = e.clientY - lastMouseY;
+      lastMouseX = e.clientX;
+      lastMouseY = e.clientY;
+
+      yaw += dx * 0.008;
+      pitch += dy * 0.008;
+      pitch = Math.max(-0.9, Math.min(0.9, pitch));
+      updateTelemetry();
+    }
+  });
+
+  canvas?.addEventListener("pointerup", (e) => {
+    isDragging = false;
+    canvas.releasePointerCapture?.(e.pointerId);
+  });
+
+  canvas?.addEventListener("pointercancel", () => {
+    isDragging = false;
+  });
+
+  // Threshold Slider Listener
+  sliderThreshold?.addEventListener("input", () => {
+    const v = sliderThreshold.value;
+    if (valThreshold) valThreshold.textContent = `${v}px`;
+    updateTelemetry();
+  });
+
+  // Reset Pose View
+  resetPoseBtn?.addEventListener("click", () => {
+    pitch = 0.15;
+    yaw = -0.1;
+    if (typeof playSound === "function") playSound("click");
+    if (typeof showPortfolioToast === "function") showPortfolioToast("3D Camera view reset");
+    updateTelemetry();
+  });
+
+  // Preset Buttons
+  presetBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const p = btn.dataset.pose;
+      if (p) {
+        setPose(p);
+        if (typeof playSound === "function") playSound("click");
+      }
+    });
+  });
+
+  // 1-Click Biometric Landmark JSON Exporter
+  exportBtn?.addEventListener("click", () => {
+    const pose = gesturePoses[activePoseKey];
+    const threshold = sliderThreshold ? parseFloat(sliderThreshold.value) : 28;
+    const dist = calcEuclideanDist(pose.points[4], pose.points[8]);
+
+    const exportPayload = {
+      model: "MediaPipe Hands 3D Landmark Model",
+      gesture: activePoseKey,
+      gestureName: pose.name,
+      confidence: pose.confidence,
+      timestamp: new Date().toISOString(),
+      euclideanDistanceD48: {
+        pixels: parseFloat(dist.toFixed(2)),
+        millimeters: parseFloat((dist * 0.8).toFixed(2)),
+        pinchThreshold: threshold,
+        isPinchTriggered: dist < threshold
+      },
+      cameraAngles: {
+        pitchRad: parseFloat(pitch.toFixed(4)),
+        yawRad: parseFloat(yaw.toFixed(4))
+      },
+      landmarks: pose.points.map((pt, idx) => ({
+        id: idx,
+        name: landmarkNames[idx],
+        x: parseFloat(pt[0].toFixed(2)),
+        y: parseFloat(pt[1].toFixed(2)),
+        z: parseFloat(pt[2].toFixed(2))
+      }))
+    };
+
+    const blob = new Blob([JSON.stringify(exportPayload, null, 2)], { type: "application/json;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `gesture-${activePoseKey}-landmarks.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    if (typeof playSound === "function") playSound("click");
+    if (typeof showPortfolioToast === "function") showPortfolioToast(`Exported ${pose.name} landmarks (.json)`);
+  });
+
+  // Modal Open & Close Controller
+  openVisionLabModal = (poseKey) => {
+    if (typeof playSound === "function") playSound("whoosh");
+    if (!modal.open) modal.showModal();
+
+    if (poseKey && gesturePoses[poseKey]) {
+      setPose(poseKey);
+    } else {
+      setPose(activePoseKey);
+    }
+
+    if (!animId) {
+      animId = requestAnimationFrame(render);
+    }
+  };
+
+  closeVisionLabModal = () => {
+    if (modal.open) modal.close();
+    if (animId) {
+      cancelAnimationFrame(animId);
+      animId = null;
+    }
+  };
+
+  closeBtn?.addEventListener("click", closeVisionLabModal);
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeVisionLabModal();
+  });
+  modal.addEventListener("cancel", closeVisionLabModal);
+
+  // Wire Modal Nav Launcher
+  document.getElementById("modalVisionLabBtn")?.addEventListener("click", () => {
+    openVisionLabModal("pinch");
+  });
+
+  // Initial render
+  setPose("pinch");
+};
+
+initVisionLabModal();
+
 
 
 

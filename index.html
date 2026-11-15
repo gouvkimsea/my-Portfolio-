@@ -681,6 +681,7 @@
               <button type="button" class="terminal-chip" data-cmd="firewall">firewall 🛡️</button>
               <button type="button" class="terminal-chip" data-cmd="shader">shader ⚡</button>
               <button type="button" class="terminal-chip" data-cmd="fintech">fintech 💳</button>
+              <button type="button" class="terminal-chip" data-cmd="vision">vision 👁️</button>
               <button type="button" class="terminal-chip" data-cmd="export">export</button>
               <button type="button" class="terminal-chip" data-cmd="clear">clear</button>
             </div>
@@ -2010,6 +2011,9 @@
           <button type="button" class="modal-nav-step-btn modal-ledger-btn" id="modalLedgerBtn" title="Launch FinTech Escrow &amp; Double-Entry Ledger Lab (Shift+E)" aria-label="Launch FinTech escrow and double-entry ledger lab">
             <span class="modal-ledger-icon" aria-hidden="true">💳</span> FinTech Ledger
           </button>
+          <button type="button" class="modal-nav-step-btn modal-vision-btn" id="modalVisionLabBtn" title="Launch Computer Vision &amp; Spatial Kinematics Lab (Shift+V)" aria-label="Launch computer vision and spatial kinematics lab">
+            <span class="modal-vision-icon" aria-hidden="true">👁️</span> Vision Lab
+          </button>
           <button type="button" class="modal-nav-step-btn" id="modalNextBtn" aria-label="Next project case study">
             Next Project <span class="nav-arrow" aria-hidden="true">→</span>
           </button>
@@ -3290,6 +3294,8 @@
           <small class="cmdk-desc">Real-time GPU GLSL fragment shaders, cel-shading &amp; procedural noise</small></button>
         <button type="button" class="cmdk-item" data-action="open-fintech-ledger"><span class="cmdk-icon">💳</span> FinTech Ledger &amp; Escrow Simulator
           <small class="cmdk-desc">Multi-party escrow holds, ABA Payway KHQR routing &amp; double-entry journal balance</small></button>
+        <button type="button" class="cmdk-item" data-action="open-vision-lab"><span class="cmdk-icon">👁️</span> Computer Vision &amp; Spatial Kinematics
+          <small class="cmdk-desc">21-joint 3D hand topology, Euclidean pinch kinematics &amp; biometric landmarks</small></button>
         <button type="button" class="cmdk-item" data-action="open-game"><span class="cmdk-icon">🎮</span> Play DevLoop Indie Game
           <small class="cmdk-desc">Developer idle tycoon &amp; bug arcade</small></button>
         <button type="button" class="cmdk-item" data-action="open-synth"><span class="cmdk-icon">🎹</span> Cyber Piano Synthesizer
@@ -3536,6 +3542,12 @@ Email: gouvkimsea@gmail.com</pre>
               <span class="shortcut-desc">FinTech Ledger &amp; Escrow Simulator</span>
               <div class="shortcut-kbd-group">
                 <kbd class="shortcut-kbd">⇧</kbd><kbd class="shortcut-kbd">E</kbd>
+              </div>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Computer Vision &amp; Spatial Kinematics</span>
+              <div class="shortcut-kbd-group">
+                <kbd class="shortcut-kbd">⇧</kbd><kbd class="shortcut-kbd">V</kbd>
               </div>
             </div>
             <div class="shortcut-row">
@@ -4736,6 +4748,136 @@ void main() {
               </div>
               <pre class="ledger-audit-pre" id="ledgerAuditConsole"><code>[00:00.00] LEDGER INIT: Double-entry audit engine loaded.
 [00:00.01] INVARIANT CHECK: Assets == Liabilities + Equity. Check passed.</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Interactive 3D Kinematics & Computer Vision Spatial Tracking Lab Modal Dialog -->
+  <dialog class="vision-modal" id="visionLabModal" aria-label="Computer Vision &amp; Spatial Kinematics Lab" aria-modal="true">
+    <div class="vision-shell">
+      <div class="vision-header">
+        <div class="vision-title-wrap">
+          <div class="vision-badge-row">
+            <span class="vision-badge">COMPUTER VISION &amp; KINEMATICS</span>
+            <span class="vision-live-indicator"><span class="vision-pulse-dot"></span> 21-Joint Topology · MediaPipe Pipeline</span>
+          </div>
+          <h2 class="vision-title" id="visionModalTitle">Computer Vision &amp; Spatial Kinematics Lab</h2>
+          <p class="vision-subtitle">Real-time 21-joint 3D hand landmark tracking, Euclidean vector pinch dynamics &amp; biometric reticle</p>
+        </div>
+        <div class="vision-header-actions">
+          <button type="button" class="vision-action-btn" id="visionExportBtn" title="Export Biometric Landmark Data (.json)">
+            📥 Export Landmarks
+          </button>
+          <button class="modal-close vision-modal-close" id="visionModalCloseBtn" type="button" aria-label="Close vision lab modal">×</button>
+        </div>
+      </div>
+
+      <div class="vision-controls-bar">
+        <div class="vision-preset-pills" role="tablist" aria-label="Anatomical gesture pose preset">
+          <button type="button" class="vision-preset-btn active" data-pose="pinch" role="tab" aria-selected="true">
+            🤏 Pinch Click (D₄₋₈)
+          </button>
+          <button type="button" class="vision-preset-btn" data-pose="fist" role="tab" aria-selected="false">
+            ✊ Closed Fist
+          </button>
+          <button type="button" class="vision-preset-btn" data-pose="peace" role="tab" aria-selected="false">
+            ✌️ Peace / Victory
+          </button>
+          <button type="button" class="vision-preset-btn" data-pose="pointer" role="tab" aria-selected="false">
+            👉 Laser Pointer
+          </button>
+          <button type="button" class="vision-preset-btn" data-pose="palm" role="tab" aria-selected="false">
+            🖐️ Open Palm Neutral
+          </button>
+        </div>
+
+        <div class="vision-quick-actions">
+          <div class="vision-threshold-wrap">
+            <label for="sliderVisionThreshold" class="vision-threshold-label">Pinch Threshold: <span class="vision-threshold-val" id="valVisionThreshold">28px</span></label>
+            <input type="range" class="vision-range" id="sliderVisionThreshold" min="15" max="60" step="1" value="28" aria-label="Euclidean pinch distance detection threshold">
+          </div>
+          <button type="button" class="vision-btn-sec" id="visionResetPoseBtn" title="Reset camera pitch &amp; yaw">
+            ↺ Reset View
+          </button>
+        </div>
+      </div>
+
+      <div class="vision-body">
+        <div class="vision-split-view">
+          <!-- Left: 3D Skeletal Canvas Viewport -->
+          <div class="vision-canvas-pane">
+            <div class="pane-header">
+              <span class="pane-title"><span class="pane-dot dot-cyan"></span> spatial_skeleton.viewport</span>
+              <span class="pane-meta" id="visionFpsBadge">60.0 FPS · 16.6ms Latency</span>
+            </div>
+            <div class="vision-canvas-wrap">
+              <canvas id="visionLabCanvas" class="vision-lab-canvas" width="480" height="360" aria-label="3D Hand Kinematics Skeleton Viewport"></canvas>
+              <div class="vision-canvas-overlay">
+                <span class="overlay-pill text-cyan" id="visionStatusPill">Tracking Active</span>
+                <span class="overlay-pill text-lime" id="visionDistBadge">D₄₋₈: 18.2px</span>
+              </div>
+            </div>
+            <div class="vision-canvas-footer">
+              <span class="vision-hint-text">🖱️ Drag across canvas to rotate 3D hand skeleton in Pitch and Yaw</span>
+            </div>
+          </div>
+
+          <!-- Right: Kinematics Telemetry & Landmark Inspector -->
+          <div class="vision-telemetry-pane">
+            <div class="pane-header">
+              <span class="pane-title"><span class="pane-dot dot-yellow"></span> landmarks.inspector</span>
+              <span class="pane-meta" id="visionConfidenceBadge">Confidence: 99.4%</span>
+            </div>
+
+            <!-- Pose Classification & Bounding Box Card -->
+            <div class="vision-metrics-card">
+              <div class="metric-row">
+                <span class="metric-lbl">ACTIVE GESTURE:</span>
+                <span class="gesture-state-pill text-lime" id="visionGestureState">PINCH_DETECTED (CLICK)</span>
+              </div>
+              <div class="metric-row">
+                <span class="metric-lbl">EUCLIDEAN DISTANCE (D₄₋₈):</span>
+                <span class="metric-val text-cyan" id="visionEuclideanVal">18.2 px · 14.6 mm</span>
+              </div>
+              <div class="metric-row">
+                <span class="metric-lbl">BOUNDING BOX RETICLE:</span>
+                <code class="metric-val text-muted" id="visionBBoxCoords">[X: 112, Y: 48, W: 256, H: 268]</code>
+              </div>
+              <div class="metric-row">
+                <span class="metric-lbl">PINCH SENSITIVITY:</span>
+                <span class="metric-val text-amber" id="visionSensitivityVal">TRIGGERED (&lt; 28px)</span>
+              </div>
+            </div>
+
+            <!-- 21 Landmark Coordinates Table -->
+            <div class="vision-table-wrap">
+              <table class="vision-table" aria-label="MediaPipe 21 Hand Landmarks">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Landmark Anatomy</th>
+                    <th scope="col">X</th>
+                    <th scope="col">Y</th>
+                    <th scope="col">Z</th>
+                  </tr>
+                </thead>
+                <tbody id="visionJointsTableBody">
+                  <!-- Dynamically populated 21 joints -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Optical Pipeline Console -->
+            <div class="vision-console-box">
+              <div class="console-box-header">
+                <span class="console-title">cv2_kinematics.trace</span>
+                <span class="console-status-pill text-lime">60 FPS Tracking</span>
+              </div>
+              <pre class="vision-console-pre" id="visionConsolePre"><code>[00:00.00] MediaPipe Hands model loaded (Model Complex 1).
+[00:00.01] 21 anatomical landmarks calibrated. Confidence = 0.994.</code></pre>
             </div>
           </div>
         </div>

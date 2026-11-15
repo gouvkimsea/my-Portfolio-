@@ -182,7 +182,9 @@ assert(indexHtml.includes('id="shaderLabModal"') && scriptJs.includes('initShade
 assert(scriptJs.includes('shader:') && indexHtml.includes('data-action="open-shader-lab"') && indexHtml.includes('id="modalShaderLabBtn"'), 'index.html & script.js: Shader studio launchers wired to Project modal, Command Palette, Terminal CLI, and hotkeys');
 assert(indexHtml.includes('id="fintechLedgerModal"') && scriptJs.includes('initFinTechLedgerModal') && fs.readFileSync('styles.css', 'utf8').includes('.ledger-modal'), 'index.html, styles.css & script.js: Interactive FinTech Transaction Simulator & Double-Entry Escrow Ledger implemented');
 assert(scriptJs.includes('ledger:') && indexHtml.includes('data-action="open-fintech-ledger"') && indexHtml.includes('id="modalLedgerBtn"'), 'index.html & script.js: FinTech ledger launchers wired to Project modal, Command Palette, Terminal CLI, and hotkeys');
-assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v36'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v36');
+assert(indexHtml.includes('id="visionLabModal"') && scriptJs.includes('initVisionLabModal') && fs.readFileSync('styles.css', 'utf8').includes('.vision-modal'), 'index.html, styles.css & script.js: Interactive 3D Kinematics & Computer Vision Spatial Tracking Lab implemented');
+assert(scriptJs.includes('vision:') && indexHtml.includes('data-action="open-vision-lab"') && indexHtml.includes('id="modalVisionLabBtn"'), 'index.html & script.js: Vision lab launchers wired to Project modal, Command Palette, Terminal CLI, and hotkeys');
+assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v37'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v37');
 
 // Test global script evaluation with mock DOM globals
 try {
