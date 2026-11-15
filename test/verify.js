@@ -178,7 +178,9 @@ assert(indexHtml.includes('id="algoArenaModal"') && scriptJs.includes('initAlgoA
 assert(scriptJs.includes('arena:') && indexHtml.includes('data-action="open-algo-arena"') && indexHtml.includes('id="viewModeAlgoArena"'), 'index.html & script.js: Algorithm arena launchers wired to Projects view switcher, Command Palette, Terminal CLI, and hotkeys');
 assert(indexHtml.includes('id="securityLabModal"') && scriptJs.includes('initSecurityLabModal') && fs.readFileSync('styles.css', 'utf8').includes('.security-modal'), 'index.html, styles.css & script.js: Interactive Cyber Threat Defense & AI Firewall Lab implemented');
 assert(scriptJs.includes('firewall:') && indexHtml.includes('data-action="open-security-lab"') && indexHtml.includes('id="modalSecurityLabBtn"'), 'index.html & script.js: Security lab launchers wired to Project modal, Command Palette, Terminal CLI, and hotkeys');
-assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v34'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v34');
+assert(indexHtml.includes('id="shaderLabModal"') && scriptJs.includes('initShaderLabModal') && fs.readFileSync('styles.css', 'utf8').includes('.shader-modal'), 'index.html, styles.css & script.js: Interactive WebGL Shader Material Studio & Live GLSL Fragment Sandbox implemented');
+assert(scriptJs.includes('shader:') && indexHtml.includes('data-action="open-shader-lab"') && indexHtml.includes('id="modalShaderLabBtn"'), 'index.html & script.js: Shader studio launchers wired to Project modal, Command Palette, Terminal CLI, and hotkeys');
+assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v35'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v35');
 
 // Test global script evaluation with mock DOM globals
 try {

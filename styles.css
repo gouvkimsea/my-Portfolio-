@@ -18155,3 +18155,451 @@ mark.project-search-match {
   }
 }
 
+/* ==========================================================================
+   PHASE 29: WebGL Shader Material Studio & Live GLSL Fragment Sandbox
+   ========================================================================== */
+
+.modal-shader-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: var(--ink);
+}
+
+.modal-shader-btn:hover {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: #f59e0b;
+  color: #f59e0b;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.25);
+}
+
+[data-theme="light"] .modal-shader-btn {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.12);
+  color: #374151;
+}
+
+[data-theme="light"] .modal-shader-btn:hover {
+  background: rgba(217, 119, 6, 0.1);
+  border-color: #d97706;
+  color: #d97706;
+}
+
+/* Shader Modal Dialog */
+.shader-modal {
+  padding: 0;
+  border: none;
+  background: transparent;
+  max-width: 980px;
+  width: 95vw;
+  margin: auto;
+  outline: none;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.85);
+  z-index: 9999;
+}
+
+.shader-modal::backdrop {
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(8px);
+}
+
+.shader-shell {
+  background: #0d0f14;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+[data-theme="light"] .shader-shell {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.shader-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="light"] .shader-header {
+  background: #ffffff;
+}
+
+.shader-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.shader-badge {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(245, 158, 11, 0.18);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+.shader-live-indicator {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.shader-pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fbbf24;
+  box-shadow: 0 0 8px #fbbf24;
+  animation: shaderPulse 1.8s infinite ease-in-out;
+}
+
+@keyframes shaderPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.shader-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 2px;
+}
+
+.shader-subtitle {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 0;
+}
+
+.shader-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.shader-action-btn {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  color: #fbbf24;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.shader-action-btn:hover {
+  background: rgba(245, 158, 11, 0.22);
+  border-color: #fbbf24;
+  transform: translateY(-1px);
+}
+
+.shader-modal-close {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 22px;
+  cursor: pointer;
+  padding: 2px 6px;
+  line-height: 1;
+  border-radius: 4px;
+  transition: color 0.2s ease;
+}
+
+.shader-modal-close:hover {
+  color: var(--ink);
+}
+
+.shader-controls-bar {
+  padding: 10px 20px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: rgba(0, 0, 0, 0.2);
+  flex-wrap: wrap;
+}
+
+[data-theme="light"] .shader-controls-bar {
+  background: #f1f5f9;
+}
+
+.shader-preset-pills {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.shader-preset-btn {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.shader-preset-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--ink);
+}
+
+.shader-preset-btn.active {
+  background: rgba(245, 158, 11, 0.18);
+  border-color: #f59e0b;
+  color: #fbbf24;
+  font-weight: 600;
+}
+
+[data-theme="light"] .shader-preset-btn.active {
+  background: rgba(217, 119, 6, 0.15);
+  border-color: #d97706;
+  color: #b45309;
+}
+
+.shader-quick-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.shader-btn-sec {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.shader-btn-sec:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.shader-split-view {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 16px;
+  padding: 16px 20px;
+}
+
+.shader-canvas-pane,
+.shader-params-pane {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+[data-theme="light"] .shader-canvas-pane,
+[data-theme="light"] .shader-params-pane {
+  background: #ffffff;
+  border-color: #e2e8f0;
+}
+
+.shader-canvas-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: #000000;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shader-lab-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: grab;
+}
+
+.shader-lab-canvas:active {
+  cursor: grabbing;
+}
+
+.shader-canvas-overlay {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  pointer-events: none;
+}
+
+.overlay-pill {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.65);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  backdrop-filter: blur(4px);
+}
+
+.shader-canvas-footer {
+  padding: 8px 12px;
+  border-top: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .shader-canvas-footer {
+  background: #f8fafc;
+}
+
+.shader-hint-text {
+  font-size: 11px;
+  color: var(--muted);
+  display: block;
+  line-height: 1.4;
+}
+
+.shader-uniforms-list {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.uniform-slider-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.uniform-slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.uniform-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink);
+}
+
+.uniform-val-badge {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: #fbbf24;
+  background: rgba(245, 158, 11, 0.12);
+  padding: 1px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+[data-theme="light"] .uniform-val-badge {
+  color: #b45309;
+  background: rgba(217, 119, 6, 0.1);
+}
+
+.uniform-range {
+  width: 100%;
+  accent-color: #f59e0b;
+  cursor: pointer;
+}
+
+.shader-code-box {
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-height: 140px;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="light"] .shader-code-box {
+  background: #0f172a;
+  color: #f8fafc;
+}
+
+.code-box-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.code-title {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+[data-theme="light"] .code-title {
+  color: #94a3b8;
+}
+
+.code-status-pill {
+  font-family: var(--mono);
+  font-size: 10px;
+}
+
+.text-lime {
+  color: #10b981;
+}
+
+.shader-code-pre {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.5;
+  color: #38bdf8;
+  max-height: 130px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+@media (max-width: 840px) {
+  .shader-split-view {
+    grid-template-columns: 1fr;
+  }
+  .shader-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .shader-controls-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 500px) {
+  .shader-preset-pills {
+    width: 100%;
+  }
+  .shader-preset-btn {
+    flex: 1 1 45%;
+    text-align: center;
+  }
+}
+

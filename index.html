@@ -679,6 +679,7 @@
               <button type="button" class="terminal-chip" data-cmd="radar">radar 🕸️</button>
               <button type="button" class="terminal-chip" data-cmd="arena">arena ⚔️</button>
               <button type="button" class="terminal-chip" data-cmd="firewall">firewall 🛡️</button>
+              <button type="button" class="terminal-chip" data-cmd="shader">shader ⚡</button>
               <button type="button" class="terminal-chip" data-cmd="export">export</button>
               <button type="button" class="terminal-chip" data-cmd="clear">clear</button>
             </div>
@@ -2002,6 +2003,9 @@
           <button type="button" class="modal-nav-step-btn modal-defense-btn" id="modalSecurityLabBtn" title="Launch Interactive Cyber Threat Defense Lab (Shift+F)" aria-label="Launch interactive cyber threat defense lab">
             <span class="modal-defense-icon" aria-hidden="true">🛡️</span> Defense Lab
           </button>
+          <button type="button" class="modal-nav-step-btn modal-shader-btn" id="modalShaderLabBtn" title="Launch WebGL Shader Material Studio (Shift+W)" aria-label="Launch WebGL shader material studio">
+            <span class="modal-shader-icon" aria-hidden="true">⚡</span> Shader Studio
+          </button>
           <button type="button" class="modal-nav-step-btn" id="modalNextBtn" aria-label="Next project case study">
             Next Project <span class="nav-arrow" aria-hidden="true">→</span>
           </button>
@@ -3278,6 +3282,8 @@
           <small class="cmdk-desc">Real-time browser micro-benchmarks comparing scheduling, heuristics &amp; noise math</small></button>
         <button type="button" class="cmdk-item" data-action="open-security-lab"><span class="cmdk-icon">🛡️</span> Cyber Threat Defense &amp; AI Firewall
           <small class="cmdk-desc">Multi-layer prompt sanitization, zero-width steganography &amp; injection firewall</small></button>
+        <button type="button" class="cmdk-item" data-action="open-shader-lab"><span class="cmdk-icon">⚡</span> WebGL Shader Material Studio
+          <small class="cmdk-desc">Real-time GPU GLSL fragment shaders, cel-shading &amp; procedural noise</small></button>
         <button type="button" class="cmdk-item" data-action="open-game"><span class="cmdk-icon">🎮</span> Play DevLoop Indie Game
           <small class="cmdk-desc">Developer idle tycoon &amp; bug arcade</small></button>
         <button type="button" class="cmdk-item" data-action="open-synth"><span class="cmdk-icon">🎹</span> Cyber Piano Synthesizer
@@ -3512,6 +3518,12 @@ Email: gouvkimsea@gmail.com</pre>
               <span class="shortcut-desc">Cyber Threat Defense &amp; AI Firewall</span>
               <div class="shortcut-kbd-group">
                 <kbd class="shortcut-kbd">⇧</kbd><kbd class="shortcut-kbd">F</kbd>
+              </div>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">WebGL Shader Material Studio</span>
+              <div class="shortcut-kbd-group">
+                <kbd class="shortcut-kbd">⇧</kbd><kbd class="shortcut-kbd">W</kbd>
               </div>
             </div>
             <div class="shortcut-row">
@@ -4422,6 +4434,133 @@ Email: gouvkimsea@gmail.com</pre>
                 <span class="stat-val stat-highlight" id="securityDisposition">ALLOW_FORWARD</span>
               </div>
               <p class="security-audit-note" id="securityAuditNote">Input payload conforms to safe token patterns with zero detected hostile evasion signatures.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Interactive WebGL Shader Material Studio & Live GLSL Fragment Sandbox Modal Dialog -->
+  <dialog class="shader-modal" id="shaderLabModal" aria-label="WebGL Shader Material Studio" aria-modal="true">
+    <div class="shader-shell">
+      <div class="shader-header">
+        <div class="shader-title-wrap">
+          <div class="shader-badge-row">
+            <span class="shader-badge">WEBGL 2.0 SHADER STUDIO</span>
+            <span class="shader-live-indicator"><span class="shader-pulse-dot"></span> GPU Hardware Accelerated · 60 FPS</span>
+          </div>
+          <h2 class="shader-title" id="shaderModalTitle">WebGL Shader Material Studio</h2>
+          <p class="shader-subtitle">Real-time procedural GLSL fragment shaders, lighting models, and mathematical coordinate transforms</p>
+        </div>
+        <div class="shader-header-actions">
+          <button type="button" class="shader-action-btn" id="shaderExportBtn" title="Export GLSL Source (.glsl)">
+            📥 Export Shader
+          </button>
+          <button class="modal-close shader-modal-close" id="shaderModalCloseBtn" type="button" aria-label="Close shader studio modal">×</button>
+        </div>
+      </div>
+
+      <div class="shader-controls-bar">
+        <div class="shader-preset-pills" role="tablist" aria-label="Shader material preset">
+          <button type="button" class="shader-preset-btn active" data-shader="cel">Cel-Shading Planet</button>
+          <button type="button" class="shader-preset-btn" data-shader="simplex">fBm Simplex Terrain</button>
+          <button type="button" class="shader-preset-btn" data-shader="cyber">Cyber Neon Horizon</button>
+          <button type="button" class="shader-preset-btn" data-shader="plasma">Harmonic Plasma</button>
+        </div>
+        <div class="shader-action-group">
+          <button type="button" class="shader-toggle-btn" id="shaderPlayPauseBtn" title="Pause / Resume Animation">
+            <span id="shaderPlayIcon">⏸</span> <span id="shaderPlayText">Pause</span>
+          </button>
+          <button type="button" class="shader-reset-btn" id="shaderResetBtn" title="Reset Uniform Parameters">
+            ↺ Reset
+          </button>
+        </div>
+      </div>
+
+      <div class="shader-body">
+        <div class="shader-split-view">
+          <!-- Left: WebGL Canvas Viewport -->
+          <div class="shader-canvas-pane">
+            <div class="pane-header">
+              <span class="pane-title"><span class="pane-dot dot-yellow"></span> fragment_viewport.webgl</span>
+              <span class="pane-meta" id="shaderFpsBadge">60.0 FPS · GLSL ES 3.0</span>
+            </div>
+            <div class="shader-canvas-wrap">
+              <canvas id="shaderLabCanvas" class="shader-lab-canvas" width="480" height="360" aria-label="WebGL Shader Viewport"></canvas>
+              <div class="shader-canvas-overlay" id="shaderCanvasOverlay">
+                <span class="overlay-pill" id="shaderStatusPill">Rendering Active</span>
+              </div>
+            </div>
+            <div class="shader-canvas-footer">
+              <span class="shader-hint-text">🖱️ Click &amp; drag on canvas to manipulate <code>u_mouse</code> coordinate uniform</span>
+            </div>
+          </div>
+
+          <!-- Right: Uniform Parameters & Live GLSL Fragment Inspector -->
+          <div class="shader-params-pane">
+            <div class="pane-header">
+              <span class="pane-title"><span class="pane-dot dot-cyan"></span> uniforms.inspector</span>
+              <span class="pane-meta" id="shaderUniformsMeta">4 Uniforms Active</span>
+            </div>
+            <div class="shader-uniforms-list">
+              <!-- Slider 1: Speed / Time Scale -->
+              <div class="uniform-slider-group">
+                <div class="uniform-slider-header">
+                  <label for="sliderShaderSpeed" class="uniform-label">Time Speed (<code>u_speed</code>):</label>
+                  <span class="uniform-val-badge" id="valShaderSpeed">1.0x</span>
+                </div>
+                <input type="range" class="uniform-range" id="sliderShaderSpeed" min="0.1" max="3.0" step="0.1" value="1.0" aria-label="Time Speed scale">
+              </div>
+
+              <!-- Slider 2: Frequency / Scale -->
+              <div class="uniform-slider-group">
+                <div class="uniform-slider-header">
+                  <label for="sliderShaderScale" class="uniform-label">Geometric Frequency (<code>u_scale</code>):</label>
+                  <span class="uniform-val-badge" id="valShaderScale">3.0</span>
+                </div>
+                <input type="range" class="uniform-range" id="sliderShaderScale" min="0.5" max="8.0" step="0.5" value="3.0" aria-label="Geometric Frequency scale">
+              </div>
+
+              <!-- Slider 3: Intensity / Rim Power -->
+              <div class="uniform-slider-group">
+                <div class="uniform-slider-header">
+                  <label for="sliderShaderIntensity" class="uniform-label">Fresnel / Intensity (<code>u_intensity</code>):</label>
+                  <span class="uniform-val-badge" id="valShaderIntensity">2.5</span>
+                </div>
+                <input type="range" class="uniform-range" id="sliderShaderIntensity" min="0.5" max="6.0" step="0.5" value="2.5" aria-label="Fresnel Intensity">
+              </div>
+
+              <!-- Slider 4: Hue Tint Shift -->
+              <div class="uniform-slider-group">
+                <div class="uniform-slider-header">
+                  <label for="sliderShaderHue" class="uniform-label">Chromatic Palette Shift (<code>u_hue</code>):</label>
+                  <span class="uniform-val-badge" id="valShaderHue">0°</span>
+                </div>
+                <input type="range" class="uniform-range" id="sliderShaderHue" min="0" max="360" step="15" value="0" aria-label="Chromatic Palette Shift">
+              </div>
+            </div>
+
+            <!-- Live GLSL Source Snippet -->
+            <div class="shader-code-box">
+              <div class="code-box-header">
+                <span class="code-title">fragment_core.glsl</span>
+                <span class="code-status-pill text-lime" id="shaderCompileStatus">Compiled · 0 Warnings</span>
+              </div>
+              <pre class="shader-code-pre" id="shaderCodeSnippet"><code class="glsl-code">// GLSL Fragment Shader Core
+precision highp float;
+uniform float u_time;
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+uniform float u_speed;
+uniform float u_scale;
+uniform float u_intensity;
+uniform float u_hue;
+
+void main() {
+    vec2 st = (gl_FragCoord.xy * 2.0 - u_resolution) / min(u_resolution.x, u_resolution.y);
+    gl_FragColor = vec4(st, sin(u_time * u_speed), 1.0);
+}</code></pre>
             </div>
           </div>
         </div>

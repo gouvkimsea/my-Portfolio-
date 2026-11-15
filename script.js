@@ -624,6 +624,16 @@ document.addEventListener("keydown", e => {
         openSecurityLabModal();
       }
     }
+  } else if ((e.key === "W" || e.key === "w") && e.shiftKey) {
+    e.preventDefault();
+    if (typeof openShaderLabModal === "function") {
+      const wModal = document.getElementById("shaderLabModal");
+      if (wModal?.open) {
+        if (typeof closeShaderLabModal === "function") closeShaderLabModal();
+      } else {
+        openShaderLabModal();
+      }
+    }
   } else if (e.key.toLowerCase() === "u" && !e.ctrlKey && !e.metaKey && !e.altKey) {
     e.preventDefault();
     if (typeof toggleSfx === "function") toggleSfx();
@@ -863,6 +873,8 @@ cmdKResults?.addEventListener("click", e => {
     if (typeof openAlgoArenaModal === "function") openAlgoArenaModal();
   } else if (action === "open-security-lab") {
     if (typeof openSecurityLabModal === "function") openSecurityLabModal();
+  } else if (action === "open-shader-lab") {
+    if (typeof openShaderLabModal === "function") openShaderLabModal();
   } else if (action === "open-telemetry") {
     if (typeof openTelemetryModal === "function") openTelemetryModal();
   } else if (action === "download-resume-md") {
@@ -5100,7 +5112,17 @@ Scrolled to Section 05: Engineering Milestones!</pre>`;
     window.open("miniworld.html", "_blank");
     return "Launching Mini World 3D Planet Simulation in a new tab...";
   },
-  shader: () => {
+  shader: (arg) => {
+    const preset = (arg || "").trim().toLowerCase();
+    if (typeof openShaderLabModal === "function") {
+      openShaderLabModal(preset);
+      return `<pre class="term-pre" style="margin:4px 0;font-size:11px;line-height:1.45;">⚡ <b>WebGL Shader Material Studio &amp; GLSL Sandbox Launched</b>
+--------------------------------------------------------
+Shader Preset:    <b>${escapeHtml(preset || "cel").toUpperCase()}</b>
+Pipeline Model:   Hardware-Accelerated WebGL 2.0 Fragment Rasterizer
+Uniform Binds:    u_time · u_resolution · u_mouse · u_speed · u_scale · u_intensity · u_hue
+Live Render:      60.0 FPS · GLSL ES 3.0 Real-time Evaluation</pre>`;
+    }
     openModal("miniworld");
     setTimeout(() => {
       const lab = document.getElementById("miniworldSandbox");
@@ -5108,7 +5130,8 @@ Scrolled to Section 05: Engineering Milestones!</pre>`;
     }, 250);
     return "Opening Mini World modal and activating Interactive WebGL Biome & Shader Lab...";
   },
-  glsl: () => terminalCommands.shader(),
+  glsl: (arg) => terminalCommands.shader(arg),
+  materials: (arg) => terminalCommands.shader(arg),
   biome: () => terminalCommands.shader(),
   pinit: () => {
     openModal("pinit");
@@ -5261,7 +5284,7 @@ Layer 1: Semantic Core  · Zero-dependency ES2026 &amp; HTML5 dialogs
 Layer 2: Style Tokens   · Modular Vanilla CSS &amp; WCAG AAA contrast
 Layer 3: 3D Graphics    · Hardware-accelerated WebGL 2.0 MiniWorld
 Layer 4: Procedural SFX · Pure Web Audio synthesizers (0 audio files)
-Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v34</pre>`;
+Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v35</pre>`;
   },
   cat: (arg) => {
     const file = (arg || "").trim().toLowerCase();
@@ -5390,7 +5413,7 @@ DOM Tree:         <b>${domCount}</b> semantic nodes
 Logical Cores:    <b>${cores}</b> Threads (hardwareConcurrency)
 Display:          <b>${window.innerWidth}x${window.innerHeight}</b> (${window.devicePixelRatio || 1}x DPR)
 Audio Engine:     Active (${Math.round((typeof sfxVolume !== "undefined" ? sfxVolume : 0.8) * 100)}% Gain)
-PWA Cache:        <b>kimsea-pwa-v34</b> (Stale-While-Revalidate)
+PWA Cache:        <b>kimsea-pwa-v35</b> (Stale-While-Revalidate)
 Status:           Modal HUD Launched ⚡</pre>`;
   },
   diag: () => terminalCommands.telemetry(),
@@ -5726,7 +5749,7 @@ terminalInput?.addEventListener("keydown", event => {
     if (current) {
       const allCmds = Array.from(new Set([
         ...Object.keys(terminalCommands),
-        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade", "accent", "synth", "piano", "telemetry", "diag", "perf", "sysinfo", "playground", "sandbox", "eval", "particles", "casestudy", "dossier", "gitgraph", "heatmap", "graph", "archflow", "flow", "radar", "spider", "competencies", "arena", "race", "benchmarks", "firewall", "security", "sanitize"
+        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade", "accent", "synth", "piano", "telemetry", "diag", "perf", "sysinfo", "playground", "sandbox", "eval", "particles", "casestudy", "dossier", "gitgraph", "heatmap", "graph", "archflow", "flow", "radar", "spider", "competencies", "arena", "race", "benchmarks", "firewall", "security", "sanitize", "shader", "glsl", "materials"
       ]));
       const prefix = lastTabPrefix || current;
       const matches = allCmds.filter(k => k.startsWith(prefix));
@@ -8240,7 +8263,7 @@ const initCyberTelemetry = () => {
       audioSubEl.textContent = `48000 Hz · Master Gain ${vol}%`;
     }
     if (pwaEl) {
-      pwaEl.textContent = "kimsea-pwa-v34";
+      pwaEl.textContent = "kimsea-pwa-v35";
     }
   };
 
@@ -11035,4 +11058,612 @@ const initSecurityLabModal = () => {
 };
 
 initSecurityLabModal();
+
+// ==========================================================================
+// Phase 29: Interactive WebGL Shader Material Studio & Live GLSL Fragment Sandbox
+// ==========================================================================
+
+let openShaderLabModal = null;
+let closeShaderLabModal = null;
+
+const initShaderLabModal = () => {
+  const modal = document.getElementById("shaderLabModal");
+  if (!modal) return;
+
+  const canvas = document.getElementById("shaderLabCanvas");
+  const closeBtn = document.getElementById("shaderModalCloseBtn");
+  const exportBtn = document.getElementById("shaderExportBtn");
+  const pauseBtn = document.getElementById("shaderPauseBtn");
+  const resetBtn = document.getElementById("shaderResetBtn");
+  const fpsBadge = document.getElementById("shaderFpsBadge");
+  const statusPill = document.getElementById("shaderStatusPill");
+  const compileStatus = document.getElementById("shaderCompileStatus");
+  const codeSnippet = document.getElementById("shaderCodeSnippet");
+
+  // Sliders & value badges
+  const sliderSpeed = document.getElementById("sliderShaderSpeed");
+  const valSpeed = document.getElementById("valShaderSpeed");
+  const sliderScale = document.getElementById("sliderShaderScale");
+  const valScale = document.getElementById("valShaderScale");
+  const sliderIntensity = document.getElementById("sliderShaderIntensity");
+  const valIntensity = document.getElementById("valShaderIntensity");
+  const sliderHue = document.getElementById("sliderShaderHue");
+  const valHue = document.getElementById("valShaderHue");
+
+  const presetBtns = modal.querySelectorAll(".shader-preset-btn");
+
+  // Shader Presets Definitions
+  const shaderPresets = {
+    cel: {
+      name: "Cel-Shading Planet & Rim Glow",
+      defaults: { speed: 1.0, scale: 3.0, intensity: 2.5, hue: 0 },
+      glsl: `// Procedural Cel-Shading Cartoon Planet & Rim Glow
+precision highp float;
+uniform float u_time;
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+uniform float u_speed;
+uniform float u_scale;
+uniform float u_intensity;
+uniform float u_hue;
+
+vec3 hueShift(vec3 color, float deg) {
+  float rad = deg * 0.0174532925;
+  float c = cos(rad);
+  float s = sin(rad);
+  mat3 m = mat3(
+    0.213 + c*0.787 - s*0.213, 0.715 - c*0.715 - s*0.715, 0.072 - c*0.072 + s*0.928,
+    0.213 - c*0.213 + s*0.143, 0.715 + c*0.285 + s*0.140, 0.072 - c*0.072 - s*0.283,
+    0.213 - c*0.213 - s*0.787, 0.715 - c*0.715 + s*0.715, 0.072 + c*0.928 + s*0.072
+  );
+  return clamp(m * color, 0.0, 1.0);
+}
+
+void main() {
+  vec2 uv = (gl_FragCoord.xy * 2.0 - u_resolution.xy) / min(u_resolution.x, u_resolution.y);
+  vec2 mouse = (u_mouse * 2.0 - u_resolution.xy) / min(u_resolution.x, u_resolution.y);
+  float r = length(uv);
+  if (r > 0.85) {
+    float star = step(0.992, fract(sin(dot(uv * 40.0, vec2(12.9898, 78.233))) * 43758.5453));
+    gl_FragColor = vec4(vec3(star * 0.6), 1.0);
+    return;
+  }
+
+  float z = sqrt(max(0.0, 0.85 * 0.85 - r * r));
+  vec3 normal = normalize(vec3(uv, z));
+
+  float angle = u_time * u_speed * 0.5;
+  vec3 lightDir = normalize(vec3(cos(angle) + mouse.x * 2.0, sin(angle * 0.7) - mouse.y * 2.0, 1.2));
+
+  float diff = dot(normal, lightDir);
+  float toon = diff > 0.6 ? 1.0 : (diff > 0.2 ? 0.65 : (diff > -0.2 ? 0.35 : 0.15));
+
+  float lat = uv.y * u_scale + sin(uv.x * u_scale + u_time * u_speed * 0.2);
+  vec3 baseColor = (sin(lat * 3.1415) > 0.1) ? vec3(0.18, 0.55, 0.34) : vec3(0.12, 0.35, 0.68);
+
+  float fresnel = pow(1.0 - normal.z, max(0.1, u_intensity));
+  vec3 rimColor = vec3(0.38, 0.85, 1.0) * fresnel * 1.5;
+
+  vec3 finalColor = baseColor * toon + rimColor;
+  if (u_hue > 0.0) finalColor = hueShift(finalColor, u_hue);
+  gl_FragColor = vec4(finalColor, 1.0);
+}`
+    },
+    simplex: {
+      name: "Simplex fBm Terrain Elevation",
+      defaults: { speed: 0.8, scale: 3.5, intensity: 2.0, hue: 0 },
+      glsl: `// Fractional Brownian Motion (fBm) Simplex Noise Contours
+precision highp float;
+uniform float u_time;
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+uniform float u_speed;
+uniform float u_scale;
+uniform float u_intensity;
+uniform float u_hue;
+
+vec3 hueShift(vec3 color, float deg) {
+  float rad = deg * 0.0174532925;
+  float c = cos(rad); float s = sin(rad);
+  mat3 m = mat3(
+    0.213 + c*0.787 - s*0.213, 0.715 - c*0.715 - s*0.715, 0.072 - c*0.072 + s*0.928,
+    0.213 - c*0.213 + s*0.143, 0.715 + c*0.285 + s*0.140, 0.072 - c*0.072 - s*0.283,
+    0.213 - c*0.213 - s*0.787, 0.715 - c*0.715 + s*0.715, 0.072 + c*0.928 + s*0.072
+  );
+  return clamp(m * color, 0.0, 1.0);
+}
+
+float hash(vec2 p) {
+  return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+}
+
+float noise(vec2 p) {
+  vec2 i = floor(p);
+  vec2 f = fract(p);
+  vec2 u = f * f * (3.0 - 2.0 * f);
+  return mix(mix(hash(i + vec2(0.0, 0.0)), hash(i + vec2(1.0, 0.0)), u.x),
+             mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y);
+}
+
+float fbm(vec2 p) {
+  float v = 0.0;
+  float a = 0.5;
+  vec2 shift = vec2(100.0);
+  mat2 rot = mat2(cos(0.5), sin(0.5), -sin(0.5), cos(0.5));
+  for (int i = 0; i < 4; ++i) {
+    v += a * noise(p);
+    p = rot * p * 2.0 + shift;
+    a *= 0.5;
+  }
+  return v;
+}
+
+void main() {
+  vec2 st = (gl_FragCoord.xy * 2.0 - u_resolution.xy) / min(u_resolution.x, u_resolution.y);
+  vec2 m = u_mouse / u_resolution.xy;
+  vec2 p = st * u_scale + m * 4.0;
+  float t = u_time * u_speed * 0.25;
+
+  vec2 q = vec2(fbm(p + vec2(0.0, 0.0) + t), fbm(p + vec2(5.2, 1.3) + t));
+  vec2 r = vec2(fbm(p + 4.0 * q + vec2(1.7, 9.2)), fbm(p + 4.0 * q + vec2(8.3, 2.8)));
+  float f = fbm(p + 4.0 * r);
+
+  vec3 col = mix(vec3(0.10, 0.19, 0.22), vec3(0.66, 0.55, 0.23), clamp((f * f) * 4.0, 0.0, 1.0));
+  col = mix(col, vec3(0.1, 0.5, 0.6), clamp(length(q) * u_intensity * 0.4, 0.0, 1.0));
+  col = mix(col, vec3(0.95, 0.98, 1.0), clamp(length(r.x) * 1.2, 0.0, 1.0));
+
+  float contour = abs(fract(f * 8.0) - 0.5);
+  col += vec3(0.12, 0.8, 0.6) * (1.0 - smoothstep(0.0, 0.06, contour)) * 0.6;
+
+  if (u_hue > 0.0) col = hueShift(col, u_hue);
+  gl_FragColor = vec4(col, 1.0);
+}`
+    },
+    cyber: {
+      name: "Cyber Neon Horizon 80s Grid",
+      defaults: { speed: 1.2, scale: 4.0, intensity: 3.0, hue: 0 },
+      glsl: `// Cyber Neon Horizon & Infinite Perspective Grid
+precision highp float;
+uniform float u_time;
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+uniform float u_speed;
+uniform float u_scale;
+uniform float u_intensity;
+uniform float u_hue;
+
+vec3 hueShift(vec3 color, float deg) {
+  float rad = deg * 0.0174532925;
+  float c = cos(rad); float s = sin(rad);
+  mat3 m = mat3(
+    0.213 + c*0.787 - s*0.213, 0.715 - c*0.715 - s*0.715, 0.072 - c*0.072 + s*0.928,
+    0.213 - c*0.213 + s*0.143, 0.715 + c*0.285 + s*0.140, 0.072 - c*0.072 - s*0.283,
+    0.213 - c*0.213 - s*0.787, 0.715 - c*0.715 + s*0.715, 0.072 + c*0.928 + s*0.072
+  );
+  return clamp(m * color, 0.0, 1.0);
+}
+
+void main() {
+  vec2 uv = (gl_FragCoord.xy - 0.5 * u_resolution.xy) / u_resolution.y;
+  vec2 m = (u_mouse - 0.5 * u_resolution.xy) / u_resolution.y;
+  uv.x -= m.x * 0.3;
+
+  vec3 color = vec3(0.04, 0.02, 0.08);
+
+  vec2 sunPos = vec2(0.0, 0.08);
+  float sunDist = length(uv - sunPos);
+  if (sunDist < 0.28) {
+    float sunGrad = (uv.y - sunPos.y + 0.28) / 0.56;
+    vec3 sunColor = mix(vec3(1.0, 0.1, 0.4), vec3(1.0, 0.85, 0.1), sunGrad);
+    float blinds = sin(uv.y * 70.0);
+    if (uv.y < sunPos.y && blinds > 0.2) {
+      sunColor *= 0.08;
+    }
+    color = mix(color, sunColor, smoothstep(0.28, 0.27, sunDist));
+  }
+
+  if (uv.y < 0.0) {
+    float depth = -0.35 / uv.y;
+    float x = uv.x * depth * (u_scale * 0.5);
+    float z = depth + u_time * u_speed * 2.0;
+
+    vec2 grid = abs(fract(vec2(x, z)) - 0.5);
+    float line = min(grid.x, grid.y);
+    float glow = (1.0 - smoothstep(0.0, 0.08, line)) * exp(-depth * 0.15) * u_intensity;
+
+    vec3 gridColor = mix(vec3(0.0, 0.85, 1.0), vec3(1.0, 0.0, 0.75), sin(z * 0.1) * 0.5 + 0.5);
+    color += gridColor * glow;
+  }
+
+  color *= 0.9 + 0.1 * sin(gl_FragCoord.y * 1.5);
+  if (u_hue > 0.0) color = hueShift(color, u_hue);
+  gl_FragColor = vec4(color, 1.0);
+}`
+    },
+    plasma: {
+      name: "Harmonic Interference Plasma Wave",
+      defaults: { speed: 1.5, scale: 2.5, intensity: 2.0, hue: 0 },
+      glsl: `// Harmonic Multi-Sine Interference Plasma Waves
+precision highp float;
+uniform float u_time;
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+uniform float u_speed;
+uniform float u_scale;
+uniform float u_intensity;
+uniform float u_hue;
+
+vec3 hueShift(vec3 color, float deg) {
+  float rad = deg * 0.0174532925;
+  float c = cos(rad); float s = sin(rad);
+  mat3 m = mat3(
+    0.213 + c*0.787 - s*0.213, 0.715 - c*0.715 - s*0.715, 0.072 - c*0.072 + s*0.928,
+    0.213 - c*0.213 + s*0.143, 0.715 + c*0.285 + s*0.140, 0.072 - c*0.072 - s*0.283,
+    0.213 - c*0.213 - s*0.787, 0.715 - c*0.715 + s*0.715, 0.072 + c*0.928 + s*0.072
+  );
+  return clamp(m * color, 0.0, 1.0);
+}
+
+void main() {
+  vec2 st = gl_FragCoord.xy / u_resolution.xy;
+  vec2 m = u_mouse / u_resolution.xy;
+  float t = u_time * u_speed * 0.8;
+
+  float v1 = sin(st.x * u_scale * 3.0 + t);
+  float v2 = sin(st.y * u_scale * 3.0 + t * 1.2);
+  float v3 = sin(u_scale * 2.0 * (st.x * sin(t / 2.0) + st.y * cos(t / 3.0)) + t);
+  vec2 c = st - 0.5 + m * 0.2;
+  float v4 = sin(sqrt(100.0 * (c.x * c.x + c.y * c.y) + 1.0) + t);
+
+  float v = (v1 + v2 + v3 + v4) * 0.25;
+
+  vec3 color = vec3(
+    sin(v * 3.1415 + 0.0) * 0.5 + 0.5,
+    sin(v * 3.1415 + 2.0) * 0.5 + 0.5,
+    sin(v * 3.1415 + 4.0) * 0.5 + 0.5
+  );
+  color = pow(color, vec3(1.0 / max(0.2, u_intensity * 0.5)));
+
+  if (u_hue > 0.0) color = hueShift(color, u_hue);
+  gl_FragColor = vec4(color, 1.0);
+}`
+    }
+  };
+
+  let activePresetKey = "cel";
+  let isPaused = false;
+  let animFrameId = null;
+  let startTime = performance.now();
+  let pausedAtTime = 0;
+  let totalPausedDuration = 0;
+  let mouseX = 240;
+  let mouseY = 180;
+  let isMouseDown = false;
+
+  // WebGL Context & Shaders Setup
+  let gl = null;
+  if (canvas && typeof canvas.getContext === "function") {
+    try {
+      gl = canvas.getContext("webgl2") || canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+    } catch (err) {
+      gl = null;
+    }
+  }
+
+  const vertexShaderSource = `attribute vec2 position;
+void main() {
+  gl_Position = vec4(position, 0.0, 1.0);
+}`;
+
+  let currentProgram = null;
+  let uniformLocations = {};
+  let quadBuffer = null;
+
+  const compileShader = (type, source) => {
+    if (!gl) return null;
+    const shader = gl.createShader(type);
+    gl.shaderSource(shader, source);
+    gl.compileShader(shader);
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+      console.warn("[ShaderStudio] Compile error:", gl.getShaderInfoLog(shader));
+      gl.deleteShader(shader);
+      return null;
+    }
+    return shader;
+  };
+
+  const createProgram = (fragmentSource) => {
+    if (!gl) return null;
+    const vert = compileShader(gl.VERTEX_SHADER, vertexShaderSource);
+    const frag = compileShader(gl.FRAGMENT_SHADER, fragmentSource);
+    if (!vert || !frag) return null;
+
+    const prog = gl.createProgram();
+    gl.attachShader(prog, vert);
+    gl.attachShader(prog, frag);
+    gl.linkProgram(prog);
+
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+      console.warn("[ShaderStudio] Program link error:", gl.getProgramInfoLog(prog));
+      gl.deleteProgram(prog);
+      return null;
+    }
+
+    gl.deleteShader(vert);
+    gl.deleteShader(frag);
+    return prog;
+  };
+
+  const initWebGL = () => {
+    if (!gl) {
+      if (statusPill) statusPill.textContent = "Canvas 2D / Simulated Mode";
+      if (fpsBadge) fpsBadge.textContent = "Simulated · Headless";
+      return;
+    }
+
+    const positions = new Float32Array([
+      -1, -1,
+       1, -1,
+      -1,  1,
+      -1,  1,
+       1, -1,
+       1,  1
+    ]);
+
+    quadBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, quadBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
+  };
+
+  const loadPresetShader = (presetKey) => {
+    activePresetKey = presetKey;
+    const preset = shaderPresets[presetKey];
+    if (!preset) return;
+
+    // Update active pill button
+    presetBtns.forEach(btn => {
+      const isActive = btn.dataset.preset === presetKey;
+      btn.classList.toggle("active", isActive);
+      btn.setAttribute("aria-selected", isActive ? "true" : "false");
+    });
+
+    // Update sliders to preset defaults if switching
+    if (sliderSpeed) { sliderSpeed.value = preset.defaults.speed; if (valSpeed) valSpeed.textContent = `${preset.defaults.speed.toFixed(1)}x`; }
+    if (sliderScale) { sliderScale.value = preset.defaults.scale; if (valScale) valScale.textContent = preset.defaults.scale.toFixed(1); }
+    if (sliderIntensity) { sliderIntensity.value = preset.defaults.intensity; if (valIntensity) valIntensity.textContent = preset.defaults.intensity.toFixed(1); }
+    if (sliderHue) { sliderHue.value = preset.defaults.hue; if (valHue) valHue.textContent = `${preset.defaults.hue}°`; }
+
+    // Update code view
+    if (codeSnippet) {
+      codeSnippet.textContent = preset.glsl;
+    }
+
+    if (gl) {
+      if (currentProgram) {
+        gl.deleteProgram(currentProgram);
+        currentProgram = null;
+      }
+
+      currentProgram = createProgram(preset.glsl);
+      if (currentProgram) {
+        gl.useProgram(currentProgram);
+        const posLoc = gl.getAttribLocation(currentProgram, "position");
+        gl.enableVertexAttribArray(posLoc);
+        gl.bindBuffer(gl.ARRAY_BUFFER, quadBuffer);
+        gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+        uniformLocations = {
+          time: gl.getUniformLocation(currentProgram, "u_time"),
+          resolution: gl.getUniformLocation(currentProgram, "u_resolution"),
+          mouse: gl.getUniformLocation(currentProgram, "u_mouse"),
+          speed: gl.getUniformLocation(currentProgram, "u_speed"),
+          scale: gl.getUniformLocation(currentProgram, "u_scale"),
+          intensity: gl.getUniformLocation(currentProgram, "u_intensity"),
+          hue: gl.getUniformLocation(currentProgram, "u_hue")
+        };
+
+        if (compileStatus) compileStatus.textContent = "Compiled · 0 Warnings";
+      } else {
+        if (compileStatus) compileStatus.textContent = "Compilation Failed";
+      }
+    }
+  };
+
+  // Render Loop
+  let lastFrameTime = performance.now();
+  let frameCount = 0;
+  let fpsTimer = performance.now();
+
+  const render = (now) => {
+    if (!modal.open) {
+      animFrameId = null;
+      return;
+    }
+
+    if (!isPaused) {
+      const elapsedSec = (now - startTime - totalPausedDuration) / 1000.0;
+
+      if (gl && currentProgram) {
+        gl.viewport(0, 0, canvas.width, canvas.height);
+        gl.useProgram(currentProgram);
+
+        const speed = sliderSpeed ? parseFloat(sliderSpeed.value) : 1.0;
+        const scale = sliderScale ? parseFloat(sliderScale.value) : 3.0;
+        const intensity = sliderIntensity ? parseFloat(sliderIntensity.value) : 2.5;
+        const hue = sliderHue ? parseFloat(sliderHue.value) : 0;
+
+        if (uniformLocations.time) gl.uniform1f(uniformLocations.time, elapsedSec);
+        if (uniformLocations.resolution) gl.uniform2f(uniformLocations.resolution, canvas.width, canvas.height);
+        if (uniformLocations.mouse) gl.uniform2f(uniformLocations.mouse, mouseX, canvas.height - mouseY);
+        if (uniformLocations.speed) gl.uniform1f(uniformLocations.speed, speed);
+        if (uniformLocations.scale) gl.uniform1f(uniformLocations.scale, scale);
+        if (uniformLocations.intensity) gl.uniform1f(uniformLocations.intensity, intensity);
+        if (uniformLocations.hue) gl.uniform1f(uniformLocations.hue, hue);
+
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+      }
+
+      frameCount++;
+      if (now - fpsTimer >= 1000) {
+        const fps = Math.round((frameCount * 1000) / (now - fpsTimer));
+        if (fpsBadge) fpsBadge.textContent = `${fps}.0 FPS · GLSL ES 3.0`;
+        frameCount = 0;
+        fpsTimer = now;
+      }
+    }
+
+    animFrameId = requestAnimationFrame(render);
+  };
+
+  // Canvas Mouse Dragging Interaction
+  const updateMouseFromEvent = (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const clientX = e.clientX ?? (e.touches && e.touches[0] ? e.touches[0].clientX : mouseX);
+    const clientY = e.clientY ?? (e.touches && e.touches[0] ? e.touches[0].clientY : mouseY);
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
+    mouseX = Math.max(0, Math.min(canvas.width, (x / rect.width) * canvas.width));
+    mouseY = Math.max(0, Math.min(canvas.height, (y / rect.height) * canvas.height));
+  };
+
+  canvas?.addEventListener("pointerdown", (e) => {
+    isMouseDown = true;
+    canvas.setPointerCapture?.(e.pointerId);
+    updateMouseFromEvent(e);
+  });
+
+  canvas?.addEventListener("pointermove", (e) => {
+    if (isMouseDown || e.pointerType === "mouse") {
+      updateMouseFromEvent(e);
+    }
+  });
+
+  canvas?.addEventListener("pointerup", (e) => {
+    isMouseDown = false;
+    canvas.releasePointerCapture?.(e.pointerId);
+  });
+
+  canvas?.addEventListener("pointercancel", () => {
+    isMouseDown = false;
+  });
+
+  // Wire Sliders
+  sliderSpeed?.addEventListener("input", () => {
+    if (valSpeed) valSpeed.textContent = `${parseFloat(sliderSpeed.value).toFixed(1)}x`;
+  });
+  sliderScale?.addEventListener("input", () => {
+    if (valScale) valScale.textContent = parseFloat(sliderScale.value).toFixed(1);
+  });
+  sliderIntensity?.addEventListener("input", () => {
+    if (valIntensity) valIntensity.textContent = parseFloat(sliderIntensity.value).toFixed(1);
+  });
+  sliderHue?.addEventListener("input", () => {
+    if (valHue) valHue.textContent = `${sliderHue.value}°`;
+  });
+
+  // Wire Preset Buttons
+  presetBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const p = btn.dataset.preset;
+      if (p && shaderPresets[p]) {
+        loadPresetShader(p);
+        if (typeof playSound === "function") playSound("click");
+      }
+    });
+  });
+
+  // Pause / Resume Button
+  pauseBtn?.addEventListener("click", () => {
+    isPaused = !isPaused;
+    if (typeof playSound === "function") playSound("click");
+    if (isPaused) {
+      pausedAtTime = performance.now();
+      pauseBtn.textContent = "▶️ Resume";
+      if (statusPill) statusPill.textContent = "Pipeline Paused";
+    } else {
+      totalPausedDuration += performance.now() - pausedAtTime;
+      pauseBtn.textContent = "⏸️ Pause";
+      if (statusPill) statusPill.textContent = "Rendering Active";
+    }
+  });
+
+  // Reset Button
+  resetBtn?.addEventListener("click", () => {
+    const preset = shaderPresets[activePresetKey];
+    if (preset) {
+      if (sliderSpeed) { sliderSpeed.value = preset.defaults.speed; if (valSpeed) valSpeed.textContent = `${preset.defaults.speed.toFixed(1)}x`; }
+      if (sliderScale) { sliderScale.value = preset.defaults.scale; if (valScale) valScale.textContent = preset.defaults.scale.toFixed(1); }
+      if (sliderIntensity) { sliderIntensity.value = preset.defaults.intensity; if (valIntensity) valIntensity.textContent = preset.defaults.intensity.toFixed(1); }
+      if (sliderHue) { sliderHue.value = preset.defaults.hue; if (valHue) valHue.textContent = `${preset.defaults.hue}°`; }
+    }
+    mouseX = canvas ? canvas.width / 2 : 240;
+    mouseY = canvas ? canvas.height / 2 : 180;
+    if (typeof playSound === "function") playSound("click");
+    if (typeof showPortfolioToast === "function") showPortfolioToast("Shader uniforms reset to defaults");
+  });
+
+  // Export Source Code Button
+  exportBtn?.addEventListener("click", () => {
+    const preset = shaderPresets[activePresetKey];
+    if (!preset) return;
+    const blob = new Blob([preset.glsl], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${activePresetKey}_fragment.glsl`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    if (typeof playSound === "function") playSound("click");
+    if (typeof showPortfolioToast === "function") showPortfolioToast(`Exported ${preset.name} GLSL (.glsl)`);
+  });
+
+  // Modal Open & Close Controller
+  openShaderLabModal = (presetKey) => {
+    if (typeof playSound === "function") playSound("whoosh");
+    if (!modal.open) modal.showModal();
+
+    if (presetKey && shaderPresets[presetKey]) {
+      loadPresetShader(presetKey);
+    } else {
+      loadPresetShader(activePresetKey);
+    }
+
+    if (!animFrameId) {
+      startTime = performance.now();
+      totalPausedDuration = 0;
+      isPaused = false;
+      if (pauseBtn) pauseBtn.textContent = "⏸️ Pause";
+      if (statusPill) statusPill.textContent = "Rendering Active";
+      animFrameId = requestAnimationFrame(render);
+    }
+  };
+
+  closeShaderLabModal = () => {
+    if (modal.open) modal.close();
+    if (animFrameId) {
+      cancelAnimationFrame(animFrameId);
+      animFrameId = null;
+    }
+  };
+
+  closeBtn?.addEventListener("click", closeShaderLabModal);
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeShaderLabModal();
+  });
+  modal.addEventListener("cancel", closeShaderLabModal);
+
+  // Wire Modal Nav Step Launcher
+  document.getElementById("modalShaderLabBtn")?.addEventListener("click", () => {
+    openShaderLabModal("cel");
+  });
+
+  // Initialize WebGL and Load Initial Preset
+  initWebGL();
+  loadPresetShader("cel");
+};
+
+initShaderLabModal();
+
 
