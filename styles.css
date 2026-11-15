@@ -16142,3 +16142,410 @@ mark.project-search-match {
   color: var(--muted);
   white-space: nowrap;
 }
+
+/* ==========================================================================
+   Phase 25: Interactive System Architecture & Data Flow Simulator
+   ========================================================================== */
+
+/* Architecture Flow Modal */
+.archflow-modal {
+  padding: 0;
+  border: none;
+  background: transparent;
+  max-width: 980px;
+  width: 95vw;
+  margin: auto;
+  outline: none;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+}
+
+.archflow-modal::backdrop {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+}
+
+.archflow-shell {
+  background: #0f100d;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+[data-theme="light"] .archflow-shell {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.archflow-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="light"] .archflow-header {
+  background: #ffffff;
+}
+
+.archflow-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.archflow-badge {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(231, 242, 109, 0.12);
+  color: var(--lime);
+  border: 1px solid var(--lime);
+}
+
+.archflow-live-indicator {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.archflow-pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 8px var(--lime);
+  animation: pulseBeacon 1.8s ease-in-out infinite;
+}
+
+.archflow-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--ink);
+  font-family: var(--mono);
+}
+
+.archflow-subtitle {
+  margin: 2px 0 0;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.archflow-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.archflow-select {
+  padding: 6px 12px;
+  background: #181a15;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 11px;
+  cursor: pointer;
+  outline: none;
+}
+
+[data-theme="light"] .archflow-select {
+  background: #ffffff;
+}
+
+.archflow-action-btn {
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.archflow-action-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--lime);
+  color: var(--lime);
+}
+
+.archflow-chaos-btn {
+  background: rgba(248, 113, 113, 0.12);
+  border-color: #f87171;
+  color: #f87171;
+}
+
+.archflow-chaos-btn:hover,
+.archflow-chaos-btn.active {
+  background: #ef4444;
+  color: #ffffff;
+  border-color: #ef4444;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
+}
+
+.archflow-modal-close {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 22px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.archflow-body {
+  padding: 16px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+/* Telemetry Row */
+.archflow-telemetry-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 10px;
+}
+
+.archflow-stat-pill {
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+[data-theme="light"] .archflow-stat-pill {
+  background: #ffffff;
+  border-color: #e2e8f0;
+}
+
+.stat-label {
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.stat-value {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--lime);
+}
+
+/* SVG Canvas Viewport */
+.archflow-canvas-container {
+  background: #060705;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px;
+  overflow-x: auto;
+  position: relative;
+}
+
+[data-theme="light"] .archflow-canvas-container {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.arch-svg-canvas {
+  width: 100%;
+  min-width: 720px;
+  display: block;
+}
+
+/* Interactive SVG Node Styling */
+.arch-node {
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.2s ease;
+}
+
+.arch-node:hover rect {
+  stroke: var(--lime);
+  stroke-width: 2.5;
+  filter: drop-shadow(0 0 8px rgba(231, 242, 109, 0.4));
+}
+
+.arch-node.selected rect {
+  stroke: var(--lime);
+  stroke-width: 2.5;
+  fill: rgba(231, 242, 109, 0.08);
+}
+
+.arch-node.failed rect {
+  stroke: #ef4444 !important;
+  stroke-width: 2.5 !important;
+  fill: rgba(239, 68, 68, 0.15) !important;
+  animation: pulseBeacon 1s infinite alternate;
+}
+
+.arch-pipe {
+  stroke-dasharray: 6 4;
+  animation: flowPackets 1.2s linear infinite;
+}
+
+.arch-pipe.paused {
+  animation-play-state: paused;
+}
+
+@keyframes flowPackets {
+  from { stroke-dashoffset: 20; }
+  to { stroke-dashoffset: 0; }
+}
+
+/* Node Inspection Drawer */
+.archflow-inspection-drawer {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+[data-theme="light"] .archflow-inspection-drawer {
+  background: #ffffff;
+  border-color: #e2e8f0;
+}
+
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.drawer-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.drawer-badge {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(231, 242, 109, 0.15);
+  color: var(--lime);
+}
+
+.drawer-title {
+  margin: 0;
+  font-size: 14px;
+  font-family: var(--mono);
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.drawer-latency {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.drawer-desc {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.drawer-payload-wrap {
+  background: #060705;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+[data-theme="light"] .drawer-payload-wrap {
+  background: #0f172a;
+}
+
+.payload-header {
+  padding: 6px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.payload-copy-btn {
+  background: none;
+  border: none;
+  color: var(--lime);
+  font-family: var(--mono);
+  font-size: 10px;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+
+.payload-code {
+  margin: 0;
+  padding: 10px 12px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: #38bdf8;
+  overflow-x: auto;
+  line-height: 1.5;
+}
+
+/* Modal and Toolbar Buttons */
+.modal-arch-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: var(--ink);
+}
+
+.modal-arch-btn:hover {
+  background: rgba(56, 189, 248, 0.12);
+  border-color: #38bdf8;
+  color: #38bdf8;
+  transform: translateY(-1px);
+}
+
+[data-theme="light"] .modal-arch-btn {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.12);
+  color: #374151;
+}
+
+[data-theme="light"] .modal-arch-btn:hover {
+  background: rgba(2, 132, 199, 0.1);
+  border-color: #0284c7;
+  color: #0284c7;
+}
+
+.view-switch-arch-btn:hover {
+  border-color: var(--lime);
+  color: var(--lime);
+}

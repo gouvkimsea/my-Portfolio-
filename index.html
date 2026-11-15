@@ -675,6 +675,7 @@
               <button type="button" class="terminal-chip" data-cmd="playground">playground 🧪</button>
               <button type="button" class="terminal-chip" data-cmd="particles">particles ✨</button>
               <button type="button" class="terminal-chip" data-cmd="gitgraph">gitgraph 📊</button>
+              <button type="button" class="terminal-chip" data-cmd="archflow">archflow 📐</button>
               <button type="button" class="terminal-chip" data-cmd="export">export</button>
               <button type="button" class="terminal-chip" data-cmd="clear">clear</button>
             </div>
@@ -794,6 +795,9 @@
             </button>
             <button type="button" class="view-switch-btn" id="viewModeMatrix" data-mode="matrix" aria-pressed="false" title="Compact matrix index for rapid scanning">
               <span class="view-icon" aria-hidden="true">▤</span> Matrix
+            </button>
+            <button type="button" class="view-switch-btn view-switch-arch-btn" id="viewModeArchFlow" data-mode="archflow" aria-pressed="false" title="Interactive System Architecture &amp; Data Flow Simulator (Shift+A)">
+              <span class="view-icon" aria-hidden="true">📐</span> Arch Flow
             </button>
           </div>
         </div>
@@ -1977,6 +1981,9 @@
           </button>
           <button type="button" class="modal-nav-step-btn modal-dossier-btn" id="modalExportCaseStudyBtn" title="Download complete markdown case study dossier (.md)" aria-label="Download complete markdown case study dossier">
             <span class="modal-dossier-icon" aria-hidden="true">📥</span> Case Study
+          </button>
+          <button type="button" class="modal-nav-step-btn modal-arch-btn" id="modalArchFlowBtn" title="Inspect interactive live system architecture &amp; data flow" aria-label="Inspect interactive live system architecture and data flow">
+            <span class="modal-arch-icon" aria-hidden="true">📐</span> Arch Flow
           </button>
           <button type="button" class="modal-nav-step-btn" id="modalNextBtn" aria-label="Next project case study">
             Next Project <span class="nav-arrow" aria-hidden="true">→</span>
@@ -3246,6 +3253,8 @@
           <small class="cmdk-desc">Download complete markdown case study dossier (.md)</small></button>
         <button type="button" class="cmdk-item" data-action="view-git-graph"><span class="cmdk-icon">📊</span> Git Graph &amp; Contribution Heatmap
           <small class="cmdk-desc">52-week activity calendar, metrics &amp; branch DAG topology</small></button>
+        <button type="button" class="cmdk-item" data-action="view-arch-flow"><span class="cmdk-icon">📐</span> System Architecture &amp; Data Flow Simulator
+          <small class="cmdk-desc">Interactive microservice node inspection, packet dynamics &amp; failover tests</small></button>
         <button type="button" class="cmdk-item" data-action="open-game"><span class="cmdk-icon">🎮</span> Play DevLoop Indie Game
           <small class="cmdk-desc">Developer idle tycoon &amp; bug arcade</small></button>
         <button type="button" class="cmdk-item" data-action="open-synth"><span class="cmdk-icon">🎹</span> Cyber Piano Synthesizer
@@ -3456,6 +3465,12 @@ Email: gouvkimsea@gmail.com</pre>
               <span class="shortcut-desc">Open Git Graph &amp; Heatmap</span>
               <div class="shortcut-kbd-group">
                 <kbd class="shortcut-kbd">⇧</kbd><kbd class="shortcut-kbd">G</kbd>
+              </div>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">System Architecture &amp; Flow Simulator</span>
+              <div class="shortcut-kbd-group">
+                <kbd class="shortcut-kbd">⇧</kbd><kbd class="shortcut-kbd">A</kbd>
               </div>
             </div>
             <div class="shortcut-row">
@@ -3980,6 +3995,89 @@ Email: gouvkimsea@gmail.com</pre>
             <div class="gitgraph-commit-stream" id="gitCommitStream" role="feed" aria-label="Recent Commits Feed">
               <!-- Dynamically populated -->
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Interactive System Architecture & Data Flow Simulator Modal Dialog -->
+  <dialog class="archflow-modal" id="archVisualizerModal" aria-label="Interactive System Architecture &amp; Data Flow Simulator" aria-modal="true">
+    <div class="archflow-shell">
+      <div class="archflow-header">
+        <div class="archflow-title-wrap">
+          <div class="archflow-badge-row">
+            <span class="archflow-badge">DISTRIBUTED SYSTEMS ARCHITECTURE</span>
+            <span class="archflow-live-indicator"><span class="archflow-pulse-dot"></span> Live Packet Flow &amp; Failover Simulation</span>
+          </div>
+          <h2 class="archflow-title" id="archVisualizerTitle">System Architecture &amp; Data Flow Simulator</h2>
+          <p class="archflow-subtitle">Interactive microservice topology, data pipeline telemetry, and resilience verification</p>
+        </div>
+        <div class="archflow-header-actions">
+          <div class="archflow-select-wrap">
+            <label for="archVisualizerProjectSelect" class="sr-only">Choose System Architecture</label>
+            <select id="archVisualizerProjectSelect" class="archflow-select" aria-label="Choose System Architecture">
+              <option value="pinit" selected>01 · PinitAI (Multimodal Scam &amp; Threat Pipeline)</option>
+              <option value="clp">02 · Chinese Learning Platform (NestJS + SM-2 SRS)</option>
+              <option value="joul">03 · JOUL Rental (PHP 8 + Interval Overlap &amp; Escrow)</option>
+              <option value="devpulse">04 · DevPulse (WebSocket Gateway &amp; Event Stream)</option>
+              <option value="miniworld">05 · MiniWorld 3D (WebGL Pipeline &amp; Cel-Shader Pass)</option>
+            </select>
+          </div>
+          <button type="button" class="archflow-action-btn" id="archPlayPauseBtn" title="Play / Pause Packet Flow Animation">
+            ⏸ Pause
+          </button>
+          <button type="button" class="archflow-action-btn archflow-chaos-btn" id="archChaosBtn" title="Inject Simulated Service Chaos &amp; Failover">
+            ⚡ Chaos Test
+          </button>
+          <button class="modal-close archflow-modal-close" id="archVisualizerCloseBtn" type="button" aria-label="Close architecture visualizer modal">×</button>
+        </div>
+      </div>
+
+      <div class="archflow-body">
+        <!-- Telemetry Summary Bar -->
+        <div class="archflow-telemetry-row">
+          <div class="archflow-stat-pill">
+            <span class="stat-label">End-to-End Latency:</span>
+            <span class="stat-value" id="archLatencyBadge">~38ms (p95)</span>
+          </div>
+          <div class="archflow-stat-pill">
+            <span class="stat-label">Peak Throughput:</span>
+            <span class="stat-value" id="archThroughputBadge">2,400 req/sec</span>
+          </div>
+          <div class="archflow-stat-pill">
+            <span class="stat-label">Data Consistency:</span>
+            <span class="stat-value" id="archIntegrityBadge">ACID &amp; Idempotent</span>
+          </div>
+          <div class="archflow-stat-pill">
+            <span class="stat-label">Resilience:</span>
+            <span class="stat-value" id="archResilienceBadge">Circuit Breaker Active</span>
+          </div>
+        </div>
+
+        <!-- Interactive SVG Topology Viewport -->
+        <div class="archflow-canvas-container" id="archCanvasContainer">
+          <svg id="archSvgCanvas" class="arch-svg-canvas" viewBox="0 0 900 320" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="System Architecture Topology Diagram">
+            <!-- Dynamically populated with nodes and animated packet trails -->
+          </svg>
+        </div>
+
+        <!-- Node Inspection & Telemetry Drawer -->
+        <div class="archflow-inspection-drawer" id="archNodeDetails">
+          <div class="drawer-header">
+            <div class="drawer-title-row">
+              <span class="drawer-badge" id="archNodeTier">CORE ENGINE</span>
+              <h3 class="drawer-title" id="archNodeTitle">Select a node above to inspect architecture specs</h3>
+            </div>
+            <span class="drawer-latency" id="archNodeLatency">Latency SLA: &lt;15ms</span>
+          </div>
+          <p class="drawer-desc" id="archNodeDesc">Click any microservice node in the topology above to examine its technical stack, failover strategy, and live API request payload.</p>
+          <div class="drawer-payload-wrap">
+            <div class="payload-header">
+              <span class="payload-title">API Request / Response Contract</span>
+              <button type="button" class="payload-copy-btn" id="archCopyPayloadBtn">📋 Copy JSON</button>
+            </div>
+            <pre class="payload-code" id="archNodePayload">{ "status": "operational", "health": "100%", "activeWorker": "ready" }</pre>
           </div>
         </div>
       </div>

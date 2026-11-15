@@ -584,6 +584,16 @@ document.addEventListener("keydown", e => {
         openGitGraphModal();
       }
     }
+  } else if ((e.key === "A" || e.key === "a") && e.shiftKey) {
+    e.preventDefault();
+    if (typeof openArchVisualizerModal === "function") {
+      const aModal = document.getElementById("archVisualizerModal");
+      if (aModal?.open) {
+        if (typeof closeArchVisualizerModal === "function") closeArchVisualizerModal();
+      } else {
+        openArchVisualizerModal();
+      }
+    }
   } else if (e.key.toLowerCase() === "u" && !e.ctrlKey && !e.metaKey && !e.altKey) {
     e.preventDefault();
     if (typeof toggleSfx === "function") toggleSfx();
@@ -815,6 +825,8 @@ cmdKResults?.addEventListener("click", e => {
     if (typeof exportProjectCaseStudy === "function") exportProjectCaseStudy();
   } else if (action === "view-git-graph") {
     if (typeof openGitGraphModal === "function") openGitGraphModal();
+  } else if (action === "view-arch-flow") {
+    if (typeof openArchVisualizerModal === "function") openArchVisualizerModal();
   } else if (action === "open-telemetry") {
     if (typeof openTelemetryModal === "function") openTelemetryModal();
   } else if (action === "download-resume-md") {
@@ -4812,7 +4824,7 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>cat [file]</b>, <b>curl</b>, <b>history</b>, <b>export</b>, <b>vcard</b>, <b>game</b>, <b>arcade</b>, <b>accent [theme]</b>, <b>synth [demo]</b>, <b>piano</b>, <b>telemetry</b>, <b>diag</b>, <b>perf</b>, <b>sysinfo</b>, <b>playground</b>, <b>sandbox</b>, <b>eval [code]</b>, <b>particles [on|off|toggle]</b>, <b>casestudy [project]</b>, <b>gitgraph [project]</b>, <b>heatmap</b>, <b>time</b>, <b>volume [0-100]</b>, <b>demo [project]</b>, <b>cite [project]</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>bench</b>, <b>timeline</b>, <b>architecture</b>, <b>ping</b>, <b>matrix</b>, <b>git</b>, <b>nav [section]</b>, <b>shortcuts</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume [md|text]</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>cat [file]</b>, <b>curl</b>, <b>history</b>, <b>export</b>, <b>vcard</b>, <b>game</b>, <b>arcade</b>, <b>accent [theme]</b>, <b>synth [demo]</b>, <b>piano</b>, <b>telemetry</b>, <b>diag</b>, <b>perf</b>, <b>sysinfo</b>, <b>playground</b>, <b>sandbox</b>, <b>eval [code]</b>, <b>particles [on|off|toggle]</b>, <b>casestudy [project]</b>, <b>gitgraph [project]</b>, <b>heatmap</b>, <b>archflow [project]</b>, <b>flow [project]</b>, <b>time</b>, <b>volume [0-100]</b>, <b>demo [project]</b>, <b>cite [project]</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>bench</b>, <b>timeline</b>, <b>architecture</b>, <b>ping</b>, <b>matrix</b>, <b>git</b>, <b>nav [section]</b>, <b>shortcuts</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume [md|text]</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
   matrix: () => {
     const terminalBody = $(".terminal-body");
     if (!terminalBody) return "Terminal stream window not accessible.";
@@ -5201,7 +5213,11 @@ Runtime Performance &amp; Telemetry Diagnostics:
     navigateToSection("achievements");
     return "Toggled to Chronological Engineering Journey Timeline mode &amp; jumped to Milestones! ⎇";
   },
-  architecture: () => {
+  architecture: (arg) => {
+    if (arg && typeof openArchVisualizerModal === "function") {
+      openArchVisualizerModal(arg);
+      return `Launched Architecture Simulator for <b>${escapeHtml(arg)}</b> 📐`;
+    }
     return `<pre style="color:var(--lime);font-size:11px;line-height:1.45;margin:4px 0;">
 Portfolio Architectural Systems:
 ================================================================
@@ -5209,7 +5225,7 @@ Layer 1: Semantic Core  · Zero-dependency ES2026 &amp; HTML5 dialogs
 Layer 2: Style Tokens   · Modular Vanilla CSS &amp; WCAG AAA contrast
 Layer 3: 3D Graphics    · Hardware-accelerated WebGL 2.0 MiniWorld
 Layer 4: Procedural SFX · Pure Web Audio synthesizers (0 audio files)
-Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v30</pre>`;
+Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v31</pre>`;
   },
   cat: (arg) => {
     const file = (arg || "").trim().toLowerCase();
@@ -5338,7 +5354,7 @@ DOM Tree:         <b>${domCount}</b> semantic nodes
 Logical Cores:    <b>${cores}</b> Threads (hardwareConcurrency)
 Display:          <b>${window.innerWidth}x${window.innerHeight}</b> (${window.devicePixelRatio || 1}x DPR)
 Audio Engine:     Active (${Math.round((typeof sfxVolume !== "undefined" ? sfxVolume : 0.8) * 100)}% Gain)
-PWA Cache:        <b>kimsea-pwa-v30</b> (Stale-While-Revalidate)
+PWA Cache:        <b>kimsea-pwa-v31</b> (Stale-While-Revalidate)
 Status:           Modal HUD Launched ⚡</pre>`;
   },
   diag: () => terminalCommands.telemetry(),
@@ -5386,6 +5402,11 @@ Status:           Modal HUD Launched ⚡</pre>`;
   },
   heatmap: (arg) => terminalCommands.gitgraph(arg),
   graph: (arg) => terminalCommands.gitgraph(arg),
+  archflow: (arg) => {
+    if (typeof openArchVisualizerModal === "function") openArchVisualizerModal(arg);
+    return `Launched System Architecture & Data Flow Simulator 📐 (Inspecting ${escapeHtml(arg || "pinit")})`;
+  },
+  flow: (arg) => terminalCommands.archflow(arg),
   time: () => {
     const now = new Date();
     const options = { timeZone: "Asia/Phnom_Penh", hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit", weekday: "short", year: "numeric", month: "short", day: "numeric" };
@@ -5629,7 +5650,7 @@ terminalInput?.addEventListener("keydown", event => {
     if (current) {
       const allCmds = Array.from(new Set([
         ...Object.keys(terminalCommands),
-        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade", "accent", "synth", "piano", "telemetry", "diag", "perf", "sysinfo", "playground", "sandbox", "eval", "particles", "casestudy", "dossier", "gitgraph", "heatmap", "graph"
+        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade", "accent", "synth", "piano", "telemetry", "diag", "perf", "sysinfo", "playground", "sandbox", "eval", "particles", "casestudy", "dossier", "gitgraph", "heatmap", "graph", "archflow", "flow"
       ]));
       const prefix = lastTabPrefix || current;
       const matches = allCmds.filter(k => k.startsWith(prefix));
@@ -8143,7 +8164,7 @@ const initCyberTelemetry = () => {
       audioSubEl.textContent = `48000 Hz · Master Gain ${vol}%`;
     }
     if (pwaEl) {
-      pwaEl.textContent = "kimsea-pwa-v30";
+      pwaEl.textContent = "kimsea-pwa-v31";
     }
   };
 
@@ -9011,3 +9032,257 @@ const initGitGraphModal = () => {
 };
 
 initGitGraphModal();
+
+// ==========================================================================
+// Phase 25: Interactive System Architecture & Data Flow Simulator
+// ==========================================================================
+
+let openArchVisualizerModal = null;
+let closeArchVisualizerModal = null;
+
+const initArchVisualizerModal = () => {
+  const modal = document.getElementById("archVisualizerModal");
+  if (!modal) return;
+
+  const closeBtn = document.getElementById("archVisualizerCloseBtn");
+  const projectSelect = document.getElementById("archVisualizerProjectSelect");
+  const playPauseBtn = document.getElementById("archPlayPauseBtn");
+  const chaosBtn = document.getElementById("archChaosBtn");
+  const svgCanvas = document.getElementById("archSvgCanvas");
+  const copyPayloadBtn = document.getElementById("archCopyPayloadBtn");
+  const resilienceBadge = document.getElementById("archResilienceBadge");
+
+  let isPlaying = true;
+  let isChaos = false;
+  let activeProject = "pinit";
+  let selectedNodeIndex = 0;
+
+  const ARCH_CONFIGS = {
+    pinit: {
+      name: "PinitAI (Multimodal Scam & Threat Pipeline)",
+      latency: "~38ms (p95)",
+      throughput: "2,400 req/sec",
+      consistency: "ACID & Idempotent",
+      nodes: [
+        { id: "client", name: "Client Tier", tier: "CLIENT LAYER", latency: "12ms", desc: "React 18 / TypeScript SPA. Uploads suspicious messages, URL tokens, files, or QR code snapshots without executing them locally.", payload: '{\n  "action": "scan_url",\n  "input": "https://secure-login-chase-update.info/verify",\n  "source": "qr_upload",\n  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"\n}' },
+        { id: "gateway", name: "API Gateway", tier: "GATEWAY PROXY", latency: "4ms", desc: "Node.js / Express reverse proxy. Enforces token bucket rate limiting (100 req/min), input sanitization, and request correlation IDs.", payload: '{\n  "correlationId": "req_8f19c2ae",\n  "rateLimitRemaining": 98,\n  "proxyRoute": "/api/v1/analyze",\n  "timestamp": 1731600000\n}' },
+        { id: "heuristics", name: "Threat Filter", tier: "HEURISTICS CORE", latency: "8ms", desc: "Real-time TypeScript heuristics engine. Calculates zero-width character evasion, Shannon entropy score, lookalike punycode substitutions.", payload: '{\n  "zeroWidthChars": 0,\n  "entropyScore": 0.884,\n  "punycodeSpoof": true,\n  "tldRisk": "HIGH"\n}' },
+        { id: "worker", name: "Async Worker", tier: "MICROSERVICE", latency: "22ms", desc: "Python FastAPI asynchronous background worker. Queries threat intelligence caches and VirusTotal hash registries with circuit breaker.", payload: '{\n  "vtReputation": -4,\n  "threatClassification": "credential_harvesting",\n  "confidence": 0.962,\n  "ipOrigin": "104.21.32.11"\n}' },
+        { id: "ai_tutor", name: "Gemini AI", tier: "AI REASONING", latency: "45ms", desc: "Gemini AI structured explainability engine. Formulates contextual Khmer & English safety rationales without executing malicious destinations.", payload: '{\n  "verdict": "PHISHING_ATTACK",\n  "riskScore": 92,\n  "explanation": "High confidence credential theft lure impersonating Chase Bank login.",\n  "safetyAdvice": "Do not enter credentials or OTP tokens."\n}' }
+      ]
+    },
+    clp: {
+      name: "Chinese Learning Platform (NestJS + SM-2 SRS)",
+      latency: "~32ms (p95)",
+      throughput: "3,800 req/sec",
+      consistency: "Strong (PostgreSQL)",
+      nodes: [
+        { id: "client", name: "Next.js 14", tier: "CLIENT LAYER", latency: "10ms", desc: "Next.js App Router client interface with interactive audio player, flashcards, and SRS review countdown timer.", payload: '{\n  "studentId": "usr_9981",\n  "flashcardId": "card_hanzi_420",\n  "userRecallScore": 5,\n  "responseTimeMs": 1420\n}' },
+        { id: "gateway", name: "NestJS Gateway", tier: "API GATEWAY", latency: "5ms", desc: "NestJS microservice gateway with JWT RBAC authentication, session validation, and Swagger OpenAPI documentation.", payload: '{\n  "jwtSub": "usr_9981",\n  "role": "STUDENT",\n  "status": "AUTHENTICATED",\n  "route": "/srs/evaluate"\n}' },
+        { id: "srs_engine", name: "SM-2 SRS Core", tier: "ALGORITHM ENGINE", latency: "3ms", desc: "SuperMemo-2 spaced repetition calculation engine. Updates ease factor (EF), review interval (I), and next review epoch timestamp.", payload: '{\n  "previousEF": 2.50,\n  "newEF": 2.60,\n  "intervalDays": 6,\n  "repetitionNumber": 2,\n  "nextReview": "2026-11-20T15:00:00Z"\n}' },
+        { id: "db", name: "PostgreSQL", tier: "STORAGE LAYER", latency: "14ms", desc: "Prisma ORM over PostgreSQL relational store. Ensures atomic transaction durability across student progress records.", payload: '{\n  "rowsAffected": 1,\n  "transactionStatus": "COMMITTED",\n  "lockTimeMs": 1.2\n}' },
+        { id: "ai_tutor", name: "Gemini AI Tutor", tier: "AI DIALOGUE", latency: "50ms", desc: "Gemini conversational language partner providing sentence grammar corrections, pinyin breakdowns, and colloquial tips.", payload: '{\n  "sentence": "你好吗？",\n  "grammarCheck": "CORRECT",\n  "feedback": "Flawless basic greeting structure."\n}' }
+      ]
+    },
+    joul: {
+      name: "JOUL Rental (PHP 8 + Interval Overlap & Escrow)",
+      latency: "~24ms (p95)",
+      throughput: "1,800 req/sec",
+      consistency: "Strict ACID",
+      nodes: [
+        { id: "client", name: "Web Booking", tier: "CLIENT LAYER", latency: "15ms", desc: "Enterprise vehicle booking calendar with time-range selection and real-time fleet availability checker.", payload: '{\n  "vehicleId": "veh_tesla_y_04",\n  "startDate": "2026-11-20T08:00:00Z",\n  "endDate": "2026-11-23T18:00:00Z",\n  "totalAmount": 450.00\n}' },
+        { id: "gateway", name: "PHP 8 Nginx", tier: "API CONTROLLER", latency: "4ms", desc: "FastCGI PHP 8 API controller with CSRF verification and parameter sanitization.", payload: '{\n  "method": "POST",\n  "controller": "BookingController@reserve",\n  "csrfValid": true\n}' },
+        { id: "concurrency", name: "Interval Engine", tier: "CONCURRENCY CORE", latency: "6ms", desc: "Mathematical overlap collision detector: [StartA < EndB] AND [EndA > StartB] with 2-hour turnaround buffers.", payload: '{\n  "conflictFound": false,\n  "turnaroundBufferApplied": "2 hours",\n  "lockAcquired": true\n}' },
+        { id: "escrow", name: "ACID Escrow", tier: "FINANCIAL LEDGER", latency: "8ms", desc: "Double-entry escrow state machine with idempotent payout tracking and automated refund release guards.", payload: '{\n  "escrowId": "esc_77312b",\n  "status": "FUNDS_HELD_ESCROW",\n  "releaseTrigger": "POST_INSPECTION_CHECKOUT"\n}' },
+        { id: "db", name: "MySQL 8 InnoDB", tier: "STORAGE LAYER", latency: "9ms", desc: "MySQL 8 InnoDB relational database with row-level SELECT ... FOR UPDATE pessimistic locking.", payload: '{\n  "isolationLevel": "REPEATABLE_READ",\n  "lockWaitTimeout": "5s",\n  "status": "LOCKED_AND_COMMITTED"\n}' }
+      ]
+    },
+    devpulse: {
+      name: "DevPulse (WebSocket Gateway & Event Stream)",
+      latency: "~18ms (p95)",
+      throughput: "5,000 msg/sec",
+      consistency: "Eventual (Stream)",
+      nodes: [
+        { id: "client", name: "Dashboard UI", tier: "CLIENT LAYER", latency: "8ms", desc: "Real-time canvas waveform and commit rhythm visualizer rendering 60 FPS sparklines.", payload: '{\n  "activeStream": "git_commit_pulse",\n  "frameRate": 60,\n  "bufferSize": 256\n}' },
+        { id: "ws_gateway", name: "WebSocket Hub", tier: "GATEWAY", latency: "2ms", desc: "High-performance WebSocket server sustaining 10,000+ concurrent bi-directional connections.", payload: '{\n  "openSockets": 1420,\n  "heartbeatMs": 15000,\n  "compression": "permessage-deflate"\n}' },
+        { id: "rate_limiter", name: "Token Bucket", tier: "RATE LIMITER", latency: "1ms", desc: "In-memory token bucket rate limiter filtering burst telemetry surges.", payload: '{\n  "bucketCapacity": 500,\n  "tokensRemaining": 482,\n  "refillRate": "50/sec"\n}' },
+        { id: "event_bus", name: "Event Bus", tier: "PUB/SUB BUS", latency: "3ms", desc: "Redis pub/sub event distribution bus fanning out commits to subscriber channels.", payload: '{\n  "channel": "telemetry:commits",\n  "subscribers": 320,\n  "payloadBytes": 184\n}' },
+        { id: "analytics", name: "Metrics Aggregator", tier: "ANALYTICS ENGINE", latency: "6ms", desc: "Sliding window moving average calculation and outlier jitter detection.", payload: '{\n  "windowSize": "60s",\n  "meanLatency": 14.2,\n  "jitter": 0.4\n}' }
+      ]
+    },
+    miniworld: {
+      name: "MiniWorld 3D (WebGL Pipeline & Cel-Shader Pass)",
+      latency: "~16ms (60 FPS)",
+      throughput: "60 frames/sec",
+      consistency: "GPU State Machine",
+      nodes: [
+        { id: "camera", name: "Camera Rig", tier: "INPUT LAYER", latency: "2ms", desc: "Orbital perspective controller and vehicle steering kinematics (Rover 6-wheel & UFO).", payload: '{\n  "camPos": [0.0, 18.5, 45.0],\n  "target": [0.0, 0.0, 0.0],\n  "fov": 45,\n  "controlMode": "ROVER"\n}' },
+        { id: "math", name: "3D Orbit Math", tier: "MATH ENGINE", latency: "1ms", desc: "Procedural vertex transforms, celestial rotation matrices, and terrain heightfield collision.", payload: '{\n  "planetRadius": 10.0,\n  "sunPosition": [32.0, 48.0, -18.0],\n  "timeOfDay": 0.38\n}' },
+        { id: "gpu_pipeline", name: "WebGL 2.0 GPU", tier: "GRAPHICS PIPELINE", latency: "8ms", desc: "Hardware-accelerated vertex & fragment shader passes: cel-shading, Fresnel rim lighting, specular shine.", payload: '{\n  "drawCalls": 48,\n  "triangles": 34820,\n  "shaderProgram": "cel_planet_v2"\n}' },
+        { id: "soundscape", name: "Web Audio Synth", tier: "AUDIO ENGINE", latency: "3ms", desc: "Procedural Web Audio oscillator synthesis with detuned harmonic drones and celestial chimes.", payload: '{\n  "droneFreq": 110.0,\n  "detuneCents": 12,\n  "filterCutoff": 800,\n  "gain": 0.8\n}' },
+        { id: "canvas", name: "Screen Blit", tier: "OUTPUT VIEWPORT", latency: "2ms", desc: "Full-resolution canvas render target with Photo Mode snapshot capture capability.", payload: '{\n  "resolution": "1920x1080",\n  "dpr": 2,\n  "format": "image/png"\n}' }
+      ]
+    }
+  };
+
+  const renderTopology = (projectKey) => {
+    const config = ARCH_CONFIGS[projectKey] || ARCH_CONFIGS.pinit;
+    activeProject = projectKey;
+
+    // Update badges
+    const latBadge = document.getElementById("archLatencyBadge");
+    const tpBadge = document.getElementById("archThroughputBadge");
+    const intBadge = document.getElementById("archIntegrityBadge");
+    if (latBadge) latBadge.textContent = config.latency;
+    if (tpBadge) tpBadge.textContent = config.throughput;
+    if (intBadge) intBadge.textContent = config.consistency;
+
+    const nodes = config.nodes;
+    let svgHtml = "";
+
+    // Generate connecting pipes
+    for (let i = 0; i < nodes.length - 1; i++) {
+      const x1 = 30 + i * 180 + 140;
+      const y1 = 150;
+      const x2 = 30 + (i + 1) * 180;
+      const y2 = 150;
+      const isFailedPipe = isChaos && i === 2;
+      const strokeColor = isFailedPipe ? "#ef4444" : "var(--lime)";
+      svgHtml += `
+        <line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--line)" stroke-width="4" stroke-dasharray="2 2" />
+        <line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="arch-pipe ${isPlaying ? "" : "paused"}" stroke="${strokeColor}" stroke-width="3" />
+        <polygon points="${x2 - 6},${y2 - 4} ${x2},${y2} ${x2 - 6},${y2 + 4}" fill="${strokeColor}" />
+      `;
+    }
+
+    // Generate node cards
+    nodes.forEach((n, idx) => {
+      const x = 30 + idx * 180;
+      const y = 105;
+      const isSelected = idx === selectedNodeIndex;
+      const isFailed = isChaos && idx === 3;
+      const nodeClass = `arch-node ${isSelected ? "selected" : ""} ${isFailed ? "failed" : ""}`;
+      const statusText = isFailed ? "FAILOVER ENGAGED" : "HEALTHY";
+      const statusColor = isFailed ? "#f87171" : "var(--lime)";
+
+      svgHtml += `
+        <g class="${nodeClass}" data-index="${idx}" tabindex="0" role="button" aria-label="${n.name} (${n.tier})">
+          <rect x="${x}" y="${y}" width="140" height="90" rx="8" fill="#0d0f0c" stroke="${isSelected ? "var(--lime)" : "var(--line)"}" stroke-width="${isSelected ? 2.5 : 1}" />
+          <text x="${x + 12}" y="${y + 22}" fill="var(--muted)" font-family="monospace" font-size="9" font-weight="700">${n.tier}</text>
+          <text x="${x + 12}" y="${y + 44}" fill="var(--ink)" font-family="monospace" font-size="12" font-weight="700">${n.name}</text>
+          <line x1="${x + 12}" y1="${y + 54}" x2="${x + 128}" y2="${y + 54}" stroke="var(--line)" stroke-width="1" />
+          <circle cx="${x + 18}" cy="${y + 70}" r="4" fill="${statusColor}" />
+          <text x="${x + 28}" y="${y + 73}" fill="${statusColor}" font-family="monospace" font-size="9">${statusText}</text>
+          <text x="${x + 128}" y="${y + 73}" fill="var(--muted)" font-family="monospace" font-size="9" text-anchor="end">${n.latency}</text>
+        </g>
+      `;
+    });
+
+    svgCanvas.innerHTML = svgHtml;
+
+    // Attach click listeners to SVG nodes
+    svgCanvas.querySelectorAll(".arch-node").forEach(nodeEl => {
+      nodeEl.addEventListener("click", () => {
+        const idx = parseInt(nodeEl.dataset.index, 10);
+        selectedNodeIndex = idx;
+        updateInspectionDrawer(config.nodes[idx]);
+        renderTopology(activeProject);
+        if (typeof playSound === "function") playSound("click");
+      });
+    });
+
+    updateInspectionDrawer(nodes[selectedNodeIndex]);
+  };
+
+  const updateInspectionDrawer = (node) => {
+    if (!node) return;
+    const tierEl = document.getElementById("archNodeTier");
+    const titleEl = document.getElementById("archNodeTitle");
+    const latEl = document.getElementById("archNodeLatency");
+    const descEl = document.getElementById("archNodeDesc");
+    const payloadEl = document.getElementById("archNodePayload");
+
+    if (tierEl) tierEl.textContent = node.tier;
+    if (titleEl) titleEl.textContent = `${node.name} Specifications`;
+    if (latEl) latEl.textContent = `Mean SLA: ${node.latency}`;
+    if (descEl) descEl.textContent = node.desc;
+    if (payloadEl) payloadEl.textContent = node.payload;
+  };
+
+  openArchVisualizerModal = (projectKey) => {
+    if (typeof playSound === "function") playSound("whoosh");
+    if (!modal.open) modal.showModal();
+    const key = projectKey || activeProject || "pinit";
+    if (projectSelect) projectSelect.value = key;
+    selectedNodeIndex = 0;
+    isChaos = false;
+    if (chaosBtn) chaosBtn.classList.remove("active");
+    if (resilienceBadge) resilienceBadge.textContent = "Circuit Breaker Active";
+    renderTopology(key);
+  };
+
+  closeArchVisualizerModal = () => {
+    if (modal.open) modal.close();
+  };
+
+  closeBtn?.addEventListener("click", closeArchVisualizerModal);
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeArchVisualizerModal();
+  });
+  modal.addEventListener("cancel", closeArchVisualizerModal);
+
+  projectSelect?.addEventListener("change", (e) => {
+    selectedNodeIndex = 0;
+    renderTopology(e.target.value);
+    if (typeof playSound === "function") playSound("click");
+  });
+
+  playPauseBtn?.addEventListener("click", () => {
+    isPlaying = !isPlaying;
+    playPauseBtn.textContent = isPlaying ? "⏸ Pause" : "▶ Resume";
+    svgCanvas.querySelectorAll(".arch-pipe").forEach(p => p.classList.toggle("paused", !isPlaying));
+    if (typeof playSound === "function") playSound("click");
+  });
+
+  chaosBtn?.addEventListener("click", () => {
+    isChaos = !isChaos;
+    chaosBtn.classList.toggle("active", isChaos);
+    if (resilienceBadge) {
+      resilienceBadge.textContent = isChaos ? "⚠️ FAILOVER ENGAGED" : "Circuit Breaker Active";
+      resilienceBadge.style.color = isChaos ? "#f87171" : "var(--lime)";
+    }
+    renderTopology(activeProject);
+    if (typeof playSound === "function") playSound(isChaos ? "keypress" : "chime");
+    if (typeof showPortfolioToast === "function") {
+      showPortfolioToast(isChaos ? "Injected simulated node fault: Failover replica active!" : "System restored: All microservices healthy!");
+    }
+  });
+
+  copyPayloadBtn?.addEventListener("click", () => {
+    const payloadText = document.getElementById("archNodePayload")?.textContent || "";
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(payloadText).catch(() => {});
+    }
+    copyPayloadBtn.textContent = "Copied! ✓";
+    setTimeout(() => { copyPayloadBtn.textContent = "📋 Copy JSON"; }, 2000);
+    if (typeof playSound === "function") playSound("chime");
+    if (typeof showPortfolioToast === "function") {
+      showPortfolioToast("Copied API payload JSON to clipboard! 📋");
+    }
+  });
+
+  // Wire Launchers
+  document.getElementById("modalArchFlowBtn")?.addEventListener("click", () => {
+    const currentKey = $("#modalProjectSelect")?.value || "pinit";
+    openArchVisualizerModal(currentKey);
+  });
+
+  document.getElementById("viewModeArchFlow")?.addEventListener("click", () => {
+    openArchVisualizerModal("pinit");
+  });
+
+  // Initial render
+  renderTopology("pinit");
+};
+
+initArchVisualizerModal();
