@@ -682,6 +682,7 @@
               <button type="button" class="terminal-chip" data-cmd="shader">shader ⚡</button>
               <button type="button" class="terminal-chip" data-cmd="fintech">fintech 💳</button>
               <button type="button" class="terminal-chip" data-cmd="vision">vision 👁️</button>
+              <button type="button" class="terminal-chip" data-cmd="hydraulic">hydraulic 🌊</button>
               <button type="button" class="terminal-chip" data-cmd="export">export</button>
               <button type="button" class="terminal-chip" data-cmd="clear">clear</button>
             </div>
@@ -2014,6 +2015,9 @@
           <button type="button" class="modal-nav-step-btn modal-vision-btn" id="modalVisionLabBtn" title="Launch Computer Vision &amp; Spatial Kinematics Lab (Shift+V)" aria-label="Launch computer vision and spatial kinematics lab">
             <span class="modal-vision-icon" aria-hidden="true">👁️</span> Vision Lab
           </button>
+          <button type="button" class="modal-nav-step-btn modal-hydraulic-btn" id="modalHydraulicLabBtn" title="Launch 3D CAD Hydraulic Pipeline Simulator (Shift+H)" aria-label="Launch 3D CAD hydraulic pipeline simulator">
+            <span class="modal-hydraulic-icon" aria-hidden="true">🌊</span> Hydraulic CAD
+          </button>
           <button type="button" class="modal-nav-step-btn" id="modalNextBtn" aria-label="Next project case study">
             Next Project <span class="nav-arrow" aria-hidden="true">→</span>
           </button>
@@ -3296,6 +3300,8 @@
           <small class="cmdk-desc">Multi-party escrow holds, ABA Payway KHQR routing &amp; double-entry journal balance</small></button>
         <button type="button" class="cmdk-item" data-action="open-vision-lab"><span class="cmdk-icon">👁️</span> Computer Vision &amp; Spatial Kinematics
           <small class="cmdk-desc">21-joint 3D hand topology, Euclidean pinch kinematics &amp; biometric landmarks</small></button>
+        <button type="button" class="cmdk-item" data-action="open-hydraulic-lab"><span class="cmdk-icon">🌊</span> 3D CAD Hydraulic Pipeline Simulator
+          <small class="cmdk-desc">Multi-stage sump filtration, Bernoulli fluid dynamics &amp; Reynolds laminar flow</small></button>
         <button type="button" class="cmdk-item" data-action="open-game"><span class="cmdk-icon">🎮</span> Play DevLoop Indie Game
           <small class="cmdk-desc">Developer idle tycoon &amp; bug arcade</small></button>
         <button type="button" class="cmdk-item" data-action="open-synth"><span class="cmdk-icon">🎹</span> Cyber Piano Synthesizer
@@ -3548,6 +3554,12 @@ Email: gouvkimsea@gmail.com</pre>
               <span class="shortcut-desc">Computer Vision &amp; Spatial Kinematics</span>
               <div class="shortcut-kbd-group">
                 <kbd class="shortcut-kbd">⇧</kbd><kbd class="shortcut-kbd">V</kbd>
+              </div>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">3D CAD Hydraulic Pipeline Simulator</span>
+              <div class="shortcut-kbd-group">
+                <kbd class="shortcut-kbd">⇧</kbd><kbd class="shortcut-kbd">H</kbd>
               </div>
             </div>
             <div class="shortcut-row">
@@ -4878,6 +4890,126 @@ void main() {
               </div>
               <pre class="vision-console-pre" id="visionConsolePre"><code>[00:00.00] MediaPipe Hands model loaded (Model Complex 1).
 [00:00.01] 21 anatomical landmarks calibrated. Confidence = 0.994.</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Interactive 3D CAD Hydraulic Pipeline & Bio-Fluid Flow Simulator Modal Dialog -->
+  <dialog class="hydraulic-modal" id="hydraulicLabModal" aria-label="3D CAD Hydraulic Pipeline Simulator" aria-modal="true">
+    <div class="hydraulic-shell">
+      <div class="hydraulic-header">
+        <div class="hydraulic-title-wrap">
+          <div class="hydraulic-badge-row">
+            <span class="hydraulic-badge">FLUID DYNAMICS &amp; 3D CAD PIPELINE</span>
+            <span class="hydraulic-live-indicator"><span class="hydraulic-pulse-dot"></span> Bernoulli Hydrodynamics · Particle Flow</span>
+          </div>
+          <h2 class="hydraulic-title" id="hydraulicModalTitle">3D CAD Hydraulic Pipeline &amp; Bio-Fluid Flow Simulator</h2>
+          <p class="hydraulic-subtitle">Real-time volumetric flow rate Q, pipe head loss Δh, Reynolds number &amp; multi-stage sump filtration</p>
+        </div>
+        <div class="hydraulic-header-actions">
+          <button type="button" class="hydraulic-action-btn" id="hydraulicExportBtn" title="Export Hydraulic Engineering Calculations (.md)">
+            📥 Export Calculations
+          </button>
+          <button class="modal-close hydraulic-modal-close" id="hydraulicModalCloseBtn" type="button" aria-label="Close hydraulic lab modal">×</button>
+        </div>
+      </div>
+
+      <div class="hydraulic-controls-bar">
+        <div class="hydraulic-preset-pills" role="tablist" aria-label="Hydraulic filtration architecture">
+          <button type="button" class="hydraulic-preset-btn active" data-preset="sump" role="tab" aria-selected="true">
+            🌊 Aquanubis 4-Stage Sump
+          </button>
+          <button type="button" class="hydraulic-preset-btn" data-preset="canister" role="tab" aria-selected="false">
+            🧪 Pressurized Canister
+          </button>
+          <button type="button" class="hydraulic-preset-btn" data-preset="plumbing" role="tab" aria-selected="false">
+            🚰 Herbie Dual-Siphon
+          </button>
+          <button type="button" class="hydraulic-preset-btn" data-preset="nitrogen" role="tab" aria-selected="false">
+            🦠 Nitrifying Bio-Reactor
+          </button>
+        </div>
+
+        <div class="hydraulic-quick-actions">
+          <div class="hydraulic-slider-wrap">
+            <label for="sliderHydraulicFlow" class="hydraulic-slider-label">Flow Rate (Q): <span class="hydraulic-slider-val" id="valHydraulicFlow">650 GPH</span></label>
+            <input type="range" class="hydraulic-range" id="sliderHydraulicFlow" min="100" max="1500" step="50" value="650" aria-label="Volumetric flow rate in gallons per hour">
+          </div>
+          <div class="hydraulic-slider-wrap">
+            <label for="sliderHydraulicHead" class="hydraulic-slider-label">Head Height (H): <span class="hydraulic-slider-val" id="valHydraulicHead">1.5m</span></label>
+            <input type="range" class="hydraulic-range" id="sliderHydraulicHead" min="0.5" max="3.0" step="0.25" value="1.5" aria-label="Pump vertical lift head height in meters">
+          </div>
+          <button type="button" class="hydraulic-btn-sec" id="hydraulicResetBtn" title="Reset flow parameters">
+            ↺ Reset
+          </button>
+        </div>
+      </div>
+
+      <div class="hydraulic-body">
+        <div class="hydraulic-split-view">
+          <!-- Left: 2D/3D Cutaway Hydraulic Canvas Viewport -->
+          <div class="hydraulic-canvas-pane">
+            <div class="pane-header">
+              <span class="pane-title"><span class="pane-dot dot-cyan"></span> hydraulic_cutaway.cad</span>
+              <span class="pane-meta" id="hydraulicFpsBadge">60.0 FPS · 120 Fluid Particles</span>
+            </div>
+            <div class="hydraulic-canvas-wrap">
+              <canvas id="hydraulicLabCanvas" class="hydraulic-lab-canvas" width="480" height="360" aria-label="Hydraulic Filtration Sump CAD Viewport"></canvas>
+              <div class="hydraulic-canvas-overlay">
+                <span class="overlay-pill text-cyan" id="hydraulicStatusPill">Pump Operating (650 GPH)</span>
+                <span class="overlay-pill text-lime" id="hydraulicReynoldsBadge">Re: 3,140 · Transient</span>
+              </div>
+            </div>
+            <div class="hydraulic-canvas-footer">
+              <span class="hydraulic-hint-text">💧 Real-time particle streamlines visualising Darcy-Weisbach pipe velocity gradients</span>
+            </div>
+          </div>
+
+          <!-- Right: Fluid Dynamics & Chamber Telemetry -->
+          <div class="hydraulic-telemetry-pane">
+            <div class="pane-header">
+              <span class="pane-title"><span class="pane-dot dot-yellow"></span> hydrodynamics.telemetry</span>
+              <span class="pane-meta" id="hydraulicEfficiencyMeta">System Efficiency: 88.5%</span>
+            </div>
+
+            <!-- Physics Calculations Card -->
+            <div class="hydraulic-metrics-card">
+              <div class="hydraulic-metric-row">
+                <span class="hydraulic-metric-lbl">FLOW VELOCITY (v):</span>
+                <span class="hydraulic-metric-val text-cyan" id="hydraulicFlowVelocity">1.34 m/s (1.0" ID Pipe)</span>
+              </div>
+              <div class="hydraulic-metric-row">
+                <span class="hydraulic-metric-lbl">FRICTION HEAD LOSS (Δh):</span>
+                <span class="hydraulic-metric-val text-amber" id="hydraulicHeadLoss">0.42 m (Hagen-Poiseuille)</span>
+              </div>
+              <div class="hydraulic-metric-row">
+                <span class="hydraulic-metric-lbl">DC PUMP POWER DRAW (P):</span>
+                <span class="hydraulic-metric-val text-lime" id="hydraulicPumpPower">38.4 W · 0.68 A @ 24V</span>
+              </div>
+              <div class="hydraulic-metric-row">
+                <span class="hydraulic-metric-lbl">FLOW REGIME:</span>
+                <span class="reynolds-pill" id="hydraulicRegimePill">LAMINAR-TURBULENT TRANSITION</span>
+              </div>
+            </div>
+
+            <!-- Multi-Stage Chamber Process List -->
+            <div class="hydraulic-chambers-wrap">
+              <div class="hydraulic-chambers-list" id="hydraulicStagesTrack">
+                <!-- Dynamically populated chamber cards -->
+              </div>
+            </div>
+
+            <!-- Engineering Trace Console -->
+            <div class="hydraulic-console-box">
+              <div class="console-box-header">
+                <span class="console-title">bernoulli_navier_stokes.log</span>
+                <span class="console-status-pill text-lime">Flow Steady-State</span>
+              </div>
+              <pre class="hydraulic-console-pre" id="hydraulicConsolePre"><code>[00:00.00] CAD Hydraulic loop initialized. Total volume: 450 Liters.
+[00:00.01] Continuity equation verified: Q = A1*v1 = A2*v2. Error = 0.00%.</code></pre>
             </div>
           </div>
         </div>

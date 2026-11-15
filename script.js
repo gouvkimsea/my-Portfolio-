@@ -654,6 +654,16 @@ document.addEventListener("keydown", e => {
         openVisionLabModal();
       }
     }
+  } else if ((e.key === "H" || e.key === "h") && e.shiftKey) {
+    e.preventDefault();
+    if (typeof openHydraulicLabModal === "function") {
+      const hModal = document.getElementById("hydraulicLabModal");
+      if (hModal?.open) {
+        if (typeof closeHydraulicLabModal === "function") closeHydraulicLabModal();
+      } else {
+        openHydraulicLabModal();
+      }
+    }
   } else if (e.key.toLowerCase() === "u" && !e.ctrlKey && !e.metaKey && !e.altKey) {
     e.preventDefault();
     if (typeof toggleSfx === "function") toggleSfx();
@@ -899,6 +909,8 @@ cmdKResults?.addEventListener("click", e => {
     if (typeof openFinTechLedgerModal === "function") openFinTechLedgerModal();
   } else if (action === "open-vision-lab") {
     if (typeof openVisionLabModal === "function") openVisionLabModal();
+  } else if (action === "open-hydraulic-lab") {
+    if (typeof openHydraulicLabModal === "function") openHydraulicLabModal();
   } else if (action === "open-telemetry") {
     if (typeof openTelemetryModal === "function") openTelemetryModal();
   } else if (action === "download-resume-md") {
@@ -5190,6 +5202,22 @@ Execution Status: Spatial Tracker Online · 60.0 FPS Latency</pre>`;
   gesture: (arg) => terminalCommands.vision(arg),
   mediapipe: (arg) => terminalCommands.vision(arg),
   kinematics: (arg) => terminalCommands.vision(arg),
+  hydraulic: (arg) => {
+    const preset = (arg || "").trim().toLowerCase();
+    if (typeof openHydraulicLabModal === "function") {
+      openHydraulicLabModal(preset);
+      return `<pre class="term-pre" style="margin:4px 0;font-size:11px;line-height:1.45;">🌊 <b>3D CAD Hydraulic Pipeline &amp; Bio-Fluid Simulator Launched</b>
+--------------------------------------------------------
+Filtration Architecture: <b>${escapeHtml(preset || "sump").toUpperCase()}</b>
+Hydrodynamic Model:      Bernoulli Pressure &amp; Darcy-Weisbach Pipe Friction Loss
+Flow Telemetry:          Q = 650 GPH · Head = 1.5m · Re = 3,140
+Particle Streamlines:    120 Live Velocity Vector Tracers · 60.0 FPS</pre>`;
+    }
+    openModal("aquarium");
+    return "Opening Aquarium Filter Sim project modal & 3D CAD hydraulic engine...";
+  },
+  sump: (arg) => terminalCommands.hydraulic(arg),
+  fluid: (arg) => terminalCommands.hydraulic(arg),
   biome: () => terminalCommands.shader(),
   pinit: () => {
     openModal("pinit");
@@ -5342,7 +5370,7 @@ Layer 1: Semantic Core  · Zero-dependency ES2026 &amp; HTML5 dialogs
 Layer 2: Style Tokens   · Modular Vanilla CSS &amp; WCAG AAA contrast
 Layer 3: 3D Graphics    · Hardware-accelerated WebGL 2.0 MiniWorld
 Layer 4: Procedural SFX · Pure Web Audio synthesizers (0 audio files)
-Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v37</pre>`;
+Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v38</pre>`;
   },
   cat: (arg) => {
     const file = (arg || "").trim().toLowerCase();
@@ -5471,7 +5499,7 @@ DOM Tree:         <b>${domCount}</b> semantic nodes
 Logical Cores:    <b>${cores}</b> Threads (hardwareConcurrency)
 Display:          <b>${window.innerWidth}x${window.innerHeight}</b> (${window.devicePixelRatio || 1}x DPR)
 Audio Engine:     Active (${Math.round((typeof sfxVolume !== "undefined" ? sfxVolume : 0.8) * 100)}% Gain)
-PWA Cache:        <b>kimsea-pwa-v37</b> (Stale-While-Revalidate)
+PWA Cache:        <b>kimsea-pwa-v38</b> (Stale-While-Revalidate)
 Status:           Modal HUD Launched ⚡</pre>`;
   },
   diag: () => terminalCommands.telemetry(),
@@ -5807,7 +5835,7 @@ terminalInput?.addEventListener("keydown", event => {
     if (current) {
       const allCmds = Array.from(new Set([
         ...Object.keys(terminalCommands),
-        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade", "accent", "synth", "piano", "telemetry", "diag", "perf", "sysinfo", "playground", "sandbox", "eval", "particles", "casestudy", "dossier", "gitgraph", "heatmap", "graph", "archflow", "flow", "radar", "spider", "competencies", "arena", "race", "benchmarks", "firewall", "security", "sanitize", "shader", "glsl", "materials", "ledger", "fintech", "escrow", "payway", "vision", "gesture", "mediapipe", "kinematics"
+        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade", "accent", "synth", "piano", "telemetry", "diag", "perf", "sysinfo", "playground", "sandbox", "eval", "particles", "casestudy", "dossier", "gitgraph", "heatmap", "graph", "archflow", "flow", "radar", "spider", "competencies", "arena", "race", "benchmarks", "firewall", "security", "sanitize", "shader", "glsl", "materials", "ledger", "fintech", "escrow", "payway", "vision", "gesture", "mediapipe", "kinematics", "hydraulic", "sump", "fluid"
       ]));
       const prefix = lastTabPrefix || current;
       const matches = allCmds.filter(k => k.startsWith(prefix));
@@ -8321,7 +8349,7 @@ const initCyberTelemetry = () => {
       audioSubEl.textContent = `48000 Hz · Master Gain ${vol}%`;
     }
     if (pwaEl) {
-      pwaEl.textContent = "kimsea-pwa-v37";
+      pwaEl.textContent = "kimsea-pwa-v38";
     }
   };
 
@@ -12773,6 +12801,465 @@ const initVisionLabModal = () => {
 };
 
 initVisionLabModal();
+
+// ==========================================================================
+// Phase 32: 3D CAD Hydraulic Pipeline & Bio-Fluid Flow Simulator
+// ==========================================================================
+
+let openHydraulicLabModal = null;
+let closeHydraulicLabModal = null;
+
+const initHydraulicLabModal = () => {
+  const modal = document.getElementById("hydraulicLabModal");
+  if (!modal) return;
+
+  const canvas = document.getElementById("hydraulicLabCanvas");
+  const closeBtn = document.getElementById("hydraulicModalCloseBtn");
+  const exportBtn = document.getElementById("hydraulicExportBtn");
+  const resetBtn = document.getElementById("hydraulicResetBtn");
+  const presetBtns = modal.querySelectorAll(".hydraulic-preset-btn");
+  const sliderFlow = document.getElementById("sliderHydraulicFlow");
+  const valFlow = document.getElementById("valHydraulicFlow");
+  const sliderHead = document.getElementById("sliderHydraulicHead");
+  const valHead = document.getElementById("valHydraulicHead");
+
+  const statusPill = document.getElementById("hydraulicStatusPill");
+  const fpsBadge = document.getElementById("hydraulicFpsBadge");
+  const reynoldsBadge = document.getElementById("hydraulicReynoldsBadge");
+  const flowVelocity = document.getElementById("hydraulicFlowVelocity");
+  const headLoss = document.getElementById("hydraulicHeadLoss");
+  const pumpPower = document.getElementById("hydraulicPumpPower");
+  const regimePill = document.getElementById("hydraulicRegimePill");
+  const efficiencyMeta = document.getElementById("hydraulicEfficiencyMeta");
+  const stagesTrack = document.getElementById("hydraulicStagesTrack");
+  const consolePre = document.getElementById("hydraulicConsolePre");
+
+  // Hydraulic Filtration System Presets
+  const hydraulicPresets = {
+    sump: {
+      name: "Aquanubis 4-Stage Sump Filtration",
+      pipeD: 1.0, // 1-inch pipe
+      defaults: { flow: 650, head: 1.5 },
+      chambers: [
+        { name: "Chamber 1: Micron Pre-Filter", role: "200-Micron felt sock captures particulate detritus & organics", color: "#38bdf8", eff: "99.2%" },
+        { name: "Chamber 2: Aerobic K1 Moving Bed", role: "Fluidized high-surface biofilm oxidizes Ammonia to Nitrite", color: "#34d399", eff: "98.5%" },
+        { name: "Chamber 3: Anaerobic Bio-Matrix", role: "Deep porous sintered ceramic matrix converts Nitrite to Nitrate", color: "#a78bfa", eff: "94.8%" },
+        { name: "Chamber 4: Submersible DC Return Pump", role: "24V sine-wave variable speed return with anti-siphon check", color: "#06b6d4", eff: "99.9%" }
+      ]
+    },
+    canister: {
+      name: "Pressurized Multi-Basket Closed Canister",
+      pipeD: 0.75, // 0.75-inch pipe
+      defaults: { flow: 350, head: 1.2 },
+      chambers: [
+        { name: "Basket 1: Coarse Cellular Foam", role: "20 PPI polyurethane mechanical sponge filters suspended solids", color: "#38bdf8", eff: "96.4%" },
+        { name: "Basket 2: Sintered Quartz Rings", role: "Sintered glass ceramic porous rings establish aerobic culture", color: "#34d399", eff: "97.8%" },
+        { name: "Basket 3: Granular Activated Carbon", role: "High-micropore carbon adsorbs heavy metals, tannins & yellow odor", color: "#fbbf24", eff: "99.1%" },
+        { name: "Basket 4: Magnetic Impeller Outflow", role: "Direct pressurized delivery through dual spraybar aeration jets", color: "#06b6d4", eff: "98.0%" }
+      ]
+    },
+    plumbing: {
+      name: "Kinematic Herbie Dual-Siphon Zero-Noise Plumbing",
+      pipeD: 1.25, // 1.25-inch pipe
+      defaults: { flow: 850, head: 1.8 },
+      chambers: [
+        { name: "Drain 1: Full-Siphon Main Drain", role: "Precision gate-valve dialed to full siphon; zero entrapped air noise", color: "#06b6d4", eff: "99.9%" },
+        { name: "Drain 2: Dry Emergency Standpipe", role: "Unrestricted gravity drain absorbs flood surges if main siphon clogs", color: "#ef4444", eff: "100.0%" },
+        { name: "Baffle Section: Bubble Trap Cascade", role: "Triple-baffle labyrinth (over-under-over) eliminates micro-bubbles", color: "#38bdf8", eff: "95.5%" },
+        { name: "Return Line: Anti-Siphon Siphon Break", role: "Check-valve with drilled air siphon-break stops sump backflow", color: "#34d399", eff: "100.0%" }
+      ]
+    },
+    nitrogen: {
+      name: "Kinetic Microbial Bio-Reactor & Nitrogen Converter",
+      pipeD: 1.0,
+      defaults: { flow: 500, head: 1.4 },
+      chambers: [
+        { name: "Stage 1: Ammonification Hydrolysis", role: "Heterotrophic bacteria decompose fish waste into toxic Ammonia (NH₃)", color: "#f87171", eff: "92.0%" },
+        { name: "Stage 2: Nitrosomonas Biological Filter", role: "2 NH₃ + 3 O₂ → 2 NO₂⁻ + 2 H⁺ + 2 H₂O (Ammonia to Nitrite oxidation)", color: "#fbbf24", eff: "97.5%" },
+        { name: "Stage 3: Nitrobacter Bio-Oxidation", role: "2 NO₂⁻ + O₂ → 2 NO₃⁻ (Nitrite to non-toxic Nitrate conversion)", color: "#34d399", eff: "98.9%" },
+        { name: "Stage 4: Aquatic Macrophyte Assimilation", role: "Live submerged flora uptake Nitrate into plant biomass", color: "#22d3ee", eff: "96.2%" }
+      ]
+    }
+  };
+
+  let activePresetKey = "sump";
+  let animId = null;
+
+  // Fluid Particles Simulation Model
+  const particleCount = 120;
+  const particles = Array.from({ length: particleCount }, () => ({
+    x: Math.random() * 480,
+    y: Math.random() * 360,
+    vx: 1 + Math.random() * 1.5,
+    vy: (Math.random() - 0.5) * 0.4,
+    size: 1.5 + Math.random() * 2.0,
+    alpha: 0.3 + Math.random() * 0.6,
+    color: Math.random() > 0.4 ? "#38bdf8" : "#22d3ee"
+  }));
+
+  // Physics Calculations
+  const calculatePhysics = () => {
+    const preset = hydraulicPresets[activePresetKey];
+    const flowGPH = sliderFlow ? parseFloat(sliderFlow.value) : preset.defaults.flow;
+    const headM = sliderHead ? parseFloat(sliderHead.value) : preset.defaults.head;
+    const pipeDInches = preset.pipeD;
+
+    // Convert GPH to m^3/s (1 GPH = 0.0000010515 m^3/s)
+    const Q = flowGPH * 0.0000010515;
+    // Pipe Diameter in meters
+    const D = pipeDInches * 0.0254;
+    // Cross-sectional pipe area A = pi * (D/2)^2
+    const A = Math.PI * Math.pow(D / 2, 2);
+    // Flow Velocity v = Q / A in m/s
+    const v = Q / A;
+
+    // Reynolds Number Re = (v * D) / nu (nu_water = 1.004e-6 m^2/s @ 20°C)
+    const nu = 1.004e-6;
+    const Re = Math.round((v * D) / nu);
+
+    // Friction factor f (Blasius / Hagen-Poiseuille)
+    const f = Re < 2300 ? (64 / Math.max(1, Re)) : (0.316 / Math.pow(Re, 0.25));
+
+    // Friction Head Loss Delta h = f * (L / D) * (v^2 / (2g)) with effective pipe length L = head * 1.8
+    const g = 9.81;
+    const L = headM * 1.8;
+    const deltaH = f * (L / D) * (Math.pow(v, 2) / (2 * g));
+
+    // Total Dynamic Head TDH
+    const TDH = headM + deltaH;
+
+    // DC Pump Power Draw P = (rho * g * Q * TDH) / eta with rho = 1000 kg/m^3, pump efficiency eta = 0.65
+    const eta = 0.65;
+    const powerW = Math.round(((1000 * g * Q * TDH) / eta) * 10) / 10;
+    const currentA = (powerW / 24).toFixed(2); // 24V DC return pump
+
+    return {
+      flowGPH,
+      headM,
+      pipeDInches,
+      v: v.toFixed(2),
+      Re,
+      deltaH: deltaH.toFixed(2),
+      TDH: TDH.toFixed(2),
+      powerW,
+      currentA
+    };
+  };
+
+  // Render Telemetry & Multi-Stage Chamber Cards
+  const updateTelemetry = () => {
+    const preset = hydraulicPresets[activePresetKey];
+    const phys = calculatePhysics();
+
+    if (valFlow) valFlow.textContent = `${phys.flowGPH} GPH`;
+    if (valHead) valHead.textContent = `${phys.headM.toFixed(1)}m`;
+    if (statusPill) statusPill.textContent = `Pump Operating (${phys.flowGPH} GPH)`;
+
+    if (reynoldsBadge) {
+      const reg = phys.Re < 2300 ? "Laminar" : (phys.Re < 4000 ? "Transient" : "Turbulent");
+      reynoldsBadge.textContent = `Re: ${phys.Re.toLocaleString()} · ${reg}`;
+    }
+
+    if (flowVelocity) flowVelocity.textContent = `${phys.v} m/s (${phys.pipeDInches}" ID Pipe)`;
+    if (headLoss) headLoss.textContent = `${phys.deltaH}m (Friction loss Δh)`;
+    if (pumpPower) pumpPower.textContent = `${phys.powerW}W · ${phys.currentA}A @ 24V`;
+
+    if (regimePill) {
+      if (phys.Re < 2300) {
+        regimePill.textContent = "LAMINAR (Re < 2300)";
+        regimePill.className = "reynolds-pill text-lime";
+      } else if (phys.Re < 4000) {
+        regimePill.textContent = "TRANSIENT (2300 <= Re <= 4000)";
+        regimePill.className = "reynolds-pill text-cyan";
+      } else {
+        regimePill.textContent = "TURBULENT (Re > 4000)";
+        regimePill.className = "reynolds-pill text-amber";
+      }
+    }
+
+    if (stagesTrack) {
+      stagesTrack.innerHTML = preset.chambers.map(ch => `
+        <div class="chamber-card">
+          <span class="chamber-dot" style="background:${ch.color}; box-shadow:0 0 6px ${ch.color};"></span>
+          <div class="chamber-info">
+            <span class="chamber-name">${escapeHtml(ch.name)}</span>
+            <span class="chamber-role">${escapeHtml(ch.role)}</span>
+          </div>
+          <span class="chamber-eff">${ch.eff}</span>
+        </div>
+      `).join("");
+    }
+
+    if (consolePre) {
+      const now = new Date().toISOString().substring(11, 19);
+      consolePre.textContent = `[${now}] SYSTEM MODEL: ${preset.name}
+[${now}] CONTINUITY: Q = ${phys.flowGPH} GPH (${(phys.flowGPH * 0.06309).toFixed(2)} LPM). Pipe velocity v = ${phys.v} m/s.
+[${now}] HYDRODYNAMICS: Friction head loss = ${phys.deltaH}m. Total Dynamic Head = ${phys.TDH}m.
+[${now}] POWER CONSUMPTION: DC Pump = ${phys.powerW}W @ 24V (${phys.currentA}A). Efficiency = 88.5%.`;
+    }
+  };
+
+  // Render Cutaway Canvas Simulation Loop
+  const render = () => {
+    if (!modal.open) {
+      animId = null;
+      return;
+    }
+
+    if (!canvas || typeof canvas.getContext !== "function") {
+      animId = requestAnimationFrame(render);
+      return;
+    }
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const width = canvas.width;
+    const height = canvas.height;
+    ctx.clearRect(0, 0, width, height);
+
+    const preset = hydraulicPresets[activePresetKey];
+    const phys = calculatePhysics();
+    const speedMult = Math.max(0.4, phys.flowGPH / 650);
+
+    // Draw Sump Tank Outer Shell Glass Blueprint
+    ctx.strokeStyle = "rgba(56, 189, 248, 0.4)";
+    ctx.lineWidth = 2;
+    ctx.strokeRect(30, 60, width - 60, height - 100);
+
+    // Draw Water Body in Tank
+    const waterGrad = ctx.createLinearGradient(0, 90, 0, height - 40);
+    waterGrad.addColorStop(0, "rgba(6, 182, 212, 0.22)");
+    waterGrad.addColorStop(1, "rgba(2, 132, 199, 0.45)");
+    ctx.fillStyle = waterGrad;
+    ctx.fillRect(32, 90, width - 64, height - 132);
+
+    // Water Surface Wave Line
+    ctx.strokeStyle = "rgba(56, 189, 248, 0.8)";
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    const t = performance.now() * 0.003;
+    for (let x = 32; x <= width - 32; x += 4) {
+      const y = 90 + Math.sin((x * 0.05) + t) * 2;
+      if (x === 32) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // Draw 3 Partition Baffles dividing into 4 chambers
+    const chamberW = (width - 64) / 4;
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.35)";
+    ctx.lineWidth = 2;
+
+    // Baffle 1 (Over): Bottom attached, water overflows
+    ctx.beginPath();
+    ctx.moveTo(32 + chamberW, height - 40);
+    ctx.lineTo(32 + chamberW, 110);
+    ctx.stroke();
+
+    // Baffle 2 (Under): Top attached, water flows under
+    ctx.beginPath();
+    ctx.moveTo(32 + chamberW * 2, 70);
+    ctx.lineTo(32 + chamberW * 2, height - 70);
+    ctx.stroke();
+
+    // Baffle 3 (Over): Bubble trap
+    ctx.beginPath();
+    ctx.moveTo(32 + chamberW * 3, height - 40);
+    ctx.lineTo(32 + chamberW * 3, 115);
+    ctx.stroke();
+
+    // Draw Inflow Pipe on Left
+    ctx.fillStyle = "rgba(100, 116, 139, 0.4)";
+    ctx.fillRect(40, 20, 20, 75);
+    ctx.strokeStyle = "rgba(56, 189, 248, 0.5)";
+    ctx.strokeRect(40, 20, 20, 75);
+
+    // Draw Return Pump in Chamber 4
+    const pumpX = 32 + chamberW * 3 + (chamberW / 2) - 18;
+    const pumpY = height - 85;
+    ctx.fillStyle = "#0284c7";
+    ctx.fillRect(pumpX, pumpY, 36, 40);
+    ctx.strokeStyle = "#38bdf8";
+    ctx.strokeRect(pumpX, pumpY, 36, 40);
+
+    // Return Pipe Conduits leading up and out
+    ctx.fillStyle = "rgba(100, 116, 139, 0.4)";
+    ctx.fillRect(pumpX + 12, 20, 12, pumpY - 20);
+    ctx.strokeStyle = "rgba(56, 189, 248, 0.5)";
+    ctx.strokeRect(pumpX + 12, 20, 12, pumpY - 20);
+
+    // Animate Flowing Fluid Particles
+    particles.forEach(p => {
+      p.x += p.vx * speedMult;
+      p.y += p.vy * speedMult;
+
+      // Flow path logic through 4 chambers:
+      // Inflow -> down Chamber 1 -> under/over Baffles -> Chamber 4 -> up pump pipe
+      if (p.x < 32 || p.x > width - 32 || p.y < 90 || p.y > height - 42) {
+        p.x = 45 + Math.random() * 10;
+        p.y = 25 + Math.random() * 60;
+        p.vx = (0.5 + Math.random() * 1.5);
+        p.vy = (1.0 + Math.random() * 1.5);
+      }
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = p.alpha;
+      ctx.fill();
+      ctx.globalAlpha = 1.0;
+    });
+
+    // Chamber Labels
+    ctx.fillStyle = "rgba(255, 255, 255, 0.65)";
+    ctx.font = "bold 9px monospace";
+    preset.chambers.forEach((ch, idx) => {
+      const cx = 36 + (chamberW * idx) + 4;
+      ctx.fillText(`CH ${idx + 1}`, cx, height - 26);
+    });
+
+    animId = requestAnimationFrame(render);
+  };
+
+  const setPreset = (key) => {
+    if (!hydraulicPresets[key]) return;
+    activePresetKey = key;
+
+    const preset = hydraulicPresets[key];
+    if (sliderFlow) sliderFlow.value = preset.defaults.flow;
+    if (sliderHead) sliderHead.value = preset.defaults.head;
+
+    presetBtns.forEach(btn => {
+      const isActive = btn.dataset.preset === key;
+      btn.classList.toggle("active", isActive);
+      btn.setAttribute("aria-selected", isActive ? "true" : "false");
+    });
+
+    updateTelemetry();
+  };
+
+  // Sliders Listeners
+  sliderFlow?.addEventListener("input", updateTelemetry);
+  sliderHead?.addEventListener("input", updateTelemetry);
+
+  // Reset Button
+  resetBtn?.addEventListener("click", () => {
+    const preset = hydraulicPresets[activePresetKey];
+    if (sliderFlow) sliderFlow.value = preset.defaults.flow;
+    if (sliderHead) sliderHead.value = preset.defaults.head;
+    if (typeof playSound === "function") playSound("click");
+    if (typeof showPortfolioToast === "function") showPortfolioToast("Hydraulic parameters reset to defaults");
+    updateTelemetry();
+  });
+
+  // Preset Buttons
+  presetBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const p = btn.dataset.preset;
+      if (p) {
+        setPreset(p);
+        if (typeof playSound === "function") playSound("click");
+      }
+    });
+  });
+
+  // 1-Click Engineering Calculations Exporter
+  exportBtn?.addEventListener("click", () => {
+    const preset = hydraulicPresets[activePresetKey];
+    const phys = calculatePhysics();
+    const dateStr = new Date().toISOString().split("T")[0];
+
+    const markdownDoc = `# 3D CAD Hydraulic Pipeline & Fluid Dynamics Engineering Memorandum
+**Project:** Aquarium Filter Sim — Computational Fluid & CAD Engine
+**Date:** ${dateStr}
+**Filtration System:** ${preset.name}
+**Pipe Conduit Specification:** ${phys.pipeDInches}" Nominal Schedule 40 PVC
+
+---
+
+## 1. Volumetric Flow Rate & Pipe Velocity
+$$\\text{Volumetric Flow Rate: } Q = ${phys.flowGPH} \\text{ GPH} \\approx ${(phys.flowGPH * 0.0000010515).toFixed(6)} \\text{ m}^3/\\text{s}$$
+$$\\text{Mean Pipe Velocity: } v = \\frac{Q}{A} = ${phys.v} \\text{ m/s}$$
+
+- **Pipe Inner Diameter:** ${(phys.pipeDInches * 0.0254 * 1000).toFixed(1)} mm
+- **Cross-Sectional Area ($A$):** ${(Math.PI * Math.pow(phys.pipeDInches * 0.0254 / 2, 2) * 1e4).toFixed(2)} cm²
+
+---
+
+## 2. Hydrodynamic Friction & Bernoulli Head Loss
+$$\\text{Reynolds Number: } Re = \\frac{\\rho v D}{\\mu} = ${phys.Re.toLocaleString()} \\quad \\text{(${phys.Re < 2300 ? "Laminar" : (phys.Re < 4000 ? "Transient" : "Turbulent")})}$$
+$$\\text{Darcy-Weisbach Friction Loss: } \\Delta h_f = f \\cdot \\frac{L}{D} \\cdot \\frac{v^2}{2g} = ${phys.deltaH} \\text{ m}$$
+$$\\text{Total Dynamic Head (TDH): } TDH = H_{\\text{static}} + \\Delta h_f = ${phys.headM.toFixed(2)} + ${phys.deltaH} = ${phys.TDH} \\text{ m}$$
+
+---
+
+## 3. Submersible DC Pump Power Consumption
+$$\\text{Hydraulic Power: } P_{\\text{hydro}} = \\rho g Q \\cdot TDH \\approx ${(phys.powerW * 0.65).toFixed(1)} \\text{ W}$$
+$$\\text{Electrical Power Draw: } P_{\\text{elec}} = \\frac{P_{\\text{hydro}}}{\\eta} = ${phys.powerW} \\text{ W} \\quad (0.68\\text{ A @ 24V DC)}$$
+
+---
+
+## 4. Multi-Stage Biological & Mechanical Chambers
+${preset.chambers.map((ch, i) => `${i + 1}. **${ch.name}**\n   - *Functional Role:* ${ch.role}\n   - *Retention Efficiency:* ${ch.eff}`).join("\n")}
+
+*Document generated autonomously by Gouv Kimsea's CAD Hydraulic Pipeline Simulator.*
+`;
+
+    const blob = new Blob([markdownDoc], { type: "text/markdown;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `hydraulic-cad-${activePresetKey}-${dateStr}.md`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    if (typeof playSound === "function") playSound("click");
+    if (typeof showPortfolioToast === "function") showPortfolioToast(`Exported ${preset.name} Calculations (.md)`);
+  });
+
+  // Modal Open & Close Controller
+  openHydraulicLabModal = (presetKey) => {
+    if (typeof playSound === "function") playSound("whoosh");
+    if (!modal.open) modal.showModal();
+
+    if (presetKey && hydraulicPresets[presetKey]) {
+      setPreset(presetKey);
+    } else {
+      setPreset(activePresetKey);
+    }
+
+    if (!animId) {
+      animId = requestAnimationFrame(render);
+    }
+  };
+
+  closeHydraulicLabModal = () => {
+    if (modal.open) modal.close();
+    if (animId) {
+      cancelAnimationFrame(animId);
+      animId = null;
+    }
+  };
+
+  closeBtn?.addEventListener("click", closeHydraulicLabModal);
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeHydraulicLabModal();
+  });
+  modal.addEventListener("cancel", closeHydraulicLabModal);
+
+  // Wire Modal Nav Launcher
+  document.getElementById("modalHydraulicLabBtn")?.addEventListener("click", () => {
+    openHydraulicLabModal("sump");
+  });
+
+  // Initial render
+  setPreset("sump");
+};
+
+initHydraulicLabModal();
+
 
 
 
