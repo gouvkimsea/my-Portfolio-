@@ -20257,3 +20257,626 @@ mark.project-search-match {
   }
 }
 
+/* ==========================================================================
+   Phase 33: EV Battery Pack BMS & Thermal Diagnostics Lab Modal Styling
+   ========================================================================== */
+
+.modal-battery-btn {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.4);
+  color: #34d399;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-battery-btn:hover {
+  background: rgba(16, 185, 129, 0.25);
+  border-color: #10b981;
+  color: #6ee7b7;
+  transform: translateY(-1px);
+}
+
+[data-theme="light"] .modal-battery-btn {
+  background: #ecfdf5;
+  border-color: #a7f3d0;
+  color: #065f46;
+}
+
+[data-theme="light"] .modal-battery-btn:hover {
+  background: #d1fae5;
+  border-color: #059669;
+  color: #047857;
+}
+
+.modal-battery-icon {
+  font-size: 13px;
+}
+
+/* Modal Dialog Shell */
+.battery-modal {
+  position: fixed;
+  inset: 0;
+  width: 95vw;
+  max-width: 1240px;
+  max-height: 92vh;
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(10, 15, 26, 0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: var(--ink);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(16, 185, 129, 0.2);
+  z-index: 10000;
+  overflow: hidden;
+}
+
+[data-theme="light"] .battery-modal {
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(16, 185, 129, 0.3);
+}
+
+.battery-modal::backdrop {
+  background: rgba(4, 8, 16, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.battery-shell {
+  display: flex;
+  flex-direction: column;
+  max-height: 92vh;
+  overflow-y: auto;
+}
+
+/* Header */
+.battery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 18px 24px 14px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(16, 185, 129, 0.04);
+  gap: 16px;
+}
+
+.battery-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.battery-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #34d399;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.battery-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+.battery-subtitle {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.45;
+  max-width: 800px;
+}
+
+.battery-header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.battery-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--ink);
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.battery-action-btn:hover {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: #10b981;
+  color: #34d399;
+}
+
+.battery-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.battery-close-btn:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+/* Controls Bar */
+.battery-controls-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 24px;
+  background: rgba(0, 0, 0, 0.25);
+  border-bottom: 1px solid var(--line);
+}
+
+[data-theme="light"] .battery-controls-bar {
+  background: #f8fafc;
+}
+
+.battery-presets-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.battery-ctrl-lbl {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+
+.battery-presets-list {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.battery-preset-btn {
+  padding: 5px 11px;
+  border-radius: 5px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.battery-preset-btn:hover {
+  color: var(--ink);
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+.battery-preset-btn.active {
+  background: rgba(16, 185, 129, 0.2);
+  border-color: #10b981;
+  color: #34d399;
+}
+
+[data-theme="light"] .battery-preset-btn.active {
+  background: #d1fae5;
+  color: #065f46;
+  border-color: #10b981;
+}
+
+.battery-tuning-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.battery-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.battery-input-lbl {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.battery-val-pill {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.battery-range {
+  width: 110px;
+  accent-color: #10b981;
+  cursor: pointer;
+}
+
+.battery-select {
+  padding: 4px 8px;
+  border-radius: 5px;
+  border: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.4);
+  color: var(--ink);
+  font-size: 11px;
+  font-family: var(--mono);
+  cursor: pointer;
+}
+
+[data-theme="light"] .battery-select {
+  background: #ffffff;
+}
+
+.battery-quick-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.battery-tool-btn {
+  padding: 5px 9px;
+  border-radius: 5px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.battery-tool-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.battery-tool-btn.danger {
+  color: #f87171;
+  border-color: rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.battery-tool-btn.danger:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: #ef4444;
+}
+
+/* Main Split View */
+.battery-split-view {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  min-height: 480px;
+  overflow: hidden;
+}
+
+/* Left: Canvas Viewport */
+.battery-canvas-pane {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--line);
+  background: #060b13;
+  position: relative;
+}
+
+[data-theme="light"] .battery-canvas-pane {
+  background: #0a0f1d;
+}
+
+.battery-canvas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.battery-canvas-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.battery-canvas-title {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: #34d399;
+  letter-spacing: 0.04em;
+}
+
+.battery-canvas-subtitle {
+  font-size: 10.5px;
+  color: #94a3b8;
+}
+
+.battery-status-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: rgba(16, 185, 129, 0.18);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #34d399;
+}
+
+.battery-canvas-wrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: radial-gradient(circle at center, rgba(16, 185, 129, 0.05) 0%, transparent 75%);
+}
+
+.battery-lab-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.battery-canvas-overlay {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.92);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.cell-tooltip-title {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #34d399;
+}
+
+.cell-tooltip-val {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: #e2e8f0;
+}
+
+.battery-canvas-footer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(0, 0, 0, 0.4);
+  font-size: 10.5px;
+  color: #94a3b8;
+  flex-wrap: wrap;
+}
+
+.battery-legend-item,
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.legend-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.swatch-blue { background: #38bdf8; }
+.swatch-green { background: #10b981; }
+.swatch-amber { background: #f59e0b; }
+.swatch-red { background: #ef4444; }
+.swatch-coolant { background: #0284c7; box-shadow: 0 0 6px #0284c7; }
+
+/* Right: Metrics & Telemetry */
+.battery-metrics-pane {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  overflow-y: auto;
+}
+
+.battery-metrics-card {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.battery-metric-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+}
+
+.battery-metric-lbl {
+  font-family: var(--mono);
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.battery-metric-val {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 11.5px;
+}
+
+.battery-status-pill {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #34d399;
+}
+
+/* BMS Subsystem Modules List */
+.battery-modules-wrap {
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.battery-modules-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.battery-submodule-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.02);
+  transition: all 0.15s ease;
+}
+
+.battery-submodule-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+[data-theme="light"] .battery-submodule-card {
+  background: #f8fafc;
+}
+
+.submodule-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.submodule-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.submodule-name {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.submodule-desc {
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.submodule-stat {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #34d399;
+}
+
+/* CAN Console Box */
+.battery-console-box {
+  padding: 10px 14px;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="light"] .battery-console-box {
+  background: #0f172a;
+  color: #f8fafc;
+}
+
+.battery-console-pre {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  line-height: 1.45;
+  color: #34d399;
+  max-height: 75px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 840px) {
+  .battery-split-view {
+    grid-template-columns: 1fr;
+  }
+  .battery-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .battery-controls-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 500px) {
+  .battery-presets-list {
+    width: 100%;
+  }
+  .battery-preset-btn {
+    flex: 1 1 45%;
+    text-align: center;
+  }
+}
+
+

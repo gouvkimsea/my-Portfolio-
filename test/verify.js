@@ -186,7 +186,9 @@ assert(indexHtml.includes('id="visionLabModal"') && scriptJs.includes('initVisio
 assert(scriptJs.includes('vision:') && indexHtml.includes('data-action="open-vision-lab"') && indexHtml.includes('id="modalVisionLabBtn"'), 'index.html & script.js: Vision lab launchers wired to Project modal, Command Palette, Terminal CLI, and hotkeys');
 assert(indexHtml.includes('id="hydraulicLabModal"') && scriptJs.includes('initHydraulicLabModal') && fs.readFileSync('styles.css', 'utf8').includes('.hydraulic-modal'), 'index.html, styles.css & script.js: Interactive 3D CAD Hydraulic Pipeline & Bio-Fluid Flow Simulator implemented');
 assert(scriptJs.includes('hydraulic:') && indexHtml.includes('data-action="open-hydraulic-lab"') && indexHtml.includes('id="modalHydraulicLabBtn"'), 'index.html & script.js: Hydraulic lab launchers wired to Project modal, Command Palette, Terminal CLI, and hotkeys');
-assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v38'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v38');
+assert(indexHtml.includes('id="batteryLabModal"') && scriptJs.includes('initBatteryLabModal') && fs.readFileSync('styles.css', 'utf8').includes('.battery-modal'), 'index.html, styles.css & script.js: Interactive EV Battery Pack BMS & Thermal Diagnostics Lab implemented');
+assert(scriptJs.includes('battery:') && indexHtml.includes('data-action="open-battery-lab"') && indexHtml.includes('id="modalBatteryLabBtn"'), 'index.html & script.js: Battery lab launchers wired to Project modal, Command Palette, Terminal CLI, and hotkeys');
+assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v39'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v39');
 
 // Test global script evaluation with mock DOM globals
 try {

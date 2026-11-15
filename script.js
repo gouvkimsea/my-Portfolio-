@@ -664,6 +664,16 @@ document.addEventListener("keydown", e => {
         openHydraulicLabModal();
       }
     }
+  } else if ((e.key === "J" || e.key === "j") && e.shiftKey) {
+    e.preventDefault();
+    if (typeof openBatteryLabModal === "function") {
+      const bModal = document.getElementById("batteryLabModal");
+      if (bModal?.open) {
+        if (typeof closeBatteryLabModal === "function") closeBatteryLabModal();
+      } else {
+        openBatteryLabModal();
+      }
+    }
   } else if (e.key.toLowerCase() === "u" && !e.ctrlKey && !e.metaKey && !e.altKey) {
     e.preventDefault();
     if (typeof toggleSfx === "function") toggleSfx();
@@ -911,6 +921,8 @@ cmdKResults?.addEventListener("click", e => {
     if (typeof openVisionLabModal === "function") openVisionLabModal();
   } else if (action === "open-hydraulic-lab") {
     if (typeof openHydraulicLabModal === "function") openHydraulicLabModal();
+  } else if (action === "open-battery-lab") {
+    if (typeof openBatteryLabModal === "function") openBatteryLabModal();
   } else if (action === "open-telemetry") {
     if (typeof openTelemetryModal === "function") openTelemetryModal();
   } else if (action === "download-resume-md") {
@@ -5218,6 +5230,23 @@ Particle Streamlines:    120 Live Velocity Vector Tracers · 60.0 FPS</pre>`;
   },
   sump: (arg) => terminalCommands.hydraulic(arg),
   fluid: (arg) => terminalCommands.hydraulic(arg),
+  battery: (arg) => {
+    const preset = (arg || "").trim().toLowerCase();
+    if (typeof openBatteryLabModal === "function") {
+      openBatteryLabModal(preset);
+      return `<pre class="term-pre" style="margin:4px 0;font-size:11px;line-height:1.45;">🔋 <b>EV Battery BMS &amp; Thermal Diagnostics Lab Launched</b>
+--------------------------------------------------------
+Traction Pack Scenario:  <b>${escapeHtml(preset || "fastcharge").toUpperCase()}</b>
+Architecture Model:     96S1P NMC Matrix · 400.8V Nominal · 75.4 kWh
+Thermal &amp; Balancing:    Active Glycol Chiller · Joule Heat Loss I²R
+BMS Interlock Bus:      CAN 2.0B @ 500 kbps · ISO 15118 EVCC</pre>`;
+    }
+    openModal("joul");
+    return "Opening JOUL Electric Fleet project modal & battery management system...";
+  },
+  bms: (arg) => terminalCommands.battery(arg),
+  ev: (arg) => terminalCommands.battery(arg),
+  joul: (arg) => terminalCommands.battery(arg),
   biome: () => terminalCommands.shader(),
   pinit: () => {
     openModal("pinit");
@@ -5370,7 +5399,7 @@ Layer 1: Semantic Core  · Zero-dependency ES2026 &amp; HTML5 dialogs
 Layer 2: Style Tokens   · Modular Vanilla CSS &amp; WCAG AAA contrast
 Layer 3: 3D Graphics    · Hardware-accelerated WebGL 2.0 MiniWorld
 Layer 4: Procedural SFX · Pure Web Audio synthesizers (0 audio files)
-Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v38</pre>`;
+Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v39</pre>`;
   },
   cat: (arg) => {
     const file = (arg || "").trim().toLowerCase();
@@ -5499,7 +5528,7 @@ DOM Tree:         <b>${domCount}</b> semantic nodes
 Logical Cores:    <b>${cores}</b> Threads (hardwareConcurrency)
 Display:          <b>${window.innerWidth}x${window.innerHeight}</b> (${window.devicePixelRatio || 1}x DPR)
 Audio Engine:     Active (${Math.round((typeof sfxVolume !== "undefined" ? sfxVolume : 0.8) * 100)}% Gain)
-PWA Cache:        <b>kimsea-pwa-v38</b> (Stale-While-Revalidate)
+PWA Cache:        <b>kimsea-pwa-v39</b> (Stale-While-Revalidate)
 Status:           Modal HUD Launched ⚡</pre>`;
   },
   diag: () => terminalCommands.telemetry(),
@@ -5835,7 +5864,7 @@ terminalInput?.addEventListener("keydown", event => {
     if (current) {
       const allCmds = Array.from(new Set([
         ...Object.keys(terminalCommands),
-        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade", "accent", "synth", "piano", "telemetry", "diag", "perf", "sysinfo", "playground", "sandbox", "eval", "particles", "casestudy", "dossier", "gitgraph", "heatmap", "graph", "archflow", "flow", "radar", "spider", "competencies", "arena", "race", "benchmarks", "firewall", "security", "sanitize", "shader", "glsl", "materials", "ledger", "fintech", "escrow", "payway", "vision", "gesture", "mediapipe", "kinematics", "hydraulic", "sump", "fluid"
+        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade", "accent", "synth", "piano", "telemetry", "diag", "perf", "sysinfo", "playground", "sandbox", "eval", "particles", "casestudy", "dossier", "gitgraph", "heatmap", "graph", "archflow", "flow", "radar", "spider", "competencies", "arena", "race", "benchmarks", "firewall", "security", "sanitize", "shader", "glsl", "materials", "ledger", "fintech", "escrow", "payway", "vision", "gesture", "mediapipe", "kinematics", "hydraulic", "sump", "fluid", "battery", "bms", "ev", "joul"
       ]));
       const prefix = lastTabPrefix || current;
       const matches = allCmds.filter(k => k.startsWith(prefix));
@@ -8349,7 +8378,7 @@ const initCyberTelemetry = () => {
       audioSubEl.textContent = `48000 Hz · Master Gain ${vol}%`;
     }
     if (pwaEl) {
-      pwaEl.textContent = "kimsea-pwa-v38";
+      pwaEl.textContent = "kimsea-pwa-v39";
     }
   };
 
@@ -13259,6 +13288,738 @@ ${preset.chambers.map((ch, i) => `${i + 1}. **${ch.name}**\n   - *Functional Rol
 };
 
 initHydraulicLabModal();
+
+/* ==========================================================================
+   Phase 33: EV Battery Pack BMS & Thermal Diagnostics Lab Simulator
+   ========================================================================== */
+
+let openBatteryLabModal = () => {};
+let closeBatteryLabModal = () => {};
+
+const initBatteryLabModal = () => {
+  const modal = document.getElementById("batteryLabModal");
+  if (!modal) return;
+
+  const canvas = document.getElementById("batteryLabCanvas");
+  const ctx = canvas?.getContext("2d");
+  const closeBtn = document.getElementById("batteryLabCloseBtn");
+
+  const currentSlider = document.getElementById("sliderBatteryCurrent");
+  const currentValEl = document.getElementById("batteryCurrentVal");
+  const tempSlider = document.getElementById("sliderBatteryTemp");
+  const tempValEl = document.getElementById("batteryTempVal");
+  const coolingSelect = document.getElementById("selectBatteryCooling");
+
+  const injectImbalanceBtn = document.getElementById("batteryInjectImbalanceBtn");
+  const pyrofuseBtn = document.getElementById("batteryPyrofuseBtn");
+  const resetBtn = document.getElementById("batteryResetBtn");
+  const exportBtn = document.getElementById("batteryExportBtn");
+
+  const packVoltageEl = document.getElementById("batteryPackVoltage");
+  const packCurrentEl = document.getElementById("batteryPackCurrent");
+  const packPowerEl = document.getElementById("batteryPackPower");
+  const jouleLossEl = document.getElementById("batteryJouleLoss");
+  const packSocEl = document.getElementById("batteryPackSOC");
+  const packSohEl = document.getElementById("batteryPackSOH");
+  const deltaVEl = document.getElementById("batteryDeltaV");
+  const packTempEl = document.getElementById("batteryPackTemp");
+  const statusPillEl = document.getElementById("batteryStatusPill");
+  const stateBadgeEl = document.getElementById("batteryActiveStateBadge");
+  const modulesTrackEl = document.getElementById("batteryModulesTrack");
+  const consolePre = document.getElementById("batteryConsolePre");
+
+  const cellTooltip = document.getElementById("batteryCellTooltip");
+  const tooltipTitle = document.getElementById("cellTooltipTitle");
+  const tooltipVoltage = document.getElementById("cellTooltipVoltage");
+  const tooltipTemp = document.getElementById("cellTooltipTemp");
+  const tooltipRint = document.getElementById("cellTooltipRint");
+
+  const presetBtns = Array.from(modal.querySelectorAll(".battery-preset-btn"));
+
+  // 96S1P Configuration: 6 Modules x 16 Cells
+  const NUM_MODULES = 6;
+  const CELLS_PER_MODULE = 16;
+  const TOTAL_CELLS = 96;
+
+  // Battery Presets
+  const batteryPresets = {
+    fastcharge: {
+      name: "350kW CCS Fast Charge",
+      badge: "CC Fast-Charge Mode (350kW CCS2)",
+      current: 350,
+      ambientTemp: 25,
+      cooling: "chiller",
+      nominalBaseV: 4.12,
+      soc: 78.4,
+      soh: 98.1,
+      cycles: 412,
+      status: "OPTIMAL CC FAST CHARGING",
+      pillClass: "text-lime",
+      modules: [
+        { name: "Pre-Charge Contactor & HVIL", desc: "High-Voltage Interlock Closed & Latched", stat: "400.8V Bus Live", color: "#34d399" },
+        { name: "Active Shunt Coulomb Counter", desc: "Extended Kalman Filter SOC Tracking", stat: "99.4% Precision", color: "#38bdf8" },
+        { name: "Liquid Glycol Chiller Thermal Loop", desc: "Active Refrigerant Heat Exchange", stat: "16.8 LPM @ 18°C", color: "#38bdf8" },
+        { name: "CAN 2.0B / ISO 15118 EVCC", desc: "500 kbps Automotive Bus · 0 Errors", stat: "100 Hz Streaming", color: "#34d399" }
+      ],
+      log: `[00:00.00] CCS2 DC Fast Charger handshake verified: EVSE max 350 kW @ 500A.
+[00:00.02] Pre-charge relay energized: HV bus equalized to pack voltage in 42ms.
+[00:00.05] Constant Current (CC) phase active: +350A nominal injection.`
+    },
+    balancing: {
+      name: "Active Cell Balancing",
+      badge: "Active Shunt Bleed Balancing Mode",
+      current: 20,
+      ambientTemp: 24,
+      cooling: "radiator",
+      nominalBaseV: 4.16,
+      soc: 94.2,
+      soh: 96.5,
+      cycles: 680,
+      status: "ACTIVE CELL BLEED BALANCING",
+      pillClass: "text-amber",
+      modules: [
+        { name: "BMS Passive Bleed Shunts", desc: "33Ω Precision Resistors Dissipating Top Cells", stat: "7 Cells Bleeding", color: "#f59e0b" },
+        { name: "Voltage Sensing AFE (LTC6811)", desc: "16-bit Delta-Sigma ADC @ ±1.2mV accuracy", stat: "ΔV Target: ≤10mV", color: "#34d399" },
+        { name: "Passive Glycol Radiator", desc: "Ambient Heat Dissipation Loop", stat: "8.2 LPM @ 24°C", color: "#38bdf8" },
+        { name: "BMS Safety Supervisor Core", desc: "Over-voltage threshold 4.22V monitored", stat: "Normal Supervised", color: "#34d399" }
+      ],
+      log: `[00:00.00] Top of charge detected (SOC > 92%). Entering Balancing Phase.
+[00:00.02] LTC6811 ADC scan complete: Cell #18 (4.182V), Cell #42 (4.108V). Delta = 74mV.
+[00:00.04] Engaging passive bleed shunt resistors across cells exceeding 4.150V.`
+    },
+    v2g: {
+      name: "Vehicle-to-Grid (V2G) Peak Shaving",
+      badge: "Bidirectional V2G Energy Feed-In Mode",
+      current: -150,
+      ambientTemp: 26,
+      cooling: "chiller",
+      nominalBaseV: 3.88,
+      soc: 62.5,
+      soh: 97.4,
+      cycles: 540,
+      status: "V2G GRID FEED-IN (PEAK SHAVING)",
+      pillClass: "text-cyan",
+      modules: [
+        { name: "Bidirectional DC/AC Inverter", desc: "400V DC to 230V AC Synchronous Inversion", stat: "58.2 kW Export", color: "#38bdf8" },
+        { name: "Grid Frequency Support Node", desc: "IEEE 1547 Grid Tie Compliance Monitor", stat: "50.02 Hz Synced", color: "#34d399" },
+        { name: "Economic Arbitrage Engine", desc: "Time-of-Use Peak Tariff Optimization", stat: "+$0.42 / kWh Rev", color: "#34d399" },
+        { name: "Depth-of-Discharge (DoD) Guard", desc: "Hard Stop at 20% SOC Reserve Floor", stat: "Margin: 42.5%", color: "#38bdf8" }
+      ],
+      log: `[00:00.00] V2G peak shaving trigger received from utility grid aggregator.
+[00:00.02] Bidirectional inverter phase locked to local 230V 50Hz grid wave.
+[00:00.04] Reverse power export enabled: -150A discharge current delivering 58.2 kW.`
+    },
+    degradation: {
+      name: "Cycle Aging & SOH Degradation",
+      badge: "Thermal Stress & Cycle Aging Simulation",
+      current: 120,
+      ambientTemp: 42,
+      cooling: "off",
+      nominalBaseV: 3.75,
+      soc: 51.0,
+      soh: 84.6,
+      cycles: 1840,
+      status: "DEGRADED SOH · THERMAL THROTTLE",
+      pillClass: "text-red",
+      modules: [
+        { name: "Arrhenius Thermal Degradation", desc: "Accelerated Solid Electrolyte Interphase (SEI)", stat: "SEI Growth High", color: "#ef4444" },
+        { name: "Internal Resistance Monitor", desc: "R_int escalated from 1.5mΩ to 3.2mΩ", stat: "+113% R_int", color: "#ef4444" },
+        { name: "Cooling Circuit Fault Warning", desc: "Glycol chiller pump bypassed / offline", stat: "CHILLER OFFLINE", color: "#ef4444" },
+        { name: "BMS Power Derating Controller", desc: "Current limited to prevent thermal runaway", stat: "Derate to 30%", color: "#f59e0b" }
+      ],
+      log: `[00:00.00] Pack historical cycle count: 1,840 full equivalent cycles.
+[00:00.02] SEI layer impedance growth detected: average cell R_int now 3.2mΩ.
+[00:00.04] WARNING: Chiller loop offline with ambient at 42°C. Derating current limit!`
+    }
+  };
+
+  let activePresetKey = "fastcharge";
+  let currentAmps = 150;
+  let ambientTempC = 25;
+  let coolingMode = "chiller";
+  let isPyrofuseTripped = false;
+  let animId = null;
+  let lastTime = 0;
+  let electronPhase = 0;
+  let coolantPhase = 0;
+  let hoveredCellIndex = -1;
+
+  // Cells State Model (96 cells)
+  let cells = [];
+  const initCells = (baseV, baseR = 1.5, tempBase = 26) => {
+    cells = [];
+    for (let i = 0; i < TOTAL_CELLS; i++) {
+      const vOffset = (Math.sin(i * 1.7) * 0.005) + (Math.cos(i * 2.3) * 0.003);
+      const rOffset = (Math.sin(i * 0.9) * 0.08);
+      cells.push({
+        id: i + 1,
+        module: Math.floor(i / CELLS_PER_MODULE) + 1,
+        voltage: baseV + vOffset,
+        temp: tempBase + (Math.sin(i * 0.4) * 1.5),
+        rInt: baseR + rOffset,
+        isBalancing: false
+      });
+    }
+  };
+
+  // Switch Preset
+  const setPreset = (key) => {
+    if (!batteryPresets[key]) return;
+    activePresetKey = key;
+    const p = batteryPresets[key];
+
+    presetBtns.forEach(btn => {
+      const match = btn.dataset.preset === key;
+      btn.classList.toggle("active", match);
+      btn.setAttribute("aria-selected", match ? "true" : "false");
+    });
+
+    currentAmps = p.current;
+    ambientTempC = p.ambientTemp;
+    coolingMode = p.cooling;
+    isPyrofuseTripped = false;
+
+    if (currentSlider) currentSlider.value = currentAmps;
+    if (tempSlider) tempSlider.value = ambientTempC;
+    if (coolingSelect) coolingSelect.value = coolingMode;
+
+    const baseR = key === "degradation" ? 3.1 : 1.52;
+    initCells(p.nominalBaseV, baseR, ambientTempC + 2);
+
+    if (key === "balancing") {
+      cells[17].voltage += 0.038;
+      cells[41].voltage -= 0.036;
+      cells[72].voltage += 0.045;
+    }
+
+    if (stateBadgeEl) stateBadgeEl.textContent = p.badge;
+    if (consolePre) consolePre.innerHTML = `<code>${escapeHtml(p.log)}</code>`;
+
+    updateTelemetry();
+  };
+
+  // Update Dynamic Telemetry & Modules List
+  const updateTelemetry = () => {
+    const p = batteryPresets[activePresetKey];
+    const effCurrent = isPyrofuseTripped ? 0 : currentAmps;
+
+    if (currentValEl) {
+      currentValEl.textContent = isPyrofuseTripped ? "0 A (TRIPPED)" : `${effCurrent >= 0 ? "+" : ""}${effCurrent} A`;
+    }
+    if (tempValEl) tempValEl.textContent = `${ambientTempC >= 0 ? "+" : ""}${ambientTempC}°C`;
+
+    let totalV = 0;
+    let minV = Infinity;
+    let maxV = -Infinity;
+    let totalTemp = 0;
+    let totalR = 0;
+
+    for (let c of cells) {
+      totalV += c.voltage;
+      if (c.voltage < minV) minV = c.voltage;
+      if (c.voltage > maxV) maxV = c.voltage;
+      totalTemp += c.temp;
+      totalR += (c.rInt / 1000);
+    }
+
+    const meanTemp = totalTemp / TOTAL_CELLS;
+    const deltaV_mV = Math.round((maxV - minV) * 1000);
+
+    const powerKW = (totalV * effCurrent) / 1000;
+    const jouleLossKW = (effCurrent * effCurrent * totalR) / 1000;
+    const joulePct = powerKW !== 0 ? Math.min(100, Math.abs((jouleLossKW / powerKW) * 100)).toFixed(1) : "0.0";
+
+    if (packVoltageEl) packVoltageEl.textContent = `${totalV.toFixed(1)} V (Nominal)`;
+    if (packCurrentEl) {
+      if (isPyrofuseTripped) {
+        packCurrentEl.textContent = `0.0 A (Pyrofuse Disconnect)`;
+        packCurrentEl.className = "battery-metric-val text-red";
+      } else if (effCurrent > 0) {
+        packCurrentEl.textContent = `+${effCurrent.toFixed(1)} A (Fast Charging)`;
+        packCurrentEl.className = "battery-metric-val text-lime";
+      } else if (effCurrent < 0) {
+        packCurrentEl.textContent = `${effCurrent.toFixed(1)} A (V2G Exporting)`;
+        packCurrentEl.className = "battery-metric-val text-cyan";
+      } else {
+        packCurrentEl.textContent = `0.0 A (Standby)`;
+        packCurrentEl.className = "battery-metric-val text-amber";
+      }
+    }
+
+    if (packPowerEl) packPowerEl.textContent = `${Math.abs(powerKW).toFixed(1)} kW ${powerKW >= 0 ? "(Draw)" : "(Export)"}`;
+    if (jouleLossEl) jouleLossEl.textContent = `${jouleLossKW.toFixed(2)} kW (${joulePct}% Waste Heat)`;
+    if (packSocEl) packSocEl.textContent = `${p.soc.toFixed(1)}% (Coulomb Counting)`;
+    if (packSohEl) packSohEl.textContent = `${p.soh.toFixed(1)}% (${p.cycles} Cycles)`;
+
+    if (deltaVEl) {
+      deltaVEl.textContent = `${deltaV_mV} mV (${deltaV_mV <= 15 ? "Balanced" : "Active Balancing Required"})`;
+      deltaVEl.className = `battery-metric-val ${deltaV_mV <= 15 ? "text-lime" : deltaV_mV <= 35 ? "text-amber" : "text-red"}`;
+    }
+
+    if (packTempEl) {
+      packTempEl.textContent = `${meanTemp.toFixed(1)}°C (${meanTemp < 35 ? "Optimal Zone" : meanTemp < 45 ? "Elevated" : "Critical Overheat"})`;
+      packTempEl.className = `battery-metric-val ${meanTemp < 35 ? "text-cyan" : meanTemp < 45 ? "text-amber" : "text-red"}`;
+    }
+
+    if (statusPillEl) {
+      if (isPyrofuseTripped) {
+        statusPillEl.textContent = "PYROFUSE DISCONNECTED · 0V BUS";
+        statusPillEl.className = "battery-status-pill text-red";
+      } else {
+        statusPillEl.textContent = p.status;
+        statusPillEl.className = `battery-status-pill ${p.pillClass}`;
+      }
+    }
+
+    if (modulesTrackEl) {
+      modulesTrackEl.innerHTML = p.modules.map(mod => `
+        <div class="battery-submodule-card">
+          <div class="submodule-dot" style="background:${isPyrofuseTripped && mod.name.includes('HVIL') ? '#ef4444' : mod.color};"></div>
+          <div class="submodule-info">
+            <span class="submodule-name">${escapeHtml(mod.name)}</span>
+            <span class="submodule-desc">${escapeHtml(mod.desc)}</span>
+          </div>
+          <span class="submodule-stat" style="color:${isPyrofuseTripped && mod.name.includes('HVIL') ? '#ef4444' : mod.color};">
+            ${isPyrofuseTripped && mod.name.includes('HVIL') ? 'TRIPPED OPEN' : escapeHtml(mod.stat)}
+          </span>
+        </div>
+      `).join("");
+    }
+  };
+
+  // Physics Simulation Step
+  const stepPhysics = (dt) => {
+    const effCurrent = isPyrofuseTripped ? 0 : currentAmps;
+    const minV = Math.min(...cells.map(c => c.voltage));
+
+    for (let c of cells) {
+      if (c.voltage > minV + 0.012 && activePresetKey === "balancing" && !isPyrofuseTripped) {
+        c.isBalancing = true;
+        c.voltage -= 0.008 * dt;
+      } else {
+        c.isBalancing = false;
+      }
+
+      if (effCurrent !== 0) {
+        c.voltage += (effCurrent * 0.00003) * dt;
+        c.voltage = Math.max(3.0, Math.min(4.25, c.voltage));
+      }
+
+      const jouleHeat = Math.pow(effCurrent, 2) * (c.rInt / 1000) * 0.0004;
+      let targetCoolantTemp = ambientTempC;
+      let coolingFactor = 0.05;
+
+      if (coolingMode === "chiller") {
+        targetCoolantTemp = 20.0;
+        coolingFactor = 0.25;
+      } else if (coolingMode === "radiator") {
+        targetCoolantTemp = ambientTempC + 2;
+        coolingFactor = 0.12;
+      } else {
+        targetCoolantTemp = ambientTempC + 10;
+        coolingFactor = 0.02;
+      }
+
+      c.temp += (jouleHeat - coolingFactor * (c.temp - targetCoolantTemp)) * dt;
+    }
+  };
+
+  const MODULE_COLS = 3;
+  const MOD_W = 260;
+  const MOD_H = 150;
+  const MOD_START_X = 55;
+  const MOD_START_Y = 35;
+  const MOD_GAP_X = 35;
+  const MOD_GAP_Y = 25;
+
+  const getCellCoords = (cellIndex) => {
+    const modIdx = Math.floor(cellIndex / CELLS_PER_MODULE);
+    const inModIdx = cellIndex % CELLS_PER_MODULE;
+
+    const modCol = modIdx % MODULE_COLS;
+    const modRow = Math.floor(modIdx / MODULE_COLS);
+
+    const modX = MOD_START_X + modCol * (MOD_W + MOD_GAP_X);
+    const modY = MOD_START_Y + modRow * (MOD_H + MOD_GAP_Y);
+
+    const cCol = inModIdx % 4;
+    const cRow = Math.floor(inModIdx / 4);
+
+    const cx = modX + 32 + cCol * 54;
+    const cy = modY + 30 + cRow * 32;
+
+    return { cx, cy, modX, modY, modCol, modRow };
+  };
+
+  const render = (time) => {
+    if (!lastTime) lastTime = time;
+    const dt = Math.min((time - lastTime) / 1000, 0.1);
+    lastTime = time;
+
+    stepPhysics(dt);
+
+    if (canvas && ctx) {
+      const w = canvas.width;
+      const h = canvas.height;
+
+      ctx.clearRect(0, 0, w, h);
+
+      ctx.fillStyle = "#070c16";
+      ctx.fillRect(0, 0, w, h);
+
+      ctx.strokeStyle = "rgba(16, 185, 129, 0.04)";
+      ctx.lineWidth = 1;
+      for (let x = 0; x < w; x += 30) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, h);
+        ctx.stroke();
+      }
+      for (let y = 0; y < h; y += 30) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        ctx.stroke();
+      }
+
+      ctx.strokeStyle = "rgba(148, 163, 184, 0.25)";
+      ctx.lineWidth = 2;
+      ctx.strokeRect(30, 15, w - 60, h - 30);
+
+      coolantPhase += dt * (coolingMode === "chiller" ? 3.5 : coolingMode === "radiator" ? 1.5 : 0.2);
+      ctx.strokeStyle = coolingMode === "off" ? "rgba(239, 68, 68, 0.3)" : "rgba(2, 132, 199, 0.4)";
+      ctx.lineWidth = 6;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+
+      ctx.beginPath();
+      ctx.moveTo(40, MOD_START_Y + MOD_H + 12);
+      ctx.lineTo(w - 40, MOD_START_Y + MOD_H + 12);
+      ctx.stroke();
+
+      const coolantColor = coolingMode === "off" ? "#ef4444" : "#38bdf8";
+      ctx.fillStyle = coolantColor;
+      for (let cx = 50; cx < w - 50; cx += 40) {
+        const pulseX = cx + ((coolantPhase * 25) % 40);
+        if (pulseX < w - 45) {
+          ctx.beginPath();
+          ctx.arc(pulseX, MOD_START_Y + MOD_H + 12, 3, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      for (let m = 0; m < NUM_MODULES; m++) {
+        const mCol = m % MODULE_COLS;
+        const mRow = Math.floor(m / MODULE_COLS);
+        const mx = MOD_START_X + mCol * (MOD_W + MOD_GAP_X);
+        const my = MOD_START_Y + mRow * (MOD_H + MOD_GAP_Y);
+
+        ctx.fillStyle = "rgba(15, 23, 42, 0.75)";
+        ctx.fillRect(mx, my, MOD_W, MOD_H);
+        ctx.strokeStyle = "rgba(51, 65, 85, 0.6)";
+        ctx.lineWidth = 1;
+        ctx.strokeRect(mx, my, MOD_W, MOD_H);
+
+        ctx.fillStyle = "#94a3b8";
+        ctx.font = "10px monospace";
+        ctx.fillText(`MODULE ${m + 1} (16S)`, mx + 10, my + 14);
+
+        if (mCol < MODULE_COLS - 1) {
+          ctx.strokeStyle = isPyrofuseTripped ? "#ef4444" : "#f59e0b";
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.moveTo(mx + MOD_W, my + MOD_H / 2);
+          ctx.lineTo(mx + MOD_W + MOD_GAP_X, my + MOD_H / 2);
+          ctx.stroke();
+        }
+      }
+
+      if (!isPyrofuseTripped && currentAmps !== 0) {
+        electronPhase += dt * (Math.abs(currentAmps) / 50);
+        ctx.fillStyle = currentAmps > 0 ? "#10b981" : "#38bdf8";
+        for (let m = 0; m < NUM_MODULES; m++) {
+          const mCol = m % MODULE_COLS;
+          const mRow = Math.floor(m / MODULE_COLS);
+          const mx = MOD_START_X + mCol * (MOD_W + MOD_GAP_X);
+          const my = MOD_START_Y + mRow * (MOD_H + MOD_GAP_Y);
+
+          if (mCol < MODULE_COLS - 1) {
+            const dir = currentAmps > 0 ? 1 : -1;
+            const dotX = mx + MOD_W + ((dir * electronPhase * 15) % MOD_GAP_X + MOD_GAP_X) % MOD_GAP_X;
+            ctx.beginPath();
+            ctx.arc(dotX, my + MOD_H / 2, 2.5, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+      }
+
+      for (let i = 0; i < TOTAL_CELLS; i++) {
+        const cell = cells[i];
+        const { cx, cy } = getCellCoords(i);
+
+        const isHovered = hoveredCellIndex === i;
+
+        let cellColor = "#10b981";
+        if (cell.voltage < 3.6) cellColor = "#38bdf8";
+        else if (cell.voltage < 3.9) cellColor = "#10b981";
+        else if (cell.voltage < 4.15) cellColor = "#f59e0b";
+        else cellColor = "#ef4444";
+
+        ctx.fillStyle = "rgba(30, 41, 59, 0.8)";
+        ctx.beginPath();
+        if (typeof ctx.roundRect === "function") {
+          ctx.roundRect(cx - 19, cy - 11, 38, 22, 4);
+        } else {
+          ctx.rect(cx - 19, cy - 11, 38, 22);
+        }
+        ctx.fill();
+        ctx.strokeStyle = isHovered ? "#ffffff" : cellColor;
+        ctx.lineWidth = isHovered ? 2 : 1;
+        ctx.stroke();
+
+        const fillW = Math.max(4, Math.min(34, ((cell.voltage - 3.0) / 1.25) * 34));
+        ctx.fillStyle = cellColor;
+        ctx.beginPath();
+        if (typeof ctx.roundRect === "function") {
+          ctx.roundRect(cx - 17, cy - 9, fillW, 18, 3);
+        } else {
+          ctx.rect(cx - 17, cy - 9, fillW, 18);
+        }
+        ctx.fill();
+
+        ctx.fillStyle = isHovered ? "#ffffff" : "rgba(255, 255, 255, 0.85)";
+        ctx.font = "8.5px monospace";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(cell.voltage.toFixed(2), cx, cy);
+
+        if (cell.isBalancing) {
+          ctx.strokeStyle = "#f59e0b";
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.arc(cx, cy - 12, 3, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.fillStyle = "rgba(245, 158, 11, 0.7)";
+          ctx.fill();
+        }
+      }
+
+      ctx.textAlign = "start";
+      ctx.textBaseline = "alphabetic";
+
+      if (isPyrofuseTripped) {
+        ctx.fillStyle = "rgba(239, 68, 68, 0.18)";
+        ctx.fillRect(30, 15, w - 60, h - 30);
+        ctx.fillStyle = "#ef4444";
+        ctx.font = "bold 16px monospace";
+        ctx.textAlign = "center";
+        ctx.fillText("⚠️ PYROFUSE DETONATED · HIGH-VOLTAGE SAFETY BUS ISOLATED ⚠️", w / 2, h / 2 - 10);
+        ctx.font = "12px monospace";
+        ctx.fillText("All 96 cells isolated from DC busbars. Click 'Reset Pack' to restore pyrofuse.", w / 2, h / 2 + 15);
+        ctx.textAlign = "start";
+      }
+    }
+
+    updateTelemetry();
+    animId = requestAnimationFrame(render);
+  };
+
+  canvas?.addEventListener("mousemove", (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const mx = (e.clientX - rect.left) * scaleX;
+    const my = (e.clientY - rect.top) * scaleY;
+
+    let foundIdx = -1;
+    for (let i = 0; i < TOTAL_CELLS; i++) {
+      const { cx, cy } = getCellCoords(i);
+      if (mx >= cx - 19 && mx <= cx + 19 && my >= cy - 11 && my <= cy + 11) {
+        foundIdx = i;
+        break;
+      }
+    }
+
+    hoveredCellIndex = foundIdx;
+    if (foundIdx !== -1 && cellTooltip) {
+      const c = cells[foundIdx];
+      cellTooltip.style.display = "flex";
+      if (tooltipTitle) tooltipTitle.textContent = `Cell #${c.id} (Module ${c.module})`;
+      if (tooltipVoltage) tooltipVoltage.textContent = `Voltage: ${c.voltage.toFixed(3)} V ${c.isBalancing ? "(Bleed Active)" : ""}`;
+      if (tooltipTemp) tooltipTemp.textContent = `Temperature: ${c.temp.toFixed(1)}°C`;
+      if (tooltipRint) tooltipRint.textContent = `Internal R: ${c.rInt.toFixed(2)} mΩ`;
+    } else if (cellTooltip) {
+      cellTooltip.style.display = "none";
+    }
+  });
+
+  canvas?.addEventListener("mouseleave", () => {
+    hoveredCellIndex = -1;
+    if (cellTooltip) cellTooltip.style.display = "none";
+  });
+
+  currentSlider?.addEventListener("input", (e) => {
+    currentAmps = parseFloat(e.target.value);
+    updateTelemetry();
+  });
+
+  tempSlider?.addEventListener("input", (e) => {
+    ambientTempC = parseFloat(e.target.value);
+    updateTelemetry();
+  });
+
+  coolingSelect?.addEventListener("change", (e) => {
+    coolingMode = e.target.value;
+    updateTelemetry();
+    if (typeof playSound === "function") playSound("click");
+  });
+
+  presetBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      setPreset(btn.dataset.preset);
+      if (typeof playSound === "function") playSound("click");
+    });
+  });
+
+  injectImbalanceBtn?.addEventListener("click", () => {
+    cells[12].voltage += 0.055;
+    cells[27].voltage -= 0.048;
+    cells[45].voltage += 0.062;
+    cells[68].voltage -= 0.051;
+    cells[88].voltage += 0.049;
+    updateTelemetry();
+    if (typeof playSound === "function") playSound("whoosh");
+    if (typeof showPortfolioToast === "function") showPortfolioToast("Cell Imbalance (+62mV ΔV) Injected! BMS Balancing Engaged");
+  });
+
+  pyrofuseBtn?.addEventListener("click", () => {
+    isPyrofuseTripped = !isPyrofuseTripped;
+    updateTelemetry();
+    if (typeof playSound === "function") playSound("whoosh");
+    if (typeof showPortfolioToast === "function") {
+      showPortfolioToast(isPyrofuseTripped ? "💥 Pyrofuse Detonated! HV Bus 0V Isolated" : "Pyrofuse Re-armed & Latched");
+    }
+  });
+
+  resetBtn?.addEventListener("click", () => {
+    setPreset(activePresetKey);
+    if (typeof playSound === "function") playSound("click");
+    if (typeof showPortfolioToast === "function") showPortfolioToast("Battery Pack Reset to Balanced Nominal State");
+  });
+
+  exportBtn?.addEventListener("click", () => {
+    const p = batteryPresets[activePresetKey];
+    const dateStr = new Date().toISOString().split("T")[0];
+    const totalV = cells.reduce((acc, c) => acc + c.voltage, 0);
+    const minV = Math.min(...cells.map(c => c.voltage));
+    const maxV = Math.max(...cells.map(c => c.voltage));
+    const deltaV = Math.round((maxV - minV) * 1000);
+    const meanTemp = (cells.reduce((acc, c) => acc + c.temp, 0) / TOTAL_CELLS).toFixed(1);
+    const powerKW = ((totalV * currentAmps) / 1000).toFixed(1);
+
+    const markdownDoc = `# JOUL Electric Fleet: Battery Management System (BMS) Engineering Memorandum
+
+**Generated:** ${dateStr}  
+**Pack Architecture:** 96S1P NMC Lithium-ion (6 Modules × 16 Cells)  
+**Nominal Pack Energy:** 75.4 kWh · 400.8V Nominal  
+**Active Scenario:** ${p.name}  
+**BMS Status:** ${isPyrofuseTripped ? "PYROFUSE DISCONNECTED" : p.status}
+
+---
+
+## 1. Executive Telemetry Overview
+
+| Parameter | Measured Telemetry | Engineering Limit / Target | Status |
+| :--- | :--- | :--- | :--- |
+| **Pack Voltage ($V_{\\text{pack}}$)** | **${totalV.toFixed(1)} V** | 288.0 V – 408.0 V | Nominal |
+| **Pack Current ($I_{\\text{pack}}$)** | **${currentAmps >= 0 ? "+" : ""}${currentAmps} A** | Continuous 450A / Peak 600A | Within Envelope |
+| **Active Electrical Power ($P$)** | **${powerKW} kW** | Max 180 kW CCS Charge | Verified |
+| **Cell Voltage Delta ($\\Delta V$)** | **${deltaV} mV** | Target $\\le 15\\text{ mV}$ | ${deltaV <= 15 ? "Balanced" : "Balancing Active"} |
+| **Pack Mean Temperature** | **${meanTemp} °C** | Optimal $20°\\text{C} – 35°\\text{C}$ | ${meanTemp < 35 ? "Safe" : "Elevated"} |
+| **State of Charge ($SOC$)** | **${p.soc}%** | Extended Kalman Filter | Calibrated |
+| **State of Health ($SOH$)** | **${p.soh}%** | Historical Equivalent: ${p.cycles} Cycles | Monitored |
+| **Pyrofuse Interlock** | **${isPyrofuseTripped ? "DETONATED" : "LATCHED"}** | High-Voltage Interlock Loop (HVIL) | ${isPyrofuseTripped ? "OPEN" : "CLOSED"} |
+
+---
+
+## 2. Mathematical Equations & Thermodynamics
+
+1. **Pack Total Voltage:**
+   $$V_{\\text{pack}} = \\sum_{i=1}^{96} V_i = ${totalV.toFixed(2)}\\text{ V}$$
+
+2. **Joule Heat Dissipation (Internal Resistance Losses):**
+   $$P_{\\text{loss}} = I^2 \\cdot R_{\\text{total}} = (${currentAmps}\\text{ A})^2 \\cdot 0.148\\,\\Omega = ${((Math.pow(currentAmps, 2) * 0.148) / 1000).toFixed(2)}\\text{ kW}$$
+
+3. **Newton Liquid Cooling Energy Balance:**
+   $$\\frac{dT}{dt} = \\frac{P_{\\text{loss}}}{C_{\\text{th}}} - \\frac{T - T_{\\text{coolant}}}{R_{\\text{th}}}$$
+
+4. **Coulomb Counting Integral for SOC:**
+   $$SOC(t) = SOC_0 + \\frac{1}{C_n} \\int_0^t I(\\tau)\\, d\\tau$$
+
+---
+
+## 3. Subsystem Modules & CAN 2.0B Architecture
+${p.modules.map((m, i) => `${i + 1}. **${m.name}**\n   - *Specification:* ${m.desc}\n   - *Telemetry Metric:* ${m.stat}`).join("\n")}
+
+---
+
+*Document generated autonomously by Gouv Kimsea's JOUL EV Battery BMS & Thermal Diagnostics Lab.*
+`;
+
+    const blob = new Blob([markdownDoc], { type: "text/markdown;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `joul-bms-battery-telemetry-${activePresetKey}-${dateStr}.md`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    if (typeof playSound === "function") playSound("click");
+    if (typeof showPortfolioToast === "function") showPortfolioToast(`Exported ${p.name} Telemetry Memo (.md)`);
+  });
+
+  // Modal Open & Close Controller
+  openBatteryLabModal = (presetKey) => {
+    if (typeof playSound === "function") playSound("whoosh");
+    if (!modal.open) modal.showModal();
+
+    if (presetKey && batteryPresets[presetKey]) {
+      setPreset(presetKey);
+    } else {
+      setPreset(activePresetKey);
+    }
+
+    if (!animId) {
+      animId = requestAnimationFrame(render);
+    }
+  };
+
+  closeBatteryLabModal = () => {
+    if (modal.open) modal.close();
+    if (animId) {
+      cancelAnimationFrame(animId);
+      animId = null;
+    }
+  };
+
+  closeBtn?.addEventListener("click", closeBatteryLabModal);
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeBatteryLabModal();
+  });
+  modal.addEventListener("cancel", closeBatteryLabModal);
+
+  // Wire Modal Nav Launcher
+  document.getElementById("modalBatteryLabBtn")?.addEventListener("click", () => {
+    openBatteryLabModal("fastcharge");
+  });
+
+  // Initial render
+  setPreset("fastcharge");
+};
+
+initBatteryLabModal();
+
 
 
 

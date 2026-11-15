@@ -683,6 +683,7 @@
               <button type="button" class="terminal-chip" data-cmd="fintech">fintech 💳</button>
               <button type="button" class="terminal-chip" data-cmd="vision">vision 👁️</button>
               <button type="button" class="terminal-chip" data-cmd="hydraulic">hydraulic 🌊</button>
+              <button type="button" class="terminal-chip" data-cmd="battery">battery 🔋</button>
               <button type="button" class="terminal-chip" data-cmd="export">export</button>
               <button type="button" class="terminal-chip" data-cmd="clear">clear</button>
             </div>
@@ -2018,6 +2019,9 @@
           <button type="button" class="modal-nav-step-btn modal-hydraulic-btn" id="modalHydraulicLabBtn" title="Launch 3D CAD Hydraulic Pipeline Simulator (Shift+H)" aria-label="Launch 3D CAD hydraulic pipeline simulator">
             <span class="modal-hydraulic-icon" aria-hidden="true">🌊</span> Hydraulic CAD
           </button>
+          <button type="button" class="modal-nav-step-btn modal-battery-btn" id="modalBatteryLabBtn" title="Launch EV Battery BMS &amp; Thermal Lab (Shift+J)" aria-label="Launch EV battery BMS and thermal lab">
+            <span class="modal-battery-icon" aria-hidden="true">🔋</span> Battery BMS
+          </button>
           <button type="button" class="modal-nav-step-btn" id="modalNextBtn" aria-label="Next project case study">
             Next Project <span class="nav-arrow" aria-hidden="true">→</span>
           </button>
@@ -3302,6 +3306,8 @@
           <small class="cmdk-desc">21-joint 3D hand topology, Euclidean pinch kinematics &amp; biometric landmarks</small></button>
         <button type="button" class="cmdk-item" data-action="open-hydraulic-lab"><span class="cmdk-icon">🌊</span> 3D CAD Hydraulic Pipeline Simulator
           <small class="cmdk-desc">Multi-stage sump filtration, Bernoulli fluid dynamics &amp; Reynolds laminar flow</small></button>
+        <button type="button" class="cmdk-item" data-action="open-battery-lab"><span class="cmdk-icon">🔋</span> EV Battery BMS &amp; Thermal Diagnostics Lab
+          <small class="cmdk-desc">96-cell pack matrix, active balancing, Joule heat loss &amp; V2G grid arbitrage</small></button>
         <button type="button" class="cmdk-item" data-action="open-game"><span class="cmdk-icon">🎮</span> Play DevLoop Indie Game
           <small class="cmdk-desc">Developer idle tycoon &amp; bug arcade</small></button>
         <button type="button" class="cmdk-item" data-action="open-synth"><span class="cmdk-icon">🎹</span> Cyber Piano Synthesizer
@@ -3560,6 +3566,12 @@ Email: gouvkimsea@gmail.com</pre>
               <span class="shortcut-desc">3D CAD Hydraulic Pipeline Simulator</span>
               <div class="shortcut-kbd-group">
                 <kbd class="shortcut-kbd">⇧</kbd><kbd class="shortcut-kbd">H</kbd>
+              </div>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">EV Battery BMS &amp; Thermal Lab</span>
+              <div class="shortcut-kbd-group">
+                <kbd class="shortcut-kbd">⇧</kbd><kbd class="shortcut-kbd">J</kbd>
               </div>
             </div>
             <div class="shortcut-row">
@@ -5011,6 +5023,191 @@ void main() {
               <pre class="hydraulic-console-pre" id="hydraulicConsolePre"><code>[00:00.00] CAD Hydraulic loop initialized. Total volume: 450 Liters.
 [00:00.01] Continuity equation verified: Q = A1*v1 = A2*v2. Error = 0.00%.</code></pre>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Interactive EV Battery Pack BMS & Thermal Diagnostics Lab Modal -->
+  <dialog class="battery-modal" id="batteryLabModal" aria-labelledby="batteryLabTitle" aria-modal="true">
+    <div class="battery-shell">
+      <!-- Modal Header -->
+      <div class="battery-header">
+        <div class="battery-header-left">
+          <div class="battery-badge">
+            <span class="battery-badge-icon" aria-hidden="true">🔋</span>
+            <span class="battery-badge-text">JOUL Clean Energy • 96-Cell 400V Traction Pack • Active BMS Balancing</span>
+          </div>
+          <h2 class="battery-title" id="batteryLabTitle">EV Battery Pack BMS &amp; Thermal Diagnostics Lab</h2>
+          <p class="battery-subtitle">Interactive 96-Cell Series Battery Architecture, Real-Time Joule Heating ($I^2 R_{\text{int}}$), Active Balancing Shunts, and Vehicle-to-Grid (V2G) Energy Arbitrage.</p>
+        </div>
+        <div class="battery-header-right">
+          <button type="button" class="battery-action-btn export-btn" id="batteryExportBtn" title="Export BMS Engineering Memorandum (.md)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Export BMS Memo
+          </button>
+          <button type="button" class="battery-close-btn" id="batteryLabCloseBtn" aria-label="Close EV battery diagnostics lab">✕</button>
+        </div>
+      </div>
+
+      <!-- Controls & Simulation Presets Bar -->
+      <div class="battery-controls-bar">
+        <div class="battery-presets-group">
+          <span class="battery-ctrl-lbl">SIMULATION PRESETS:</span>
+          <div class="battery-presets-list" role="tablist" aria-label="EV Battery Scenarios">
+            <button type="button" class="battery-preset-btn active" id="batteryPresetFastCharge" data-preset="fastcharge" role="tab" aria-selected="true">350kW CCS Fast Charge ⚡</button>
+            <button type="button" class="battery-preset-btn" id="batteryPresetBalancing" data-preset="balancing" role="tab" aria-selected="false">Active Cell Balancing ⚖️</button>
+            <button type="button" class="battery-preset-btn" id="batteryPresetV2G" data-preset="v2g" role="tab" aria-selected="false">Vehicle-to-Grid (V2G) 🔄</button>
+            <button type="button" class="battery-preset-btn" id="batteryPresetDegradation" data-preset="degradation" role="tab" aria-selected="false">Cycle Aging &amp; SOH 📉</button>
+          </div>
+        </div>
+
+        <div class="battery-tuning-group">
+          <!-- Current Slider -->
+          <div class="battery-input-wrap">
+            <label for="sliderBatteryCurrent" class="battery-input-lbl">
+              PACK CURRENT: <span class="battery-val-pill text-cyan" id="batteryCurrentVal">+150 A</span>
+            </label>
+            <input type="range" class="battery-range" id="sliderBatteryCurrent" min="-200" max="500" step="10" value="150" aria-label="Pack current in Amperes (-200A discharge to +500A charge)" />
+          </div>
+
+          <!-- Ambient Temperature Slider -->
+          <div class="battery-input-wrap">
+            <label for="sliderBatteryTemp" class="battery-input-lbl">
+              AMBIENT TEMP: <span class="battery-val-pill text-amber" id="batteryTempVal">+25°C</span>
+            </label>
+            <input type="range" class="battery-range" id="sliderBatteryTemp" min="-10" max="50" step="1" value="25" aria-label="Ambient ambient temperature in degrees Celsius" />
+          </div>
+
+          <!-- Liquid Chiller Mode Selector -->
+          <div class="battery-input-wrap">
+            <label for="selectBatteryCooling" class="battery-input-lbl">COOLING LOOP:</label>
+            <select class="battery-select" id="selectBatteryCooling" aria-label="BMS Liquid thermal cooling loop management mode">
+              <option value="chiller">Active Liquid Chiller (Target 28°C)</option>
+              <option value="radiator">Passive Glycol Radiator</option>
+              <option value="off">Cooling Offline (Stress Test)</option>
+            </select>
+          </div>
+
+          <!-- Quick Action Buttons -->
+          <div class="battery-quick-actions">
+            <button type="button" class="battery-tool-btn" id="batteryInjectImbalanceBtn" title="Simulate cell voltage drift and resistance variation">
+              Inject Imbalance ⚠️
+            </button>
+            <button type="button" class="battery-tool-btn danger" id="batteryPyrofuseBtn" title="Trigger pyrotechnic safety disconnect switch">
+              Trigger Pyrofuse 💥
+            </button>
+            <button type="button" class="battery-tool-btn" id="batteryResetBtn" title="Reset battery pack to nominal baseline state">
+              Reset Pack 🔄
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Split View Body -->
+      <div class="battery-split-view">
+        <!-- Left: 96-Cell Pack Topology Canvas Viewport -->
+        <div class="battery-canvas-pane">
+          <div class="battery-canvas-header">
+            <div class="battery-canvas-title-group">
+              <span class="battery-canvas-title">96S1P NMC PACK MATRIX (6 MODULES × 16 CELLS)</span>
+              <span class="battery-canvas-subtitle">Real-Time Cell Voltage Gradient &amp; Coolant Flow</span>
+            </div>
+            <div class="battery-status-tag" id="batteryActiveStateBadge">CC Fast-Charge Mode</div>
+          </div>
+
+          <div class="battery-canvas-wrapper">
+            <canvas class="battery-lab-canvas" id="batteryLabCanvas" width="920" height="380" aria-label="Interactive 96-cell battery pack topology and thermal gradient map"></canvas>
+            <div class="battery-canvas-overlay" id="batteryCellTooltip" style="display: none;">
+              <span class="cell-tooltip-title" id="cellTooltipTitle">Cell #42 (Module 3)</span>
+              <span class="cell-tooltip-val" id="cellTooltipVoltage">Voltage: 3.742 V</span>
+              <span class="cell-tooltip-val" id="cellTooltipTemp">Temp: 31.8°C</span>
+              <span class="cell-tooltip-val" id="cellTooltipRint">R_int: 1.54 mΩ</span>
+            </div>
+          </div>
+
+          <!-- Canvas Legend / Pipeline Status Bar -->
+          <div class="battery-canvas-footer">
+            <div class="battery-legend-item">
+              <span class="legend-swatch swatch-blue"></span> Discharged (&lt;3.5V)
+            </div>
+            <div class="legend-item">
+              <span class="legend-swatch swatch-green"></span> Nominal (3.6V - 3.9V)
+            </div>
+            <div class="legend-item">
+              <span class="legend-swatch swatch-amber"></span> High SOC (4.0V - 4.15V)
+            </div>
+            <div class="legend-item">
+              <span class="legend-swatch swatch-red"></span> Peak / Balancing (&ge;4.18V)
+            </div>
+            <div class="legend-item">
+              <span class="legend-swatch swatch-coolant"></span> Active Glycol Loop
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Telemetry Metrics & Subsystems Console -->
+        <div class="battery-metrics-pane">
+          <div class="battery-metrics-card">
+            <h3 class="metrics-card-heading">HIGH-VOLTAGE BMS PACK TELEMETRY</h3>
+            <div class="battery-metric-row">
+              <span class="battery-metric-lbl">PACK VOLTAGE (V_pack):</span>
+              <span class="battery-metric-val text-cyan" id="batteryPackVoltage">400.8 V (Nominal)</span>
+            </div>
+            <div class="battery-metric-row">
+              <span class="battery-metric-lbl">PACK CURRENT (I_pack):</span>
+              <span class="battery-metric-val text-lime" id="batteryPackCurrent">+150.0 A (Charging)</span>
+            </div>
+            <div class="battery-metric-row">
+              <span class="battery-metric-lbl">ELECTRICAL POWER (P):</span>
+              <span class="battery-metric-val text-lime" id="batteryPackPower">60.1 kW</span>
+            </div>
+            <div class="battery-metric-row">
+              <span class="battery-metric-lbl">JOULE LOSS (I²R):</span>
+              <span class="battery-metric-val text-amber" id="batteryJouleLoss">3.38 kW (5.6% Waste Heat)</span>
+            </div>
+            <div class="battery-metric-row">
+              <span class="battery-metric-lbl">STATE OF CHARGE (SOC):</span>
+              <span class="battery-metric-val text-cyan" id="batteryPackSOC">78.4% (Coulomb Counting)</span>
+            </div>
+            <div class="battery-metric-row">
+              <span class="battery-metric-lbl">STATE OF HEALTH (SOH):</span>
+              <span class="battery-metric-val text-lime" id="batteryPackSOH">97.2% (984 Cycles)</span>
+            </div>
+            <div class="battery-metric-row">
+              <span class="battery-metric-lbl">CELL VOLTAGE DELTA (ΔV):</span>
+              <span class="battery-metric-val text-lime" id="batteryDeltaV">12 mV (Target &le; 15 mV)</span>
+            </div>
+            <div class="battery-metric-row">
+              <span class="battery-metric-lbl">MEAN PACK TEMP (T_mean):</span>
+              <span class="battery-metric-val text-cyan" id="batteryPackTemp">31.4°C (Safe Zone)</span>
+            </div>
+            <div class="battery-metric-row">
+              <span class="battery-metric-lbl">BMS SYSTEM STATUS:</span>
+              <span class="battery-status-pill text-lime" id="batteryStatusPill">OPTIMAL OPERATING ZONE</span>
+            </div>
+          </div>
+
+          <!-- BMS Subsystem Modules List -->
+          <div class="battery-modules-wrap">
+            <div class="battery-modules-list" id="batteryModulesTrack">
+              <!-- Dynamically populated BMS subsystem cards -->
+            </div>
+          </div>
+
+          <!-- CAN Telemetry Console -->
+          <div class="battery-console-box">
+            <div class="console-box-header">
+              <span class="console-title">can_bms_telemetry.log</span>
+              <span class="console-status-pill text-lime">100 Hz Streaming</span>
+            </div>
+            <pre class="battery-console-pre" id="batteryConsolePre"><code>[00:00.00] CAN bus 2.0B initialized at 500 kbps. Node ID: 0x18F0.
+[00:00.01] 96 cell voltage sensing taps connected. High-voltage interlock closed.</code></pre>
           </div>
         </div>
       </div>
