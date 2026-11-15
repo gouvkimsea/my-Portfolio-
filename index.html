@@ -676,6 +676,7 @@
               <button type="button" class="terminal-chip" data-cmd="particles">particles ✨</button>
               <button type="button" class="terminal-chip" data-cmd="gitgraph">gitgraph 📊</button>
               <button type="button" class="terminal-chip" data-cmd="archflow">archflow 📐</button>
+              <button type="button" class="terminal-chip" data-cmd="radar">radar 🕸️</button>
               <button type="button" class="terminal-chip" data-cmd="export">export</button>
               <button type="button" class="terminal-chip" data-cmd="clear">clear</button>
             </div>
@@ -693,11 +694,16 @@
           </div>
           <p class="heading-note">A growing toolkit, not a finished list.<br />The best skill is staying curious.</p>
         </div>
-        <div class="skills-filter-bar reveal" role="tablist" aria-label="Filter toolkit capabilities">
-          <button type="button" class="skill-filter-btn active" data-filter="all" role="tab" aria-selected="true">All Capabilities <sup class="filter-count">06</sup></button>
-          <button type="button" class="skill-filter-btn" data-filter="systems" role="tab" aria-selected="false">Systems &amp; CS <sup class="filter-count">03</sup></button>
-          <button type="button" class="skill-filter-btn" data-filter="graphics" role="tab" aria-selected="false">Graphics &amp; Web <sup class="filter-count">02</sup></button>
-          <button type="button" class="skill-filter-btn" data-filter="business" role="tab" aria-selected="false">Business &amp; Strategy <sup class="filter-count">01</sup></button>
+        <div class="skills-toolbar-wrap reveal">
+          <div class="skills-filter-bar" role="tablist" aria-label="Filter toolkit capabilities">
+            <button type="button" class="skill-filter-btn active" data-filter="all" role="tab" aria-selected="true">All Capabilities <sup class="filter-count">06</sup></button>
+            <button type="button" class="skill-filter-btn" data-filter="systems" role="tab" aria-selected="false">Systems &amp; CS <sup class="filter-count">03</sup></button>
+            <button type="button" class="skill-filter-btn" data-filter="graphics" role="tab" aria-selected="false">Graphics &amp; Web <sup class="filter-count">02</sup></button>
+            <button type="button" class="skill-filter-btn" data-filter="business" role="tab" aria-selected="false">Business &amp; Strategy <sup class="filter-count">01</sup></button>
+          </div>
+          <button type="button" class="skills-radar-launcher-btn" id="skillsRadarLauncherBtn" title="Launch Dual-Degree Competency Radar (Shift+C)" aria-label="Open dual-degree competency radar">
+            <span class="radar-btn-icon" aria-hidden="true">🕸️</span> Competency Radar
+          </button>
         </div>
         <div class="skill-grid">
           <article class="skill-card reveal spotlight-card" data-category="systems"><span class="skill-number">01</span>
@@ -3255,6 +3261,8 @@
           <small class="cmdk-desc">52-week activity calendar, metrics &amp; branch DAG topology</small></button>
         <button type="button" class="cmdk-item" data-action="view-arch-flow"><span class="cmdk-icon">📐</span> System Architecture &amp; Data Flow Simulator
           <small class="cmdk-desc">Interactive microservice node inspection, packet dynamics &amp; failover tests</small></button>
+        <button type="button" class="cmdk-item" data-action="view-skills-radar"><span class="cmdk-icon">🕸️</span> Dual-Degree Competency Radar
+          <small class="cmdk-desc">Multidimensional spider chart mapping CS systems &amp; BBA strategy</small></button>
         <button type="button" class="cmdk-item" data-action="open-game"><span class="cmdk-icon">🎮</span> Play DevLoop Indie Game
           <small class="cmdk-desc">Developer idle tycoon &amp; bug arcade</small></button>
         <button type="button" class="cmdk-item" data-action="open-synth"><span class="cmdk-icon">🎹</span> Cyber Piano Synthesizer
@@ -3471,6 +3479,12 @@ Email: gouvkimsea@gmail.com</pre>
               <span class="shortcut-desc">System Architecture &amp; Flow Simulator</span>
               <div class="shortcut-kbd-group">
                 <kbd class="shortcut-kbd">⇧</kbd><kbd class="shortcut-kbd">A</kbd>
+              </div>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Dual-Degree Competency Radar</span>
+              <div class="shortcut-kbd-group">
+                <kbd class="shortcut-kbd">⇧</kbd><kbd class="shortcut-kbd">C</kbd>
               </div>
             </div>
             <div class="shortcut-row">
@@ -4078,6 +4092,85 @@ Email: gouvkimsea@gmail.com</pre>
               <button type="button" class="payload-copy-btn" id="archCopyPayloadBtn">📋 Copy JSON</button>
             </div>
             <pre class="payload-code" id="archNodePayload">{ "status": "operational", "health": "100%", "activeWorker": "ready" }</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Interactive Dual-Degree Engineering Competency Radar Modal Dialog -->
+  <dialog class="radar-modal" id="skillsRadarModal" aria-label="Dual-Degree Engineering Competency Radar" aria-modal="true">
+    <div class="radar-shell">
+      <div class="radar-header">
+        <div class="radar-title-wrap">
+          <div class="radar-badge-row">
+            <span class="radar-badge">DUAL-DEGREE COMPETENCY MODEL</span>
+            <span class="radar-live-indicator"><span class="radar-pulse-dot"></span> CS (Paragon.U) × BBA (Bonamary.U)</span>
+          </div>
+          <h2 class="radar-title" id="skillsRadarTitle">Dual-Degree Competency Radar</h2>
+          <p class="radar-subtitle">Multidimensional evaluation across systems, graphics, algorithms, and business strategy</p>
+        </div>
+        <div class="radar-header-actions">
+          <div class="radar-preset-pills" role="tablist" aria-label="Radar perspective mode">
+            <button type="button" class="radar-mode-btn active" data-mode="current">Current Proficiency</button>
+            <button type="button" class="radar-mode-btn" data-mode="target">Graduation Target</button>
+            <button type="button" class="radar-mode-btn" data-mode="intersection">CS × BBA Intersection</button>
+          </div>
+          <button type="button" class="radar-action-btn" id="skillsRadarExportBtn" title="Export Competency Scorecard (.md)">
+            📥 Export Scorecard
+          </button>
+          <button class="modal-close radar-modal-close" id="skillsRadarCloseBtn" type="button" aria-label="Close competency radar modal">×</button>
+        </div>
+      </div>
+
+      <div class="radar-body">
+        <div class="radar-split-view">
+          <!-- Left: 2D Canvas Radar Chart -->
+          <div class="radar-canvas-pane">
+            <div class="pane-header">
+              <span class="pane-title"><span class="pane-dot dot-yellow"></span> competency_spider.chart</span>
+              <span class="pane-hint">Interactive 6-Axis Radar</span>
+            </div>
+            <div class="radar-canvas-wrap">
+              <canvas id="skillsRadarCanvas" class="skills-radar-canvas" width="480" height="420" aria-label="Competency Radar Canvas"></canvas>
+            </div>
+            <div class="radar-legend-strip">
+              <span class="radar-legend-item legend-active"><span class="legend-swatch swatch-lime"></span> Active Mode</span>
+              <span class="radar-legend-item legend-base"><span class="legend-swatch swatch-muted"></span> Academic Baseline (50%)</span>
+            </div>
+          </div>
+
+          <!-- Right: Dimension Inspector & Applied Evidence -->
+          <div class="radar-details-pane" id="skillsRadarDetails">
+            <div class="pane-header">
+              <span class="pane-title"><span class="pane-dot dot-green"></span> axis.telemetry</span>
+              <span class="pane-meta" id="radarAxisScoreBadge">Score: 92%</span>
+            </div>
+            <div class="radar-details-content">
+              <div class="axis-header-row">
+                <span class="axis-badge" id="radarAxisCategory">SYSTEMS &amp; ARCHITECTURE</span>
+                <h3 class="axis-title" id="radarAxisTitle">Distributed Systems &amp; Concurrency</h3>
+              </div>
+              <div class="axis-progress-wrap">
+                <div class="axis-progress-track">
+                  <div class="axis-progress-bar" id="radarAxisProgressBar" style="width: 92%;"></div>
+                </div>
+              </div>
+              <p class="axis-desc" id="radarAxisDesc">Engineering resilient backends, interval collision prevention, and ACID transaction states.</p>
+              
+              <div class="axis-evidence-box">
+                <span class="evidence-title">Verified Project Evidence:</span>
+                <ul class="evidence-list" id="radarAxisEvidenceList">
+                  <li><strong>JOUL Rental:</strong> Mathematical interval overlap scheduling with 2-hour turnaround buffers.</li>
+                  <li><strong>PinitAI:</strong> Python FastAPI async analysis worker with zero-width character evasion filter.</li>
+                </ul>
+              </div>
+
+              <div class="axis-academic-box">
+                <span class="academic-title">Academic &amp; Coursework Foundation:</span>
+                <p class="academic-desc" id="radarAxisAcademic">Paragon International University: Data Structures &amp; Algorithms, Object-Oriented Programming (C++).</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

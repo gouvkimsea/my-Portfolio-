@@ -594,6 +594,16 @@ document.addEventListener("keydown", e => {
         openArchVisualizerModal();
       }
     }
+  } else if ((e.key === "C" || e.key === "c") && e.shiftKey) {
+    e.preventDefault();
+    if (typeof openSkillsRadarModal === "function") {
+      const rModal = document.getElementById("skillsRadarModal");
+      if (rModal?.open) {
+        if (typeof closeSkillsRadarModal === "function") closeSkillsRadarModal();
+      } else {
+        openSkillsRadarModal();
+      }
+    }
   } else if (e.key.toLowerCase() === "u" && !e.ctrlKey && !e.metaKey && !e.altKey) {
     e.preventDefault();
     if (typeof toggleSfx === "function") toggleSfx();
@@ -609,7 +619,7 @@ document.addEventListener("keydown", e => {
       openResumeModal();
       showPortfolioToast("Opened Curriculum Vitae (CV)");
     }
-  } else if (e.key.toLowerCase() === "c" && !e.ctrlKey && !e.metaKey && !e.altKey) {
+  } else if (e.key.toLowerCase() === "c" && !e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey) {
     e.preventDefault();
     document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
     showPortfolioToast("Navigated to Contact Channels");
@@ -827,6 +837,8 @@ cmdKResults?.addEventListener("click", e => {
     if (typeof openGitGraphModal === "function") openGitGraphModal();
   } else if (action === "view-arch-flow") {
     if (typeof openArchVisualizerModal === "function") openArchVisualizerModal();
+  } else if (action === "view-skills-radar") {
+    if (typeof openSkillsRadarModal === "function") openSkillsRadarModal();
   } else if (action === "open-telemetry") {
     if (typeof openTelemetryModal === "function") openTelemetryModal();
   } else if (action === "download-resume-md") {
@@ -4824,7 +4836,7 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>cat [file]</b>, <b>curl</b>, <b>history</b>, <b>export</b>, <b>vcard</b>, <b>game</b>, <b>arcade</b>, <b>accent [theme]</b>, <b>synth [demo]</b>, <b>piano</b>, <b>telemetry</b>, <b>diag</b>, <b>perf</b>, <b>sysinfo</b>, <b>playground</b>, <b>sandbox</b>, <b>eval [code]</b>, <b>particles [on|off|toggle]</b>, <b>casestudy [project]</b>, <b>gitgraph [project]</b>, <b>heatmap</b>, <b>archflow [project]</b>, <b>flow [project]</b>, <b>time</b>, <b>volume [0-100]</b>, <b>demo [project]</b>, <b>cite [project]</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>bench</b>, <b>timeline</b>, <b>architecture</b>, <b>ping</b>, <b>matrix</b>, <b>git</b>, <b>nav [section]</b>, <b>shortcuts</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume [md|text]</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>cat [file]</b>, <b>curl</b>, <b>history</b>, <b>export</b>, <b>vcard</b>, <b>game</b>, <b>arcade</b>, <b>accent [theme]</b>, <b>synth [demo]</b>, <b>piano</b>, <b>telemetry</b>, <b>diag</b>, <b>perf</b>, <b>sysinfo</b>, <b>playground</b>, <b>sandbox</b>, <b>eval [code]</b>, <b>particles [on|off|toggle]</b>, <b>casestudy [project]</b>, <b>gitgraph [project]</b>, <b>heatmap</b>, <b>archflow [project]</b>, <b>flow [project]</b>, <b>radar [mode]</b>, <b>competencies</b>, <b>time</b>, <b>volume [0-100]</b>, <b>demo [project]</b>, <b>cite [project]</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>bench</b>, <b>timeline</b>, <b>architecture</b>, <b>ping</b>, <b>matrix</b>, <b>git</b>, <b>nav [section]</b>, <b>shortcuts</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume [md|text]</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
   matrix: () => {
     const terminalBody = $(".terminal-body");
     if (!terminalBody) return "Terminal stream window not accessible.";
@@ -5225,7 +5237,7 @@ Layer 1: Semantic Core  · Zero-dependency ES2026 &amp; HTML5 dialogs
 Layer 2: Style Tokens   · Modular Vanilla CSS &amp; WCAG AAA contrast
 Layer 3: 3D Graphics    · Hardware-accelerated WebGL 2.0 MiniWorld
 Layer 4: Procedural SFX · Pure Web Audio synthesizers (0 audio files)
-Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v31</pre>`;
+Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v32</pre>`;
   },
   cat: (arg) => {
     const file = (arg || "").trim().toLowerCase();
@@ -5354,7 +5366,7 @@ DOM Tree:         <b>${domCount}</b> semantic nodes
 Logical Cores:    <b>${cores}</b> Threads (hardwareConcurrency)
 Display:          <b>${window.innerWidth}x${window.innerHeight}</b> (${window.devicePixelRatio || 1}x DPR)
 Audio Engine:     Active (${Math.round((typeof sfxVolume !== "undefined" ? sfxVolume : 0.8) * 100)}% Gain)
-PWA Cache:        <b>kimsea-pwa-v31</b> (Stale-While-Revalidate)
+PWA Cache:        <b>kimsea-pwa-v32</b> (Stale-While-Revalidate)
 Status:           Modal HUD Launched ⚡</pre>`;
   },
   diag: () => terminalCommands.telemetry(),
@@ -5407,6 +5419,20 @@ Status:           Modal HUD Launched ⚡</pre>`;
     return `Launched System Architecture & Data Flow Simulator 📐 (Inspecting ${escapeHtml(arg || "pinit")})`;
   },
   flow: (arg) => terminalCommands.archflow(arg),
+  radar: (arg) => {
+    const mode = (arg || "").trim().toLowerCase();
+    const validModes = ["current", "target", "intersection"];
+    const targetMode = validModes.includes(mode) ? mode : "current";
+    if (typeof openSkillsRadarModal === "function") openSkillsRadarModal(targetMode);
+    return `<pre class="term-pre" style="margin:4px 0;font-size:11px;line-height:1.45;">🕸️ <b>Dual-Degree Engineering Competency Radar Launched</b>
+--------------------------------------------------------
+Perspective:     <b>${targetMode.toUpperCase()}</b>
+Paragon.U (CS):  Systems (92%), Frontend (94%), WebGL (88%), Database (90%), AI (85%)
+Bonamary.U (BBA): Business Strategy, Unit Economics &amp; FinTech (89% - 98%)
+Interactive HUD: 6-Axis Spider Chart &amp; Scorecard Exporter (.md)</pre>`;
+  },
+  competencies: (arg) => terminalCommands.radar(arg),
+  spider: (arg) => terminalCommands.radar(arg),
   time: () => {
     const now = new Date();
     const options = { timeZone: "Asia/Phnom_Penh", hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit", weekday: "short", year: "numeric", month: "short", day: "numeric" };
@@ -5650,7 +5676,7 @@ terminalInput?.addEventListener("keydown", event => {
     if (current) {
       const allCmds = Array.from(new Set([
         ...Object.keys(terminalCommands),
-        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade", "accent", "synth", "piano", "telemetry", "diag", "perf", "sysinfo", "playground", "sandbox", "eval", "particles", "casestudy", "dossier", "gitgraph", "heatmap", "graph", "archflow", "flow"
+        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade", "accent", "synth", "piano", "telemetry", "diag", "perf", "sysinfo", "playground", "sandbox", "eval", "particles", "casestudy", "dossier", "gitgraph", "heatmap", "graph", "archflow", "flow", "radar", "spider", "competencies"
       ]));
       const prefix = lastTabPrefix || current;
       const matches = allCmds.filter(k => k.startsWith(prefix));
@@ -8164,7 +8190,7 @@ const initCyberTelemetry = () => {
       audioSubEl.textContent = `48000 Hz · Master Gain ${vol}%`;
     }
     if (pwaEl) {
-      pwaEl.textContent = "kimsea-pwa-v31";
+      pwaEl.textContent = "kimsea-pwa-v32";
     }
   };
 
@@ -9286,3 +9312,583 @@ const initArchVisualizerModal = () => {
 };
 
 initArchVisualizerModal();
+
+// ==========================================================================
+// Phase 26: Dual-Degree Engineering Competency Radar & Multi-Axis Matrix
+// ==========================================================================
+
+let openSkillsRadarModal = null;
+let closeSkillsRadarModal = null;
+
+const initSkillsRadarModal = () => {
+  const modal = document.getElementById("skillsRadarModal");
+  if (!modal) return;
+
+  const closeBtn = document.getElementById("skillsRadarCloseBtn");
+  const canvas = document.getElementById("skillsRadarCanvas");
+  const exportBtn = document.getElementById("skillsRadarExportBtn");
+  const launcherBtn = document.getElementById("skillsRadarLauncherBtn");
+  const modeBtns = document.querySelectorAll(".radar-mode-btn");
+
+  const scoreBadge = document.getElementById("radarAxisScoreBadge");
+  const categoryBadge = document.getElementById("radarAxisCategory");
+  const axisTitle = document.getElementById("radarAxisTitle");
+  const progressBar = document.getElementById("radarAxisProgressBar");
+  const axisDesc = document.getElementById("radarAxisDesc");
+  const evidenceList = document.getElementById("radarAxisEvidenceList");
+  const academicDesc = document.getElementById("radarAxisAcademic");
+
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  // 6 Competency Axes
+  const axes = [
+    {
+      id: "systems",
+      label: "Systems & Concurrency",
+      shortLabel: "Systems",
+      category: "SYSTEMS & ARCHITECTURE",
+      title: "Distributed Systems & Concurrency",
+      scores: { current: 92, target: 96, intersection: 94 },
+      desc: "Engineering resilient backends, interval collision prevention algorithms, and ACID transaction states across distributed nodes.",
+      evidence: [
+        "<strong>JOUL Rental:</strong> Mathematical interval overlap scheduling with 2-hour turnaround buffers and zero booking collisions.",
+        "<strong>PinitAI:</strong> Python FastAPI async analysis worker with zero-width character evasion filter and batch payload processing."
+      ],
+      academic: "Paragon International University: Data Structures & Algorithms, Object-Oriented Programming (C++), Operating Systems."
+    },
+    {
+      id: "frontend",
+      label: "Frontend Architecture",
+      shortLabel: "Frontend",
+      category: "WEB PLATFORMS",
+      title: "Frontend Architecture & DX",
+      scores: { current: 94, target: 98, intersection: 92 },
+      desc: "Production TypeScript/React/Vanilla architectures, responsive component design systems, and WCAG AA accessibility compliance.",
+      evidence: [
+        "<strong>Portfolio OS:</strong> Vanilla JS micro-framework with zero dependencies, 60 FPS Canvas rendering, and 80+ test suite.",
+        "<strong>DevPulse:</strong> Web Audio synth integration, dynamic theme switching, and real-time offline PWA service workers."
+      ],
+      academic: "Paragon International University: Web Engineering, Human-Computer Interaction, Software Architecture."
+    },
+    {
+      id: "graphics",
+      label: "3D Graphics & Shaders",
+      shortLabel: "3D & Shaders",
+      category: "GRAPHICS & CREATIVE",
+      title: "3D Graphics & WebGL Shaders",
+      scores: { current: 88, target: 94, intersection: 82 },
+      desc: "Custom GLSL shaders, procedural low-poly terrain generation, particle physics meshes, and Three.js scene graph optimization.",
+      evidence: [
+        "<strong>MiniWorld 3D:</strong> Real-time procedural planetary terrain, raymarching ocean lighting, and orbiting satellites.",
+        "<strong>Cyber Particle Mesh:</strong> Interactive constellation simulator with spatial velocity repulsion and 60 FPS particle fields."
+      ],
+      academic: "Paragon International University: Computer Graphics, Linear Algebra, Computational Physics."
+    },
+    {
+      id: "database",
+      label: "Database & ACID",
+      shortLabel: "ACID Database",
+      category: "DATA SYSTEMS",
+      title: "Database & ACID Integrity",
+      scores: { current: 90, target: 95, intersection: 91 },
+      desc: "PostgreSQL relational schemas, Prisma ORM transactions, write-ahead logging (WAL), and optimized indexed querying.",
+      evidence: [
+        "<strong>JOUL Rental:</strong> Serializable ACID database locks ensuring conflict-free luxury vehicle asset allocation.",
+        "<strong>CLP Law:</strong> Strict audit-trail revision tracking and encrypted evidentiary storage schemas."
+      ],
+      academic: "Paragon International University: Database Systems & Normalization, Relational Algebra."
+    },
+    {
+      id: "ai",
+      label: "ML & Threat Heuristics",
+      shortLabel: "ML & Defense",
+      category: "AI & SECURITY",
+      title: "ML & Threat Heuristics",
+      scores: { current: 85, target: 92, intersection: 88 },
+      desc: "Hybrid regex & n-gram heuristics, prompt injection defense, adversarial evasion mitigation, and asynchronous AI model gateways.",
+      evidence: [
+        "<strong>PinitAI:</strong> Defense-in-depth prompt sanitization detecting leetspeak obfuscation and invisible Unicode payloads.",
+        "<strong>DevLoop Arcade:</strong> Procedural bug wave generator with difficulty scaling based on dynamic defect heuristics."
+      ],
+      academic: "Paragon International University: Artificial Intelligence, Probability & Statistics, Discrete Mathematics."
+    },
+    {
+      id: "business",
+      label: "Business & FinTech",
+      shortLabel: "Strategy & Finance",
+      category: "MANAGEMENT & FINANCE",
+      title: "Business Strategy & FinTech",
+      scores: { current: 89, target: 96, intersection: 98 },
+      desc: "SaaS unit economics (LTV/CAC, ARR), double-entry ledger bookkeeping, compliance risk management, and product monetization.",
+      evidence: [
+        "<strong>DevPulse SaaS:</strong> Tiered monetization models with usage-based rate limits and payment gateway reconciliation.",
+        "<strong>JOUL Fleet Analytics:</strong> Dynamic asset depreciation models and automated turnaround profitability analysis."
+      ],
+      academic: "Bonamary University: Financial Management, Micro/Macroeconomics, Strategic Business Management, Corporate Governance."
+    }
+  ];
+
+  let activeMode = "current"; // "current" | "target" | "intersection"
+  let activeAxisIndex = 0;
+  let hoveredAxisIndex = -1;
+
+  // Animation values for smooth transitions
+  let currentAnimatedValues = axes.map(a => a.scores.current);
+  let targetAnimatedValues = axes.map(a => a.scores.current);
+  let animProgress = 1;
+  let animStartTime = 0;
+  const ANIM_DURATION = 350;
+
+  // High-DPI support
+  const setupCanvasResolution = () => {
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    const width = rect.width || 480;
+    const height = rect.height || 420;
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
+    if (ctx.resetTransform) {
+      ctx.resetTransform();
+    } else {
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+    }
+    ctx.scale(dpr, dpr);
+  };
+
+  const getAccentColor = () => {
+    const root = document.documentElement;
+    const accent = root.getAttribute("data-accent");
+    const accentMap = {
+      lime: "#e7f26d",
+      cyan: "#38bdf8",
+      emerald: "#10b981",
+      amber: "#f59e0b",
+      fuchsia: "#e879f9",
+      rose: "#f43f5e"
+    };
+    return accentMap[accent] || "#e7f26d";
+  };
+
+  const hexToRgb = (hex) => {
+    const clean = hex.replace("#", "");
+    const bigint = parseInt(clean, 16);
+    return {
+      r: (bigint >> 16) & 255,
+      g: (bigint >> 8) & 255,
+      b: bigint & 255
+    };
+  };
+
+  // Update Right Details Pane
+  const updateDetailsPane = (axisIdx) => {
+    const axis = axes[axisIdx] || axes[0];
+    const score = axis.scores[activeMode] || axis.scores.current;
+
+    if (scoreBadge) scoreBadge.textContent = `Score: ${score}%`;
+    if (categoryBadge) categoryBadge.textContent = axis.category;
+    if (axisTitle) axisTitle.textContent = axis.title;
+    if (progressBar) progressBar.style.width = `${score}%`;
+    if (axisDesc) axisDesc.textContent = axis.desc;
+
+    if (evidenceList) {
+      evidenceList.innerHTML = axis.evidence
+        .map(e => `<li>${e}</li>`)
+        .join("");
+    }
+
+    if (academicDesc) academicDesc.textContent = axis.academic;
+  };
+
+  // Render Radar Chart
+  const renderRadar = (time) => {
+    const rect = canvas.getBoundingClientRect();
+    const width = rect.width || 480;
+    const height = rect.height || 420;
+
+    ctx.clearRect(0, 0, width, height);
+
+    // Center and Max Radius
+    const cx = width / 2;
+    const cy = height / 2 + 6;
+    const maxR = Math.min(cx, cy) - 52;
+    const totalAxes = axes.length;
+    const stepAngle = (Math.PI * 2) / totalAxes;
+
+    // Handle Interpolation
+    if (animProgress < 1 && animStartTime > 0) {
+      const elapsed = time - animStartTime;
+      animProgress = Math.min(1, elapsed / ANIM_DURATION);
+      // Ease out cubic
+      const ease = 1 - Math.pow(1 - animProgress, 3);
+      for (let i = 0; i < totalAxes; i++) {
+        currentAnimatedValues[i] = currentAnimatedValues[i] + (targetAnimatedValues[i] - currentAnimatedValues[i]) * ease;
+      }
+    } else {
+      for (let i = 0; i < totalAxes; i++) {
+        currentAnimatedValues[i] = targetAnimatedValues[i];
+      }
+    }
+
+    // 1. Draw Concentric Grid Polygons
+    const levels = [0.25, 0.50, 0.75, 1.00];
+    levels.forEach((level) => {
+      ctx.beginPath();
+      for (let i = 0; i < totalAxes; i++) {
+        const angle = -Math.PI / 2 + i * stepAngle;
+        const r = maxR * level;
+        const x = cx + r * Math.cos(angle);
+        const y = cy + r * Math.sin(angle);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+
+      if (level === 0.50) {
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.22)";
+        ctx.setLineDash([4, 4]);
+      } else {
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
+        ctx.setLineDash([]);
+      }
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Ring percentage label
+      ctx.fillStyle = "rgba(255, 255, 255, 0.28)";
+      ctx.font = "9px var(--mono, monospace)";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(`${Math.round(level * 100)}%`, cx, cy - maxR * level - 2);
+    });
+
+    // 2. Draw Spokes and Axis Labels
+    for (let i = 0; i < totalAxes; i++) {
+      const angle = -Math.PI / 2 + i * stepAngle;
+      const xEnd = cx + maxR * Math.cos(angle);
+      const yEnd = cy + maxR * Math.sin(angle);
+
+      // Spoke line
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(xEnd, yEnd);
+      ctx.strokeStyle = (i === activeAxisIndex || i === hoveredAxisIndex)
+        ? "rgba(231, 242, 109, 0.35)"
+        : "rgba(255, 255, 255, 0.08)";
+      ctx.lineWidth = (i === activeAxisIndex || i === hoveredAxisIndex) ? 1.5 : 1;
+      ctx.stroke();
+
+      // Axis label placement
+      const labelDistance = maxR + 24;
+      const lx = cx + labelDistance * Math.cos(angle);
+      const ly = cy + labelDistance * Math.sin(angle);
+
+      ctx.save();
+      ctx.font = (i === activeAxisIndex || i === hoveredAxisIndex)
+        ? "bold 11px var(--mono, monospace)"
+        : "10px var(--mono, monospace)";
+      
+      const accent = getAccentColor();
+      ctx.fillStyle = (i === activeAxisIndex || i === hoveredAxisIndex) ? accent : "rgba(255, 255, 255, 0.7)";
+
+      // Align based on horizontal quadrant
+      if (Math.abs(Math.cos(angle)) < 0.2) {
+        ctx.textAlign = "center";
+      } else if (Math.cos(angle) > 0) {
+        ctx.textAlign = "left";
+      } else {
+        ctx.textAlign = "right";
+      }
+
+      // Vertical align based on vertical quadrant
+      if (Math.sin(angle) < -0.6) {
+        ctx.textBaseline = "bottom";
+      } else if (Math.sin(angle) > 0.6) {
+        ctx.textBaseline = "top";
+      } else {
+        ctx.textBaseline = "middle";
+      }
+
+      ctx.fillText(axes[i].shortLabel, lx, ly);
+
+      // Score sub-label
+      ctx.font = "9px var(--mono, monospace)";
+      ctx.fillStyle = "rgba(255, 255, 255, 0.45)";
+      const scoreY = Math.sin(angle) > 0.6 ? ly + 12 : ly - 12;
+      ctx.fillText(`${axes[i].scores[activeMode]}%`, lx, scoreY);
+      ctx.restore();
+    }
+
+    // 3. Draw Active Polygon Area
+    const accent = getAccentColor();
+    const rgb = hexToRgb(accent);
+
+    ctx.beginPath();
+    const vertexPoints = [];
+    for (let i = 0; i < totalAxes; i++) {
+      const angle = -Math.PI / 2 + i * stepAngle;
+      const score = Math.max(10, Math.min(100, currentAnimatedValues[i]));
+      const r = maxR * (score / 100);
+      const x = cx + r * Math.cos(angle);
+      const y = cy + r * Math.sin(angle);
+      vertexPoints.push({ x, y, score, angle });
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+
+    // Fill polygon with translucent accent gradient
+    ctx.fillStyle = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.24)`;
+    ctx.fill();
+
+    // Polygon border stroke
+    ctx.strokeStyle = accent;
+    ctx.lineWidth = 2.2;
+    ctx.stroke();
+
+    // 4. Draw Vertex Points
+    vertexPoints.forEach((pt, i) => {
+      const isSelected = (i === activeAxisIndex);
+      const isHovered = (i === hoveredAxisIndex);
+
+      if (isSelected || isHovered) {
+        // Outer halo
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, 10, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.28)`;
+        ctx.fill();
+        ctx.strokeStyle = accent;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      }
+
+      // Inner dot
+      ctx.beginPath();
+      ctx.arc(pt.x, pt.y, isSelected ? 5.5 : 4, 0, Math.PI * 2);
+      ctx.fillStyle = isSelected ? "#ffffff" : accent;
+      ctx.fill();
+      ctx.strokeStyle = "#0f100d";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    });
+
+    if (animProgress < 1) {
+      requestAnimationFrame(renderRadar);
+    }
+  };
+
+  // Switch Radar Perspective Mode
+  const setMode = (mode) => {
+    if (!["current", "target", "intersection"].includes(mode)) return;
+    activeMode = mode;
+
+    modeBtns.forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.mode === mode);
+    });
+
+    targetAnimatedValues = axes.map(a => a.scores[mode]);
+    animProgress = 0;
+    animStartTime = performance.now();
+    requestAnimationFrame(renderRadar);
+
+    updateDetailsPane(activeAxisIndex);
+    if (typeof playSound === "function") playSound("click");
+    if (typeof showPortfolioToast === "function") {
+      const modeNames = {
+        current: "Current Proficiency (2024–2026)",
+        target: "Graduation Target (2028)",
+        intersection: "CS × BBA Multi-Disciplinary Intersection"
+      };
+      showPortfolioToast(`Radar Perspective: ${modeNames[mode] || mode}`);
+    }
+  };
+
+  // Mouse Interaction on Canvas
+  const handlePointerMove = (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+
+    const width = rect.width || 480;
+    const height = rect.height || 420;
+    const cx = width / 2;
+    const cy = height / 2 + 6;
+    const maxR = Math.min(cx, cy) - 52;
+    const stepAngle = (Math.PI * 2) / axes.length;
+
+    let closestIdx = -1;
+    let minDistance = Infinity;
+
+    for (let i = 0; i < axes.length; i++) {
+      const angle = -Math.PI / 2 + i * stepAngle;
+      const score = Math.max(10, Math.min(100, currentAnimatedValues[i]));
+      const r = maxR * (score / 100);
+      const vx = cx + r * Math.cos(angle);
+      const vy = cy + r * Math.sin(angle);
+
+      const d = Math.hypot(mx - vx, my - vy);
+      if (d < minDistance) {
+        minDistance = d;
+        closestIdx = i;
+      }
+    }
+
+    if (minDistance < 32) {
+      canvas.style.cursor = "pointer";
+      if (hoveredAxisIndex !== closestIdx) {
+        hoveredAxisIndex = closestIdx;
+        renderRadar(performance.now());
+      }
+    } else {
+      canvas.style.cursor = "crosshair";
+      if (hoveredAxisIndex !== -1) {
+        hoveredAxisIndex = -1;
+        renderRadar(performance.now());
+      }
+    }
+  };
+
+  const handlePointerClick = (e) => {
+    if (hoveredAxisIndex !== -1 && hoveredAxisIndex !== activeAxisIndex) {
+      activeAxisIndex = hoveredAxisIndex;
+      updateDetailsPane(activeAxisIndex);
+      renderRadar(performance.now());
+      if (typeof playSound === "function") playSound("tap");
+    }
+  };
+
+  canvas.addEventListener("mousemove", handlePointerMove);
+  canvas.addEventListener("click", handlePointerClick);
+  canvas.addEventListener("mouseleave", () => {
+    if (hoveredAxisIndex !== -1) {
+      hoveredAxisIndex = -1;
+      renderRadar(performance.now());
+    }
+  });
+
+  // Mode Buttons
+  modeBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      setMode(btn.dataset.mode);
+    });
+  });
+
+  // Scorecard Markdown Exporter
+  const exportScorecard = () => {
+    const now = new Date().toISOString().split("T")[0];
+    const modeLabels = {
+      current: "Current Proficiency (2024–2026)",
+      target: "Graduation Target (2028)",
+      intersection: "CS × BBA Multi-Disciplinary Intersection"
+    };
+
+    let md = `# Gouv Kimsea — Dual-Degree Engineering Competency Scorecard\n`;
+    md += `*Generated: ${now} | Perspective: ${modeLabels[activeMode]}*\n\n`;
+    md += `## Academic Credentials & Institutions\n`;
+    md += `- **Computer Science (B.Sc.):** Paragon International University (2024–2028)\n`;
+    md += `- **Business Administration (B.A.):** Bonamary University (2025–2028)\n\n`;
+    md += `## Multi-Axis Competency Matrix\n\n`;
+    md += `| Dimension | Domain Category | Current (2026) | Target (2028) | CS × BBA | Verified Applied Evidence |\n`;
+    md += `| :--- | :--- | :---: | :---: | :---: | :--- |\n`;
+
+    axes.forEach(axis => {
+      const evSnippet = axis.evidence.map(e => e.replace(/<[^>]+>/g, "")).join(" ");
+      md += `| **${axis.title}** | ${axis.category} | ${axis.scores.current}% | ${axis.scores.target}% | ${axis.scores.intersection}% | ${evSnippet} |\n`;
+    });
+
+    md += `\n## Detailed Dimension Breakdowns\n\n`;
+    axes.forEach((axis, idx) => {
+      md += `### ${idx + 1}. ${axis.title} (${axis.scores[activeMode]}% in ${activeMode.toUpperCase()} mode)\n`;
+      md += `- **Category:** ${axis.category}\n`;
+      md += `- **Scope:** ${axis.desc}\n`;
+      md += `- **Coursework Foundation:** ${axis.academic}\n`;
+      md += `- **Verified Production Evidence:**\n`;
+      axis.evidence.forEach(ev => {
+        md += `  - ${ev.replace(/<[^>]+>/g, "")}\n`;
+      });
+      md += `\n`;
+    });
+
+    md += `---\n*Exported from Gouv Kimsea's Interactive Engineering Portfolio OS.*`;
+
+    // Download file
+    const blob = new Blob([md], { type: "text/markdown;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `kimsea-competency-scorecard-${activeMode}-${now}.md`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(md).catch(() => {});
+    }
+
+    if (exportBtn) {
+      const origText = exportBtn.innerHTML;
+      exportBtn.innerHTML = "Scorecard Exported! ✓";
+      exportBtn.style.borderColor = "var(--lime)";
+      exportBtn.style.color = "var(--lime)";
+      setTimeout(() => {
+        exportBtn.innerHTML = origText;
+        exportBtn.style.borderColor = "";
+        exportBtn.style.color = "";
+      }, 2200);
+    }
+
+    if (typeof playSound === "function") playSound("chime");
+    if (typeof showPortfolioToast === "function") {
+      showPortfolioToast("Downloaded Competency Scorecard (.md) & copied to clipboard! 📥");
+    }
+  };
+
+  exportBtn?.addEventListener("click", exportScorecard);
+
+  // Modal Open & Close Controller
+  openSkillsRadarModal = (mode) => {
+    if (typeof playSound === "function") playSound("whoosh");
+    if (!modal.open) modal.showModal();
+
+    if (mode && ["current", "target", "intersection"].includes(mode)) {
+      setMode(mode);
+    } else {
+      updateDetailsPane(activeAxisIndex);
+    }
+
+    setTimeout(() => {
+      setupCanvasResolution();
+      renderRadar(performance.now());
+    }, 40);
+  };
+
+  closeSkillsRadarModal = () => {
+    if (modal.open) modal.close();
+  };
+
+  closeBtn?.addEventListener("click", closeSkillsRadarModal);
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeSkillsRadarModal();
+  });
+  modal.addEventListener("cancel", closeSkillsRadarModal);
+
+  launcherBtn?.addEventListener("click", () => {
+    openSkillsRadarModal();
+  });
+
+  // Re-render when window resizes
+  window.addEventListener("resize", () => {
+    if (modal.open) {
+      setupCanvasResolution();
+      renderRadar(performance.now());
+    }
+  });
+
+  // Initialize
+  updateDetailsPane(0);
+};
+
+initSkillsRadarModal();

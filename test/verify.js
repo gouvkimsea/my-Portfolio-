@@ -172,7 +172,9 @@ assert(indexHtml.includes('id="gitGraphModal"') && scriptJs.includes('initGitGra
 assert(scriptJs.includes('gitgraph:') && indexHtml.includes('data-action="view-git-graph"') && indexHtml.includes('id="achieveViewGitGraphBtn"'), 'index.html & script.js: Git graph & heatmap launchers wired to Milestones toolbar, Command Palette, Terminal CLI, and hotkeys');
 assert(indexHtml.includes('id="archVisualizerModal"') && scriptJs.includes('initArchVisualizerModal') && fs.readFileSync('styles.css', 'utf8').includes('.archflow-modal'), 'index.html, styles.css & script.js: Interactive System Architecture & Data Flow Simulator implemented');
 assert(scriptJs.includes('archflow:') && indexHtml.includes('data-action="view-arch-flow"') && indexHtml.includes('id="modalArchFlowBtn"'), 'index.html & script.js: Architecture flow launchers wired to Project modal, Command Palette, Terminal CLI, and hotkeys');
-assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v31'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v31');
+assert(indexHtml.includes('id="skillsRadarModal"') && scriptJs.includes('initSkillsRadarModal') && fs.readFileSync('styles.css', 'utf8').includes('.radar-modal'), 'index.html, styles.css & script.js: Interactive Dual-Degree Competency Radar implemented');
+assert(scriptJs.includes('radar:') && indexHtml.includes('data-action="view-skills-radar"') && indexHtml.includes('id="skillsRadarLauncherBtn"'), 'index.html & script.js: Competency radar launchers wired to Skills toolbar, Command Palette, Terminal CLI, and hotkeys');
+assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v32'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v32');
 
 // Test global script evaluation with mock DOM globals
 try {
