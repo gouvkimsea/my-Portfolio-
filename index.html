@@ -678,6 +678,7 @@
               <button type="button" class="terminal-chip" data-cmd="archflow">archflow 📐</button>
               <button type="button" class="terminal-chip" data-cmd="radar">radar 🕸️</button>
               <button type="button" class="terminal-chip" data-cmd="arena">arena ⚔️</button>
+              <button type="button" class="terminal-chip" data-cmd="firewall">firewall 🛡️</button>
               <button type="button" class="terminal-chip" data-cmd="export">export</button>
               <button type="button" class="terminal-chip" data-cmd="clear">clear</button>
             </div>
@@ -1998,6 +1999,9 @@
           <button type="button" class="modal-nav-step-btn modal-arena-btn" id="modalAlgoArenaBtn" title="Launch Algorithm Benchmark &amp; Race Arena" aria-label="Launch algorithm benchmark and race arena">
             <span class="modal-arena-icon" aria-hidden="true">⚔️</span> Algo Arena
           </button>
+          <button type="button" class="modal-nav-step-btn modal-defense-btn" id="modalSecurityLabBtn" title="Launch Interactive Cyber Threat Defense Lab (Shift+F)" aria-label="Launch interactive cyber threat defense lab">
+            <span class="modal-defense-icon" aria-hidden="true">🛡️</span> Defense Lab
+          </button>
           <button type="button" class="modal-nav-step-btn" id="modalNextBtn" aria-label="Next project case study">
             Next Project <span class="nav-arrow" aria-hidden="true">→</span>
           </button>
@@ -3272,6 +3276,8 @@
           <small class="cmdk-desc">Multidimensional spider chart mapping CS systems &amp; BBA strategy</small></button>
         <button type="button" class="cmdk-item" data-action="open-algo-arena"><span class="cmdk-icon">⚔️</span> Algorithm Benchmark &amp; Race Arena
           <small class="cmdk-desc">Real-time browser micro-benchmarks comparing scheduling, heuristics &amp; noise math</small></button>
+        <button type="button" class="cmdk-item" data-action="open-security-lab"><span class="cmdk-icon">🛡️</span> Cyber Threat Defense &amp; AI Firewall
+          <small class="cmdk-desc">Multi-layer prompt sanitization, zero-width steganography &amp; injection firewall</small></button>
         <button type="button" class="cmdk-item" data-action="open-game"><span class="cmdk-icon">🎮</span> Play DevLoop Indie Game
           <small class="cmdk-desc">Developer idle tycoon &amp; bug arcade</small></button>
         <button type="button" class="cmdk-item" data-action="open-synth"><span class="cmdk-icon">🎹</span> Cyber Piano Synthesizer
@@ -3500,6 +3506,12 @@ Email: gouvkimsea@gmail.com</pre>
               <span class="shortcut-desc">Algorithm Benchmark &amp; Race Arena</span>
               <div class="shortcut-kbd-group">
                 <kbd class="shortcut-kbd">⇧</kbd><kbd class="shortcut-kbd">B</kbd>
+              </div>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Cyber Threat Defense &amp; AI Firewall</span>
+              <div class="shortcut-kbd-group">
+                <kbd class="shortcut-kbd">⇧</kbd><kbd class="shortcut-kbd">F</kbd>
               </div>
             </div>
             <div class="shortcut-row">
@@ -4272,6 +4284,144 @@ Email: gouvkimsea@gmail.com</pre>
                 <div class="log-line text-muted">[0.01ms] High-resolution timer window.performance.now ready.</div>
                 <div class="log-line text-lime">[READY] Select preset and press "Run Benchmark".</div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Interactive Cyber Threat Defense & AI Firewall Lab Modal Dialog -->
+  <dialog class="security-modal" id="securityLabModal" aria-label="Cyber Threat Defense &amp; AI Firewall Lab" aria-modal="true">
+    <div class="security-shell">
+      <div class="security-header">
+        <div class="security-title-wrap">
+          <div class="security-badge-row">
+            <span class="security-badge">PINIT.AI DEFENSE-IN-DEPTH</span>
+            <span class="security-live-indicator"><span class="security-pulse-dot"></span> Real-Time Multi-Stage Threat Sanitizer</span>
+          </div>
+          <h2 class="security-title" id="securityModalTitle">Cyber Threat Defense &amp; AI Firewall Lab</h2>
+          <p class="security-subtitle">Multi-layer payload sanitization, zero-width steganography detection, and injection mitigation</p>
+        </div>
+        <div class="security-header-actions">
+          <button type="button" class="security-action-btn" id="securityAuditExportBtn" title="Export Security Audit (.md)">
+            📥 Export Audit
+          </button>
+          <button class="modal-close security-modal-close" id="securityModalCloseBtn" type="button" aria-label="Close security lab modal">×</button>
+        </div>
+      </div>
+
+      <div class="security-controls-bar">
+        <div class="security-preset-pills" role="tablist" aria-label="Attack vector attack signatures">
+          <button type="button" class="security-preset-btn active" data-vector="indirect">Indirect Injection</button>
+          <button type="button" class="security-preset-btn" data-vector="unicode">Zero-Width Steg</button>
+          <button type="button" class="security-preset-btn" data-vector="leetspeak">Leetspeak Evasion</button>
+          <button type="button" class="security-preset-btn" data-vector="fence">Delimiter Hijack</button>
+          <button type="button" class="security-preset-btn" data-vector="sqli">Polyglot / SQLi</button>
+        </div>
+        <button type="button" class="security-analyze-btn" id="securityAnalyzeBtn">
+          <span class="shield-icon">🛡️</span> Sanitize &amp; Analyze
+        </button>
+      </div>
+
+      <div class="security-body">
+        <!-- Input Payload Workspace -->
+        <div class="security-input-section">
+          <div class="pane-header">
+            <span class="pane-title"><span class="pane-dot dot-yellow"></span> test_payload.in</span>
+            <span class="pane-meta" id="securityPayloadMeta">Length: 0 chars · UTF-8 Raw</span>
+          </div>
+          <div class="security-textarea-wrap">
+            <textarea id="securityPayloadInput" class="security-payload-input" rows="3" aria-label="Test attack payload input" placeholder="Enter adversarial payload to test multi-stage defense..."></textarea>
+          </div>
+        </div>
+
+        <!-- 4-Stage Defense-in-Depth Pipeline Status -->
+        <div class="security-pipeline-section">
+          <div class="pipeline-header">
+            <span class="pipeline-title">DEFENSE-IN-DEPTH FILTER PIPELINE:</span>
+            <span class="pipeline-runtime" id="securityTotalLatency">Total Latency: 0.00ms</span>
+          </div>
+          <div class="security-pipeline-grid">
+            <div class="pipeline-stage-card" id="stageCard_unicode">
+              <div class="stage-top">
+                <span class="stage-number">01</span>
+                <span class="stage-status-badge badge-neutral" id="stageBadge_unicode">STANDBY</span>
+              </div>
+              <h4 class="stage-title">Zero-Width &amp; Steg Stripper</h4>
+              <p class="stage-desc">Scans for non-printable Unicode, zero-width spaces (\u200B-\u200D), and bidirectional override tags.</p>
+              <div class="stage-meta" id="stageMeta_unicode">Latency: —</div>
+            </div>
+
+            <div class="pipeline-stage-card" id="stageCard_leetspeak">
+              <div class="stage-top">
+                <span class="stage-number">02</span>
+                <span class="stage-status-badge badge-neutral" id="stageBadge_leetspeak">STANDBY</span>
+              </div>
+              <h4 class="stage-title">Leetspeak &amp; Homoglyph Normalizer</h4>
+              <p class="stage-desc">Normalizes phonetic number substitutions (5→S, 0→O, 7→T) and Cyrillic homoglyphs to ASCII.</p>
+              <div class="stage-meta" id="stageMeta_leetspeak">Latency: —</div>
+            </div>
+
+            <div class="pipeline-stage-card" id="stageCard_heuristics">
+              <div class="stage-top">
+                <span class="stage-number">03</span>
+                <span class="stage-status-badge badge-neutral" id="stageBadge_heuristics">STANDBY</span>
+              </div>
+              <h4 class="stage-title">Heuristic &amp; N-Gram Classifier</h4>
+              <p class="stage-desc">Multi-pattern Aho-Corasick automaton inspecting system prompt probes, jailbreak tokens &amp; overrides.</p>
+              <div class="stage-meta" id="stageMeta_heuristics">Latency: —</div>
+            </div>
+
+            <div class="pipeline-stage-card" id="stageCard_delimiter">
+              <div class="stage-top">
+                <span class="stage-number">04</span>
+                <span class="stage-status-badge badge-neutral" id="stageBadge_delimiter">STANDBY</span>
+              </div>
+              <h4 class="stage-title">Delimiter &amp; Fence Encapsulator</h4>
+              <p class="stage-desc">Validates structured markdown formatting, XML tag boundaries, and SQL/Command injection metacharacters.</p>
+              <div class="stage-meta" id="stageMeta_delimiter">Latency: —</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Telemetry & Sanitized Output Split Grid -->
+        <div class="security-results-grid">
+          <!-- Sanitized Stream Preview -->
+          <div class="security-output-card">
+            <div class="pane-header">
+              <span class="pane-title"><span class="pane-dot dot-green"></span> sanitized_stream.safe</span>
+              <button type="button" class="security-copy-btn" id="securityCopyCleanBtn">📋 Copy Safe Payload</button>
+            </div>
+            <div class="security-output-display" id="securityCleanDisplay" role="region" aria-label="Sanitized output stream">
+              <span class="text-muted">Awaiting payload analysis...</span>
+            </div>
+          </div>
+
+          <!-- Threat Telemetry Summary -->
+          <div class="security-summary-card">
+            <div class="pane-header">
+              <span class="pane-title"><span class="pane-dot dot-cyan"></span> audit.verdict</span>
+              <span class="pane-meta" id="securityVerdictBadge">SECURE (0.00)</span>
+            </div>
+            <div class="security-summary-body">
+              <div class="telemetry-stat-row">
+                <span class="stat-label">Threat Severity Level:</span>
+                <span class="stat-val" id="securityThreatScore">0.00 / 1.00 (Minimal)</span>
+              </div>
+              <div class="telemetry-stat-row">
+                <span class="stat-label">Primary Attack Vector:</span>
+                <span class="stat-val" id="securityThreatVector">None Detected</span>
+              </div>
+              <div class="telemetry-stat-row">
+                <span class="stat-label">Neutralized Tokens:</span>
+                <span class="stat-val" id="securityTokensNeutralized">0 items</span>
+              </div>
+              <div class="telemetry-stat-row">
+                <span class="stat-label">Firewall Disposition:</span>
+                <span class="stat-val stat-highlight" id="securityDisposition">ALLOW_FORWARD</span>
+              </div>
+              <p class="security-audit-note" id="securityAuditNote">Input payload conforms to safe token patterns with zero detected hostile evasion signatures.</p>
             </div>
           </div>
         </div>
