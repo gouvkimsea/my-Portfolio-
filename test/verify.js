@@ -192,7 +192,9 @@ assert(indexHtml.includes('id="vectorLabModal"') && scriptJs.includes('initVecto
 assert(scriptJs.includes('vector:') && indexHtml.includes('data-action="open-vector-lab"') && indexHtml.includes('id="modalVectorLabBtn"'), 'index.html & script.js: Vector lab launchers wired to Project modal, Command Palette, Terminal CLI, and hotkeys');
 assert(indexHtml.includes('id="memoryLabModal"') && scriptJs.includes('initMemoryLabModal') && fs.readFileSync('styles.css', 'utf8').includes('.memory-modal'), 'index.html, styles.css & script.js: Interactive Cognitive Memory Decay & Spaced Repetition Scheduling Lab implemented');
 assert(scriptJs.includes('memory:') && indexHtml.includes('data-action="open-memory-lab"') && indexHtml.includes('id="modalMemoryLabBtn"'), 'index.html & script.js: Memory lab launchers wired to Project modal, Command Palette, Terminal CLI, and hotkeys');
-assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v41'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v41');
+assert(indexHtml.includes('id="terrainLabModal"') && scriptJs.includes('initTerrainLabModal') && fs.readFileSync('styles.css', 'utf8').includes('.terrain-modal'), 'index.html, styles.css & script.js: Interactive Procedural 3D Terrain & Voxel Chunk Studio implemented');
+assert(scriptJs.includes('terrain:') && indexHtml.includes('data-action="open-terrain-lab"') && indexHtml.includes('id="modalTerrainLabBtn"'), 'index.html & script.js: Terrain lab launchers wired to Project modal, Command Palette, Terminal CLI, and hotkeys');
+assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v42'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v42');
 
 // Test global script evaluation with mock DOM globals
 try {

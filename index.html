@@ -686,6 +686,7 @@
               <button type="button" class="terminal-chip" data-cmd="battery">battery 🔋</button>
               <button type="button" class="terminal-chip" data-cmd="vector">vector 🧬</button>
               <button type="button" class="terminal-chip" data-cmd="memory">memory 🧠</button>
+              <button type="button" class="terminal-chip" data-cmd="terrain">terrain 🏔️</button>
               <button type="button" class="terminal-chip" data-cmd="export">export</button>
               <button type="button" class="terminal-chip" data-cmd="clear">clear</button>
             </div>
@@ -2030,6 +2031,9 @@
           <button type="button" class="modal-nav-step-btn modal-memory-btn" id="modalMemoryLabBtn" title="Launch Cognitive Memory &amp; SRS Scheduling Lab (Shift+M)" aria-label="Launch cognitive memory and SRS scheduling lab">
             <span class="modal-memory-icon" aria-hidden="true">🧠</span> Memory Lab
           </button>
+          <button type="button" class="modal-nav-step-btn modal-terrain-btn" id="modalTerrainLabBtn" title="Launch Procedural 3D Terrain &amp; Voxel Lab (Shift+T)" aria-label="Launch procedural 3D terrain and voxel lab">
+            <span class="modal-terrain-icon" aria-hidden="true">🏔️</span> Terrain Lab
+          </button>
           <button type="button" class="modal-nav-step-btn" id="modalNextBtn" aria-label="Next project case study">
             Next Project <span class="nav-arrow" aria-hidden="true">→</span>
           </button>
@@ -3320,6 +3324,8 @@
           <small class="cmdk-desc">High-dimensional embeddings, Cosine distance hyperplanes &amp; k-NN semantic clustering</small></button>
         <button type="button" class="cmdk-item" data-action="open-memory-lab"><span class="cmdk-icon">🧠</span> Cognitive Memory &amp; SRS Scheduling Lab
           <small class="cmdk-desc">Ebbinghaus forgetting curves, SuperMemo SM-2 &amp; memory half-life decay</small></button>
+        <button type="button" class="cmdk-item" data-action="open-terrain-lab"><span class="cmdk-icon">🏔️</span> Procedural 3D Terrain &amp; Voxel Studio
+          <small class="cmdk-desc">Multi-octave Simplex fBm noise, 3D voxel heightmaps &amp; greedy mesh chunking</small></button>
         <button type="button" class="cmdk-item" data-action="open-game"><span class="cmdk-icon">🎮</span> Play DevLoop Indie Game
           <small class="cmdk-desc">Developer idle tycoon &amp; bug arcade</small></button>
         <button type="button" class="cmdk-item" data-action="open-synth"><span class="cmdk-icon">🎹</span> Cyber Piano Synthesizer
@@ -3596,6 +3602,12 @@ Email: gouvkimsea@gmail.com</pre>
               <span class="shortcut-desc">Cognitive Memory &amp; SRS Lab</span>
               <div class="shortcut-kbd-group">
                 <kbd class="shortcut-kbd">⇧</kbd><kbd class="shortcut-kbd">M</kbd>
+              </div>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Procedural 3D Terrain &amp; Voxel Lab</span>
+              <div class="shortcut-kbd-group">
+                <kbd class="shortcut-kbd">⇧</kbd><kbd class="shortcut-kbd">T</kbd>
               </div>
             </div>
             <div class="shortcut-row">
@@ -5597,6 +5609,180 @@ void main() {
             </div>
             <pre class="memory-console-pre" id="memoryConsolePre"><code>[00:00.00] Ebbinghaus forgetting model initialized with exponential decay.
 [00:00.01] SuperMemo SM-2 algorithm active: EF=2.50, Target Retention=90.0%.</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Interactive Procedural 3D Terrain & Voxel Chunk Studio Modal -->
+  <dialog class="terrain-modal" id="terrainLabModal" aria-labelledby="terrainLabTitle" aria-modal="true">
+    <div class="terrain-shell">
+      <!-- Modal Header -->
+      <div class="terrain-header">
+        <div class="terrain-header-left">
+          <div class="terrain-badge">
+            <span class="terrain-badge-icon" aria-hidden="true">🏔️</span>
+            <span class="terrain-badge-text">MiniWorld Procedural Engine • 3D Simplex Multi-Octave fBm Noise • Greedy Voxel Meshing</span>
+          </div>
+          <h2 class="terrain-title" id="terrainLabTitle">Procedural 3D Terrain &amp; Voxel Chunk Studio</h2>
+          <p class="terrain-subtitle">Interactive Fractional Brownian Motion ($fBm$), Biome Elevation Stratification, Hydraulic Erosion, and 3D Isometric Orbit Mesh.</p>
+        </div>
+        <div class="terrain-header-right">
+          <button type="button" class="terrain-action-btn export-btn" id="terrainExportBtn" title="Export Terrain Engineering Memorandum (.md)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Export Terrain Memo
+          </button>
+          <button type="button" class="terrain-close-btn" id="terrainLabCloseBtn" aria-label="Close procedural terrain studio">✕</button>
+        </div>
+      </div>
+
+      <!-- Controls & Simulation Presets Bar -->
+      <div class="terrain-controls-bar">
+        <div class="terrain-presets-group">
+          <span class="terrain-ctrl-lbl">BIOME PRESETS:</span>
+          <div class="terrain-presets-list" role="tablist" aria-label="Procedural Biome Scenarios">
+            <button type="button" class="terrain-preset-btn active" id="terrainPresetAlpine" data-preset="alpine" role="tab" aria-selected="true">Glaciated Alpine Fjord 🏔️</button>
+            <button type="button" class="terrain-preset-btn" id="terrainPresetArchipelago" data-preset="archipelago" role="tab" aria-selected="false">Tropical Archipelago 🏝️</button>
+            <button type="button" class="terrain-preset-btn" id="terrainPresetBadlands" data-preset="badlands" role="tab" aria-selected="false">Stratified Badlands Canyon 🏜️</button>
+            <button type="button" class="terrain-preset-btn" id="terrainPresetCaves" data-preset="caves" role="tab" aria-selected="false">3D Subterranean Caves 🕳️</button>
+          </div>
+        </div>
+
+        <div class="terrain-tuning-group">
+          <!-- Octaves Slider -->
+          <div class="terrain-input-wrap">
+            <label for="sliderTerrainOctaves" class="terrain-input-lbl">
+              OCTAVES: <span class="terrain-val-pill text-cyan" id="terrainOctavesVal">4 Octaves</span>
+            </label>
+            <input type="range" class="terrain-range" id="sliderTerrainOctaves" min="1" max="6" step="1" value="4" aria-label="Fractional Brownian Motion noise octave depth" />
+          </div>
+
+          <!-- Base Frequency Slider -->
+          <div class="terrain-input-wrap">
+            <label for="sliderTerrainFrequency" class="terrain-input-lbl">
+              FREQUENCY: <span class="terrain-val-pill text-amber" id="terrainFrequencyVal">0.035</span>
+            </label>
+            <input type="range" class="terrain-range" id="sliderTerrainFrequency" min="0.01" max="0.08" step="0.005" value="0.035" aria-label="Base spatial noise frequency" />
+          </div>
+
+          <!-- Shading Mode Selector -->
+          <div class="terrain-input-wrap">
+            <label for="selectTerrainErosion" class="terrain-input-lbl">SHADING:</label>
+            <select class="terrain-select" id="selectTerrainErosion" aria-label="Voxel mesh surface shading and lighting mode">
+              <option value="shaded" selected>Lambertian Sun Shading</option>
+              <option value="wireframe">Cyber Vector Wireframe</option>
+              <option value="contour">Topographic Iso-Contours</option>
+            </select>
+          </div>
+
+          <!-- Quick Action Buttons -->
+          <div class="terrain-quick-actions">
+            <button type="button" class="terrain-tool-btn" id="terrainRegenBtn" title="Regenerate procedural seed and noise permutation table">
+              Regen Seed 🎲
+            </button>
+            <button type="button" class="terrain-tool-btn" id="terrainWireframeBtn" title="Toggle wireframe rendering mode">
+              Wireframe 📐
+            </button>
+            <button type="button" class="terrain-tool-btn" id="terrainResetBtn" title="Reset camera pitch and yaw to isometric default">
+              Reset View 🔄
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Split View Body -->
+      <div class="terrain-split-view">
+        <!-- Left: 3D Isometric Voxel Mesh Canvas Viewport -->
+        <div class="terrain-canvas-pane">
+          <div class="terrain-canvas-header">
+            <div class="terrain-canvas-title-group">
+              <span class="terrain-canvas-title">3D ISOMETRIC VOXEL CHUNK (48 × 48 VERTEX MESH)</span>
+              <span class="terrain-canvas-subtitle">Click &amp; Drag to Orbit Camera (Yaw / Pitch) • Real-Time Procedural Sun Vector</span>
+            </div>
+            <div class="terrain-status-tag" id="terrainActiveStateBadge">Alpine Glaciated Biome</div>
+          </div>
+
+          <div class="terrain-canvas-wrapper">
+            <canvas class="terrain-lab-canvas" id="terrainLabCanvas" width="920" height="380" aria-label="Interactive 3D isometric procedural terrain mesh and voxel heightmap"></canvas>
+            <div class="terrain-canvas-overlay" id="terrainPointTooltip" style="display: none;">
+              <span class="terrain-tooltip-title" id="terrainTooltipTitle">Voxel [X: 24, Z: 31]</span>
+              <span class="terrain-tooltip-val" id="terrainTooltipElevation">Elevation: 1,840 m</span>
+              <span class="terrain-tooltip-val" id="terrainTooltipStrata">Strata: Coniferous Alpine</span>
+              <span class="terrain-tooltip-val" id="terrainTooltipNormal">Slope: 28.4° (Stable)</span>
+            </div>
+          </div>
+
+          <!-- Canvas Legend / Elevation Strata Footer -->
+          <div class="terrain-canvas-footer">
+            <div class="terrain-legend-item">
+              <span class="legend-swatch swatch-snow"></span> Snow Peak (&gt;75%)
+            </div>
+            <div class="terrain-legend-item">
+              <span class="legend-swatch swatch-rock"></span> Granite Rock (55%-75%)
+            </div>
+            <div class="terrain-legend-item">
+              <span class="legend-swatch swatch-forest"></span> Alpine Forest (35%-55%)
+            </div>
+            <div class="terrain-legend-item">
+              <span class="legend-swatch swatch-sand"></span> Shore / Sand (18%-35%)
+            </div>
+            <div class="terrain-legend-item">
+              <span class="legend-swatch swatch-water"></span> Deep Ocean (&lt;18%)
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Telemetry & Biome Strata Layers -->
+        <div class="terrain-metrics-pane">
+          <div class="terrain-metrics-card">
+            <h3 class="metrics-card-heading">PROCEDURAL VOXEL ENGINE TELEMETRY</h3>
+            <div class="terrain-metric-row">
+              <span class="terrain-metric-lbl">CHUNK COORDINATES:</span>
+              <span class="terrain-metric-val text-cyan" id="terrainChunkCoords">[Chunk X: 14, Z: -22]</span>
+            </div>
+            <div class="terrain-metric-row">
+              <span class="terrain-metric-lbl">PEAK ELEVATION ($h_{\max}$):</span>
+              <span class="terrain-metric-val text-lime" id="terrainPeakElevation">2,480 m (Alpine Summit)</span>
+            </div>
+            <div class="terrain-metric-row">
+              <span class="terrain-metric-lbl">MESH QUAD COUNT:</span>
+              <span class="terrain-metric-val text-cyan" id="terrainQuadCount">4,418 Polygons</span>
+            </div>
+            <div class="terrain-metric-row">
+              <span class="terrain-metric-lbl">GREEDY MESH COMPRESSION:</span>
+              <span class="terrain-metric-val text-lime" id="terrainCompressionRatio">68.4% Memory Savings</span>
+            </div>
+            <div class="terrain-metric-row">
+              <span class="terrain-metric-lbl">FRACTAL ROUGHNESS ($D$):</span>
+              <span class="terrain-metric-val text-amber" id="terrainRoughness">2.28 (Multi-Fractal)</span>
+            </div>
+            <div class="terrain-metric-row">
+              <span class="terrain-metric-lbl">VOXEL ENGINE STATUS:</span>
+              <span class="terrain-status-pill text-lime" id="terrainStatusPill">60 FPS MESH RENDERED</span>
+            </div>
+          </div>
+
+          <!-- Stratified Biome Layers Track -->
+          <div class="terrain-layers-wrap">
+            <span class="layers-wrap-title">STRATIFIED ELEVATION BIOME STRATA</span>
+            <div class="terrain-layers-list" id="terrainLayersTrack">
+              <!-- Dynamically populated biome strata cards -->
+            </div>
+          </div>
+
+          <!-- Trace Console Box -->
+          <div class="terrain-console-box">
+            <div class="console-box-header">
+              <span class="console-title">simplex_fbm_generator.log</span>
+              <span class="console-status-pill text-lime">fBm Noise O(N)</span>
+            </div>
+            <pre class="terrain-console-pre" id="terrainConsolePre"><code>[00:00.00] Procedural simplex noise permutation table seeded: seed=4219.
+[00:00.01] Fractional Brownian Motion: 4 octaves, persistence=0.50, lacunarity=2.0.</code></pre>
           </div>
         </div>
       </div>

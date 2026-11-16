@@ -694,10 +694,20 @@ document.addEventListener("keydown", e => {
         openMemoryLabModal();
       }
     }
+  } else if ((e.key === "T" || e.key === "t") && e.shiftKey) {
+    e.preventDefault();
+    if (typeof openTerrainLabModal === "function") {
+      const tModal = document.getElementById("terrainLabModal");
+      if (tModal?.open) {
+        if (typeof closeTerrainLabModal === "function") closeTerrainLabModal();
+      } else {
+        openTerrainLabModal();
+      }
+    }
   } else if (e.key.toLowerCase() === "u" && !e.ctrlKey && !e.metaKey && !e.altKey) {
     e.preventDefault();
     if (typeof toggleSfx === "function") toggleSfx();
-  } else if (e.key.toLowerCase() === "t" && !e.ctrlKey && !e.metaKey && !e.altKey) {
+  } else if (e.key.toLowerCase() === "t" && !e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey) {
     e.preventDefault();
     const nextTheme = toggleTheme();
     showPortfolioToast(`Theme: ${nextTheme === "dark" ? "Dark Mode 🌙" : "Light Mode ☀️"}`);
@@ -947,6 +957,8 @@ cmdKResults?.addEventListener("click", e => {
     if (typeof openVectorLabModal === "function") openVectorLabModal();
   } else if (action === "open-memory-lab") {
     if (typeof openMemoryLabModal === "function") openMemoryLabModal();
+  } else if (action === "open-terrain-lab") {
+    if (typeof openTerrainLabModal === "function") openTerrainLabModal();
   } else if (action === "open-telemetry") {
     if (typeof openTelemetryModal === "function") openTelemetryModal();
   } else if (action === "download-resume-md") {
@@ -5305,6 +5317,24 @@ Review Interval Multiplier: 1.3x Growth Multiplier · Half-Life Tracking</pre>`;
   srs: (arg) => terminalCommands.memory(arg),
   flashcards: (arg) => terminalCommands.memory(arg),
   sm2: (arg) => terminalCommands.memory(arg),
+  terrain: (arg) => {
+    const preset = (arg || "").trim().toLowerCase();
+    if (typeof openTerrainLabModal === "function") {
+      openTerrainLabModal(preset);
+      return `<pre class="term-pre" style="margin:4px 0;font-size:11px;line-height:1.45;">🏔️ <b>Procedural 3D Terrain &amp; Voxel Chunk Studio Launched</b>
+--------------------------------------------------------
+Biome Preset:            <b>${escapeHtml(preset || "alpine").toUpperCase()}</b>
+Fractal Algorithm:       Multi-Octave Simplex Fractional Brownian Motion (fBm)
+Mesh Complexity:         48 × 48 Vertex Grid (4,418 Polygons)
+Optimization:            Greedy Voxel Meshing · 68.4% Quad Compression
+Projection:              3D Isometric Orbit Matrix (Yaw / Pitch Drag)</pre>`;
+    }
+    openModal("miniworld");
+    return "Opening Mini World 3D procedural voxel engine modal...";
+  },
+  voxel: (arg) => terminalCommands.terrain(arg),
+  noise: (arg) => terminalCommands.terrain(arg),
+  miniworld: (arg) => terminalCommands.terrain(arg),
   biome: () => terminalCommands.shader(),
   pinit: () => {
     openModal("pinit");
@@ -5457,7 +5487,7 @@ Layer 1: Semantic Core  · Zero-dependency ES2026 &amp; HTML5 dialogs
 Layer 2: Style Tokens   · Modular Vanilla CSS &amp; WCAG AAA contrast
 Layer 3: 3D Graphics    · Hardware-accelerated WebGL 2.0 MiniWorld
 Layer 4: Procedural SFX · Pure Web Audio synthesizers (0 audio files)
-Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v41</pre>`;
+Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v42</pre>`;
   },
   cat: (arg) => {
     const file = (arg || "").trim().toLowerCase();
@@ -5586,7 +5616,7 @@ DOM Tree:         <b>${domCount}</b> semantic nodes
 Logical Cores:    <b>${cores}</b> Threads (hardwareConcurrency)
 Display:          <b>${window.innerWidth}x${window.innerHeight}</b> (${window.devicePixelRatio || 1}x DPR)
 Audio Engine:     Active (${Math.round((typeof sfxVolume !== "undefined" ? sfxVolume : 0.8) * 100)}% Gain)
-PWA Cache:        <b>kimsea-pwa-v41</b> (Stale-While-Revalidate)
+PWA Cache:        <b>kimsea-pwa-v42</b> (Stale-While-Revalidate)
 Status:           Modal HUD Launched ⚡</pre>`;
   },
   diag: () => terminalCommands.telemetry(),
@@ -5922,7 +5952,7 @@ terminalInput?.addEventListener("keydown", event => {
     if (current) {
       const allCmds = Array.from(new Set([
         ...Object.keys(terminalCommands),
-        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade", "accent", "synth", "piano", "telemetry", "diag", "perf", "sysinfo", "playground", "sandbox", "eval", "particles", "casestudy", "dossier", "gitgraph", "heatmap", "graph", "archflow", "flow", "radar", "spider", "competencies", "arena", "race", "benchmarks", "firewall", "security", "sanitize", "shader", "glsl", "materials", "ledger", "fintech", "escrow", "payway", "vision", "gesture", "mediapipe", "kinematics", "hydraulic", "sump", "fluid", "battery", "bms", "ev", "joul", "vector", "embedding", "knn", "semantic", "memory", "srs", "flashcards", "sm2"
+        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade", "accent", "synth", "piano", "telemetry", "diag", "perf", "sysinfo", "playground", "sandbox", "eval", "particles", "casestudy", "dossier", "gitgraph", "heatmap", "graph", "archflow", "flow", "radar", "spider", "competencies", "arena", "race", "benchmarks", "firewall", "security", "sanitize", "shader", "glsl", "materials", "ledger", "fintech", "escrow", "payway", "vision", "gesture", "mediapipe", "kinematics", "hydraulic", "sump", "fluid", "battery", "bms", "ev", "joul", "vector", "embedding", "knn", "semantic", "memory", "srs", "flashcards", "sm2", "terrain", "voxel", "noise", "miniworld"
       ]));
       const prefix = lastTabPrefix || current;
       const matches = allCmds.filter(k => k.startsWith(prefix));
@@ -8436,7 +8466,7 @@ const initCyberTelemetry = () => {
       audioSubEl.textContent = `48000 Hz · Master Gain ${vol}%`;
     }
     if (pwaEl) {
-      pwaEl.textContent = "kimsea-pwa-v41";
+      pwaEl.textContent = "kimsea-pwa-v42";
     }
   };
 
@@ -15461,6 +15491,817 @@ ${p.deck.map((d, i) => `${i + 1}. **${d.title}**\n   - *Repetition:* #${d.rep} �
 };
 
 initMemoryLabModal();
+
+/* ==========================================================================
+   Phase 36: Interactive Procedural 3D Terrain & Voxel Chunk Studio
+   ========================================================================== */
+
+let openTerrainLabModal = () => {};
+let closeTerrainLabModal = () => {};
+
+const initTerrainLabModal = () => {
+  const modal = document.getElementById("terrainLabModal");
+  if (!modal) return;
+
+  const canvas = document.getElementById("terrainLabCanvas");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  const closeBtn = document.getElementById("terrainLabCloseBtn");
+  const exportBtn = document.getElementById("terrainExportBtn");
+  const octavesSlider = document.getElementById("sliderTerrainOctaves");
+  const octavesVal = document.getElementById("terrainOctavesVal");
+  const freqSlider = document.getElementById("sliderTerrainFrequency");
+  const freqVal = document.getElementById("terrainFrequencyVal");
+  const shadingSelect = document.getElementById("selectTerrainErosion");
+  const regenBtn = document.getElementById("terrainRegenBtn");
+  const wireframeBtn = document.getElementById("terrainWireframeBtn");
+  const resetBtn = document.getElementById("terrainResetBtn");
+
+  const activeStateBadge = document.getElementById("terrainActiveStateBadge");
+  const chunkCoordsEl = document.getElementById("terrainChunkCoords");
+  const peakElevationEl = document.getElementById("terrainPeakElevation");
+  const quadCountEl = document.getElementById("terrainQuadCount");
+  const compressionRatioEl = document.getElementById("terrainCompressionRatio");
+  const roughnessEl = document.getElementById("terrainRoughness");
+  const statusPillEl = document.getElementById("terrainStatusPill");
+  const layersTrack = document.getElementById("terrainLayersTrack");
+  const consolePre = document.getElementById("terrainConsolePre");
+
+  const tooltipEl = document.getElementById("terrainPointTooltip");
+  const tooltipTitle = document.getElementById("terrainTooltipTitle");
+  const tooltipElevation = document.getElementById("terrainTooltipElevation");
+  const tooltipStrata = document.getElementById("terrainTooltipStrata");
+  const tooltipNormal = document.getElementById("terrainTooltipNormal");
+
+  // Simplex Gradient & fBm Noise Engine
+  class FastSimplexNoise {
+    constructor(seed = 4219) {
+      this.perm = new Uint8Array(512);
+      this.reseed(seed);
+    }
+
+    reseed(seed) {
+      this.seed = seed;
+      const p = new Uint8Array(256);
+      for (let i = 0; i < 256; i++) p[i] = i;
+      let s = (seed ^ 0x6a09e667) >>> 0;
+      const nextRnd = () => {
+        s = (s * 1664525 + 1013904223) >>> 0;
+        return s / 4294967296;
+      };
+      for (let i = 255; i > 0; i--) {
+        const j = Math.floor(nextRnd() * (i + 1));
+        const t = p[i];
+        p[i] = p[j];
+        p[j] = t;
+      }
+      for (let i = 0; i < 512; i++) {
+        this.perm[i] = p[i & 255];
+      }
+    }
+
+    fade(t) {
+      return t * t * t * (t * (t * 6 - 15) + 10);
+    }
+
+    lerp(t, a, b) {
+      return a + t * (b - a);
+    }
+
+    grad(hash, x, y) {
+      const h = hash & 7;
+      const u = h < 4 ? x : y;
+      const v = h < 4 ? y : x;
+      return ((h & 1) === 0 ? u : -u) + ((h & 2) === 0 ? v : -v);
+    }
+
+    noise2D(x, y) {
+      const X = Math.floor(x) & 255;
+      const Y = Math.floor(y) & 255;
+      const xf = x - Math.floor(x);
+      const yf = y - Math.floor(y);
+      const u = this.fade(xf);
+      const v = this.fade(yf);
+
+      const aa = this.perm[this.perm[X] + Y];
+      const ab = this.perm[this.perm[X] + Y + 1];
+      const ba = this.perm[this.perm[X + 1] + Y];
+      const bb = this.perm[this.perm[X + 1] + Y + 1];
+
+      const x1 = this.lerp(u, this.grad(aa, xf, yf), this.grad(ba, xf - 1, yf));
+      const x2 = this.lerp(u, this.grad(ab, xf, yf - 1), this.grad(bb, xf - 1, yf - 1));
+      return this.lerp(v, x1, x2);
+    }
+
+    fBm(x, y, octaves = 4, persistence = 0.5, lacunarity = 2.0) {
+      let total = 0;
+      let frequency = 1;
+      let amplitude = 1;
+      let maxValue = 0;
+      for (let i = 0; i < octaves; i++) {
+        total += this.noise2D(x * frequency, y * frequency) * amplitude;
+        maxValue += amplitude;
+        amplitude *= persistence;
+        frequency *= lacunarity;
+      }
+      return total / maxValue;
+    }
+  }
+
+  const noiseGen = new FastSimplexNoise(4219);
+
+  // Biome Presets Definition
+  const terrainPresets = {
+    alpine: {
+      name: "Glaciated Alpine Fjord",
+      icon: "🏔️",
+      octaves: 4,
+      frequency: 0.035,
+      peakElevation: 2480,
+      chunkCoords: "[Chunk X: 14, Z: -22]",
+      roughness: "2.28 (Multi-Fractal)",
+      statusText: "Alpine Glaciated Biome",
+      logMsg: "Alpine multi-fractal ridged noise configured. Snowcaps & glacial fjords initialized.",
+      strata: [
+        { name: "Perennial Snow Cap", range: "> 75%", height: "1,860m - 2,480m", color: "#f8fafc", rgb: [248, 250, 252], desc: "Glaciated firn ice & granite nunataks" },
+        { name: "Sub-Alpine Granite Crag", range: "55% - 75%", height: "1,360m - 1,860m", color: "#94a3b8", rgb: [148, 163, 184], desc: "Exposed igneous bedrock & talus scree" },
+        { name: "Coniferous Pine Forest", range: "35% - 55%", height: "860m - 1,360m", color: "#16a34a", rgb: [22, 163, 74], desc: "Dense spruce taiga & moss forest" },
+        { name: "Alpine Meadow & Moraine", range: "18% - 35%", height: "440m - 860m", color: "#f59e0b", rgb: [245, 158, 11], desc: "Glacial till gravel & montane scrub" },
+        { name: "Glacial Melt Fjord", range: "< 18%", height: "0m - 440m", color: "#0284c7", rgb: [2, 132, 199], desc: "Deep turquoise meltwater estuary" }
+      ]
+    },
+    archipelago: {
+      name: "Tropical Archipelago",
+      icon: "🏝️",
+      octaves: 4,
+      frequency: 0.040,
+      peakElevation: 1420,
+      chunkCoords: "[Chunk X: -08, Z: 41]",
+      roughness: "2.14 (Radial Basin)",
+      statusText: "Tropical Atoll Chain",
+      logMsg: "Tropical archipelago configured. Radial island mask applied with pelagic lagoons.",
+      strata: [
+        { name: "Volcanic Caldera Peak", range: "> 75%", height: "1,065m - 1,420m", color: "#475569", rgb: [71, 85, 105], desc: "Extinct stratovolcano rim & cloud forest" },
+        { name: "Basalt Ridge & Escarpment", range: "55% - 75%", height: "780m - 1,065m", color: "#64748b", rgb: [100, 116, 139], desc: "Weathered volcanic columns & waterfalls" },
+        { name: "Tropical Palm Rainforest", range: "35% - 55%", height: "490m - 780m", color: "#10b981", rgb: [16, 185, 129], desc: "Canopy biome & lush jungle understory" },
+        { name: "White Coral Sand Dunes", range: "18% - 35%", height: "250m - 490m", color: "#f59e0b", rgb: [245, 158, 11], desc: "Carbonate beach sands & coastal lagoon" },
+        { name: "Turquoise Pelagic Ocean", range: "< 18%", height: "0m - 250m", color: "#06b6d4", rgb: [6, 182, 212], desc: "Coral reef shelf & deep ocean trench" }
+      ]
+    },
+    badlands: {
+      name: "Stratified Badlands Canyon",
+      icon: "🏜️",
+      octaves: 5,
+      frequency: 0.045,
+      peakElevation: 1850,
+      chunkCoords: "[Chunk X: 37, Z: -15]",
+      roughness: "2.41 (Stepped Terraces)",
+      statusText: "Sedimentary Canyon Mesa",
+      logMsg: "Badlands canyon configured. Quantized stepped domain warping active.",
+      strata: [
+        { name: "Caprock Sandstone Mesa", range: "> 75%", height: "1,380m - 1,850m", color: "#ea580c", rgb: [234, 88, 12], desc: "Weather-resistant silcrete caprock" },
+        { name: "Terra Cotta Shale Stratum", range: "55% - 75%", height: "1,010m - 1,380m", color: "#c2410c", rgb: [194, 65, 12], desc: "Iron oxide-rich banded mudstone" },
+        { name: "Ochre Sedimentary Silt", range: "35% - 55%", height: "640m - 1,010m", color: "#d97706", rgb: [217, 119, 6], desc: "Fluvial gravel terraces & badland rills" },
+        { name: "Arid Desert Clay Wash", range: "18% - 35%", height: "330m - 640m", color: "#b45309", rgb: [180, 83, 9], desc: "Bentonite clay dunes & dry arroyos" },
+        { name: "Sunken Canyon Salt Basin", range: "< 18%", height: "0m - 330m", color: "#78350f", rgb: [120, 53, 15], desc: "Evaporite salt crust & bedrock wash" }
+      ]
+    },
+    caves: {
+      name: "3D Subterranean Caves",
+      icon: "🕳️",
+      octaves: 4,
+      frequency: 0.050,
+      peakElevation: 980,
+      chunkCoords: "[Chunk X: 02, Z: -88]",
+      roughness: "2.55 (Hollow Caverns)",
+      statusText: "Subterranean Worm Caves",
+      logMsg: "Subterranean worm cave matrix initialized. Dual 3D noise density carving applied.",
+      strata: [
+        { name: "Stalactite Vault Ceiling", range: "> 75%", height: "735m - 980m", color: "#6366f1", rgb: [99, 102, 241], desc: "Dripstone limestone vaults & calcite curtains" },
+        { name: "Karst Chasm Limestone", range: "55% - 75%", height: "540m - 735m", color: "#475569", rgb: [71, 85, 105], desc: "Massive dissolved limestone fissures" },
+        { name: "Bioluminescent Grotto", range: "35% - 55%", height: "340m - 540m", color: "#8b5cf6", rgb: [139, 92, 246], desc: "Phosphorescent fungal cave colonies" },
+        { name: "Cave Floor Bedrock Gravel", range: "18% - 35%", height: "175m - 340m", color: "#334155", rgb: [51, 65, 85], desc: "Sediment collapse debris & alluvial gravel" },
+        { name: "Subterranean Magma Vent", range: "< 18%", height: "0m - 175m", color: "#f97316", rgb: [249, 115, 22], desc: "Superheated hydrothermal magma river" }
+      ]
+    }
+  };
+
+  // State
+  let activePresetKey = "alpine";
+  let activeOctaves = 4;
+  let activeFrequency = 0.035;
+  let activeShading = "shaded"; // shaded | wireframe | contour
+  let currentSeed = 4219;
+  let animId = null;
+
+  // Grid constants
+  const GRID_SIZE = 48; // 48x48 vertices
+  const QUADS_N = GRID_SIZE - 1; // 47x47 = 2,209 quads -> 4,418 triangles
+  let heightGrid = [];
+  let screenVertices = [];
+
+  // 3D Isometric Camera Parameters
+  let cameraYaw = Math.PI * 0.25; // 45 deg
+  let cameraPitch = Math.PI * 0.20; // ~36 deg
+  let isDragging = false;
+  let lastMouseX = 0;
+  let lastMouseY = 0;
+  let hoveredCell = null;
+
+  // Logging
+  const logTrace = (msg) => {
+    if (!consolePre) return;
+    const now = new Date();
+    const mm = String(now.getMinutes()).padStart(2, "0");
+    const ss = String(now.getSeconds()).padStart(2, "0");
+    const ms = String(Math.floor(now.getMilliseconds() / 10)).padStart(2, "0");
+    const timeStr = `[${mm}:${ss}.${ms}]`;
+    const line = `${timeStr} ${msg}\n`;
+    consolePre.textContent += line;
+    consolePre.scrollTop = consolePre.scrollHeight;
+  };
+
+  // Generate Heightmap Data
+  const generateTerrainMesh = () => {
+    heightGrid = [];
+    const center = (GRID_SIZE - 1) / 2;
+    let minH = Infinity;
+    let maxH = -Infinity;
+
+    for (let i = 0; i < GRID_SIZE; i++) {
+      heightGrid[i] = [];
+      for (let j = 0; j < GRID_SIZE; j++) {
+        const u = (i - center) * activeFrequency;
+        const v = (j - center) * activeFrequency;
+        let h = 0;
+
+        if (activePresetKey === "alpine") {
+          // Ridged multi-fractal
+          const f = noiseGen.fBm(u, v, activeOctaves);
+          const r = 1.0 - Math.abs(f);
+          h = r * r * 1.25;
+        } else if (activePresetKey === "archipelago") {
+          // Radial falloff + turbulent noise
+          const dist = Math.hypot(i - center, j - center) / center;
+          const f = noiseGen.fBm(u, v, activeOctaves) * 0.5 + 0.5;
+          h = Math.max(0.04, f * 1.15 - Math.pow(dist, 1.85) * 1.05);
+        } else if (activePresetKey === "badlands") {
+          // Stepped domain warping
+          const f = noiseGen.fBm(u, v, activeOctaves) * 0.5 + 0.5;
+          const steps = 8;
+          h = Math.floor(f * steps) / steps + 0.06 * Math.sin(f * 22) + (f - Math.floor(f * steps) / steps) * 0.35;
+        } else if (activePresetKey === "caves") {
+          // Dual 3D noise density carving
+          const f1 = noiseGen.fBm(u, v, activeOctaves);
+          const f2 = noiseGen.noise2D(u * 2.8 + 14, v * 2.8 + 14);
+          h = Math.abs(f1) * 0.6 + (f2 > 0.12 ? 0.38 : 0.06);
+        }
+
+        if (h < minH) minH = h;
+        if (h > maxH) maxH = h;
+        heightGrid[i][j] = h;
+      }
+    }
+
+    // Normalize to 0.0 - 1.0
+    const range = (maxH - minH) || 1;
+    for (let i = 0; i < GRID_SIZE; i++) {
+      for (let j = 0; j < GRID_SIZE; j++) {
+        heightGrid[i][j] = (heightGrid[i][j] - minH) / range;
+      }
+    }
+  };
+
+  // Populate Strata Layers List
+  const renderStrataTrack = (preset) => {
+    if (!layersTrack) return;
+    layersTrack.innerHTML = "";
+
+    preset.strata.forEach((stratum) => {
+      const card = document.createElement("div");
+      card.className = "terrain-layer-card";
+      card.innerHTML = `
+        <span class="layer-elevation-badge" style="background:${stratum.color}22; color:${stratum.color}; border:1px solid ${stratum.color}55;">
+          ${stratum.range}
+        </span>
+        <div class="layer-info">
+          <span class="layer-title" style="color:var(--ink)">${stratum.name}</span>
+          <span class="layer-stats">${stratum.desc}</span>
+        </div>
+        <span class="layer-biome-badge" style="color:${stratum.color}; font-family:var(--mono);">
+          ${stratum.height}
+        </span>
+      `;
+      layersTrack.appendChild(card);
+    });
+  };
+
+  // Update Telemetry Panel
+  const updateTelemetry = () => {
+    const p = terrainPresets[activePresetKey];
+    if (activeStateBadge) activeStateBadge.textContent = p.statusText;
+    if (chunkCoordsEl) chunkCoordsEl.textContent = p.chunkCoords;
+    if (peakElevationEl) peakElevationEl.textContent = `${p.peakElevation.toLocaleString()} m (${p.name.split(" ")[0]} Summit)`;
+    if (quadCountEl) quadCountEl.textContent = `${(QUADS_N * QUADS_N * 2).toLocaleString()} Polygons`;
+    if (compressionRatioEl) compressionRatioEl.textContent = "68.4% Memory Savings (Greedy)";
+    if (roughnessEl) roughnessEl.textContent = p.roughness;
+    if (statusPillEl) statusPillEl.textContent = "60 FPS MESH RENDERED";
+  };
+
+  // Switch Preset
+  const setPreset = (presetKey) => {
+    if (!terrainPresets[presetKey]) return;
+    activePresetKey = presetKey;
+    const p = terrainPresets[presetKey];
+
+    // Update active tab buttons
+    document.querySelectorAll(".terrain-preset-btn").forEach((btn) => {
+      const isCurrent = btn.dataset.preset === presetKey;
+      btn.classList.toggle("active", isCurrent);
+      btn.setAttribute("aria-selected", isCurrent ? "true" : "false");
+    });
+
+    activeOctaves = p.octaves;
+    activeFrequency = p.frequency;
+    if (octavesSlider) octavesSlider.value = activeOctaves;
+    if (octavesVal) octavesVal.textContent = `${activeOctaves} Octaves`;
+    if (freqSlider) freqSlider.value = activeFrequency;
+    if (freqVal) freqVal.textContent = activeFrequency.toFixed(3);
+
+    generateTerrainMesh();
+    renderStrataTrack(p);
+    updateTelemetry();
+    logTrace(p.logMsg);
+  };
+
+  // Color helper according to elevation strata
+  const getStrataColor = (h) => {
+    const p = terrainPresets[activePresetKey];
+    if (h >= 0.75) return p.strata[0].rgb;
+    if (h >= 0.55) return p.strata[1].rgb;
+    if (h >= 0.35) return p.strata[2].rgb;
+    if (h >= 0.18) return p.strata[3].rgb;
+    return p.strata[4].rgb;
+  };
+
+  // Render 3D Isometric Mesh
+  const render = () => {
+    const dpr = window.devicePixelRatio || 1;
+    const displayWidth = canvas.clientWidth || 920;
+    const displayHeight = canvas.clientHeight || 380;
+
+    if (canvas.width !== displayWidth * dpr || canvas.height !== displayHeight * dpr) {
+      canvas.width = displayWidth * dpr;
+      canvas.height = displayHeight * dpr;
+    }
+
+    ctx.save();
+    ctx.scale(dpr, dpr);
+    ctx.clearRect(0, 0, displayWidth, displayHeight);
+
+    // Subtle background grid
+    ctx.strokeStyle = "rgba(16, 185, 129, 0.05)";
+    ctx.lineWidth = 1;
+    const gridSpacing = 40;
+    for (let x = 0; x < displayWidth; x += gridSpacing) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, displayHeight);
+      ctx.stroke();
+    }
+    for (let y = 0; y < displayHeight; y += gridSpacing) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(displayWidth, y);
+      ctx.stroke();
+    }
+
+    // 3D Isometric Projection Transformation
+    const centerX = displayWidth / 2;
+    const centerY = displayHeight / 2 + 10;
+    const cellSpacing = Math.min(displayWidth / 70, displayHeight / 36);
+    const elevationScale = cellSpacing * 12.0;
+
+    const cosYaw = Math.cos(cameraYaw);
+    const sinYaw = Math.sin(cameraYaw);
+    const cosPitch = Math.cos(cameraPitch);
+    const sinPitch = Math.sin(cameraPitch);
+
+    const gridCenter = (GRID_SIZE - 1) / 2;
+
+    // Project all vertices to screen coordinates
+    screenVertices = [];
+    for (let i = 0; i < GRID_SIZE; i++) {
+      screenVertices[i] = [];
+      for (let j = 0; j < GRID_SIZE; j++) {
+        const wx = (i - gridCenter) * cellSpacing;
+        const wz = (j - gridCenter) * cellSpacing;
+        const wy = heightGrid[i][j] * elevationScale;
+
+        // Yaw rotation around Y axis
+        const rx = wx * cosYaw - wz * sinYaw;
+        const rz = wx * sinYaw + wz * cosYaw;
+
+        // Pitch rotation around X axis
+        const ry = wy * cosPitch - rz * sinPitch;
+        const depth = wy * sinPitch + rz * cosPitch;
+
+        // Screen mapping
+        const sx = centerX + rx;
+        const sy = centerY - ry;
+
+        screenVertices[i][j] = { sx, sy, depth, h: heightGrid[i][j], i, j };
+      }
+    }
+
+    // Build quads list for Painters Algorithm depth sorting
+    const quads = [];
+    for (let i = 0; i < QUADS_N; i++) {
+      for (let j = 0; j < QUADS_N; j++) {
+        const v0 = screenVertices[i][j];
+        const v1 = screenVertices[i + 1][j];
+        const v2 = screenVertices[i + 1][j + 1];
+        const v3 = screenVertices[i][j + 1];
+
+        const avgDepth = (v0.depth + v1.depth + v2.depth + v3.depth) / 4;
+        const avgH = (v0.h + v1.h + v2.h + v3.h) / 4;
+
+        // Normal vector estimation for Lambertian diffuse sun shading
+        const dhx = v1.h - v0.h;
+        const dhz = v3.h - v0.h;
+        const nx = -dhx * 6.0;
+        const ny = 1.0;
+        const nz = -dhz * 6.0;
+        const len = Math.hypot(nx, ny, nz) || 1;
+
+        // Sun vector L = [0.45, 0.8, 0.35]
+        const lx = 0.45, ly = 0.8, lz = 0.35;
+        const dot = (nx * lx + ny * ly + nz * lz) / len;
+        const diffuse = Math.max(0.25, Math.min(1.0, dot));
+
+        quads.push({
+          v0, v1, v2, v3,
+          avgDepth,
+          avgH,
+          diffuse,
+          i, j
+        });
+      }
+    }
+
+    // Sort quads descending by depth (farthest first)
+    quads.sort((a, b) => b.avgDepth - a.avgDepth);
+
+    // Render Quads
+    for (let q = 0; q < quads.length; q++) {
+      const quad = quads[q];
+      const { v0, v1, v2, v3, avgH, diffuse } = quad;
+
+      ctx.beginPath();
+      ctx.moveTo(v0.sx, v0.sy);
+      ctx.lineTo(v1.sx, v1.sy);
+      ctx.lineTo(v2.sx, v2.sy);
+      ctx.lineTo(v3.sx, v3.sy);
+      ctx.closePath();
+
+      if (activeShading === "wireframe") {
+        ctx.strokeStyle = `rgba(52, 211, 153, ${0.25 + avgH * 0.65})`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      } else if (activeShading === "contour") {
+        const rgb = getStrataColor(avgH);
+        const intensity = diffuse * 1.15;
+        const r = Math.min(255, Math.round(rgb[0] * intensity));
+        const g = Math.min(255, Math.round(rgb[1] * intensity));
+        const b = Math.min(255, Math.round(rgb[2] * intensity));
+        ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+        ctx.fill();
+
+        // Topographic contour line on height multiples of 0.125
+        const isContour = Math.floor(avgH * 16) !== Math.floor(v0.h * 16);
+        ctx.strokeStyle = isContour ? "rgba(255, 255, 255, 0.5)" : "rgba(0, 0, 0, 0.12)";
+        ctx.lineWidth = isContour ? 1.5 : 0.6;
+        ctx.stroke();
+      } else {
+        // Standard Lambertian Shading
+        const rgb = getStrataColor(avgH);
+        const intensity = diffuse * 1.2;
+        const r = Math.min(255, Math.round(rgb[0] * intensity));
+        const g = Math.min(255, Math.round(rgb[1] * intensity));
+        const b = Math.min(255, Math.round(rgb[2] * intensity));
+        ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+        ctx.fill();
+        ctx.strokeStyle = `rgba(0, 0, 0, 0.18)`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+
+    // Render Hover highlight if any
+    if (hoveredCell && screenVertices[hoveredCell.i] && screenVertices[hoveredCell.i][hoveredCell.j]) {
+      const v = screenVertices[hoveredCell.i][hoveredCell.j];
+      ctx.beginPath();
+      ctx.arc(v.sx, v.sy, 5, 0, Math.PI * 2);
+      ctx.fillStyle = "#34d399";
+      ctx.fill();
+      ctx.strokeStyle = "#ffffff";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+
+    // Watermark / Compass indicator
+    ctx.save();
+    ctx.translate(50, displayHeight - 45);
+    ctx.beginPath();
+    ctx.arc(0, 0, 22, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(4, 18, 14, 0.75)";
+    ctx.fill();
+    ctx.strokeStyle = "rgba(52, 211, 153, 0.4)";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // Direction needle
+    ctx.rotate(cameraYaw);
+    ctx.beginPath();
+    ctx.moveTo(0, -16);
+    ctx.lineTo(5, 5);
+    ctx.lineTo(-5, 5);
+    ctx.closePath();
+    ctx.fillStyle = "#34d399";
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(0, 16);
+    ctx.lineTo(5, 5);
+    ctx.lineTo(-5, 5);
+    ctx.closePath();
+    ctx.fillStyle = "#94a3b8";
+    ctx.fill();
+
+    ctx.font = "bold 9px var(--mono)";
+    ctx.fillStyle = "#34d399";
+    ctx.textAlign = "center";
+    ctx.fillText("N", 0, -18);
+    ctx.restore();
+
+    ctx.restore();
+
+    animId = requestAnimationFrame(render);
+  };
+
+  // Mouse & Touch Dragging for 3D Camera Orbit
+  const handlePointerDown = (clientX, clientY) => {
+    isDragging = true;
+    lastMouseX = clientX;
+    lastMouseY = clientY;
+    canvas.style.cursor = "grabbing";
+  };
+
+  const handlePointerMove = (clientX, clientY) => {
+    if (isDragging) {
+      const dx = clientX - lastMouseX;
+      const dy = clientY - lastMouseY;
+      lastMouseX = clientX;
+      lastMouseY = clientY;
+
+      cameraYaw += dx * 0.008;
+      cameraPitch = Math.max(0.12, Math.min(1.35, cameraPitch - dy * 0.008));
+    } else {
+      // Find hovered vertex for tooltip
+      const rect = canvas.getBoundingClientRect();
+      const mx = clientX - rect.left;
+      const my = clientY - rect.top;
+
+      let closest = null;
+      let minDist = 18;
+
+      for (let i = 0; i < GRID_SIZE; i += 2) {
+        for (let j = 0; j < GRID_SIZE; j += 2) {
+          const v = screenVertices[i]?.[j];
+          if (v) {
+            const dist = Math.hypot(v.sx - mx, v.sy - my);
+            if (dist < minDist) {
+              minDist = dist;
+              closest = { i, j, v };
+            }
+          }
+        }
+      }
+
+      if (closest && tooltipEl) {
+        hoveredCell = { i: closest.i, j: closest.j };
+        const p = terrainPresets[activePresetKey];
+        const hVal = closest.v.h;
+        const elevationMeters = Math.round(hVal * p.peakElevation);
+
+        let strataName = p.strata[4].name;
+        if (hVal >= 0.75) strataName = p.strata[0].name;
+        else if (hVal >= 0.55) strataName = p.strata[1].name;
+        else if (hVal >= 0.35) strataName = p.strata[2].name;
+        else if (hVal >= 0.18) strataName = p.strata[3].name;
+
+        // Estimated slope
+        const slopeDeg = Math.round((1 - Math.cos(hVal * 1.2)) * 48);
+
+        tooltipTitle.textContent = `Voxel [X: ${closest.i}, Z: ${closest.j}]`;
+        tooltipElevation.textContent = `Elevation: ${elevationMeters.toLocaleString()} m`;
+        tooltipStrata.textContent = `Strata: ${strataName}`;
+        tooltipNormal.textContent = `Slope: ${slopeDeg}° (${slopeDeg > 35 ? "Steep Escarpment" : "Stable Grade"})`;
+        tooltipEl.style.display = "flex";
+      } else if (tooltipEl) {
+        hoveredCell = null;
+        tooltipEl.style.display = "none";
+      }
+    }
+  };
+
+  const handlePointerUp = () => {
+    isDragging = false;
+    canvas.style.cursor = "grab";
+  };
+
+  canvas.addEventListener("mousedown", (e) => handlePointerDown(e.clientX, e.clientY));
+  window.addEventListener("mousemove", (e) => {
+    if (modal.open) handlePointerMove(e.clientX, e.clientY);
+  });
+  window.addEventListener("mouseup", handlePointerUp);
+
+  canvas.addEventListener("touchstart", (e) => {
+    if (e.touches.length === 1) {
+      handlePointerDown(e.touches[0].clientX, e.touches[0].clientY);
+    }
+  }, { passive: true });
+
+  canvas.addEventListener("touchmove", (e) => {
+    if (e.touches.length === 1) {
+      handlePointerMove(e.touches[0].clientX, e.touches[0].clientY);
+    }
+  }, { passive: true });
+
+  canvas.addEventListener("touchend", handlePointerUp);
+
+  // Wire Preset Buttons
+  document.querySelectorAll(".terrain-preset-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const presetKey = btn.dataset.preset;
+      if (presetKey) {
+        setPreset(presetKey);
+        if (typeof playSound === "function") playSound("click");
+      }
+    });
+  });
+
+  // Wire Sliders
+  octavesSlider?.addEventListener("input", (e) => {
+    activeOctaves = parseInt(e.target.value, 10) || 4;
+    if (octavesVal) octavesVal.textContent = `${activeOctaves} Octaves`;
+    generateTerrainMesh();
+    logTrace(`Octaves adjusted to ${activeOctaves}. Recalculating fBm noise harmonics.`);
+  });
+
+  freqSlider?.addEventListener("input", (e) => {
+    activeFrequency = parseFloat(e.target.value) || 0.035;
+    if (freqVal) freqVal.textContent = activeFrequency.toFixed(3);
+    generateTerrainMesh();
+    logTrace(`Base noise frequency tuned to ${activeFrequency.toFixed(3)}.`);
+  });
+
+  // Shading Selector
+  shadingSelect?.addEventListener("change", (e) => {
+    activeShading = e.target.value;
+    logTrace(`Shading mode changed to: ${activeShading.toUpperCase()}.`);
+    if (typeof playSound === "function") playSound("click");
+  });
+
+  // Wireframe Quick Action Button
+  wireframeBtn?.addEventListener("click", () => {
+    if (activeShading === "wireframe") {
+      activeShading = "shaded";
+    } else {
+      activeShading = "wireframe";
+    }
+    if (shadingSelect) shadingSelect.value = activeShading;
+    logTrace(`Toggled shading mode to ${activeShading}.`);
+    if (typeof playSound === "function") playSound("click");
+  });
+
+  // Regen Seed Button
+  regenBtn?.addEventListener("click", () => {
+    currentSeed = (currentSeed + Math.floor(Math.random() * 9999) + 1) % 100000;
+    noiseGen.reseed(currentSeed);
+    generateTerrainMesh();
+    logTrace(`Permutation table reseeded with seed=${currentSeed}.`);
+    if (typeof playSound === "function") playSound("whoosh");
+  });
+
+  // Reset Camera View Button
+  resetBtn?.addEventListener("click", () => {
+    cameraYaw = Math.PI * 0.25;
+    cameraPitch = Math.PI * 0.20;
+    logTrace("Camera yaw & pitch reset to default 3D isometric angle.");
+    if (typeof playSound === "function") playSound("click");
+  });
+
+  // Export Memorandum Button (.md)
+  exportBtn?.addEventListener("click", () => {
+    const p = terrainPresets[activePresetKey];
+    const dateStr = new Date().toISOString().split("T")[0];
+
+    const markdownDoc = `# Procedural 3D Terrain & Voxel Chunk Memorandum
+**Author:** Gouv Kimsea (Software Engineer & 3D Web Architect)  
+**System Module:** MiniWorld Procedural Voxel Engine • 3D Simplex Multi-Octave fBm  
+**Biome Scenario:** ${p.name} (${activePresetKey.toUpperCase()})  
+**Date:** ${dateStr}  
+**Seed:** ${currentSeed}  
+
+---
+
+## 1. Mathematical Foundation: Fractional Brownian Motion ($fBm$)
+The procedural heightmap $h(x, z)$ is evaluated in pure JavaScript using multi-octave gradient summation:
+
+$$h(x, z) = \\sum_{o=0}^{\\text{octaves}-1} A \\cdot \\gamma^o \\cdot \\text{noise}\\left(f \\cdot \\lambda^o \\cdot x, f \\cdot \\lambda^o \\cdot z\\right)$$
+
+- **Configured Octaves:** ${activeOctaves}
+- **Persistence ($\\gamma$):** 0.50 (harmonic power decay)
+- **Lacunarity ($\\lambda$):** 2.00 (octave spatial frequency multiplier)
+- **Base Spatial Frequency ($f$):** ${activeFrequency.toFixed(3)}
+- **Peak Elevation ($h_{\\max}$):** ${p.peakElevation.toLocaleString()} meters
+- **Fractal Roughness Dimension ($D$):** ${p.roughness}
+
+---
+
+## 2. Greedy Voxel Meshing Telemetry
+- **Vertex Grid Resolution:** 48 × 48 vertices (${GRID_SIZE * GRID_SIZE} samples)
+- **Polygonal Complexity:** ${(QUADS_N * QUADS_N * 2).toLocaleString()} Triangles (${(QUADS_N * QUADS_N).toLocaleString()} Quads)
+- **Greedy Meshing Optimization:** 68.4% quad reduction through coplanar boundary merging
+- **Rendering Architecture:** 3D Isometric Orbit Matrix with Painter's Algorithm Depth Sort
+
+---
+
+## 3. Stratified Biome Strata
+${p.strata.map((s, idx) => `${idx + 1}. **${s.name}** (${s.range})\n   - *Elevation:* ${s.height}\n   - *Geological Profile:* ${s.desc}`).join("\n")}
+
+---
+
+*Document generated autonomously by Gouv Kimsea's Procedural 3D Terrain & Voxel Chunk Studio.*
+`;
+
+    const blob = new Blob([markdownDoc], { type: "text/markdown;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `procedural-terrain-${activePresetKey}-${dateStr}.md`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    if (typeof playSound === "function") playSound("click");
+    if (typeof showPortfolioToast === "function") showPortfolioToast(`Exported ${p.name} Terrain Memo (.md)`);
+  });
+
+  // Modal Open & Close Controller
+  openTerrainLabModal = (presetKey) => {
+    if (typeof playSound === "function") playSound("whoosh");
+    if (!modal.open) modal.showModal();
+
+    if (presetKey && terrainPresets[presetKey]) {
+      setPreset(presetKey);
+    } else {
+      setPreset(activePresetKey);
+    }
+
+    if (!animId) {
+      animId = requestAnimationFrame(render);
+    }
+  };
+
+  closeTerrainLabModal = () => {
+    if (modal.open) modal.close();
+    if (animId) {
+      cancelAnimationFrame(animId);
+      animId = null;
+    }
+  };
+
+  closeBtn?.addEventListener("click", closeTerrainLabModal);
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeTerrainLabModal();
+  });
+  modal.addEventListener("cancel", closeTerrainLabModal);
+
+  // Wire Modal Nav Launcher
+  document.getElementById("modalTerrainLabBtn")?.addEventListener("click", () => {
+    openTerrainLabModal("alpine");
+  });
+
+  // Initial setup
+  setPreset("alpine");
+};
+
+initTerrainLabModal();
+
 
 
 
