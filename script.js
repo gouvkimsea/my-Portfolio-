@@ -176,7 +176,7 @@ const setActiveSection = (sectionId) => {
   // 3. Synchronize Mobile Drawer Links
   mobileDrawerLinks.forEach(drawerLink => {
     const href = drawerLink.getAttribute("href");
-    const isDrawerMatch = (navTarget && href === `#${navTarget}`) || (sectionId === "contact" && href === "#contact");
+    const isDrawerMatch = href === `#${sectionId}` || (sectionId === "home" && href === "#home");
     drawerLink.classList.toggle("active", Boolean(isDrawerMatch));
   });
 
@@ -354,6 +354,7 @@ const closeMobileDrawer = () => {
   mobileDrawerBackdrop?.classList.remove("active");
   document.body.classList.remove("menu-open");
   menuToggle?.setAttribute("aria-expanded", "false");
+  if (typeof playSound === "function") playSound("tap");
 };
 
 const openMobileDrawer = () => {
@@ -363,6 +364,7 @@ const openMobileDrawer = () => {
   mobileDrawerBackdrop?.classList.add("active");
   document.body.classList.add("menu-open");
   menuToggle?.setAttribute("aria-expanded", "true");
+  if (typeof playSound === "function") playSound("tap");
 };
 
 menuToggle?.addEventListener("click", () => {
@@ -388,6 +390,12 @@ mobileDrawerLinks.forEach(link => {
     }
     closeMobileDrawer();
   });
+});
+
+$(".mobile-drawer-header .brand")?.addEventListener("click", (e) => {
+  e.preventDefault();
+  navigateToSection("home");
+  closeMobileDrawer();
 });
 
 document.addEventListener("keydown", event => {
@@ -5023,7 +5031,7 @@ Layer 1: Semantic Core  · Zero-dependency ES2026 &amp; HTML5 dialogs
 Layer 2: Style Tokens   · Modular Vanilla CSS &amp; WCAG AAA contrast
 Layer 3: 3D Graphics    · Hardware-accelerated WebGL 2.0 MiniWorld
 Layer 4: Procedural SFX · Pure Web Audio synthesizers (0 audio files)
-Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v26</pre>`;
+Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v27</pre>`;
   },
   cat: (arg) => {
     const file = (arg || "").trim().toLowerCase();

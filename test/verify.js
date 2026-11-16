@@ -154,7 +154,7 @@ assert(indexHtml.includes('id="hudClockItem"') && indexHtml.includes('id="footer
 assert(indexHtml.includes('id="sfxVolumeSlider"') && scriptJs.includes('setSfxVolume') && scriptJs.includes('getMasterGainNode') && fs.readFileSync('styles.css', 'utf8').includes('.audio-volume-panel'), 'index.html, script.js & styles.css: Web Audio procedural synthesizer master volume gain controller implemented');
 assert(indexHtml.includes('id="modalCiteBtn"') && scriptJs.includes('modalCiteBtn') && fs.readFileSync('styles.css', 'utf8').includes('.modal-cite-btn'), 'index.html, script.js & styles.css: In-modal project citation generator & 1-click clipboard copy implemented');
 assert(scriptJs.includes('demo:') && scriptJs.includes('cite:') && scriptJs.includes('volume:') && scriptJs.includes('time:'), 'script.js: In-browser terminal CLI expanded with demo, cite, volume, and time telemetry commands');
-assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v26'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v26');
+assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v27'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v27');
 
 // Test global script evaluation with mock DOM globals
 try {
