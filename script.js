@@ -684,6 +684,16 @@ document.addEventListener("keydown", e => {
         openVectorLabModal();
       }
     }
+  } else if ((e.key === "M" || e.key === "m") && e.shiftKey) {
+    e.preventDefault();
+    if (typeof openMemoryLabModal === "function") {
+      const mModal = document.getElementById("memoryLabModal");
+      if (mModal?.open) {
+        if (typeof closeMemoryLabModal === "function") closeMemoryLabModal();
+      } else {
+        openMemoryLabModal();
+      }
+    }
   } else if (e.key.toLowerCase() === "u" && !e.ctrlKey && !e.metaKey && !e.altKey) {
     e.preventDefault();
     if (typeof toggleSfx === "function") toggleSfx();
@@ -703,7 +713,7 @@ document.addEventListener("keydown", e => {
     e.preventDefault();
     document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
     showPortfolioToast("Navigated to Contact Channels");
-  } else if (e.key.toLowerCase() === "m" && !e.ctrlKey && !e.metaKey && !e.altKey) {
+  } else if (e.key.toLowerCase() === "m" && !e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey) {
     e.preventDefault();
     showPortfolioToast("🚀 Launching Mini World 3D Planet...");
     setTimeout(() => { window.location.href = "miniworld.html"; }, 320);
@@ -935,6 +945,8 @@ cmdKResults?.addEventListener("click", e => {
     if (typeof openBatteryLabModal === "function") openBatteryLabModal();
   } else if (action === "open-vector-lab") {
     if (typeof openVectorLabModal === "function") openVectorLabModal();
+  } else if (action === "open-memory-lab") {
+    if (typeof openMemoryLabModal === "function") openMemoryLabModal();
   } else if (action === "open-telemetry") {
     if (typeof openTelemetryModal === "function") openTelemetryModal();
   } else if (action === "download-resume-md") {
@@ -5276,6 +5288,23 @@ Search Complexity:       O(N) Vectorized Cosine Top-K Retrieval</pre>`;
   embedding: (arg) => terminalCommands.vector(arg),
   knn: (arg) => terminalCommands.vector(arg),
   semantic: (arg) => terminalCommands.vector(arg),
+  memory: (arg) => {
+    const preset = (arg || "").trim().toLowerCase();
+    if (typeof openMemoryLabModal === "function") {
+      openMemoryLabModal(preset);
+      return `<pre class="term-pre" style="margin:4px 0;font-size:11px;line-height:1.45;">🧠 <b>Cognitive Memory Decay &amp; SRS Scheduling Lab Launched</b>
+--------------------------------------------------------
+Scheduling Model:        <b>${escapeHtml(preset || "sm2").toUpperCase()}</b>
+Exponential Curve:       R(t) = exp(-t / S) · Target Retention 90%
+Easiness Calibration:    EF' = EF + (0.1 - (5 - q) * (0.08 + (5 - q) * 0.02))
+Review Interval Multiplier: 1.3x Growth Multiplier · Half-Life Tracking</pre>`;
+    }
+    openModal("srs");
+    return "Opening Smart Spaced Repetition Flashcard project modal & cognitive scheduler...";
+  },
+  srs: (arg) => terminalCommands.memory(arg),
+  flashcards: (arg) => terminalCommands.memory(arg),
+  sm2: (arg) => terminalCommands.memory(arg),
   biome: () => terminalCommands.shader(),
   pinit: () => {
     openModal("pinit");
@@ -5428,7 +5457,7 @@ Layer 1: Semantic Core  · Zero-dependency ES2026 &amp; HTML5 dialogs
 Layer 2: Style Tokens   · Modular Vanilla CSS &amp; WCAG AAA contrast
 Layer 3: 3D Graphics    · Hardware-accelerated WebGL 2.0 MiniWorld
 Layer 4: Procedural SFX · Pure Web Audio synthesizers (0 audio files)
-Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v40</pre>`;
+Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v41</pre>`;
   },
   cat: (arg) => {
     const file = (arg || "").trim().toLowerCase();
@@ -5557,7 +5586,7 @@ DOM Tree:         <b>${domCount}</b> semantic nodes
 Logical Cores:    <b>${cores}</b> Threads (hardwareConcurrency)
 Display:          <b>${window.innerWidth}x${window.innerHeight}</b> (${window.devicePixelRatio || 1}x DPR)
 Audio Engine:     Active (${Math.round((typeof sfxVolume !== "undefined" ? sfxVolume : 0.8) * 100)}% Gain)
-PWA Cache:        <b>kimsea-pwa-v40</b> (Stale-While-Revalidate)
+PWA Cache:        <b>kimsea-pwa-v41</b> (Stale-While-Revalidate)
 Status:           Modal HUD Launched ⚡</pre>`;
   },
   diag: () => terminalCommands.telemetry(),
@@ -5893,7 +5922,7 @@ terminalInput?.addEventListener("keydown", event => {
     if (current) {
       const allCmds = Array.from(new Set([
         ...Object.keys(terminalCommands),
-        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade", "accent", "synth", "piano", "telemetry", "diag", "perf", "sysinfo", "playground", "sandbox", "eval", "particles", "casestudy", "dossier", "gitgraph", "heatmap", "graph", "archflow", "flow", "radar", "spider", "competencies", "arena", "race", "benchmarks", "firewall", "security", "sanitize", "shader", "glsl", "materials", "ledger", "fintech", "escrow", "payway", "vision", "gesture", "mediapipe", "kinematics", "hydraulic", "sump", "fluid", "battery", "bms", "ev", "joul", "vector", "embedding", "knn", "semantic"
+        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade", "accent", "synth", "piano", "telemetry", "diag", "perf", "sysinfo", "playground", "sandbox", "eval", "particles", "casestudy", "dossier", "gitgraph", "heatmap", "graph", "archflow", "flow", "radar", "spider", "competencies", "arena", "race", "benchmarks", "firewall", "security", "sanitize", "shader", "glsl", "materials", "ledger", "fintech", "escrow", "payway", "vision", "gesture", "mediapipe", "kinematics", "hydraulic", "sump", "fluid", "battery", "bms", "ev", "joul", "vector", "embedding", "knn", "semantic", "memory", "srs", "flashcards", "sm2"
       ]));
       const prefix = lastTabPrefix || current;
       const matches = allCmds.filter(k => k.startsWith(prefix));
@@ -8407,7 +8436,7 @@ const initCyberTelemetry = () => {
       audioSubEl.textContent = `48000 Hz · Master Gain ${vol}%`;
     }
     if (pwaEl) {
-      pwaEl.textContent = "kimsea-pwa-v40";
+      pwaEl.textContent = "kimsea-pwa-v41";
     }
   };
 
@@ -14778,6 +14807,661 @@ ${CLUSTERS.map((cl, i) => `${i + 1}. **${cl.name}**\n   - *Tokens:* 12 domain ve
 };
 
 initVectorLabModal();
+
+/* ==========================================================================
+   Phase 35: Cognitive Memory Decay & Spaced Repetition Scheduling Lab
+   ========================================================================== */
+
+let openMemoryLabModal = () => {};
+let closeMemoryLabModal = () => {};
+
+const initMemoryLabModal = () => {
+  const modal = document.getElementById("memoryLabModal");
+  if (!modal) return;
+
+  const canvas = document.getElementById("memoryLabCanvas");
+  const ctx = canvas?.getContext("2d");
+  const closeBtn = document.getElementById("memoryLabCloseBtn");
+
+  const retentionSlider = document.getElementById("sliderMemoryRetention");
+  const retentionValEl = document.getElementById("memoryRetentionVal");
+  const intervalMultSlider = document.getElementById("sliderMemoryIntervalMult");
+  const intervalMultValEl = document.getElementById("memoryIntervalMultVal");
+  const scoreGroup = document.getElementById("memoryScoreGroup");
+
+  const reviewStepBtn = document.getElementById("memoryReviewStepBtn");
+  const injectFailureBtn = document.getElementById("memoryInjectFailureBtn");
+  const resetBtn = document.getElementById("memoryResetBtn");
+  const exportBtn = document.getElementById("memoryExportBtn");
+
+  const currentIntervalEl = document.getElementById("memoryCurrentInterval");
+  const stabilityEl = document.getElementById("memoryStability");
+  const retentionProbEl = document.getElementById("memoryRetentionProb");
+  const easinessFactorEl = document.getElementById("memoryEasinessFactor");
+  const repetitionsEl = document.getElementById("memoryRepetitions");
+  const halfLifeEl = document.getElementById("memoryHalfLife");
+  const statusPillEl = document.getElementById("memoryStatusPill");
+  const stateBadgeEl = document.getElementById("memoryActiveStateBadge");
+  const deckTrackEl = document.getElementById("memoryDeckTrack");
+  const consolePre = document.getElementById("memoryConsolePre");
+
+  const pointTooltip = document.getElementById("memoryPointTooltip");
+  const tooltipTitle = document.getElementById("memoryTooltipTitle");
+  const tooltipRetention = document.getElementById("memoryTooltipRetention");
+  const tooltipStability = document.getElementById("memoryTooltipStability");
+  const tooltipInterval = document.getElementById("memoryTooltipInterval");
+
+  const presetBtns = Array.from(modal.querySelectorAll(".memory-preset-btn"));
+  const scoreBtns = Array.from(modal.querySelectorAll(".memory-score-btn"));
+
+  // 4 Scheduling Presets
+  const memoryPresets = {
+    sm2: {
+      name: "SuperMemo SM-2 Engine",
+      badge: "SuperMemo SM-2 Algorithm Active",
+      targetRetention: 90,
+      intervalMult: 1.3,
+      qualityScore: 4,
+      initialEF: 2.50,
+      repetitions: 4,
+      status: "OPTIMAL LONG-TERM RETENTION",
+      pillClass: "text-lime",
+      deck: [
+        { title: "B-Tree vs. LSM-Tree Disk I/O Write Amplification", rep: 4, ef: 2.50, stability: 42.8, dueDays: 14.2, status: "Consolidating" },
+        { title: "Raft Consensus Leader Election Split-Brain Quorum", rep: 3, ef: 2.60, stability: 24.1, dueDays: 8.5, status: "Consolidating" },
+        { title: "Joule Heating & Lithium NMC Internal Resistance", rep: 2, ef: 2.36, stability: 11.2, dueDays: 3.8, status: "Review Due Soon" },
+        { title: "Double-Entry Accounting Invariant Balance Sheet", rep: 5, ef: 2.70, stability: 96.0, dueDays: 32.0, status: "Mastered" }
+      ],
+      log: `[00:00.00] SuperMemo SM-2 scheduler loaded with baseline EF=2.50.
+[00:00.01] Repetition sequence: I(1)=1d, I(2)=6d, I(3)=16d, I(4)=38d.
+[00:00.03] Stability S=42.8 days calculated for 90.0% retention floor.`
+    },
+    ebbinghaus: {
+      name: "Ebbinghaus Exponential Decay",
+      badge: "Classical 1885 Ebbinghaus Decay Model",
+      targetRetention: 85,
+      intervalMult: 1.0,
+      qualityScore: 2,
+      initialEF: 1.90,
+      repetitions: 1,
+      status: "UNCONSOLIDATED STEEP DECAY",
+      pillClass: "text-amber",
+      deck: [
+        { title: "Single-Exposure Algorithm Lecture Notes", rep: 1, ef: 1.90, stability: 2.1, dueDays: 0.5, status: "Immediate Lapse Risk" },
+        { title: "Crammed Vocabulary & Glossary Definitions", rep: 1, ef: 1.85, stability: 1.8, dueDays: 0.3, status: "Immediate Lapse Risk" },
+        { title: "Transient Syntax Semantics Snippets", rep: 1, ef: 1.95, stability: 2.4, dueDays: 0.8, status: "Immediate Lapse Risk" },
+        { title: "Unreviewed System Architecture Diagrams", rep: 1, ef: 1.80, stability: 1.5, dueDays: 0.2, status: "Immediate Lapse Risk" }
+      ],
+      log: `[00:00.00] Ebbinghaus memory trace initialized without spaced reviews.
+[00:00.01] Immediate retention drop: 58% lost in first 24 hours.
+[00:00.02] Warning: Single-session cramming exhibits unstable half-life (t_1/2 = 1.2d).`
+    },
+    fsrs: {
+      name: "Modern FSRS-4.5 Scheduler",
+      badge: "FSRS-4.5 Non-Linear Power-Law Scheduler",
+      targetRetention: 92,
+      intervalMult: 1.5,
+      qualityScore: 5,
+      initialEF: 2.80,
+      repetitions: 5,
+      status: "FSRS-4.5 OPTIMIZED MATURATION",
+      pillClass: "text-cyan",
+      deck: [
+        { title: "Extended Kalman Filter State Covariance Matrices", rep: 5, ef: 2.85, stability: 112.0, dueDays: 45.0, status: "Deep Memory Trace" },
+        { title: "zk-SNARK Quadratic Arithmetic Programs (QAP)", rep: 4, ef: 2.75, stability: 58.4, dueDays: 22.0, status: "Consolidating" },
+        { title: "Darcy-Weisbach Colebrook Friction Factor Solver", rep: 3, ef: 2.80, stability: 31.0, dueDays: 12.5, status: "Consolidating" },
+        { title: "High-Dimensional Vector Cosine Manifold Projections", rep: 5, ef: 2.90, stability: 135.0, dueDays: 54.0, status: "Deep Memory Trace" }
+      ],
+      log: `[00:00.00] FSRS-4.5 engine activated: DSR (Difficulty, Stability, Retrievability) model.
+[00:00.02] Non-linear power-law decay curve fitted to empirical recall datasets.
+[00:00.04] Optimized interval matrix predicts 92.0% retention with 34% fewer reviews.`
+    },
+    interference: {
+      name: "Cognitive Overload & Drift",
+      badge: "Retroactive Cognitive Interference Simulation",
+      targetRetention: 80,
+      intervalMult: 1.1,
+      qualityScore: 1,
+      initialEF: 1.45,
+      repetitions: 2,
+      status: "RETROACTIVE INTERFERENCE LAPSES",
+      pillClass: "text-red",
+      deck: [
+        { title: "Concurrent Lexical Tokens (Confusable Names)", rep: 2, ef: 1.40, stability: 4.8, dueDays: 1.2, status: "Interference Decay" },
+        { title: "Overlapping Microservice Protocol Endpoints", rep: 2, ef: 1.45, stability: 5.2, dueDays: 1.5, status: "Interference Decay" },
+        { title: "Similar Cryptographic Cipher Modes (GCM vs CBC)", rep: 1, ef: 1.35, stability: 2.6, dueDays: 0.6, status: "Active Lapse" },
+        { title: "Multiple Foreign Exchange Gateway Currencies", rep: 2, ef: 1.50, stability: 6.0, dueDays: 2.0, status: "Interference Decay" }
+      ],
+      log: `[00:00.00] High-volume token ingestion simulated (500 flashcards / day).
+[00:00.02] Retroactive cognitive interference detected: Stability S attenuated by 42%.
+[00:00.03] Frequent lapses triggered: Easiness Factor compressed to floor EF=1.45.`
+    }
+  };
+
+  let activePresetKey = "sm2";
+  let targetRetention = 90;
+  let intervalMultiplier = 1.3;
+  let activeScore = 4;
+  let easinessFactor = 2.50;
+  let currentRepetition = 4;
+  let animId = null;
+  let lastTime = 0;
+  let timeHoverX = -1;
+
+  // Repetition milestones data: { rep, day, stability, interval }
+  let repetitions = [];
+
+  const calculateRepetitions = () => {
+    repetitions = [];
+    let curDay = 0;
+    let curInterval = 1;
+    let ef = easinessFactor;
+
+    // Repetition 1: Day 0 (Initial study)
+    let s1 = curInterval / (-Math.log(targetRetention / 100));
+    repetitions.push({ rep: 1, day: 0, interval: curInterval, stability: s1, ef });
+
+    // Up to 5 repetitions
+    for (let r = 2; r <= Math.max(currentRepetition, 5); r++) {
+      if (r === 2) {
+        curInterval = 6;
+      } else {
+        curInterval = Math.max(1, Math.round(curInterval * ef * (intervalMultiplier / 1.3)));
+      }
+
+      curDay += repetitions[r - 2].interval;
+      if (curDay > 60) curDay = 60;
+
+      // Stability S = interval / -ln(R_target)
+      let s = curInterval / (-Math.log(targetRetention / 100));
+      repetitions.push({ rep: r, day: curDay, interval: curInterval, stability: s, ef });
+    }
+  };
+
+  // Switch Preset
+  const setPreset = (key) => {
+    if (!memoryPresets[key]) return;
+    activePresetKey = key;
+    const p = memoryPresets[key];
+
+    presetBtns.forEach(btn => {
+      const match = btn.dataset.preset === key;
+      btn.classList.toggle("active", match);
+      btn.setAttribute("aria-selected", match ? "true" : "false");
+    });
+
+    targetRetention = p.targetRetention;
+    intervalMultiplier = p.intervalMult;
+    activeScore = p.qualityScore;
+    easinessFactor = p.initialEF;
+    currentRepetition = p.repetitions;
+
+    if (retentionSlider) retentionSlider.value = targetRetention;
+    if (intervalMultSlider) intervalMultSlider.value = intervalMultiplier;
+
+    scoreBtns.forEach(btn => {
+      const isScore = parseInt(btn.dataset.score, 10) === activeScore;
+      btn.classList.toggle("active", isScore);
+    });
+
+    calculateRepetitions();
+
+    if (stateBadgeEl) stateBadgeEl.textContent = p.badge;
+    if (consolePre) consolePre.innerHTML = `<code>${escapeHtml(p.log)}</code>`;
+
+    updateTelemetry();
+  };
+
+  // Update Dynamic Telemetry & Flashcard List
+  const updateTelemetry = () => {
+    const p = memoryPresets[activePresetKey];
+    if (retentionValEl) retentionValEl.textContent = `${targetRetention}%`;
+    if (intervalMultValEl) intervalMultValEl.textContent = `${intervalMultiplier.toFixed(1)}x`;
+
+    const activeRepData = repetitions[Math.min(currentRepetition - 1, repetitions.length - 1)] || repetitions[0];
+    const halfLifeDays = (activeRepData.stability * Math.LN2).toFixed(1);
+
+    if (currentIntervalEl) {
+      currentIntervalEl.textContent = `${activeRepData.interval} Days (Due in ${(activeRepData.interval * 0.65).toFixed(1)}d)`;
+    }
+    if (stabilityEl) {
+      stabilityEl.textContent = `${activeRepData.stability.toFixed(1)} Days`;
+    }
+    if (retentionProbEl) {
+      // Current retention at 65% of interval elapsed: R = e^(- (0.65 * I) / S) = e^(-0.65 * -ln(target)) = (target)^0.65
+      const currentR = Math.exp(- (activeRepData.interval * 0.65) / activeRepData.stability) * 100;
+      retentionProbEl.textContent = `${currentR.toFixed(1)}% (${currentR >= targetRetention ? "Above Target" : "At Risk"})`;
+      retentionProbEl.className = `memory-metric-val ${currentR >= targetRetention ? "text-lime" : "text-amber"}`;
+    }
+    if (easinessFactorEl) {
+      easinessFactorEl.textContent = `${easinessFactor.toFixed(2)} (${easinessFactor >= 2.5 ? "Standard/Easy" : easinessFactor >= 1.8 ? "Moderate" : "High Difficulty"})`;
+    }
+    if (repetitionsEl) {
+      repetitionsEl.textContent = `Iteration #${currentRepetition} (Deck Reps: ${repetitions.length})`;
+    }
+    if (halfLifeEl) {
+      halfLifeEl.textContent = `${halfLifeDays} Days (t_1/2)`;
+    }
+    if (statusPillEl) {
+      statusPillEl.textContent = p.status;
+      statusPillEl.className = `memory-status-pill ${p.pillClass}`;
+    }
+
+    // Populate Active Flashcard Deck
+    if (deckTrackEl) {
+      deckTrackEl.innerHTML = p.deck.map(card => `
+        <div class="memory-card-item">
+          <span class="card-rep-badge">Rep #${card.rep}</span>
+          <div class="card-info">
+            <span class="card-title">${escapeHtml(card.title)}</span>
+            <span class="card-stats">Stability: ${card.stability.toFixed(1)}d · EF: ${card.ef.toFixed(2)}</span>
+          </div>
+          <span class="card-due-badge text-cyan">Due in ${card.dueDays.toFixed(1)}d</span>
+        </div>
+      `).join("");
+    }
+  };
+
+  // Canvas Coordinate Mapping Helpers
+  // Canvas width = 920, height = 380
+  // Margins: left = 60, right = 40, top = 30, bottom = 45
+  const PAD_L = 60;
+  const PAD_R = 40;
+  const PAD_T = 30;
+  const PAD_B = 45;
+  const MAX_DAYS = 60;
+
+  const toCanvasX = (day) => {
+    const w = canvas?.width || 920;
+    const plotW = w - PAD_L - PAD_R;
+    return PAD_L + (Math.max(0, Math.min(MAX_DAYS, day)) / MAX_DAYS) * plotW;
+  };
+
+  const toCanvasY = (retention0to100) => {
+    const h = canvas?.height || 380;
+    const plotH = h - PAD_T - PAD_B;
+    return PAD_T + (1 - (Math.max(0, Math.min(100, retention0to100)) / 100)) * plotH;
+  };
+
+  const toDayFromX = (canX) => {
+    const w = canvas?.width || 920;
+    const plotW = w - PAD_L - PAD_R;
+    return ((canX - PAD_L) / plotW) * MAX_DAYS;
+  };
+
+  // Curve Colors for up to 5 repetitions
+  const CURVE_COLORS = ["#38bdf8", "#34d399", "#fbbf24", "#fb7185", "#c084fc"];
+
+  // Render Frame
+  const render = (time) => {
+    if (!lastTime) lastTime = time;
+    lastTime = time;
+
+    if (canvas && ctx) {
+      const w = canvas.width;
+      const h = canvas.height;
+
+      ctx.clearRect(0, 0, w, h);
+
+      // Deep plum-cyber background
+      ctx.fillStyle = "#0d0812";
+      ctx.fillRect(0, 0, w, h);
+
+      // Grid Lines
+      ctx.strokeStyle = "rgba(244, 63, 94, 0.08)";
+      ctx.lineWidth = 1;
+
+      // Horizontal grid lines (0%, 25%, 50%, 75%, 100%)
+      for (let ret = 0; ret <= 100; ret += 25) {
+        const y = toCanvasY(ret);
+        ctx.beginPath();
+        ctx.moveTo(PAD_L, y);
+        ctx.lineTo(w - PAD_R, y);
+        ctx.stroke();
+
+        ctx.fillStyle = "#94a3b8";
+        ctx.font = "9px monospace";
+        ctx.textAlign = "right";
+        ctx.fillText(`${ret}%`, PAD_L - 8, y + 3);
+      }
+
+      // Vertical grid lines (every 10 days: 0, 10, 20, 30, 40, 50, 60)
+      for (let d = 0; d <= MAX_DAYS; d += 10) {
+        const x = toCanvasX(d);
+        ctx.beginPath();
+        ctx.moveTo(x, PAD_T);
+        ctx.lineTo(x, h - PAD_B);
+        ctx.stroke();
+
+        ctx.fillStyle = "#94a3b8";
+        ctx.font = "9px monospace";
+        ctx.textAlign = "center";
+        ctx.fillText(`Day ${d}`, x, h - PAD_B + 14);
+      }
+
+      // Target Retention Threshold Line (Dashed Red Line)
+      const targetY = toCanvasY(targetRetention);
+      ctx.strokeStyle = "rgba(239, 68, 68, 0.7)";
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([5, 5]);
+      ctx.beginPath();
+      ctx.moveTo(PAD_L, targetY);
+      ctx.lineTo(w - PAD_R, targetY);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.fillStyle = "#ef4444";
+      ctx.font = "bold 9px monospace";
+      ctx.textAlign = "right";
+      ctx.fillText(`TARGET: ${targetRetention}%`, w - PAD_R - 5, targetY - 6);
+
+      // Render Repetition Exponential Forgetting Curves
+      for (let i = 0; i < repetitions.length; i++) {
+        const rep = repetitions[i];
+        const nextRep = repetitions[i + 1];
+        const endDay = nextRep ? nextRep.day : MAX_DAYS;
+        const color = CURVE_COLORS[i % CURVE_COLORS.length];
+
+        // Draw exponential curve segment from rep.day to endDay
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+
+        const startX = toCanvasX(rep.day);
+        const startY = toCanvasY(100);
+        ctx.moveTo(startX, startY);
+
+        for (let d = rep.day; d <= endDay; d += 0.5) {
+          const elapsed = d - rep.day;
+          // R(t) = e^(-elapsed / S) * 100
+          const rPct = Math.exp(-elapsed / rep.stability) * 100;
+          ctx.lineTo(toCanvasX(d), toCanvasY(rPct));
+        }
+        ctx.stroke();
+
+        // Shaded area under curve
+        ctx.fillStyle = `${color}14`;
+        ctx.beginPath();
+        ctx.moveTo(startX, startY);
+        for (let d = rep.day; d <= endDay; d += 0.5) {
+          const elapsed = d - rep.day;
+          const rPct = Math.exp(-elapsed / rep.stability) * 100;
+          ctx.lineTo(toCanvasX(d), toCanvasY(rPct));
+        }
+        ctx.lineTo(toCanvasX(endDay), toCanvasY(0));
+        ctx.lineTo(startX, toCanvasY(0));
+        ctx.closePath();
+        ctx.fill();
+
+        // Review Marker Dot at (rep.day, 100%)
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.arc(startX, startY, 4.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.font = "bold 9.5px monospace";
+        ctx.textAlign = "center";
+        ctx.fillText(`Rep ${rep.rep}`, startX, startY - 8);
+
+        // Vertical Rejuvenation Step (Memory reset to 100% on review)
+        if (nextRep) {
+          const stepX = toCanvasX(nextRep.day);
+          const elapsed = nextRep.day - rep.day;
+          const finalR = Math.exp(-elapsed / rep.stability) * 100;
+          const lowY = toCanvasY(finalR);
+          const highY = toCanvasY(100);
+
+          ctx.strokeStyle = "rgba(255, 255, 255, 0.45)";
+          ctx.lineWidth = 1.5;
+          ctx.setLineDash([3, 3]);
+          ctx.beginPath();
+          ctx.moveTo(stepX, lowY);
+          ctx.lineTo(stepX, highY);
+          ctx.stroke();
+          ctx.setLineDash([]);
+        }
+      }
+
+      // Interactive Day Probe Crosshair
+      if (timeHoverX >= PAD_L && timeHoverX <= w - PAD_R) {
+        const hoverDay = toDayFromX(timeHoverX);
+        ctx.strokeStyle = "rgba(251, 113, 133, 0.75)";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(timeHoverX, PAD_T);
+        ctx.lineTo(timeHoverX, h - PAD_B);
+        ctx.stroke();
+
+        // Find active curve at hoverDay
+        let activeCurve = repetitions[0];
+        for (let r of repetitions) {
+          if (hoverDay >= r.day) activeCurve = r;
+        }
+
+        const elapsed = hoverDay - activeCurve.day;
+        const hoverR = Math.exp(-elapsed / activeCurve.stability) * 100;
+        const pointY = toCanvasY(hoverR);
+
+        ctx.fillStyle = "#fb7185";
+        ctx.beginPath();
+        ctx.arc(timeHoverX, pointY, 5, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Tooltip update
+        if (pointTooltip) {
+          pointTooltip.style.display = "flex";
+          if (tooltipTitle) tooltipTitle.textContent = `Day ${hoverDay.toFixed(1)} (Repetition #${activeCurve.rep})`;
+          if (tooltipRetention) tooltipRetention.textContent = `Recall Probability: ${hoverR.toFixed(1)}%`;
+          if (tooltipStability) tooltipStability.textContent = `Stability (S): ${activeCurve.stability.toFixed(1)} Days`;
+          if (tooltipInterval) tooltipInterval.textContent = `Interval: ${activeCurve.interval} Days`;
+        }
+      } else if (pointTooltip) {
+        pointTooltip.style.display = "none";
+      }
+
+      ctx.textAlign = "start";
+    }
+
+    updateTelemetry();
+    animId = requestAnimationFrame(render);
+  };
+
+  // Canvas Mouse Interactions
+  canvas?.addEventListener("mousemove", (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const canX = (e.clientX - rect.left) * (canvas.width / rect.width);
+    timeHoverX = canX;
+  });
+
+  canvas?.addEventListener("mouseleave", () => {
+    timeHoverX = -1;
+    if (pointTooltip) pointTooltip.style.display = "none";
+  });
+
+  // Slider Listeners
+  retentionSlider?.addEventListener("input", (e) => {
+    targetRetention = parseInt(e.target.value, 10);
+    calculateRepetitions();
+    updateTelemetry();
+  });
+
+  intervalMultSlider?.addEventListener("input", (e) => {
+    intervalMultiplier = parseFloat(e.target.value);
+    calculateRepetitions();
+    updateTelemetry();
+  });
+
+  // Score Buttons Listeners
+  scoreBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      scoreBtns.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      activeScore = parseInt(btn.dataset.score, 10);
+
+      // SuperMemo SM-2 EF update formula
+      // EF' = EF + (0.1 - (5 - q) * (0.08 + (5 - q) * 0.02))
+      const deltaEF = 0.1 - (5 - activeScore) * (0.08 + (5 - activeScore) * 0.02);
+      easinessFactor = Math.max(1.3, easinessFactor + deltaEF);
+
+      calculateRepetitions();
+      updateTelemetry();
+      if (typeof playSound === "function") playSound("click");
+      if (typeof showPortfolioToast === "function") {
+        showPortfolioToast(`Score q=${activeScore} Rated! Easiness Factor: ${easinessFactor.toFixed(2)}`);
+      }
+    });
+  });
+
+  // Presets Buttons
+  presetBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      setPreset(btn.dataset.preset);
+      if (typeof playSound === "function") playSound("click");
+    });
+  });
+
+  // Action Buttons
+  reviewStepBtn?.addEventListener("click", () => {
+    if (currentRepetition < 6) {
+      currentRepetition++;
+      calculateRepetitions();
+      updateTelemetry();
+      if (typeof playSound === "function") playSound("whoosh");
+      if (typeof showPortfolioToast === "function") {
+        showPortfolioToast(`Advanced to Review Repetition #${currentRepetition}`);
+      }
+    } else {
+      if (typeof showPortfolioToast === "function") showPortfolioToast("Maximum Repetition Horizon (Day 60) Reached!");
+    }
+  });
+
+  injectFailureBtn?.addEventListener("click", () => {
+    // Memory Lapse: reset to repetition 1, penalize EF
+    currentRepetition = 1;
+    activeScore = 1;
+    easinessFactor = Math.max(1.3, easinessFactor - 0.20);
+
+    scoreBtns.forEach(b => {
+      b.classList.toggle("active", parseInt(b.dataset.score, 10) === 1);
+    });
+
+    calculateRepetitions();
+    updateTelemetry();
+    if (typeof playSound === "function") playSound("whoosh");
+    if (typeof showPortfolioToast === "function") {
+      showPortfolioToast("⚠️ Memory Lapse Simulated (q=1)! Repetition Interval Reset");
+    }
+  });
+
+  resetBtn?.addEventListener("click", () => {
+    setPreset(activePresetKey);
+    if (typeof playSound === "function") playSound("click");
+    if (typeof showPortfolioToast === "function") showPortfolioToast("Flashcard Deck Reset to Baseline State");
+  });
+
+  // Export Engineering Memo
+  exportBtn?.addEventListener("click", () => {
+    const p = memoryPresets[activePresetKey];
+    const dateStr = new Date().toISOString().split("T")[0];
+    const activeRepData = repetitions[Math.min(currentRepetition - 1, repetitions.length - 1)];
+
+    const markdownDoc = `# Smart Spaced Repetition (SRS): Cognitive Memory Scheduling Memorandum
+
+**Generated:** ${dateStr}  
+**Scheduling Algorithm:** ${p.name}  
+**Target Retention:** ${targetRetention}%  
+**Easiness Factor ($EF$):** ${easinessFactor.toFixed(2)}  
+**Current Repetition:** Iteration #${currentRepetition}  
+**Consolidation Status:** ${p.status}
+
+---
+
+## 1. Repetition Milestones Schedule
+
+| Repetition | Trigger Day | Scheduled Interval | Memory Stability ($S$) | Projected Half-Life ($t_{1/2}$) |
+| :--- | :--- | :--- | :--- | :--- |
+${repetitions.map(r => `| **Rep #${r.rep}** | Day ${r.day} | ${r.interval} Days | ${r.stability.toFixed(1)} Days | ${(r.stability * Math.LN2).toFixed(1)} Days |`).join("\n")}
+
+---
+
+## 2. Mathematical Formulations & Decay Invariants
+
+1. **Ebbinghaus Exponential Retention Model:**
+   $$R(t) = e^{-\\frac{t - t_{\\text{rep}}}{S}}$$
+
+2. **Memory Half-Life Formulation:**
+   $$t_{1/2} = S \\cdot \\ln(2) = ${(activeRepData.stability * Math.LN2).toFixed(2)}\\text{ Days}$$
+
+3. **SuperMemo SM-2 Easiness Factor Invariant:**
+   $$EF' = \\max\\left(1.3, EF + (0.1 - (5 - q) \\cdot (0.08 + (5 - q) \\cdot 0.02))\\right)$$
+
+4. **Interval Progression Equation:**
+   $$I(n) = \\begin{cases} 1 & \\text{if } n = 1 \\\\ 6 & \\text{if } n = 2 \\\\ I(n-1) \\cdot EF \\cdot \\text{mult} & \\text{if } n > 2 \\end{cases}$$
+
+---
+
+## 3. Active Flashcard Deck Status
+${p.deck.map((d, i) => `${i + 1}. **${d.title}**\n   - *Repetition:* #${d.rep} · *Stability:* ${d.stability.toFixed(1)}d\n   - *Due:* ${d.dueDays.toFixed(1)} days (${d.status})`).join("\n")}
+
+---
+
+*Document generated autonomously by Gouv Kimsea's Smart Spaced Repetition (SRS) Cognitive Lab.*
+`;
+
+    const blob = new Blob([markdownDoc], { type: "text/markdown;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `srs-memory-scheduling-${activePresetKey}-${dateStr}.md`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    if (typeof playSound === "function") playSound("click");
+    if (typeof showPortfolioToast === "function") showPortfolioToast(`Exported ${p.name} Memory Memo (.md)`);
+  });
+
+  // Modal Open & Close Controller
+  openMemoryLabModal = (presetKey) => {
+    if (typeof playSound === "function") playSound("whoosh");
+    if (!modal.open) modal.showModal();
+
+    if (presetKey && memoryPresets[presetKey]) {
+      setPreset(presetKey);
+    } else {
+      setPreset(activePresetKey);
+    }
+
+    if (!animId) {
+      animId = requestAnimationFrame(render);
+    }
+  };
+
+  closeMemoryLabModal = () => {
+    if (modal.open) modal.close();
+    if (animId) {
+      cancelAnimationFrame(animId);
+      animId = null;
+    }
+  };
+
+  closeBtn?.addEventListener("click", closeMemoryLabModal);
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeMemoryLabModal();
+  });
+  modal.addEventListener("cancel", closeMemoryLabModal);
+
+  // Wire Modal Nav Launcher
+  document.getElementById("modalMemoryLabBtn")?.addEventListener("click", () => {
+    openMemoryLabModal("sm2");
+  });
+
+  // Initial render
+  setPreset("sm2");
+};
+
+initMemoryLabModal();
+
 
 
 

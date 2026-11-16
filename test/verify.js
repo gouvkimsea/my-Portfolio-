@@ -190,7 +190,9 @@ assert(indexHtml.includes('id="batteryLabModal"') && scriptJs.includes('initBatt
 assert(scriptJs.includes('battery:') && indexHtml.includes('data-action="open-battery-lab"') && indexHtml.includes('id="modalBatteryLabBtn"'), 'index.html & script.js: Battery lab launchers wired to Project modal, Command Palette, Terminal CLI, and hotkeys');
 assert(indexHtml.includes('id="vectorLabModal"') && scriptJs.includes('initVectorLabModal') && fs.readFileSync('styles.css', 'utf8').includes('.vector-modal'), 'index.html, styles.css & script.js: Interactive Neural Vector Space & Semantic Search Lab implemented');
 assert(scriptJs.includes('vector:') && indexHtml.includes('data-action="open-vector-lab"') && indexHtml.includes('id="modalVectorLabBtn"'), 'index.html & script.js: Vector lab launchers wired to Project modal, Command Palette, Terminal CLI, and hotkeys');
-assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v40'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v40');
+assert(indexHtml.includes('id="memoryLabModal"') && scriptJs.includes('initMemoryLabModal') && fs.readFileSync('styles.css', 'utf8').includes('.memory-modal'), 'index.html, styles.css & script.js: Interactive Cognitive Memory Decay & Spaced Repetition Scheduling Lab implemented');
+assert(scriptJs.includes('memory:') && indexHtml.includes('data-action="open-memory-lab"') && indexHtml.includes('id="modalMemoryLabBtn"'), 'index.html & script.js: Memory lab launchers wired to Project modal, Command Palette, Terminal CLI, and hotkeys');
+assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v41'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v41');
 
 // Test global script evaluation with mock DOM globals
 try {
