@@ -129,7 +129,12 @@
     .top-actions {
       display: flex;
       gap: 8px;
+      max-width: calc(100vw - 200px);
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
+    .top-actions::-webkit-scrollbar { display: none; }
 
     /* Floating control pills */
     .glass-btn {
@@ -439,7 +444,9 @@
       display: flex;
       gap: 4px;
       box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+      max-width: min(920px, calc(100vw - 24px));
       overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
     }
     .camera-presets::-webkit-scrollbar { display: none; }
