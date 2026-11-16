@@ -684,6 +684,7 @@
               <button type="button" class="terminal-chip" data-cmd="vision">vision 👁️</button>
               <button type="button" class="terminal-chip" data-cmd="hydraulic">hydraulic 🌊</button>
               <button type="button" class="terminal-chip" data-cmd="battery">battery 🔋</button>
+              <button type="button" class="terminal-chip" data-cmd="vector">vector 🧬</button>
               <button type="button" class="terminal-chip" data-cmd="export">export</button>
               <button type="button" class="terminal-chip" data-cmd="clear">clear</button>
             </div>
@@ -2022,6 +2023,9 @@
           <button type="button" class="modal-nav-step-btn modal-battery-btn" id="modalBatteryLabBtn" title="Launch EV Battery BMS &amp; Thermal Lab (Shift+J)" aria-label="Launch EV battery BMS and thermal lab">
             <span class="modal-battery-icon" aria-hidden="true">🔋</span> Battery BMS
           </button>
+          <button type="button" class="modal-nav-step-btn modal-vector-btn" id="modalVectorLabBtn" title="Launch Neural Vector Space &amp; Semantic Search Lab (Shift+N)" aria-label="Launch neural vector space and semantic search lab">
+            <span class="modal-vector-icon" aria-hidden="true">🧬</span> Vector Lab
+          </button>
           <button type="button" class="modal-nav-step-btn" id="modalNextBtn" aria-label="Next project case study">
             Next Project <span class="nav-arrow" aria-hidden="true">→</span>
           </button>
@@ -3308,6 +3312,8 @@
           <small class="cmdk-desc">Multi-stage sump filtration, Bernoulli fluid dynamics &amp; Reynolds laminar flow</small></button>
         <button type="button" class="cmdk-item" data-action="open-battery-lab"><span class="cmdk-icon">🔋</span> EV Battery BMS &amp; Thermal Diagnostics Lab
           <small class="cmdk-desc">96-cell pack matrix, active balancing, Joule heat loss &amp; V2G grid arbitrage</small></button>
+        <button type="button" class="cmdk-item" data-action="open-vector-lab"><span class="cmdk-icon">🧬</span> Neural Vector Space &amp; Semantic Search Lab
+          <small class="cmdk-desc">High-dimensional embeddings, Cosine distance hyperplanes &amp; k-NN semantic clustering</small></button>
         <button type="button" class="cmdk-item" data-action="open-game"><span class="cmdk-icon">🎮</span> Play DevLoop Indie Game
           <small class="cmdk-desc">Developer idle tycoon &amp; bug arcade</small></button>
         <button type="button" class="cmdk-item" data-action="open-synth"><span class="cmdk-icon">🎹</span> Cyber Piano Synthesizer
@@ -3572,6 +3578,12 @@ Email: gouvkimsea@gmail.com</pre>
               <span class="shortcut-desc">EV Battery BMS &amp; Thermal Lab</span>
               <div class="shortcut-kbd-group">
                 <kbd class="shortcut-kbd">⇧</kbd><kbd class="shortcut-kbd">J</kbd>
+              </div>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Neural Vector Space &amp; Semantic Lab</span>
+              <div class="shortcut-kbd-group">
+                <kbd class="shortcut-kbd">⇧</kbd><kbd class="shortcut-kbd">N</kbd>
               </div>
             </div>
             <div class="shortcut-row">
@@ -5208,6 +5220,187 @@ void main() {
             </div>
             <pre class="battery-console-pre" id="batteryConsolePre"><code>[00:00.00] CAN bus 2.0B initialized at 500 kbps. Node ID: 0x18F0.
 [00:00.01] 96 cell voltage sensing taps connected. High-voltage interlock closed.</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Interactive Neural Vector Space & Semantic Search Lab Modal -->
+  <dialog class="vector-modal" id="vectorLabModal" aria-labelledby="vectorLabTitle" aria-modal="true">
+    <div class="vector-shell">
+      <!-- Modal Header -->
+      <div class="vector-header">
+        <div class="vector-header-left">
+          <div class="vector-badge">
+            <span class="vector-badge-icon" aria-hidden="true">🧬</span>
+            <span class="vector-badge-text">PinitAI Multimodal • 512-Dim Latent Embeddings • Cosine Hyperplane Manifold</span>
+          </div>
+          <h2 class="vector-title" id="vectorLabTitle">Neural Vector Space &amp; Semantic Search Lab</h2>
+          <p class="vector-subtitle">Interactive High-Dimensional Embedding Projection, Cosine Distance Top-$K$ Search ($k$-NN), K-Means Voronoi Manifolds, and Manifold Drift.</p>
+        </div>
+        <div class="vector-header-right">
+          <button type="button" class="vector-action-btn export-btn" id="vectorExportBtn" title="Export Vector Search Engineering Memorandum (.md)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Export Vector Memo
+          </button>
+          <button type="button" class="vector-close-btn" id="vectorLabCloseBtn" aria-label="Close neural vector search lab">✕</button>
+        </div>
+      </div>
+
+      <!-- Controls & Simulation Presets Bar -->
+      <div class="vector-controls-bar">
+        <div class="vector-presets-group">
+          <span class="vector-ctrl-lbl">SIMULATION PRESETS:</span>
+          <div class="vector-presets-list" role="tablist" aria-label="Vector Embedding Scenarios">
+            <button type="button" class="vector-preset-btn active" id="vectorPresetMultimodal" data-preset="multimodal" role="tab" aria-selected="true">Multimodal Cross-Modal 🖼️</button>
+            <button type="button" class="vector-preset-btn" id="vectorPresetClustering" data-preset="clustering" role="tab" aria-selected="false">K-Means Voronoi Manifolds 🕸️</button>
+            <button type="button" class="vector-preset-btn" id="vectorPresetSimilarity" data-preset="similarity" role="tab" aria-selected="false">Top-K Nearest Neighbors (k-NN) 🎯</button>
+            <button type="button" class="vector-preset-btn" id="vectorPresetDrift" data-preset="drift" role="tab" aria-selected="false">Concept Drift &amp; Shift 🌊</button>
+          </div>
+        </div>
+
+        <div class="vector-tuning-group">
+          <!-- Cosine Threshold Slider -->
+          <div class="vector-input-wrap">
+            <label for="sliderVectorThreshold" class="vector-input-lbl">
+              SIMILARITY THRESHOLD: <span class="vector-val-pill text-cyan" id="vectorThresholdVal">&ge; 0.65</span>
+            </label>
+            <input type="range" class="vector-range" id="sliderVectorThreshold" min="0.30" max="0.95" step="0.05" value="0.65" aria-label="Cosine similarity minimum threshold for nearest-neighbor match retrieval" />
+          </div>
+
+          <!-- Latent Dimensions Selector -->
+          <div class="vector-input-wrap">
+            <label for="selectVectorDimensions" class="vector-input-lbl">DIMENSIONS:</label>
+            <select class="vector-select" id="selectVectorDimensions" aria-label="Latent embedding dimensionality representation">
+              <option value="128">128-dim (MobileNet/Tiny)</option>
+              <option value="256">256-dim (MiniLM/Fast)</option>
+              <option value="512" selected>512-dim (CLIP / BERT-Base)</option>
+              <option value="768">768-dim (ViT-Base / RoBERTa)</option>
+            </select>
+          </div>
+
+          <!-- Reduction Algorithm -->
+          <div class="vector-input-wrap">
+            <label for="selectVectorReduction" class="vector-input-lbl">PROJECTION:</label>
+            <select class="vector-select" id="selectVectorReduction" aria-label="Dimensionality reduction projection algorithm">
+              <option value="pca" selected>PCA (Principal Components)</option>
+              <option value="tsne">t-SNE (Non-Linear Manifold)</option>
+              <option value="umap">UMAP (Topological Preserve)</option>
+            </select>
+          </div>
+
+          <!-- Quick Action Buttons -->
+          <div class="vector-quick-actions">
+            <button type="button" class="vector-tool-btn" id="vectorProbeCenterBtn" title="Reset query probe to latent space center">
+              Center Probe 🎯
+            </button>
+            <button type="button" class="vector-tool-btn" id="vectorReclusterBtn" title="Recompute K-Means centroids and cluster assignments">
+              Re-Cluster K=4 🔄
+            </button>
+            <button type="button" class="vector-tool-btn" id="vectorResetBtn" title="Reset embeddings to baseline coordinates">
+              Reset Space ⚡
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Split View Body -->
+      <div class="vector-split-view">
+        <!-- Left: 2D/3D Latent Manifold Canvas Viewport -->
+        <div class="vector-canvas-pane">
+          <div class="vector-canvas-header">
+            <div class="vector-canvas-title-group">
+              <span class="vector-canvas-title">LATENT MANIFOLD PROJECTION (48 TOKENS ACROSS 4 CLUSTERS)</span>
+              <span class="vector-canvas-subtitle">Click or Drag the Magenta Query Probe ($\vec{q}$) to Perform Live Cosine $k$-NN Search</span>
+            </div>
+            <div class="vector-status-tag" id="vectorActiveStateBadge">Multimodal Cross-Attention</div>
+          </div>
+
+          <div class="vector-canvas-wrapper">
+            <canvas class="vector-lab-canvas" id="vectorLabCanvas" width="920" height="380" aria-label="Interactive 2D latent vector embedding projection and nearest-neighbor rays"></canvas>
+            <div class="vector-canvas-overlay" id="vectorNodeTooltip" style="display: none;">
+              <span class="vector-tooltip-title" id="vectorTooltipTitle">clip-image-text</span>
+              <span class="vector-tooltip-val" id="vectorTooltipCluster">Cluster: Vision &amp; Multimodal AI</span>
+              <span class="vector-tooltip-val" id="vectorTooltipCos">Cosine Sim: 0.942 (Top-1)</span>
+              <span class="vector-tooltip-val" id="vectorTooltipL2">Euclidean L2: 0.34</span>
+            </div>
+          </div>
+
+          <!-- Canvas Legend / Cluster Categories Footer -->
+          <div class="vector-canvas-footer">
+            <div class="vector-legend-item">
+              <span class="legend-swatch swatch-purple"></span> Vision &amp; Multimodal AI
+            </div>
+            <div class="vector-legend-item">
+              <span class="legend-swatch swatch-cyan"></span> Distributed Systems &amp; DB
+            </div>
+            <div class="vector-legend-item">
+              <span class="legend-swatch swatch-emerald"></span> FinTech &amp; Cryptography
+            </div>
+            <div class="vector-legend-item">
+              <span class="legend-swatch swatch-amber"></span> Clean Energy &amp; Robotics
+            </div>
+            <div class="vector-legend-item">
+              <span class="legend-swatch swatch-probe"></span> Query Probe ($\vec{q}$)
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Telemetry & Nearest-Neighbor Matches -->
+        <div class="vector-metrics-pane">
+          <div class="vector-metrics-card">
+            <h3 class="metrics-card-heading">HIGH-DIMENSIONAL RETRIEVAL TELEMETRY</h3>
+            <div class="vector-metric-row">
+              <span class="vector-metric-lbl">PROBE COORDS ($\vec{q}$):</span>
+              <span class="vector-metric-val text-pink" id="vectorQueryCoords">[X: +0.24, Y: -0.18]</span>
+            </div>
+            <div class="vector-metric-row">
+              <span class="vector-metric-lbl">TOP-1 MATCH TOKEN:</span>
+              <span class="vector-metric-val text-cyan" id="vectorTopMatch">clip-image-text (96.4%)</span>
+            </div>
+            <div class="vector-metric-row">
+              <span class="vector-metric-lbl">TOP-5 MEAN COSINE SIM:</span>
+              <span class="vector-metric-val text-lime" id="vectorAvgSimilarity">88.2% (&ge; threshold)</span>
+            </div>
+            <div class="vector-metric-row">
+              <span class="vector-metric-lbl">EMBEDDING DIMENSION ($d$):</span>
+              <span class="vector-metric-val text-lime" id="vectorDimensionality">512-dim (CLIP-ViT)</span>
+            </div>
+            <div class="vector-metric-row">
+              <span class="vector-metric-lbl">CLUSTER MANIFOLD ENTROPY:</span>
+              <span class="vector-metric-val text-amber" id="vectorClusterEntropy">1.38 nats (Well-Separated)</span>
+            </div>
+            <div class="vector-metric-row">
+              <span class="vector-metric-lbl">DOT-PRODUCT INFERENCE:</span>
+              <span class="vector-metric-val text-cyan" id="vectorInferenceLatency">0.08 ms (48 × 512 MACs)</span>
+            </div>
+            <div class="vector-metric-row">
+              <span class="vector-metric-lbl">VECTOR RETRIEVAL STATUS:</span>
+              <span class="vector-status-pill text-lime" id="vectorStatusPill">COSINE TOP-K READY</span>
+            </div>
+          </div>
+
+          <!-- Nearest-Neighbors Ranked Match List -->
+          <div class="vector-matches-wrap">
+            <span class="matches-wrap-title">TOP-K NEAREST NEIGHBORS (COSINE SIMILARITY RANK)</span>
+            <div class="vector-matches-list" id="vectorMatchesTrack">
+              <!-- Dynamically populated nearest-neighbor cards -->
+            </div>
+          </div>
+
+          <!-- Mathematical & Query Trace Console -->
+          <div class="vector-console-box">
+            <div class="console-box-header">
+              <span class="console-title">vector_knn_inference.log</span>
+              <span class="console-status-pill text-lime">Dot-Product O(N)</span>
+            </div>
+            <pre class="vector-console-pre" id="vectorConsolePre"><code>[00:00.00] 512-dimensional semantic embedding space initialized.
+[00:00.01] 48 token vectors normalized: ||v_i|| = 1.0000. Cosine distance enabled.</code></pre>
           </div>
         </div>
       </div>

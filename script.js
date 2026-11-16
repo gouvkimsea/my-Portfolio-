@@ -674,6 +674,16 @@ document.addEventListener("keydown", e => {
         openBatteryLabModal();
       }
     }
+  } else if ((e.key === "N" || e.key === "n") && e.shiftKey) {
+    e.preventDefault();
+    if (typeof openVectorLabModal === "function") {
+      const vModal = document.getElementById("vectorLabModal");
+      if (vModal?.open) {
+        if (typeof closeVectorLabModal === "function") closeVectorLabModal();
+      } else {
+        openVectorLabModal();
+      }
+    }
   } else if (e.key.toLowerCase() === "u" && !e.ctrlKey && !e.metaKey && !e.altKey) {
     e.preventDefault();
     if (typeof toggleSfx === "function") toggleSfx();
@@ -923,6 +933,8 @@ cmdKResults?.addEventListener("click", e => {
     if (typeof openHydraulicLabModal === "function") openHydraulicLabModal();
   } else if (action === "open-battery-lab") {
     if (typeof openBatteryLabModal === "function") openBatteryLabModal();
+  } else if (action === "open-vector-lab") {
+    if (typeof openVectorLabModal === "function") openVectorLabModal();
   } else if (action === "open-telemetry") {
     if (typeof openTelemetryModal === "function") openTelemetryModal();
   } else if (action === "download-resume-md") {
@@ -5247,6 +5259,23 @@ BMS Interlock Bus:      CAN 2.0B @ 500 kbps · ISO 15118 EVCC</pre>`;
   bms: (arg) => terminalCommands.battery(arg),
   ev: (arg) => terminalCommands.battery(arg),
   joul: (arg) => terminalCommands.battery(arg),
+  vector: (arg) => {
+    const preset = (arg || "").trim().toLowerCase();
+    if (typeof openVectorLabModal === "function") {
+      openVectorLabModal(preset);
+      return `<pre class="term-pre" style="margin:4px 0;font-size:11px;line-height:1.45;">🧬 <b>Neural Vector Space &amp; Semantic Search Lab Launched</b>
+--------------------------------------------------------
+Embedding Scenario:      <b>${escapeHtml(preset || "multimodal").toUpperCase()}</b>
+Latent Representation:   512-dim Normalized Hypersphere S⁵¹¹
+Dimensionality Engine:   PCA · t-SNE · UMAP Manifold Projection
+Search Complexity:       O(N) Vectorized Cosine Top-K Retrieval</pre>`;
+    }
+    openModal("pinit");
+    return "Opening PinitAI project modal & neural vector embedding engine...";
+  },
+  embedding: (arg) => terminalCommands.vector(arg),
+  knn: (arg) => terminalCommands.vector(arg),
+  semantic: (arg) => terminalCommands.vector(arg),
   biome: () => terminalCommands.shader(),
   pinit: () => {
     openModal("pinit");
@@ -5399,7 +5428,7 @@ Layer 1: Semantic Core  · Zero-dependency ES2026 &amp; HTML5 dialogs
 Layer 2: Style Tokens   · Modular Vanilla CSS &amp; WCAG AAA contrast
 Layer 3: 3D Graphics    · Hardware-accelerated WebGL 2.0 MiniWorld
 Layer 4: Procedural SFX · Pure Web Audio synthesizers (0 audio files)
-Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v39</pre>`;
+Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v40</pre>`;
   },
   cat: (arg) => {
     const file = (arg || "").trim().toLowerCase();
@@ -5528,7 +5557,7 @@ DOM Tree:         <b>${domCount}</b> semantic nodes
 Logical Cores:    <b>${cores}</b> Threads (hardwareConcurrency)
 Display:          <b>${window.innerWidth}x${window.innerHeight}</b> (${window.devicePixelRatio || 1}x DPR)
 Audio Engine:     Active (${Math.round((typeof sfxVolume !== "undefined" ? sfxVolume : 0.8) * 100)}% Gain)
-PWA Cache:        <b>kimsea-pwa-v39</b> (Stale-While-Revalidate)
+PWA Cache:        <b>kimsea-pwa-v40</b> (Stale-While-Revalidate)
 Status:           Modal HUD Launched ⚡</pre>`;
   },
   diag: () => terminalCommands.telemetry(),
@@ -5864,7 +5893,7 @@ terminalInput?.addEventListener("keydown", event => {
     if (current) {
       const allCmds = Array.from(new Set([
         ...Object.keys(terminalCommands),
-        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade", "accent", "synth", "piano", "telemetry", "diag", "perf", "sysinfo", "playground", "sandbox", "eval", "particles", "casestudy", "dossier", "gitgraph", "heatmap", "graph", "archflow", "flow", "radar", "spider", "competencies", "arena", "race", "benchmarks", "firewall", "security", "sanitize", "shader", "glsl", "materials", "ledger", "fintech", "escrow", "payway", "vision", "gesture", "mediapipe", "kinematics", "hydraulic", "sump", "fluid", "battery", "bms", "ev", "joul"
+        "clear", "github", "linkedin", "echo", "help", "find", "cat developer.ts", "cat skills.json", "cat status.sh", "curl", "history", "export", "time", "volume", "demo", "cite", "game", "play", "idle", "arcade", "accent", "synth", "piano", "telemetry", "diag", "perf", "sysinfo", "playground", "sandbox", "eval", "particles", "casestudy", "dossier", "gitgraph", "heatmap", "graph", "archflow", "flow", "radar", "spider", "competencies", "arena", "race", "benchmarks", "firewall", "security", "sanitize", "shader", "glsl", "materials", "ledger", "fintech", "escrow", "payway", "vision", "gesture", "mediapipe", "kinematics", "hydraulic", "sump", "fluid", "battery", "bms", "ev", "joul", "vector", "embedding", "knn", "semantic"
       ]));
       const prefix = lastTabPrefix || current;
       const matches = allCmds.filter(k => k.startsWith(prefix));
@@ -8378,7 +8407,7 @@ const initCyberTelemetry = () => {
       audioSubEl.textContent = `48000 Hz · Master Gain ${vol}%`;
     }
     if (pwaEl) {
-      pwaEl.textContent = "kimsea-pwa-v39";
+      pwaEl.textContent = "kimsea-pwa-v40";
     }
   };
 
@@ -14019,6 +14048,737 @@ ${p.modules.map((m, i) => `${i + 1}. **${m.name}**\n   - *Specification:* ${m.de
 };
 
 initBatteryLabModal();
+
+/* ==========================================================================
+   Phase 34: Neural Vector Space & Semantic Search Lab Simulator
+   ========================================================================== */
+
+let openVectorLabModal = () => {};
+let closeVectorLabModal = () => {};
+
+const initVectorLabModal = () => {
+  const modal = document.getElementById("vectorLabModal");
+  if (!modal) return;
+
+  const canvas = document.getElementById("vectorLabCanvas");
+  const ctx = canvas?.getContext("2d");
+  const closeBtn = document.getElementById("vectorLabCloseBtn");
+
+  const thresholdSlider = document.getElementById("sliderVectorThreshold");
+  const thresholdValEl = document.getElementById("vectorThresholdVal");
+  const dimSelect = document.getElementById("selectVectorDimensions");
+  const reductionSelect = document.getElementById("selectVectorReduction");
+
+  const probeCenterBtn = document.getElementById("vectorProbeCenterBtn");
+  const reclusterBtn = document.getElementById("vectorReclusterBtn");
+  const resetBtn = document.getElementById("vectorResetBtn");
+  const exportBtn = document.getElementById("vectorExportBtn");
+
+  const queryCoordsEl = document.getElementById("vectorQueryCoords");
+  const topMatchEl = document.getElementById("vectorTopMatch");
+  const avgSimilarityEl = document.getElementById("vectorAvgSimilarity");
+  const dimensionalityEl = document.getElementById("vectorDimensionality");
+  const clusterEntropyEl = document.getElementById("vectorClusterEntropy");
+  const inferenceLatencyEl = document.getElementById("vectorInferenceLatency");
+  const statusPillEl = document.getElementById("vectorStatusPill");
+  const stateBadgeEl = document.getElementById("vectorActiveStateBadge");
+  const matchesTrackEl = document.getElementById("vectorMatchesTrack");
+  const consolePre = document.getElementById("vectorConsolePre");
+
+  const nodeTooltip = document.getElementById("vectorNodeTooltip");
+  const tooltipTitle = document.getElementById("vectorTooltipTitle");
+  const tooltipCluster = document.getElementById("vectorTooltipCluster");
+  const tooltipCos = document.getElementById("vectorTooltipCos");
+  const tooltipL2 = document.getElementById("vectorTooltipL2");
+
+  const presetBtns = Array.from(modal.querySelectorAll(".vector-preset-btn"));
+
+  // 4 Semantic Clusters
+  const CLUSTERS = [
+    { id: 0, name: "Vision & Multimodal AI", color: "#a855f7", center: { x: -0.45, y: -0.42 } },
+    { id: 1, name: "Distributed Systems & DB", color: "#38bdf8", center: { x: 0.45, y: -0.42 } },
+    { id: 2, name: "FinTech & Cryptography", color: "#10b981", center: { x: -0.45, y: 0.42 } },
+    { id: 3, name: "Clean Energy & Robotics", color: "#f59e0b", center: { x: 0.45, y: 0.42 } }
+  ];
+
+  // 48 Semantic Tokens
+  const RAW_TOKENS = [
+    // Cluster 0: Vision & Multimodal
+    { token: "vit-patch-16", cluster: 0, desc: "Vision Transformer 16x16 patch projection embeddings" },
+    { token: "clip-image-text", cluster: 0, desc: "Contrastive Language-Image Pretraining dual encoders" },
+    { token: "cross-attention", cluster: 0, desc: "Multi-head cross-attention query-key-value weighting" },
+    { token: "diffusion-latent", cluster: 0, desc: "UNet score-based reverse diffusion noise predictor" },
+    { token: "yolo-bbox", cluster: 0, desc: "Single-stage bounding box regression & anchor offsets" },
+    { token: "spatial-kinematics", cluster: 0, desc: "MediaPipe 21-joint 3D Euclidean hand topology" },
+    { token: "resnet-feature-map", cluster: 0, desc: "Residual skip connection bottleneck feature tensors" },
+    { token: "contrastive-loss", cluster: 0, desc: "InfoNCE temperature-scaled cross-entropy loss" },
+    { token: "conv2d-kernel", cluster: 0, desc: "Dilated convolution spatial receptive field filters" },
+    { token: "depth-estimator", cluster: 0, desc: "Monocular metric depth estimation point cloud" },
+    { token: "optical-flow-lucas", cluster: 0, desc: "Differential Lucas-Kanade velocity vector field" },
+    { token: "segment-anything", cluster: 0, desc: "Promptable zero-shot image mask segmentation" },
+
+    // Cluster 1: Systems & DB
+    { token: "raft-consensus", cluster: 1, desc: "Leader election, log replication & term heartbeats" },
+    { token: "lsm-tree-compaction", cluster: 1, desc: "MemTable, WAL, SSTable multi-tier leveled compaction" },
+    { token: "wal-journal", cluster: 1, desc: "Append-only Write-Ahead Logging for ACID durability" },
+    { token: "two-phase-commit", cluster: 1, desc: "Distributed 2PC transaction prepare-commit coordinator" },
+    { token: "sharded-kv-store", cluster: 1, desc: "Consistent hashing ring with virtual vnodes" },
+    { token: "gossip-protocol", cluster: 1, desc: "SWIM epidemic membership & anti-entropy infection" },
+    { token: "b-plus-tree", cluster: 1, desc: "Balanced disk-backed node indexing with sequential leaf links" },
+    { token: "eventual-consistency", cluster: 1, desc: "CRDT conflict-free replicated data types" },
+    { token: "paxos-quorum", cluster: 1, desc: "Multi-Paxos majority quorum ballot consensus" },
+    { token: "grpc-protobuf", cluster: 1, desc: "HTTP/2 multiplexed binary streaming RPC transport" },
+    { token: "distributed-trace", cluster: 1, desc: "OpenTelemetry W3C traceparent context propagation" },
+    { token: "vector-clock", cluster: 1, desc: "Lamport logical timestamps for causal partial ordering" },
+
+    // Cluster 2: FinTech & Cryptography
+    { token: "double-entry-t-account", cluster: 2, desc: "Immutable debit & credit balance invariant validation" },
+    { token: "merkle-tree-hash", cluster: 2, desc: "Binary cryptographic leaf hash proof verification" },
+    { token: "khqr-payway-token", cluster: 2, desc: "Dynamic ABA Payway KHQR EMVCo merchant payload" },
+    { token: "escrow-mutex-lock", cluster: 2, desc: "Transactional deposit lock with time-locked refund" },
+    { token: "secp256k1-signature", cluster: 2, desc: "ECDSA elliptic curve digital signature signing" },
+    { token: "zero-knowledge-snark", cluster: 2, desc: "zk-SNARK succinct non-interactive proof of balance" },
+    { token: "asc606-mrr-schedule", cluster: 2, desc: "Straight-line software subscription revenue amortization" },
+    { token: "atomic-swap", cluster: 2, desc: "Hashed Time-Locked Contract (HTLC) cross-chain exchange" },
+    { token: "sha256-block-hash", cluster: 2, desc: "Double SHA-256 cryptographic proof-of-work header" },
+    { token: "smart-contract-evm", cluster: 2, desc: "Ethereum Virtual Machine bytecode opcode execution" },
+    { token: "liquidity-pool-amm", cluster: 2, desc: "Constant product automated market maker (x * y = k)" },
+    { token: "anti-double-spend", cluster: 2, desc: "UTXO unspent output verification preventing replay" },
+
+    // Cluster 3: Clean Energy & IoT
+    { token: "bms-cell-balancing", cluster: 3, desc: "Passive shunt bleed resistors mitigating voltage variance" },
+    { token: "joule-heating-i2r", cluster: 3, desc: "Internal resistance thermal loss P = I^2 * R dissipation" },
+    { token: "cc-fast-charge-curve", cluster: 3, desc: "Constant-Current Constant-Voltage 350kW CCS charging" },
+    { token: "v2g-grid-inversion", cluster: 3, desc: "Bidirectional 400V DC to 230V AC synchronous feed-in" },
+    { token: "coulomb-counting-soc", cluster: 3, desc: "Shunt ampere-hour integration with Kalman filter OCV" },
+    { token: "thermal-runaway-model", cluster: 3, desc: "Arrhenius accelerated exothermic cell decomposition" },
+    { token: "can-bus-frame-20b", cluster: 3, desc: "500 kbps automotive telemetry differential arbitration" },
+    { token: "sei-layer-impedance", cluster: 3, desc: "Solid Electrolyte Interphase impedance growth over cycles" },
+    { token: "arrhenius-aging", cluster: 3, desc: "Temperature-dependent chemical capacity fade rate" },
+    { token: "hvil-safety-interlock", cluster: 3, desc: "Continuous low-voltage loop monitoring HV contactors" },
+    { token: "shunt-resistor-adc", cluster: 3, desc: "16-bit Delta-Sigma current sensing microvolt drop" },
+    { token: "mppt-solar-converter", cluster: 3, desc: "Perturb & Observe maximum power point tracking" }
+  ];
+
+  // Presets definition
+  const vectorPresets = {
+    multimodal: {
+      name: "Multimodal Cross-Modal Retrieval",
+      badge: "Multimodal Cross-Attention (CLIP ViT-B/32)",
+      query: { x: -0.32, y: -0.36 },
+      threshold: 0.65,
+      dimensions: 512,
+      reduction: "pca",
+      status: "MULTIMODAL QUERY ACTIVE",
+      pillClass: "text-purple",
+      log: `[00:00.00] CLIP image encoder projected image patch embeddings to R^512.
+[00:00.01] Text query tokenized: "autonomous computer vision robot".
+[00:00.02] Cross-modal cosine matrix computed: 48 tokens evaluated in 0.08ms.`
+    },
+    clustering: {
+      name: "K-Means Voronoi Manifolds",
+      badge: "K-Means Latent Voronoi Clustering (K=4)",
+      query: { x: 0.05, y: -0.05 },
+      threshold: 0.60,
+      dimensions: 512,
+      reduction: "tsne",
+      status: "VORONOI DECISION BOUNDARIES",
+      pillClass: "text-cyan",
+      log: `[00:00.00] Initialized K=4 Lloyd's algorithm with k-means++ seeding.
+[00:00.02] Centroids converged after 6 iterations. Distortion: J = 0.0421.
+[00:00.04] Voronoi hyperplanes established across latent dimensions.`
+    },
+    similarity: {
+      name: "Top-K Nearest Neighbors (k-NN)",
+      badge: "Vectorized Top-K Cosine Retrieval",
+      query: { x: 0.38, y: -0.35 },
+      threshold: 0.70,
+      dimensions: 768,
+      reduction: "umap",
+      status: "k-NN TOP-5 RETRIEVAL ACTIVE",
+      pillClass: "text-lime",
+      log: `[00:00.00] Query probe placed in Distributed Systems manifold.
+[00:00.01] Exact k-NN scan: Top-1 match 'raft-consensus' (cosine: 0.968).
+[00:00.03] Cosine similarity beam rays rendered to 5 nearest tokens.`
+    },
+    drift: {
+      name: "Concept Drift & Shift",
+      badge: "Temporal Manifold Adaptation & Drift",
+      query: { x: -0.25, y: 0.35 },
+      threshold: 0.65,
+      dimensions: 256,
+      reduction: "pca",
+      status: "TEMPORAL CONCEPT DRIFT",
+      pillClass: "text-amber",
+      log: `[00:00.00] Drift detection window: 2,500 streaming inference requests.
+[00:00.02] Wasserstein distance metric indicates 14.8% distribution shift.
+[00:00.04] Dynamic adaptation matrix applied to normalize token variance.`
+    }
+  };
+
+  let activePresetKey = "multimodal";
+  let similarityThreshold = 0.65;
+  let activeDimensions = 512;
+  let activeReduction = "pca";
+  let queryProbe = { x: -0.32, y: -0.36 };
+  let isDraggingProbe = false;
+  let hoveredTokenIdx = -1;
+  let animId = null;
+  let lastTime = 0;
+  let pulsePhase = 0;
+
+  // Synthesize normalized high-dimensional vectors for each token
+  // Each cluster has a random orthogonal basis vector in R^d
+  let tokens = [];
+
+  const generateVectors = (dim) => {
+    // Generate cluster centers in R^dim
+    const clusterBases = CLUSTERS.map(cl => {
+      const vec = new Float32Array(dim);
+      let norm = 0;
+      for (let d = 0; d < dim; d++) {
+        vec[d] = Math.sin((cl.id + 1) * 3.7 + d * 0.4) + Math.cos(d * 1.3);
+        norm += vec[d] * vec[d];
+      }
+      norm = Math.sqrt(norm) || 1;
+      for (let d = 0; d < dim; d++) vec[d] /= norm;
+      return vec;
+    });
+
+    tokens = RAW_TOKENS.map((item, idx) => {
+      const base = clusterBases[item.cluster];
+      const vec = new Float32Array(dim);
+      let norm = 0;
+
+      for (let d = 0; d < dim; d++) {
+        // High correlation with cluster base + small token variance
+        const jitter = (Math.sin(idx * 7.1 + d * 0.9) * 0.35);
+        vec[d] = base[d] + jitter;
+        norm += vec[d] * vec[d];
+      }
+      norm = Math.sqrt(norm) || 1;
+      for (let d = 0; d < dim; d++) vec[d] /= norm;
+
+      // Project 2D coordinates based on cluster center + local scatter
+      const cl = CLUSTERS[item.cluster];
+      const inClIdx = idx % 12;
+      const angle = (inClIdx / 12) * Math.PI * 2 + (item.cluster * 0.5);
+      const rad = 0.12 + (Math.sin(idx * 3.3) * 0.06);
+
+      const x = cl.center.x + Math.cos(angle) * rad;
+      const y = cl.center.y + Math.sin(angle) * rad;
+
+      return {
+        ...item,
+        id: idx + 1,
+        vec,
+        baseX: x,
+        baseY: y,
+        curX: x,
+        curY: y,
+        similarity: 0,
+        distanceL2: 0
+      };
+    });
+  };
+
+  // Cosine Similarity between probe (derived from 2D coords) and token vector
+  const computeCosineSim = (probe2D, token) => {
+    // Map probe2D to a synthetic R^d vector based on weights to the 4 cluster bases
+    // Distance from probe to cluster centers:
+    const weights = CLUSTERS.map(cl => {
+      const dx = probe2D.x - cl.center.x;
+      const dy = probe2D.y - cl.center.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      return Math.exp(-dist * 4.0);
+    });
+
+    const sumW = weights.reduce((a, b) => a + b, 0) || 1;
+    const normalizedW = weights.map(w => w / sumW);
+
+    // Compute synthetic similarity
+    const tokenWeight = normalizedW[token.cluster];
+    const dx = probe2D.x - token.curX;
+    const dy = probe2D.y - token.curY;
+    const dist2D = Math.sqrt(dx * dx + dy * dy);
+
+    // Realistic cosine similarity in [0.2, 0.98]
+    const sim = Math.max(0.2, Math.min(0.99, (tokenWeight * 0.65) + (Math.exp(-dist2D * 3.0) * 0.35)));
+    return sim;
+  };
+
+  // Switch Preset
+  const setPreset = (key) => {
+    if (!vectorPresets[key]) return;
+    activePresetKey = key;
+    const p = vectorPresets[key];
+
+    presetBtns.forEach(btn => {
+      const match = btn.dataset.preset === key;
+      btn.classList.toggle("active", match);
+      btn.setAttribute("aria-selected", match ? "true" : "false");
+    });
+
+    queryProbe = { ...p.query };
+    similarityThreshold = p.threshold;
+    activeDimensions = p.dimensions;
+    activeReduction = p.reduction;
+
+    if (thresholdSlider) thresholdSlider.value = similarityThreshold;
+    if (dimSelect) dimSelect.value = String(activeDimensions);
+    if (reductionSelect) reductionSelect.value = activeReduction;
+
+    generateVectors(activeDimensions);
+
+    if (key === "drift") {
+      // Shift tokens slightly
+      tokens.forEach(t => {
+        t.curX = t.baseX + (Math.sin(t.id * 1.5) * 0.08);
+        t.curY = t.baseY + (Math.cos(t.id * 1.5) * 0.08);
+      });
+    }
+
+    if (stateBadgeEl) stateBadgeEl.textContent = p.badge;
+    if (consolePre) consolePre.innerHTML = `<code>${escapeHtml(p.log)}</code>`;
+
+    updateTelemetry();
+  };
+
+  // Update Dynamic Telemetry & Top-K Ranks
+  const updateTelemetry = () => {
+    const p = vectorPresets[activePresetKey];
+    if (thresholdValEl) thresholdValEl.textContent = `≥ ${similarityThreshold.toFixed(2)}`;
+
+    // Compute similarities for all tokens
+    for (let t of tokens) {
+      t.similarity = computeCosineSim(queryProbe, t);
+      const dx = queryProbe.x - t.curX;
+      const dy = queryProbe.y - t.curY;
+      t.distanceL2 = Math.sqrt(dx * dx + dy * dy) * 1.414;
+    }
+
+    // Sort tokens descending by similarity
+    const sorted = [...tokens].sort((a, b) => b.similarity - a.similarity);
+    const topMatches = sorted.slice(0, 5);
+    const top1 = sorted[0];
+
+    if (queryCoordsEl) {
+      queryCoordsEl.textContent = `[X: ${queryProbe.x >= 0 ? "+" : ""}${queryProbe.x.toFixed(2)}, Y: ${queryProbe.y >= 0 ? "+" : ""}${queryProbe.y.toFixed(2)}]`;
+    }
+
+    if (topMatchEl && top1) {
+      topMatchEl.textContent = `${top1.token} (${(top1.similarity * 100).toFixed(1)}%)`;
+    }
+
+    if (avgSimilarityEl) {
+      const avgSim = topMatches.reduce((acc, t) => acc + t.similarity, 0) / topMatches.length;
+      avgSimilarityEl.textContent = `${(avgSim * 100).toFixed(1)}% (Top-5)`;
+    }
+
+    if (dimensionalityEl) {
+      dimensionalityEl.textContent = `${activeDimensions}-dim (${activeReduction.toUpperCase()} Projected)`;
+    }
+
+    if (clusterEntropyEl) {
+      clusterEntropyEl.textContent = "1.38 nats (Well-Separated)";
+    }
+
+    if (inferenceLatencyEl) {
+      const macs = tokens.length * activeDimensions;
+      inferenceLatencyEl.textContent = `0.08 ms (${tokens.length} × ${activeDimensions} MACs)`;
+    }
+
+    if (statusPillEl) {
+      statusPillEl.textContent = p.status;
+      statusPillEl.className = `vector-status-pill ${p.pillClass}`;
+    }
+
+    // Populate Top-K Matches Track
+    if (matchesTrackEl) {
+      matchesTrackEl.innerHTML = topMatches.map((m, idx) => {
+        const cl = CLUSTERS[m.cluster];
+        const isAboveThresh = m.similarity >= similarityThreshold;
+        const pct = (m.similarity * 100).toFixed(1);
+        return `
+          <div class="vector-match-card" style="border-left: 3px solid ${cl.color};">
+            <span class="match-rank-badge">#${idx + 1}</span>
+            <div class="match-info">
+              <span class="match-token">${escapeHtml(m.token)}</span>
+              <span class="match-cluster">${escapeHtml(cl.name)} · L2: ${m.distanceL2.toFixed(2)}</span>
+            </div>
+            <div class="match-score-group">
+              <span class="match-pct" style="color:${isAboveThresh ? '#34d399' : '#f59e0b'};">${pct}%</span>
+              <div class="match-sim-bar">
+                <div class="match-sim-fill" style="width:${pct}%;background:${cl.color};"></div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+  };
+
+  // Canvas Geometry Helpers
+  const toCanvasX = (valX) => (valX + 1) * 0.5 * (canvas?.width || 920);
+  const toCanvasY = (valY) => (valY + 1) * 0.5 * (canvas?.height || 380);
+  const toValX = (canX) => (canX / (canvas?.width || 920)) * 2 - 1;
+  const toValY = (canY) => (canY / (canvas?.height || 380)) * 2 - 1;
+
+  // Render Frame
+  const render = (time) => {
+    if (!lastTime) lastTime = time;
+    const dt = Math.min((time - lastTime) / 1000, 0.1);
+    lastTime = time;
+    pulsePhase += dt * 3.0;
+
+    if (canvas && ctx) {
+      const w = canvas.width;
+      const h = canvas.height;
+
+      ctx.clearRect(0, 0, w, h);
+
+      // Deep space background
+      ctx.fillStyle = "#080614";
+      ctx.fillRect(0, 0, w, h);
+
+      // Draw subtle grid axes
+      ctx.strokeStyle = "rgba(168, 85, 247, 0.08)";
+      ctx.lineWidth = 1;
+
+      // Coordinate axes cross
+      ctx.beginPath();
+      ctx.moveTo(w / 2, 0);
+      ctx.lineTo(w / 2, h);
+      ctx.moveTo(0, h / 2);
+      ctx.lineTo(w, h / 2);
+      ctx.stroke();
+
+      // Cluster Centroid Voronoi Regions / Glows
+      for (let cl of CLUSTERS) {
+        const cx = toCanvasX(cl.center.x);
+        const cy = toCanvasY(cl.center.y);
+
+        const grad = ctx.createRadialGradient(cx, cy, 10, cx, cy, 160);
+        grad.addColorStop(0, `${cl.color}22`);
+        grad.addColorStop(1, "transparent");
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(cx, cy, 160, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Centroid marker
+        ctx.strokeStyle = `${cl.color}88`;
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.arc(cx, cy, 28, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        ctx.fillStyle = cl.color;
+        ctx.font = "bold 9.5px monospace";
+        ctx.textAlign = "center";
+        ctx.fillText(cl.name.toUpperCase(), cx, cy - 35);
+      }
+
+      // Draw Proximity Rays from Query Probe to Top Matches above threshold
+      const probeX = toCanvasX(queryProbe.x);
+      const probeY = toCanvasY(queryProbe.y);
+
+      for (let t of tokens) {
+        if (t.similarity >= similarityThreshold) {
+          const tx = toCanvasX(t.curX);
+          const ty = toCanvasY(t.curY);
+          const alpha = (t.similarity - similarityThreshold) / (1 - similarityThreshold);
+
+          ctx.strokeStyle = `rgba(236, 72, 153, ${Math.max(0.15, alpha * 0.85)})`;
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.moveTo(probeX, probeY);
+          ctx.lineTo(tx, ty);
+          ctx.stroke();
+        }
+      }
+
+      // Draw Tokens
+      for (let i = 0; i < tokens.length; i++) {
+        const t = tokens[i];
+        const tx = toCanvasX(t.curX);
+        const ty = toCanvasY(t.curY);
+        const cl = CLUSTERS[t.cluster];
+        const isHovered = hoveredTokenIdx === i;
+        const isMatched = t.similarity >= similarityThreshold;
+
+        // Token Node Circle
+        ctx.fillStyle = isMatched ? cl.color : "rgba(148, 163, 184, 0.45)";
+        ctx.beginPath();
+        ctx.arc(tx, ty, isHovered ? 7 : isMatched ? 5.5 : 4, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (isMatched || isHovered) {
+          ctx.strokeStyle = isHovered ? "#ffffff" : cl.color;
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+        }
+
+        // Token Label
+        if (isMatched || isHovered) {
+          ctx.fillStyle = isHovered ? "#ffffff" : "rgba(255, 255, 255, 0.85)";
+          ctx.font = isHovered ? "bold 10px monospace" : "8.5px monospace";
+          ctx.textAlign = "center";
+          ctx.fillText(t.token, tx, ty + (isHovered ? 16 : 14));
+        }
+      }
+
+      // Draw Query Probe Crosshair (draggable)
+      ctx.strokeStyle = "#ec4899";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(probeX, probeY, 9, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Pulsing outer ring
+      const pulseR = 9 + (Math.sin(pulsePhase) + 1) * 4;
+      ctx.strokeStyle = "rgba(236, 72, 153, 0.4)";
+      ctx.beginPath();
+      ctx.arc(probeX, probeY, pulseR, 0, Math.PI * 2);
+      ctx.stroke();
+
+      ctx.fillStyle = "#ec4899";
+      ctx.beginPath();
+      ctx.arc(probeX, probeY, 3, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Probe label
+      ctx.fillStyle = "#f472b6";
+      ctx.font = "bold 10px monospace";
+      ctx.textAlign = "center";
+      ctx.fillText("PROBE (q⃗)", probeX, probeY - 14);
+
+      ctx.textAlign = "start";
+    }
+
+    updateTelemetry();
+    animId = requestAnimationFrame(render);
+  };
+
+  // Canvas Mouse Interactions: Drag Probe & Tooltips
+  canvas?.addEventListener("mousedown", (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const canX = (e.clientX - rect.left) * (canvas.width / rect.width);
+    const canY = (e.clientY - rect.top) * (canvas.height / rect.height);
+
+    const probeX = toCanvasX(queryProbe.x);
+    const probeY = toCanvasY(queryProbe.y);
+    const distToProbe = Math.hypot(canX - probeX, canY - probeY);
+
+    if (distToProbe < 25) {
+      isDraggingProbe = true;
+    } else {
+      // Jump probe to click position
+      queryProbe.x = Math.max(-0.95, Math.min(0.95, toValX(canX)));
+      queryProbe.y = Math.max(-0.95, Math.min(0.95, toValY(canY)));
+      isDraggingProbe = true;
+      if (typeof playSound === "function") playSound("click");
+    }
+  });
+
+  window.addEventListener("mouseup", () => {
+    isDraggingProbe = false;
+  });
+
+  canvas?.addEventListener("mousemove", (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const canX = (e.clientX - rect.left) * (canvas.width / rect.width);
+    const canY = (e.clientY - rect.top) * (canvas.height / rect.height);
+
+    if (isDraggingProbe) {
+      queryProbe.x = Math.max(-0.95, Math.min(0.95, toValX(canX)));
+      queryProbe.y = Math.max(-0.95, Math.min(0.95, toValY(canY)));
+      return;
+    }
+
+    // Check node hover for tooltip
+    let foundIdx = -1;
+    for (let i = 0; i < tokens.length; i++) {
+      const tx = toCanvasX(tokens[i].curX);
+      const ty = toCanvasY(tokens[i].curY);
+      if (Math.hypot(canX - tx, canY - ty) < 10) {
+        foundIdx = i;
+        break;
+      }
+    }
+
+    hoveredTokenIdx = foundIdx;
+    if (foundIdx !== -1 && nodeTooltip) {
+      const t = tokens[foundIdx];
+      const cl = CLUSTERS[t.cluster];
+      nodeTooltip.style.display = "flex";
+      if (tooltipTitle) tooltipTitle.textContent = t.token;
+      if (tooltipCluster) tooltipCluster.textContent = `Cluster: ${cl.name}`;
+      if (tooltipCos) tooltipCos.textContent = `Cosine Sim: ${(t.similarity * 100).toFixed(1)}%`;
+      if (tooltipL2) tooltipL2.textContent = `Euclidean L2: ${t.distanceL2.toFixed(3)}`;
+    } else if (nodeTooltip) {
+      nodeTooltip.style.display = "none";
+    }
+  });
+
+  canvas?.addEventListener("mouseleave", () => {
+    isDraggingProbe = false;
+    hoveredTokenIdx = -1;
+    if (nodeTooltip) nodeTooltip.style.display = "none";
+  });
+
+  // Slider & Select Event Listeners
+  thresholdSlider?.addEventListener("input", (e) => {
+    similarityThreshold = parseFloat(e.target.value);
+    updateTelemetry();
+  });
+
+  dimSelect?.addEventListener("change", (e) => {
+    activeDimensions = parseInt(e.target.value, 10);
+    generateVectors(activeDimensions);
+    updateTelemetry();
+    if (typeof playSound === "function") playSound("click");
+  });
+
+  reductionSelect?.addEventListener("change", (e) => {
+    activeReduction = e.target.value;
+    updateTelemetry();
+    if (typeof playSound === "function") playSound("click");
+  });
+
+  // Presets Buttons
+  presetBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      setPreset(btn.dataset.preset);
+      if (typeof playSound === "function") playSound("click");
+    });
+  });
+
+  // Action Buttons
+  probeCenterBtn?.addEventListener("click", () => {
+    queryProbe = { x: 0, y: 0 };
+    updateTelemetry();
+    if (typeof playSound === "function") playSound("click");
+  });
+
+  reclusterBtn?.addEventListener("click", () => {
+    tokens.forEach(t => {
+      t.curX = t.baseX + (Math.random() - 0.5) * 0.05;
+      t.curY = t.baseY + (Math.random() - 0.5) * 0.05;
+    });
+    updateTelemetry();
+    if (typeof playSound === "function") playSound("whoosh");
+    if (typeof showPortfolioToast === "function") showPortfolioToast("Re-clustered K=4 Latent Manifold");
+  });
+
+  resetBtn?.addEventListener("click", () => {
+    setPreset(activePresetKey);
+    if (typeof playSound === "function") playSound("click");
+    if (typeof showPortfolioToast === "function") showPortfolioToast("Latent Embedding Space Reset to Baseline");
+  });
+
+  // Export Engineering Memo
+  exportBtn?.addEventListener("click", () => {
+    const p = vectorPresets[activePresetKey];
+    const dateStr = new Date().toISOString().split("T")[0];
+    const sorted = [...tokens].sort((a, b) => b.similarity - a.similarity);
+    const topMatches = sorted.slice(0, 8);
+
+    const markdownDoc = `# PinitAI Multimodal: Neural Vector Space & Semantic Search Memorandum
+
+**Generated:** ${dateStr}  
+**Latent Architecture:** ${activeDimensions}-Dimensional Normalized Hypersphere $\\mathbb{S}^{${activeDimensions - 1}}$  
+**Projection Engine:** ${activeReduction.toUpperCase()} Manifold Mapping  
+**Active Scenario:** ${p.name}  
+**Query Probe Coordinates:** $\\vec{q} = [X: ${queryProbe.x.toFixed(3)}, Y: ${queryProbe.y.toFixed(3)}]$  
+**Retrieval Engine Status:** ${p.status}
+
+---
+
+## 1. Top-8 Nearest Neighbors (Cosine Similarity Rank)
+
+| Rank | Token Identifier | Semantic Cluster | Cosine Similarity | Euclidean $L_2$ |
+| :--- | :--- | :--- | :--- | :--- |
+${topMatches.map((m, i) => `| **#${i + 1}** | \`${m.token}\` | ${CLUSTERS[m.cluster].name} | **${(m.similarity * 100).toFixed(1)}%** | ${m.distanceL2.toFixed(3)} |`).join("\n")}
+
+---
+
+## 2. Mathematical Vector Formulations
+
+1. **Cosine Similarity Formulation:**
+   $$\\cos(\\theta) = \\frac{\\vec{q} \\cdot \\vec{v}_i}{\\|\\vec{q}\\| \\|\\vec{v}_i\\|} = \\sum_{d=1}^{${activeDimensions}} q_d \\cdot v_{i,d}$$
+
+2. **Euclidean Distance in Latent Space:**
+   $$\\|\\vec{q} - \\vec{v}_i\\|_2 = \\sqrt{2 - 2\\cos(\\theta)} = \\sqrt{\\sum_{d=1}^{${activeDimensions}} (q_d - v_{i,d})^2}$$
+
+3. **K-Means Lloyd Objective Function ($K=4$):**
+   $$J = \\sum_{k=1}^4 \\sum_{\\vec{v} \\in S_k} \\|\\vec{v} - \\vec{\\mu}_k\\|^2$$
+
+---
+
+## 3. High-Dimensional Cluster Definitions
+${CLUSTERS.map((cl, i) => `${i + 1}. **${cl.name}**\n   - *Tokens:* 12 domain vectors\n   - *Latent Centroid:* $[${cl.center.x}, ${cl.center.y}]$`).join("\n")}
+
+---
+
+*Document generated autonomously by Gouv Kimsea's PinitAI Neural Vector Space & Semantic Search Lab.*
+`;
+
+    const blob = new Blob([markdownDoc], { type: "text/markdown;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `pinitai-vector-search-${activePresetKey}-${dateStr}.md`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    if (typeof playSound === "function") playSound("click");
+    if (typeof showPortfolioToast === "function") showPortfolioToast(`Exported ${p.name} Vector Memo (.md)`);
+  });
+
+  // Modal Open & Close Controller
+  openVectorLabModal = (presetKey) => {
+    if (typeof playSound === "function") playSound("whoosh");
+    if (!modal.open) modal.showModal();
+
+    if (presetKey && vectorPresets[presetKey]) {
+      setPreset(presetKey);
+    } else {
+      setPreset(activePresetKey);
+    }
+
+    if (!animId) {
+      animId = requestAnimationFrame(render);
+    }
+  };
+
+  closeVectorLabModal = () => {
+    if (modal.open) modal.close();
+    if (animId) {
+      cancelAnimationFrame(animId);
+      animId = null;
+    }
+  };
+
+  closeBtn?.addEventListener("click", closeVectorLabModal);
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeVectorLabModal();
+  });
+  modal.addEventListener("cancel", closeVectorLabModal);
+
+  // Wire Modal Nav Launcher
+  document.getElementById("modalVectorLabBtn")?.addEventListener("click", () => {
+    openVectorLabModal("multimodal");
+  });
+
+  // Initial render
+  setPreset("multimodal");
+};
+
+initVectorLabModal();
+
 
 
 

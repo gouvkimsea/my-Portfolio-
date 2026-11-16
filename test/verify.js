@@ -188,7 +188,9 @@ assert(indexHtml.includes('id="hydraulicLabModal"') && scriptJs.includes('initHy
 assert(scriptJs.includes('hydraulic:') && indexHtml.includes('data-action="open-hydraulic-lab"') && indexHtml.includes('id="modalHydraulicLabBtn"'), 'index.html & script.js: Hydraulic lab launchers wired to Project modal, Command Palette, Terminal CLI, and hotkeys');
 assert(indexHtml.includes('id="batteryLabModal"') && scriptJs.includes('initBatteryLabModal') && fs.readFileSync('styles.css', 'utf8').includes('.battery-modal'), 'index.html, styles.css & script.js: Interactive EV Battery Pack BMS & Thermal Diagnostics Lab implemented');
 assert(scriptJs.includes('battery:') && indexHtml.includes('data-action="open-battery-lab"') && indexHtml.includes('id="modalBatteryLabBtn"'), 'index.html & script.js: Battery lab launchers wired to Project modal, Command Palette, Terminal CLI, and hotkeys');
-assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v39'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v39');
+assert(indexHtml.includes('id="vectorLabModal"') && scriptJs.includes('initVectorLabModal') && fs.readFileSync('styles.css', 'utf8').includes('.vector-modal'), 'index.html, styles.css & script.js: Interactive Neural Vector Space & Semantic Search Lab implemented');
+assert(scriptJs.includes('vector:') && indexHtml.includes('data-action="open-vector-lab"') && indexHtml.includes('id="modalVectorLabBtn"'), 'index.html & script.js: Vector lab launchers wired to Project modal, Command Palette, Terminal CLI, and hotkeys');
+assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v40'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v40');
 
 // Test global script evaluation with mock DOM globals
 try {
