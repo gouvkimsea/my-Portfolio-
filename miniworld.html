@@ -677,14 +677,82 @@
     }
 
     @media (max-width: 640px) {
+      .top-bar {
+        top: max(10px, env(safe-area-inset-top));
+        left: max(10px, env(safe-area-inset-left));
+        right: max(10px, env(safe-area-inset-right));
+      }
+      .brand {
+        padding: 6px 12px;
+        gap: 6px;
+      }
+      .brand-title {
+        font-size: 12.5px;
+      }
       .brand-subtitle { display: none; }
-      .time-slider { width: 90px; }
-      .preset-btn { padding: 6px 10px; font-size: 11px; }
-      .top-actions { overflow-x: auto; max-width: 60vw; }
+      .back-link {
+        font-size: 11px;
+        margin-right: 6px;
+        padding-right: 8px;
+      }
+      .top-actions {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        max-width: 58vw;
+        gap: 5px;
+      }
+      .top-actions::-webkit-scrollbar { display: none; }
+      .glass-btn {
+        padding: 6px 10px;
+        font-size: 11px;
+      }
+      .bottom-bar {
+        bottom: max(12px, env(safe-area-inset-bottom));
+        max-width: calc(100vw - 20px);
+        gap: 6px;
+      }
+      .camera-presets {
+        padding: 4px 6px;
+        gap: 3px;
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .camera-presets::-webkit-scrollbar { display: none; }
+      .preset-btn {
+        padding: 5px 9px;
+        font-size: 10.5px;
+      }
+      .time-panel {
+        padding: 4px 10px;
+        gap: 8px;
+        max-width: 100%;
+      }
+      .time-slider { width: 75px; }
+      .time-chips {
+        gap: 3px;
+        margin-left: 2px;
+        padding-left: 6px;
+      }
+      .time-chip {
+        width: 24px;
+        height: 24px;
+        font-size: 11px;
+      }
       .ufo-hud, .rover-hud { font-size: 10px; padding: 4px 10px; }
-      .radar-container { width: 100px; height: 100px; bottom: 84px; left: 12px; }
+      .radar-container { width: 90px; height: 90px; bottom: 84px; left: 10px; }
       .controls-grid { grid-template-columns: 1fr; gap: 14px; max-height: 60vh; overflow-y: auto; }
       .controls-card { padding: 16px 18px; }
+      .ufo-touch-controls {
+        left: max(10px, env(safe-area-inset-left));
+        bottom: max(20px, env(safe-area-inset-bottom));
+      }
+      .ufo-touch-actions {
+        right: max(10px, env(safe-area-inset-right));
+        bottom: max(20px, env(safe-area-inset-bottom));
+      }
     }
 
     .back-link {
