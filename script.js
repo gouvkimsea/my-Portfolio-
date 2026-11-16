@@ -4,23 +4,46 @@ const $$ = (selector, root = document) => (root || document).querySelectorAll ? 
 // Page loader
 window.addEventListener("load", () => setTimeout(() => $("#loader")?.classList.add("done"), 400));
 
-// Scroll progress bar
+// Unified High-Performance Scroll Controller (100% passive, GPU-composited)
 const scrollProgress = $("#scrollProgress");
-window.addEventListener("scroll", () => {
-  const total = document.documentElement.scrollHeight - window.innerHeight;
-  const progress = total > 0 ? (window.scrollY / total) * 100 : 0;
-  if (scrollProgress) scrollProgress.style.width = `${progress}%`;
-}, { passive: true });
-
 const header = $(".site-header");
 const navLinksContainer = $("#mainMenu");
 const navLinks = $$(".nav-link", navLinksContainer);
 let activeLink = $(".nav-link.active", navLinksContainer) || null;
+let scrollTicking = false;
 
-// Header Scroll Morphing (smean.ai floating glass capsule effect)
+const onScroll = () => {
+  const scrollY = window.scrollY;
+  const total = (document.documentElement?.scrollHeight || 2000) - window.innerHeight;
+  const progress = total > 0 ? Math.min(1, Math.max(0, scrollY / total)) : 0;
+
+  if (scrollProgress) {
+    scrollProgress.style.transform = `scaleX(${progress})`;
+  }
+  if (header) {
+    header.classList.toggle("scrolled", scrollY > 30);
+  }
+  const topBtn = $("#backToTopBtn");
+  if (topBtn) {
+    topBtn.classList.toggle("visible", scrollY > 400);
+  }
+
+  if (!isProgrammaticScrolling) {
+    if (scrollY < 80 && activeSectionId !== "home") {
+      setActiveSection("home");
+    } else if (window.innerHeight + scrollY >= (document.documentElement?.scrollHeight || 2000) - 60 && activeSectionId !== "contact") {
+      setActiveSection("contact");
+    }
+  }
+
+  scrollTicking = false;
+};
+
 window.addEventListener("scroll", () => {
-  const isScrolled = window.scrollY > 30;
-  header?.classList.toggle("scrolled", isScrolled);
+  if (!scrollTicking) {
+    requestAnimationFrame(onScroll);
+    scrollTicking = true;
+  }
 }, { passive: true });
 
 // Dynamic Glass Spotlight Hover on Navbar
@@ -111,9 +134,6 @@ const brandLink = $(".brand");
 let activeSectionId = "home";
 let isProgrammaticScrolling = false;
 let scrollLockTimer = null;
-let wheelCooldownTimer = null;
-let isWheelLocked = false;
-let accumulatedWheelDelta = 0;
 
 // Updates active UI state across desktop nav, sliding indicator, mobile drawer, and URL
 const setActiveSection = (sectionId) => {
@@ -248,101 +268,6 @@ const scrollspyObserver = typeof IntersectionObserver !== "undefined" ? new Inte
 if (scrollspyObserver) {
   sectionElements.forEach(sec => scrollspyObserver.observe(sec));
 }
-
-// Fallback scroll listener for top and bottom edges
-window.addEventListener("scroll", () => {
-  if (isProgrammaticScrolling) return;
-  if (window.scrollY < 80 && activeSectionId !== "home") {
-    setActiveSection("home");
-  } else if (window.innerHeight + window.scrollY >= (document.documentElement?.scrollHeight || 2000) - 60 && activeSectionId !== "contact") {
-    setActiveSection("contact");
-  }
-}, { passive: true });
-
-// Controlled section-to-section wheel transition on desktop
-const handleWheelNavigation = (e) => {
-  // 1. Only run on desktop with fine pointer
-  if (window.innerWidth <= 992 || (window.matchMedia && window.matchMedia("(pointer: coarse)").matches)) {
-    return; // Allow normal native touch scrolling on mobile/tablets
-  }
-
-  // 2. Check accessibility preferences
-  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    return;
-  }
-
-  // 3. Do not hijack if typing or interacting with modals/dialogs/terminal
-  const activeTag = document.activeElement?.tagName?.toLowerCase();
-  if (["input", "textarea", "select"].includes(activeTag) ||
-      document.querySelector("dialog[open], .cmdk-dialog[open], .terminal-window:focus-within")) {
-    return;
-  }
-
-  // 4. Do not hijack if already mid-transition or locked by previous gesture
-  if (isWheelLocked || isProgrammaticScrolling) {
-    e.preventDefault();
-    return;
-  }
-
-  const currentSecEl = document.getElementById(activeSectionId);
-  const delta = e.deltaY;
-
-  // 5. If currently in a tall section (e.g. projects with many cards),
-  // NEVER trap the user! Allow free scrolling inside the section until its boundary is reached.
-  if (currentSecEl) {
-    const rect = currentSecEl.getBoundingClientRect();
-    const headerHeight = header ? (header.offsetHeight || 76) : 76;
-
-    if (delta > 0) {
-      // Scrolling down: If the bottom of current section is still below viewport, allow native scroll inside
-      if (rect.bottom > window.innerHeight + 80) {
-        return;
-      }
-    } else if (delta < 0) {
-      // Scrolling up: If the top of current section is still above navbar, allow native scroll inside
-      if (rect.top < headerHeight - 80) {
-        return;
-      }
-    }
-  }
-
-  // 6. Accumulate delta to prevent micro-jitters
-  accumulatedWheelDelta += delta;
-  const THRESHOLD = 55; // Deliberate gesture threshold
-
-  if (Math.abs(accumulatedWheelDelta) < THRESHOLD) {
-    return;
-  }
-
-  // Determine direction
-  const currentIndex = SECTION_IDS.indexOf(activeSectionId);
-  let targetIndex = -1;
-
-  if (accumulatedWheelDelta > 0 && currentIndex < SECTION_IDS.length - 1) {
-    targetIndex = currentIndex + 1;
-  } else if (accumulatedWheelDelta < 0 && currentIndex > 0) {
-    targetIndex = currentIndex - 1;
-  }
-
-  if (targetIndex >= 0 && targetIndex !== currentIndex) {
-    e.preventDefault();
-    const targetSectionId = SECTION_IDS[targetIndex];
-    navigateToSection(targetSectionId);
-
-    // Lock to absorb trackpad momentum / wheel inertia
-    isWheelLocked = true;
-    accumulatedWheelDelta = 0;
-    clearTimeout(wheelCooldownTimer);
-    wheelCooldownTimer = setTimeout(() => {
-      isWheelLocked = false;
-      accumulatedWheelDelta = 0;
-    }, 800);
-  } else {
-    accumulatedWheelDelta = 0;
-  }
-};
-
-window.addEventListener("wheel", handleWheelNavigation, { passive: false });
 
 // Keyboard section-to-section navigation
 window.addEventListener("keydown", (e) => {
@@ -5098,7 +5023,7 @@ Layer 1: Semantic Core  · Zero-dependency ES2026 &amp; HTML5 dialogs
 Layer 2: Style Tokens   · Modular Vanilla CSS &amp; WCAG AAA contrast
 Layer 3: 3D Graphics    · Hardware-accelerated WebGL 2.0 MiniWorld
 Layer 4: Procedural SFX · Pure Web Audio synthesizers (0 audio files)
-Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v22</pre>`;
+Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v25</pre>`;
   },
   cat: (arg) => {
     const file = (arg || "").trim().toLowerCase();
@@ -6251,10 +6176,6 @@ if (typeof window !== "undefined" && "PerformanceObserver" in window) {
 // 11. BACK TO TOP QUICK ACTION & MOBILE EDGE SWIPE GESTURES
 // ==========================================================================
 const backToTopBtn = $("#backToTopBtn");
-window.addEventListener("scroll", () => {
-  const isScrolled = window.scrollY > 400;
-  backToTopBtn?.classList.toggle("visible", isScrolled);
-}, { passive: true });
 
 backToTopBtn?.addEventListener("click", () => {
   navigateToSection("home");
