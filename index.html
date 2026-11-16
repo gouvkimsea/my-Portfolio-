@@ -46,11 +46,18 @@
   <meta name="twitter:image" content="https://gouvkimsea.github.io/my-Portfolio-/og-image.jpg" />
   <meta name="twitter:image:alt" content="Gouv Kimsea — Student Developer &amp; Product Builder" />
 
-  <!-- Font preconnect & resource hints -->
+  <!-- Font preconnect & non-render-blocking webfont loader -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet"
+  <link rel="preload" as="style"
     href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;family=Space+Grotesk:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;family=Space+Grotesk:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap"
+    media="print" onload="this.media='all'" />
+  <noscript>
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;family=Space+Grotesk:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" />
+  </noscript>
 
   <!-- Structured Data (JSON-LD) -->
   <script type="application/ld+json">
@@ -116,7 +123,7 @@
   }
   </script>
 
-  <link rel="stylesheet" href="styles.css?v=v22" />
+  <link rel="stylesheet" href="styles.css?v=v31" />
   <script>
     (function () {
       try {
@@ -132,7 +139,7 @@
       }
     })();
   </script>
-  <script defer src="script.js?v=v22"></script>
+  <script defer src="script.js?v=v31"></script>
 </head>
 
 <body>

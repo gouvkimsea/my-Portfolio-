@@ -160,7 +160,12 @@ assert(cssContent.includes('[data-theme="light"] .skills-section') && cssContent
 assert(cssContent.includes('[data-theme="dark"] .footer') && cssContent.includes('[data-theme="light"] .footer'), 'styles.css: Footer explicit [data-theme="dark"] and [data-theme="light"] styling without inversion bugs');
 assert(['project-modal', 'resume-modal', 'skill-dossier-modal', 'cmdk-modal', 'shortcuts-modal', 'share-modal'].every(m => cssContent.includes('[data-theme="light"] .' + m) || cssContent.includes('[data-theme="light"] dialog.' + m) || cssContent.includes('[data-theme="light"] .' + m.replace('-modal', '') + '-shell')), 'styles.css: All 6 modal dialogs have explicit [data-theme="light"] styling');
 assert(cssContent.includes('[data-theme="light"] .mobile-drawer') && cssContent.includes('[data-theme="light"] .mobile-drawer-backdrop'), 'styles.css: Mobile drawer and backdrop overlay have explicit [data-theme="light"] styling');
-assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v30'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v30');
+assert(cssContent.includes('content-visibility: auto') && cssContent.includes('contain-intrinsic-size'), 'styles.css: Off-screen sections use content-visibility:auto with contain-intrinsic-size to defer rendering on mobile');
+assert(cssContent.includes('touch-action: manipulation') && cssContent.includes('-webkit-tap-highlight-color: transparent'), 'styles.css: touch-action:manipulation eliminates 300ms tap delay on mobile controls');
+assert(cssContent.includes('@keyframes eqBounce') && !/@keyframes\s+eqBounce\s*\{\s*0%\s*\{\s*height:/.test(cssContent), 'styles.css: eqBounce animation uses GPU transform:scaleY instead of height reflows');
+assert(indexHtml.includes('preload') && indexHtml.includes('fonts.googleapis.com'), 'index.html: Web fonts load asynchronously without render-blocking and system fallbacks render instantly');
+assert(scriptJs.includes('document.hidden') && scriptJs.includes('updateLocalClock'), 'script.js: Background timer tasks pause/throttle when document.hidden to save mobile battery');
+assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v31'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v31');
 
 // Test global script evaluation with mock DOM globals
 try {

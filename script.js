@@ -100,7 +100,12 @@ navLinksContainer?.addEventListener("mouseleave", () => {
   }
 });
 
-window.addEventListener("resize", () => updateNavIndicator(activeLink, false));
+let navResizeTimer = null;
+window.addEventListener("resize", () => {
+  if (window.innerWidth <= 900) return;
+  if (navResizeTimer) clearTimeout(navResizeTimer);
+  navResizeTimer = setTimeout(() => updateNavIndicator(activeLink, false), 120);
+}, { passive: true });
 window.addEventListener("load", () => setTimeout(() => updateNavIndicator(activeLink, false), 200));
 
 // ============================================================================
@@ -750,6 +755,14 @@ if (typewriterEl) {
   let typeSpeed = 2000;
 
   const typeLoop = () => {
+    if (document.hidden) {
+      setTimeout(typeLoop, 1000);
+      return;
+    }
+    if (window.scrollY > window.innerHeight * 1.5) {
+      setTimeout(typeLoop, 1500);
+      return;
+    }
     const currentWord = words[wordIdx];
     if (isDeleting) {
       charIdx--;
@@ -1073,6 +1086,7 @@ const isTouchDevice = () => window.matchMedia("(pointer: coarse)").matches;
 
 $$(".spotlight-card").forEach(card => {
   card.addEventListener("pointermove", event => {
+    if (isTouchDevice()) return;
     const rect = card.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
@@ -1281,9 +1295,13 @@ projectFilterBtns.forEach(filter => {
   });
 });
 
+let searchDebounceTimer = null;
 projectSearchInput?.addEventListener("input", (e) => {
   currentSearchQuery = e.target.value;
-  updateProjectFilterState();
+  if (searchDebounceTimer) clearTimeout(searchDebounceTimer);
+  searchDebounceTimer = setTimeout(() => {
+    updateProjectFilterState();
+  }, 100);
 });
 
 projectSearchClear?.addEventListener("click", () => {
@@ -4498,6 +4516,7 @@ function closeModal() {
   stopAquariumLab();
   stopGestureLab();
   stopSaasLab();
+  if (typeof stopDevpulseLab === "function") stopDevpulseLab();
   restoreProjectSandbox();
   try {
     const url = new URL(window.location.href);
@@ -5031,7 +5050,7 @@ Layer 1: Semantic Core  · Zero-dependency ES2026 &amp; HTML5 dialogs
 Layer 2: Style Tokens   · Modular Vanilla CSS &amp; WCAG AAA contrast
 Layer 3: 3D Graphics    · Hardware-accelerated WebGL 2.0 MiniWorld
 Layer 4: Procedural SFX · Pure Web Audio synthesizers (0 audio files)
-Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v30</pre>`;
+Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v31</pre>`;
   },
   cat: (arg) => {
     const file = (arg || "").trim().toLowerCase();
