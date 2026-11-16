@@ -4521,7 +4521,7 @@ function closeModal() {
   stopGestureLab();
   stopSaasLab();
   if (typeof stopDevpulseLab === "function") stopDevpulseLab();
-  restoreProjectSandbox();
+  if (typeof restoreProjectSandbox === "function") restoreProjectSandbox();
   try {
     const url = new URL(window.location.href);
     url.searchParams.delete("project");
