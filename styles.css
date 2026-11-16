@@ -78,6 +78,7 @@ body {
   position: relative;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body:has(dialog[open]) {
@@ -1288,9 +1289,68 @@ h2 em {
 }
 
 .footer {
-  background: var(--ink);
-  color: var(--paper);
-  padding: 25px 0
+  background: #090a08;
+  color: #f1f0e9;
+  padding: 28px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+[data-theme="dark"] .footer {
+  background: #090a08;
+  color: #f1f0e9;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="light"] .footer {
+  background: #eae7de;
+  color: #20211e;
+  border-top: 1px solid #d9d9d0;
+}
+
+[data-theme="light"] .footer-copy,
+[data-theme="light"] .footer-meta {
+  color: #5e6057;
+}
+
+[data-theme="light"] .footer-repo-link {
+  color: #20211e;
+  border-bottom: 1px dotted #5e6057;
+}
+
+[data-theme="light"] .footer-repo-link:hover {
+  color: var(--orange);
+  border-color: var(--orange);
+}
+
+[data-theme="light"] .footer-top-link {
+  color: var(--orange);
+}
+
+[data-theme="light"] .footer-cmd-btn {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #1e293b;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .footer-cmd-btn:hover {
+  background: #f8fafc;
+  border-color: var(--orange);
+  color: var(--orange);
+}
+
+[data-theme="light"] .footer-cmd-btn .cmd-kbd {
+  background: rgba(234, 88, 12, 0.1);
+  border-color: rgba(234, 88, 12, 0.3);
+  color: #ea580c;
+}
+
+[data-theme="light"] .footer-local-clock {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #1e293b;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .footer-inner {
@@ -4191,6 +4251,71 @@ dialog.project-modal[open]::backdrop {
   color: #f0f0ea;
 }
 
+[data-theme="light"] .skills-section {
+  background: var(--paper);
+  color: var(--ink);
+  border-top: 1px solid var(--line);
+}
+
+[data-theme="light"] .skill-card {
+  background: #ffffff;
+  border: 1px solid #e2e2d8;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .skill-card:hover {
+  border-color: var(--orange);
+  box-shadow: 0 12px 32px rgba(234, 88, 12, 0.1);
+}
+
+[data-theme="light"] .skill-number {
+  color: #64748b;
+}
+
+[data-theme="light"] .skill-icon {
+  color: #15803d;
+}
+
+[data-theme="light"] .skill-card h3,
+[data-theme="light"] .skill-card .skill-title {
+  color: var(--ink);
+}
+
+[data-theme="light"] .skill-card p,
+[data-theme="light"] .skill-card .skill-desc {
+  color: #475569;
+}
+
+[data-theme="light"] .chips span,
+[data-theme="light"] .chips .chip-item {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #334155;
+}
+
+[data-theme="light"] .chips .chip-item:hover {
+  background: rgba(21, 128, 61, 0.08);
+  border-color: #15803d;
+  color: #15803d;
+}
+
+[data-theme="light"] .learning-state {
+  color: #64748b;
+}
+
+[data-theme="light"] .learning-state .state-dot {
+  background: #15803d;
+}
+
+[data-theme="light"] .skills-section .eyebrow,
+[data-theme="light"] .skills-section .heading-note {
+  color: #64748b;
+}
+
+[data-theme="light"] .skills-section .section-heading h2 em {
+  color: #15803d;
+}
+
 .terminal {
   cursor: text;
   position: relative;
@@ -4272,12 +4397,19 @@ dialog.project-modal[open]::backdrop {
    THEME SYSTEM (LIGHT & SLEEK DARK MODE)
    ========================================================================== */
 
-:root {
+:root,
+[data-theme="light"] {
+  --ink: #20211e;
+  --muted: #575952;
+  --paper: #f5f4ef;
+  --line: #dcdcd3;
   --header-bg: rgba(245, 244, 239, 0.85);
-  --section-alt: #e9e9e2;
-  --card-bg: #f3f0e8;
-  --dialog-bg: #f3f0e8;
-  --grid-line: #e5e5dc;
+  --section-alt: #eae7de;
+  --card-bg: #ffffff;
+  --dialog-bg: #ffffff;
+  --grid-line: #e2e2d8;
+  --lime: #15803d;
+  --orange: #ea580c;
   color-scheme: light;
 }
 
@@ -4294,6 +4426,17 @@ dialog.project-modal[open]::backdrop {
   --lime: #e7f26d;
   --orange: #ff8e5e;
   color-scheme: dark;
+}
+
+/* Dedicated Developer Capsules & Night Canvases: Encapsulate Localized Cyber Tokens */
+.terminal-section,
+.terminal,
+.code-card,
+.work-section {
+  --lime: #e7f26d;
+  --orange: #ff8e5e;
+  --ink: #f0f0ea;
+  --muted: #9fa295;
 }
 
 /* Theme-dependent surfaces */
@@ -4457,7 +4600,7 @@ dialog.project-modal {
 }
 
 [data-theme="light"] .typewriter {
-  background: linear-gradient(135deg, #181916 20%, #ffffff 100%);
+  background: linear-gradient(135deg, #181916 25%, #ea580c 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 600;
@@ -5825,6 +5968,63 @@ dialog.project-modal {
   margin-bottom: 0;
   max-width: 440px;
   font-weight: 400;
+}
+
+[data-theme="light"] .contact-form {
+  background: #ffffff;
+  border: 1px solid #e2e2d8;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  color: var(--ink);
+}
+
+[data-theme="light"] .contact-form .form-row label,
+[data-theme="light"] .contact-form .topic-label {
+  color: #475569;
+}
+
+[data-theme="light"] .contact-form .form-row input,
+[data-theme="light"] .contact-form .form-row .form-input,
+[data-theme="light"] .contact-form .form-row textarea,
+[data-theme="light"] .contact-form .form-row .form-textarea {
+  color: var(--ink);
+  border-bottom: 1px solid #cbd5e1;
+}
+
+[data-theme="light"] .contact-form .form-row input:focus,
+[data-theme="light"] .contact-form .form-row .form-input:focus,
+[data-theme="light"] .contact-form .form-row textarea:focus,
+[data-theme="light"] .contact-form .form-row .form-textarea:focus {
+  border-bottom-color: var(--orange);
+}
+
+[data-theme="light"] .contact-form .form-row input::placeholder,
+[data-theme="light"] .contact-form .form-row .form-input::placeholder,
+[data-theme="light"] .contact-form .form-row textarea::placeholder,
+[data-theme="light"] .contact-form .form-row .form-textarea::placeholder {
+  color: #94a3b8;
+}
+
+[data-theme="light"] .contact-form .topic-chip {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+}
+
+[data-theme="light"] .contact-form .topic-chip:hover {
+  background: rgba(234, 88, 12, 0.08);
+  border-color: var(--orange);
+  color: var(--orange);
+}
+
+[data-theme="light"] .contact-form .topic-chip.active {
+  background: var(--orange);
+  border-color: var(--orange);
+  color: #ffffff;
+}
+
+[data-theme="light"] .contact-form .form-note,
+[data-theme="light"] .contact-form .char-count {
+  color: #64748b;
 }
 
 /* Right Column (HUD Contact List) */

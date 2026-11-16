@@ -5031,7 +5031,7 @@ Layer 1: Semantic Core  · Zero-dependency ES2026 &amp; HTML5 dialogs
 Layer 2: Style Tokens   · Modular Vanilla CSS &amp; WCAG AAA contrast
 Layer 3: 3D Graphics    · Hardware-accelerated WebGL 2.0 MiniWorld
 Layer 4: Procedural SFX · Pure Web Audio synthesizers (0 audio files)
-Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v29</pre>`;
+Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v30</pre>`;
   },
   cat: (arg) => {
     const file = (arg || "").trim().toLowerCase();

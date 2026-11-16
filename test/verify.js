@@ -154,7 +154,13 @@ assert(indexHtml.includes('id="hudClockItem"') && indexHtml.includes('id="footer
 assert(indexHtml.includes('id="sfxVolumeSlider"') && scriptJs.includes('setSfxVolume') && scriptJs.includes('getMasterGainNode') && fs.readFileSync('styles.css', 'utf8').includes('.audio-volume-panel'), 'index.html, script.js & styles.css: Web Audio procedural synthesizer master volume gain controller implemented');
 assert(indexHtml.includes('id="modalCiteBtn"') && scriptJs.includes('modalCiteBtn') && fs.readFileSync('styles.css', 'utf8').includes('.modal-cite-btn'), 'index.html, script.js & styles.css: In-modal project citation generator & 1-click clipboard copy implemented');
 assert(scriptJs.includes('demo:') && scriptJs.includes('cite:') && scriptJs.includes('volume:') && scriptJs.includes('time:'), 'script.js: In-browser terminal CLI expanded with demo, cite, volume, and time telemetry commands');
-assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v29'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v29');
+const cssContent = fs.readFileSync('styles.css', 'utf8');
+assert(cssContent.includes('[data-theme="light"]') && cssContent.includes('[data-theme="dark"]') && cssContent.includes('--lime: #15803d'), 'styles.css: Dual-theme token architecture :root, [data-theme="light"] and [data-theme="dark"] with WCAG AA contrast tokens');
+assert(cssContent.includes('[data-theme="light"] .skills-section') && cssContent.includes('[data-theme="light"] .skill-card'), 'styles.css: Skills section and skill cards explicit [data-theme="light"] styling');
+assert(cssContent.includes('[data-theme="dark"] .footer') && cssContent.includes('[data-theme="light"] .footer'), 'styles.css: Footer explicit [data-theme="dark"] and [data-theme="light"] styling without inversion bugs');
+assert(['project-modal', 'resume-modal', 'skill-dossier-modal', 'cmdk-modal', 'shortcuts-modal', 'share-modal'].every(m => cssContent.includes('[data-theme="light"] .' + m) || cssContent.includes('[data-theme="light"] dialog.' + m) || cssContent.includes('[data-theme="light"] .' + m.replace('-modal', '') + '-shell')), 'styles.css: All 6 modal dialogs have explicit [data-theme="light"] styling');
+assert(cssContent.includes('[data-theme="light"] .mobile-drawer') && cssContent.includes('[data-theme="light"] .mobile-drawer-backdrop'), 'styles.css: Mobile drawer and backdrop overlay have explicit [data-theme="light"] styling');
+assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v30'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v30');
 
 // Test global script evaluation with mock DOM globals
 try {
