@@ -745,6 +745,24 @@
       .radar-container { width: 90px; height: 90px; bottom: 84px; left: 10px; }
       .controls-grid { grid-template-columns: 1fr; gap: 14px; max-height: 60vh; overflow-y: auto; }
       .controls-card { padding: 16px 18px; }
+      .controls-close {
+        width: 44px !important;
+        height: 44px !important;
+        min-width: 44px !important;
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border-radius: 50% !important;
+      }
+      .time-slider {
+        height: 8px;
+        padding: 8px 0;
+      }
+      .time-slider::-webkit-slider-thumb {
+        width: 18px;
+        height: 18px;
+      }
       .ufo-touch-controls {
         left: max(10px, env(safe-area-inset-left));
         bottom: max(20px, env(safe-area-inset-bottom));
