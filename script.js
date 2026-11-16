@@ -755,6 +755,10 @@ if (typewriterEl) {
   let typeSpeed = 2000;
 
   const typeLoop = () => {
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      typewriterEl.textContent = words[0];
+      return;
+    }
     if (document.hidden) {
       setTimeout(typeLoop, 1000);
       return;
@@ -5050,7 +5054,7 @@ Layer 1: Semantic Core  · Zero-dependency ES2026 &amp; HTML5 dialogs
 Layer 2: Style Tokens   · Modular Vanilla CSS &amp; WCAG AAA contrast
 Layer 3: 3D Graphics    · Hardware-accelerated WebGL 2.0 MiniWorld
 Layer 4: Procedural SFX · Pure Web Audio synthesizers (0 audio files)
-Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v31</pre>`;
+Layer 5: Offline PWA    · Service Worker Cache kimsea-pwa-v32</pre>`;
   },
   cat: (arg) => {
     const file = (arg || "").trim().toLowerCase();
@@ -6915,3 +6919,98 @@ const updateLocalClock = () => {
 };
 setInterval(updateLocalClock, 1000);
 updateLocalClock();
+
+// ==========================================================================
+// 13. Dedicated Mobile Usability & Gesture Orchestrator
+// - Virtual keyboard focus handling: auto-centers inputs on mobile focus
+// - One-handed bottom sheet swipe-down to dismiss modals
+// - Modal bottom closure button listeners
+// - Acoustic tap feedback for touch controls
+// ==========================================================================
+const initMobileUsability = () => {
+  // 1. Virtual Keyboard Visibility: Scroll active input into view smoothly
+  const textInputs = $$("input, textarea, select");
+  textInputs.forEach(input => {
+    input.addEventListener("focus", () => {
+      if (window.innerWidth <= 800) {
+        setTimeout(() => {
+          input.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 320);
+      }
+    }, { passive: true });
+  });
+
+  // 2. Bottom Close Action Buttons inside Modals
+  $("#modalBottomCloseBtn")?.addEventListener("click", () => {
+    closeModal();
+    if (typeof playSound === "function") playSound("click");
+  });
+
+  $("#shortcutsBottomCloseBtn")?.addEventListener("click", () => {
+    const sm = $("#shortcutsModal");
+    if (sm?.open) sm.close();
+    if (typeof playSound === "function") playSound("click");
+  });
+
+  $("#dossierBottomCloseBtn")?.addEventListener("click", () => {
+    const dm = $("#skillDossierModal");
+    if (dm?.open) dm.close();
+    if (typeof playSound === "function") playSound("click");
+  });
+
+  // 3. One-Handed Mobile Swipe-Down to Dismiss Modals
+  const bindModalSwipeDown = (dialog, scrollContainerSelector, closeFn) => {
+    if (!dialog) return;
+    let startY = 0;
+    let startX = 0;
+    let canSwipe = false;
+
+    dialog.addEventListener("touchstart", (e) => {
+      if (!dialog.open || !e.touches || e.touches.length !== 1) return;
+      const scrollEl = scrollContainerSelector ? $(scrollContainerSelector, dialog) : dialog;
+      const scrollTop = scrollEl ? scrollEl.scrollTop : 0;
+      if (scrollTop <= 4) {
+        startY = e.touches[0].clientY;
+        startX = e.touches[0].clientX;
+        canSwipe = true;
+      } else {
+        canSwipe = false;
+      }
+    }, { passive: true });
+
+    dialog.addEventListener("touchend", (e) => {
+      if (!canSwipe || !dialog.open || !e.changedTouches || e.changedTouches.length !== 1) return;
+      const deltaY = e.changedTouches[0].clientY - startY;
+      const deltaX = Math.abs(e.changedTouches[0].clientX - startX);
+      if (deltaY > 75 && deltaY > deltaX * 1.5) {
+        closeFn();
+        if (typeof playSound === "function") playSound("click");
+      }
+    }, { passive: true });
+  };
+
+  bindModalSwipeDown(modal, "#modalCaseBody", closeModal);
+  bindModalSwipeDown(resumeModal, ".resume-body", closeResumeModal);
+  bindModalSwipeDown($("#skillDossierModal"), ".skill-dossier-body", () => $("#skillDossierModal")?.close());
+  bindModalSwipeDown($("#shortcutsModal"), ".shortcuts-body", () => $("#shortcutsModal")?.close());
+  bindModalSwipeDown($("#shareModal"), ".share-content", () => $("#shareModal")?.close());
+  bindModalSwipeDown($("#cmdKModal"), ".cmdk-results", () => $("#cmdKModal")?.close());
+
+  // 4. Acoustic Tap Feedback on Touchscreens for buttons and chips
+  if (typeof playSound === "function") {
+    document.addEventListener("click", (e) => {
+      const isTouch = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
+      if (!isTouch) return;
+      const trigger = e.target.closest(".topic-chip, .tech-filter-chip, .filter-btn, .skill-filter-btn, .achieve-filter-btn, .epoch-nav-btn, .mobile-drawer-link, .back-to-top-btn, .round-arrow");
+      if (trigger) {
+        playSound("click");
+      }
+    }, { passive: true });
+  }
+};
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initMobileUsability);
+} else {
+  initMobileUsability();
+}

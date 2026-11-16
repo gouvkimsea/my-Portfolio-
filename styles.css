@@ -15856,3 +15856,203 @@ mark.project-search-match {
     align-items: center;
   }
 }
+
+/* ==========================================================================
+   11. DEDICATED MOBILE USABILITY OPTIMIZATION ENGINE
+   - Bottom-sheet modal handles & bottom dismissal buttons for one-handed reach
+   - Universal tactile tap feedback (:active scale) on touchscreens
+   - Virtual keyboard visibility: scroll-margin offsets for inputs
+   - Accidental tap prevention: touch target boundaries & spacing isolation
+   - Reduced-motion compliance for all interactive animations
+   ========================================================================== */
+
+/* Universal Scroll Margins for Inputs (Ensures focused elements stay visible above keyboard) */
+.form-input,
+.form-textarea,
+.projects-search-input,
+.terminal-input,
+.cmdk-input,
+.pinit-input,
+.share-url-input {
+  scroll-margin-top: 100px;
+  scroll-margin-bottom: 140px;
+}
+
+/* Modal Drag Handle (Visual affordance for swipe-down to dismiss) */
+.modal-drag-handle {
+  display: none;
+  width: 100%;
+  padding: 10px 0 6px;
+  text-align: center;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.modal-drag-handle .drag-bar {
+  display: inline-block;
+  width: 38px;
+  height: 4px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.28);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+[data-theme="light"] .modal-drag-handle .drag-bar {
+  background: rgba(0, 0, 0, 0.22);
+}
+
+/* Modal Bottom Close Buttons: Default hidden on desktop, prominent on touch screens */
+.modal-bottom-close-btn,
+.shortcuts-bottom-close-btn,
+.dossier-bottom-close-btn {
+  display: none;
+}
+
+/* Tactile Tap Feedback on Touchscreens (hover: none / pointer: coarse) */
+@media (hover: none), (pointer: coarse) {
+  .button:active,
+  .button-primary:active,
+  .button-secondary:active,
+  .launch-btn:active,
+  .filter-btn:active,
+  .skill-filter-btn:active,
+  .achieve-filter-btn:active,
+  .tech-filter-chip:active,
+  .topic-chip:active,
+  .terminal-chip:active,
+  .back-to-top-btn:active,
+  .modal-close:active,
+  .resume-modal-close:active,
+  .skill-dossier-close:active,
+  .shortcuts-close-btn:active,
+  .share-close-btn:active,
+  .modal-nav-step-btn:active,
+  .modal-share-btn:active,
+  .modal-cite-btn:active,
+  .project-card-share-btn:active,
+  .theme-toggle:active,
+  .menu-toggle:active,
+  .nav-share-btn:active,
+  .edu-view-btn:active,
+  .bento-link:active,
+  .code-copy-btn:active,
+  .round-arrow:active,
+  .modal-bottom-close-btn:active,
+  .shortcuts-bottom-close-btn:active,
+  .dossier-bottom-close-btn:active,
+  .devpulse-chip:active,
+  .portfolio-sound-chip:active {
+    transform: scale(0.96) !important;
+    opacity: 0.88 !important;
+    transition: transform 0.08s ease, opacity 0.08s ease !important;
+  }
+}
+
+/* Mobile Screen Usability Enhancements (<= 768px) */
+@media (max-width: 768px) {
+  /* Show modal drag handle on mobile sheets */
+  .modal-drag-handle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Bottom sheet modal positioning with dynamic viewport height & safe-area insets */
+  dialog.project-modal,
+  dialog.resume-modal,
+  dialog.skill-dossier-modal,
+  dialog.cmdk-modal,
+  dialog.share-modal,
+  dialog.shortcuts-modal {
+    width: min(920px, calc(100% - 16px)) !important;
+    max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 20px) !important;
+    margin-inline: auto !important;
+    border-radius: 20px !important;
+    overscroll-behavior: contain;
+  }
+
+  /* One-Handed Bottom Action Buttons Inside Modals */
+  .modal-bottom-close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 48px;
+    margin-top: 24px;
+    padding: 12px 20px;
+    border-radius: 12px;
+    border: 1px solid var(--line, rgba(255, 255, 255, 0.14));
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--ink, #ffffff);
+    font: 600 13px var(--mono, monospace);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: pointer;
+    touch-action: manipulation;
+    box-sizing: border-box;
+  }
+
+  [data-theme="light"] .modal-bottom-close-btn {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.12);
+    color: #111827;
+  }
+
+  .shortcuts-bottom-close-btn,
+  .dossier-bottom-close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 44px;
+    margin-top: 18px;
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--line, rgba(255, 255, 255, 0.14));
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--ink, #ffffff);
+    font: 600 12px var(--mono, monospace);
+    cursor: pointer;
+    touch-action: manipulation;
+    box-sizing: border-box;
+  }
+
+  [data-theme="light"] .shortcuts-bottom-close-btn,
+  [data-theme="light"] .dossier-bottom-close-btn {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.12);
+    color: #111827;
+  }
+
+  /* Accidental Tap Prevention: Spacing Isolation */
+  .modal-nav-step-btn {
+    min-width: 42px !important;
+    min-height: 42px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 8px 12px !important;
+  }
+
+  .modal-share-btn,
+  .modal-cite-btn {
+    min-width: 42px !important;
+    min-height: 42px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .topic-chips {
+    gap: 10px !important;
+    margin-top: 6px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .topic-chip {
+    min-height: 44px !important;
+    padding: 10px 16px !important;
+  }
+}

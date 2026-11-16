@@ -165,7 +165,13 @@ assert(cssContent.includes('touch-action: manipulation') && cssContent.includes(
 assert(cssContent.includes('@keyframes eqBounce') && !/@keyframes\s+eqBounce\s*\{\s*0%\s*\{\s*height:/.test(cssContent), 'styles.css: eqBounce animation uses GPU transform:scaleY instead of height reflows');
 assert(indexHtml.includes('preload') && indexHtml.includes('fonts.googleapis.com'), 'index.html: Web fonts load asynchronously without render-blocking and system fallbacks render instantly');
 assert(scriptJs.includes('document.hidden') && scriptJs.includes('updateLocalClock'), 'script.js: Background timer tasks pause/throttle when document.hidden to save mobile battery');
-assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v31'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v31');
+assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v32'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v32');
+assert(indexHtml.includes('interactive-widget=resizes-content'), 'index.html: Viewport configured with interactive-widget=resizes-content for virtual keyboard adaptation');
+assert(indexHtml.includes('autocomplete="name"') && indexHtml.includes('inputmode="email"') && indexHtml.includes('enterkeyhint="next"'), 'index.html: Mobile form inputs configured with autocomplete, inputmode, and enterkeyhint');
+assert(indexHtml.includes('modal-drag-handle') && cssContent.includes('.modal-drag-handle'), 'index.html & styles.css: Mobile modal sheets equipped with drag handles for swipe-to-dismiss affordance');
+assert(indexHtml.includes('modalBottomCloseBtn') && cssContent.includes('.modal-bottom-close-btn'), 'index.html & styles.css: Bottom action close buttons implemented for one-handed thumb reach in modals');
+assert(scriptJs.includes('bindModalSwipeDown') && scriptJs.includes('initMobileUsability'), 'script.js: Native touch swipe-down to dismiss gesture and mobile keyboard focus auto-scrolling implemented');
+assert(scriptJs.includes('prefers-reduced-motion') && scriptJs.includes('typewriterEl.textContent = words[0]'), 'script.js: Dynamic typewriter respects prefers-reduced-motion accessibility setting');
 
 // Test global script evaluation with mock DOM globals
 try {

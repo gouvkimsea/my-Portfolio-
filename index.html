@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content" />
   <title>Gouv Kimsea — Student Developer &amp; Product Builder</title>
   <meta name="description"
     content="Personal portfolio of Gouv Kimsea — a dual-degree undergraduate in Computer Science (Paragon.U) &amp; Business Administration (Bonamary.U) building software, 3D WebGL simulations, and AI-assisted tools." />
@@ -123,7 +123,7 @@
   }
   </script>
 
-  <link rel="stylesheet" href="styles.css?v=v31" />
+  <link rel="stylesheet" href="styles.css?v=v32" />
   <script>
     (function () {
       try {
@@ -139,7 +139,7 @@
       }
     })();
   </script>
-  <script defer src="script.js?v=v31"></script>
+  <script defer src="script.js?v=v32"></script>
 </head>
 
 <body>
@@ -621,7 +621,7 @@
             </div>
             <form class="terminal-form" id="terminalForm">
               <label class="terminal-prompt" for="terminalInput">$</label>
-              <input class="terminal-input" id="terminalInput" autocomplete="off" spellcheck="false" aria-label="Terminal command"
+              <input class="terminal-input" id="terminalInput" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="go" inputmode="text" aria-label="Terminal command"
                 placeholder="try 'about', 'skills', or 'projects'" />
             </form>
             <div class="terminal-hint-bar" aria-label="Quick terminal commands">
@@ -790,7 +790,7 @@
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
               </svg>
             </span>
-            <input type="text" id="projectSearchInput" class="projects-search-input" placeholder="Search tech, title or keyword..." aria-label="Search projects by technology, title, or keyword" autocomplete="off" />
+            <input type="search" id="projectSearchInput" class="projects-search-input" placeholder="Search tech, title or keyword..." aria-label="Search projects by technology, title, or keyword" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="search" />
             <button type="button" id="projectSearchClear" class="projects-search-clear" aria-label="Clear project search" title="Clear search">✕</button>
           </div>
         </div>
@@ -1827,12 +1827,12 @@
                 </div>
               </div>
               <div class="form-row"><label class="form-label" for="name">Your name</label><input class="form-input" id="name"
-                  name="name" required placeholder="Your name" /><span class="error-message"></span></div>
+                  name="name" required placeholder="Your name" autocomplete="name" autocapitalize="words" enterkeyhint="next" spellcheck="false" /><span class="error-message"></span></div>
               <div class="form-row"><label class="form-label" for="email">Email address</label><input class="form-input" id="email"
-                  name="email" type="email" required placeholder="you@example.com" /><span class="error-message"></span>
+                  name="email" type="email" required placeholder="you@example.com" autocomplete="email" autocapitalize="none" autocorrect="off" inputmode="email" enterkeyhint="next" spellcheck="false" /><span class="error-message"></span>
               </div>
               <div class="form-row"><label class="form-label" for="message">What’s on your mind?</label><textarea class="form-textarea"
-                  id="message" name="message" rows="4" required minlength="2"
+                  id="message" name="message" rows="4" required minlength="2" autocomplete="off" autocapitalize="sentences" enterkeyhint="done" spellcheck="true"
                   placeholder="Tell me a little about your project or note..."></textarea>
                 <div class="form-row-meta">
                   <span class="char-count" id="charCount">0</span>
@@ -1884,6 +1884,7 @@
 
   <dialog class="project-modal" id="projectModal" aria-labelledby="modalTitle" aria-modal="true">
     <div class="modal-shell">
+      <div class="modal-drag-handle" aria-hidden="true"><span class="drag-bar"></span></div>
       <!-- Fixed / Sticky Modal Navigation Header -->
       <div class="modal-nav-header">
         <div class="modal-nav-left">
@@ -2846,6 +2847,9 @@
               <span class="teaser-arrow" aria-hidden="true">→</span>
             </div>
           </div>
+          <button type="button" class="modal-bottom-close-btn" id="modalBottomCloseBtn" aria-label="Done reading, close case study">
+            <span>Done / Close Case Study ✕</span>
+          </button>
         </footer>
       </div>
     </div>
@@ -2853,6 +2857,7 @@
 
   <dialog class="resume-modal" id="resumeModal" aria-labelledby="resumeModalTitle">
     <div class="resume-shell">
+      <div class="modal-drag-handle" aria-hidden="true"><span class="drag-bar"></span></div>
       <div class="resume-header">
         <div class="resume-header-left">
           <span class="resume-badge">Curriculum Vitae</span>
@@ -3076,10 +3081,11 @@
 
   <dialog class="cmdk-modal" id="cmdKModal" aria-label="Command Palette" aria-modal="true">
     <div class="cmdk-shell">
+      <div class="modal-drag-handle" aria-hidden="true"><span class="drag-bar"></span></div>
       <div class="cmdk-header">
         <span class="cmdk-search-icon">⌘</span>
-        <input type="text" class="cmdk-input" id="cmdKInput" placeholder="Type a command or jump to section..."
-          autocomplete="off" spellcheck="false" aria-label="Search navigation and commands" role="combobox"
+        <input type="search" class="cmdk-input" id="cmdKInput" placeholder="Type a command or jump to section..."
+          autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="search" aria-label="Search navigation and commands" role="combobox"
           aria-expanded="true" aria-controls="cmdKResults" />
         <kbd class="cmdk-esc-hint">ESC</kbd>
       </div>
@@ -3189,6 +3195,7 @@
   <!-- Quick Share & Recruiter Brief Modal Dialog -->
   <dialog class="share-modal" id="shareModal" aria-label="Share Portfolio &amp; Recruiter Brief" aria-modal="true">
     <div class="share-shell">
+      <div class="modal-drag-handle" aria-hidden="true"><span class="drag-bar"></span></div>
       <div class="share-header">
         <div class="share-title-wrap">
           <span class="share-badge">CONNECT &amp; SHARE</span>
@@ -3249,6 +3256,7 @@ Email: gouvkimsea@gmail.com</pre>
   <!-- Keyboard Shortcuts & Pro Navigation Modal -->
   <dialog class="shortcuts-modal" id="shortcutsModal" aria-label="Keyboard Shortcuts Guide" aria-modal="true">
     <div class="shortcuts-shell">
+      <div class="modal-drag-handle" aria-hidden="true"><span class="drag-bar"></span></div>
       <div class="shortcuts-header">
         <div class="shortcuts-title-wrap">
           <span class="shortcuts-badge">PRO NAVIGATION</span>
@@ -3379,6 +3387,7 @@ Email: gouvkimsea@gmail.com</pre>
 
       <div class="shortcuts-footer">
         <small class="shortcuts-hint">Tip: Press <kbd class="shortcut-kbd-mini">?</kbd> at any time to toggle this cheatsheet.</small>
+        <button type="button" class="shortcuts-bottom-close-btn" id="shortcutsBottomCloseBtn">Done / Close Shortcuts ✕</button>
       </div>
     </div>
   </dialog>
@@ -3386,6 +3395,7 @@ Email: gouvkimsea@gmail.com</pre>
   <!-- Interactive Skill Competency & Project Dossier Modal -->
   <dialog class="skill-dossier-modal" id="skillDossierModal" aria-label="Skill Competency &amp; Project Dossier" aria-modal="true">
     <div class="skill-dossier-shell">
+      <div class="modal-drag-handle" aria-hidden="true"><span class="drag-bar"></span></div>
       <div class="skill-dossier-header">
         <div class="skill-dossier-title-wrap">
           <div class="skill-dossier-badge-row">
@@ -3405,6 +3415,7 @@ Email: gouvkimsea@gmail.com</pre>
         <div class="skill-dossier-actions">
           <button type="button" class="button button-primary magnetic" id="skillDossierFilterBtn">Filter Projects by this Skill ↗</button>
           <button type="button" class="button button-secondary magnetic" id="skillDossierTerminalBtn">Explore in Terminal &gt;_</button>
+          <button type="button" class="button button-outline dossier-bottom-close-btn" id="dossierBottomCloseBtn">Done / Close Dossier ✕</button>
         </div>
       </div>
     </div>
