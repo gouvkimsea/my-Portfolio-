@@ -38,12 +38,13 @@ jsFiles.forEach(file => {
 });
 
 // Validate inline scripts in HTML files
-const htmlFilesForScripts = ['miniworld.html'];
+const htmlFilesForScripts = ['index.html', 'miniworld.html'];
 htmlFilesForScripts.forEach(file => {
   try {
     const html = fs.readFileSync(file, 'utf8');
     const matches = [...html.matchAll(/<script(?:\s+[^>]*)?>([\s\S]*?)<\/script>/gi)];
     matches.forEach((m, idx) => {
+      if (m[0].includes('application/ld+json') || m[0].includes('src=')) return;
       new vm.Script(m[1], { filename: `${file}:inline-script-${idx}` });
       assert(true, `${file} inline script #${idx + 1} syntax is valid`);
     });
