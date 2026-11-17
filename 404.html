@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content" />
+  <title>404 — Page Not Found | Gouv Kimsea</title>
+  <meta name="description" content="The requested page could not be found. Return to Gouv Kimsea's engineering portfolio." />
+  <meta name="robots" content="noindex, follow" />
+  <meta name="theme-color" content="#121310" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <link rel="manifest" href="manifest.json" />
+
+  <style>
+    :root {
+      --bg: #0f1110;
+      --card: rgba(22, 24, 23, 0.85);
+      --border: rgba(255, 255, 255, 0.1);
+      --text: #e6e8e3;
+      --muted: #8b9087;
+      --lime: #10b981;
+      --orange: #ef8354;
+      --mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+      --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    [data-theme="light"] {
+      --bg: #f5f4ef;
+      --card: rgba(255, 255, 255, 0.9);
+      --border: rgba(0, 0, 0, 0.1);
+      --text: #1a1c19;
+      --muted: #5e6359;
+      --lime: #059669;
+      --orange: #d95d2c;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      padding: 24px;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    .error-card {
+      max-width: 520px;
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: clamp(24px, 6vw, 40px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      text-align: center;
+    }
+
+    .error-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(239, 131, 84, 0.3);
+      background: rgba(239, 131, 84, 0.1);
+      color: var(--orange);
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      margin-bottom: 20px;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--orange);
+      animation: pulse 2s ease infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    h1 {
+      font-size: clamp(2rem, 8vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+      font-family: var(--mono);
+      color: var(--text);
+    }
+
+    p {
+      color: var(--muted);
+      font-size: clamp(14px, 3.5vw, 16px);
+      margin-bottom: 24px;
+    }
+
+    .terminal-box {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-family: var(--mono);
+      font-size: 13px;
+      text-align: left;
+      margin-bottom: 28px;
+      color: var(--muted);
+      overflow-x: auto;
+    }
+
+    .terminal-box .cmd {
+      color: var(--lime);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      touch-action: manipulation;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-primary {
+      background: var(--text);
+      color: var(--bg);
+      border: 1px solid var(--text);
+    }
+
+    .btn-primary:hover {
+      opacity: 0.9;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.05);
+    }
+  </style>
+</head>
+
+<body>
+  <main class="error-card">
+    <div class="error-badge">
+      <span class="status-dot"></span>
+      HTTP 404 — ROUTE_NOT_FOUND
+    </div>
+
+    <h1>404</h1>
+    <p>The requested coordinate does not exist or has been shifted in orbit. Let's return to known space.</p>
+
+    <div class="terminal-box">
+      <div>$ telemetry --status</div>
+      <div style="color: var(--orange); margin-bottom: 6px;">[!] 404: Target coordinates unreachable</div>
+      <div>$ <span class="cmd">nav home</span></div>
+    </div>
+
+    <div class="actions">
+      <a href="./" class="btn btn-primary">Return to Portfolio</a>
+      <a href="./miniworld.html" class="btn btn-secondary">Launch Mini World 3D</a>
+    </div>
+  </main>
+</body>
+
+</html>

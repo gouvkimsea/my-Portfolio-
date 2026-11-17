@@ -68,6 +68,8 @@ const assetsToCheck = [
   'pingu-contact-bg.webp',
   'robots.txt',
   'sitemap.xml',
+  '404.html',
+  '.nojekyll',
   'turtle-cursor.png',
   'turtle-cursor-32.png',
   'turtle-pointer.png',
