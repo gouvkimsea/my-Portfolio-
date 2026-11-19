@@ -168,6 +168,7 @@ assert(['project-modal', 'resume-modal', 'skill-dossier-modal', 'cmdk-modal', 's
 assert(cssContent.includes('[data-theme="light"] .mobile-drawer') && cssContent.includes('[data-theme="light"] .mobile-drawer-backdrop'), 'styles.css: Mobile drawer and backdrop overlay have explicit [data-theme="light"] styling');
 assert(cssContent.includes('content-visibility: auto') && cssContent.includes('contain-intrinsic-size'), 'styles.css: Off-screen sections use content-visibility:auto with contain-intrinsic-size to defer rendering on mobile');
 assert(cssContent.includes('touch-action: manipulation') && cssContent.includes('-webkit-tap-highlight-color: transparent'), 'styles.css: touch-action:manipulation eliminates 300ms tap delay on mobile controls');
+assert(cssContent.includes('scrollbar-gutter: stable') && cssContent.includes('scrollbar-width: thin'), 'styles.css: Standard scrollbar properties scrollbar-gutter: stable and scrollbar-width: thin configured to eliminate layout shift');
 assert(cssContent.includes('@keyframes eqBounce') && !/@keyframes\s+eqBounce\s*\{\s*0%\s*\{\s*height:/.test(cssContent), 'styles.css: eqBounce animation uses GPU transform:scaleY instead of height reflows');
 assert(indexHtml.includes('preload') && indexHtml.includes('fonts.googleapis.com'), 'index.html: Web fonts load asynchronously without render-blocking and system fallbacks render instantly');
 assert(scriptJs.includes('document.hidden') && scriptJs.includes('updateLocalClock'), 'script.js: Background timer tasks pause/throttle when document.hidden to save mobile battery');

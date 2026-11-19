@@ -84,9 +84,17 @@ textarea,
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 86px;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: #474b3f var(--paper);
   -webkit-overflow-scrolling: touch;
   overflow-x: hidden;
   max-width: 100%;
+}
+
+[data-theme="light"] html,
+html[data-theme="light"] {
+  scrollbar-color: #c4c5bd var(--paper);
 }
 
 @media (prefers-reduced-motion: reduce) {
