@@ -1,6 +1,8 @@
 # Gouv Kimsea — Portfolio
 
 [![Live Demo](https://img.shields.io/badge/Live_Demo-GitHub_Pages-2ea44f?style=flat-square&logo=github)](https://gouvkimsea.github.io/my-Portfolio-/)
+[![CI](https://github.com/gouvkimsea/my-Portfolio-/actions/workflows/ci.yml/badge.svg)](https://github.com/gouvkimsea/my-Portfolio-/actions/workflows/ci.yml)
+[![Pages Deployment](https://github.com/gouvkimsea/my-Portfolio-/actions/workflows/deploy.yml/badge.svg)](https://github.com/gouvkimsea/my-Portfolio-/actions/workflows/deploy.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
 [![Status: Active](https://img.shields.io/badge/Status-Active_Development-brightgreen?style=flat-square)]()
 [![Stack: Vanilla Web](https://img.shields.io/badge/Stack-HTML5_%7C_CSS3_%7C_ES2026_%7C_WebGL-orange?style=flat-square)]()

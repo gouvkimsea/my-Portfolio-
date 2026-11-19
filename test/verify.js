@@ -71,6 +71,8 @@ const assetsToCheck = [
   'sitemap.xml',
   '404.html',
   '.nojekyll',
+  '.github/workflows/ci.yml',
+  '.github/workflows/deploy.yml',
   'turtle-cursor.png',
   'turtle-cursor-32.png',
   'turtle-pointer.png',
