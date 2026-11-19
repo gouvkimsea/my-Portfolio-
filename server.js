@@ -51,8 +51,19 @@ const server = http.createServer((req, res) => {
 
   fs.stat(filePath, (err, stats) => {
     if (err || !stats.isFile()) {
-      res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
-      res.end('404 Not Found');
+      const notFoundPath = path.resolve(__dirname, '404.html');
+      if (fs.existsSync(notFoundPath)) {
+        res.writeHead(404, {
+          'Content-Type': 'text/html; charset=utf-8',
+          'X-Content-Type-Options': 'nosniff',
+          'X-Frame-Options': 'SAMEORIGIN',
+          'Referrer-Policy': 'strict-origin-when-cross-origin'
+        });
+        fs.createReadStream(notFoundPath).pipe(res);
+      } else {
+        res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+        res.end('404 Not Found');
+      }
       return;
     }
 
@@ -62,7 +73,9 @@ const server = http.createServer((req, res) => {
 
     const headers = {
       'Content-Type': contentType,
-      'Cache-Control': isSw ? 'no-cache, no-store, must-revalidate' : 'no-cache'
+      'Cache-Control': isSw ? 'no-cache, no-store, must-revalidate' : 'no-cache',
+      'X-Content-Type-Options': 'nosniff',
+      'Referrer-Policy': 'strict-origin-when-cross-origin'
     };
     if (isSw) {
       headers['Service-Worker-Allowed'] = '/';
