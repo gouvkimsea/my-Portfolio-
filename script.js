@@ -4663,7 +4663,7 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>cat [file]</b>, <b>curl</b>, <b>history</b>, <b>export</b>, <b>vcard</b>, <b>time</b>, <b>volume [0-100]</b>, <b>demo [project]</b>, <b>cite [project]</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>bench</b>, <b>timeline</b>, <b>architecture</b>, <b>ping</b>, <b>matrix</b>, <b>git</b>, <b>nav [section]</b>, <b>shortcuts</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>cat [file]</b>, <b>curl</b>, <b>history</b>, <b>export</b>, <b>vcard</b>, <b>time</b>, <b>volume [0-100]</b>, <b>demo [project]</b>, <b>cite [project]</b>, <b>ci</b>, <b>deploy</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>bench</b>, <b>timeline</b>, <b>architecture</b>, <b>ping</b>, <b>matrix</b>, <b>git</b>, <b>nav [section]</b>, <b>shortcuts</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>cv</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
   matrix: () => {
     const terminalBody = $(".terminal-body");
     if (!terminalBody) return "Terminal stream window not accessible.";
@@ -5023,7 +5023,7 @@ Technical Competency Matrix &amp; Dual-Degree Tracks:
     const elCount = typeof document !== "undefined" && document.querySelectorAll ? document.querySelectorAll("*").length : 280;
     const theme = (typeof document !== "undefined" && document.documentElement) ? (document.documentElement.getAttribute("data-theme") || "dark") : "dark";
     const sfx = sfxEnabled ? "Enabled 🔊" : "Muted 🔇";
-    const sw = (typeof navigator !== "undefined" && "serviceWorker" in navigator) ? "Active (v22 PWA)" : "Unsupported";
+    const sw = (typeof navigator !== "undefined" && "serviceWorker" in navigator) ? "Active (v32 PWA)" : "Unsupported";
     const dpr = typeof window !== "undefined" ? (window.devicePixelRatio || 1) : 1;
     const res = typeof window !== "undefined" ? `${window.innerWidth}x${window.innerHeight} (${dpr}x DPI)` : "Headless";
     const navDots = (typeof document !== "undefined" && document.getElementById("sectionNavDots")) ? "Active" : "Inactive";
@@ -5040,6 +5040,18 @@ Runtime Performance &amp; Telemetry Diagnostics:
 • Architectural Health   : 100% (Automated Integrity Tests Passing)</pre>`;
   },
   perf: () => terminalCommands.bench(),
+  ci: () => {
+    return `<pre style="color:var(--lime);font-size:11px;line-height:1.45;margin:4px 0;">
+Continuous Integration &amp; Deployment Telemetry:
+================================================================
+• CI Workflow     : Passing (Multi-Node Matrix: Node 18 &amp; 20)
+• Target Branch   : main (https://github.com/gouvkimsea/my-Portfolio-)
+• Deployment Host : GitHub Pages (Automated Deploy Action)
+• Test Coverage   : 84 Assertions Passing (0 failures)
+• Security Audit  : Strict rel="noopener noreferrer", Custom 404 &amp; .nojekyll
+• Service Worker  : Resilient Offline Cache kimsea-pwa-v32</pre>`;
+  },
+  deploy: () => terminalCommands.ci(),
   timeline: () => {
     const btn = $("#achieveViewTimelineBtn");
     if (btn) btn.click();
