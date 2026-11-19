@@ -699,6 +699,13 @@ cmdKResults?.addEventListener("click", e => {
       termInput.value = "bench";
       document.getElementById("terminalForm")?.dispatchEvent(new Event("submit"));
     }
+  } else if (action === "run-ci-telemetry") {
+    navigateToSection("terminal-section");
+    const termInput = document.getElementById("terminalInput");
+    if (termInput) {
+      termInput.value = "ci";
+      document.getElementById("terminalForm")?.dispatchEvent(new Event("submit"));
+    }
   } else if (action === "run-matrix") {
     navigateToSection("terminal-section");
     const termInput = document.getElementById("terminalInput");
