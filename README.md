@@ -57,7 +57,7 @@ A modern, fast, and highly responsive personal portfolio for a student developer
   - *Procedural Celestial Audio Engine*: Web Audio API generative ambient synth with detuned sub-bass drone oscillators, harmonic fifths, and randomized celestial wind chime arpeggios. Minimalist 3-state vector wave pill (`Music` / `SFX` / `Muted`).
 - **Engineering Milestones & Chronological Journey Timeline**: Dual layout presentation switcher (`Grid View` vs. `Chronological Journey Timeline`) tracing academic and shipping milestones across 2023–2026 with 1-click timeline epoch quick jumpers (`2023 Foundations`, `2024 Systems`, `2025 Graphics`, `2026 Shipped`) featuring smooth viewport transit and spotlight pulse highlights, pulsating glowing nodes, category cross-filtering, verified repository links, and live metrics.
 - **Interactive Resume / CV Modal**: Quick-access modal detailing dual-degree academic background, toolkit, status, and direct print/PDF export support.
-- **In-Browser Terminal CLI, Session Log Exporter & macOS Window Controls**: Built-in interactive CLI supporting `help`, `about`, `achievements`, `education`, `coursework`, `piu`, `cpp`, `grading`, `skills`, `projects`, `matrix` (real-time digital rain stream), `git` (live simulated commit history), `nav [section]`, `bench` / `perf` (real-time DOM & rendering diagnostics), `timeline` / `journey`, `architecture`, `cat [developer.ts|skills.json|status.sh]` (virtual file inspector), `curl` (HTTP header & JSON telemetry response), `history`, `export` / `dump` / `log` (1-click ASCII text session log file generation & download), `shortcuts`, `find [query]`, `copy`, `sound`, `test`, `ping`, `pinit`, `aquarium`, `nitrogen`, `filter`, `gesture`, `vision`, `mediapipe`, `joul`, `rental`, `clp`, `chinese`, `srs`, `sm2`, `miniworld`, `shader`, `glsl`, `saas`, `pos`, `devpulse`, `portfolio`, `stats`, `resume`, `cv`, `neofetch`, `theme`, `cmdk`, and `clear`. Features interactive macOS window dots (Red = clear, Yellow = reset, Green = matrix stream), topbar quick action session export button, expanded hint bar chips, and cycling `Tab` command autocompletion.
+- **In-Browser Terminal CLI, Session Log Exporter & macOS Window Controls**: Built-in interactive CLI supporting `help`, `about`, `achievements`, `education`, `coursework`, `piu`, `cpp`, `grading`, `skills`, `projects`, `ci` / `deploy` (CI/CD status), `matrix` (real-time digital rain stream), `git` (live simulated commit history), `nav [section]`, `bench` / `perf` (real-time DOM & rendering diagnostics), `timeline` / `journey`, `architecture`, `cat [developer.ts|skills.json|status.sh]` (virtual file inspector), `curl` (HTTP header & JSON telemetry response), `history`, `export` / `dump` / `log` (1-click ASCII text session log file generation & download), `shortcuts`, `find [query]`, `copy`, `sound`, `test`, `ping`, `pinit`, `aquarium`, `nitrogen`, `filter`, `gesture`, `vision`, `mediapipe`, `joul`, `rental`, `clp`, `chinese`, `srs`, `sm2`, `miniworld`, `shader`, `glsl`, `saas`, `pos`, `devpulse`, `portfolio`, `stats`, `resume`, `cv`, `neofetch`, `theme`, `cmdk`, and `clear`. Features interactive macOS window dots (Red = clear, Yellow = reset, Green = matrix stream), topbar quick action session export button, expanded hint bar chips, and cycling `Tab` command autocompletion.
 - **Procedural Web Audio Sound Engine & Equalizer Wave**: Real-time synthesized tactile acoustic feedback (subtle tactile button clicks, harmonic copy chimes, frequency sweep transitions, acoustic whoosh section navigation, and mechanical typing clicks) powered by Web Audio API oscillators with zero external audio assets, persisted in localStorage with dedicated minimalist glass controls and animated 3-bar equalizer wave visualizers on desktop (`U` hotkey) and mobile drawer.
 - **Elevated Modern Animation System & Dynamic Micro-Interactions**:
   - *Fluid Aurora Drift*: Ambient radial mesh gradient in the hero section with smooth 22s fluid breathing rotation.
@@ -69,7 +69,7 @@ A modern, fast, and highly responsive personal portfolio for a student developer
 - **Mobile-First Responsive Foundation & Touchscreen Ergonomics**: Rigorously tested and optimized from 320px small phones to 1920px ultrawide displays. Features fluid `clamp()` typography, 44×44px minimum touch targets, zero tap delay (`touch-action: manipulation`), natural edge swipe-to-open and swipe-down to dismiss modal sheets with tactile drag handles, one-handed thumb-reach bottom close buttons, and virtual keyboard adaptation (`interactive-widget=resizes-content`).
 - **High-Contrast Dual-Theme Architecture**: Seamless light and dark mode switching with strict WCAG AA contrast compliance, custom CSS property token cascades, smooth ambient transitions, and zero theme inversion bugs across all cards, modals, terminal CLI, and footer.
 - **Accessible & Performance-Optimized**: Fast, lightweight performance with zero external runtime dependencies, off-screen layout containment (`content-visibility: auto` with `contain-intrinsic-size`), GPU keyframe animations, non-render-blocking font delivery, idle battery throttling when tab is hidden, 100% semantic class architecture, and complete `prefers-reduced-motion` compliance.
-- **Progressive Web App (PWA) & Offline Readiness**: Full Web App Manifest (`manifest.json`), custom responsive vector and raster icons (192px/512px/Apple touch), and resilient background Service Worker (`sw.js`, `kimsea-pwa-v32`) providing network-first document delivery and stale-while-revalidate asset caching for instant loading even without an internet connection.
+- **Progressive Web App (PWA) & Offline Readiness**: Full Web App Manifest (`manifest.json`), custom responsive vector and raster icons (192px/512px/Apple touch), and resilient background Service Worker (`sw.js`, `kimsea-pwa-v32`) providing network-first document delivery and stale-while-revalidate asset caching for instant loading even without an internet connection, and dedicated PWA launcher shortcuts for *Mini World 3D*, *Featured Projects*, *About & Experience*, and *Developer Terminal CLI*.
 - **Quick Share, Recruiter Brief, Live Clock & vCard (.vcf) Export**: Floating glassmorphic modal (`Shift + S`, navbar, mobile drawer, footer & ⌘K palette) offering one-click Web Share API integration, formatted markdown link citations, direct recruiter executive summaries, RFC 6350 digital vCard (`.vcf`) contact export, real-time Phnom Penh (UTC+7 / ICT) live ticking local clock indicators with pulsating beacon (`#hudClockItem` & `#footerLocalClock`), and non-intrusive floating toast notifications.
 - **Pro Keyboard Navigation Suite, Hotkeys Guide & Acoustic Soundboard**: Full tactile keyboard-driven UX featuring instant numeric section jumping (`1`–`6`), Vim-style linear section navigation (`J` / `K`), page jumping (`PgDn` / `PgUp`, `Home` / `End`), quick theme flipping with harmonic chime feedback (`T`), sound effects toggle (`U`), rapid CV inspection (`R`), Mini World launching (`M`), contact jump (`C` or `6`), hero code card execution (`X`), and an interactive glassmorphic Hotkeys Cheatsheet modal (`?` key or footer badge) with built-in procedural Web Audio synthesizer soundboard audition controls (`Click`, `Chime`, `Whoosh`, `Keypress`).
 
@@ -97,6 +97,9 @@ No build step or external dependencies required.
 2. Run validation check:
    ```bash
    npm test
+   # Or run lint and fast checks
+   npm run lint
+   npm run check
    ```
 3. Start the local server:
    ```bash
@@ -108,10 +111,13 @@ No build step or external dependencies required.
 
 ## CI/CD & Deploy to GitHub Pages
 
-The project features automated CI/CD through GitHub Actions (`.github/workflows/deploy.yml`):
+The project features automated CI/CD through GitHub Actions workflows:
 
-1. **Automated Testing**: On every push to `main`, GitHub Actions executes `npm test` verifying 79 integrity, accessibility, security, and runtime checks.
-2. **Automated Deployment**: Upon passing all verification checks, the pipeline automatically packages and deploys the production site directly to GitHub Pages.
+1. **Continuous Integration ([.github/workflows/ci.yml](.github/workflows/ci.yml))**:
+   - Executes automatically on pull requests and pushes to `main`.
+   - Runs a multi-version test matrix across Node.js 18 and Node.js 20, verifying 91 integrity, accessibility, security, and runtime checks.
+2. **Automated Deployment ([.github/workflows/deploy.yml](.github/workflows/deploy.yml))**:
+   - Upon passing verification, automatically packages and deploys the production site directly to GitHub Pages.
 3. **Setup (One-Time)**:
    - In your GitHub repository, navigate to **Settings** > **Pages**.
    - Under **Build and deployment** > **Source**, choose **GitHub Actions**.

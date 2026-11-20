@@ -176,6 +176,7 @@ assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v32') && fs.readFil
 assert(fs.readFileSync('miniworld.html', 'utf8').includes("e.key === 'Escape'") && fs.readFileSync('miniworld.html', 'utf8').includes('toggleControlsGuide(false)'), 'miniworld.html: Escape key dismisses controls modal and exits vehicle cockpit back to orbit');
 assert(fs.readFileSync('package.json', 'utf8').includes('"lint":') && fs.readFileSync('package.json', 'utf8').includes('"check":'), 'package.json: Standard developer scripts lint and check configured');
 assert(fs.readFileSync('manifest.json', 'utf8').includes('terminal-section'), 'manifest.json: PWA launcher shortcut for Developer Terminal CLI configured');
+assert(fs.readFileSync('README.md', 'utf8').includes('ci.yml') && fs.readFileSync('README.md', 'utf8').includes('deploy.yml'), 'README.md: Complete CI/CD and deployment documentation maintained');
 assert(fs.readFileSync('robots.txt', 'utf8').includes('Disallow: /.github/'), 'robots.txt: Crawler boundaries protect internal CI and repository configuration');
 assert(indexHtml.includes('interactive-widget=resizes-content'), 'index.html: Viewport configured with interactive-widget=resizes-content for virtual keyboard adaptation');
 assert(indexHtml.includes('autocomplete="name"') && indexHtml.includes('inputmode="email"') && indexHtml.includes('enterkeyhint="next"'), 'index.html: Mobile form inputs configured with autocomplete, inputmode, and enterkeyhint');
