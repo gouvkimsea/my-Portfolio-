@@ -172,7 +172,7 @@ assert(cssContent.includes('scrollbar-gutter: stable') && cssContent.includes('s
 assert(cssContent.includes('@keyframes eqBounce') && !/@keyframes\s+eqBounce\s*\{\s*0%\s*\{\s*height:/.test(cssContent), 'styles.css: eqBounce animation uses GPU transform:scaleY instead of height reflows');
 assert(indexHtml.includes('preload') && indexHtml.includes('fonts.googleapis.com'), 'index.html: Web fonts load asynchronously without render-blocking and system fallbacks render instantly');
 assert(scriptJs.includes('document.hidden') && scriptJs.includes('updateLocalClock'), 'script.js: Background timer tasks pause/throttle when document.hidden to save mobile battery');
-assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v32'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v32');
+assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v32') && fs.readFileSync('sw.js', 'utf8').includes('styles.css?v=v32') && fs.readFileSync('sw.js', 'utf8').includes('404.html'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v32 with synchronized v32 asset queries and 404 shell');
 assert(indexHtml.includes('interactive-widget=resizes-content'), 'index.html: Viewport configured with interactive-widget=resizes-content for virtual keyboard adaptation');
 assert(indexHtml.includes('autocomplete="name"') && indexHtml.includes('inputmode="email"') && indexHtml.includes('enterkeyhint="next"'), 'index.html: Mobile form inputs configured with autocomplete, inputmode, and enterkeyhint');
 assert(indexHtml.includes('modal-drag-handle') && cssContent.includes('.modal-drag-handle'), 'index.html & styles.css: Mobile modal sheets equipped with drag handles for swipe-to-dismiss affordance');
