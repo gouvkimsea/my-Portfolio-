@@ -193,6 +193,8 @@ assert(scriptJs.includes('print:') && scriptJs.includes('pdf:') && scriptJs.incl
 assert(indexHtml.includes('data-action="print-resume"') && scriptJs.includes('action === "print-resume"'), 'index.html & script.js: Command palette integrated with 1-click print and PDF CV export quick action');
 assert(fs.readFileSync('404.html', 'utf8').includes('og:title') && fs.readFileSync('404.html', 'utf8').includes('twitter:card'), '404.html: Social preview metadata (OpenGraph & Twitter cards) configured for error page sharing');
 assert(fs.readFileSync('miniworld.html', 'utf8').includes("e.key === 'Home'") && fs.readFileSync('miniworld.html', 'utf8').includes('index.html#projects'), 'miniworld.html: Home key hotkey implemented to return instantly to main portfolio');
+assert(fs.readFileSync('.github/workflows/ci.yml', 'utf8').includes('[18, 20, 22]'), 'ci.yml: Multi-version test matrix configured for Node.js 18, 20, and 22');
+assert(fs.readFileSync('.github/workflows/deploy.yml', 'utf8').includes('npm test') && fs.readFileSync('.github/workflows/deploy.yml', 'utf8').includes('node-version: 22'), 'deploy.yml: Production deployment pipeline enforces test verification on Node.js 22 Active LTS');
 
 // Test global script evaluation with mock DOM globals
 try {
