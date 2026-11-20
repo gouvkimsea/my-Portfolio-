@@ -64,6 +64,18 @@
           "sizes": "192x192"
         }
       ]
+    },
+    {
+      "name": "Developer Terminal CLI",
+      "short_name": "Terminal",
+      "description": "Launch interactive in-browser CLI sandbox",
+      "url": "./index.html#terminal-section",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     }
   ],
   "categories": ["portfolio", "education", "developer", "productivity"],
