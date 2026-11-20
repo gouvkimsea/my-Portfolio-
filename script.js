@@ -278,7 +278,7 @@ if (scrollspyObserver) {
 window.addEventListener("keydown", (e) => {
   const activeTag = document.activeElement?.tagName?.toLowerCase();
   if (["input", "textarea", "select"].includes(activeTag) ||
-      document.querySelector("dialog[open], .cmdk-dialog[open], .terminal-window:focus-within")) {
+    document.querySelector("dialog[open], .cmdk-dialog[open], .terminal-window:focus-within")) {
     return;
   }
 
@@ -1232,7 +1232,7 @@ const updateProjectFilterState = () => {
     }
 
     window.history.replaceState({}, "", url.toString());
-  } catch (_) {}
+  } catch (_) { }
 };
 
 // Copy Shareable Filter/Search View Link
@@ -1292,7 +1292,7 @@ const initDeepLinks = () => {
         openModal(projectParam.toLowerCase());
       }, 450);
     }
-  } catch (_) {}
+  } catch (_) { }
 };
 
 initDeepLinks();
@@ -4154,7 +4154,7 @@ function openModal(projectKey) {
     const url = new URL(window.location.href);
     url.searchParams.set("project", projectKey);
     window.history.replaceState({}, "", url.toString());
-  } catch (_) {}
+  } catch (_) { }
   previousActiveElement = document.activeElement;
 
   // Header & Identity
@@ -4533,7 +4533,7 @@ function closeModal() {
     const url = new URL(window.location.href);
     url.searchParams.delete("project");
     window.history.replaceState({}, "", url.toString());
-  } catch (_) {}
+  } catch (_) { }
   if (modal?.open) {
     modal.close();
     if (previousActiveElement && typeof previousActiveElement.focus === "function") {
@@ -6021,7 +6021,7 @@ try {
     const parsed = parseFloat(savedVol);
     if (!isNaN(parsed) && parsed >= 0 && parsed <= 1) sfxVolume = parsed;
   }
-} catch (_) {}
+} catch (_) { }
 
 const getMasterGainNode = (ctx) => {
   if (!ctx) return null;
@@ -6038,7 +6038,7 @@ const setSfxVolume = (val) => {
   sfxVolume = clamped;
   try {
     localStorage.setItem("portfolio-sfx-volume", clamped.toString());
-  } catch (_) {}
+  } catch (_) { }
   const ctx = getAudioContext();
   if (ctx) {
     const node = getMasterGainNode(ctx);
@@ -6421,7 +6421,7 @@ const setProjectViewMode = (mode) => {
   }
   try {
     localStorage.setItem("portfolio_project_view_mode", mode);
-  } catch (_) {}
+  } catch (_) { }
 };
 
 viewModeExhibition?.addEventListener("click", () => {
@@ -6438,7 +6438,7 @@ viewModeMatrix?.addEventListener("click", () => {
 try {
   const savedView = localStorage.getItem("portfolio_project_view_mode");
   if (savedView === "matrix") setProjectViewMode("matrix");
-} catch (_) {}
+} catch (_) { }
 
 // DevPulse Interactive Telemetry Simulator Lab
 let devpulseRaf = null;
@@ -6934,7 +6934,7 @@ const updateLocalClock = () => {
     const formatted = `${timeStr} ICT`;
     if (clockDigits) clockDigits.textContent = formatted;
     if (footerClock) footerClock.textContent = formatted;
-  } catch (_) {}
+  } catch (_) { }
 };
 setInterval(updateLocalClock, 1000);
 updateLocalClock();
