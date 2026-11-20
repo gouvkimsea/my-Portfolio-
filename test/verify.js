@@ -198,6 +198,7 @@ assert(fs.readFileSync('miniworld.html', 'utf8').includes("e.key === 'Home'") &&
 assert(fs.readFileSync('.github/workflows/ci.yml', 'utf8').includes('[18, 20, 22]'), 'ci.yml: Multi-version test matrix configured for Node.js 18, 20, and 22');
 assert(fs.readFileSync('.github/workflows/deploy.yml', 'utf8').includes('npm test') && fs.readFileSync('.github/workflows/deploy.yml', 'utf8').includes('node-version: 22'), 'deploy.yml: Production deployment pipeline enforces test verification on Node.js 22 Active LTS');
 assert(indexHtml.includes('https://www.linkedin.com/in/gouv-kimsea-16795143a') && scriptJs.includes('https://www.linkedin.com/in/gouv-kimsea-16795143a'), 'index.html & script.js: Canonical LinkedIn profile URL synchronized across Schema.org metadata, HUD links, and clipboard actions');
+assert(indexHtml.includes('108/108 Integrity Test Assertions Passing') && scriptJs.includes('108/108 TESTS PASSING'), 'index.html & script.js: Portfolio architectural sandbox and telemetry badges synchronized to active test suite count');
 
 // Test global script evaluation with mock DOM globals
 try {

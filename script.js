@@ -2130,7 +2130,7 @@ const projectData = {
         "Sub-100ms first paint and 60 FPS transitions across all viewports",
         "Tactile acoustic click and whoosh audio feedback",
         "Full Progressive Web App (PWA) offline capability via Service Worker",
-        "37/37 passing automated integrity test assertions"
+        "108/108 passing automated integrity test assertions"
       ]
     },
     uxJourney: [
@@ -2154,20 +2154,20 @@ const projectData = {
     challenges: [
       "Coordinating full-viewport scroll transitions without accidental section skipping or scroll-trapping.",
       "Synthesizing dynamic, pleasant acoustic feedback in real time using raw Web Audio oscillators.",
-      "Maintaining zero duplicate IDs and 100% semantic accessibility across 260+ DOM elements."
+      "Maintaining zero duplicate IDs and 100% semantic accessibility across 300+ DOM elements."
     ],
     learned: "Deep browser engine architecture, Web Audio API frequency modulation, accessible dialog patterns, and automated CI test writing.",
     tech: ["HTML5", "Vanilla CSS3", "ES2026 JavaScript", "Web Audio API", "Service Worker (PWA)", "WebGL / GLSL", "Node.js CI Suite"],
     telemetry: [
-      { label: "Integrity Tests", value: "37 / 37 Passed", note: "Automated Node.js suite" },
+      { label: "Integrity Tests", value: "108 / 108 Passed", note: "Automated Node.js suite" },
       { label: "Runtime Dependencies", value: "0 External", note: "Pure vanilla web platform" },
       { label: "Interactive Labs", value: "7 Sandboxes", note: "Direct in-browser execution" },
-      { label: "Terminal Commands", value: "35+ Built-in", note: "Interactive CLI suite" }
+      { label: "Terminal Commands", value: "40+ Built-in", note: "Interactive CLI suite" }
     ],
     outcome: "Built an internationally recognized creative technology portfolio demonstrating real-world full-stack competence, high aesthetic standards, and deep attention to detail.",
     achievements: [
       "100% Vanilla Web Engineering",
-      "37/37 Automated Integrity Tests",
+      "108/108 Automated Integrity Tests",
       "Web Audio Procedural Sound Engine",
       "Full PWA & Offline Readiness"
     ],
@@ -4519,7 +4519,7 @@ function renderHeroVisualMarkup(data) {
         </div>
         <div class="vis-telemetry-badge">
           <span class="tele-dot lime"></span>
-          <span>100% VANILLA WEB · 37/37 TESTS PASSING</span>
+          <span>100% VANILLA WEB · 108/108 TESTS PASSING</span>
         </div>
       </div>
     `;
@@ -6508,7 +6508,7 @@ function updateDevpulseMode(mode) {
   } else if (mode === "build") {
     if (flowVal) flowVal.textContent = "86 / 100";
     if (cadenceVal) cadenceVal.textContent = "Test Suite Running";
-    if (buildVal) buildVal.textContent = "37/37 Assertions";
+    if (buildVal) buildVal.textContent = "108/108 Assertions";
     if (rateStat) rateStat.textContent = "180 req/s · 24ms Latency";
   } else {
     if (flowVal) flowVal.textContent = "72 / 100";
