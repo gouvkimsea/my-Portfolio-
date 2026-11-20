@@ -5943,7 +5943,7 @@ const initShareModal = () => {
 
   // Copy LinkedIn Profile Link
   shareCopyLinkedInBtn?.addEventListener("click", () => {
-    navigator.clipboard.writeText("https://linkedin.com/in/gouvkimsea").then(() => {
+    navigator.clipboard.writeText("https://www.linkedin.com/in/gouv-kimsea-16795143a").then(() => {
       showPortfolioToast("LinkedIn URL copied!");
     });
   });

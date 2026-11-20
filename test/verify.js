@@ -196,6 +196,7 @@ assert(fs.readFileSync('404.html', 'utf8').includes('og:title') && fs.readFileSy
 assert(fs.readFileSync('miniworld.html', 'utf8').includes("e.key === 'Home'") && fs.readFileSync('miniworld.html', 'utf8').includes('index.html#projects'), 'miniworld.html: Home key hotkey implemented to return instantly to main portfolio');
 assert(fs.readFileSync('.github/workflows/ci.yml', 'utf8').includes('[18, 20, 22]'), 'ci.yml: Multi-version test matrix configured for Node.js 18, 20, and 22');
 assert(fs.readFileSync('.github/workflows/deploy.yml', 'utf8').includes('npm test') && fs.readFileSync('.github/workflows/deploy.yml', 'utf8').includes('node-version: 22'), 'deploy.yml: Production deployment pipeline enforces test verification on Node.js 22 Active LTS');
+assert(indexHtml.includes('https://www.linkedin.com/in/gouv-kimsea-16795143a') && scriptJs.includes('https://www.linkedin.com/in/gouv-kimsea-16795143a'), 'index.html & script.js: Canonical LinkedIn profile URL synchronized across Schema.org metadata, HUD links, and clipboard actions');
 
 // Test global script evaluation with mock DOM globals
 try {
