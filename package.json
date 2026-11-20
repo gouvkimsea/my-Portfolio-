@@ -10,6 +10,8 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
+    "lint": "node -c script.js server.js sw.js",
+    "check": "npm test",
     "test": "node -c script.js server.js sw.js && node test/verify.js"
   },
   "keywords": ["portfolio", "developer", "web"],
