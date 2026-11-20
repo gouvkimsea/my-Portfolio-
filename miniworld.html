@@ -3324,6 +3324,18 @@
       if (k === 'c') triggerCataclysm();
       if (k === 'r') rebuildPlanet();
       if (e.key === '?' || e.key === '/') toggleControlsGuide();
+      if (e.key === 'Escape') {
+        if (controlsModal && controlsModal.open) {
+          toggleControlsGuide(false);
+          e.preventDefault();
+        } else if (rover.active) {
+          toggleRover();
+          e.preventDefault();
+        } else if (ufo.active) {
+          toggleUfo();
+          e.preventDefault();
+        }
+      }
     });
 
     window.addEventListener('keyup', e => {
