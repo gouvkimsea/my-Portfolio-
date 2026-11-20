@@ -8360,7 +8360,12 @@ dialog.resume-modal::backdrop {
   .terminal-actions,
   .terminal-hint-bar,
   .theme-toggle-btn,
-  .audio-panel {
+  .audio-panel,
+  .portfolio-toast-container,
+  #cmdKModal,
+  #shareModal,
+  #shortcutsModal,
+  #skillDossierModal {
     display: none !important;
   }
 

@@ -177,7 +177,7 @@ assert(fs.readFileSync('miniworld.html', 'utf8').includes("e.key === 'Escape'") 
 assert(fs.readFileSync('package.json', 'utf8').includes('"lint":') && fs.readFileSync('package.json', 'utf8').includes('"check":'), 'package.json: Standard developer scripts lint and check configured');
 assert(fs.readFileSync('manifest.json', 'utf8').includes('terminal-section'), 'manifest.json: PWA launcher shortcut for Developer Terminal CLI configured');
 assert(fs.readFileSync('README.md', 'utf8').includes('ci.yml') && fs.readFileSync('README.md', 'utf8').includes('deploy.yml'), 'README.md: Complete CI/CD and deployment documentation maintained');
-assert(fs.readFileSync('robots.txt', 'utf8').includes('Disallow: /.github/'), 'robots.txt: Crawler boundaries protect internal CI and repository configuration');
+assert(fs.readFileSync('robots.txt', 'utf8').includes('Disallow: /.github/') && fs.readFileSync('robots.txt', 'utf8').includes('Disallow: /404.html'), 'robots.txt: Crawler boundaries protect internal CI and exclude 404 error shell');
 assert(cssContent.includes('@media print') && cssContent.includes('resume-printing'), 'styles.css: Professional print stylesheet with resume-printing isolation configured');
 assert(scriptJs.includes('beforeprint') && scriptJs.includes('resume-printing'), 'script.js: beforeprint and afterprint lifecycle hooks manage clean CV export printing');
 assert(fs.readFileSync('404.html', 'utf8').includes('portfolio-theme') && fs.readFileSync('404.html', 'utf8').includes('prefers-color-scheme'), '404.html: Auto-detects and respects user theme preference and localStorage');

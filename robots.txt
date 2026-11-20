@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /.git/
 Disallow: /.github/
+Disallow: /404.html
 
 Sitemap: https://gouvkimsea.github.io/my-Portfolio-/sitemap.xml
