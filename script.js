@@ -4654,7 +4654,18 @@ $("#resumeHeroBtn")?.addEventListener("click", () => openResumeModal());
 $("#resumeContactBtn")?.addEventListener("click", () => openResumeModal());
 $("#resumeCloseBtn")?.addEventListener("click", closeResumeModal);
 $("#resumeFooterClose")?.addEventListener("click", closeResumeModal);
-$("#resumePrintBtn")?.addEventListener("click", () => window.print());
+$("#resumePrintBtn")?.addEventListener("click", () => {
+  document.body.classList.add("resume-printing");
+  window.print();
+});
+window.addEventListener("beforeprint", () => {
+  if (resumeModal?.open) {
+    document.body.classList.add("resume-printing");
+  }
+});
+window.addEventListener("afterprint", () => {
+  document.body.classList.remove("resume-printing");
+});
 $$(".resume-view-btn, .edu-view-btn").forEach(btn => {
   btn.addEventListener("click", () => openResumeModal("#resumeEduSection"));
 });

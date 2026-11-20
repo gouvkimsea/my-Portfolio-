@@ -8350,36 +8350,47 @@ dialog.resume-modal::backdrop {
 }
 
 @media print {
-  body * {
-    visibility: hidden;
+  /* Hide interactive HUD elements during printing */
+  .site-header,
+  .mobile-drawer,
+  .mobile-drawer-backdrop,
+  .section-nav-dots,
+  .back-to-top-btn,
+  .terminal-bar .window-dots,
+  .terminal-actions,
+  .terminal-hint-bar,
+  .theme-toggle-btn,
+  .audio-panel {
+    display: none !important;
   }
 
-  #resumeModal,
-  #resumeModal * {
-    visibility: visible;
+  body.resume-printing > *:not(#resumeModal) {
+    display: none !important;
   }
 
-  #resumeModal {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    max-width: 100%;
-    margin: 0;
-    padding: 0;
-    box-shadow: none;
-    background: #ffffff;
-    color: #000000;
+  body.resume-printing #resumeModal,
+  #resumeModal[open] {
+    position: static !important;
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+    color: #000000 !important;
   }
 
-  .resume-shell {
-    border: none;
-    box-shadow: none;
-    background: #ffffff;
+  #resumeModal .resume-shell {
+    border: none !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
   }
 
-  .resume-header-actions,
-  .resume-footer {
+  #resumeModal .resume-header-actions,
+  #resumeModal .resume-footer,
+  #resumeModal .modal-drag-handle {
     display: none !important;
   }
 }
