@@ -179,6 +179,7 @@ assert(fs.readFileSync('manifest.json', 'utf8').includes('terminal-section'), 'm
 assert(fs.readFileSync('README.md', 'utf8').includes('ci.yml') && fs.readFileSync('README.md', 'utf8').includes('deploy.yml'), 'README.md: Complete CI/CD and deployment documentation maintained');
 assert(fs.readFileSync('robots.txt', 'utf8').includes('Disallow: /.github/'), 'robots.txt: Crawler boundaries protect internal CI and repository configuration');
 assert(fs.readFileSync('404.html', 'utf8').includes('portfolio-theme') && fs.readFileSync('404.html', 'utf8').includes('prefers-color-scheme'), '404.html: Auto-detects and respects user theme preference and localStorage');
+assert(fs.readFileSync('miniworld.html', 'utf8').includes('application/ld+json') && fs.readFileSync('miniworld.html', 'utf8').includes('WebApplication'), 'miniworld.html: Structured Data (JSON-LD WebApplication) schema configured for SEO');
 assert(indexHtml.includes('interactive-widget=resizes-content'), 'index.html: Viewport configured with interactive-widget=resizes-content for virtual keyboard adaptation');
 assert(indexHtml.includes('autocomplete="name"') && indexHtml.includes('inputmode="email"') && indexHtml.includes('enterkeyhint="next"'), 'index.html: Mobile form inputs configured with autocomplete, inputmode, and enterkeyhint');
 assert(indexHtml.includes('modal-drag-handle') && cssContent.includes('.modal-drag-handle'), 'index.html & styles.css: Mobile modal sheets equipped with drag handles for swipe-to-dismiss affordance');
