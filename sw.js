@@ -18,6 +18,10 @@ const CORE_ASSETS = [
   './apple-touch-icon.png',
   './og-image.jpg',
   './pingu-contact-bg.webp',
+  './turtle-cursor.png',
+  './turtle-cursor-32.png',
+  './turtle-pointer.png',
+  './turtle-pointer-32.png',
   './robots.txt',
   './sitemap.xml'
 ];
