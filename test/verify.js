@@ -189,6 +189,10 @@ assert(indexHtml.includes('modal-drag-handle') && cssContent.includes('.modal-dr
 assert(indexHtml.includes('modalBottomCloseBtn') && cssContent.includes('.modal-bottom-close-btn'), 'index.html & styles.css: Bottom action close buttons implemented for one-handed thumb reach in modals');
 assert(scriptJs.includes('bindModalSwipeDown') && scriptJs.includes('initMobileUsability'), 'script.js: Native touch swipe-down to dismiss gesture and mobile keyboard focus auto-scrolling implemented');
 assert(scriptJs.includes('prefers-reduced-motion') && scriptJs.includes('typewriterEl.textContent = words[0]'), 'script.js: Dynamic typewriter respects prefers-reduced-motion accessibility setting');
+assert(scriptJs.includes('print:') && scriptJs.includes('pdf:') && scriptJs.includes('resumePrintBtn'), 'script.js: In-browser terminal CLI expanded with print and pdf direct CV export actions');
+assert(indexHtml.includes('data-action="print-resume"') && scriptJs.includes('action === "print-resume"'), 'index.html & script.js: Command palette integrated with 1-click print and PDF CV export quick action');
+assert(fs.readFileSync('404.html', 'utf8').includes('og:title') && fs.readFileSync('404.html', 'utf8').includes('twitter:card'), '404.html: Social preview metadata (OpenGraph & Twitter cards) configured for error page sharing');
+assert(fs.readFileSync('miniworld.html', 'utf8').includes("e.key === 'Home'") && fs.readFileSync('miniworld.html', 'utf8').includes('index.html#projects'), 'miniworld.html: Home key hotkey implemented to return instantly to main portfolio');
 
 // Test global script evaluation with mock DOM globals
 try {

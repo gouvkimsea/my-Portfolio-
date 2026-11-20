@@ -938,6 +938,7 @@
           <div class="shortcut-row"><kbd>0-9</kbd> <span>Camera Angles & Tour</span></div>
           <div class="shortcut-row"><kbd>M</kbd> <span>Ambient Synth & SFX Cycle</span></div>
           <div class="shortcut-row"><kbd>C</kbd> / <kbd>R</kbd> <span>Cataclysm / Rebuild</span></div>
+          <div class="shortcut-row"><kbd>Home</kbd> <span>Return to Main Portfolio</span></div>
         </div>
       </div>
       <div class="controls-footer">
@@ -3347,6 +3348,10 @@
       if (k === 'm') btnAudio.click();
       if (k === 'c') triggerCataclysm();
       if (k === 'r') rebuildPlanet();
+      if (e.key === 'Home') {
+        showToast("🚀 Returning to Portfolio...");
+        setTimeout(() => { window.location.href = 'index.html#projects'; }, 260);
+      }
       if (e.key === '?' || e.key === '/') toggleControlsGuide();
       if (e.key === 'Escape') {
         if (controlsModal && controlsModal.open) {
