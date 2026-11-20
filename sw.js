@@ -85,6 +85,8 @@ self.addEventListener('fetch', (event) => {
         .catch(async () => {
           const cachedResponse = await caches.match(request);
           if (cachedResponse) return cachedResponse;
+          const cachedFallback = await caches.match(request, { ignoreSearch: true });
+          if (cachedFallback) return cachedFallback;
           return caches.match('./index.html');
         })
     );
@@ -94,7 +96,8 @@ self.addEventListener('fetch', (event) => {
   // Same-origin static assets: Stale-While-Revalidate
   if (url.origin === self.location.origin) {
     event.respondWith(
-      caches.match(request).then((cachedResponse) => {
+      caches.match(request).then(async (cachedResponse) => {
+        const cached = cachedResponse || (await caches.match(request, { ignoreSearch: true }));
         const fetchPromise = fetch(request)
           .then((networkResponse) => {
             if (networkResponse && networkResponse.status === 200) {
@@ -104,7 +107,7 @@ self.addEventListener('fetch', (event) => {
             return networkResponse;
           })
           .catch(() => {
-            if (cachedResponse) return cachedResponse;
+            if (cached) return cached;
             return new Response('Resource unavailable offline', {
               status: 503,
               statusText: 'Service Unavailable',
@@ -112,7 +115,7 @@ self.addEventListener('fetch', (event) => {
             });
           });
 
-        return cachedResponse || fetchPromise;
+        return cached || fetchPromise;
       })
     );
     return;

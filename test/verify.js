@@ -173,6 +173,7 @@ assert(cssContent.includes('@keyframes eqBounce') && !/@keyframes\s+eqBounce\s*\
 assert(indexHtml.includes('preload') && indexHtml.includes('fonts.googleapis.com'), 'index.html: Web fonts load asynchronously without render-blocking and system fallbacks render instantly');
 assert(scriptJs.includes('document.hidden') && scriptJs.includes('updateLocalClock'), 'script.js: Background timer tasks pause/throttle when document.hidden to save mobile battery');
 assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v32') && fs.readFileSync('sw.js', 'utf8').includes('styles.css?v=v32') && fs.readFileSync('sw.js', 'utf8').includes('404.html'), 'sw.js: Service worker cache version upgraded to kimsea-pwa-v32 with synchronized v32 asset queries and 404 shell');
+assert(fs.readFileSync('sw.js', 'utf8').includes('ignoreSearch: true'), 'sw.js: Resilient offline cache retrieval configured with ignoreSearch query parameter matching');
 assert(fs.readFileSync('miniworld.html', 'utf8').includes("e.key === 'Escape'") && fs.readFileSync('miniworld.html', 'utf8').includes('toggleControlsGuide(false)'), 'miniworld.html: Escape key dismisses controls modal and exits vehicle cockpit back to orbit');
 assert(fs.readFileSync('package.json', 'utf8').includes('"lint":') && fs.readFileSync('package.json', 'utf8').includes('"check":'), 'package.json: Standard developer scripts lint and check configured');
 assert(fs.readFileSync('manifest.json', 'utf8').includes('terminal-section'), 'manifest.json: PWA launcher shortcut for Developer Terminal CLI configured');
