@@ -38,7 +38,7 @@ jsFiles.forEach(file => {
 });
 
 // Validate inline scripts in HTML files
-const htmlFilesForScripts = ['index.html', 'miniworld.html'];
+const htmlFilesForScripts = ['index.html', 'miniworld.html', '404.html'];
 htmlFilesForScripts.forEach(file => {
   try {
     const html = fs.readFileSync(file, 'utf8');
@@ -86,7 +86,7 @@ assetsToCheck.forEach(asset => {
 
 // 3. Security Checks
 console.log('\n[3/4] Security Standards:');
-['index.html', 'miniworld.html'].forEach(file => {
+['index.html', 'miniworld.html', '404.html'].forEach(file => {
   const content = fs.readFileSync(file, 'utf8');
   const targetBlanks = content.match(/<a\s+[^>]*target=["']_blank["'][^>]*>/gi) || [];
   const unsafeLinks = targetBlanks.filter(tag => {
@@ -178,6 +178,7 @@ assert(fs.readFileSync('package.json', 'utf8').includes('"lint":') && fs.readFil
 assert(fs.readFileSync('manifest.json', 'utf8').includes('terminal-section'), 'manifest.json: PWA launcher shortcut for Developer Terminal CLI configured');
 assert(fs.readFileSync('README.md', 'utf8').includes('ci.yml') && fs.readFileSync('README.md', 'utf8').includes('deploy.yml'), 'README.md: Complete CI/CD and deployment documentation maintained');
 assert(fs.readFileSync('robots.txt', 'utf8').includes('Disallow: /.github/'), 'robots.txt: Crawler boundaries protect internal CI and repository configuration');
+assert(fs.readFileSync('404.html', 'utf8').includes('portfolio-theme') && fs.readFileSync('404.html', 'utf8').includes('prefers-color-scheme'), '404.html: Auto-detects and respects user theme preference and localStorage');
 assert(indexHtml.includes('interactive-widget=resizes-content'), 'index.html: Viewport configured with interactive-widget=resizes-content for virtual keyboard adaptation');
 assert(indexHtml.includes('autocomplete="name"') && indexHtml.includes('inputmode="email"') && indexHtml.includes('enterkeyhint="next"'), 'index.html: Mobile form inputs configured with autocomplete, inputmode, and enterkeyhint');
 assert(indexHtml.includes('modal-drag-handle') && cssContent.includes('.modal-drag-handle'), 'index.html & styles.css: Mobile modal sheets equipped with drag handles for swipe-to-dismiss affordance');
