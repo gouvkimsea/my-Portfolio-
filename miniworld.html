@@ -2083,7 +2083,31 @@
     // 6. SHADER PROGRAMS
     // =========================================================================
     const cv = document.getElementById('c');
-    const gl = cv.getContext('webgl', { antialias: true, alpha: false });
+    let isContextLost = false;
+
+    cv.addEventListener('webglcontextlost', (e) => {
+      e.preventDefault();
+      isContextLost = true;
+      console.warn('[MiniWorld] WebGL context lost. Rendering paused.');
+      if (typeof showToast === 'function') showToast('⚠️ GPU sleeping / WebGL context lost. Pausing simulation...');
+    }, false);
+
+    cv.addEventListener('webglcontextrestored', () => {
+      isContextLost = false;
+      console.info('[MiniWorld] WebGL context restored. Reloading simulation...');
+      window.location.reload();
+    }, false);
+
+    const gl = cv.getContext('webgl', { antialias: true, alpha: false, powerPreference: 'high-performance' }) ||
+               cv.getContext('experimental-webgl', { antialias: true, alpha: false, powerPreference: 'high-performance' });
+
+    if (!gl) {
+      const errBox = document.createElement('div');
+      errBox.style.cssText = 'position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#030712;color:#f8fafc;font-family:sans-serif;text-align:center;padding:24px;z-index:999;';
+      errBox.innerHTML = '<div style="max-width:440px;"><h2 style="font-size:22px;margin-bottom:8px;">WebGL Required</h2><p style="color:#94a3b8;font-size:14px;line-height:1.5;margin-bottom:20px;">Your browser or hardware graphics driver does not currently support WebGL hardware acceleration.</p><a href="index.html#projects" style="display:inline-block;background:#38bdf8;color:#030712;padding:10px 22px;border-radius:999px;text-decoration:none;font-weight:600;font-size:13px;">← Return to Portfolio</a></div>';
+      document.body.appendChild(errBox);
+      throw new Error('WebGL hardware acceleration not supported');
+    }
 
     function prog(vs, fs) {
       const p = gl.createProgram();
@@ -3515,8 +3539,8 @@
     });
 
     function render(now) {
-      if (!isWorldVisible) {
-        worldRafId = null;
+      if (!isWorldVisible || isContextLost) {
+        worldRafId = isContextLost ? requestAnimationFrame(render) : null;
         return;
       }
       worldRafId = requestAnimationFrame(render);
