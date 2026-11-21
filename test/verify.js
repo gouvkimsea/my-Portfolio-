@@ -176,6 +176,8 @@ assert(fs.readFileSync('sw.js', 'utf8').includes('kimsea-pwa-v32') && fs.readFil
 assert(fs.readFileSync('sw.js', 'utf8').includes('ignoreSearch: true'), 'sw.js: Resilient offline cache retrieval configured with ignoreSearch query parameter matching');
 assert(fs.readFileSync('sw.js', 'utf8').includes('turtle-cursor.png') && fs.readFileSync('sw.js', 'utf8').includes('turtle-pointer.png'), 'sw.js: Custom retro turtle cursors added to PWA core precache assets');
 assert(fs.readFileSync('server.js', 'utf8').includes('.vcf') && fs.readFileSync('server.js', 'utf8').includes('.wasm'), 'server.js: Content MIME types expanded to support digital vCards and WebAssembly modules');
+assert(fs.readFileSync('server.js', 'utf8').includes("req.method === 'HEAD'") && fs.readFileSync('server.js', 'utf8').includes("req.method === 'OPTIONS'"), 'server.js: HTTP HEAD and OPTIONS method handling and Content-Length headers implemented');
+assert(fs.readFileSync('sitemap.xml', 'utf8').includes('2026-11-21'), 'sitemap.xml: Lastmod timestamps synchronized with current deployment release');
 assert(fs.readFileSync('miniworld.html', 'utf8').includes("e.key === 'Escape'") && fs.readFileSync('miniworld.html', 'utf8').includes('toggleControlsGuide(false)'), 'miniworld.html: Escape key dismisses controls modal and exits vehicle cockpit back to orbit');
 assert(fs.readFileSync('package.json', 'utf8').includes('"build":') && fs.readFileSync('package.json', 'utf8').includes('"lint":') && fs.readFileSync('package.json', 'utf8').includes('"check":'), 'package.json: Standard developer scripts build, lint, and check configured');
 assert(fs.readFileSync('manifest.json', 'utf8').includes('terminal-section'), 'manifest.json: PWA launcher shortcut for Developer Terminal CLI configured');

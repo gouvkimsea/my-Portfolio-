@@ -41,6 +41,25 @@ const server = http.createServer((req, res) => {
     res.end('400 Bad Request');
     return;
   }
+
+  if (req.method === 'OPTIONS') {
+    res.writeHead(204, {
+      'Allow': 'GET, HEAD, OPTIONS',
+      'Access-Control-Allow-Methods': 'GET, HEAD, OPTIONS'
+    });
+    res.end();
+    return;
+  }
+
+  if (req.method !== 'GET' && req.method !== 'HEAD') {
+    res.writeHead(405, {
+      'Content-Type': 'text/plain; charset=utf-8',
+      'Allow': 'GET, HEAD, OPTIONS'
+    });
+    res.end('405 Method Not Allowed');
+    return;
+  }
+
   if (reqPath === '/' || reqPath === '') reqPath = '/index.html';
   
   const safeRoot = path.resolve(__dirname) + path.sep;
@@ -61,6 +80,10 @@ const server = http.createServer((req, res) => {
           'X-Frame-Options': 'SAMEORIGIN',
           'Referrer-Policy': 'strict-origin-when-cross-origin'
         });
+        if (req.method === 'HEAD') {
+          res.end();
+          return;
+        }
         fs.createReadStream(notFoundPath).pipe(res);
       } else {
         res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
@@ -75,6 +98,7 @@ const server = http.createServer((req, res) => {
 
     const headers = {
       'Content-Type': contentType,
+      'Content-Length': stats.size,
       'Cache-Control': isSw ? 'no-cache, no-store, must-revalidate' : 'no-cache',
       'X-Content-Type-Options': 'nosniff',
       'Referrer-Policy': 'strict-origin-when-cross-origin'
@@ -84,6 +108,11 @@ const server = http.createServer((req, res) => {
     }
 
     res.writeHead(200, headers);
+
+    if (req.method === 'HEAD') {
+      res.end();
+      return;
+    }
 
     const readStream = fs.createReadStream(filePath);
     readStream.on('error', (streamErr) => {
