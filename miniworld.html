@@ -380,12 +380,18 @@
       grid-template-rows: repeat(2, 44px);
       gap: 6px;
     }
+    .ufo-touch-controls.visible {
+      display: grid !important;
+    }
     .ufo-touch-actions {
       bottom: 24px;
       right: 16px;
       display: none;
       flex-direction: column;
       gap: 8px;
+    }
+    .ufo-touch-actions.visible {
+      display: flex !important;
     }
     .dpad-btn {
       background: rgba(15, 23, 42, 0.85);
@@ -964,6 +970,22 @@
     <div class="rover-stat"><span>🚜</span> <span id="roverSpeed">0 km/h</span></div>
     <div class="rover-stat"><span id="roverLights">💡 Lights ON</span></div>
     <div class="rover-stat" style="color:var(--text-muted);font-size:10px;">WASD = Drive • Space = Jump • H = Siren • L = Lights</div>
+  </div>
+
+  <!-- Mobile On-Screen Vehicle Flight & Driving D-Pad -->
+  <div class="hud ufo-touch-controls" id="vehicleTouchDpad" aria-label="Vehicle Steering Controls">
+    <div></div>
+    <button type="button" class="dpad-btn" id="dpadUp" aria-label="Drive / Thrust Forward">▲</button>
+    <div></div>
+    <button type="button" class="dpad-btn" id="dpadLeft" aria-label="Turn Left">◀</button>
+    <button type="button" class="dpad-btn" id="dpadDown" aria-label="Reverse / Brake">▼</button>
+    <button type="button" class="dpad-btn" id="dpadRight" aria-label="Turn Right">▶</button>
+  </div>
+
+  <!-- Mobile On-Screen Action Controls -->
+  <div class="hud ufo-touch-actions" id="vehicleTouchActions" aria-label="Vehicle Flight Actions">
+    <button type="button" class="glass-btn purple-btn" id="touchActionBoost" aria-label="Warp Boost / Nitro Hop">⚡ Boost</button>
+    <button type="button" class="glass-btn cyan-btn" id="touchActionSecondary" aria-label="Vehicle Ability">🛸 Action</button>
   </div>
 
   <!-- Tactical Radar Minimap Overlay -->
@@ -2942,6 +2964,7 @@
         applyPreset(0);
         showToast("UFO Hover Autopilot Engaged");
       }
+      updateVehicleTouchControls();
     }
     if (btnUfo) btnUfo.addEventListener('click', toggleUfo);
 
@@ -2957,6 +2980,7 @@
         playTractorBeam();
         showToast("⚡ Tractor Beam Activated! Hover over cars or creatures!");
       }
+      updateVehicleTouchControls();
     }
     if (btnTractor) btnTractor.addEventListener('click', toggleTractor);
 
@@ -2977,8 +3001,89 @@
         applyPreset(0);
         showToast("Rover Parked & Handbrake Engaged");
       }
+      updateVehicleTouchControls();
     }
     if (btnRover) btnRover.addEventListener('click', toggleRover);
+
+    // Mobile On-Screen Flight & Driving Touch Handlers
+    const vehicleTouchDpad = document.getElementById('vehicleTouchDpad');
+    const vehicleTouchActions = document.getElementById('vehicleTouchActions');
+    const touchActionBoost = document.getElementById('touchActionBoost');
+    const touchActionSecondary = document.getElementById('touchActionSecondary');
+
+    function updateVehicleTouchControls() {
+      const isVehicleActive = !!(rover.active || ufo.active);
+      const isTouchOrCompact = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (window.innerWidth <= 840);
+      const shouldShow = isVehicleActive && isTouchOrCompact;
+      if (vehicleTouchDpad) vehicleTouchDpad.classList.toggle('visible', shouldShow);
+      if (vehicleTouchActions) vehicleTouchActions.classList.toggle('visible', shouldShow);
+
+      if (touchActionBoost) {
+        touchActionBoost.textContent = rover.active ? '🚀 Hop' : '⚡ Boost';
+      }
+      if (touchActionSecondary) {
+        touchActionSecondary.textContent = rover.active ? (rover.headlights ? '💡 Lights' : '🌑 Lights') : (ufo.tractorActive ? '⚡ Beam ON' : '🛸 Beam');
+      }
+    }
+
+    function bindTouchDpad(el, onStart, onEnd) {
+      if (!el) return;
+      el.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        initAudio();
+        onStart();
+      }, { passive: false });
+      el.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        onEnd();
+      }, { passive: false });
+      el.addEventListener('touchcancel', (e) => {
+        e.preventDefault();
+        onEnd();
+      }, { passive: false });
+    }
+
+    bindTouchDpad(document.getElementById('dpadUp'),
+      () => { if (rover.active) roverKeys.forward = true; else if (ufo.active) ufoKeys.forward = true; },
+      () => { roverKeys.forward = false; ufoKeys.forward = false; }
+    );
+    bindTouchDpad(document.getElementById('dpadDown'),
+      () => { if (rover.active) roverKeys.backward = true; else if (ufo.active) ufoKeys.backward = true; },
+      () => { roverKeys.backward = false; ufoKeys.backward = false; }
+    );
+    bindTouchDpad(document.getElementById('dpadLeft'),
+      () => { if (rover.active) roverKeys.left = true; else if (ufo.active) ufoKeys.left = true; },
+      () => { roverKeys.left = false; ufoKeys.left = false; }
+    );
+    bindTouchDpad(document.getElementById('dpadRight'),
+      () => { if (rover.active) roverKeys.right = true; else if (ufo.active) ufoKeys.right = true; },
+      () => { roverKeys.right = false; ufoKeys.right = false; }
+    );
+    bindTouchDpad(touchActionBoost,
+      () => {
+        if (rover.active) {
+          roverKeys.boost = true;
+          if (rover.hop <= 0.05) { rover.hop = 1.1; playRoverHonk(); }
+        } else if (ufo.active) {
+          ufoKeys.boost = true;
+          playUfoBoost();
+        }
+      },
+      () => { roverKeys.boost = false; ufoKeys.boost = false; }
+    );
+    if (touchActionSecondary) {
+      touchActionSecondary.addEventListener('click', () => {
+        initAudio();
+        if (rover.active) {
+          rover.headlights = !rover.headlights;
+          updateVehicleTouchControls();
+          showToast(rover.headlights ? "💡 Rover Headlights On" : "🌑 Rover Headlights Off");
+        } else if (ufo.active) {
+          toggleTractor();
+          updateVehicleTouchControls();
+        }
+      });
+    }
 
     // Seasonal Cycle System (Summer, Autumn, Winter, Spring)
     const SEASONS = [
