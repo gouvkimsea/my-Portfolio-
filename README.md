@@ -54,6 +54,7 @@ A modern, fast, and highly responsive personal portfolio for a student developer
   - *Celestial Time Presets & Hotkeys*: One-click glassmorphic preset chips and `Shift + 1-4` hotkeys for instant atmospheric transitions: Sunrise (`0.22`), Midday Sun (`0.38`), Sunset / Golden Hour (`0.72`), and Starry Midnight & Auroras (`0.95`).
   - *Celestial Powers & Terraforming*: Real-time vertex mesh sculptors and atmospheric powers: Meteor Strikes (`X`), Divine Lightning Strikes with illumination flash & scorched carbon terrain (`Z`), Fireworks (`F`), Island Raising (`T`), Ocean Basin Excavation (`G`), and Flora Planting (`P`).
   - *Flight & Controls Cheat Sheet*: Glassmorphic interactive keyboard shortcut guide and vehicle flight manual accessible via `?` key or top HUD button.
+  - *Mobile Touch Flight & Driving D-Pad*: Responsive on-screen virtual steering D-pad and dynamic action triggers (Warp Boost, Tractor Abduction Beam, Surface Hop, Headlights) that activate automatically on touchscreens and compact screens.
   - *Procedural Celestial Audio Engine*: Web Audio API generative ambient synth with detuned sub-bass drone oscillators, harmonic fifths, and randomized celestial wind chime arpeggios. Minimalist 3-state vector wave pill (`Music` / `SFX` / `Muted`).
 - **Engineering Milestones & Chronological Journey Timeline**: Dual layout presentation switcher (`Grid View` vs. `Chronological Journey Timeline`) tracing academic and shipping milestones across 2023–2026 with 1-click timeline epoch quick jumpers (`2023 Foundations`, `2024 Systems`, `2025 Graphics`, `2026 Shipped`) featuring smooth viewport transit and spotlight pulse highlights, pulsating glowing nodes, category cross-filtering, verified repository links, and live metrics.
 - **Interactive Resume / CV Modal**: Quick-access modal detailing dual-degree academic background, toolkit, status, and direct print/PDF export support.
@@ -115,7 +116,7 @@ The project features automated CI/CD through GitHub Actions workflows:
 
 1. **Continuous Integration ([.github/workflows/ci.yml](.github/workflows/ci.yml))**:
    - Executes automatically on pull requests and pushes to `main`.
-   - Runs a multi-version test matrix across Node.js 18, Node.js 20, and Node.js 22, verifying 103 integrity, accessibility, security, and runtime checks.
+   - Runs a multi-version test matrix across Node.js 18, Node.js 20, and Node.js 22, verifying 112 integrity, accessibility, security, and runtime checks.
 2. **Automated Deployment ([.github/workflows/deploy.yml](.github/workflows/deploy.yml))**:
    - Upon passing verification, automatically packages and deploys the production site directly to GitHub Pages.
 3. **Setup (One-Time)**:
