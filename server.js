@@ -96,9 +96,25 @@ const server = http.createServer((req, res) => {
     const contentType = MIME_TYPES[ext] || 'application/octet-stream';
     const isSw = path.basename(filePath) === 'sw.js';
 
+    // HTTP 304 Not Modified conditional request validation
+    const ifModifiedSince = req.headers['if-modified-since'];
+    if (ifModifiedSince) {
+      const imsTime = new Date(ifModifiedSince).getTime();
+      const mtime = Math.floor(stats.mtime.getTime() / 1000) * 1000;
+      if (!isNaN(imsTime) && imsTime >= mtime) {
+        res.writeHead(304, {
+          'Last-Modified': stats.mtime.toUTCString(),
+          'Cache-Control': isSw ? 'no-cache, no-store, must-revalidate' : 'public, max-age=3600'
+        });
+        res.end();
+        return;
+      }
+    }
+
     const headers = {
       'Content-Type': contentType,
       'Content-Length': stats.size,
+      'Last-Modified': stats.mtime.toUTCString(),
       'Cache-Control': isSw ? 'no-cache, no-store, must-revalidate' : 'no-cache',
       'X-Content-Type-Options': 'nosniff',
       'Referrer-Policy': 'strict-origin-when-cross-origin'
