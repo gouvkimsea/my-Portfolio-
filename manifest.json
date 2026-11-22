@@ -1,6 +1,7 @@
 {
   "name": "Gouv Kimsea — Student Developer & Product Builder",
   "short_name": "Kimsea Portfolio",
+  "id": "./",
   "description": "Personal portfolio of Gouv Kimsea — dual-degree undergraduate in Computer Science & Business Administration building software, 3D WebGL simulations, and AI tools.",
   "start_url": "./index.html",
   "scope": "./",
@@ -26,6 +27,22 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "og-image.jpg",
+      "sizes": "1200x630",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "Gouv Kimsea Developer Portfolio & Systems Dashboard"
+    },
+    {
+      "src": "og-image.jpg",
+      "sizes": "1200x630",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Gouv Kimsea Mobile Experience & Interactive Sandboxes"
     }
   ],
   "shortcuts": [

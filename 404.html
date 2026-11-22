@@ -224,14 +224,14 @@
     </div>
 
     <div style="font-size:11px;color:var(--muted);margin-top:20px;">
-      Hotkeys: <kbd style="background:rgba(255,255,255,0.08);padding:2px 6px;border-radius:4px;border:1px solid var(--border)">Enter / H</kbd> Home &bull; <kbd style="background:rgba(255,255,255,0.08);padding:2px 6px;border-radius:4px;border:1px solid var(--border)">M</kbd> Mini World &bull; <kbd style="background:rgba(255,255,255,0.08);padding:2px 6px;border-radius:4px;border:1px solid var(--border)">T</kbd> Theme
+      Hotkeys: <kbd style="background:rgba(255,255,255,0.08);padding:2px 6px;border-radius:4px;border:1px solid var(--border)">Enter / H / Esc</kbd> Home &bull; <kbd style="background:rgba(255,255,255,0.08);padding:2px 6px;border-radius:4px;border:1px solid var(--border)">M</kbd> Mini World &bull; <kbd style="background:rgba(255,255,255,0.08);padding:2px 6px;border-radius:4px;border:1px solid var(--border)">T</kbd> Theme
     </div>
   </main>
 
   <script>
     window.addEventListener('keydown', (e) => {
       const k = e.key.toLowerCase();
-      if (k === 'h' || e.key === '1' || e.key === 'Enter') {
+      if (k === 'h' || e.key === '1' || e.key === 'Enter' || e.key === 'Escape') {
         window.location.href = './';
       } else if (k === 'm' || e.key === '2') {
         window.location.href = './miniworld.html';

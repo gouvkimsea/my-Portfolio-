@@ -117,6 +117,7 @@ const server = http.createServer((req, res) => {
       'Last-Modified': stats.mtime.toUTCString(),
       'Cache-Control': isSw ? 'no-cache, no-store, must-revalidate' : 'no-cache',
       'X-Content-Type-Options': 'nosniff',
+      'X-Frame-Options': 'SAMEORIGIN',
       'Referrer-Policy': 'strict-origin-when-cross-origin'
     };
     if (isSw) {

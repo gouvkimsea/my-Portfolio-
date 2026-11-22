@@ -2132,7 +2132,7 @@ const projectData = {
         "Sub-100ms first paint and 60 FPS transitions across all viewports",
         "Tactile acoustic click and whoosh audio feedback",
         "Full Progressive Web App (PWA) offline capability via Service Worker",
-        "120/120 passing automated integrity test assertions"
+        "124/124 passing automated integrity test assertions"
       ]
     },
     uxJourney: [
@@ -2161,7 +2161,7 @@ const projectData = {
     learned: "Deep browser engine architecture, Web Audio API frequency modulation, accessible dialog patterns, and automated CI test writing.",
     tech: ["HTML5", "Vanilla CSS3", "ES2026 JavaScript", "Web Audio API", "Service Worker (PWA)", "WebGL / GLSL", "Node.js CI Suite"],
     telemetry: [
-      { label: "Integrity Tests", value: "120 / 120 Passed", note: "Automated Node.js suite" },
+      { label: "Integrity Tests", value: "124 / 124 Passed", note: "Automated Node.js suite" },
       { label: "Runtime Dependencies", value: "0 External", note: "Pure vanilla web platform" },
       { label: "Interactive Labs", value: "7 Sandboxes", note: "Direct in-browser execution" },
       { label: "Terminal Commands", value: "40+ Built-in", note: "Interactive CLI suite" }
@@ -2169,7 +2169,7 @@ const projectData = {
     outcome: "Built an internationally recognized creative technology portfolio demonstrating real-world full-stack competence, high aesthetic standards, and deep attention to detail.",
     achievements: [
       "100% Vanilla Web Engineering",
-      "120/120 Automated Integrity Tests",
+      "124/124 Automated Integrity Tests",
       "Web Audio Procedural Sound Engine",
       "Full PWA & Offline Readiness"
     ],
@@ -4521,7 +4521,7 @@ function renderHeroVisualMarkup(data) {
         </div>
         <div class="vis-telemetry-badge">
           <span class="tele-dot lime"></span>
-          <span>100% VANILLA WEB · 120/120 TESTS PASSING</span>
+          <span>100% VANILLA WEB · 124/124 TESTS PASSING</span>
         </div>
       </div>
     `;
@@ -5080,7 +5080,7 @@ Continuous Integration &amp; Deployment Telemetry:
 • CI Workflow     : Passing (Multi-Node Matrix: Node 18, 20 &amp; 22)
 • Target Branch   : main (https://github.com/gouvkimsea/my-Portfolio-)
 • Deployment Host : GitHub Pages (Automated Deploy Action)
-• Test Coverage   : 120 Assertions Passing (0 failures)
+• Test Coverage   : 124 Assertions Passing (0 failures)
 • Security Audit  : Strict rel="noopener noreferrer", Custom 404 &amp; .nojekyll
 • Service Worker  : Resilient Offline Cache kimsea-pwa-v32</pre>`;
   },
@@ -6553,7 +6553,7 @@ function updateDevpulseMode(mode) {
   } else if (mode === "build") {
     if (flowVal) flowVal.textContent = "86 / 100";
     if (cadenceVal) cadenceVal.textContent = "Test Suite Running";
-    if (buildVal) buildVal.textContent = "120/120 Assertions";
+    if (buildVal) buildVal.textContent = "124/124 Assertions";
     if (rateStat) rateStat.textContent = "180 req/s · 24ms Latency";
   } else {
     if (flowVal) flowVal.textContent = "72 / 100";

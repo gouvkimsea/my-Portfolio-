@@ -143,9 +143,13 @@ self.addEventListener('fetch', (event) => {
   );
 });
 
-// Immediate activation trigger
+// Immediate activation trigger & version query handler
 self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
-    self.skipWaiting();
+  if (event.data) {
+    if (event.data.type === 'SKIP_WAITING') {
+      self.skipWaiting();
+    } else if (event.data.type === 'GET_VERSION' && event.ports && event.ports[0]) {
+      event.ports[0].postMessage({ version: CACHE_NAME });
+    }
   }
 });

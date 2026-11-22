@@ -116,7 +116,7 @@ The project features automated CI/CD through GitHub Actions workflows:
 
 1. **Continuous Integration ([.github/workflows/ci.yml](.github/workflows/ci.yml))**:
    - Executes automatically on pull requests and pushes to `main`.
-   - Runs a multi-version test matrix across Node.js 18, Node.js 20, and Node.js 22, verifying 120 integrity, accessibility, security, and runtime checks.
+   - Runs a multi-version test matrix across Node.js 18, Node.js 20, and Node.js 22, verifying 124 integrity, accessibility, security, and runtime checks.
 2. **Automated Deployment ([.github/workflows/deploy.yml](.github/workflows/deploy.yml))**:
    - Upon passing verification, automatically packages and deploys the production site directly to GitHub Pages.
 3. **Setup (One-Time)**:
