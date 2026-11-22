@@ -177,7 +177,7 @@ assert(fs.readFileSync('sw.js', 'utf8').includes('ignoreSearch: true'), 'sw.js: 
 assert(fs.readFileSync('sw.js', 'utf8').includes('turtle-cursor.png') && fs.readFileSync('sw.js', 'utf8').includes('turtle-pointer.png'), 'sw.js: Custom retro turtle cursors added to PWA core precache assets');
 assert(fs.readFileSync('server.js', 'utf8').includes('.vcf') && fs.readFileSync('server.js', 'utf8').includes('.wasm'), 'server.js: Content MIME types expanded to support digital vCards and WebAssembly modules');
 assert(fs.readFileSync('server.js', 'utf8').includes("req.method === 'HEAD'") && fs.readFileSync('server.js', 'utf8').includes("req.method === 'OPTIONS'"), 'server.js: HTTP HEAD and OPTIONS method handling and Content-Length headers implemented');
-assert(fs.readFileSync('sitemap.xml', 'utf8').includes('2026-11-21'), 'sitemap.xml: Lastmod timestamps synchronized with current deployment release');
+assert(fs.readFileSync('sitemap.xml', 'utf8').includes('2026-11-22'), 'sitemap.xml: Lastmod timestamps synchronized with current deployment release');
 assert(fs.readFileSync('miniworld.html', 'utf8').includes("e.key === 'Escape'") && fs.readFileSync('miniworld.html', 'utf8').includes('toggleControlsGuide(false)'), 'miniworld.html: Escape key dismisses controls modal and exits vehicle cockpit back to orbit');
 assert(fs.readFileSync('package.json', 'utf8').includes('"build":') && fs.readFileSync('package.json', 'utf8').includes('"lint":') && fs.readFileSync('package.json', 'utf8').includes('"check":'), 'package.json: Standard developer scripts build, lint, and check configured');
 assert(fs.readFileSync('manifest.json', 'utf8').includes('terminal-section'), 'manifest.json: PWA launcher shortcut for Developer Terminal CLI configured');
@@ -205,7 +205,9 @@ assert(fs.readFileSync('miniworld.html', 'utf8').includes('webglcontextlost') &&
 assert(fs.readFileSync('.github/workflows/ci.yml', 'utf8').includes('[18, 20, 22]'), 'ci.yml: Multi-version test matrix configured for Node.js 18, 20, and 22');
 assert(fs.readFileSync('.github/workflows/deploy.yml', 'utf8').includes('npm test') && fs.readFileSync('.github/workflows/deploy.yml', 'utf8').includes('node-version: 22'), 'deploy.yml: Production deployment pipeline enforces test verification on Node.js 22 Active LTS');
 assert(indexHtml.includes('https://www.linkedin.com/in/gouv-kimsea-16795143a') && scriptJs.includes('https://www.linkedin.com/in/gouv-kimsea-16795143a'), 'index.html & script.js: Canonical LinkedIn profile URL synchronized across Schema.org metadata, HUD links, and clipboard actions');
-assert(indexHtml.includes('108/108 Integrity Test Assertions Passing') && scriptJs.includes('108/108 TESTS PASSING'), 'index.html & script.js: Portfolio architectural sandbox and telemetry badges synchronized to active test suite count');
+assert(indexHtml.includes('118/118 Integrity Test Assertions Passing') && scriptJs.includes('118/118 TESTS PASSING'), 'index.html & script.js: Portfolio architectural sandbox and telemetry badges synchronized to active test suite count');
+assert(indexHtml.includes('name="color-scheme"') && fs.readFileSync('miniworld.html', 'utf8').includes('name="color-scheme"') && fs.readFileSync('404.html', 'utf8').includes('name="color-scheme"'), 'HTML headers: color-scheme meta tag configured across all pages to prevent flash of unstyled content');
+assert(scriptJs.includes('addEventListener("online"') && scriptJs.includes('addEventListener("offline"'), 'script.js: Ambient online and offline connectivity state observers configured');
 
 // Test global script evaluation with mock DOM globals
 try {
