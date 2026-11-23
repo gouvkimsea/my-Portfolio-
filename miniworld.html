@@ -892,6 +892,9 @@
       <button id="btnCycle" class="glass-btn active" title="Auto Day/Night Cycle (Space)">
         <span class="btn-icon">☼</span> Auto Cycle
       </button>
+      <button id="btnFullscreen" class="glass-btn" title="Toggle Immersive Fullscreen (Shift+F)">
+        <span class="btn-icon">⛶</span> Fullscreen
+      </button>
       <button id="btnHelp" class="glass-btn" title="Toggle Controls & Command Guide (?)">
         <span class="btn-icon">⌨️</span> Guide
       </button>
@@ -945,6 +948,7 @@
           <div class="shortcut-row"><kbd>0-9</kbd> <span>Camera Angles & Tour</span></div>
           <div class="shortcut-row"><kbd>M</kbd> <span>Ambient Synth & SFX Cycle</span></div>
           <div class="shortcut-row"><kbd>C</kbd> / <kbd>R</kbd> <span>Cataclysm / Rebuild</span></div>
+          <div class="shortcut-row"><kbd>Shift</kbd>+<kbd>F</kbd> <span>Toggle Immersive Fullscreen</span></div>
           <div class="shortcut-row"><kbd>Home</kbd> <span>Return to Main Portfolio</span></div>
         </div>
       </div>
@@ -2973,6 +2977,26 @@
       if (e.target === controlsModal) toggleControlsGuide(false);
     });
 
+    // Fullscreen Mode Controller
+    const btnFullscreen = document.getElementById('btnFullscreen');
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+        if (btnFullscreen) btnFullscreen.classList.add('active');
+        showToast("⛶ Fullscreen Mode Active");
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen().catch(() => {});
+          if (btnFullscreen) btnFullscreen.classList.remove('active');
+          showToast("Exit Fullscreen");
+        }
+      }
+    }
+    if (btnFullscreen) btnFullscreen.addEventListener('click', toggleFullscreen);
+    document.addEventListener('fullscreenchange', () => {
+      if (btnFullscreen) btnFullscreen.classList.toggle('active', !!document.fullscreenElement);
+    });
+
     // UFO Pilot Toggle
     const btnUfo = document.getElementById('btnUfo');
     const ufoHud = document.getElementById('ufoHud');
@@ -3457,7 +3481,8 @@
       if (k === 'b') toggleTractor();
       if (k === 'x') { setToolMode(0); const aimDir = norm(sub([0,0,0], camPos)); spawnMeteor(mul(aimDir, -R_OCEAN), 1.5); }
       if (k === 'z') { setToolMode(1); const aimDir = norm(sub([0,0,0], camPos)); strikeLightning(mul(aimDir, -R_OCEAN)); }
-      if (k === 'f') { setToolMode(2); spawnFirework(sph(0.2, 0.5, R_OCEAN)); playFireworkLaunch(); }
+      if (k === 'f' && !e.shiftKey) { setToolMode(2); spawnFirework(sph(0.2, 0.5, R_OCEAN)); playFireworkLaunch(); }
+      if (e.shiftKey && (code === 'KeyF' || k === 'f')) { toggleFullscreen(); e.preventDefault(); }
       if (k === 't') setToolMode(3);
       if (k === 'g') setToolMode(4);
       if (k === 'p') setToolMode(5);

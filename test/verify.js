@@ -205,7 +205,7 @@ assert(fs.readFileSync('miniworld.html', 'utf8').includes('webglcontextlost') &&
 assert(fs.readFileSync('.github/workflows/ci.yml', 'utf8').includes('[18, 20, 22]'), 'ci.yml: Multi-version test matrix configured for Node.js 18, 20, and 22');
 assert(fs.readFileSync('.github/workflows/deploy.yml', 'utf8').includes('npm test') && fs.readFileSync('.github/workflows/deploy.yml', 'utf8').includes('node-version: 22'), 'deploy.yml: Production deployment pipeline enforces test verification on Node.js 22 Active LTS');
 assert(indexHtml.includes('https://www.linkedin.com/in/gouv-kimsea-16795143a') && scriptJs.includes('https://www.linkedin.com/in/gouv-kimsea-16795143a'), 'index.html & script.js: Canonical LinkedIn profile URL synchronized across Schema.org metadata, HUD links, and clipboard actions');
-assert(indexHtml.includes('124/124 Integrity Test Assertions Passing') && scriptJs.includes('124/124 TESTS PASSING'), 'index.html & script.js: Portfolio architectural sandbox and telemetry badges synchronized to active test suite count');
+assert(indexHtml.includes('126/126 Integrity Test Assertions Passing') && scriptJs.includes('126/126 TESTS PASSING'), 'index.html & script.js: Portfolio architectural sandbox and telemetry badges synchronized to active test suite count');
 assert(indexHtml.includes('name="color-scheme"') && fs.readFileSync('miniworld.html', 'utf8').includes('name="color-scheme"') && fs.readFileSync('404.html', 'utf8').includes('name="color-scheme"'), 'HTML headers: color-scheme meta tag configured across all pages to prevent flash of unstyled content');
 assert(scriptJs.includes('addEventListener("online"') && scriptJs.includes('addEventListener("offline"'), 'script.js: Ambient online and offline connectivity state observers configured');
 assert(fs.readFileSync('server.js', 'utf8').includes("req.headers['if-modified-since']") && fs.readFileSync('server.js', 'utf8').includes('304'), 'server.js: HTTP 304 Not Modified conditional request validation with Last-Modified caching headers implemented');
@@ -214,6 +214,8 @@ assert(fs.readFileSync('manifest.json', 'utf8').includes('"id": "./"') && fs.rea
 assert(fs.readFileSync('server.js', 'utf8').includes("'X-Frame-Options': 'SAMEORIGIN'"), 'server.js: Clickjacking defense X-Frame-Options SAMEORIGIN header enforced');
 assert(fs.readFileSync('sw.js', 'utf8').includes('GET_VERSION'), 'sw.js: Service Worker message channel version query GET_VERSION handled');
 assert(fs.readFileSync('404.html', 'utf8').includes("e.key === 'Escape'") && fs.readFileSync('404.html', 'utf8').includes("Enter / H / Esc"), '404.html: Escape key hotkey and cheat sheet legend implemented');
+assert(fs.readFileSync('miniworld.html', 'utf8').includes('btnFullscreen') && fs.readFileSync('miniworld.html', 'utf8').includes('toggleFullscreen') && fs.readFileSync('miniworld.html', 'utf8').includes('requestFullscreen'), 'miniworld.html: Immersive Fullscreen mode toggle, Shift+F hotkey, and HUD button implemented');
+assert(indexHtml.includes('data-action="toggle-fullscreen"') && scriptJs.includes('fullscreen:') && scriptJs.includes('requestFullscreen'), 'index.html & script.js: Fullscreen presentation mode command palette action and CLI command implemented');
 
 // Test global script evaluation with mock DOM globals
 try {
@@ -226,7 +228,8 @@ try {
       getElementById: () => null,
       createElement: () => ({ style: {}, classList: { add: () => {}, remove: () => {} }, appendChild: () => {} }),
       body: { classList: { add: () => {}, remove: () => {} }, appendChild: () => {}, removeChild: () => {} },
-      documentElement: { style: {}, scrollHeight: 2000, getAttribute: () => 'dark', setAttribute: () => {} }
+      documentElement: { style: {}, scrollHeight: 2000, getAttribute: () => 'dark', setAttribute: () => {}, requestFullscreen: () => Promise.resolve() },
+      fullscreenElement: null
     },
     navigator: { clipboard: {}, serviceWorker: {}, userAgent: 'Node-Test' },
     localStorage: { getItem: () => null, setItem: () => {} },

@@ -729,6 +729,10 @@ cmdKResults?.addEventListener("click", e => {
     }, 150);
   } else if (action === "install-pwa") {
     triggerPwaInstall();
+  } else if (action === "toggle-fullscreen") {
+    if (typeof terminalCommands !== "undefined" && terminalCommands.fullscreen) {
+      terminalCommands.fullscreen();
+    }
   } else if (action === "toggle-theme") {
     toggleTheme();
   } else if (action === "toggle-sfx") {
@@ -2132,7 +2136,7 @@ const projectData = {
         "Sub-100ms first paint and 60 FPS transitions across all viewports",
         "Tactile acoustic click and whoosh audio feedback",
         "Full Progressive Web App (PWA) offline capability via Service Worker",
-        "124/124 passing automated integrity test assertions"
+        "126/126 passing automated integrity test assertions"
       ]
     },
     uxJourney: [
@@ -2161,7 +2165,7 @@ const projectData = {
     learned: "Deep browser engine architecture, Web Audio API frequency modulation, accessible dialog patterns, and automated CI test writing.",
     tech: ["HTML5", "Vanilla CSS3", "ES2026 JavaScript", "Web Audio API", "Service Worker (PWA)", "WebGL / GLSL", "Node.js CI Suite"],
     telemetry: [
-      { label: "Integrity Tests", value: "124 / 124 Passed", note: "Automated Node.js suite" },
+      { label: "Integrity Tests", value: "126 / 126 Passed", note: "Automated Node.js suite" },
       { label: "Runtime Dependencies", value: "0 External", note: "Pure vanilla web platform" },
       { label: "Interactive Labs", value: "7 Sandboxes", note: "Direct in-browser execution" },
       { label: "Terminal Commands", value: "40+ Built-in", note: "Interactive CLI suite" }
@@ -2169,7 +2173,7 @@ const projectData = {
     outcome: "Built an internationally recognized creative technology portfolio demonstrating real-world full-stack competence, high aesthetic standards, and deep attention to detail.",
     achievements: [
       "100% Vanilla Web Engineering",
-      "124/124 Automated Integrity Tests",
+      "126/126 Automated Integrity Tests",
       "Web Audio Procedural Sound Engine",
       "Full PWA & Offline Readiness"
     ],
@@ -4521,7 +4525,7 @@ function renderHeroVisualMarkup(data) {
         </div>
         <div class="vis-telemetry-badge">
           <span class="tele-dot lime"></span>
-          <span>100% VANILLA WEB · 124/124 TESTS PASSING</span>
+          <span>100% VANILLA WEB · 126/126 TESTS PASSING</span>
         </div>
       </div>
     `;
@@ -4688,7 +4692,7 @@ const commandHistory = [];
 let historyIndex = -1;
 
 const terminalCommands = {
-  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>cat [file]</b>, <b>curl</b>, <b>history</b>, <b>export</b>, <b>vcard</b>, <b>time</b>, <b>volume [0-100]</b>, <b>demo [project]</b>, <b>cite [project]</b>, <b>ci</b>, <b>deploy</b>, <b>install</b>, <b>pwa</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>bench</b>, <b>timeline</b>, <b>architecture</b>, <b>ping</b>, <b>matrix</b>, <b>git</b>, <b>nav [section]</b>, <b>shortcuts</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>cv</b>, <b>print</b>, <b>pdf</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
+  help: "Available commands: <b>about</b>, <b>achievements</b>, <b>education</b>, <b>coursework</b>, <b>cpp</b>, <b>skills</b>, <b>projects</b>, <b>find [query]</b>, <b>cat [file]</b>, <b>curl</b>, <b>history</b>, <b>export</b>, <b>vcard</b>, <b>time</b>, <b>volume [0-100]</b>, <b>demo [project]</b>, <b>cite [project]</b>, <b>ci</b>, <b>deploy</b>, <b>install</b>, <b>pwa</b>, <b>fullscreen</b>, <b>copy</b>, <b>sound</b>, <b>test</b>, <b>bench</b>, <b>timeline</b>, <b>architecture</b>, <b>ping</b>, <b>matrix</b>, <b>git</b>, <b>nav [section]</b>, <b>shortcuts</b>, <b>pinit</b>, <b>aquarium</b>, <b>nitrogen</b>, <b>filter</b>, <b>joul</b>, <b>rental</b>, <b>gesture</b>, <b>vision</b>, <b>mediapipe</b>, <b>miniworld</b>, <b>shader</b>, <b>glsl</b>, <b>saas</b>, <b>pos</b>, <b>clp</b>, <b>srs</b>, <b>sm2</b>, <b>devpulse</b>, <b>portfolio</b>, <b>focus</b>, <b>work</b>, <b>contact</b>, <b>resume</b>, <b>cv</b>, <b>print</b>, <b>pdf</b>, <b>share</b>, <b>recruiter</b>, <b>stats</b>, <b>neofetch</b>, <b>theme</b>, <b>cmdk</b>, <b>search</b>, <b>github</b>, <b>linkedin</b>, <b>whoami</b>, <b>date</b>, <b>clear</b>",
   matrix: () => {
     const terminalBody = $(".terminal-body");
     if (!terminalBody) return "Terminal stream window not accessible.";
@@ -5080,7 +5084,7 @@ Continuous Integration &amp; Deployment Telemetry:
 • CI Workflow     : Passing (Multi-Node Matrix: Node 18, 20 &amp; 22)
 • Target Branch   : main (https://github.com/gouvkimsea/my-Portfolio-)
 • Deployment Host : GitHub Pages (Automated Deploy Action)
-• Test Coverage   : 124 Assertions Passing (0 failures)
+• Test Coverage   : 126 Assertions Passing (0 failures)
 • Security Audit  : Strict rel="noopener noreferrer", Custom 404 &amp; .nojekyll
 • Service Worker  : Resilient Offline Cache kimsea-pwa-v32</pre>`;
   },
@@ -5090,6 +5094,16 @@ Continuous Integration &amp; Deployment Telemetry:
     return "Triggered PWA install workflow. If already standalone or prompt unavailable, follow browser instructions.";
   },
   pwa: () => terminalCommands.install(),
+  fullscreen: () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen?.().catch(() => {});
+      return "Entered fullscreen presentation mode. Press Esc or run fullscreen again to exit.";
+    } else {
+      if (document.exitFullscreen) document.exitFullscreen().catch(() => {});
+      return "Exited fullscreen presentation mode.";
+    }
+  },
+  fs: () => terminalCommands.fullscreen(),
   timeline: () => {
     const btn = $("#achieveViewTimelineBtn");
     if (btn) btn.click();
@@ -6553,7 +6567,7 @@ function updateDevpulseMode(mode) {
   } else if (mode === "build") {
     if (flowVal) flowVal.textContent = "86 / 100";
     if (cadenceVal) cadenceVal.textContent = "Test Suite Running";
-    if (buildVal) buildVal.textContent = "124/124 Assertions";
+    if (buildVal) buildVal.textContent = "126/126 Assertions";
     if (rateStat) rateStat.textContent = "180 req/s · 24ms Latency";
   } else {
     if (flowVal) flowVal.textContent = "72 / 100";
